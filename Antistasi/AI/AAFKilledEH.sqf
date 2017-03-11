@@ -1,48 +1,41 @@
-private ["_muerto","_killer","_coste","_enemy","_grupo"];
-_muerto = _this select 0;
+private ["_killed","_killer","_cost","_enemy","_group"];
+_killed = _this select 0;
 _killer = _this select 1;
-if (_muerto getVariable ["OPFORSpawn",false]) then {_muerto setVariable ["OPFORSpawn",nil,true]};
-[_muerto] spawn postmortem;
+if (_killed getVariable ["OPFORSpawn",false]) then {_killed setVariable ["OPFORSpawn",nil,true]};
+[_killed] spawn postmortem;
 
 if (hayACE) then {
-	if ((isNull _killer) || (_killer == _muerto)) then {
-		_killer = _muerto getVariable ["ace_medical_lastDamageSource", _killer];
+	if ((isNull _killer) || (_killer == _killed)) then {
+		_killer = _killed getVariable ["ace_medical_lastDamageSource", _killer];
 	};
 };
 
 if ((side _killer == side_blue) || (captive _killer)) then {
 	if (hayBE) then {["kill"] remoteExec ["fnc_BE_XP", 2]};
-	_grupo = group _muerto;
+	_group = group _killed;
+	
+	// scoring and captive.
 	if (isPlayer _killer) then {
 		[2,_killer,false] call playerScoreAdd;
-
-		if ((captive _killer) && (_killer distance _muerto < 300)) then {
-			[_killer,false] remoteExec ["setCaptive",_killer];
-		};
 	} else {
 		_skill = skill _killer;
 		[_killer,_skill + 0.05] remoteExec ["setSkill",_killer];
 	};
-	if (vehicle _killer isKindOf "StaticMortar") then {
-		if (isMultiplayer) then {
-			{
-				if ((_x distance _muerto < 300) and (captive _x)) then {[_x,false] remoteExec ["setCaptive",_x]};
-			} forEach playableUnits;
-		} else {
-			if ((player distance _muerto < 300) and (captive player)) then {player setCaptive false};
-		};
-	};
-	if (count weapons _muerto < 1) then {
+
+	// if dead has no weapons, AAF support increases by 2.
+	if (count weapons _killed < 1) then {
 		[-1,0] remoteExec ["prestige",2];
-		[2,0,getPos _muerto] remoteExec ["citySupportChange",2];
+		[2,0,getPos _killed] remoteExec ["citySupportChange",2];
 		if (isPlayer _killer) then {_killer addRating -1000};
 	} else {
-		_coste = server getVariable (typeOf _muerto);
-		if (isNil "_coste") then {diag_log format ["Falta incluir a %1 en las tablas de coste",typeOf _muerto]; _coste = 0};
-		[-_coste] remoteExec ["resourcesAAF",2];
-		[-0.5,0,getPos _muerto] remoteExec ["citySupportChange",2];
+		// otherwise, it decreases by -0.5.
+		_cost = server getVariable (typeOf _killed);
+		if (isNil "_cost") then {diag_log format ["Cost of %1 not defined.",typeOf _killed]; _cost = 0};
+		[-_cost] remoteExec ["resourcesAAF",2];
+		[-0.5,0,getPos _killed] remoteExec ["citySupportChange",2];
 	};
 
+	// surrender and fleeing updates.
 	{
 		if (alive _x) then {
 			if (fleeing _x) then {
@@ -62,8 +55,8 @@ if ((side _killer == side_blue) || (captive _killer)) then {
 					};
 				};
 			} else {
-				if (random 1 < 0.5) then {_x allowFleeing (0.5 -(_x skill "courage") + (({(!alive _x) or (_x getVariable ["surrendered",false])} count units _grupo)/(count units _grupo)))};
+				if (random 1 < 0.5) then {_x allowFleeing (0.5 -(_x skill "courage") + (({(!alive _x) or (_x getVariable ["surrendered",false])} count units _group)/(count units _group)))};
 			};
 		};
-	} forEach units _grupo;
+	} forEach units _group;
 };
