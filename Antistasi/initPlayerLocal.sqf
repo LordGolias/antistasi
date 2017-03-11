@@ -117,11 +117,11 @@ if (isMultiplayer) then
 else
 	{
 	stavros = player;
-	grupo = group player;
-	grupo setGroupId ["Stavros","GroupColor4"];
+	_group = group player;
+	_group setGroupId ["Stavros","GroupColor4"];
 	player setIdentity "protagonista";
 	player setUnitRank "COLONEL";
-	player hcSetGroup [group player];
+	player hcSetGroup [_group];
 	waitUntil {(scriptdone _introshot) and (!isNil "serverInitDone")};
 	addMissionEventHandler ["Loaded", {[] execVM "statistics.sqf";[] execVM "reinitY.sqf";}]
 	};
@@ -133,7 +133,9 @@ player setVariable ["punish",0,true];
 player setVariable ["dinero",100,true];
 player setVariable ["BLUFORSpawn",true,true];
 player setVariable ["rango",rank player,true];
-if (player!=stavros) then {player setVariable ["score", 0,true]} else {player setVariable ["score", 25,true]};
+_score = 0;
+if (player==stavros) then {_score = 25};
+player setVariable ["score", _score, true];
 
 MIASquadUnits = creategroup WEST;  // units that are not in the squad because they lost communication with the player (no radio).
 
@@ -152,7 +154,7 @@ else
 	};
 gameMenu = (findDisplay 46) displayAddEventHandler ["KeyDown",teclas];
 if (hayRHS) then {[player] execVM "Municion\RHSdress.sqf"};
-player setvariable ["compromised",0];
+player setvariable ["compromised", 0];
 player addEventHandler ["FIRED",
 	{
 	_player = _this select 0;
