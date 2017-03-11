@@ -1,0 +1,1458 @@
+02/02/15
+- Fixed bug in SP on initial HQ enplacement, Stavros did not teleport to the new position.
+- FPS change now applies logical parameters.
+- Solved Dedi Issues on initial selection of HQ emplacement and Build HQ option.
+03/02/15
+- Radio Towers now have a marker, and updates when you destroy one.
+- Ammobox / Truck content transfer feature now supports backpacks and it's content. Persistent Saves too.
+03/02/15
+- Added tag feature
+- Added checks on respawn to avoid issues if players are using group management mods (under testing)
+- Improved benefits of accomplishing some missions on gaining NATO points
+- When you deliver the truck in Logistics Supply missions, you won't be undercover for a while, and AAF surrounding troops will search for you.
+- Lowered the HR gain to make HR management more challenging.
+03/02/15
+- Bugfix: FIA Garrison not spawning in FIA outposts
+- Now each type of AAF unit has different type of skills, same as FIA was. Watch the snipers! Prioritise targets!!
+- Now FIA soldiers spawn with glasses no matter if leader is player or not. % Chance to spawn with glasses: count of NV googles in HQ Ammobox.
+- Improved city prestige bonuses for AAF when they retake a place. They dont do sidemissions....
+- Added few items and optics missing in random ammoboxes.
+- Random spawned ammotrucks now have proper spawned cargo with useful things (or not)
+03/02/15
+- Actions added propertly on FIA Flag Outposts.
+- Bugfix on persistent save and destroyed Radio Towers in older sessions.
+04/02/15
+- Easier winning conditions for a CounterAttack.
+- Controlling remotely an HC Commanded AI will suspend the spawning system to avoid new spawns on rare cases.
+- Fast travel with little delay to avoid exploding if fastraveling in several vehicles.
+05/02/15
+- Now counterattacks timing will be more random, and some player actions will delay them, or speed them, specially accomplishing / failing some missions.
+- Time for the next counterattack will be saved on Persistent Save System.
+- AI won't perform counterattacks if there are no players in the server, so if everybody logs in after a time, AI will wait for them :)
+- Now upon persistent load players will loose weapons to avoid exploits (unlimited weapons and ammo)
+- No more loose of NATO points when NATO soldiers die.
+- NATO soldiers are more skilled than average AAF.
+- FIA flags now allow all the options except the HQ exclusive. Static purchase on any zone because...
+- YES: purchased statics will be persistent. The AI garrisons will mount them if close, Persistent Savegame will store their position and they will get eventually reloaded!!
+- Corrected an error on persistent load which didnt update destroyed Radio Towers (second time, yes, I know, sorry again)
+- Corrected error on undercover mode when boarding civ vehicles.
+- Fixed error on undercover which you turn back undercover very early.
+05/02/15
+- Fixed not updating side belonging zones on time when Persistent Load, which may lead to spawn the HQ in the middle of an enemy zone.
+- Empty vehicles and player group driver vehicles will save on persistent save if they are 50mts close to HQ
+- Reworked a bit the Fast Travel to teleport to safer positions.
+- Now civilians and civ vehicles spawn on the same time on cities.
+05/02/15
+- CAs were awaiting for despawning, fixed.
+- Players cannot recruit units or buy vehicles etc. if enemy is close.
+- Interrogated prisoners may tell the player the estimated time for a counterattack
+- Player no longer knows the target destination of a counterattack
+06/02/15
+- Persistent Save was saving any static, and not the player-placed ones, static-ception each Load! Fixed.
+06/02/15
+- Flags on zones who suffered a CA and AAF won are no longer deleted. You may retake the zone without awaiting to despawn/spawn.
+- Change weather conditions to set them more similar to what a greek island has in June.
+08/02/2015
+- Improved the AI control script to make it more secure with respawns etc..
+- Now AI on zones will use the static weapons you bought and placed in their zone.
+- Deleted support bonus on cities when you kill AAF soldiers. Players were able to conquer cities quickly with no other thing than killing AAF.
+- Dismounted static weapons dont get persistent saved.
+- Added fancy info on top of the sceen. Mean old radio statistics dissapeared.
+- Minefields and Minefield markers now integrated on Persistent Save.
+- Corrected premature mission failed on minefield mission.
+10/02/15
+- Corrected Persistent Save on static weapons.
+- Reorganised server init to avoid LOTS of JIP issues.
+- Reowrked statistics inf so does not bother depending on players screen config and darkened a bit.
+- When players disconnect, unit will get deleted.
+- Fixed issues with undercover on player respawn.
+- City Info is only available from HQ Map, proper action, to avoid open the map to all players.
+- Same thing with Fast Travel. Now only from flags.
+- Retaken flags no longer show optons except Take the Flag.
+- Petros no longer goes on hiking when spots an enemy, but looks a bit uglier now.
+- Added feature: via action menu you can join other players group to create an only players group (no AI). Only for players not using Stavros.
+- Added punishment to trolls who shot at Petros.
+- Added feature: Stavros can order roadblocks and Watchposts in order to bother the enemy or spot convoys and counterattacks.
+11/02/15
+- Body deletion on player disconnected
+- Recover money and HR on player disconnected
+- Now HQ assets dissapear globally on move HQ options.
+12/02/15
+- Raised a bit the radius for success on Supplies Missions.
+- Resource income on pause while there are no players on the server
+- Implemented a "save your tyres" script. No more tyres broken because of dumb AI driving skills.
+- Convoys now have a marker on map when they depart.
+- Counterattacks: now have timeout (if happens, player win) and improved despawning.
+- Fixed some issues on persistent save in Dedicated Server environment, thanks to LanCommi!!!
+- Second try on body deletion for disconnected players.
+- Fixed fast travel in big outposts.
+- Raised a bit distance detection for Undercover.
+- Now Stavros cannot rest in campfire if one of the units is near enemies.
+13/02/15
+- Bit rework on statistics on top of the screen, under test...
+- Now you cannot rest in campfire while a CA or HQ attack is on course...
+- No more extra 1 hr and 50 € each Tax Income
+- Bugfix on preserve tyres script
+- Bugfix on fast travel fia zones.
+- Bugfix on resources check and CAs (very sorry, simple typo crashes mission)
+- Body Removal on disconnected III and last one.
+14/02/15
+- Less artillery rounds on CSAT CA/NATO attack.
+- Vehicle Persistent Save now saves when you have some unit in it.
+- NEW FEATURE: MP player ranks system. The highest rank player may become commander (Stavros). Players gain rank on killing enemies and accomplishing missions, commanders too. You loose rank dying or failing missions. This gives an interesting social component in MP.
+- NEW FEATURE: Stavros no longer needed. Any player may be stavros. On server init, first slot will take it. On advanced game, rank system may change Stavros to another player.
+- Now player weapons go to the ammobox upon disconnect. AI Squadmates get deleted but money and HR recovers.
+- "Hard Coded" statistics. Now if you loose the info, just call the radio trigger (until I find a finer solution)
+- Now all the sidemissions except HQ Defend and Refugees Evac have a timeout, in case AI gets stuck eternally or you rest in campfire.
+- Sidemissions will be also assigned automatically from time to time.
+- Solved spawning problem on persistant load.
+- Stolen vehicles wont despawn near HQ (Petros now count in the spawning system, close conquest will never spawn garrisons as FIA reinforcements act as garrison)
+- On Persistent Save now only player weapons are stored in the box. AI squadmates weapons not.
+- Now you can persistent load only once per session.
+- Added a small delay when you loose undercover to avoid "Assasins Creed" situations.
+15/02/15
+- Added small delay on persistent load so zones have time to update side.
+- Hotfix on rank assigning script.
+- Convoy missions prematurely ended.
+- Error on Watchpost Roadblock build
+- Small bugfixes on CA CSAT vehicle marker assignment.
+- Workaround on the 0-0-8 Radio call statistics.
+15/02/15 v 0.7.3 Alpha
+- Fixed some spawning mines in other positions than the selected one.
+- Small AAF outposts markers dont get deleted upon persistent load.
+- Solving the persistent load marker update made the vehicles in hq not spawning again. Fixed, again.
+- Some sidemissions could appear on places were the player already is, spawning enemies in front of him. Solved.
+- Other fixes on some sidemissions.
+- Now Stavros build options (minefields, roadblocks, observation posts) are available on a menu opened from Radio 0-0-2.
+- Now player will be asked to Load on the begining of the mission.
+- Some dialog buttons obsolete and free (until I find a use for them)
+16/02/15 V 0.7.4 Alpha
+- Removed the blackscreen on init for JIP players, as they should have everything initialised and is giving trouble.
+- Small AAF Outposts tweak: AI wont stay in near bruildings and stick to the zone instead.
+17/02/15 v 0.7.5 Alpha
+- Made minefield & post dialog Dedicated Server compatible.
+- Disabled the enemy check on remote controlled AI!!!
+- Persistent load still created some conquered AAF small outposts on AAF side. Fixed.
+- Player group AI could mount on NATO vehicles and any plane. Solved.
+- Reworked the Rank System and the Commander Assignation System to be more stable. In future a dialog will ask the commander if he wants to rund the mission without this feature.
+- Some POWs were spawning in dangerous areas in some bases. Recoded to make spawning a bit safer...
+- Added an ugly box with info everytime you 008 on Radio, at least you will have the info.
+17/02/15 0.7.6 Alpha
+- Found the bug at convoy missions and corrected.
+- Drastically lowered the money income from population, big amounts of money from population makes Resources, Factories etc.. less strategic.
+- Statistics, for the love of god, work now (third or fourth try?).
+- Now convoys dont show on map all the vehicles. It just shows the objective. Escorts and leaders wont be marked for players until really spotted.
+19/02/15 0.7.7 Alpha
+- Coorected marker update and FIA block/post spawn on persitent Load.
+- Updated to UPSMon 6.0.9.5
+- Civilians now spawn in one group and use the relaxed mode of UPSMon.Better looking and better performance.
+- Players preserve Rank on respawn now.
+- Petros will be inmune for a short time while Persistent Load to preserve game continuity in some rare cases.
+- Brute Forced 0-0-8 Statistics restart. If this does not work, I'll commit suicide.
+20/02/15 0.7.8 Alpha
+- Now player only looses primary weapon + ammo upon respawn.
+- Fixed weird marker appearing in some resources.
+- Corrected bug on automission request which made no tax income and other comsecuences.
+22/02/15 0.8.0 Alpha
+- Added an init menu on server start to enable or disable the switchable commander option. This will allow "clan playing" on which the commander will stay the same until disconnect.
+- NEW FEATURE: BATTLE MENU. Hit Y and you will be able to choose lots of in game features, some of them already existing, some of them new, some of them tweaked, and definiteley all less buggy than Radio Commands.
+- NATO units integrated in spawn system, so, if they come from a far airport and find enemy zones in their way, they will be under attack. Departure zone will be detailed on it's task.
+- NATO Attack now cost 20 NATO points.
+- NATO Transports marked on map.
+24/02/15
+- Fixed wrong option in new WiP Nato functions menu.
+- Now you cannot control AI while you control an AI squad.
+24/02/15 0.8.1 Alpha
+- Improved performance on spawn system.
+- Added a button on Game Options to reactivate the Y Key upon traditional Save-Load.
+- Added new NATO option: Request Ammodrop: For 500 € and 5 NATO points NATO will send us an ammobox. Crate content will depend on current NATO points.
+25/02/15 0.8.2 Alpha
+- Added two NATO options: CAS and Arty Support. For 1000 € and 10 NATO poitns. Type of vehicle support depend on current NATO Status.
+- Easier despawning conditions for automatic reinforcements (if they get stuck in base, they stay there forever)
+- No cents calculated on Tax income.
+- Y Key was not activated on JIP players, solved. If not, reactivate it in "Game Options"
+- Minefield building time was only 6 seconds, now its 600.
+- Tweaked NATO carpet bombing as sometimes it was extremely useless...
+- Restored loosing command and player score upon respawn.
+27/02/15 0.8.3 Alpha
+- Corrected bug: NATO Ammoboxes with AAF ammo.
+- AAF will loose much more CSAT points or pay much more money to have CSAT support.
+- Spawning on zones under attack will be prevemtive instead of on distance, for both AAF and NATO attacks, to make them more consistent.
+- Which means you may order a NATO attack wherever you want.
+- Added farooq revive (slightly modified) ONLY FOR PLAYERS IN MP, AI and SP will still use BTC
+- Improved petros death check and revive so mission does not end when petros killed by troll or player accident.
+- TK and hurt Petros punish system established. The more times you do bad things, the more time you will have to wait till be able to do anything.
+- Halved the score needed to rank up.
+- The player who takes a flag raises a bit his score.
+- Reworked "Check City Support", now "Map Info" and now gives a lot of info from all the zones. Uglier, but more useful.
+01/03/15 0.8.4 Alpha
+- Fixed issue which made SP game not working properly.
+- Artillery/CAS modules not synchronizing correctly in MP
+02/03/15 0.8.5 Alpha
+- Recruited squads no longer appear near the player. They now spawn in HQ. Enemy near checking is also HQ related.
+- Selling vehicles should be less buggy now.
+- Lower distance for airport attack from AAF.
+- Increased radius of possible destinations in road patrols,as they were extremely common.
+- Small fixes on some vehicle positioning.
+26/03/15 0.8.6 Alpha
+- Bugfix on AAF resources spending system.
+- MAJOR CHANGE: Now AAF starts the mission with zero assets, which means the CAs etc.. will be with basic vehicles, also for air assaults. As game progress, AAF will be able to buy planes, tanks, APCs etc..). This will make easier beginings and more sensation of game progress.
+- Bugfix in combined CA which made no real CA spawn in the base near Kavala.
+- Bugfix on Steal Ammo mission which made sometimes the truck not to spawn and the mission impossible to finish.
+28/03/15 0.8.7 Alpha
+- Spawn Distance can be changed in the HQ Options (Commander Only) up to 2500 meters, no less than 1000 meters. Tested under SP max settings will loose around 10 FPS. MP environment may have networking issues so use carefully!!!
+- QuadBikes are now considered "civilian" for Undercover operations.
+- No dynamic missions if you are moving your HQ.
+- Rescue / Evac prisoners now accept new HQ positions if you moved your HQ while the mission was in progress.
+- Stavros references in briefing removes (God bless him, now it's COMMANDER)
+- Roads are ALIVE: Now civilians like to pick their cars and do their life traveling to another cities, populating the roads too.
+- Added some lines in the briefing.
+30/03/15 0.8.8 Alpha
+- Max amount of special vehicles for AAF now depends on owned AAF zones.
+- Roadpatrols are now dynamic, not map positioned. Each game (game restart + persistent load too) will place those on different positions. 
+- Roadpatrols now are "unconquerable", you must take the nearest airport or base in order to eliminate it. You can kill the garrison to have bonuses anyways, and AAF will need some time to re establish them.
+- Increased the number of roadblocks from 22 to a theoretical 80 (no fix number as now they are dynamic).
+- No marker on map will appear for roadblocks and small outposts. 
+- Corrected bug on airport spawning in early stages of the game.
+- Human players now cannot recruit AI if they are not group leaders.
+- AAF resources not capped when resting in campfire.
+- Game params such as spawn distance, fps limit and civilian percentage now included in persistent save system.
+- Civilian and civ parked vehicles spawning number now depend on daytime.
+- No civs spawned in resources and factories in nightime.
+- Starting daytime is now random.
+- Added a nice vehicle cleanser when vehicles spawn and explode (spawning in wrong place) so players wont see the smoke. Not applies to mission vehicles, only for zone ones.
+31/03/15 0.8.9 Alpha
+- Deleted small roadblock marker in SW part.
+- Conquest missions finishing was bugged when it was a roadblock due to new changes. Corrected.
+- Roadblock conquering now depends on side of the closest zone, as it was causing frequent and absurd squirmishes between friendly spawned forces and spawned roadblocks.
+- Persistent Savegame vehicles content stored in ammobox.
+- Persistent Loadgame vehicles content is deleted to avoid exploits.
+- Players backpack is saved upon Persistent Save and disconnection.
+- AI team mates delted upon disconnection now add hr points properly.
+06/04/15 0.8.10 Alpha
+- Vehicles are sellable now even when dead soldiers inside. Only limitation is not having a player in its crew.
+- Punishment system only applies to MP games.
+- Corrected big bug with persistent save.
+06/04/15 0.8.11 Alpha HOTFIX
+- Fixed spawning roadblock bug.
+- Time to spawn civs and vehicles in cities has been shortened as in big cities with small spawn distances was common to see things spawning.
+07/04/15 0.9.0 Alpha
+- Refined Rodablock system generally, specially regarding persistent save.
+- Roadblock ownership now updates upon city revolt.
+- Corrected error on NATO troops not published across network.
+- Lower HR gain on prisoner/refugees missions when accomplished.
+- Tweaked a bit AAF skill to make them a bit harder to beat.
+- Reworked bank robbery missions. Crate is no longer needed. The truck must be closer than 7mts to the building main entrance and stay there for 2 minutes.
+07/04/15 0.9.1 Alpha
+- Corrected small bug on conquest missions which required to be far away to complete the mission.
+- Also corrected conquest mission assignation on already taken roadblocks.
+- Flags will require to clear the zone in order to take them again.
+- Kill the Traitor missions now have a marker on the proper house, but will give less time to finish.
+- Y key no longer works while unconscious in SP.
+- Small bug in FIA outposts flag corrected.
+- Hopefully the last bugfix on persistent load and roadblocks.
+- Players can now know the destination of a Counterattack if CSAT participates, as arty fire + CAS is good enough info of where are they planning the attack.
+- Fixed bug in convoy missions which made them impossible to locate the objective and finish them.
+09/04/15 0.9.2 Alpha
+- Raised a bit aiming skill in FIA marksman to make them a bit more effective.
+- Now Marksman and AT FIA soldiers have a chance of having better weapons (sniper rifles and Titan launchers) depending on quantity of those in HQ ammobox, same way than NVGoogles were working. Another reason to collect them.
+- Rifleman can have a titan AA in the same situation, with just one round.
+- Adding skill to AI now reports the current level (up to 20)
+- Cost for recruiting units now depends on skill level (up to 3x) Only applies to infantry units (no MG Offroad, mortars etc..).
+- Corrected small bug on naming places regarding factories and resources.
+- Optimised and reduced in number a bit (around 80 to around 50) the roadblock creation on game init. This will reduce drastically server init on MP.
+- FIA roadblocks and watchposts were not spawning upon persistent load. Corrected.
+- In order to save your vehicles in persistent save now vehicles MUST be empty.
+10/04/15 0.9.3 Alpha
+- Corrected small despawning bug on some stolen civ vehicles.
+- Logistics missions a bit harder. Truck must hold in the city for two minutes and AAF will call some troops.
+- Bank Robbery missions will have a troop call too.
+- Now a small patrol will be called when a zone is conquered.
+- FIA soldiers equiped with "normal" assault weapons (no GL, no snipers, no MG, no squad leaders) depend on how much of this weapons you have in your ammocrate. This time they have the "chance" of having cheap submachineguns.
+- HR income halved on cities which not belong to FIA.
+- Nearest city from HQ will have a small amount of FIA support as "influence" (not when you rest in campfire)
+- AAF needs more time to perform a counterattack now, as they were still extremely frequent.
+- Removed useless SMG and small assault rifles from NATO weapons, so ammodrops will be more useful.
+12/04/15 0.9.4 Alpha
+- Eliminated restrictions of group composition to Fast Travel.
+- Player cannot Fast Travel to roadblocks and watchposts.
+- Now Commander can use Fast Travel with HC groups. Just select one and click on the desired location. Conditions for fast travel apply the same.
+- Bugfixed the Persistent Save in MP (the one corrected in 0.9.1 for SP I forgot to do it on MP)
+12/04/15 0.9.4 Alpha Hotfix
+- Fixed black screen when player fast travel.
+14/04/15 0.10.0 Alpha
+- Bugfixed integration between Marksman DLC and new group types costs.
+- Integrated Marksman DLC items and weapons with AAF ammoboxes, ammotrucks etc.. NATO weapons in proper ammoboxes too.
+- Doubled the rate on which FIA AI raise skill upon killing enemies (yes that feature existed since the begining).
+- Better integration between AI Control and revive system (player will return control on his unit if the AI controlled gets damaged)
+- Drastically reduced AAF vehicle cost table, as an andvanced player couldnt even see a single tank in all the mission.
+- Small Outposts no longer marked in the map.
+- Civilian parked vehicles should appear in more and more spread positions.
+- A notification will appear on screen once a counterattack destination is known (when CSAT participates).
+- NEW FEATURE: Now having ownership of Radio Towers has a use. They give players a chance of knowing (marking on map) enemy positions, the more towers you own, the highest chance. This will be made automatically.
+- NEW FEATURE: Now sometimes CSAT will decide to punish rebel towns, exterminating the civilians in there. Loose the mission and the city will be considerated "destroyed" which means it's income will be very reduced.
+- Destroyed cities spawn much less civilians and vehicles.
+- Reverted timing for counterattack changed in 0.9.3.
+- AI manned static weapons will get automatically reloaded after some time.
+- Income from cities is affected from penalties, such as having power supply, city ownership or city destroyed.
+- AAF now is affected to income penalties on cities.
+- Reworked carpet bombing scripts to be much more effective.
+- NATO paradrops now perform in safe positions.
+- Dead civilians due to artillery fire, car explodings etc.. now affect people's war sickness (less support for all the sides).
+- Winning/Loosing CAs will affect score for players in MP.
+- Destroyed cities will look... destroyed upon persistent load.
+- Added a big AAF Outpost near the southern peninsula. WARNING: If you Persistent Load the zone will be marked as AAF and will belong to FIA. May cause strange counterattacks and other things.
+- Now you cant Fast Travel without a driver in your vehicles or the vehicles cannot move because of damage.
+- Heavily reduced HR income as HR is not a problem after 30 minutes playing.
+20/04/15 0.11.0 Alpha
+- IMPORTANT: Counterattack timing now depend on how powerful is FIA. In advanced game, CAs should be constant if bases are available. If not, please report.
+- IMPORTANT: Now counterattacks may affect more than one zone. No longer "my main objective is x, and doesen't matter if I pass trough zone y and kill the garrison, I won't take zone y". You know what I mean..
+- IMPORTANT: Static weapons no loger available to buy if you haven't a seaport.
+- NEW FEATURE: Seaport flags allow you to buy rudder boats.
+- NEW FEATURE: Garrison system. Now garrison for FIA zones are not automated, players have to spend resources on garrisoning them. Garrisons have a cache and work on soldier number basis.
+- Now AAF skill and training works in the same way FIA does. In initial stages they will have less skill, and AI commander will spend money to train the troops so their skill will get increased progresively (not up to be insane Rambos).
+- Performing counterattacks will have a cost for AAF which will recover on part in the same way a player does.
+- Dead soldiers will have a cost for AAF, generaly speaking.
+- Frontier zones will spawn double garrison.
+- No longer snipers in road patrols.
+- Roadpatrols may consist on armed striders.
+- In MP player won't be able to access to the battle menu if unconscious.
+- Now captured prisoners are more eager to cooperate.
+- Powerstations were missing from dynamic roadblock creation.
+- No more Destroy missions on owned Radio Towers.
+- Purchased static MGs get saved now.
+- Added some missing DLC NATO weapons and ammo.
+- Patrol area size around bases now depends on the spawn distance settings.
+- Saved ammotrucks no longer spawn with ammo.
+- Accelerated a bit initialisation on Persistent Load in SP.
+- FIA and AAF troop costs updated upon persistent load
+- Players upon persistent load start with no weapons and ammo, same on respawn in MP.
+- Counterattack forces now search for the enemy in any building when they reach their destination. Same with FIA reinforcements.
+- Surprisingly still found a despawning problem in NAto airports, which is solved.
+- AI FIA unconscious units won't receive any pity from the enemy.
+- No more Tarzan Fastroping if the transport chopper has a tailrotor failure.
+- Improved AAF VANT shared info with his comrades.
+- Raised a bit NATO support when you take an airport, seaport or base.
+- Persistent Save\Load message sent when the process is finished, and not when strated. That will help players to know if everything is ok.
+- Removed some plane spawning bugs in central airport + rare cases in roadblocks.
+- AAF Garrison on cities now depend on FIA support too, as it is a "hot city" and the reinforced the place.
+- On SP respawn, you will loose a 10% of your HR and Money pool.
+- Now purchased statics will get deleted when destroyed.
+- Small counterattacks now depend also of having radio coverage on the target zone.
+- Purchased statics get lost if thet are protecting a zone and the zone is conquered by AAF.
+- As the new changes make the game start MUCH harder, a small bonus on HR and money every tax has been implemented.
+- Vehicle selling prices updated to the new vehicle cost of old updates.
+21/04/15 0.11.1 Alpha
+- IMPORTANT: Tasks included in persistent save. On load game, they cannot be EXACTLY the same task, but they will be of the same type.
+- IMPORTANT: Now you can steal static weapons from taken AAF bases, use the action menu to do so.
+- Included small counterattack groups in the new attack drill manouver.
+- Raised deletion of dead soldiers and vehicles to 15 minutes.
+- NATO destroyed planes and choppers no longer affect AAF assets.
+- Destroying transport choppers no longer affect AAF assets, they have a money cost, same as soldiers.
+- Destroying AAF small vehicles (Trucks, Striders etc..) will have an economic impact too.
+- No longer assigned missions while you are in control of AI
+- Only Airports and Bases will be considered as dangerous in order to spawn double garrison in AAF territory.
+- Civilian vehicles won't get saved on persistent save, as it can mess up the player with the missions which will spawn on load.
+- When traitor escapes in assasination missions, the marker will update his position.
+- Added a small delay on SP persistent load to ensure Petros has activated the Mission Request option.
+22/04/15 0.11.2 Alpha
+- Stolen and purchased statics where messing persistent save system. Solved.
+- Hotfixed vehicles init due to some lost code.
+21/04/15 0.11.3 Alpha
+- Hotfixing tasks on persistent load had not updated the HQ position.
+21/04/15 0.11.4 Alpha
+- AAF vehicle assets and max assets updated on persistent load so if you saved during a CA, the new generated wont consist on trucks.
+- Added waypoints to civilian road travelers, so they don't get stuck in the city center.
+- Seaports affect to vehicle prices, instead of capping the vehicles you can buy, the more seaports you have, the cheaper the vehicle.
+- Raised a lot the base prices for vehicles on mission begining.
+- Reworked all the pricing and purchase procedures to be more automated. Squad recruit should be much faster now. AAF investments more clever.
+- LAW launcher count in ammobox give chances to recruited basic rifleman to equip a launcher with a single shot, if hasn't an AA launcher already.
+- Mounted Static weapon squads were not able to fast travel. Corrected.
+- Reduced a bit the civilians traveling on road as roads were a bit too crowded.
+- Automatic missions will appear more often.
+- City center is now allways a road position, this will make missions / patrols etc. much more efficient.
+27/04/15 0.11.5 Alpha
+- Reinit Y was not using the conditions to be able to use the key, with the old problems of being unconscious etc.. Corrected.
+- Hopefully pressing Y won't disable other addons special keys.
+- NATO support is now free, it only costs NATO points.
+28/04/15 0.11.6 Alpha
+- Loosing a Kill the Traitor mission will have a 30% chance of having a Defend Petros mission.
+- Corrected Destroy Helicopter missions so the recovery truck won't make the mission finish when it reaches it's destination.
+- Corrected BIG bug on Roadblock building.
+- FIA reinf should leave HQ a bit faster now.
+29/04/15 0.11.7 Alpha
+- IMPORTANT: Now a Counterattack is not needed to loose a sector. Any enemy passing by may conquer an ungarrisoned zone.
+- Cost table for troops updated correctly on load game.
+- Super reduced unit cost increase caused for training, it was excessive.
+- Reworked cargo deletion on saved vehicles, hopefully it will work better.
+- Corrected bug: banks were not calling a patrol when assaulted.
+- A "position consolidated" notification will appear when a small counterattack is repelled.
+- Now % chance of weapon equip will depend on ANY weapon you put in the ammobox and not only the other ammobox looted ones (this means, any weapon looted from soldiers)
+- Less CPU intensive weapon assignation for FIA spawned units.
+- Bulletproofed small economic functions so if something little is not working, the mission will continue.
+01/05/15 0.11.8 Alpha
+- NEW FEATURE: Now powerplants, resources and factories can be DESTROYED if the civilians in there get killed. DESTROYED means no income. Note: if a Powerplant gets destoryed it won't give power supply to anybody.
+- NEW FEATURE: Commander can rebuild destroyed facilities from HQ options. Cost is 10.000 €
+- AAF can do the same.
+- Less CPU intensive NV googles assignation for FIA AI.
+- Reworked City Info and Garrison Add to give more information about the garrison in each zone.
+- Chance on intercept AAF comms will not depend on NATO points, just a small chance + owned antennas.
+- Lower costs for FIA transport vehicles.
+- A message will appear when NATO CAS plane is destroyed or support timed out.
+- CSAT punishments should appear more oftenly on advanced game, they don't depend on AAF resources now.
+- Range on prestige in cities now will allways be between 0 and 100%
+- Player won't get attacked by friendlies if he killed too many civilians.
+- Recruit squad button on HQ dissapeared, as it is present on Y key menu.
+- FPS limiter wont accept a range below 0.
+- Reworked Game Options menu to have everything. Spawn distance is now there instead on HQ flag.
+- Civilian workers will surrender to enemies of the faction belonging the zone where they are working.
+- Random roadblocks shouldnt appear near HQ on persistent load now.
+- Troops in tanks shouldnt leave the tanks empty when they reach their objective zone.
+- Dismissing troops now hasnt penalty on the price recovered.
+01/05/15 0.11.9 Alpha
+- Added a not very nice, but very useful "Back" button on all the custom menus.
+- Hopefully, no more AAF roadblock spawning in your face when you load game.
+02/05/15 0.11.10 Alpha
+- Rebuilt the persistent load again to avoid AAF spawning in FIA zones in rare cases.
+- Corrected bug when trying to manage garrison in cities.
+- Re enabled spawning of destroyed AAF assets as it may lead to insta-spawn-in-your-nose as soon as AAF rebuilds them.
+- Destroy Armor missions shouldnt finish prematurely due to destruction of the objective on creation.
+- Fixed error reporting Success on a CSAT Punishment mission when it was failed.
+- AI wont leave tanks unmaned when they reach their destination.
+- Less prisoner will die on spawning in balconies and wrong config building positions.
+- Map Info now reports about factories garrison.
+- Corrected bug on AAF economics routine.
+04/05/15 0.11.11 Alpha
+- NEW FEATURE: Persistent save will also save helmet, vest and googles from the player. In MP also score and rank. JIP players are updated if the commander the status of the mission has been loaded. Works, per server basis.
+- NEW FEATURE: Vehicle/unit/squad costs will be shown in a tooltip window on each button.
+- Map click bug on asset rebuild corrected.
+- Deleted debug message when AAF rebuilds an asset.
+- Civ vehicles shouldnt spawn in the middle of a crossroad.
+- Added nice flashlight usage for defending FIA and AAF troops without NV during the night.
+- Added flashlights to possible ammoboxes content.
+- Supply trucks now no longer get deleted, they run out of fuel instead.
+- Bank trucks get deleted when stopped upon mission succeed.
+- Hopefully solved the problems with special keys on TFAR etc.. on JIP players.
+- FIA snipers will have more ammo by default.
+- Changed AAF small outpost in Magos hill by an AAF Grand Outpost. May lead to weird issues as allways... Seems that zone cannot be conquered or managed until a game reinit.
+- Optimized a bit in performance and appereance civilian vehicle spawn, but server will need a bit more time to init.
+- Artillery fire should stop when friendlies are near of the target flag, at last...
+- Corrected issues with saved vehicles on persistent load.
+- Player won't be able to control unconscious AI.
+07/05/15 0.11.12 Alpha
+- NEW FEATURE: Auto Rearm. AI units will search in the nearby vehicles\ammoboxes\corpses to rearm new magazines if they need it. Use proper button in AI Management section.
+- NEW FEATURE: Auto Medic. Turn it on and forget about giving orders to your medic or units to heal. If there is a medic, he will be in charge of heling, if not, units will use their medikits. If turned on in combat, units will use smoke to get cover while waiting to get healed.
+- IMPORTANT: All relevant AAF zones, and not only bases, will have small foot patrols in the surroundings.
+- Corrected bug which disabled Temp. AI control.
+- Reordered AI management to a new button from Y key. AI Control is now in that menu.
+- Troop price wont be recovered on dismissal / persistent save if they are unconscious.
+- Fast Travel now wont make the units teleport while the screen is black for most of the time, reporting the contacts while the player can see nothing.
+- FIA attack forces will have gunlights and use them in AUTO mode.
+- In SP if player gets unconscious, the group will open fire if it wasnt on fire at will. The medics will try to cover him with smoke.
+- Included the MK18 ABR in AAF ammoboxes (the last DLC missing?)
+- When player rests on campfire, AAF will earn money too, but will not buy vehicles and upgrade skill.
+- Auto update of new developed zones made every roadblock belong to AAF again indepently of zone proximity ownership. Corrected. Save and load and the problem will dissapear.
+- NATO Artillery should spawn safely now in some bases.
+- Rescued POWs get deleted sooner.
+- CSAT only participates in attacks to bases and airports in AAF Attack missions.
+- Eliminated requisite of squad dispersion for Fast Travel.
+- Enemy count on Fast Travel looks at all the units in the group, not only the leader.
+- Minefield missions wont get loose when the truck crew dismounts.
+08/05/15 0.11.13 Alpha
+- NEW FEATURE: Vehicle Squad Menu on Y key.
+- NEW FEATURE: Assign vehicle to squad. Player will be able to assign any civ,AAF or FIA empty vehicles to the HC squads, if there is enough space. Armed types will get manned. Cargo units will dismount on contact or when ordered.
+- NEW FEATURE: Vehicle info about squads assigned vehicles.
+- NEW FEATURE: Order mount or dismount your HC squads. If their vehicle is an armed one, only the cargo troops will dismount.
+- NEW FEATURE: Static Autotarget. Mounted statics will move trying to allign with targets insetad of satying in positions. Mortars will fire automatically.
+- IMPORTANT: In order to move your HQ, the ammobox must be empty. This will add a bit of additional risk when you move (loose the truck, loose everything).
+- New recruited infantry squads will spawn without vehicle.
+- No longer need to put the HC groups on Safe to use vehicles. But as any vanilla AI, SAFE mode is required to use roads, player will have to manage that. Squads spawn in SAFE mode by default, changing their stance according to the situation.
+- Changed the Recruit MG Offroad option for a small infantry sentry, which you can use for those offroads, hunters etc.. or just to have... a small sentry?
+- On SP when player respawn, it's conscious group units will do too.
+- Same with Fast Travel. AI unconscious will be left behind.
+- Disabled Y key when player is in control of AI.
+- In SP when player is unconscious, AI will not get stuck thinking it reached the player (constant "Ready" but nobody heals you).
+- Moved a bit the default starting position as it was giving lots of AI management hedeaches.
+- AAF armored cars, tanks and APCS wont get abandoned if they have firing capabilities. FIA troops too, unless ordered to leave the vehicle.
+- Sniper teams sent to establish a watchpost now travel in quadbike.
+- AAF wont spend money on bribing CSAT.
+- FIA Explosive specialists now carry an additional AT mine by default.
+- Removed fancy BIS factory infotext for taxes income as it was interferring with the statistics report.
+- Accelerated trasnfer from HQ ammobox to any truck. Timing will depend on if a Defend Petros mission exists.
+- Only Commander will be able to empty the ammobox at HQ (anti troll thing).
+- Removed bug on persistent load which made AAF use no tanks. Tanks are back.
+08/05/15 0.11.14 Alpha
+- Reworked persistent save to adapt it better to the new squad vehicle system.
+14/05/15 0.11.15 Alpha
+- NEW FEATURE: When recruiting a Squad, a Window will ask player if he wants to buy a transport vehicle for them. Vehicle will be automatically assigned in the same way Assign Vehicle works.
+- IMPORTANT: Basic grunt FIA Riflemen base cost halved. Rest of the units cost is higher, to enforce the untrained massive militia experience.
+- IMPORTANT: Had to remove the double garrison in middle island zones, as game was unplayable for the average PC.
+- IMPORTANT: Mission FPS monitor will automatically low the game settings when average FPS is less than the minimum FPS setting for the last minute, minimum FPS rate will be set to 25 if it has been set higher.
+- Disabled revive system for AI on non-player groups, as it was unbalancing the game and added lots of scripts.
+- Higher raise skill\training costs for both FIA and AAF.
+- Decreased search radius for taking the flag in big zones, such as airports etc..
+- When a Take the Flag action fails, player will receive an update of the near enemies.
+- Nicer looking income reporT with some sound to make it more noticeable.
+- On logistics missions FIA forces must have at least one unit close to the truck or counter will restart.
+- Petros talks (sometimes).
+14/05/15 0.11.16 Alpha
+- NEW FEATURE: AAF deploy minefields to defend their bases. Also, when CSAT destroys a city, they leave it with some mines around.
+- IMPORTANT: For undercover mode, no helmet and nightvision is required too.
+- IMPORTANT: Changed the whole minefield mechanics. Minefields are free. Mines will be taken from your Ammobox, up to some limit (AP - 40, AT - 20), only in standard configurations (no trip-wired, no Claymores etc..). Timing to deploy will depend on number, same as timing for recovery.
+- Vehicle price was not substracted from FIA money when buying a vehicle for a new squad. Solved.
+- FIA soldiers may wear helmets depending on their skill. Helmets have been scavenged from any corpse, so funny outfits may appear...
+- Optimized a bit more FIA soldier equipment initialization.
+17/05/15 0.11.17 Alpha
+- NEW FEATURE: Darters and remote Laser Designators added to NATO Supply Boxes.
+- IMPORTANT: Reworked a lot Undercover mode. Less CPU intensive. Again, quadbikes are no longer undercover vehicles. In change, if you are on a civilian vehicle, your outfit and enemy close won't make you loose undercover, if you are on foot, same as allways. Entering in enemy bases will make you loose Undercover no matter what.
+- Convoys no longer stay forever in their destination, and will move to anywhere else when mission is finished, failed or not.
+- Removed the Striders in roadblocks as they were not a great addition.
+- Rebreathers added in AAF Seaport ammoboxes.
+- Reworked initial windows so if player hits ESC things don't get messed up.
+- Added a backpack for those players without it on init. On persistent load, backpacks will be removed (they are on the Ammobox).
+- On HQ enplacement init, roadblocks will not be counted as enemy zones, so players will have a wider variety of positions to select. If a roadblock is near the selected position, it will be deleted.
+- Added a small explanation on the soldier loadout chance on briefing.
+- Generally speaking: Less AAF inside buildings and more patrolling.
+- Deactivated civilians making fireplaces during night, as may lead to performance issues and they have excellent kitchens to burn things.
+- Convoy Ammo Trucks get depleted when the mission is failed.
+20/05/15 0.11.18 Alpha
+- NEW FEATURE: Intel Found report. The player who took the Flag may receive an Intel Report with some AAF data. Chances of data are higher in bases or airports.
+- IMPORTANT: Removed taxes income when player rests on campfire, as almost nobody was understanding that and newbie players will give AAF extreme superioirity.
+- IMPORTANT: AAF Grand Outposts added to lose Undercover on player proximity.
+- Planting mines, satchels etc.. will make you loose Undercover too.
+- Vehicle marker update now stops when destroyed or side of the driver changed.
+- Nicer markers for vehicles in map.
+- AAF will buy one type of vehicle at a time when taxes income. This will give more chance of seeing lack of tanks / APCs / planes etc..
+- Implemented an "anti stuck" system for those AI manned vehicles, non player dependent, to move them to the nearest road if they are land vehicles, or to unload their cargo if they are air vehicles and they landed.
+- MP Take the Flag action should be less "problematic"
+- Detected mines status should update upon Persistent Load.
+- When a Kill the Traitor mission fails, AAF may have reports of some FIA minefields (not sure if they will react to them).
+- Re-applied economic penalties when player dismiss a squadmate (recovers half of the money spent) to avoid exploits.
+- When in Temp AI Control, old player unit won't order to disembark his squad.
+- Small counterattacks in progress during Persistent Save will be regenerated upon Load.
+- FIA Reinforcements wont despawn until their destination is consolidated or definetly lost.
+- AAF wont upgrade skill if FIA skill is too low (gaming thing, but mission is a hell sometimes because of huge differences)
+- Raised the cost of tanks and APCs for AAF.
+- While in AI control, if main character is hurt, control will return to the original unit.
+- Destroy armor missions changed to Steal or Destroy Armor.
+- Automated sidemissions won't be created during an AAF or CSAT Attack.
+28/05/15 0.12.0 Alpha
+- NEW FEATURE: New revive system. Fully compatible MP and SP. AI compatible. AI comrades will heal player in the same way AutoHeal does.
+- Revive System will get disabled if mission has been edited with any ACE medical module.
+- Reworked AutoHeal (no more "Wait, comrade ERROR NO UNIT, I will patch you up". If there is a medic in the group he will be in charge of healing the whole group. If not, units will heal themselves. Unconscious units will get healed by medics or the nearest unit. First Aid kits are mandatory for any healing.
+- Shoot your enemies head to see another feature.
+- Punishment changed from hitting players to killing players. As the killed player is in unconscious state, it is very difficult to kill a player by non negligent accident.
+- Small counterattacks were waiting to conquer the zone even when they sent an attack chopper. Now only happens if the attack is performed by land units.
+- No unlimited Ammo for NATO Arty as player can destroy all the radiotowers in 15 minutes.
+- Bug corrected on Ai Control which made loose access to Y menu.
+- Intel Found event on prisoner interrogation, instead of only revealing on map enemy units and counterattack timing.
+- Flags are now indestructible, to ensure the player can take or retake any zone.
+29/05/15 0.12.1 Alpha
+- Truck deleted on money convoy success.
+- Corrected small bug notification when player is unconscious and an AI was already going to help him.
+- Less AutoHeal chaos due to helped unit moving while helping unit was healing.
+- In case of unconscious player group units, the closest unit with FA Kit will try to heal him, no matter if medic or not. 
+- More reliable FIA Reinforcements when player takes a zone.
+- FIA Reinforcements now may consist on anything from a sentry in quadbike to an infantry truck.
+- Reinforcements will wait until the small counterattack is done to despawn. Distance from players to the zone now doesen't matter.
+- AAF skill training has wider difference limit to upgrade.
+- Default spawn distance is now set to 1200.
+- Extended revive to the whole FIA faction.
+- On deploying HQ, there will be an attempt to transfer the cargo of the nearest truck to the ammobox, just in case the player's forget about refill the ammobox (happened to me twice and lost everything).
+- Statistics now reports the name of the actual commander. Very useful in MP open servers.
+- MP version has now 32 players as default, Officer Default Commander should be on top of the list, instead of the last.
+- Slight visual changes on statistics bar.
+03/06/15 0.13.0
+- NEW FEATURE: MP Only. Players will have personal money, which can be spent on AI squad units and vehicles. Money is earned by killing enemies and accomplishing missions. FIA Money is now reserved to Commander operations (HC squads, Asset Rebuild, AI Training etc..)
+- NEW FEATURE: Menus for donating money to players and FIA in the Y menu. Commander will have an option in HQ Options to grab money from FIA pool to his personal account, which will make him loose internal prestige (more chances to loose command if Commander Switch is enabled)
+- NEW FEATURE: Server Member List. For those who wanna open their servers for anyone, there is an in game built Member management, so non-members have limited actions (cannot be Commanders, cannot mess up with the ammobox). Anti Troll features that will allow you to play with players around the world with no worries!!!
+- IMPORTANT: Reinit UI button under game options will reinit the Y key and the statistics bar.
+- IMPORTANT: Extended undercover to AI squadmates. When player becomes Undercover, they do it too.
+- Commanders will be able to see Members List from the HQ Menu, add and remove members in game.
+- Personal money will be saved in persistent save. Now the unit price in player group AI will revert to player's own account.
+- Reworked Commander assignation, as it was totally bugged.
+- AAF Counterattacks now have a chance of going on truck instead of APC/Tank even when AAF has some in stock. Truck transported squads are now bigger.
+- Still more reliable Statistics and text adapted depending on player situation (SP;MP Commander, MP non commander)
+- Corrected players boarding in a civ vehicle becoming undercover even in enemies nose, and having the ON mode but getting fire from enemies. Also corrected distance check to become undercover when going on foot.
+- Markers on unconscious players should get removed.
+- Respawned Server Members respawn without weapons. Non members respawn normally (if not, they are screwed without access to any weapon)
+- Respawned players will allways carry their backpack.
+- Convoy objectives despawn properly.
+- Ignored Supply Mission trucks get deleted.
+- Civilian vehicles now get saved, except mission trucks (bank, supply etc..)
+- No more Steal Ammotruck in Kastro Castle, as it is a bit impossible to steal it.
+- Less CPU intensive Surrender check for AAF troops.
+05/06/13 0.14.0
+- NEW FEATURE: ARSENAL. Now players will use BIS Arsenal for their loadouts. Arsenal available assets depend on ammobox content. Once reached a certain number of stored weapons/items,magazines, they will be added to the arsenal and automatically deleted from the ammobox.
+- IMPORTANT: FIA AI Loadout bonuses / penalties now depend on unlocked weapons in the Arsenal. All units with no special primary assault rifles (lets say no Squad leaders, Grebadiers, Marksmen, MG etc..) will need to have their weapon unlocked, if not, the cheap SMG will be used.
+- FIA troops will have some chance to use unlocked optics if their weapon doesen't have a decent one.
+- Unlocked weapons won't appear in AAF and NATO ammoboxes (but no weapon will appear instead).
+- No more exploits on backpack transfer.
+- No more exploits on weapon attachments in surrendered troops ammobox.
+- On MP Respawn players will appear without any weapons, items etc.. as the basic items are in the Arsenal.
+- No undercover changes when the player is controlling AI
+- Doubled score required to promote players in MP.
+- All AAF movements, taxes income and some other calculations wait unit a player is Commander in MP, so if there are only guests, AAF will not do major attacks.
+- Removed problem with Y key in ACE Mod.
+- If Commander player disconnects while moving the HQ, the HQ will be set up where Petros is.
+- No Assasination Missions will spawn if there is no player commander.
+- Hopefully removed all the lack of important actions for JIP players, such as take the flag, buy units and vehicles, rescue refugees..
+- FIA big garrisons now deploy in a more effective way.
+- No more AAF trucks sold by 5k €
+- FPS low check wont delete your squadmates while you are in undercover. Same with refugees.
+- Reverted Statistics to the old method, as some players had problems. It is less reliable, but bulletproof re initialitable (or seems so).
+- MP personal money bonus translated to FIA money in SP. Game should be easier in SP now.
+- Hard coded the rank renewal on MP as the BIS command seems not to be reliable. Under testing.
+10/06/13 0.14.1 Alpha
+- No more smoke party when unconscious uints are getting help. Smoke will be dropped if it's useful (enemies have the unit in LOS, and are known, this function has a lot of potential and will be used for other things).
+- Hopefully solved some unstable situations when in AI control and original player gets injured or killed, which affected to a lot of things such as commander assignation and the Y menu.
+- Added a MP player marker suite, for Non-Ace, less than veteran mode servers.
+- Less errors on .rpt caused by tags script.
+- Changed the default starting position as it was a very tough one and casual players don't tend to change it.
+11/06/13 0.14.2 Alpha
+- IMPORTANT: Added possibility to unlock backpacks to the Arsenal. This includes disassembled static weapons.
+- IMPORTANT: Added possibility to unlock relevant vests (not the cheap ones, storing them is a waste), diving stuff and helmets to the Arsenal.
+- IMPORTANT: Added wonderful BIS Group Manager, instead of the cheap "Join this Player Group" action.
+- Commander now can be in the same group than other players.
+- On unlocked weapon clean, locked attachments will be added to the ammobox, no more need of stripping the weapons to count with those optics...
+- Corrected error in autorearm script for MG soldiers.
+- TFAR items to the arsenal. For better game experience I recommend to disable the long range radios.
+- With TFAR, on player disconnection, only Googles will be added to the ammobox, to avoid radio infection of the ammobox in some cases. 
+- Same with long range radios, they won't be added.
+- More reliable static weapon management and saving.
+- When a player JIP joined all the cost tables for units got reinitialised, this is now corrected.
+- Truck sell price showed in Sell Vehicle tooltip is now corrected.
+- Distance check performance improved.
+- Corrected MP bug with garrisons.
+- FIA wont spawn with flashlight if they are not unlocked in arsenal.
+12/06/13 0.14.3 Alpha
+- Corrected some errors regarding server members list, JIP and access to the ammobox.
+- Corrected some errors on Petros murdered in MP.
+- Corrected some errors on Member Server player initialisation.
+- Corrected not updating unlocked weapons and items for JIP players until some more are unlocked
+- GPS added as unlockable to the Arsenal system.
+14/06/13 0.14.4 Alpha
+- IMPORTANT: MP players can use Save System too, whenever they want, but it only will save their personal stats.
+- Corrected error on player init in MP which made it not finish and not showing stats bar and Y menu.
+- Increased vehicle cost for AAF in a 50%
+- Code optimized for Vehicle init.
+- Reverted the hr and resources lost each time the player respawns in SP.
+- On MP Respawn player will lose 10% of it's personal money.
+- Small error in backpacks sometimes disrupted Persistent Save
+- Corrected error with Arsenal manager and backpacks.
+- Y Key should work after SP normal Load.
+14/06/13 0.14.5 Alpha
+- Fast Travel disabled in groups with more than one player.
+- Corrected errors on AI FIA soldiers init.
+- Destroyed AAF boats will affect AAF economics too.
+15/06/13 0.14.6 Alpha
+- Corrected errors on persistent save in some cases.
+19/06/13 0.14.7 Alpha
+- Corrected errors on vehicle pricing lists in MP
+04/07/15 0.14.8 Alpha
+- Corrected Arty / CAS module synchronization in MP
+30/07/15 0.14.9 Alpha
+- Corrected despawning stolen mission vehicles.
+- Some improvements on support modules assignation to player Commander. Maybe this solves some issues.
+07/09/15 0.14.10 Alpha
+- Corrected abandoned Bank missions turn failed and succesful on the same time.
+- Raised (3x) AAF vehicle costs. Tanks, planes and advanced vehicles should be less common now. Still searching for the right, balanced-for-everyone, magic, number.
+- Nerfed spot skills on AAF marksmen, snipers etc..
+- Corrected bug related to backpack addition to arsenal.
+14/10/15 0.14.11 Alpha
+- IMPORTANT: Standard grunt rifleman now will have a random weapon taken from the arsenal pool. They have changed to the concept of Militia, and will have skill penalties. If the players wants a more "professional" army, he must recruit specialised soldiers or raise the general FIA skill.
+- IMPORTANT: When respawning, inconscious AI will die (simulating abandoned to die).
+- Respawned AI shouldnt go to their original positions when respawning.
+- Small changes to player disconnection routines, which will give less buggy commander assignation.
+- Halved the max amount of bomb strikes on CSAT Punishments.
+- More improvements to avoid insta-blow up spawn in Steal Ammotruck missions.
+- Bank Robbery missions should appear less often now.
+- Player no longer asks for healing continuously while in vehicles when AutoHeal is activated.
+- Attempt on Bank missions will have a negative impact on FIA support in the near city, as civvies see FIA as simple bandits.
+- Unlocked backpacks no longer added to the ammobox when Loading.
+- Tanks are slightly cheaper than planes for AAF now.
+- AAF Commander vehicle purchase script changed to make their assets more balanced.
+- AAF skill upgrade costs in the same level than FIA, again.
+- Grenades, flares etc.. now get added properly to the Arsenal.
+- Disabled squad dismiss on building squads, as it will lead to never finishing their tasks.
+- Corrected small counterattacks upon load game made even when the objective was consolidated.
+- Fixed mission succeed automatically when a player boards a Supply truck on Supply Convoy missions. Now it works as the task description says.
+- Recruiting medics no longer closes the recruiting window.
+- Diminished to one the trucks spawned in several types of AAF zones.
+- Saving a city from a CSAT Punishment will give you also some NATO points.
+- Player will loose control of AI if they are a Building/Minefield group and they reached their destination.
+28/10/15 0.15.0 Alpha
+- NEW FEATURE: Players can now buy a civilian chopper (which works with Undercover mode) and steal AAF planes or helis. 
+- NEW FEATURE: Virtual Garage. You may keep vehicles in a virtual garage. Integrated with persistent save. Use Y menu, to add a vehicle to the garage. Use HQ flag menu to recover it.
+- IMPORTANT: In order to add the Garage features, buttons on Y menu and HQ Flag have been reorganised.
+- IMPORTANT: Players can buy civilian vehicles. Buy vehicle menu has slightly changed.
+- IMPORTANT: JIP Players will be asked to Persistent Load their personal stats.
+- AT LAST: Solved the Steal Staic issues in Roadblocks, even in MP. Backpacks in this cases wont appear exactly where the player is, but very close (around 4 meters as much).
+- In MP, if there is no player commander, players are allowed to ask sidemissions to Petros.
+- According to this, failing an Assasination mission won't lead to a Defend HQ mission if there is no commander playing.
+- Hopefully solved locality issues on ranks in the rank system. Should work now.
+- Solved locality issues with Undercover and "free run over AAF with car" in MP.
+- If TFAR or ACE Medical is active, a message will appear upon players connection.
+- Nicer hint windows in some important messages (savegame, map selection and others as I find them).
+- Nicer Intel Found reports when the number of assets are lower than one.
+- Corrected bug which messed the whole mission when JIP players enter while the server hasn`t initialised yet.
+- Corrected bug in Undercover on dedi/non hosters in MP.
+30/10/15 0.15.1 Alpha
+- IMPORTANT: Timing to delete a task has been increased heavily to a random number. This means players won't be able to ask continuously for the same Mission, plus, automated mission assignation wont be continuously giving the same (Kill the Traitor fans will be happy).
+- Solved a bug related to garage vehicles and Persistent Save, as they were constantly updated even when the commander didn't save.
+- Lowered from 50% to 25% the chance of Sniper team on small AAF patrol spawning.
+- No destroyed vehicles can be added to garage.
+31/10/15 0.15.2 Alpha
+- AAF stolen helis and planes now get properly saved if close to HQ.
+03/11/15 0.16.0 Alpha
+- NEW FEATURE: NATO Armored Column is here at last.
+- IMPORTANT: In SP player respawns with no weapons and items, as the Arsenal feature is enough to rearm.
+- IMPORTANT: No longer need of Take the Flag action to conquer a zone. Taking the Flag is still there and is useful if the players want to bypass the enemy presence check and trigger Intel Found events. FIA AI can conquer now.
+- IMPORTANT: RHS Escalation integration. Only russian weapons will be considered. By now, basic AK74 will be added to the arsenal from the begining. Players initial setup changed too.
+- With RHS FIA units will spawn with weapons from the mod. Sharpshooters are the exception (dont like SDVs on them).
+- Tried to bruteforce the "Take the Flag" action when AAF retake a zone, and if not, a proximity check on the zone to allow the player reconquer by just killing enemies.
+- Corrected bug on FIA sharpshooters ammo when Lynx is unlocked.
+- Decreased a bit minimum tax income and HR income from cities to make HR management a bit more challenging. Will keep an eye on HR for future development as nowdays does not matter at all.
+- Arsenal automated deletion of locked backpacks solved. Sometimes it makes strange things, but not important.
+- Slight changes to hopefully improve HC and Radio 0-8 support stability.
+- Added all the magazine types to the Arsenal system to integrate even from mods.
+- Added Laserdesignators of any type to the Arsenal, as before only the NATO one was counting.
+- Undercover AI won't loose their weapon attachments and some ammo when they lose undercover.
+- Destroy chopper missions improved. Marker position is aprox. Look for smoke to search for the objective.
+- FIA Units with sandard rifles won't spawn with machine guns or sniper rifles even if unlocked.
+- Disabled conquer capabilities to air units.
+- Increased the distance from enemy bases and outposts to lose undercover, as before, you have to be right inside to lose it.
+- Added smoke grenades to the possible AAF ammobox content.
+- FIA uniforms now randomized to civ clothes when the training level is low.
+- Small chance of wearing the best Vest for some types of FIA soldiers.
+- FIA Grunts with AA/AT wont spawn with backpack.
+- Small skill boost for FIA garrisons, as they are in a defensive position and should fight better and have better equipment.
+- Improved dismount drill for AAF Mech\Mot Infantry. They will dismount in safe places depending on some factors. 
+- "Losing" a NATO support mission will have additional cost in NATO support.
+05/11/15 0.16.1 Alpha
+- NEW FEATURE: FIA squadmates spawn without radio if it's not unlocked. Apart from the vanilla effects (only voice sound) if player sends them far away, they will get lost and try to come back. Auto Rearm button will make them search for a radio among the corpses.
+- IMPORTANT: Added an outpost in Syrta. May cause weird things when Persistent Load.
+- IMPORTANT: Drastically reduced (/10) HR income on taxes.
+- Unlocked rifles were not getting updated when persistent load until next tax income.
+- Removed the "Only humans" message when AAF tries to board an air vehicle in SP/Hosted.
+- Civ vehicles with double price than Mil ones (yes, being easily undercover must have it's counterpart).
+- Corrected bugs which made not deleting some items (map, gps, radio) and backpacks from the ammobox when Arsenal unlocked. The error may stay until mission restart, and then persistent Load will not solve it. Sorry.
+- Hopefully AAF city garrisons won't embark any vehicle.
+- Corrected bug which disabled NATO Arty support.
+- Donating money to another player won't make the window close.
+- JIP Players won't be asked to reallocate HQ after loading.
+- Corrected bug which made FIA units dont go with primary weapon if they had a Rangefinder.
+- Added Laser Designator batteries in AAF ammoboxes possible loadout.
+12/11/15 0.16.2 Alpha
+- IMPORTANT: Improved mission initialisation in MP. Should take less time for players when server is on init process.
+- IMPORTANT: Firing Arty from HQ will give a small % of having a Defend HQ mission (AAF has located you).
+- IMPORTANT: Killing with Arty will make the undercover men near the killed unit lose undercover.
+- IMPORTANT: Death FIA and NATO affect nearest city FIA support negatively.
+- IMPORTANT: In Defend HQ missions now CSAT is spawned in choppers and inserted with fastrope, but coming from anywhere (no CSAT carrier) and up to three.
+- IMPORTANT: AutoRearm will make AI search for better weapons if they have the most basic ones. Also with NV Googles and helmets.
+- In MP When player commander disconnects, if there is not an eligible commander, all the HC units and vehicles will be added to FIA resources pool and deleted, as wait for a new Commander connected was buggy.
+- Kill the Traitor missions now are lost when the traitor reaches an AAF base.
+- Improved ammoboxes and ammotrucks loadouts and now they provide a minimum magazines for the weapons they content.
+- Unlocked weapons and mags now spawn in NATO ammoboxes due it's in field supply purpose.
+- Sidemissions don't wait to task deletion to delete units and vehicles.
+- Added an alive check for the planes in carpet bombing scripts.
+- Eliminated restrictions to FT on the zone where player is.
+- Corrected some bugs on persistent save regarding unit refund.
+- AI Locked weapons and mags will get added to the ammobox on next Persistent Load.
+- Non close to HQ vehicles will get added to the garage on next Persistent Load instead of being refunded.
+- Vehicles inventory recovered from garage spawn empty.
+- Removed lock status in some helis so they can be stolen too.
+- When player dismisses a squadmate, once he gets deleted, his weapons and important stuff which is not unlocked, will be transferred to HQ Ammobox.
+- Removed tags for units in vehicles as it was buggy and gave some errors.
+- NATO CAS may consist in planes too if enough NATO support.
+- Corrected small bug which not allowed to send to Garage AAF land vehicles sometimes.
+- Modified no control of AI check in undercover script.
+- AAF, NATO and CSAT will use their lasers by night if they have NV.
+- Corrected bug despawning stolen static weapons when deployed.
+- AAF Static soldier users will spawn with no backpack.
+- Removed the "Inventory item with given name: [acc_flashlight] not found" error.
+- Re-coded FIA soldier initialisations, with performance gain.
+- Added the unlock count requirements for Arsenal in briefing.
+- Changed FIA units cost table.
+- Revive and Rearm integrated so one won't bother the other.
+- Removed bug on Ranks system.
+- Removed bug in OnPlayerDisconnect.
+20/11/15 0.16.3 Alpha
+- IMPORTANT FOR ACE USERS: Basic field medical items, such as bandages, morphine etc.. added to the Arsenal.
+- Corrected some bug in rare circumstances deleting roadblocks/outposts.
+- Corrected small bug in AAF Ammobox content.
+- Corrected small bug in NATO Ammodrop missions.
+- Changed my ugly map icons by the super nice BIS 3D icons on sidemissions. Old markers will appear only when the target is moving (fleeing Traitors btw).
+- Destroy Vehicle missions now have a better way to ensure vehicle is not destroyed when it spawns.
+- Added a bit more difficulty to Kill the Traitor missions with an AAF patrol in the house surroundings.
+- Auto Rearm orders now a bit less chaotic regarding squadmate messages. Only a bit.
+- FIA mortar soldiers now have the proper skillset according to FIA skill level.
+- Radios added to HC squad leaders and mortar squads.
+- Small changes to ensure mortar / CAS support availability.
+- Implemented a hard reinit of all the radio support system with Reinit UI button.
+20/11/15 0.16.4 Alpha
+- Destroyed military buildings integrated in save system. They will be destroyed upon load.
+- Omptimised a bit the code for placing statics in mil buildings.
+- Corrected bug on TFAR. Now should work.
+25/11/15 0.17.0 Alpha
+- NEW FEATURE: NAPALM and cluster bombs.
+- NEW FEATURE: NATO Bomb Runs. For 10 NATO points you have three options for bomb run: HE, Cluster and Napalm bombs.
+- NEW FEATURE: Guard Dogs. They will reveal (by smell, no matter if on sight) any close barefoot FIA, no matter if undercover or not. They have some chance to spawn in Roadblocks, Resources, Powerplants, Airports and Bases. ISSUE: AI won't attack them, they love the Altis puppies. Humans will have to kill them by themselves.
+- NEW FEATURE: Added some guerrilla uniforms, caps, bandanas etc.. to the initial Arsenal stuff for those players who want to play Barbie.
+- IMPORTANT: You won't loose Undercover on foot by proximity (the dogs are the exception).
+- IMPORTANT: CSAT and NATO now can attack other zones than bases, airports and cities. They will not use arty and/or bomb runs in those zones.
+- IMPORTANT: NATO CAS Missions now may consist of up to three vehicles. Number and quality still depend on how much support the FIA has.
+- IMPORTANT: Petros is not included in the spawning system which gives, in some cases, a performance boost. Near HQ vehicles will despawn if more than 300 mts away.
+- IMPORTANT: Dogs in cities. But don't worry. They are just furniture. Or not....
+- IMPORTANT: FIA mortar fire may lead to a S&D AAF patrol in the surroundings, simulating a mission to destroy the battery.
+- IMPORTANT: Added some comments in initVar.sqf and initZones.sqf for the few braves who dare to try to modify Antistasi or try to make it work in custom islands.
+- IMPORTANT: An FPS check will be done before performing lots of actions. Specially spawning units. AAF garrisons will stop spawning when a minimum is done (mainly building and static weapon groups). Players won't be able to recruit or ask NATO anything if the server is too loaded. Exceptions: FIA garrisons (not NATO!!!), basic AAF garrisons, sidemission units, small counterattacks. Big ones will be just delayed but won't spawn less units. Some other processes in the game will be bypassed when the check fails, such as the surrender script. If you want to disable this (and burn your server maybe) just put your FPS limit on a lower setting. Mission will allow you to set it on zero, and have a full Antistasi no matter what.
+- Reworked CSAT and AAF surrendering code, better performance.
+- NATO Air attacks will only consist on transport vehicles, as player can provide CAS and Bomb Runs separately.
+- CSAT will use proper ammo types in their bomb runs.
+- Reworked Persistent Save and destroyed buildings, it wasn't working after a second Load.
+- Added some ACO optics to the possible Arsenal asstets. Added IR beams to AAF ammoboxes.
+- Civ Percentage config is now in 1% basis and has a minimum of 5%
+- Double garrison spawning now depends on FPS too, if everything is OK, double garrison is spawned.
+- Better code for Radio Tower killed check.
+- Reworked vehicle spawn/despawn system to have some better performance and maybe less explosions when spawning.
+- AAF will make big attacks even with no money.
+- Kastro Castle is excluded from any ground attack from AAF, as the AI mess up with vehicles and castle door.
+- Added some voices to non unconscious injured soldiers when they ask for a medic.
+- Hopefully the near HQ parked Ammo trucks will be almost empty on persistent load.
+- Safer vehicle spawning in airports.
+- Surrendered units won't generate traffic in the network.
+- Defend HQ missions by mortar fire were not spawning properly in MP
+- Now players can add Air and other types (no NATO) of vehicles to the garage pool.
+- In City Supplies missions, in MP, undercover near track units were not loosing undercover. Solved.
+- Reduced the maximum number of bomb runs in CSAT punishment from 6 to 3. Most of the cases will be 1 or 2.
+- Corrected: FIA soldiers were spawning with AT weapons with no ammo.
+- Civilian defense in CSAT punishments is now spawned instead of picking them from the already spawned civs. Minimum of 8, their number depends on % Civ spawning rate, population and FIA support. Very untrained.
+- Militia with GL ifles will spawn with 3 HE grenades.
+26/11/15 0.17.1 Alpha
+- IMPORTANT: Mission Ending implemented. When more than half of the POPULATION (not cities), support FIA, you win.
+- IMPORTANT: Mounted FIA mortars now work different. They get deployed on the floor once the truck reaches any given destination via HC. Once they have another destination they will pack and move.
+- Corrected when MP player said "NO" to load previous session and had the chance of moving the spawn position.
+- Added Stavrou identity for possible IA squadmates in MP.
+- Destroyed cities give 0 income and 0 HR to both sides, instead of half.
+- Created a special handle damage script for Petros so the check is not made everytime any FIA unit has been hit.
+- Corrected bug when player was in control of a HC unit and selected the return action.
+27/11/15 0.17.2 Alpha
+- Changed introshot script to initPlayerLocal as it was causing no init on players and they were able to move before server init.
+- Added some additional unfiorms, sunglasses and other missing clothing to the initial Arsenal config. Thanks to Bullitt for his help.
+- Corrected possible bug when player has HC selected and squad selected units and chooses to Control AI.
+- 100% recover of the soldiers price when squadmates are dissmissed.
+- Simulation disenablement was set to HQ vehicles instead of the others. Performance improvement.
+- Doubled HR gain on Tax Income.
+- Corrected small bug in Prisoner Rescue missions and doubled the HR income for success, as it is the hardest mission in Antistasi.
+- Removed helmet removal upon headshot in MP (less traffic).
+30/11/15 0.17.3 Alpha
+- IMPORTANT: Dramatically, very dramatically decreased recruit AI pricing costs for both FIA and AAF as they were too high on top skill levels. Its supposed to be around 2xprice in skill level 20. This will make to see more Tanks, planes etc.. on AAF side, and "early" MP players will be able to recruit something on high skill servers.
+- IMPORTANT: Nerfed a much more AAF skills. It should be much more noticeable on the early stages.
+- IMPORTANT: Ignoring a "Kill the Traitor" mission will lead to a big loss on HR and money, instead of a "Defend Petros" mission. Failing it (Traitor reaches an AAF base) stays the same.
+- Version is shown in hint when the player selects Game Options menu.
+- AutoRearm: AI will pick magazines for secondary weapons from dead soldiers backpack, not only the empty backpack.
+- Persistent Save message won't spawn in the middle of the screen.
+- If FIA has NV Googles unlocked in Arsenal, the AAF will allways spawn with them, no matter their economics.
+- Corrected error on squadmate dismissal which made units not despawning and money/hr spent not recovering.
+04/12/15 0.17.4 Alpha
+- IMPORTANT: As civilians are not a must, they can be almost disabled by setting the Civ Percentage to 0. Set to 0 will spawn at least one civ, one civ vehicle in the cities and civilian patrols per spawned city.
+- Included Huron transport and appropiate cargo soldiers on NATO Attacks.
+- AA Threat evaluation implemented for any air assault. If there is too much threat, squads will be mostly paradropped on high altitude, if there is low risk, then rappel or simple disembark will be done. Not for all types of choppers.
+- Door animations to all vehicles (that have). You can now shoot into the APC/Heli while it has the doors opened.
+- Excluded HQ Ammobox from the AI AutoRearm function.
+- Mission vehicles returned to HQ (Bank and Money Convoy) and sold / garaged'd vehicles transfer all it's cargo to HQ Ammobox before they are deleted.
+- Halved the small patrols in powerplants, resources and factories surroundings.
+- Safer and nicer garage vehicle selection.
+- Fancy task markers are back (lost due to procedure changes in the last Nexus Uodate)
+- Corrected transfer cargo script when the ammobox had too few items it didn't worked.
+- On moving HQ, the HQ stuff is invisible again in SP. Due to Nexus update the command has changed and seems broken in MP.
+- First Aid Kits no longer available in Arsenal from the begining.
+06/12/15 0.17.5 Alpha
+- IMPORTANT: City Road DB was traveling around the network A LOT. Reworked the Cities Road DB to be totally server sided. This should increase a bit network performance in MP. This is a very core change, heavily tested, but may lead to severe malfunctions, please report any issue you find.
+- IMPORTANT: To adapt to the new stamina system, FIA grunt loadout will check for what weight the unit has in order to add a launcher. Same with AutoRearm: They won't search for a launcher if they are too loaded.
+- IMPORTANT: Total rework on Undercover mode. Now player has to click the proper button un Y menu. On foot: A civilian uniform is required. When Undercover is lost in some cases, the player or it's vehicle will be reported, and the vehicle may become un usable or the player will need to wait for 30 in game minutes to be able to become Undercover again. Check briefing notes for details.
+- IMPORTANT: Planting mines while undercover will make a check of enemy presence and, if in city, AAF civ support (simulating reported by an AAF supported civ) to lose Undercover.
+- Stealing civilian vehicles will affect prestige in the respective city and, depending on city suport, maybe the AAF will be reported of players position and / or lose undercover.
+- Liberating POWS/Refugees makes the player lose Undercover (if not, some missions would become extremely easy).
+- Due to new Undercover system civilian uniforms have been added to the Arsenal.
+- Small change on button distribution in Y menu. Dismiss units is now in AI Management menu.
+- Corrected bug in some rare cases with the arsenal update and player placed preconfigured weapons.
+- Some missions were waiting for despawning the mission vehicle in order to start the countdown for mission deletion. Corrected.
+- Corrected small bug on helmets DB
+10/12/15 0.17.6 Alpha
+- Nerfed more AAF skill. Same than FIA AI. On early stages should be noticeable.
+- When player is uncosncious by a shot inside a vehicle and dismounts, his AI squadmates will disembark in order to heal him.
+- When loss of AI control caused by damage over the original player unit or the AI controlled, player gets a hint message.
+- Undercover AI units no longer can be selected for autorearm.
+- Corrected bug in CSAT punishments.
+- Corrected few minor bugs in transfer to HQ ammobox script.
+- Corrected small bug in Map Info related to the roads DB improvement.
+- Some tweak with AI behaviour when they are back from Undercover.
+- Mortar AI squads will deploy mortar in a more clear area, so probably the AI will be more eager to fire.
+- Implemented workaround for support modules according to this: http://feedback.arma3.com/view.php?id=26913 Changed the number of playable slots and names. Feel free to modify them but allways add a variable in the same way I placed them.
+- Changed the position of Tax Income report text to ensure all aspect ratio players can see it.
+- Mission init improved as some parameters are picked from a DB in the case of Altis island, instead of building them on the fly (roads, number of houses on each city)
+- Workaround on tasks deletion and existence checking bugs on BIS respective functions.
+- Small changes in briefing text.
+- Initialization tweaks and bugfixes.
+11/12/15 0.17.7 Alpha
+- Reverted mission init to the old method, as it caused problems with non spanish servers.
+- A bit more tweaking to ensure arsenal is right initialised for all the players in MP.
+- Corrected small bug on persistent save (Sidemissions were not saved)
+- Corrected small bug on backpack management and save in arsenal.
+- No more Calvin Klein soldier on Load when he saved with Civ clothing.
+- Spawned small counterattacks upon load will be done if it has some sense (not allways).
+15/12/15 0.17.8 Alpha
+- IMPORTANT: Second try on the DataBase approach for Altis. 
+- In MP, when a player lost undercover mounted in a vehicle, all the players in this vehicle will lose it too.
+- No more lose of NATO points when a surrendered unit dies by other than West direct fire.
+- "Bulletproofed" Garrison and AI control variables as in some rare cases they got corrupted and made the player unable to manage the zones.
+- Small changes to UPSMONpatrolInBuilding to avoid bug report floods on rpt.
+- Changed default GPS GUI by a squad position minimap (vanilla Arma)
+- Corrected typos which caused heavy bugs on tasks.
+- Added a routine to force return from AI control when some actions need everyone in control of his player.
+- Corrected MP init when nobody picked default commander.
+- Changed AI close door functions as BIS chnaged the function names in the Nexus patch.
+23/12/15 0.17.9 Alpha
+- No more duplicated zone taken when player captures a flag.
+- Reverted the radar to old GPS. BIS Radar is very ugly.
+- Added super self explanatory "%" symbol in city support report.
+- FIA Reinf and AAF small counterattacks are updated properly on Persistent Load.
+- Added some debug messages to .rpt file so debugging other players is much easier.
+- Road check won't be done when undercover in a Civ heli.
+- Corrected bug on arsenal backpack unlocking.
+31/12/15 0.17.10 Alpha
+- Added some more NATO weapons on the possible ammoboxes.
+- Double check for players in init server to avoid some bugs caused by ACE or CBA.
+- Added RHS supressor to AAF ammoboxes possible content.
+02/01/16 0.17.11 Alpha
+- IMPORTANT: Lower Radio Tower converage. From 5Kmts to 3.5Kmts. This will make easier to avoid AAF response, even to have none in some parts of the map.
+- Bases may send small CA's if closer than 2Kmts no matter if there is radio service or not.
+- Brute forced asset addition to the arsenal to avoid poblems in MP
+- Surrendered troops put their hands behind their heads again.
+- Music by default is back in SP.
+- Added Radio Comms info on "Map Info" options.
+02/01/16 0.17.12 Alpha
+- More mine types integrated in persistent save.
+- Mine direction integrated in persistent save.
+- Corrected severe bug which made FIA AI not spawn with proper ammo sometimes.
+05/01/16 0.17.13 Alpha
+- Fixed map info error in MP.
+- Increased AAF courage minimum stats so they arent complete cowards on early stages of the game.
+- Improved dismount drills for AAF mech/mot inf.
+- Optimised a bit the transfer from / to truck scripts to avoid some exploits and bugs.
+- Server sided transfer to avoid battle eye idiotic behaviour.
+05/01/16 0.17.14 Alpha
+- Arsenal gets updated when some transfer to the HQ ammobox is done.
+- Added one missing type of soldier for AAF pricing lists.
+09/01/16 0.17.15 Alpha
+- Added RHS VR rockets to possible AAF ammobox spawn.
+- In open MP, guest players cannot cause a "Defend HQ" mission by firing mortars close to HQ.
+- Added First Aid Kits on Arsenal default.
+- FIA powerplant garrisons now man the mortars correctly.
+- Added a cooldown timer to be able to recruit when player has dismissed units recently (to avoid constant spawn-despawn until soldier equipment is what player wants)
+27/01/16 0.18.0 Alpha
+- IMPORTANT: Added up to three Headless Client support.
+- IMPORTANT: Heal & Repair action is now Heal, Repair and Rearm (rearms all the near vehicles to their default ammo count).
+- IMPORTANT: Killing civilians (not resource workers) in MP has a score penalty. A very bad karma will make the player be hated by any FIA AI (including Petros) and he will have to disconnect to be able to play again.
+- IMPORTANT: AI Squadmates won't enter automatically in combat mode when danger detected, they require player orders to do so.
+- IMPORTANT: Garrison system extended to Bases and Airports. NATO presence and vehicles now depends on NATO support (there is allways at leas one squad). Commander can manage garrisons there in the same way as allways. WARNING: This will probably make the Persistent Saves corrupt, not tested. Expect a restart. Apologies.
+- NEW FEATURE: Personal Garage. MP players will now garage vehicles to their personal garage. Only commanders have the option to access and add to FIA garage. Integrated with persistent save.
+- NEW FEATURE: MP players whitelisted members can resign of being commander. The choose button is in Game Options (HQ Map). If no eligible commanders except the player, he won't be able to renounce.
+- Reworked spawn system to adapt it better to MP and specially HC.
+- Corrected error on having idle tanks in AAF attacks.
+- Missiles removed from AAF UAVs.
+- Bulletproofed vehicle price function just in case some vehicle is messing variables.
+- Included convoy van drivers in AAF soldier cost.
+- Players cannot capture the flag while Undercover.
+- Much more chances of Standard Infantry teams when AAF spawns medium groups (less chance of AA/AT teams)
+- On small outposts AAF squads will only consist in the AA/AT types.
+- Only the worker civilian types will spawn in powerplants, resources and factories.
+- More MP friendly civilian deletion on low fps system.
+- Corrected skill patterns for AAF.
+- Less surrendered AAF troops.
+- Hopefully more stable animations for surrendered troops.
+- Reverted task system to the one used before Nexus (Cashsus) update as all the BIS funtions work again.
+- Deleted redundant variables for AAF grand attack check.
+- Improved a bit mission request code.
+- No more FIA spawned with helmets and summer clothes, if they wear helmets they will wear mil clothing.
+- Improved despawn on major AI attacks.
+- Corrected: UAV is now having a cost for AAF
+- MP bank robbers now lose Undercover if near the bank.
+- In MP controlling an Outpost build squad leader led to malfunctions when the player reached his destination.
+- Optimised MP function calls to be broadcasted only to specific clients or server in some cases.
+- Fixed "puestosFIA" public variable.
+- Corrected when in MP the commander bypassed some window in the init settings which made the whole game not to work.
+- Corrected error on garrison removal.
+29/01/16 0.18.1 Alpha
+- Fixed errors on debug tools for vehicle prices.
+- Fixed bug on Steal Ammotruck missions.
+- Fixed dialog error trying to add to personal garage when player was not commander.
+- Fixed bug not allowing to finish money convoy missions.
+- Corrected typo in Heal, Repair and Rearm action.
+31/01/16 0.18.2 Alpha
+- IMPORTANT: Amounts required to unlock anything will depend on how much of that type FIA has unlocked. Factories will decrease that amount.
+- IMPORTANT: Added Earplugs function with END key, thanks to Manko. Disabled en ACE is present.
+- Marker deleted in case of disconnected player in player markers module.
+- NATO CAS changed by a direct control of the NATO Air Squad under HC module. This  is much less problematic than the CAS modules.
+- Disabled mortar trucks will make mortars stick to their positions and not make stupid things.
+- AAF tries to save funds to have tanks and planes if possible, more chances to see tanks.
+- Fixed: Vehicles were not deleting from garage when tha player picks one.
+- Fixed: Players couldnt rejoin the commander career after resigning of it by clicking in the proper button.
+- Bulletproofed personal variables on respawn.
+- Automated sidemissions now have a 25% chance to be created.
+- Increased enemy knowledge of player to lose undercover on vehicle (off road) and foot (dressing/showing weapons)
+01/02/16 0.18.3 Alpha
+- Automated undercover when entering a vehicle.
+- Corrected error on arsenal management.
+- Updated and improved special keys function.
+- Improved a bit road search radius for parked vehicles in order to avoid error flooding in .rpt.
+- Enemy AI no longer makes civilians spawn on FIA cities except CSAT punish. Less units in map --> better performance.
+02/02/16 0.18.4 Alpha
+- IMPORTANT: New arty system. Select an arty squad on the HC bar (no matter if NATO) and hit SHIFT + Y. Map click on the arty target, select number of rounds (if not enough, arty will shot all they have), wait for the kaboom.
+- IMPORTANT: NATO Arty now joins to the HC bar, with no driver even on MRLS etc.
+- IMPORTANT: More effective QRF AAF attacks. They are not allways zone based, can be position based, so they may attack mortar batteries or reinforce ambushed convoys.
+- Arsenal unlocking requirements will be shown everytime a player opens the Ammobox.
+- Arsenal minimum unlocking count has been raised for some assets.
+- Reorganised briefing notes to make them more intuitive.
+- Arty strikes now force spawn of zones if target position is close enough, which will allow to really bombard real units from more distance than the spawn distance.
+- Corrected bug which not allowed reconquer of lost territory.
+- Corrected bug on some minimum unlocking requirements.
+02/02/16 0.18.5 Alpha
+- Removed debug message on Arty module.
+- Removed bug which stopped small counterattacks.
+- Fixed QRF on Ammo Logistics missions.
+- On Logistic Supplies missions, AAF will be more attracted to go on investigate the supply truck same as civvies do.
+04/02/16 0.18.6 Alpha
+- IMPORTANT: Now AAF may want to send supply convoys to FIA cities to gain support.
+- IMPORTANT: Radio service does not matter to AAF to perform big attacks, only the small ones.
+- IMPORTANT: Raised up to 10 Kmts Airports attack radius.
+- No more ugly marker following the traitor when he escapes.
+- Now Prisoner Rescue missions may happen in Outposts too, which will make them much more easy.
+- NATO bonuses for accomplishing Prisoner Rescue missions set on the same as Evac Refugees missions.
+- Doubled chance of automatic missions as it was very low.
+- City support functions optimised for missions.
+- Small counterattacks were not despawning until death in some cases.
+- POWs should get unstuck now when liberated.
+- Removed error trying to give a squadmate name to a rescued POW.
+- A bit lower Aiming Skill bonus for Snipers/Marksmen.
+- Corrected amount needed to unlock NVG and Laser designators.
+- FIA Reinforcements were not spawning in some cases.
+- AAF Outposts now have big groups instead of mid sized.
+- Improved Arty accurancy on defending mortars. They are as deadly as attacking ones now.
+- AAF will never pass skill 13, instead of that they will spend money on vehicles.
+- When player is unconscious, camera will point to the supporting AI if available and coming, if not, will point to the player.
+- AAF will sometimes use satchels to kill units fortified in buildings.
+- Hopefully corrected some UPSMon errors.
+- Steal Static option got lost. We have it back again.
+19/02/16 0.18.7 Alpha
+- NEW SIDEMISSION: Ambush CSAT SpecOp Team. Belongs to Assassination mission types and depends on AAF Observation Post proximity.
+- NEW FEATURE: Arty now has "barrage mode" which will cover with rounds a line between two markers set by the player.
+- NEW FEATURE: Arty module now supports more ammotypes and ask the player which he wants to use (smoke barrages are very effective).
+- NEW FEATURE: International press. Journalists spawn sometimes (depend on NATO and CSAT values) in zones, killing them will affect external powers support. 
+- IMPORTANT: Introduced another mission fail, endmission condition: eight cities got destroyed by CSAT.
+- IMPORTANT: AAF may rebuild radio towers.
+- IMPORTANT: To allow transfer to HQ Ammobox now player can place the items in the vehicle ammobox with no need of having a vehicle around.
+- IMPORTANT FOR ACE USERS: AI controls feature is disabled if ACE is on due to ACE way of manage damage.
+- IMPORTANT: Unautorized mods script introduced. If ASR AI, MCC or ALIVE are detected mission will be over, on server, or clients or both.
+- IMPORTANT: AAF now has also Unarmed Helis on patrol duty all around the island. Both road and air patrols will report any FIA contact they spot.
+- High NATO level will make spawn two MLRS instead of one when asking for artillery support.
+- Mission was not ending with victory in MP.
+- Solved all bugs of scripts using (allPlayers - hcArray) like the Skip 8 hours and others.
+- Undercover AI will lose Undercover if they pick a weapon.
+- Protected a bit more the Save system so no bugged variables get saved, which leads to ruin the future sessions. 
+- Bit more delay on disable simulation of empty vehicles in order to make them spawn in normal positions.
+- Halved NATO Ammobox content
+- Foot soldiers shouldn't spawn in problematic areas when fast travel.
+- Lowered to 350 mts some Undercover checks.
+- CSAT Artillery is back.
+- Campfire damage won't bother us again while controling AI.
+- Being succesful in a Money convoy mission will affect NATO and repsective City supports negatively in the same way a Bank Robbery mission.
+- Undercover AI will lose status when planting mines in the same way it works for players.
+- Changed (lightened) conditions to lose undercover when a player fires a weapon or plants a mine.
+- Lowered a bit snipers aiming skill.
+- No skill bonus for AAF attacking forces (they had the defending bonus).
+- "Transfer Ammobox to Truck" action will only appear if the player is the truck driver and only to that player. No AI will be able to use that option, even controlled AI.
+- Most of the mousewheel actions now cannot be ordered to an AI or done while controlling AI.
+- AAF Road patrols made HC compatible.
+- Better placement of AAF Observation Post trucks as some of them were exploding.
+- Workarounded UPSMon errors on the respawn module.
+- Markers for small zone AAF patrols are now MP Local to the server or HC.
+- Corrected small bugs on ammunition transfer scripts.
+- Ammotruck Missions now have a few units wandering around to avoid the quick truck stealing trick.
+- Increased chance of AAF counterbattery actions.
+- Removed error flooding .rpt regarding mouseclick sounds on dialogs.
+- Capped upper limit for aiming accurancy on AI to 0.35 no matter what AAF or FIA skill level. Exception: Marksmen and Snipers.
+- Defensive AAF skills were not being modifiend depending on class.
+- HCs were marked as detected even when none was present. 
+20/02/16 0.18.8 Alpha
+- Changed mousewheel action deletion command to avoid ACE conflict with explosive placement module.
+- Fixed: Disabled HC usage by accident.
+- Extended transfer scripts for vests and other containers content, and hopefully solved the remaining bugs.
+25/02/16 0.18.9 Alpha
+- NEW FEATURE: Medics in FIA garrisons will operate as "medical posts" for any FIA soldier in the area.
+- NEW FEATURE: AAF Sea patrols!!!
+- IMPORTANT: To avoid "AI is stuck so I have to respawn" situations, when player stays unconscious for 5 minutes, he'll revive automatically if he has enough support.
+- IMPORTANT: Moved position of the southeastern AAF Outpost to a more logical position with mil buildings. Keep an eye on it!!!
+- IMPORTANT: City support values should add more than 100%. Old values will be lowered if so. Now political situation won't change when supports reach that top and any side tries to improve it. To change that, actions related to lower the oppsite support must be done.
+- Ensured AI uses static weapons placed for garrisons.
+- Bleedout time on revive set to 5 minutes instead of 10.
+- Small bug fixed when no box was found in transfer to truck scripts.
+- Some more UPSMon bugs corrected. More clever AI, specially in cities.
+- Included and tuned skillset for AAF Heli pilots (they should spot better on patrols).
+- Corrected: AAF was not attacking FIA mortar squads.
+- FIA Reinf should be back.
+- More small bugfixes on transfer scripts.
+- Slightly increased HR gain on tax income.
+- When LAW is unlocked, FIA AT will spawn with them (if not TITAN). Militiamen will spawn with a single shot of their retired RPG.
+- Slight change to undercover so far away units didn't update properly their knowsabout values.
+- Fixed small "actionception" as Transfer action was not getting deleted when the driver went out of any truck.
+- FIA Garrisons will stay on their respective zones.
+- Added some more ACE stuff to the default arsenal.
+- Added some bipods and UAV terminals as unlockable to the Arsenal system.
+- FIA garrisons won't steal your vehicles.
+- FIA roadblocks will despawn on deletion.
+- City support change on each kill is back.
+- When geting undercover, FIA AI wont lose magazines of their secondary weapon.
+- AAF supply convoys on FIA cities will be created only if they can gain some ammount of support.
+- Server sided garbage clean to avoid BattleEye issues.
+- More static AAF garrisons, less prone to abandon their positions to seek FIA.
+- Some measures against spamclick on garrison add options.
+- Applied enemy distance criteria for garrison add options.
+- Fixed: On rearm script units were searching for NV googles even when they had one.
+29/02/16 0.18.10 Alpha
+- IMPORTANT: AAF Outposts now have a mortar.
+- More UPSMon bugs corrected.
+- Fixed small error on Destroy Vehicle despawning code.
+- Reworked a bit the code on logistic supplies missions to avoid weird issues.
+- Countdown in logistics supply and bank missions will only appear to the players which are doing it.
+- Player controlled mortars won't cause an anti Arty response from AAF if they are very close to a friendly base or airport.
+- Corrected error on FIA airport script.
+- Improved more transfer from / to ammobox scripts.
+- Bulletproofed a bit Garage script to avoid some weird errors (unknown cause).
+- Petros won't give logistics missions to cities where FIA will gain no support.
+- Server sided city support, resources and prestige changes to avoid incongruences.
+- Wider flying path for any bomb run, so enemies will have a chance of defeating the bombers before the strike is done.
+- Prestige and City Support changes on destroy NATO, CSAT and some AAF vehicles.
+- Corrected small bug in NATO bases.
+- More reliable NV Google mounting for FIA soldiers.
+- Purchased static weapons were geting deleted on garrison removal if it was spawned.
+- Petros resurrects when dead by vehicles running over him.
+- Chance of having NV Googles for AAF now is not 100% when FIA unlocks them, and also will depend on classnames.
+- More time to disable simulation of parked vehicles in case of busy servers.
+- It is no longer required to be in combat mode for AI to drop smoke when they are helping an uncosncious comrade.
+- Corrected areas despawning while player was in AI control.
+- More playable slots.
+02/03/16 0.18.11 Alpha
+- IMPORTANT: Drastically reduced (/4) factory bonuses.
+- IMPORTANT: Removed a powerplant in NE Altis, and replaced it by a factory. WARNING: THIS MAY CAUSE MALFUNCTIONS AND LEAD TO FORCE A MISSION RESTART.
+- IMPORTANT: Added two seaports + sea patrol zones in N-NE Altis. WARNING: THIS MAY CAUSE MALFUNCTIONS AND LEAD TO FORCE A MISSION RESTART.
+- IMPORTANT: Powered cities gain +1% support for their side if less than 50% and total support is less than 100% on each Tax Report.
+- Ranks preserved on MP respawn
+- 10% Personal money loss on MP respawn.
+- Updated briefing, thanks to dahoon for spelling corrections.
+- Some hints were not appearing for non server members.
+- Optimised membership functions.
+- JIP players weapons were not geting deleted on Stat Load.
+- Getting killed will affect city support in the same way it does with AI.
+- Removed negative impact on AAF city support when FIA conquers a zone (the kills are enough).
+- On default revive and TFAR, players have a small change of losing voice comms too.
+- Some TFAR tweaks to ensure no LR radios are given to the players and they may use enemy vehicles to use them as LR radios.
+- Power supply status was not updating correctly in AAF cities on Persistent Load.
+- Updated player markers script so when a player disconnects while unconscious the marker is deleted.
+02/03/16 0.18.12 Alpha
+- Tweaked AI garrison mortar scripts so they won't fire if civilians or friendlies are close to the target area (not bulletproof, as Arty ETA is of several seconds allways)
+04/03/16 0.19.00 Alpha
+- IMPORTANT: Mission no longer finishes when Petros dies. Player commander is forced to chose a new HQ position and some arsenal stuff will be locked again. Ammobox content will be lost.
+- IMPORTANT: FIA HQ can be garrisoned.
+- IMPORTANT: More intense minefield deployment by AAF. They do it when they think they are on defense stance to protect bases. Careful attacking bases!!!
+- IMPORTANT: Mortars won't spawn in AAF garrisons if they have a friendly base in the surroundings.
+- All mines protecting a base will be revealed when FIA takes it.
+- Re enabled gun lights usage by AAF.
+- Both FIA and AAF will use IR lasers if they have NV googles and pointers.
+- SP respawn will lose NV googles if any.
+- Bit higher chances for AAF to spawn with NV.
+- Removed NATO Ammoboxes from bases and airports.
+- Now Players receive notification of what has been unlocked in Arsenal.
+- In case admins configure server with autoinit (bad), the config questions will be made for the first commander to JIP.
+- Removed small bug on members list option.
+05/03/16 0.19.1 Alpha
+- Corrected small bug when player dismiss an AI with a stolen Arsenal locked weapon.
+- FIA HQ was considered AAF zone when loaded an older session.
+- Petros won't attack players if they killed to many enemy prisoners.
+07/03/16 0.19.2 Alpha
+- Fixed: RHS Optics were not geting unlocked.
+- When player select Map Info an initial hint will show Altis total population stats, support stats and number of destroyed cities.
+- Fixed bugs when Petros dies.
+- NATO vehicles spawn without loadout in cargo.
+- Added some more ACE stuff to Arsenal, AAF and NATO ammoboxes. Thanks to Gregers Gedekid.
+- Tweaked and optimised mission init to avoid some rare bugs.
+- Petros corpse when death now has no mission action.
+- Fixed Fast Travel thinking player is controlling AI.
+08/03/16 0.19.3 Alpha
+- Fixed bug on Resign commander button.
+- Fixed bug on destroyedbuildings variable and HC.
+- Fixed bug on sea patrols in HC
+- Removed small error on transfer scripts.
+- Solved: no vehicle markers appear on HC.
+- Removed "ACE_HuntIR_Box" from NATO Ammobox.
+- ACE detection enabled no matter what medical level has been set.
+- Hopefully solved the last issue on FIA HQ garrisons and fast travel.
+- Build HQ option will search for empty positions for each item in order to check if there is a suitable position for them, if not, will move them upt to 30 meters.
+08/03/16 0.19.4 Alpha
+- Fixed critical bug on JIP players.
+10/03/16 0.19.5 Alpha
+- Doubled mortar dispersion rate to make Antistasi more enjoyable for the casual player.
+- Fixed error on SP server membership checks.
+- Vanilla saves finally disabled to avoid support problems.
+- Super hardcoded FIA HQ marker owner settings on persistent load to avoid issues on wrong saves.
+- Added Lynx AP rounds to the possible AAF Ammobox loadout.
+18/03/16 0.19.6 Alpha
+- IMPORTANT: AAF will manage their vehicle purchase in a more progressive way, as long as it perceives FIA as a serious threat. This means they will not buy tanks or planes until FIA owns some zones. In early stages game will be easier, harder later on. AAF will save the funds for the future war, so for sure there will be a chance of heavy machines in late game.
+- Mortars only spawn in outposts when AAF thinks it is a hot zone with FIA presence.
+- Mortars shouldnt spawn inside buildings or anything with roof.
+- Frontline checks will include FIA Outposts.
+- AAF rebuild radio towers as timed task which players can disrupt or usie on their advantage.
+- Increased safety check to mortar targets to avoid friendly/civilian casualties.
+- Added ACE wirecutter and some more bandage types to default arsenal loadout for ACE users.
+- Fixed: A code error made fastroping units wait too long between one unit and another. Fastrope should be quicker now.
+- Reverted to the old HQ asset placement method as the new one was positioning the objects in very weird and ugly positions.
+- Commander will have a mousewheel action to be able to move HQ objects on a 30 meters radius.
+20/03/16 0.19.7 Alpha
+- IMPORTANT: AAF airports, outposts and Bases will have a static AT and bunker on some points (if possible) when AAF considers that's a hot zone.
+- Corrected: safety distance checks for mortar fire were wrong. Now should work.
+- Some big changes on the spawning scripts so it will save a lot of network traffic and cpu load.
+- Changed position of some default roadblocks as they were giving some errors.
+- Generally revised size and position of outposts and bases.
+- Bases with helipads may have a parked heli transport on them.
+- Solved marker info bug on HC platforms.
+- Solved AI surrendering issues in HC platform.
+- Fixed critical bug on FIA Airport garrison system.
+- Fixed ACE and TFAR clients where thinking they hadn't the mod.
+21/03/16 0.19.8 Alpha
+- Corrected remaining bug on FIA garrisons in airports.
+- More dense minefields in cities when CSAT punishes some cities.
+- Increased a bit civilians in vehicles traveling from one city to another.
+- Supply and Money convoy objective vehicles won't allow player's to become Undercover.
+- Generally speaking: much safer landing, fastroping, land disembarking distances for all sides (NATO case was very risky)
+- Moved a bit HQ default position to not be in Neri's standard spawning distance when players are there.
+- Reverted dispersion and security distances for mortar shells to a more absolute method, as it was giving very inconsistent results. Accurancy is better, teamkilling avoidance too.
+- Doublechecked heli spawning positions in destroy heli missions.
+- Next counterattack info was provided in seconds but saying minutes. Now says minutes.
+- CSAT Punish armed civilians will spawn in random positions instead of in city centre, which will make the mission easier.
+- Non ACE and TFAR clients were not initialising correctly.
+22/03/16 0.20.0 Alpha
+- IMPORTANT: AAF will evaluate zone surrounding defenses to prioritise targets, avoiding to attack heavy garrisoned, static launchers, mortars etc.. In some cases there won't be any attack. In those cases AAF will wait until be strong enough for the next round.
+- No more negative numbers on AAF vehicles count.
+- FIA static weapons deployed count on AA Threat Evaluation for AAF to decide if paradrop, fastrope or disembark from helis.
+- Fastroping troops will be covered with smoke.
+- Fastroping troops will assault the zone directly, which should be a new challenge instead of a weak point in AAF assaults.
+- Corrected heavy bug on FIA garrisons with mortars.
+30/03/16 0.20.1 Alpha
+- Bulletproofed HQ position Persistent Save, so in case Petros gets deleted (cause of this is still unkown as nobody gives a proper bug report) the right position is saved.
+- Persistent Load on JIP commanders where causing whole server load, which meant bugs on near hq parked vehicles.
+- CSAT and NATO also fastrope direct to the kitchen.
+30/03/16 0.20.2 Alpha
+- Petros no longer dissapears when removing FIA HQ garrison.
+- Supply missions counter will restart if every FIA soldier in the area is unconscious on default revive.
+- Intel Found event will happen to any player within the conquered zone, not only for the ones who take the flag. Intel won't be the same for every player.
+- Personal score added for any player within a conquered zone.
+03/03/16 0.20.3 Alpha
+- IMPORTANT: Reworked the dogs. Civilian dogs no longer spawn. Dogs may patrol with small infantry patrols and some sidemissions, NOT inside zones.
+- Fixed bug on mission request which probably stopped the whole AAF engine, taxes etc..
+- ACE: Added spray paint to default Arsenal loadout.
+08/04/16 0.21.0 Alpha
+- IMPORTANT: Big changes to AAF threat evaluation procedures on how and what to send to any attack.
+- IMPORTANT: When AAF is short of funds, they will receive "credit" from CSAT in change of some support.
+- "Position consolidated" message will appear when AAF cannot perform a counterattack on a recently conquered zone.
+- When players interrogate a soldier the quality of the info will depend on the soldier class (Squad leaders, more info, grunts, less info).
+- Static launchers, and not only mortars may fire a QRF to their positions when they fire.
+- Lowered to 100 mts the distance needed for AAF to check for enemies to surrender.
+- Major AAF attacks will allways consist in at least one transport vehicle for land and air.
+- Small air quick response from AAF may consist on transport choppers which will disembark troops.
+- CSAT attacks will allways consist on 3 air vehicles.
+- Now Fast Travel allows FIA roadblocks and watchposts as destination.
+- Added some damage inmunity to fast travel units for a short time to avoid them damage when positioning.
+- Dogs will patrol inside airports, indeed there allways will be a dog in an airport flag to avoid undercover exploits.
+- Personal garage gets persistent saved on vehicle removal to avoid exploits.
+- Removed debug message on AAF attack calculations.
+- AAF vehicle count was not broadcasted through the network. Tanks are back in headless clients.
+- Improved LOS checks for smoke cover with new scripting commands.
+- Backpack unlocking requirements will be 5* unlocked backpacks count to avoid easy static weapon backpack exploits.
+- Missing static tripod is now unlockable in Arsenal.
+- Added some triple check to mortar positions as some of them were giving a little trouble. If no position is found, no mortar shall appear.
+- On POW rescue missions, after the time limit the POWs who are not in a player group will be murdered.
+- Dogs wont be inlcuded in the count for taking any zone.
+- More smoke use for troops disembarking from helis.
+- Tanks cover with smoke if they get heavy damage.
+- Dogs spot FIA even in vehicles.
+- If an undercover player is present while FIA conquers a zone, he will lose Undercover.
+- Reworked vehicle initialisation procedures to make it faster.
+- Base / Airport garrisons will mount on their respective armed vehicles if under attack again.
+- As AI attack decisions have been improved, garrison mortars can lead to a QFR when firing too.
+- Personal Garage can be accessed through any FIA flag.
+- The new dismount drills allow AAF land attacks to the castle on west Kavala, so it's a possible target now. Not for MRAP patrols.
+- Lowered distance check to FIA zones for AAF to consider a garrison in a hot zone.
+- Lowered some AAF vehicle prices.
+- FIA Reinf no longer give money when Persistent Save.
+- AAF won't attack if they lack of funds.
+- Convoys use additional escort vehicles in case convoy destiny is a hot zone, and default convoy vehicle number raised to 4.
+- Garrison FIA mortars can be "stolen" to allow players recover the device if the gunner is dead.
+- Solved bug on persistent load and QFR & Auto Garrison scripts.
+- NATO CAS planes will fly higher so they should be less vulnerable to cannons, MGs etc..
+- More distance for the checks to avoid civ/friendly fire on mortar firing.
+- Road patrols should be more common now.
+- Added a default roadblock in Edessa, southern Altis.
+- CSAT heli spawning improved, no crashed helis should change Molos support to our faction.
+09/04/16 1.0 Alpha
+- NEW FEATURE: FIA markers will show a number representing the number of garrisoned troops in the zone. This will show real time numbers.
+- NEW FEATURE: Instead of the cheap actual delete minefield, now commander can hire an engineer which will be in search of mines, deactivates them, stores them in his truck, and if near to base, adds it to the ammobox.
+- NEW FEATURE: Player Traits. Depending on what class players pick, they will have some advantages on camo, sneaking and load capacity. SP users pick the default Officer traits (less carry capacity, more camo, more sneaking). On player connection player will receive a message on the perks of the selected class.
+- NEW FEATURE: All players will have access to a HC bar (with no commanding options if they are not commanders). This will be used as information interface about enemy and friendly positions, as BIS HC module has it's own marker system.
+- NEW FEATURE: Comms interception integrated with the HC module. Player will receive info on map when the High Command is activated about nearby AAF vehicles, no matter if seen or not.
+- NEW FEATURE: MP vehicle ownership. Vehicles retrieved from Personal Garage or purchased with personal funds will be marked as owned by the player who done it. No other players will be able to mount it if they are not in the same group than the owner. No one will be able to garage that vehicle except commander and for the FIA garage pool.
+- NEW FEATURE: For non TFAR users: Players need an equiped radio to be able to perform several things such as recruiting squads, NATO aid, seeing player markers and other related things which are supposed to need to have radio communications. 
+- IMPORTANT: To unlock a weapon, it's primary magazine type has to be unlocked already.
+- VERY IMPORTANT: Non unlocked weapons, weapon attachments, items etc.. will be removed from player and added to the ammobox (or vehicle ammobox if no member) when accessing Arsenal, to avoid exploits.
+- IMPORTANT: Added some messages when players gain money, fia funds, hr or prestige changes.
+- IMPORTANT: Tweaked mission rewards. Generally speaking: no negative impact on city support for AAF on mission success.
+- IMPORTANT: Markers and notifications such as "xxx Spotted" have been removed. This will avoid loops so mission should run slightly better. Exception for this are the convoy objective and mission vehicles.
+- IMPORTANT: Server will allways reserve one slot for members, so any non member JIP players will get kicked if there is only one slot free and not all the members are in. In member JIP, if the server is full, a non member will be kicked if not all members are in. The maxmimum slots are counted from the editor placed maxmum units, so server admins will have to edit the mission to the desired number to use this feature.
+- IMPORTANT: On refugees evac missions an AAF QFR will be sent after some time to the refugees position.
+- IMPORTANT: Only server admins can add or remove members.
+- IMPORTANT: NATO Ammodrop helis can be commanded with the HC module. Send them to the agreed drop point to receive their supplies.
+- IMPORTANT: Greatly improved AI surrendering / fleeing routines. Better performance. AAF Garrisons may surrender too.
+- IMPORTANT: Healing someone on Undercover may make the player lose it.
+- IMPORTANT: If no commander present, there won't be any AAF vehicle substraction on destroy or any AAF money pool substraction.
+- IMPORTANT: Conquering a power plant will have no inmediate effect on people´s support, but increase / decrease steadily on each tax report up to a 100% support adding both sides.
+- IMPORTANT: Idle/Busy status on bases and airports has been improved. Now some actions affect it's business and not only big attacks performed (kill the Officer makes the base set to "busy" for 30 minutes). Status is integrated in the Persistent Save System.
+- IMPORTANT: AAF may launch multiple small attacks to easy targets simultaneously or instead the big ones.
+- IMPORTANT: Instead of waiting to lose a major attack, AAF will deploy minefields on bases considered as hot zones if they have resources on each tax report.
+- IMPORTANT: Real time numbers on garrison detail too, as it won't wait for losing sector or despawning to update numbers.
+- IMPORTANT: HALVED AAF vehicle pricing costs in MP.
+- IMPORTANT: AAF funds will never go below 0.
+- IMPORTANT: Convoy objectives are not automatically revealed and shown on map.
+- IMPORTANT: Raised zone search radius for mission request to 4Kmts.
+- IMPORTANT: In city supply missions AAF closer than 50 mts to the truck will make the counter restart.
+- IMPORTANT: When a city joins FIA, there is a chance of AAF sending a supply convoy to "retake" the city.
+- IMPORTANT: QRF may consist on CSAT troops if no AAF available.
+- IMPORTANT: When no big attack is scheduled, AAF may launch a convoy mission to "retake" some city.
+- IMPORTANT: Divided by 4 the ammount of city support loss on troop killing.
+- IMPORTANT: CSAT Punish wont appear if FIA has no conquered bases.
+- IMPORTANT: Traitor missions won't give the exact spot of the traitor "house" but a near position. Players will have to search for the right house.
+- IMPORTANT: FIA must capture Altis Central Airport (near Gravia) to win the scenario.
+- IMPORTANT: Planted mines and thrown grenades near Petros will get automatically deleted and may lead to punish.
+- IMPORTANT: In SP, AI squadmates will have a small skill bonus.
+- IMPORTANT: In MP reverted CSAT money support to a bonus on each tax report. CSAT support will be near 100% in advanced game, allways. In SP there is no bonus at all.
+- IMPORTANT: Player ranks and score are not persistent saved for non members.
+- IMPORTANT: Added Neophrons, armed Orcas and Tarus to possible CSAT spawn.
+- OFFICIAL SERVERS: Server side autosave enabled.
+- Changed playable slots possible classes to suit the new Traits system.
+- AAF QRF and Attacks will be sent no matter how much resources AAF has, as some other conditions are evaluated.
+- Updated task icons to the new vanilla ones.
+- When a MP member joins and he's the only member present, he will become commander instantly.
+- SP Players can access FIA Garage from any friendly flag.
+- Corrected some errors on JIP players and flag mousewheel actions.
+- Backpack checks on arsenal access improved.
+- When a "corrupt" commander grabs money from FIA pool, or a player donates it, his score loss is persistent saved to avoid exploits.
+- NATO CAS will allways consist in 3 vehicles.
+- Bulletproofed player init and score/money functions to avoid Arma engine fails on JIP detection.
+- When a player disconnects the player unit itself is not counted for the unit refund.
+- Re enabled punishment for damaging Petros.
+- Workarounded BIS fail on JIP player detection.
+- Welcome message for JIP members.
+- Asset rebuild lowered to 5K cost for FIA and AAF.
+- When player is injured on vehicle, and waiting for revive, AI units will disembark.
+- Removed unnecesary loops in autoheal functions, now it's based on eventhandlers.
+- Improved player markers script to avoid some malfunctions.
+- Backpack and vest removed on respawn.
+- Hopefully solved the problem with ranks in MP.
+- When a non undercover player enters an undercover vehicle and he's spotted, all undercover players will lose this status.
+- More fine tuned integration with ACE thanks to daveallen10. ACE carbombs may make lose undercover if detected by AAF.
+- Skill increases for FIA AI now work correctly in MP.
+- Counting with the survability rates on AI, increased their skill gains on each kill.
+- Multiplayer persistent saves were adding AI refund on player squad members to both players and FIA accounts. Now Squadmates and vehicles are saved in personal accounts and HC units to FIA pool (both go to FIA pool in SP).
+- Unconscious units will be counted on persistent save.
+- Fixed error when player hit ESC on ammo selection window in the arty module.
+- Refugees Evac missions may appear on already spawned cities.
+- Workarounded task deletion on JIP engine fail.
+- Steal Static now creates proper backpacks.
+- Steal Static won't appear on non AI manned mortars.
+- AAF or CSAT death won't affect nearby city support if they haven't got killed by a west unit.
+- Control variables to stop saving if some saving process is still in process.
+- Munition transfers to HQ ammobox wont try to pick cargo from static weapons.
+- More network efficient item transfer scripts.
+- When a player commander buys a static weapon, the funds used will be FIA funds.
+- FIA and AAF attacking squads will use smoke more often. AAF will use smoke cover when fleeing too.
+- Bulletproofed civilian workers alive check to avoid possible errors on despawn.
+- Fixed and reworked power supply management.
+- Fixed MP errors on skill AAF.
+- "Drop Here" action should dissapear now.
+- Ammotrucks can be stored in garage.
+- Decreased a lot timing calculation results between AAF big attacks when FIA owns a lot of territory.
+- Non commanders now have CSAT / NATO support info on their statistics bar.
+- NATO groups cannot be dissmissed.
+- No more unfinished AAF attacks because some CSAT soldiers are swimming in their carrier.
+- Pilots no longer spawn in AAF Infantry Trucks.
+- Double check on HQ Ammobox access for non members.
+- SP Teamkillers no longer considered as enemies.
+- Body deletion server sided in some cases to avoid players disconnect and bodies remain there.
+- FIA vehicle spawn more far from the player to avoid helis spawning very close to objects
+- More dynamic / random NVG and laser use for AAF
+- Removed all references to Petros position as he may have get murdered and mission will become bugged.
+- Fixed destroyed cities not broadcasted to the clients.
+- Removed the support orders for garrison medics as the radio chatter spam is annoying.
+- Reworked Commander assignation with Switch Commander activated.
+- More "secure" vehicle spawning for CSAT punish, QFRs, big attacks and convoys.
+- Fixed: Mortar squads fast travel were moving only the truck driver.
+- Improved event handling on vehicles thanks to new BIS commands.
+- Constant checks when a zone is conquered, to make reconquering zones for any side less buggy.
+- Removed small errors in ammo transfer.
+- No Defend Petros missions if area is well defended against air assaults.
+- Defend Petros missions will spawn an additional CSAT attack chopper.
+- Removed timed wreck vehicle deletion for enemy vehicles.
+- Vehicle destroy on CSAT and NATO won't affect prestige or city support if the killer is not an enemy (for example, just crashed)
+- Respawn when no AI is there to help and player bled out should work now.
+- Player operated UAV will get deleted when destroyed.
+- Bledout time for players is now set to 5 minutes.
+- Abandoned supply trucks in city centers will make the mission fail if time has come.
+- More reliable dismiss squad and commander disconnected refunds.
+- Fixed when player disconnects in MP, the AI on his squad was added to the FIA pool.
+- Appliead headgear loss on headshot for MP
+- Fixed some errors when selling or refunding captured vehicles.
+- Petros is more invulnerable from attacks from casual trolls.
+- Fixed ammoboxes on Headless Client.
+- Bit bigger size for the top screen statistics text.
+- Updated briefing, thanks to Almighty Taz.
+- Moved HQ assets are not buried anymore.
+- Fixed and improved a bit AI rearm script.
+- Fixed: revive system was being added on each player respawn.
+- All models of NV are available when NV is unlocked.
+- While controlling AI, player unit won't issue attack orders.
+- Better message display thanks to ceeeb.
+- Forced weather update on persistent load.
+- Parked A10 planes removed from NATO airport garrisons (useless).
+- A message will appear on vehicle missions when players mount them so they know to which mission it belongs.
+- Lower number requirements for magazines, to make it more similar than weapons.
+- When Petros dies, no basic stuff such as maps, watches or kits can be removed from the unlocked list.
+- Sounds on reports are now local (were global, creating unnecesary traffic).
+- Major attacks will wait until the target zone is despawned, so they will garrison it temporally.
+- Removed debug teleporting in radio tower rebuild missions.
+- Solved some bug regarding frozen civilian vehicles.
+- More duration of temporal inmunity for surrendered units.
+- Radios and GPSs are deleted on Load/Respawn if they are not unlocked.
+- Added 1 hour timeout for FIA post build and NATO ammodrops, just in case commander disconnects and nobody picks the slot.
+- If an air QRF has been sent, and they are on reconquer mission, then an additional troop transport will be sent.
+- CSAT will allways at least send a troop transport heli.
+- On major attacks, if they are not combined and CSAT participates, CSAT forces will be twice.
+- Deleted redundant win/loose condition checks on QFR and major attacks.
+- Corrected small bug in Prisoner Rescue mission.
+- More reliable garrison add when the zone is on spawning distance (in change of a small delay for despawn/respawn the zone).
+- Corrected remaining bug on roadblock build while controlling AI
+- QFR will have a fps check on some cases.
+- Replaced CSAT Arty by CSAT AA vehicle on destroy vehicle missions and convoys.
+- In headless client platforms, sidemissions will be managed by the garrisons HC instead of the attack HC as it becomes overloaded on late game.
+- Fixed bug on revive system when player was set unconscious while in a vehicle.
+- Eliminated the forced spawn of zones under attack as it may reveal to players where the enemy will attack.
+- Haved penalty for dying in MP and SP.
