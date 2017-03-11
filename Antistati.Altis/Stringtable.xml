@@ -1,0 +1,368 @@
+<!-- Don't get too giddy at the sight of this. We are entirely too lazy to properly implement a stringtable. This is merely a courtesy for someone who requested it and will not be maintained by us. -->
+
+<?xml version="1.0" encoding="utf-8" ?>
+<Project name="Antistasi">
+	<Package name="A3:AS - Public Version">
+		<Container name="Actions">
+			<Key ID="STR_act_offerToJoin">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\talk_ca.paa' /&gt; Offer to Join</Original>
+			</Key>
+			<Key ID="STR_act_talk">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\talk_ca.paa' /&gt; Talk</Original>
+			</Key>
+			<Key ID="STR_act_buy">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\talk_ca.paa' /&gt; Buy</Original>
+			</Key>
+			<Key ID="STR_act_interrogate">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\GUI\cfg\CommunicationMenu\instructor_ca.paa' /&gt; Interrogate</Original>
+			</Key>
+			<Key ID="STR_act_liberate">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\GUI\cfg\CommunicationMenu\instructor_ca.paa' /&gt; Liberate POW</Original>
+			</Key>
+			<Key ID="STR_act_orderRefugee">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\GUI\cfg\CommunicationMenu\instructor_ca.paa' /&gt; Order refugee to follow</Original>
+			</Key>
+			<Key ID="STR_act_toggleDevice">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\GUI\cfg\CommunicationMenu\instructor_ca.paa' /&gt; Turn Device On/Off</Original>
+			</Key>
+			<Key ID="STR_act_missionRequest">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\cfg\CommunicationMenu\attack_ca.paa' /&gt; Mission Request</Original>
+			</Key>
+			<Key ID="STR_act_healRepair">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\IGUI\RscTitles\MPProgress\respawn_ca.paa' /&gt; Heal, Repair and Rearm</Original>
+			</Key>
+			<Key ID="STR_act_useMed">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\heal_ca.paa' /&gt; Use Medical Supplies</Original>
+			</Key>
+			<Key ID="STR_act_recruitUnit">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\IGUI\Cfg\MPTable\infantry_ca.paa' /&gt; Unit Recruitment</Original>
+			</Key>
+			<Key ID="STR_act_returnControl">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\MPTable\infantry_ca.paa' /&gt; Return Control to AI</Original>
+			</Key>
+			<Key ID="STR_act_buyVehicle">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\IGUI\Cfg\MPTable\soft_ca.paa' /&gt; Buy Vehicle</Original>
+			</Key>
+			<Key ID="STR_act_loadAmmobox">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\igui\cfg\VehicleToggles\VehicleCargoIconOn2_ca.paa' /&gt; Load Ammobox to Truck</Original>
+			</Key>
+			<Key ID="STR_act_unloadCargo">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\igui\cfg\VehicleToggles\VehicleCargoIconOn_ca.paa' /&gt; Unload Vehicle Cargo to Ammobox</Original>
+			</Key>
+			<Key ID="STR_act_arsenal">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\Logos\a_64_ca.paa' /&gt; Arsenal</Original>
+			</Key>
+			<Key ID="STR_act_takeFlag">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\takeFlag_ca.paa' /&gt; Take the Flag</Original>
+			</Key>
+			<Key ID="STR_act_persGarage">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\rsc\rscdisplaysinglemission\source\backup\large_64x64\locked_ca.paa' /&gt; Personal Garage</Original>
+			</Key>
+			<Key ID="STR_act_refuel">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\refuel_ca.paa' /&gt; Refuel Vehicle</Original>
+			</Key>
+			<Key ID="STR_act_moveAsset">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\VTOLVectoring_ca.paa' /&gt; Move this Asset</Original>
+			</Key>
+			<Key ID="STR_act_dropAsset">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\VTOLVectoring_ca.paa' /&gt; Drop Here</Original>
+			</Key>
+			<Key ID="STR_act_deployTowRopes">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\VehicleToggles\SlingLoadRopeIconOn_ca.paa' /&gt; Deploy Tow Ropes</Original>
+			</Key>
+			<Key ID="STR_act_putAwayTowRopes">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\VehicleToggles\SlingLoadRopeIconOn_ca.paa' /&gt; Put Away Tow Ropes</Original>
+			</Key>
+			<Key ID="STR_act_attachTowRopes">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\VehicleToggles\SlingLoadRopeIconOn2_ca.paa' /&gt; Attatch To Tow Ropes</Original>
+			</Key>
+			<Key ID="STR_act_dropTowRopes">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\take_ca.paa' /&gt; Drop Ropes</Original>
+			</Key>
+			<Key ID="STR_act_pickUpTowRopes">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\take_ca.paa' /&gt; Pick Up Ropes</Original>
+			</Key>
+			<Key ID="STR_act_jamCSAT">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\GUI\cfg\CommunicationMenu\call_ca.paa' /&gt; Jam CSAT</Original>
+			</Key>
+			<Key ID="STR_act_rest">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\cfg\Cursors\wait_gs.paa' /&gt; Rest for 8 Hours</Original>
+			</Key>
+			<Key ID="STR_act_hqOptions">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\cfg\Ranks\colonel_gs.paa' /&gt; HQ Options</Original>
+			</Key>
+			<Key ID="STR_act_gameOptions">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\IGUI\Cfg\SimpleTasks\types\use_ca.paa' /&gt; Game Options</Original>
+			</Key>
+			<Key ID="STR_act_mapInfo">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\cfg\Hints\Map_ca.paa' /&gt; Map Info</Original>
+			</Key>
+			<Key ID="STR_act_buildPad">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\Map\markers\military\objective_ca.paa' /&gt; Build Vehicle Zone</Original>
+			</Key>
+			<Key ID="STR_act_buildHQ">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\takeFlag_ca.paa' /&gt; Build HQ</Original>
+			</Key>
+			<Key ID="STR_act_pamphlets">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\cfg\simpletasks\types\documents_ca.paa' /&gt; Box 'o Pams</Original>
+			</Key>
+			<Key ID="STR_act_tfar">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\Map\VehicleIcons\iconVirtual_ca.paa' /&gt; TFAR Radio Menu</Original>
+			</Key>
+		</Container>
+
+		<Container name="Tasks">
+			<Key ID="STR_tsk_ASOfficer">
+				<Original>Kill the Officer</Original>
+			</Key>
+			<Key ID="STR_tskDesc_ASOfficer">
+				<Original>Our Spies have reported that a CSAT officer is inspecting %1. Now is the time to Strike! Make sure he is eliminated by any means possible before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_ASSpecOp">
+				<Original>CSAT SpecOps</Original>
+			</Key>
+			<Key ID="STR_tskDesc_ASSpecOp">
+				<Original>Reports have come in that a CSAT SpecOps ground team is currently patrolling near %1. From what we know, these are tough soldiers who usually make use of airial un-manned drones. A well executed strike will gain us some of their high tech equipment. Do this before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_ASSTraitor">
+				<Original>Kill the Traitor</Original>
+			</Key>
+			<Key ID="STR_tskDesc_ASSTraitor">
+				<Original>Bad news, one of our very own is planning to defect. We have tracked his movements to the nearby town of %1. We are not taking any chancs. Kill him before he provides the enemy with intel of the location of our soldiers homes and FIA cash stockpiles. Do this before %2:%3. We don't where exactly this meeting will happen. You will recognise the building by the nearby MRAP and CSAT presence.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_HQAttack">
+				<Original>Defend Petros</Original>
+			</Key>
+			<Key ID="STR_tskDesc_HQAttack">
+				<Original>CSAT knows the location of our HQ. We suspect that they have sent a SpecOps Air Squad in order to kill Petros. We have two choices - Either retreat and move HQ further than 1km away, or defend with all we have.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_CONOPAA">
+				<Original>Clear the Outpost</Original>
+			</Key>
+			<Key ID="STR_tskDesc_CONOPAA">
+				<Original>A CSAT %1 is disturbing our operations in the area. This heavily defended outpost has Mortar and UAV, from what our spies tell us. We advise the destruction of the Drone before engaging and elimination the majority of ground troops. If there is an AA tank, this is also a priorty target. The operation must be completed before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_CONPower">
+				<Original>Take the Power Plant</Original>
+			</Key>
+			<Key ID="STR_tskDesc_CONPower">
+				<Original>A %1 has a monopoly over the power supply to nearby towns. Nato might not like this, but we have no choice- We need the Towns on our side and to achieve this we will need the Powerplant. Capture it before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_CONOP">
+				<Original>Take the Outpost</Original>
+			</Key>
+			<Key ID="STR_tskDesc_CONOP">
+				<Original>A %1 is disturbing our operations in the area. Go there and capture it before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_CVY_Ammo">
+				<Original>%1 Ammo Convoy</Original>
+			</Key>
+			<Key ID="STR_tskDesc_CVY_Ammo">
+				<Original>A convoy from %1 is about to depart at %2:%3. It will provide ammunition to %4. Try to intercept it. Steal or destroy that truck before it reaches it's destination. Be careful, the enemy may provide an armoured escort.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_CVY_Armor">
+				<Original>%1 Armored Convoy</Original>
+			</Key>
+			<Key ID="STR_tskDesc_CVY_Armor">
+				<Original>A convoy from %1 is about to depart at %2:%3. It will reinforce %4 with armored vehicles. Try to intercept it. Steal or destroy the main Armoured Vehicle before it reaches it's destination.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_CVY_Pris">
+				<Original>%1 Prisoner Convoy</Original>
+			</Key>
+			<Key ID="STR_tskDesc_CVY_Pris">
+				<Original>A group of POW's is being transported from %1 to %4, departing at %2:%3. Sadly, it seems the enemy are planning their execution. We must intercept it and rescue them. Kill the driver or capture the truck to make them join you and bring them to HQ. </Original>
+			</Key>
+
+			<Key ID="STR_tsk_CVY_Money">
+				<Original>%1 Money Convoy</Original>
+			</Key>
+			<Key ID="STR_tskDesc_CVY_Money">
+				<Original>The enemy have been spotted moving large amounts of money from %1 to %4 departing at %2:%3. Steal that truck and bring it to HQ. There aren't many better opportunities to acquire the funds we will need to build up our army, don't screw up! </Original>
+			</Key>
+
+			<Key ID="STR_tsk_CVY_Supply">
+				<Original>%1 Supply Convoy</Original>
+			</Key>
+			<Key ID="STR_tskDesc_CVY_Supply">
+				<Original>A truck with medical supplies is about to depart from %1 to %4 at %2:%3. Steal the truck and bring it to %4 . Let the people there know of the FIA's 'benevolence' .</Original>
+			</Key>
+
+			<Key ID="STR_tsk_CVY_HVT">
+				<Original>%1 HVT Convoy</Original>
+			</Key>
+			<Key ID="STR_tskDesc_CVY_HVT">
+				<Original>From what we know, a high-value target will travel from %1 to %4. His departure is scheduled for %2:%3. Seize the opportunity and take him out! We believe he will use a decoy to obscure his exact vehicle.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_DefCamp">
+				<Original>Defend %1</Original>
+			</Key>
+			<Key ID="STR_tskDesc_DefCamp">
+				<Original>A QRF has just been spotted taking off from %2. Their initial heading suggests that %1 is their target. We have no choice, assume defensive positions</Original>
+			</Key>
+
+			<Key ID="STR_tsk_DesAntenna">
+				<Original>Destroy Radio Tower</Original>
+			</Key>
+			<Key ID="STR_tskDesc_DesAntenna">
+				<Original> An opportunity to strike a Radio Tower in %1 presents its self. If we manage this it will interrupt %4 Comms Nework in the AO. We can destroy the antenna or capture the outpost but must complete it before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_DesHeli">
+				<Original>Destroy Air</Original>
+			</Key>
+			<Key ID="STR_tskDesc_DesHeli">
+				<Original>We have downed air vehicle. This is a great chance to destroy it before it is recovered by a recovery team from %1 reaches the crash site </Original>
+			</Key>
+
+			<Key ID="STR_tsk_DesVehicle">
+				<Original>Steal or Destroy Armor</Original>
+			</Key>
+			<Key ID="STR_tskDesc_DesVehicle">
+				<Original>We know an %4 is stationed in %1. This is a good chance to steal or destroy it before it causes more damage. Do it before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_fndCiv">
+				<Original>Contact the Corrupt Politician</Original>
+			</Key>
+			<Key ID="STR_tskDesc_fndCiv">
+				<Original>A local politician who is sympathetic to our cause is willing to meet us near %1 until %2:%3. As it happens, he has a couple of jobs he's offering to undermine %4 control in this AO. He has stated that he is willing to speak to us only on the condition that none of our agents are overt within that town. In other words, put on your sunday-best and meet him disguised. </Original>
+			</Key>
+
+			<Key ID="STR_tsk_fndExp">
+				<Original>Find the Crazy Irishman</Original>
+			</Key>
+			<Key ID="STR_tskDesc_fndExp">
+				<Original>Black Market dealer Devin Connell has been spotted near %1. He's scheduled for a flight to Metavira or Arulco at %2:%3, so you better hurry up if you wish to acquire some of his fine products. From our recent meetings with him, he has agreed to meet with FIA overt soldiers only, apparently he doesnt like civilians all that much. </Original>
+			</Key>
+
+			<Key ID="STR_tsk_fndMil">
+				<Original>Contact the Corrupt Officer</Original>
+			</Key>
+			<Key ID="STR_tskDesc_fndMil">
+				<Original>A disgruntled %4 officer is trying to leave Altis. His departure is scheduled for %2:%3. If you manage to get to him in time, you might be able to convince him to stay and support our case. He was spotted near %1 and has stated that he is willing to speak to us only on the condition that none of our agents are overt within that town. In other words, put on your sunday-best and meet him disguised. </Original>
+			</Key>
+			<Key ID="STR_tsk_logAmmo">
+				<Original>Steal or Destroy Ammotruck</Original>
+			</Key>
+			<Key ID="STR_tskDesc_logAmmo">
+				<Original>We've spotted an enemy Ammotruck in an %1. This is a great opportunity to scavange some well-needed gear from the enemy. We have until  %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_logBank">
+				<Original>Bank Robbery</Original>
+			</Key>
+			<Key ID="STR_tskDesc_logBank">
+				<Original>We know %4 is guarding a large amount of money in the bank of %1. Take this getaway vehicle and go there before %2:%3, hold the truck close to thw bank's main entrance for 2 minutes and the money will be transferred to the truck. Bring it back to HQ and the money will be ours.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_logMedical">
+				<Original>Supply Recovery</Original>
+			</Key>
+			<Key ID="STR_tskDesc_logMedical">
+				<Original>We've had word from our informant that a sympathetic cell has sent supplies to %1. They ran into an %5 patrol and had to abandon the truck. Find and secure the vehicle, then deliver the supplies to the people in %1 before %2:%3. %5 command has probably dispatched a patrol from %4 to retrieve the goods, so you better hurry. </Original>
+			</Key>
+
+			<Key ID="STR_tsk_logSupply">
+				<Original>City Supplies</Original>
+			</Key>
+			<Key ID="STR_tskDesc_logSupply">
+				<Original>%1 population is in need of supplies. As it happens, we have just what they need and it may improve our relationship with them. I reserved a transport truck with supplies near our HQ. Drive the transport truck to %1 city center. Hold it there for 2 minutes before %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_NATOSupply">
+				<Original>NATO Ammodrop</Original>
+			</Key>
+			<Key ID="STR_tskDesc_NATOSupply">
+				<Original>Our Commander has asked NATO for a supply drop. Command the transport with your HC module and bring it to the designated position. Once it has landed you are free to use the equipment or bring it back to HQ. We dont think they will be able to supply us again for some time. </Original>
+			</Key>
+
+			<Key ID="STR_tsk_PRBrain">
+				<Original>Establish Propaganda Station</Original>
+			</Key>
+			<Key ID="STR_tskDesc_PRBrain">
+				<Original>We have noticed that the town of %1 is sympathetic to our cause. Travel there with this Truck and establish a semi-permanent propaganda station in order to spread the word. Once established, stay with and guard the station for as long as you deem necessary to raise town support. It would be wise to expect a number of enemy military responses to this action. You have until %2:%3 to arrive and set it up.</Original>
+			</Key>
+			<Key ID="STR_tskDesc_PRBrain_fail">
+				<Original>You failed to set up the gear before %2:%3.</Original>
+			</Key>
+			<Key ID="STR_tskDesc_PRBrain_hold">
+				<Original>Protect the station for as long as you can. We have enough battery capacity to run this station until %2:%3, so don't drag this out.</Original>
+			</Key>
+			<Key ID="STR_tskDesc_PRBrain_fail2">
+				<Original>You held the position for less than 10 minutes.</Original>
+			</Key>
+			<Key ID="STR_tskDesc_PRBrain_success">
+				<Original>You managed to hold the position long enough to inspire the population.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_PRPamphlet">
+				<Original>Leaflet Drop</Original>
+			</Key>
+			<Key ID="STR_tskDesc_PRPamphlet">
+				<Original>Supporters of our cause have been working hard to bring the population of %1 over to our side. Help these brave volunteers by delivering these leaflets to safe drop locations. Pick up will take place at %2:%3, so you better have them in place by then. This might be easier if you manage to remain undetected for as long as possible.</Original>
+			</Key>
+			<Key ID="STR_tskDesc_PRPamphlet_fail">
+				<Original>You failed to provide leaflets for our volunteers in %1.</Original>
+			</Key>
+			<Key ID="STR_tskDesc_PRPamphlet_drop">
+				<Original>Drop a crate within 20m of the marked position, do this before %2:%3.</Original>
+			</Key>
+			<Key ID="STR_tskDesc_PRPamphlet_success">
+				<Original>Well done. Our volunteers in %1 are now spreading the word.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_repAntenna">
+				<Original>Tower Rebuild Disrupt</Original>
+			</Key>
+			<Key ID="STR_tskDesc_repAntenna">
+				<Original>%4 is rebuilding a radio tower in %1. If we want to keep up the enemy comms breakdown, the work must be stopped. Destroy the repair truck parked nearby or capture the zone. Work will be finished at %2:%3.</Original>
+			</Key>
+
+			<Key ID="STR_tsk_resPrisoners">
+				<Original>POW Rescue</Original>
+			</Key>
+			<Key ID="STR_tskDesc_resPrisoners">
+				<Original>A group of POWs is awaiting execution at %1. We must rescue them before %2:%3 and bring them to HQ. It would be wise to avoid using anything explosive in your rescue attempt for fear of collateral damage. </Original>
+			</Key>
+
+			<Key ID="STR_tsk_resRefugees">
+				<Original>Refugees Evac</Original>
+			</Key>
+			<Key ID="STR_tskDesc_resRefugees">
+				<Original>A group of FIA supportes are hidden in a house in %1. We have to get there and find them before %2 does and bring them back to base.</Original>
+			</Key>
+		</Container>
+
+		<Container name="General Identifiers">
+			<Key ID="STR_genIdent_AAF">
+				<Original>AAF</Original>
+			</Key>
+			<Key ID="STR_genIdent_CSAT">
+				<Original>CSAT</Original>
+			</Key>
+			<Key ID="STR_genIdent_NATO">
+				<Original>NATO</Original>
+			</Key>
+
+			<Key ID="STR_genIdent_AFRF">
+				<Original>AFRF</Original>
+			</Key>
+			<Key ID="STR_genIdent_VMF">
+				<Original>VMF</Original>
+			</Key>
+			<Key ID="STR_genIdent_USAF">
+				<Original>USAF</Original>
+			</Key>
+		</Container>
+	</Package>
+</Project>
