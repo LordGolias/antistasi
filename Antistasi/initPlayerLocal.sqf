@@ -134,7 +134,9 @@ player setVariable ["dinero",100,true];
 player setVariable ["BLUFORSpawn",true,true];
 player setVariable ["rango",rank player,true];
 if (player!=stavros) then {player setVariable ["score", 0,true]} else {player setVariable ["score", 25,true]};
-rezagados = creategroup WEST;
+
+MIASquadUnits = creategroup WEST;  // units that are not in the squad because they lost communication with the player (no radio).
+
 (group player) enableAttack false;
 if (!hayACE) then
 	{
