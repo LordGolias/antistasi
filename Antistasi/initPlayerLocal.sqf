@@ -155,39 +155,6 @@ else
 gameMenu = (findDisplay 46) displayAddEventHandler ["KeyDown",teclas];
 if (hayRHS) then {[player] execVM "Municion\RHSdress.sqf"};
 player setvariable ["compromised", 0];
-player addEventHandler ["FIRED",
-	{
-	_player = _this select 0;
-	if (captive _player) then
-		{
-		if ({((side _x== side_red) or (side _x== side_green)) and ((_x knowsAbout player > 1.4) || (_x distance player < 200))} count allUnits > 0) then
-			{
-			_player setCaptive false;
-			if (vehicle _player != _player) then
-				{
-				{if (isPlayer _x) then {[_x,false] remoteExec ["setCaptive",_x]}} forEach ((assignedCargo (vehicle _player)) + (crew (vehicle _player)));
-				};
-			}
-		else
-			{
-			_ciudad = [ciudades,_player] call BIS_fnc_nearestPosition;
-			_size = [_ciudad] call sizeMarker;
-			_datos = server getVariable _ciudad;
-			if (random 100 < _datos select 2) then
-				{
-				if (_player distance getMarkerPos _ciudad < _size * 1.5) then
-					{
-					_player setCaptive false;
-					if (vehicle _player != _player) then
-						{
-						{if (isPlayer _x) then {[_x,false] remoteExec ["setCaptive",_x]}} forEach ((assignedCargo (vehicle _player)) + (crew (vehicle _player)));
-						};
-					};
-				};
-			};
-		}
-	}
-	];
 player addEventHandler ["HandleHeal",
 	{
 	_player = _this select 0;

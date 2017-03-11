@@ -26,29 +26,6 @@ _unit removeWeaponGlobal _handGunWeapon;
 removeHeadGear _unit;
 _unit unlinkItem _hmd;
 
-_unit addEventHandler ["FIRED", {
-	_unit = _this select 0;
-	if (captive _unit) then {
-		if ({((side _x== side_red) or (side _x== side_green)) and ((_x knowsAbout _unit > 1.4) || (_x distance _unit < 200))} count allUnits > 0) then {
-			_unit setCaptive false;
-			if (vehicle _unit != _unit) then {
-				{if (isPlayer _x) then {[_x,false] remoteExec ["setCaptive",_x]}} forEach ((assignedCargo (vehicle _unit)) + (crew (vehicle _unit)));
-			};
-		}
-		else {
-			// someone may report it.
-			_ciudad = [ciudades,_unit] call BIS_fnc_nearestPosition;
-			_size = [_ciudad] call sizeMarker;
-			_datos = server getVariable _ciudad;
-			if (random 100 < _datos select 2) then {
-				if (_unit distance getMarkerPos _ciudad < _size * 1.5) then {
-					_unit setCaptive false;
-				};
-			};
-		};
-	};
-}];
-
 _bases = bases + puestos + controles;
 while {(captive player) and (captive _unit)} do {
 	sleep 1;
@@ -62,7 +39,6 @@ while {(captive player) and (captive _unit)} do {
 	//if ((primaryWeapon _unit != "") or (secondaryWeapon _unit != "") or (handgunWeapon _unit != "")) exitWith {};
 };
 
-_unit removeAllEventHandlers "FIRED";
 if (!captive _unit) then {_unit groupChat "Shit, they have spotted me!"} else {_unit setCaptive false};
 if (captive player) then {sleep 5};
 
