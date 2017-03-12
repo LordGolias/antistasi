@@ -5,6 +5,7 @@ fnc_MAINT_main = {
 };
 
 fnc_MAINT_arsenal = {
+	// _clean: whether to clean unavailable mod-weapons from `unlocked*`.
 	params [["_clean", false]];
 	private ["_weapons", "_magazines", "_items", "_backpacks", "_allMags", "_weapCargo", "_magCargo", "_itemCargo", "_bpCargo", "_z"];
 
@@ -113,49 +114,45 @@ fnc_MAINT_arsenal = {
 };
 
 fnc_MAINT_arsInv = {
-	_weapCargo = weaponCargo caja;
-	_magCargo = magazineCargo caja;
-	_itemCargo = itemCargo caja;
-	_bpCargo = backpackCargo caja;
 
-	[[], [], [], []] params ["_uWc", "_uMc", "_uIc", "_uBc"];
-
-	if (count _weapCargo > 0) then {
-		for "_i" from 0 to (count _weapCargo - 1) do {
-			_z = _weapCargo select _i;
-			if (_z in AS_allWeapons) then {
-				if !(_z in unlockedWeapons) then {_uWc pushBack _z};
-			};
+	_cargo = getWeaponCargo caja;
+	clearWeaponCargoGlobal caja;
+	for "_i" from 0 to (count (_cargo select 0) - 1) do {
+		_name = (_cargo select 0) select _i;
+		_amount = (_cargo select 1) select _i;
+		if (_name in AS_allWeapons and !(_name in unlockedWeapons)) then {
+			caja addWeaponCargoGlobal [_name,_amount];
 		};
-		clearWeaponCargoGlobal caja;
-		{caja addWeaponCargoGlobal [_x,1]} forEach _uWc;
 	};
 
-	if (count _magCargo > 0) then {
-		for "_i" from 0 to (count _magCargo - 1) do {
-			_z = _magCargo select _i;
-			if (_z in AS_allMagazines) then {
-				if !(_z in unlockedMagazines) then {_uMc pushBack _z};
-			};
+	_cargo = getMagazineCargo caja;
+	clearMagazineCargoGlobal caja;
+	for "_i" from 0 to (count (_cargo select 0) - 1) do {
+		_name = (_cargo select 0) select _i;
+		_amount = (_cargo select 1) select _i;
+		if (_name in AS_allMagazines and !(_name in unlockedMagazines)) then {
+			caja addMagazineCargoGlobal [_name,_amount];
 		};
-		clearMagazineCargoGlobal caja;
-		{caja addMagazineCargoGlobal [_x,1]} forEach _uMc;
 	};
 
-	if (count _itemCargo > 0) then {
-		for "_i" from 0 to (count _itemCargo - 1) do {
-			if !(_z in unlockedItems) then {_uIc pushBack (_itemCargo select _i)};
+	_cargo = getItemCargo caja;
+	clearItemCargoGlobal caja;
+	for "_i" from 0 to (count (_cargo select 0) - 1) do {
+		_name = (_cargo select 0) select _i;
+		_amount = (_cargo select 1) select _i;
+		if (!(_name in unlockedItems)) then {
+			caja addItemCargoGlobal [_name,_amount];
 		};
-		clearItemCargoGlobal caja;
-		{caja addItemCargoGlobal [_x,1]} forEach _uIc;
 	};
 
-	if (count _bpCargo > 0) then {
-		for "_i" from 0 to (count _bpCargo - 1) do {
-			if !(_z in unlockedBackpacks) then {_uBc pushBack (_bpCargo select _i)};
+	_cargo = getBackpackCargo caja;
+	clearBackpackCargoGlobal caja;
+	for "_i" from 0 to (count (_cargo select 0) - 1) do {
+		_name = (_cargo select 0) select _i;
+		_amount = (_cargo select 1) select _i;
+		if (!(_name in unlockedBackpacks)) then {
+			caja addBackpackCargoGlobal [_name,_amount];
 		};
-		clearBackpackCargoGlobal caja;
-		{caja addBackpackCargoGlobal [_x,1]} forEach _uBc;
 	};
 };
 

@@ -332,6 +332,10 @@ if (_isJip) then {
 	else {
 		[true] execVM "Dialogs\firstLoad.sqf";
 	};
+	
+	// sync the inventory content to the JIP.
+	remoteExec ["fnc_MAINT_arsInv", 2];
+	
 	diag_log "Antistasi MP Client. JIP client finished";
 }
 else {  // not JIP
