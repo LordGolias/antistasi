@@ -2,19 +2,16 @@ fn_SaveStat =
 {
 	_varName = _this select 0;
 	_varValue = _this select 1;
-	if (!isNil "_varValue") then
-		{
-		profileNameSpace setVariable [_varName + serverID,_varValue];
-		//if (isDedicated) then {saveProfileNamespace};
-		};
+	if (!isNil "_varValue") then {
+		profileNameSpace setVariable [_varName + AS_profileID + AS_sessionID,_varValue];
+	};
 };
 
 fn_SaveProfile = {saveProfileNamespace};
 
-fn_LoadStat =
-{
+fn_LoadStat = {
 	_varName = _this select 0;
-	_varValue = profileNameSpace getVariable (_varName + serverID);
+	_varValue = profileNameSpace getVariable (_varName + AS_profileID + AS_sessionID);
 	if(isNil "_varValue") exitWith {};
 	[_varName,_varValue] call fn_SetStat;
 };

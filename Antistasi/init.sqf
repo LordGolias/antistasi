@@ -18,7 +18,6 @@ if (!isMultiPlayer) then
     call compile preprocessFileLineNumbers "initPetros.sqf";
     lockedWeapons = lockedWeapons - unlockedWeapons;
 
-
     // XLA fixed arsenal
     if (hayXLA) then {
         [caja,unlockedItems,true,false] call XLA_fnc_addVirtualItemCargo;
@@ -43,23 +42,24 @@ if (!isMultiPlayer) then
 
 waitUntil {(!isNil "saveFuncsLoaded") and (!isNil "serverInitDone")};
 
-if(isServer) then
-    {
-    _serverHasID = profileNameSpace getVariable ["ss_ServerID",nil];
-    if(isNil "_serverHasID") then
-        {
-        _serverID = str(round((random(100000)) + random 10000));
-        profileNameSpace setVariable ["SS_ServerID",_serverID];
-        };
-    serverID = profileNameSpace getVariable "ss_ServerID";
-    publicVariable "serverID";
-	diag_log format ["Maintenance -- current serverID: %1", serverID];
-	
-	private _campaignID = round (random 100000);
-    server setVariable ["AS_session_server", _campaignID, true];
-    AS_session_server = _campaignID; publicVariable "AS_session_server";
 
-    waitUntil {!isNil "serverID"};
+// set or load AS_profileID. AS_profileID is a "unique" id for every profile that ever runs AS.
+// It is used to identify users.
+AS_profileID = profileNameSpace getVariable ["AS_profileID", nil];
+if(isNil "AS_profileID") then {
+	AS_profileID = str(round((random(100000)) + random 10000));
+	profileNameSpace setVariable ["AS_profileID", AS_profileID];
+};
+diag_log format ["Maintenance -- current AS_profileID: %1", AS_profileID];
+waitUntil {!isNil "AS_profileID"};
+
+if(isServer) then {
+	// AS_sessionID is the ID of the server. It points to AS_profileID.
+	// The load-save functionality uses `AS_profileID + AS_sessionID` to select the relevant save.
+	AS_sessionID = serverName + AS_profileID;
+	publicVariable "AS_sessionID";
+	waitUntil {!isNil "AS_sessionID"};
+
 	miembros = [];
     if (serverName in servidoresOficiales) then
         {

@@ -6,9 +6,9 @@ if (!isDedicated) then
 	["vestPlayer", vest player] call fn_SaveStat;
 	["outfit", uniform player] call fn_SaveStat;
 	["hat", headGear player] call fn_SaveStat;
-	if (isMultiplayer) then
-		{
-		["AS_session_client", server getVariable "AS_session_server"] call fn_SaveStat;
+	if (isMultiplayer) then {
+		["AS_sessionID", AS_sessionID] call fn_SaveStat;
+
 		["scorePlayer", player getVariable "score"] call fn_SaveStat;
 		["rankPlayer",rank player] call fn_SaveStat;
 		_resfondo = player getVariable "dinero";
@@ -42,8 +42,8 @@ if (!isDedicated) then
  if (!isServer) exitWith {};
  if (savingServer) exitWith {"Server data save is still in process" remoteExecCall ["hint",stavros]};
  savingServer = true;
- 	["AS_session_server", server getVariable ["AS_session_server", round (random 100000)]] call fn_SaveStat;
-	diag_log format ["Maintenance -- Server's sessionID saved: %1", profileNameSpace getVariable ("AS_session_server" + serverID)];
+ 	["AS_sessionID", server getVariable ["AS_sessionID", round (random 100000)]] call fn_SaveStat;
+	diag_log format ["Maintenance -- Server's sessionID saved: %1", profileNameSpace getVariable ("AS_sessionID" + AS_profileID)];
 	["cuentaCA", cuentaCA] call fn_SaveStat;
 	["smallCAmrk", smallCAmrk] call fn_SaveStat;
 	["miembros", miembros] call fn_SaveStat;
