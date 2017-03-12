@@ -404,7 +404,8 @@ _unit setskill ["reloadSpeed",_reload];
 if (player == leader _unit) then {
 	_EHkilledIdx = _unit addEventHandler ["killed", {
 		_muerto = _this select 0;
-		[_muerto] spawn postmortem;
+		[_muerto] remoteExec ["postmortem",2];
+
 		if (typeOf _muerto != "b_g_survivor_F") then {namesFIASoldiers = namesFIASoldiers + [name _muerto]};
 		[0.25,0,getPos _muerto] remoteExec ["citySupportChange",2];
 		_muerto setVariable ["BLUFORSpawn",nil,true];
@@ -453,13 +454,13 @@ else {
 		_muerto = _this select 0;
 		_killer = _this select 1;
 		[_muerto] remoteExec ["postmortem",2];
+
 		if (isPlayer _killer) then {
 			if (!isMultiPlayer) then {
 				[0,-20] remoteExec ["resourcesFIA",2];
 				_killer addRating -1000;
 			};
 		};
-		[_muerto] spawn postmortem;
 		_muerto setVariable ["BLUFORSpawn",nil,true];
 		[0,-0.25,getPos _muerto] remoteExec ["citySupportChange",2];
 	}];

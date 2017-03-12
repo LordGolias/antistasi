@@ -9,7 +9,7 @@ _unit setSkill 0.7;
 _unit addEventHandler ["killed", {
 	_muerto = _this select 0;
 	[0.25,0,getPos _muerto] remoteExec ["citySupportChange",2];
-	[_muerto] spawn postmortem;
+	[_muerto] remoteExec ["postmortem",2];
 	}];
 
 if (sunOrMoon < 1) then

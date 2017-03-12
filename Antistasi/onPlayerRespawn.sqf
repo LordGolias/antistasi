@@ -7,7 +7,7 @@ if (isNull _viejo) exitWith {};
 
 waitUntil {alive player};
 
-[_viejo] spawn postmortem;
+[_viejo] remoteExec ["postmortem",2];
 
 _owner = _viejo getVariable ["owner",_viejo];
 

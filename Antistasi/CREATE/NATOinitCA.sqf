@@ -14,7 +14,7 @@ if (sunOrMoon < 1) then
 _EHkilledIdx = _unit addEventHandler ["killed", {
 	_muerto = _this select 0;
 	_muerto setVariable ["BLUFORSpawn",nil,true];
-	[_muerto] spawn postmortem;
+	[_muerto] remoteExec ["postmortem",2];
 	[0.25,0,getPos _muerto] remoteExec ["citySupportChange",2];
 	//[-1,0] remoteExec ["prestige",2];
 	//if (group _muerto == group player) then {namesFIASoldiers = namesFIASoldiers + [name _muerto]};

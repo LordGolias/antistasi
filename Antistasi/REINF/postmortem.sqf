@@ -1,12 +1,14 @@
-_muerto = _this select 0;
+private ["_killed", "_group"];
+_killed = _this select 0;
 sleep cleantime;
-deleteVehicle _muerto;
-_grupo = group _muerto;
-if (!isNull _grupo) then
-	{
-	if ({alive _x} count units _grupo == 0) then {deleteGroup _grupo};
-	}
-else
-	{
-	if (_muerto in staticsToSave) then {staticsToSave = staticsToSave - [_muerto]; publicVariable "staticsToSave";};
+_group = group _killed;
+deleteVehicle _killed;
+
+if (!isNull _group) then {
+	if ({alive _x} count units _group == 0) then {
+		_group remoteExec ["deleteGroup", groupOwner _group];
 	};
+}
+else {
+	if (_killed in staticsToSave) then {staticsToSave = staticsToSave - [_killed]; publicVariable "staticsToSave";};
+};

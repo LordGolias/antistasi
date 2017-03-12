@@ -394,7 +394,7 @@ _unit setskill ["reloadSpeed",_reload];
 _EHkilledIdx = _unit addEventHandler ["killed", {
 	_muerto = _this select 0;
 	_killer = _this select 1;
-	[_muerto] spawn postmortem;
+	[_muerto] remoteExec ["postmortem",2];
 	if (isPlayer _killer) then {
 		if (!isMultiPlayer) then {
 			[0,20] remoteExec ["resourcesFIA",2];

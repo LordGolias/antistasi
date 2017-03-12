@@ -2,7 +2,8 @@ private ["_killed","_killer","_cost","_enemy","_group"];
 _killed = _this select 0;
 _killer = _this select 1;
 if (_killed getVariable ["OPFORSpawn",false]) then {_killed setVariable ["OPFORSpawn",nil,true]};
-[_killed] spawn postmortem;
+
+[_killed] remoteExec ["postmortem",2];
 
 if (hayACE) then {
 	if ((isNull _killer) || (_killer == _killed)) then {
