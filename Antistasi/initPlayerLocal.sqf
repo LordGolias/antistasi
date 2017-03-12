@@ -334,7 +334,7 @@ if (_isJip) then {
 	};
 	
 	// sync the inventory content to the JIP.
-	remoteExec ["fnc_MAINT_arsInv", 2];
+	remoteExec ["fnc_MAINT_refillArsenal", 2];
 	
 	diag_log "Antistasi MP Client. JIP client finished";
 }

@@ -10,67 +10,35 @@ fnc_MAINT_arsenal = {
 	private ["_weapons", "_magazines", "_items", "_backpacks", "_allMags", "_weapCargo", "_magCargo", "_itemCargo", "_bpCargo", "_z"];
 
 	if (_clean) then {
-		[[],[],[],[],[],[],[],[],[],[]] call {
-			params ["_uW", "_uM", "_uI", "_uB", "_uO", "_uR", "_uWc", "_uMc", "_uIc", "_uBc"];
+		unlockedWeapons = unlockedWeapons arrayIntersect unlockedWeapons;
+		unlockedWeapons = unlockedWeapons arrayIntersect AS_allWeapons;
+		publicVariable "unlockedWeapons";
 
-			if (count unlockedWeapons > 0) then {
-				for "_i" from 0 to (count unlockedWeapons - 1) do {
-					_z = unlockedWeapons select _i;
-					if (_z in AS_allWeapons) then {
-						_uW pushBackUnique _z;
-					};
-				};
-				unlockedWeapons = _uW;
-				publicVariable "unlockedWeapons";
-			};
-			if (count unlockedMagazines > 0) then {
-				for "_i" from 0 to (count unlockedMagazines - 1) do {
-					_z = unlockedMagazines select _i;
-					if (_z in AS_allMagazines) then {
-						_uM pushBackUnique _z;
-					};
-				};
-				unlockedMagazines = _uM;
-				publicVariable "unlockedMagazines";
-			};
-			if (count unlockedItems > 0) then {
-				for "_i" from 0 to (count unlockedItems - 1) do {
-					_uI pushBackUnique (unlockedItems select _i);
-				};
-				unlockedItems = _uI;
-				unlockedItems pushBackUnique "Binocular";
-				publicVariable "unlockedItems";
-			};
-			if (count unlockedBackpacks > 0) then {
-				for "_i" from 0 to (count unlockedBackpacks - 1) do {
-					_uB pushBackUnique (unlockedBackpacks select _i);
-				};
-				unlockedBackpacks = _uB;
-				publicVariable "unlockedBackpacks";
-			};
-			if (count unlockedOptics > 0) then {
-				for "_i" from 0 to (count unlockedOptics - 1) do {
-					_uO pushBackUnique (unlockedOptics select _i);
-				};
-				unlockedOptics = _uO;
-				publicVariable "unlockedOptics";
-			};
-			if (count unlockedRifles > 0) then {
-				for "_i" from 0 to (count unlockedRifles - 1) do {
-					_z = unlockedRifles select _i;
-					if (_z in AS_allWeapons) then {
-						_uR pushBackUnique _z;
-					};
-				};
-				unlockedRifles = _uR;
-				publicVariable "unlockedRifles";
-			};
+		unlockedMagazines = unlockedMagazines arrayIntersect unlockedMagazines;
+		unlockedMagazines = unlockedMagazines arrayIntersect AS_allMagazines;
+		publicVariable "unlockedMagazines";
 
-			[unlockedWeapons, true] spawn fnc_weaponsCheck;
-		};
+		unlockedItems = unlockedItems arrayIntersect unlockedItems;
+		unlockedItems pushBackUnique "Binocular";
+		publicVariable "unlockedItems";
+
+		unlockedBackpacks = unlockedBackpacks arrayIntersect unlockedBackpacks;
+		publicVariable "unlockedBackpacks";
+
+		unlockedOptics = unlockedOptics arrayIntersect unlockedOptics;
+		publicVariable "unlockedOptics";
+
+		unlockedRifles = unlockedRifles arrayIntersect unlockedRifles;
+		unlockedRifles = unlockedRifles arrayIntersect unlockedWeapons;
+		publicVariable "unlockedRifles";
+
+		[unlockedWeapons, true] spawn fnc_weaponsCheck;
+	}
+	else {
+		[unlockedWeapons] spawn fnc_weaponsCheck;
 	};
 
-	0 = [] call fnc_MAINT_arsInv;
+	0 = [] call fnc_MAINT_refillArsenal;
 
 	// XLA fixed arsenal
 	if (hayXLA) then {
@@ -105,15 +73,13 @@ fnc_MAINT_arsenal = {
 		[caja,unlockedBackpacks,true,false] call BIS_fnc_addVirtualBackpackCargo;
 	};
 
-	if !(_clean) then {[unlockedWeapons] spawn fnc_weaponsCheck};
-
 	0 = [] call arsenalManage;
 
 	[[petros,"hint","Arsenal synchronized"],"commsMP"] call BIS_fnc_MP;
 	diag_log "Maintenance: Arsenal resynchronised";
 };
 
-fnc_MAINT_arsInv = {
+fnc_MAINT_refillArsenal = {
 
 	_cargo = getWeaponCargo caja;
 	clearWeaponCargoGlobal caja;
