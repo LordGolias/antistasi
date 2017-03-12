@@ -17,7 +17,7 @@ if ({isPlayer _x} count units group player == 1) then {_ai = true; _nuevogrp = c
 	if (typeOf _x != "b_g_survivor_F") then
 		{
 		[_x] join _nuevogrp;
-		arrayids = arrayids + [name _x];
+		namesFIASoldiers = namesFIASoldiers + [name _x];
 		};
 	}
 else

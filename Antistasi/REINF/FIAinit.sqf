@@ -405,13 +405,13 @@ if (player == leader _unit) then {
 	_EHkilledIdx = _unit addEventHandler ["killed", {
 		_muerto = _this select 0;
 		[_muerto] spawn postmortem;
-		if (typeOf _muerto != "b_g_survivor_F") then {arrayids = arrayids + [name _muerto]};
+		if (typeOf _muerto != "b_g_survivor_F") then {namesFIASoldiers = namesFIASoldiers + [name _muerto]};
 		[0.25,0,getPos _muerto] remoteExec ["citySupportChange",2];
 		_muerto setVariable ["BLUFORSpawn",nil,true];
 	}];
 	if (_tipo != "b_g_survivor_F") then {
-		_idUnit = arrayids call BIS_Fnc_selectRandom;
-		arrayids = arrayids - [_idunit];
+		_idUnit = namesFIASoldiers call BIS_Fnc_selectRandom;
+		namesFIASoldiers = namesFIASoldiers - [_idunit];
 		_unit setIdentity _idUnit;
 		if (captive player) then {[_unit] spawn undercoverAI};
 	};

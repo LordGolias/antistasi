@@ -17,6 +17,6 @@ _EHkilledIdx = _unit addEventHandler ["killed", {
 	[_muerto] spawn postmortem;
 	[0.25,0,getPos _muerto] remoteExec ["citySupportChange",2];
 	//[-1,0] remoteExec ["prestige",2];
-	//if (group _muerto == group player) then {arrayids = arrayids + [name _muerto]};
+	//if (group _muerto == group player) then {namesFIASoldiers = namesFIASoldiers + [name _muerto]};
 	}];
 
