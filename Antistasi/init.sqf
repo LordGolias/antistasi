@@ -18,19 +18,6 @@ if (!isMultiPlayer) then
     call compile preprocessFileLineNumbers "initPetros.sqf";
     lockedWeapons = lockedWeapons - unlockedWeapons;
 
-    // XLA fixed arsenal
-    if (hayXLA) then {
-        [caja,unlockedItems,true,false] call XLA_fnc_addVirtualItemCargo;
-        [caja,unlockedMagazines,true,false] call XLA_fnc_addVirtualMagazineCargo;
-        [caja,unlockedWeapons,true,false] call XLA_fnc_addVirtualWeaponCargo;
-        [caja,unlockedBackpacks,true,false] call XLA_fnc_addVirtualBackpackCargo;
-    } else {
-        [caja,unlockedItems,true,false] call BIS_fnc_addVirtualItemCargo;
-        [caja,unlockedMagazines,true,false] call BIS_fnc_addVirtualMagazineCargo;
-        [caja,unlockedWeapons,true,false] call BIS_fnc_addVirtualWeaponCargo;
-        [caja,unlockedBackpacks,true,false] call BIS_fnc_addVirtualBackpackCargo;
-    };
-
     HCciviles = 2;
     HCgarrisons = 2;
     HCattack = 2;
@@ -92,7 +79,7 @@ if(isServer) then {
         };
     fpsCheck = [] execVM "fpsCheck.sqf";
     [caja] call cajaAAF;
-    [unlockedWeapons] spawn fnc_weaponsCheck;
+    [] call fnc_weaponsCheck;
     waitUntil {!(isNil "placementDone")};
     [] spawn AS_fnc_spawnLoop;
     resourcecheck = [] execVM "resourcecheck.sqf";

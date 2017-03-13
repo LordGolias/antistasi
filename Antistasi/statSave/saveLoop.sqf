@@ -28,16 +28,18 @@ call AS_fnc_savePlayers;
 
 [] call AS_fnc_saveHQ;
 
-private ["_hrfondo","_resfondo","_veh","_tipoVeh","_armas","_municion","_items","_mochis","_contenedores","_arrayEst","_posVeh","_dierVeh","_prestigeOPFOR","_prestigeBLUFOR","_ciudad","_datos","_marcadores","_garrison","_arrayMrkMF","_arrayPuestosFIA","_pospuesto","_tipoMina","_posMina","_detectada","_tipos","_exists","_amigo","_arrayCampsFIA","_enableFTold","_enableMemAcc","_campList"];
+private ["_hrfondo","_resfondo","_veh","_tipoVeh","_contenedores","_arrayEst","_posVeh","_dierVeh","_prestigeOPFOR","_prestigeBLUFOR","_ciudad","_datos","_marcadores","_garrison","_arrayMrkMF","_arrayPuestosFIA","_pospuesto","_tipoMina","_posMina","_detectada","_tipos","_exists","_amigo","_arrayCampsFIA","_enableFTold","_enableMemAcc","_campList"];
 
 
 // save all units as hr and money.
 
 _resfondo = server getVariable "resourcesFIA";
-_armas = weaponCargo caja;
-_municion = magazineCargo caja;
-_items = itemCargo caja;
-_mochis = [];
+_cargoArray = [caja, true] call AS_fnc_getBoxArsenal;  // restricted to locked weapons
+_cargo_w = _cargoArray select 0;
+_cargo_m = _cargoArray select 1;
+_cargo_i = _cargoArray select 2;
+_cargo_b = _cargoArray select 3;
+
 {
 _amigo = _x;
 if (_amigo getVariable ["BLUFORSpawn",false]) then
@@ -48,14 +50,15 @@ if (_amigo getVariable ["BLUFORSpawn",false]) then
 			{
 			if (isPlayer (leader group _amigo)) then
 				{
-				if (!isMultiplayer) then
-					{
+				if (!isMultiplayer) then {
 					_precio = server getVariable (typeOf _amigo);
 					if (!(isNil "_precio")) then {_resfondo = _resfondo + _precio};
-					};
-				{if (([_x] call BIS_fnc_baseWeapon) in lockedWeapons) then {_armas pushBack ([_x] call BIS_fnc_baseWeapon)}} forEach weapons _amigo;
-				{if (not(_x in unlockedMagazines)) then {_municion pushBack _x}} forEach magazines _amigo;
-				_items = _items + (items _amigo) + (primaryWeaponItems _amigo) + (assignedItems _amigo) + (secondaryWeaponItems _amigo);
+				};
+				_arsenal = [_amigo, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons
+				_cargo_w = [_cargo_w, _arsenal select 0] call AS_fnc_mergeCargoLists;
+				_cargo_m = [_cargo_m, _arsenal select 1] call AS_fnc_mergeCargoLists;
+				_cargo_i = [_cargo_i, _arsenal select 2] call AS_fnc_mergeCargoLists;
+				_cargo_b = [_cargo_b, _arsenal select 3] call AS_fnc_mergeCargoLists;
 				};
 			if (vehicle _amigo != _amigo) then
 				{
@@ -81,48 +84,22 @@ if (_amigo getVariable ["BLUFORSpawn",false]) then
 _hrfondo = (server getVariable "hr") + ({(alive _x) and (not isPlayer _x) and (_x getVariable ["BLUFORSpawn",false])} count allUnits);
 [["resourcesFIA", "hr"], [_resfondo, _hrfondo]] call AS_fnc_saveServer;
 
-if (count backpackCargo caja > 0) then
+if (isMultiplayer) then {
 	{
-	{
-	_mochis pushBack (_x call BIS_fnc_basicBackpack);
-	} forEach backPackCargo caja;
-	};
-_contenedores = everyBackpack caja;
-if (count _contenedores > 0) then
-	{
-	for "_i" from 0 to (count _contenedores - 1) do
-		{
-		_armas = _armas + weaponCargo (_contenedores select _i);
-		_municion = _municion + magazineCargo (_contenedores select _i);
-		_items = _items + itemCargo (_contenedores select _i);
-		};
-	};
-
-if (isMultiplayer) then
-	{
-	{
-	{if ([_x] call BIS_fnc_baseWeapon in lockedWeapons) then {_armas pushBack ([_x] call BIS_fnc_baseWeapon)}} forEach weapons _x;
-	_municion = _municion + magazines _x + [currentMagazine _x];
-	_items = _items + ((items _x) + (primaryWeaponItems _x)+ (assignedItems _x));
-	_mochi = (backpack _x) call BIS_fnc_basicBackpack;
-	if ((not(_mochi in unlockedBackpacks)) and (_mochi != "")) then
-		{
-		_mochis pushBack _mochi;
-		};
+		_arsenal = [_x, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons
+		_cargo_w = [_cargo_w, _arsenal select 0] call AS_fnc_mergeCargoLists;
+		_cargo_m = [_cargo_m, _arsenal select 1] call AS_fnc_mergeCargoLists;
+		_cargo_i = [_cargo_i, _arsenal select 2] call AS_fnc_mergeCargoLists;
+		_cargo_b = [_cargo_b, _arsenal select 3] call AS_fnc_mergeCargoLists;
 	} forEach playableUnits;
-	}
-else
-	{
-	{if ([_x] call BIS_fnc_baseWeapon in lockedWeapons) then {_armas pushBack ([_x] call BIS_fnc_baseWeapon)}} forEach weapons player;
-	_municion = _municion + magazines player + [currentMagazine player];
-	_items = _items + ((items player) + (primaryWeaponItems player)+ (assignedItems player));
-	_mochi = (backpack player) call BIS_fnc_basicBackpack;
-	if ((not(_mochi in unlockedBackpacks)) and (_mochi != "")) then
-		{
-		_mochis pushBack _mochi;
-		};
-	//_mochis pushBack ((backpack player) call BIS_fnc_basicBackpack);
-	};
+}
+else {
+	_arsenal = [player, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons
+	_cargo_w = [_cargo_w, _arsenal select 0] call AS_fnc_mergeCargoLists;
+	_cargo_m = [_cargo_m, _arsenal select 1] call AS_fnc_mergeCargoLists;
+	_cargo_i = [_cargo_i, _arsenal select 2] call AS_fnc_mergeCargoLists;
+	_cargo_b = [_cargo_b, _arsenal select 3] call AS_fnc_mergeCargoLists;
+};
 
 // list of locations where static weapons are saved.
 _statMrks = [];
@@ -162,14 +139,11 @@ if (_veh distance getMarkerPos "respawn_west" < 50) then
 		_dirVeh = getDir _veh;
 		_arrayEst = _arrayEst + [[_tipoVeh,_posVeh,_dirVeh]];
 		
-		_armas = _armas + weaponCargo _veh;
-		_municion = _municion + magazineCargo _veh;
-		_items = _items + itemCargo _veh;
-		if (count backpackCargo _veh > 0) then {
-			{
-			_mochis pushBack (_x call BIS_fnc_basicBackpack);
-			} forEach backpackCargo _veh;
-		};
+		_arsenal = [_veh, true] call AS_fnc_getBoxArsenal;  // restricted to locked weapons
+		_cargo_w = [_cargo_w, _arsenal select 0] call AS_fnc_mergeCargoLists;
+		_cargo_m = [_cargo_m, _arsenal select 1] call AS_fnc_mergeCargoLists;
+		_cargo_i = [_cargo_i, _arsenal select 2] call AS_fnc_mergeCargoLists;
+		_cargo_b = [_cargo_b, _arsenal select 3] call AS_fnc_mergeCargoLists;
 	};
 	};
 } forEach vehicles - AS_permanent_HQplacements;
@@ -177,8 +151,7 @@ if (_veh distance getMarkerPos "respawn_west" < 50) then
 
 ["estaticas", _arrayEst] call fn_SaveStat;
 
-[_armas, _municion, _items, _mochis] call AS_fnc_saveArsenal;
-
+[_cargo_w, _cargo_m, _cargo_i, _cargo_b] call AS_fnc_saveArsenal;
 
 _marcadores = mrkFIA - puestosFIA - controles - ciudades;
 _garrison = [];

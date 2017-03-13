@@ -74,7 +74,7 @@ if (server getVariable "lockTransfer") exitWith {
 	} forEach playableUnits;
 };
 
-if (!_veh isKindOf "StaticWeapon") then {
+if (!(_veh isKindOf "StaticWeapon")) then {
 	[_veh] call vaciar;
 };
 deleteVehicle _veh;

@@ -31,19 +31,19 @@ _unit disableAI "TARGET";
 _unit disableAI "ANIM";
 //_unit disableAI "FSM";
 _unit setUnitPos "UP";
-_caja = "Box_IND_Wps_F" createVehicle position _unit;
-clearMagazineCargoGlobal _caja;
-clearWeaponCargoGlobal _caja;
-clearItemCargoGlobal _caja;
-clearBackpackCargoGlobal _caja;
-_armas = weapons _unit;
-{_caja addWeaponCargoGlobal [[_x] call BIS_fnc_baseWeapon,1]} forEach _armas;
-_municion = magazines _unit;
-{_caja addMagazineCargoGlobal [_x,1]} forEach _municion;
-_items = assignedItems _unit + items _unit + primaryWeaponItems _unit;
-{_caja addItemCargoGlobal [_x,1]} forEach _items;
+
+// create box and add all content to it.
+_box = "Box_IND_Wps_F" createVehicle position _unit;
+_cargoArray = [_unit] call AS_fnc_getUnitArsenal;
+[_box, _cargoArray select 0, _cargoArray select 1, _cargoArray select 2, _cargoArray select 3] call AS_fnc_populateBox;
+
 removeAllWeapons _unit;
-removeAllAssignedItems _unit;
+removeAllItems _unit;
+removeAllassignedItems _unit;
+removeVest _unit;
+removeHeadgear  _unit;
+removeBackpackGlobal _unit;
+
 _unit setCaptive true;
 sleep 1;
 if (alive _unit) then
@@ -60,7 +60,7 @@ _unit addEventHandler ["HandleDamage",
 	];
 if (_unit getVariable ["OPFORSpawn",false]) then {_unit setVariable ["OPFORSpawn",nil,true]};
 [_unit] remoteExec ["postmortem",2];
-[_caja] remoteExec ["postmortem",2];
+[_box] remoteExec ["postmortem",2];
 sleep 10;
 _unit allowDamage true;
 _unit enableSimulationGlobal false;

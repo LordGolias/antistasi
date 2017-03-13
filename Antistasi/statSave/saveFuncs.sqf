@@ -91,57 +91,24 @@ AS_fnc_saveArsenal = {
 AS_fnc_loadArsenal = {
 	private ["_weapons", "_magazines", "_items", "_backpacks"];
 
-	clearWeaponCargoGlobal caja;
 	_weapons = ["ARSENALweapons"] call AS_fnc_LoadStat;
-	{caja addWeaponCargoGlobal [_x,1]} forEach _weapons;
-
-	clearMagazineCargoGlobal caja;
 	_magazines = ["ARSENALmagazines"] call AS_fnc_LoadStat;
-	{caja addMagazineCargoGlobal [_x,1]} forEach _magazines;
-
-	clearItemCargoGlobal caja;
 	_items = ["ARSENALitems"] call AS_fnc_LoadStat;
-	{caja addItemCargoGlobal [_x,1]} forEach _items;
-
-	clearBackpackCargoGlobal caja;
 	_backpacks = ["ARSENALbackpacks"] call AS_fnc_LoadStat;
-	{caja addBackpackCargoGlobal [_x,1]} forEach _backpacks;
+
+	[caja, _weapons, _magazines, _items, _backpacks, true, true] call AS_fnc_populateBox;
 
 	// load unlocked stuff
 	unlockedWeapons = ["ARSENALunlockedWeapons"] call AS_fnc_LoadStat;
 	lockedWeapons = lockedWeapons - unlockedWeapons;
-	if (hayXLA) then {
-		[caja,unlockedWeapons,true] call XLA_fnc_addVirtualWeaponCargo;
-	} else {
-		[caja,unlockedWeapons,true] call BIS_fnc_addVirtualWeaponCargo;
-	};
-	
-	unlockedMagazines = ["ARSENALunlockedMagazines"] call AS_fnc_LoadStat;
-	if (hayXLA) then {
-		[caja,unlockedMagazines,true] call XLA_fnc_addVirtualMagazineCargo;
-	} else {
-		[caja,unlockedMagazines,true] call BIS_fnc_addVirtualMagazineCargo;
-	};
-	
-	unlockedItems = ["ARSENALunlockedItems"] call AS_fnc_LoadStat;
-	if (hayXLA) then {
-		[caja,unlockedItems,true] call XLA_fnc_addVirtualItemCargo;
-	} else {
-		[caja,unlockedItems,true] call BIS_fnc_addVirtualItemCargo;
-	};
 
-	{
-	if (_x in unlockedItems) then {unlockedOptics pushBack _x};
-	} forEach genOptics;
+	unlockedMagazines = ["ARSENALunlockedMagazines"] call AS_fnc_LoadStat;
+	unlockedItems = ["ARSENALunlockedItems"] call AS_fnc_LoadStat;
+
+	{if (_x in unlockedItems) then {unlockedOptics pushBack _x};} forEach genOptics;
 	publicVariable "unlockedOptics";
 
-	unlockedBackpacks= ["ARSENALunlockedBackpacks"] call AS_fnc_LoadStat;
-	genBackpacks = genBackpacks - unlockedBackpacks;
-	if (hayXLA) then {
-		[caja,unlockedBackpacks,true] call XLA_fnc_addVirtualBackpackCargo;
-	} else {
-		[caja,unlockedBackpacks,true] call BIS_fnc_addVirtualBackpackCargo;
-	};
+	unlockedBackpacks = ["ARSENALunlockedBackpacks"] call AS_fnc_LoadStat;
 
 	publicVariable "unlockedWeapons";
 	publicVariable "unlockedMagazines";

@@ -258,36 +258,3 @@ fnc_saveTFARsettings = {
 
 	hint _text;
 };
-
-fn_getUnlockRequirement = {
-	params ["_type"];
-	private ["_requirement", "_factories", "_weaponReqBase", "_itemReqBase"];
-
-	_factories = count (fabricas - mrkAAF);
-	_weaponReqBase = [12, 9] select hayACE;
-	_itemReqBase = [-58, -84] select hayACE;
-
-	switch (_type) do {
-		case "weapons": {
-			_requirement = _weaponReqBase + (count unlockedWeapons) - (2*_factories);
-		};
-		case "magazines": {
-			_requirement = 13 + (count unlockedMagazines) - (2*_factories);
-		};
-		case "backpacks": {
-			_requirement = 5*(count unlockedBackpacks);
-		};
-		case "items": {
-			_requirement = _itemReqBase + (count unlockedItems) - (2*_factories);
-		};
-		case "vests": {
-			_requirement = _itemReqBase + (count unlockedItems) - (2*_factories) - 10;
-		};
-
-		default {
-			_requirement = _itemReqBase + (count unlockedItems) - (2*_factories);
-		};
-	};
-
-	_requirement
-};

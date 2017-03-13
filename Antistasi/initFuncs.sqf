@@ -1,10 +1,3 @@
-// XLA fixed arsenal
-if !(isnil "XLA_fnc_addVirtualItemCargo") then {
-	["AmmoboxInit",[caja,false,{true},"Arsenal",true]] call XLA_fnc_arsenal;
-} else {
-	["AmmoboxInit",[caja,false,{true}]] call BIS_fnc_arsenal;
-};
-
 call compile preprocessFileLineNumbers "Compositions\FIA_RB.sqf";
 call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
 call compile preprocessFileLineNumbers "Lists\basicLists.sqf";
@@ -15,6 +8,12 @@ call compile preProcessFileLineNumbers "statSave\saveFuncs.sqf";
 call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 
 AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "CREATE\setDefaultSkill.sqf";
+AS_fnc_getWeaponItemsCargo = compile preProcessFileLineNumbers "municion\getWeaponItemsCargo.sqf";
+AS_fnc_getUnitArsenal = compile preProcessFileLineNumbers "municion\getUnitArsenal.sqf";
+AS_fnc_getBoxArsenal = compile preProcessFileLineNumbers "municion\getBoxArsenal.sqf";
+AS_fnc_listToCargoList = compile preProcessFileLineNumbers "municion\listToCargoList.sqf";
+AS_fnc_mergeCargoLists = compile preProcessFileLineNumbers "municion\mergeCargoLists.sqf";
+AS_fnc_populateBox = compile preProcessFileLineNumbers "municion\populateBox.sqf";
 
 minefieldAAF = compile preProcessFileLineNumbers "CREATE\minefieldAAF.sqf";
 tempMoveMrk = compile preProcessFileLineNumbers "tempMoveMrk.sqf";
@@ -52,7 +51,6 @@ findSafeRoadToUnload = compile preProcessFileLineNumbers "AI\findSafeRoadToUnloa
 garageVehicle = compile preProcessFileLineNumbers "garageVehicle.sqf";
 garage = compile preProcessFileLineNumbers "garage.sqf";
 ranksMP = compile preProcessFileLineNumbers "OrgPlayers\ranksMP.sqf";
-arsenalManage = compile preProcessFileLineNumbers "Municion\arsenalManage.sqf";
 undercoverAI = compile preProcessFileLineNumbers "AI\undercoverAI.sqf";
 memberAdd = compile preProcessFileLineNumbers "OrgPlayers\memberAdd.sqf";
 donateMoney = compile preProcessFileLineNumbers "OrgPlayers\donateMoney.sqf";

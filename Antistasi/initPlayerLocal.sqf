@@ -49,38 +49,27 @@ if (isMultiplayer) then {
 	cutText ["Starting Mission","BLACK IN",0];
 	diag_log "Antistasi MP Client. serverInitDone is public";
 	diag_log format ["Antistasi MP Client: JIP?: %1",_isJip];
+	
+	_notAMemberMessage = "You are not in the Member's List of this Server.\n\n" +
+			             "Ask the Commander in order to be allowed to access the HQ Ammobox.\n\n"+
+				         "In the meantime you may use the other box to store equipment and share it with others.";
 
 	caja addEventHandler ["ContainerOpened", {
 	    _jugador = _this select 1;
-	    if (not([_jugador] call isMember)) then
-	       {
+	    if (not([_jugador] call isMember)) then {
 	    	_jugador setPos position petros;
-			hint format ["You are not in the Member's List of this Server.\n\nAsk the Commander in order to be allowed to access the HQ Ammobox.\n\nIn the meantime you may use the other box to store equipment and share it with others.\n\nArsenal Unlocking Requirements\nWeapons: %1\nBackpacks: %5\nMagazines/Usables: %2\nOptics: %3\nVests: %3\nOther Items: %4\nImported Items: %6",
-				["weapons"] call fn_getUnlockRequirement,
-				["magazines"] call fn_getUnlockRequirement,
-				["vests"] call fn_getUnlockRequirement,
-				["items"] call fn_getUnlockRequirement,
-				["backpacks"] call fn_getUnlockRequirement,
-				(["items"] call fn_getUnlockRequirement) + 10];
-	        };
+			hint _notAMemberMessage;
+	    };
 	}];
-    
+
 	player addEventHandler ["InventoryOpened", {
 		_control = false;
-		if !([_this select 0] call isMember) then
-			{
-			if ((_this select 1 == caja) or ((_this select 0) distance caja < 3)) then
-				{
+		if !([_this select 0] call isMember) then {
+			if ((_this select 1 == caja) or ((_this select 0) distance caja < 3)) then {
 				_control = true;
-				hint format ["You are not in the Member's List of this Server.\n\nAsk the Commander in order to be allowed to access the HQ Ammobox.\n\nIn the meantime you may use the other box to store equipment and share it with others.\n\nArsenal Unlocking Requirements\nWeapons: %1\nBackpacks: %5\nMagazines/Usables: %2\nOptics: %3\nVests: %3\nOther Items: %4\nImported Items: %6",
-			["weapons"] call fn_getUnlockRequirement,
-			["magazines"] call fn_getUnlockRequirement,
-			["vests"] call fn_getUnlockRequirement,
-			["items"] call fn_getUnlockRequirement,
-			["backpacks"] call fn_getUnlockRequirement,
-			(["items"] call fn_getUnlockRequirement) + 10];
-				};
+				hint _notAMemberMessage;
 			};
+		};
 		_control
 	}];
 
@@ -245,20 +234,6 @@ if (isMultiplayer) then {
 	personalGarage = [];
 };
 
-caja addEventHandler ["ContainerOpened", {
-	_fabricas = count (fabricas - mrkAAF);
-	_weapBase = 12;
-	_itemBase = -53;
-	if (hayACE) then {_itemBase = _itemBase - 31; _weapBase = _weapBase - 3;};
-	hint format ["Arsenal Unlocking Requirements\nWeapons: %1\nBackpacks: %5\nMagazines/Usables: %2\nOptics: %3\nVests: %3\nOther Items: %4\nImported Items: %6",
-		["weapons"] call fn_getUnlockRequirement,
-		["magazines"] call fn_getUnlockRequirement,
-		["vests"] call fn_getUnlockRequirement,
-		["items"] call fn_getUnlockRequirement,
-		["backpacks"] call fn_getUnlockRequirement,
-		(["items"] call fn_getUnlockRequirement) + 10];
-}];
-
 if (_isJip) then {
 	waitUntil {scriptdone _introshot};
 	[] execVM "modBlacklist.sqf";
@@ -388,51 +363,19 @@ if (hayTFAR or hayACE or hayRHS or hayUSAF) then {
 statistics = [] execVM "statistics.sqf";
 removeAllActions caja;
 
-// XLA fixed arsenal
-if !(isnil "XLA_fnc_addVirtualItemCargo") then {
-	["AmmoboxInit",[caja,false,{true},"Arsenal",true]] call xla_fnc_arsenal;
-	caja addAction [localize "STR_act_arsenal", {["Open",[false,caja,player,true]] call xla_fnc_arsenal;},[],6,true,false,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",5];
-} else {
-	_action = caja addaction [localize "STR_act_arsenal", {
-		_this call accionArsenal;
-	}, [], 6, true, false, "",
-	"
-	_cargo = _target getvariable ['bis_addVirtualWeaponCargo_cargo',[[],[],[],[]]];
-	if ({count _x > 0} count _cargo == 0) then {
-		_target removeaction (_target getvariable ['bis_fnc_arsenal_action',-1]);
-		_target setvariable ['bis_fnc_arsenal_action',nil];
-	};
-	_condition = _target getvariable ['bis_fnc_arsenal_condition',{true}];
-	alive _target && {_target distance _this < 5} && {call _condition}
-	"
-	];
-	caja setvariable ["bis_fnc_arsenal_action", _action];
-};
-
-// add a new TFAR radio to your loadout everytime you close the XLA arsenal -- if anyone knows of a way to actually keep your radio with the current XLA setting, give us a shout
-if ((hayTFAR) && !(isnil "XLA_fnc_addVirtualItemCargo")) then {
-	[missionNamespace, "arsenalClosed", {
-		if !(count (player call TFAR_fnc_radiosList) > 0) then {
-			player linkItem "tf_anprc152";
-			[player] spawn fnc_loadTFARsettings;
-		};
-	}] call BIS_fnc_addScriptedEventHandler;
-};
-
-if !(isMultiplayer) then {
-	if (hayACEMedical) then {
-		player setVariable ["inconsciente",false,true];
-		player setVariable ["respawning",false];
-		player addEventHandler ["HandleDamage", {
-			if (player getVariable ["ACE_isUnconscious", false]) then {
-				0 = [player] spawn ACErespawn;
-			};
-		}];
-	};
-};
-
+caja addaction [localize "STR_act_arsenal", {_this call accionArsenal;}, [], 6, true, false, "", "(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",5];
 caja addAction [localize "STR_act_unloadCargo", "[] call vaciar"];
 caja addAction [localize "STR_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == stavros)"];
+
+if (!isMultiplayer and hayACEMedical) then {
+	player setVariable ["inconsciente",false,true];
+	player setVariable ["respawning",false];
+	player addEventHandler ["HandleDamage", {
+		if (player getVariable ["ACE_isUnconscious", false]) then {
+			0 = [player] spawn ACErespawn;
+		};
+	}];
+};
 
 [player] execVM "OrgPlayers\unitTraits.sqf";
 [player] call cleanGear;

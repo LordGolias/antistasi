@@ -17,20 +17,6 @@ waitUntil {(count playableUnits) > 0};
 waitUntil {({(isPlayer _x) and (!isNull _x) and (_x == _x)} count allUnits) == (count playableUnits)};//ya estamos todos
 [] execVM "modBlacklist.sqf";
 
-lockedWeapons = lockedWeapons - unlockedWeapons;
-// XLA fixed arsenal
-if (hayXLA) then {
-    [caja,unlockedItems,true] call XLA_fnc_addVirtualItemCargo;
-    [caja,unlockedMagazines,true] call XLA_fnc_addVirtualMagazineCargo;
-    [caja,unlockedWeapons,true] call XLA_fnc_addVirtualWeaponCargo;
-    [caja,unlockedBackpacks,true] call XLA_fnc_addVirtualBackpackCargo;
-} else {
-    [caja,unlockedItems,true] call BIS_fnc_addVirtualItemCargo;
-    [caja,unlockedMagazines,true] call BIS_fnc_addVirtualMagazineCargo;
-    [caja,unlockedWeapons,true] call BIS_fnc_addVirtualWeaponCargo;
-    [caja,unlockedBackpacks,true] call BIS_fnc_addVirtualBackpackCargo;
-};
-
 diag_log "Antistasi MP Server. Arsenal config finished";
 [[petros,"hint","Server Init Completed"],"commsMP"] call BIS_fnc_MP;
 

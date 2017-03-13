@@ -2,7 +2,7 @@ if (!isServer and hasInterface) exitWith {};
 
 // set flags for availability of specific weapon types
 fnc_weaponsCheck = {
-	params ["_weapons", ["_reset", false]];
+	params [["_reset", false]];
 
 	if (_reset) then {
 		server setVariable ["genLMGlocked",true,true];
@@ -10,19 +10,17 @@ fnc_weaponsCheck = {
 		server setVariable ["genSNPRlocked",true,true];
 		server setVariable ["genATlocked",true,true];
 		server setVariable ["genAAlocked",true,true];
-
-		[unlockedWeapons] call fnc_weaponsCheck;
-	} else {
-		{
-			call {
-				if (_x in mguns) exitWith {server setVariable ["genLMGlocked",false,true];};
-				if (_x in genGL) exitWith {server setVariable ["genGLlocked",false,true];};
-				if (_x in srifles) exitWith {server setVariable ["genSNPRlocked",false,true];};
-				if (_x in genATLaunchers) exitWith {server setVariable ["genATlocked",false,true];};
-				if (_x in genAALaunchers) exitWith {server setVariable ["genAAlocked",false,true];};
-			};
-		} forEach _weapons;
 	};
+
+	{
+		call {
+			if (_x in mguns) exitWith {server setVariable ["genLMGlocked",false,true];};
+			if (_x in genGL) exitWith {server setVariable ["genGLlocked",false,true];};
+			if (_x in srifles) exitWith {server setVariable ["genSNPRlocked",false,true];};
+			if (_x in genATLaunchers) exitWith {server setVariable ["genATlocked",false,true];};
+			if (_x in genAALaunchers) exitWith {server setVariable ["genAAlocked",false,true];};
+		};
+	} forEach unlockedWeapons;
 };
 
 // find road spots to spawn vehicles on, provide initial heading
@@ -173,18 +171,6 @@ fnc_infoScreen = {
 
 		private _p3 = ["Weapon categories unlocked\nLMG: %1 -- GL: %2 -- Sniper: %3 -- AT: %4 -- AA: %5", !(server getVariable ["genLMGlocked",false]), !(server getVariable ["genGLlocked",false]), !(server getVariable ["genSNPRlocked",false]), !(server getVariable ["genATlocked",false]), !(server getVariable ["genAAlocked",false])];
 		_pI pushBackUnique (format _p3);
-
-		private _p4 = ["List of unlocked weapons \n"];
-		_p4 = ["List of unlocked weapons\n"];
-			_p4v = [];
-			for "_i" from 0 to (count unlockedWeapons - 1) do {
-				_p4 pushBack ("%" + str (_i + 1));
-				if (_i < (count unlockedWeapons - 1)) then {_p4 pushBack ", "};
-				_p4v = _p4v + [getText (configFile >> "CfgWeapons" >> unlockedWeapons select _i >> "displayName")];
-			};
-			_p4 = _p4 joinString "";
-			_p4 = [_p4] + _p4v;
-		_pI pushBackUnique (format _p4);
 	};
 
 	[petros,_type,_pI] remoteExec ["commsMP",stavros];

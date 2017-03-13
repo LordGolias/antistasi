@@ -21,6 +21,7 @@ petros allowdamage false;
 
 call AS_fnc_loadServer;
 call AS_fnc_loadArsenal;
+[true] call fnc_MAINT_arsenal;
 
 ["campList"] call fn_LoadStat; publicVariable "campList";
 ["campsFIA"] call fn_LoadStat; publicVariable "campsFIA";
@@ -207,16 +208,7 @@ else
 	player setPos _pos;
 	};
 
-[] call arsenalManage;
-server setVariable ["genLMGlocked",true,true];
-server setVariable ["genGLlocked",true,true];
-server setVariable ["genSNPRlocked",true,true];
-server setVariable ["genATlocked",true,true];
-server setVariable ["genAAlocked",true,true];
-[unlockedWeapons] spawn fnc_weaponsCheck;
-
 ["BE_data"] call fn_LoadStat;
-[false] call fnc_MAINT_arsenal;
 
 [[petros,"hintCS","Persistent Savegame Loaded"],"commsMP"] call BIS_fnc_MP;
 diag_log "Antistasi: Server sided Persistent Load done";

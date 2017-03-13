@@ -45,45 +45,25 @@ petros addMPEventHandler ["mpkilled",
     if (isServer) then
         {
             diag_log format ["MAINTENANCE: Petros died. Killer: %1", _killer];
-        if ((side _killer == side_red) or (side _killer == side_green)) then
-             {
+        if ((side _killer == side_red) or (side _killer == side_green)) then {
             [] spawn
                 {
                 garrison setVariable ["FIA_HQ",[],true];
-                for "_i" from 0 to round random 3 do {
-                    if (count unlockedWeapons > 4) then {
-                        _cosa = selectRandom unlockedWeapons;
-                        diag_log format ["weapon: %1", _cosa];
-                        unlockedWeapons = unlockedWeapons - [_cosa];
-                        lockedWeapons = lockedWeapons + [_cosa];
-                        if (_cosa in unlockedRifles) then {unlockedRifles = unlockedRifles - [_cosa]};
-                        _mag = (getArray (configFile / "CfgWeapons" / _cosa / "magazines") select 0);
-                        if (!isNil "_mag") then {unlockedMagazines = unlockedMagazines - [_mag]; diag_log format ["weapon/mag: %1", _mag];};
-                    };
-                 };
-                publicVariable "unlockedWeapons";
 
-                for "_i" from 0 to round random 8 do {
-                    _cosa = selectRandom unlockedMagazines;
-                    if !(isNil "_cosa") then {
-                        diag_log format ["mag: %1", _cosa];
-                        unlockedMagazines = unlockedMagazines - [_cosa];
-                    };
-                };
-                publicVariable "unlockedMagazines";
-
-                for "_i" from 0 to round random 5 do {
-                    _cosa = selectRandom (unlockedItems - ["ItemMap","ItemWatch","ItemCompass","FirstAidKit","Medikit","ToolKit","ItemRadio","Binocular"] - aceItems);
-                    diag_log format ["item: %1", _cosa];
-                    unlockedItems = unlockedItems - [_cosa];
-                    if (_cosa in unlockedOptics) then {unlockedOptics = unlockedOptics - [_cosa]; publicVariable "unlockedOptics"};
-                };
-                publicVariable "unlockedItems";
-
-                clearMagazineCargoGlobal caja;
-                clearWeaponCargoGlobal caja;
-                clearItemCargoGlobal caja;
-                clearBackpackCargoGlobal caja;
+				// remove 1/2 of every item.
+				_cargo_w = getWeaponCargo caja;
+				_cargo_m = getMagazineCargo caja;
+				_cargo_i = getItemCargo caja;
+				_cargo_b = getBackpackCargo caja;
+				{
+					_values = _x select 1;
+					for "_i" from 0 to (count _values - 1) do {
+						_new_value = floor ((_values select _i)/2.0);
+						_values set [_i, _new_value];
+					};
+				} forEach [_cargo_w, _cargo_m, _cargo_i, _cargo_b];
+				
+				[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true, true] call AS_fnc_populateBox;
 
                 [] remoteExec ["fnc_MAINT_arsenal", 2];
 
