@@ -468,10 +468,6 @@ genGL = ["arifle_Katiba_GL_F","arifle_MX_GL_F","arifle_Mk20_GL_F","arifle_TRG21_
 // Standard rifles for your troops to be equipped with
 baseRifles =+ unlockedRifles;
 
-basicGear = unlockedWeapons + unlockedMagazines + unlockedItems + unlockedBackpacks;
-
-startingWeapons =+ unlockedWeapons;
-
 // Default launchers
 genAALaunchers = ["launch_I_Titan_F"];
 genATLaunchers = ["launch_I_Titan_short_F","launch_NLAW_F"];

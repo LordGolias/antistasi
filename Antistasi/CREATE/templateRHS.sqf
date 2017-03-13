@@ -469,10 +469,6 @@ genGL = ["rhs_weap_akm_gp25","rhs_weap_akms_gp25","rhs_weap_ak103_gp25","rhs_wea
 // Standard rifles for your troops to be equipped with
 baseRifles =+ unlockedRifles;
 
-basicGear = unlockedWeapons + unlockedMagazines + unlockedItems + unlockedBackpacks;
-
-startingWeapons =+ unlockedWeapons;
-
 // Default launchers
 genAALaunchers = ["rhs_weap_igla"];
 genATLaunchers = ["rhs_weap_rpg26","rhs_weap_rpg7"];
