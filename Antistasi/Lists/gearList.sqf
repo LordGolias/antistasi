@@ -1,5 +1,7 @@
 private ["_aToS"];
 
+// Vanilla is stuff that can appear in boxes (black market and AAF boxes).
+
 vanillaWeapons = [
 "Rangefinder",
 "Laserdesignator",
@@ -989,6 +991,7 @@ srifles = srifles + _aToS;
 
 };
 
+// items that can appear in boxes.
 aceWeapons = [];
 aceAccessories = [];
 aceItems = [];

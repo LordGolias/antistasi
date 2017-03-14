@@ -1,14 +1,8 @@
-_c = _this select 0;
-_t = _this select 1;
-_m = _this select 2;
-if (count _this > 2) then {_p = _this select 3};
+private ["_type", "_money", "_weaponsTypeList"];
+_type = _this select 0;
+_money = _this select 1;
 
-_f = 0;
-_pos = getPos expCrate;
-
-_f = server getVariable "resourcesFIA";
-
-if (_f < _m) exitWith {
+if ((server getVariable "resourcesFIA") < _money) exitWith {
 	_l1 = ["Devin", "Get lost ya cheap wanker!"];
     [[_l1],"DIRECT",0.15] execVM "createConv.sqf";
 };
@@ -24,170 +18,39 @@ if (hayACE) then {
 };
 
 _noWeaponMods = true;
-if !(count (lockedWeapons - _standardWeapons) == 0) then {
+if (count (lockedWeapons - _standardWeapons) != 0) then {
 	_noWeaponMods = false;
 	_weapons = lockedWeapons - _standardWeapons;
 	_accessories = allAccessories - _standardAccessories;
 };
 
-if ("rhs_group_rus_vdv_infantry_section_AT" in infAT) then {
-	if !(count (_weapons - rhsWeaponsAFRF - rhsWeaponsUSAF) == 0) then {
+if (hayRHS) then {
+	if (count (_weapons - rhsWeaponsAFRF - rhsWeaponsUSAF) != 0) then {
 		_weapons = _weapons - rhsWeaponsAFRF - rhsWeaponsUSAF;
 		_accessories = _accessories - rhsAccessoriesAFRF - rhsAccessoriesUSAF;
 	};
 };
 
 _noGear = false;
-switch (_t) do {
-	case "ASRifles": {
-		_aRifles = _weapons arrayIntersect arifles;
-		if (count _aRifles == 0) exitWith {_noGear = true};
-		if (_m == 1000) exitWith {
-			for "_i" from 1 to 3 do {
-				_cosa = _aRifles call BIS_Fnc_selectRandom;
-				_num = 1 + (floor random 2);
-				expCrate addItemCargoGlobal [_cosa, _num];
-				_magazines = getArray (configFile / "CfgWeapons" / _cosa / "magazines");
-				expCrate addMagazineCargoGlobal [_magazines select 0, _num * 4];
-			};
-		};
-		if (_m == 2500) exitWith {
-			for "_i" from 1 to 8 do {
-				_cosa = _aRifles call BIS_Fnc_selectRandom;
-				_num = 2 + (floor random 4);
-				expCrate addItemCargoGlobal [_cosa, _num];
-				_magazines = getArray (configFile / "CfgWeapons" / _cosa / "magazines");
-				expCrate addMagazineCargoGlobal [_magazines select 0, _num * 6];
-			};
-		};
-	};
 
-	case "Machineguns": {
-		_mGuns = _weapons arrayIntersect mguns;
-		if (count _mGuns == 0) exitWith {_noGear = true};
-		if (_m == 1000) exitWith {
-			for "_i" from 1 to 3 do {
-				_cosa = _mGuns call BIS_Fnc_selectRandom;
-				_magazines = getArray (configFile / "CfgWeapons" / _cosa / "magazines");
-				expCrate addMagazineCargoGlobal [_magazines select 0, 3];
-				expCrate addMagazineCargoGlobal [selectRandom _magazines, 2];
-				_num = 1 + (floor random 2);
-				expCrate addItemCargoGlobal [_cosa, _num];
-			};
-		};
-		if (_m == 2500) exitWith {
-			for "_i" from 1 to 8 do {
-				_cosa = _mGuns call BIS_Fnc_selectRandom;
-				_magazines = getArray (configFile / "CfgWeapons" / _cosa / "magazines");
-				expCrate addMagazineCargoGlobal [_magazines select 0, 4];
-				expCrate addMagazineCargoGlobal [selectRandom _magazines, 3];
-				_num = 2 + (floor random 4);
-				expCrate addItemCargoGlobal [_cosa, _num];
-			};
-		};
-	};
+switch (_type) do {
+	case "ASRifles": {_weaponsTypeList = arifles;};
+	case "Machineguns": {_weaponsTypeList = mguns;};
+	case "Sniper Rifles": {_weaponsTypeList = srifles;};
+	case "Launchers": {_weaponsTypeList = mlaunchers + rlaunchers;};
+	case "Pistols": {_weaponsTypeList = hguns;};
+	case "Random": {/* _weaponsTypeList = _weapons; => pick from any weapon.*/};
 
-	case "Sniper Rifles": {
-		_sRifles = _weapons arrayIntersect srifles;
-		if (count _sRifles == 0) exitWith {_noGear = true};
-		if (_m == 1000) exitWith {
-			for "_i" from 1 to 3 do {
-				_cosa = _sRifles call BIS_Fnc_selectRandom;
-				_num = 1 + (floor random 2);
-				expCrate addItemCargoGlobal [_cosa, _num];
-				_magazines = getArray (configFile / "CfgWeapons" / _cosa / "magazines");
-				expCrate addMagazineCargoGlobal [_magazines select 0, _num * 4];
-			};
-		};
-		if (_m == 2500) exitWith {
-			for "_i" from 1 to 8 do {
-				_cosa = _sRifles call BIS_Fnc_selectRandom;
-				_num = 2 + (floor random 4);
-				expCrate addItemCargoGlobal [_cosa, _num];
-				_magazines = getArray (configFile / "CfgWeapons" / _cosa / "magazines");
-				expCrate addMagazineCargoGlobal [_magazines select 0, _num * 6];
-			};
-		};
-	};
-
-	case "Launchers": {
-		_combined = mlaunchers + rlaunchers;
-		_launchers = _weapons arrayIntersect _combined;
-		if (count _launchers == 0) exitWith {_noGear = true};
-		if (_m == 1000) exitWith {
-			for "_i" from 1 to 3 do {
-				_cosa = _launchers call BIS_Fnc_selectRandom;
-				_num = 1 + (floor random 2);
-				expCrate addItemCargoGlobal [_cosa, _num];
-				_magazines = getArray (configFile / "CfgWeapons" / _cosa / "magazines");
-				expCrate addMagazineCargoGlobal [_magazines select 0, _num * 4];
-			};
-		};
-		if (_m == 2500) exitWith {
-			for "_i" from 1 to 8 do {
-				_cosa = _launchers call BIS_Fnc_selectRandom;
-				_num = 2 + (floor random 4);
-				expCrate addItemCargoGlobal [_cosa, _num];
-				_magazines = getArray (configFile / "CfgWeapons" / _cosa / "magazines");
-				expCrate addMagazineCargoGlobal [_magazines select 0, _num * 6];
-			};
-		};
-	};
-
-	case "Pistols": {
-		_pistols = _weapons arrayIntersect hguns;
-		if (count _pistols == 0) exitWith {_noGear = true};
-		if (_m == 1000) exitWith {
-			for "_i" from 1 to 3 do {
-				_cosa = _pistols call BIS_Fnc_selectRandom;
-				_num = 1 + (floor random 2);
-				expCrate addItemCargoGlobal [_cosa, _num];
-				_magazines = getArray (configFile / "CfgWeapons" / _cosa / "magazines");
-				expCrate addMagazineCargoGlobal [_magazines select 0, _num * 4];
-			};
-		};
-		if (_m == 2500) exitWith {
-			for "_i" from 1 to 8 do {
-				_cosa = _pistols call BIS_Fnc_selectRandom;
-				_num = 2 + (floor random 4);
-				expCrate addItemCargoGlobal [_cosa, _num];
-				_magazines = getArray (configFile / "CfgWeapons" / _cosa / "magazines");
-				expCrate addMagazineCargoGlobal [_magazines select 0, _num * 6];
-			};
-		};
-	};
-
-	case "Random": {
-		if (count _weapons == 0) exitWith {_noGear = true};
-		if (_m == 1000) exitWith {
-			for "_i" from 1 to 3 do {
-				_cosa = _weapons call BIS_Fnc_selectRandom;
-				_num = 1 + (floor random 2);
-				expCrate addItemCargoGlobal [_cosa, _num];
-				_magazines = getArray (configFile / "CfgWeapons" / _cosa / "magazines");
-				expCrate addMagazineCargoGlobal [_magazines select 0, _num * 4];
-			};
-		};
-		if (_m == 2500) exitWith {
-			for "_i" from 1 to 8 do {
-				_cosa = _weapons call BIS_Fnc_selectRandom;
-				_num = 2 + (floor random 4);
-				expCrate addItemCargoGlobal [_cosa, _num];
-				_magazines = getArray (configFile / "CfgWeapons" / _cosa / "magazines");
-				expCrate addMagazineCargoGlobal [_magazines select 0, _num * 6];
-			};
-		};
-	};
 	case "aCache": {
 		if (count _accessories == 0) exitWith {_noGear = true};
-		if (_m == 500) exitWith {
+		if (_money == 500) exitWith {
 			for "_i" from 1 to 2 do {
 				_cosa = _accessories call BIS_Fnc_selectRandom;
 				_num = 1;
 				expCrate addItemCargoGlobal [_cosa, _num];
 			};
 		};
-		if (_m == 5000) exitWith {
+		if (_money == 5000) exitWith {
 			for "_i" from 1 to 10 do {
 				_cosa = _accessories call BIS_Fnc_selectRandom;
 				_num = 1 + (floor random 2);
@@ -195,40 +58,59 @@ switch (_t) do {
 			};
 		};
 	};
-	case "resupply": {
-		if (_m == 300) exitWith {
-			_pWeapon = primaryWeapon _p;
-			_pWeaponMagazines = getArray (configFile / "CfgWeapons" / _pWeapon / "magazines");
-			_pWeaponAmmo = _pWeaponMagazines select 0;
-			_num = 8;
-			expCrate addItemCargoGlobal [_pWeaponAmmo, _num];
-		};
-	};
+
 	case "expLight": {
-		if (_m == 300) exitWith {
+		if (_money == 300) exitWith {
 			expCrate addMagazineCargoGlobal ["ClaymoreDirectionalMine_Remote_Mag", 1];
 			expCrate addMagazineCargoGlobal ["DemoCharge_Remote_Mag", 3];
-
 		};
-		if (_m == 800) exitWith {
+		if (_money == 800) exitWith {
 			expCrate addMagazineCargoGlobal ["ClaymoreDirectionalMine_Remote_Mag", 3];
 			expCrate addMagazineCargoGlobal ["DemoCharge_Remote_Mag", 8];
 			expCrate addMagazineCargoGlobal ["SatchelCharge_Remote_Mag", 8];
 		};
 	};
+	
 	case "expHeavy": {
-		if (_m == 300) exitWith {
+		if (_money == 300) exitWith {
 			expCrate addMagazineCargoGlobal [apMine, 5];
 			expCrate addMagazineCargoGlobal [atMine, 2];
 			expCrate addMagazineCargoGlobal ["DemoCharge_Remote_Mag", 2];
 		};
-		if (_m == 800) exitWith {
+		if (_money == 800) exitWith {
 			expCrate addMagazineCargoGlobal [apMine, 8];
 			expCrate addMagazineCargoGlobal [atMine, 4];
 			expCrate addMagazineCargoGlobal ["SLAMDirectionalMine_Wire_Mag", 4];
 			expCrate addMagazineCargoGlobal ["APERSBoundingMine_Range_Mag", 1];
 			expCrate addMagazineCargoGlobal ["APERSTripMine_Wire_Mag", 3];
 		};
+	};
+};
+
+if (_type in ["ASRifles", "Machineguns", "Sniper Rifles", "Launchers", "Pistols", "Random"]) then {
+	_weapons = _weapons arrayIntersect _weaponsTypeList;
+	if (count _weapons != 0) then {
+		if (_money == 1000) exitWith {
+			for "_i" from 1 to 3 do {
+				_cosa = _weapons call BIS_Fnc_selectRandom;
+				_num = 1 + (floor random 2);
+				expCrate addItemCargoGlobal [_cosa, _num];
+				_magazines = getArray (configFile / "CfgWeapons" / _cosa / "magazines");
+				expCrate addMagazineCargoGlobal [_magazines select 0, _num * 4];
+			};
+		};
+		if (_money == 2500) exitWith {
+			for "_i" from 1 to 8 do {
+				_cosa = _weapons call BIS_Fnc_selectRandom;
+				_num = 2 + (floor random 4);
+				expCrate addItemCargoGlobal [_cosa, _num];
+				_magazines = getArray (configFile / "CfgWeapons" / _cosa / "magazines");
+				expCrate addMagazineCargoGlobal [_magazines select 0, _num * 6];
+			};
+		};
+	}
+	else {
+		_noGear = true;
 	};
 };
 
@@ -240,7 +122,7 @@ if (_noGear) exitWith {
 expCrate addBackpackCargoGlobal ["B_Carryall_oli", 1];
 
 _l2 = ["Devin", "Aye, the market for explosives is boomin'. They be hard to get a hold of, don't ya know."];
-if (_m > 1000) then {_l2 = ["Devin", "Yer a fine customer. Give ya an ever better deal next time."]};
+if (_money > 1000) then {_l2 = ["Devin", "Yer a fine customer. Give ya an even better deal next time."]};
 [[_l2],"DIRECT",0.15] execVM "createConv.sqf";
 
-[0, (-1* _m)] remoteExec ["resourcesFIA",2];
+[0, -_money] remoteExec ["resourcesFIA",2];

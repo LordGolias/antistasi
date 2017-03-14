@@ -831,17 +831,17 @@ class exp_menu // 430
 	AS_FRAME_D(FRAME_H_10, "Buy Ordnance");
 	BTN_BACK(A_CLOSE);
 
-	#define STR_EXP_SCH "closeDialog 0; if (player == Stavros) then {[expCrate, ""expLight"", 300] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_MCH "closeDialog 0; if (player == Stavros) then {[expCrate, ""expLight"", 800] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_SCH "closeDialog 0; if (player == Stavros) then {[""expLight"", 300] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_MCH "closeDialog 0; if (player == Stavros) then {[""expLight"", 800] remoteExec [""buyGear"", 2];}"
 
 	#define STR_EXP_SWP "closeDialog 0; createDialog ""wpns_small"";"
 	#define STR_EXP_MWP "closeDialog 0; createDialog ""wpns_large"";"
 
-	#define STR_EXP_SMS "closeDialog 0; if (player == Stavros) then {[expCrate, ""expHeavy"", 300] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_MMS "closeDialog 0; if (player == Stavros) then {[expCrate, ""expHeavy"", 800] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_SMS "closeDialog 0; if (player == Stavros) then {[""expHeavy"", 300] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_MMS "closeDialog 0; if (player == Stavros) then {[""expHeavy"", 800] remoteExec [""buyGear"", 2];}"
 
-	#define STR_EXP_SAC "closeDialog 0; if (player == Stavros) then {[expCrate, ""aCache"", 500] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_MAC "closeDialog 0; if (player == Stavros) then {[expCrate, ""aCache"", 5000] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_SAC "closeDialog 0; if (player == Stavros) then {[""aCache"", 500] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_MAC "closeDialog 0; if (player == Stavros) then {[""aCache"", 5000] remoteExec [""buyGear"", 2];}"
 
 
 	BTN_L1(-1, "Some Charges", "Spend 300 Euros on a small bag of explosives.", STR_EXP_SCH);
@@ -871,12 +871,12 @@ class wpns_small
 	AS_FRAME_D(FRAME_H_6, "Weapon Options");
 	BTN_BACK("closeDialog 0; createDialog ""exp_menu"";");
 
-	#define STR_EXP_ASS_S "closeDialog 0; if (player == Stavros) then {[expCrate, ""ASRifles"", 1000] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_PIS_S "closeDialog 0; if (player == Stavros) then {[expCrate, ""Pistols"", 1000] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_MGS_S "closeDialog 0; if (player == Stavros) then {[expCrate, ""Machineguns"", 1000] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_SNP_S "closeDialog 0; if (player == Stavros) then {[expCrate, ""Sniper Rifles"", 1000] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_LCH_S "closeDialog 0; if (player == Stavros) then {[expCrate, ""Launchers"", 1000] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_RND_S "closeDialog 0; if (player == Stavros) then {[expCrate, ""Random"", 1000] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_ASS_S "closeDialog 0; if (player == Stavros) then {[""ASRifles"", 1000] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_PIS_S "closeDialog 0; if (player == Stavros) then {[""Pistols"", 1000] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_MGS_S "closeDialog 0; if (player == Stavros) then {[""Machineguns"", 1000] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_SNP_S "closeDialog 0; if (player == Stavros) then {[""Sniper Rifles"", 1000] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_LCH_S "closeDialog 0; if (player == Stavros) then {[""Launchers"", 1000] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_RND_S "closeDialog 0; if (player == Stavros) then {[""Random"", 1000] remoteExec [""buyGear"", 2];}"
 
 	BTN_L1(-1, "Assault Rifles", "", STR_EXP_ASS_S);
 	BTN_L2(-1, "Machineguns", "", STR_EXP_MGS_S);
@@ -901,12 +901,12 @@ class wpns_large
 	AS_FRAME_D(FRAME_H_6, "Weapon Options");
 	BTN_BACK("closeDialog 0; createDialog ""exp_menu"";");
 
-	#define STR_EXP_ASS_L "closeDialog 0; if (player == Stavros) then {[expCrate, ""ASRifles"", 2500] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_PIS_L "closeDialog 0; if (player == Stavros) then {[expCrate, ""Pistols"", 2500] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_MGS_L "closeDialog 0; if (player == Stavros) then {[expCrate, ""Machineguns"", 2500] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_SNP_L "closeDialog 0; if (player == Stavros) then {[expCrate, ""Sniper Rifles"", 2500] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_LCH_L "closeDialog 0; if (player == Stavros) then {[expCrate, ""Launchers"", 2500] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_RND_L "closeDialog 0; if (player == Stavros) then {[expCrate, ""Random"", 2500] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_ASS_L "closeDialog 0; if (player == Stavros) then {[""ASRifles"", 2500] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_PIS_L "closeDialog 0; if (player == Stavros) then {[""Pistols"", 2500] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_MGS_L "closeDialog 0; if (player == Stavros) then {[""Machineguns"", 2500] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_SNP_L "closeDialog 0; if (player == Stavros) then {[""Sniper Rifles"", 2500] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_LCH_L "closeDialog 0; if (player == Stavros) then {[""Launchers"", 2500] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_RND_L "closeDialog 0; if (player == Stavros) then {[""Random"", 2500] remoteExec [""buyGear"", 2];}"
 
 	BTN_L1(-1, "Assault Rifles", "", STR_EXP_ASS_L);
 	BTN_L2(-1, "Machineguns", "", STR_EXP_MGS_L);
