@@ -30,7 +30,7 @@ AS_fnc_saveServer = {
 // function that loads all AS_serverVariables.
 AS_fnc_loadServer = {
 	{
-		server setVariable [_x, _x call AS_fnc_LoadStat, true];
+		server setVariable [_x, [_x] call AS_fnc_LoadStat, true];
 	} forEach AS_serverVariables;
 	
 	call AS_fnc_postLoadServer;
@@ -63,9 +63,17 @@ fn_LoadStat = {
 };
 
 //===========================================================================
-//ADD VARIABLES TO THIS ARRAY THAT NEED SPECIAL SCRIPTING TO LOAD
+// Variables that require scripting after loaded. See fn_SetStat.
 specialVarLoads =
-["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","mrkAAF","mrkFIA","posHQ","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","armas","items","mochis","municion","fecha", "prestigeOPFOR","prestigeBLUFOR","skillAAF","distanciaSPWN","civPerc","minimoFPS","destroyedCities","garrison","tasks","gogglesPlayer","vestPlayer","outfit","hat","scorePlayer","rankPlayer","smallCAmrk","dinero","miembros","unlockedWeapons","unlockedItems","unlockedMagazines","unlockedBackpacks","vehInGarage","destroyedBuildings","personalGarage","idleBases","campsFIA","campList","BE_data"];
+["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","posHQ","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","armas","items","mochis","municion","fecha", "prestigeOPFOR","prestigeBLUFOR","skillAAF","garrison","tasks","gogglesPlayer","vestPlayer","outfit","hat","scorePlayer","rankPlayer","dinero","unlockedWeapons","unlockedItems","unlockedMagazines","unlockedBackpacks","destroyedBuildings","idleBases","campsFIA","campList","BE_data"];
+
+// global variables that are set to be publicVariable on loading.
+AS_publicVariables = [
+	"cuentaCA", "miembros", "unlockedWeapons", "unlockedBackpacks", "unlockedItems", "unlockedMagazines",
+	"planesAAFcurrent", "helisAAFcurrent", "APCAAFcurrent", "unlockedItems", "tanksAAFcurrent", "destroyedCities",
+	"distanciaSPWN", "civPerc", "minimoFPS", "vehInGarage", "skillAAF", "staticsToSave"
+];
+
 //THIS FUNCTIONS HANDLES HOW STATS ARE LOADED
 fn_SetStat = {
 	_varName = _this select 0;
@@ -76,12 +84,7 @@ fn_SetStat = {
 		call {
 			if(_varName == 'cuentaCA') exitWith {
 				if (_varValue < 2700) then {cuentaCA = 2700} else {cuentaCA = _varValue};
-				publicVariable "cuentaCA";
 			};
-			if(_varName == 'miembros') exitWith {miembros = _varValue; publicVariable "miembros";};
-			if(_varName == 'smallCAmrk') exitWith {smallCAmrk = _varValue};
-			if(_varName == 'mrkAAF') exitWith {mrkAAF = _varValue;};
-			if(_varName == 'mrkFIA') exitWith {mrkFIA = _varValue;};
 			if(_varName == 'gogglesPlayer') exitWith {removeGoggles player; player addGoggles _varValue;};
 			if(_varName == 'dinero') exitWith {player setVariable ["dinero",_varValue,true];};
 			if(_varName == 'vestPlayer') exitWith {removeVest player; player addVest _varValue;};
@@ -89,7 +92,6 @@ fn_SetStat = {
 			if(_varName == 'hat') exitWith {removeHeadGear player; player addHeadGear _varValue;};
 			if(_varName == 'scorePlayer') exitWith {player setVariable ["score",_varValue,true];};
 			if(_varName == 'rankPlayer') exitWith {player setRank _varValue; player setVariable ["rango",_varValue,true]; [player, _varValue] remoteExec ["ranksMP"];};
-			if(_varName == 'personalGarage') exitWith {personalGarage = _varValue};
 
 			if(_varName == 'BE_data') exitWith {[_varValue] call fnc_BE_load};
 			if(_varName == 'unlockedWeapons') exitWith {
@@ -101,7 +103,6 @@ fn_SetStat = {
 				} else {
 					[caja,unlockedWeapons,true] call BIS_fnc_addVirtualWeaponCargo;
 				};
-				publicVariable "unlockedWeapons";
 			};
 			if(_varName == 'unlockedBackpacks') exitWith {
 				unlockedBackpacks = _varvalue;
@@ -112,11 +113,9 @@ fn_SetStat = {
 				} else {
 					[caja,unlockedBackpacks,true] call BIS_fnc_addVirtualBackpackCargo;
 				};
-				publicVariable "unlockedBackpacks";
 			};
 			if(_varName == 'unlockedItems') exitWith {
 				unlockedItems = _varValue;
-				publicVariable "unlockedItems";
 				// XLA fixed arsenal
 				if (hayXLA) then {
 					[caja,unlockedItems,true] call XLA_fnc_addVirtualItemCargo;
@@ -136,18 +135,15 @@ fn_SetStat = {
 				} else {
 					[caja,unlockedMagazines,true] call BIS_fnc_addVirtualMagazineCargo;
 				};
-				publicVariable "unlockedMagazines";
 			};
 			if(_varName == 'planesAAFcurrent') exitWith {
 				planesAAFcurrent = _varValue;
 				if (planesAAFcurrent < 0) then {planesAAFcurrent = 0};
-				publicVariable "planesAAFcurrent";
 				if ((planesAAFcurrent > 0) and (count planesAAF < 2)) then {planesAAF = planesAAF + planes; publicVariable "planesAAF"}
 			};
 			if(_varName == 'helisAAFcurrent') exitWith {
 				helisAAFcurrent = _varValue;
 				if (helisAAFcurrent < 0) then {helisAAFcurrent = 0};
-				publicVariable "helisAAFcurrent";
 				if (helisAAFcurrent > 0) then {
 					planesAAF = planesAAF - heli_armed;
 					planesAAF = planesAAF + heli_armed;
@@ -157,7 +153,6 @@ fn_SetStat = {
 			if(_varName == 'APCAAFcurrent') exitWith {
 				APCAAFcurrent = _varValue;
 				if (APCAAFcurrent < 0) then {APCAAFcurrent = 0};
-				publicVariable "APCAAFcurrent";
 				if (APCAAFcurrent > 0) then {
 					vehAAFAT = vehAAFAT -  vehAPC - vehIFV;
 					vehAAFAT = vehAAFAT +  vehAPC + vehIFV;
@@ -167,7 +162,6 @@ fn_SetStat = {
 			if(_varName == 'tanksAAFcurrent') exitWith {
 				tanksAAFcurrent = _varValue;
 				if (tanksAAFcurrent < 0) then {tanksAAFcurrent = 0};
-				publicVariable "tanksAAFcurrent";
 				if (tanksAAFcurrent > 0) then {
 					vehAAFAT = vehAAFAT - vehTank;
 					vehAAFAT = vehAAFAT +  vehTank;
@@ -175,7 +169,6 @@ fn_SetStat = {
 				};
 			};
 			if(_varName == 'fecha') exitWith {setDate _varValue; forceWeatherChange};
-			if(_varName == 'destroyedCities') exitWith {destroyedCities = _varValue; publicVariable "destroyedCities"};
 			if(_varName == 'destroyedBuildings') exitWith {
 				for "_i" from 0 to (count _varValue) - 1 do {
 					_posBuild = _varValue select _i;
@@ -203,12 +196,7 @@ fn_SetStat = {
 					};
 					server setVariable [_x,_coste,true];
 				} forEach soldadosAAF;
-				publicVariable "skillAAF";
 			};
-			if(_varName == 'distanciaSPWN') exitWith {distanciaSPWN = _varValue; publicVariable "distanciaSPWN"};
-			if(_varName == 'civPerc') exitWith {civPerc = _varValue; publicVariable "civPerc"};
-			if(_varName == 'minimoFPS') exitWith {minimoFPS=_varValue; publicVariable "minimoFPS"};
-			if(_varName == 'vehInGarage') exitWith {vehInGarage=_varValue; publicVariable "vehInGarage"};
 			if(_varName == 'minas') exitWith
 				{
 				for "_i" from 0 to (count _varvalue) - 1 do
@@ -316,7 +304,6 @@ fn_SetStat = {
 				    deleteMarker _mrk;
 				    };
 				antenasmuertas = _varvalue;
-				publicVariable "antenas";
 				};
 			if(_varName == 'armas') exitWith
 				{
@@ -399,7 +386,6 @@ fn_SetStat = {
 					};
 					[_veh] spawn VEHinit;
 					};
-				publicVariable "staticsToSave";
 				};
 			if(_varname == 'tasks') exitWith
 				{
@@ -426,6 +412,10 @@ fn_SetStat = {
 	else
 	{
 		call compile format ["%1 = %2",_varName,_varValue];
+	};
+	
+	if (_varName in AS_publicVariables) then {
+		publicVariable _varName;
 	};
 };
 
