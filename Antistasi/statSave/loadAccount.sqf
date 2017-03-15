@@ -36,8 +36,8 @@ statsLoaded = 0; publicVariable "statsLoaded";
 //ADD STATS THAT NEED TO BE LOADED HERE.
 petros allowdamage false;
 
-["enableMemAcc"] call fn_LoadStat;
-["enableFTold"] call fn_LoadStat;
+call AS_fnc_loadServer;
+
 ["campList"] call fn_LoadStat; publicVariable "campList";
 ["campsFIA"] call fn_LoadStat; publicVariable "campsFIA";
 ["puestosFIA"] call fn_LoadStat; publicVariable "puestosFIA";
@@ -47,9 +47,6 @@ petros allowdamage false;
 ["minas"] call fn_LoadStat;
 ["cuentaCA"] call fn_LoadStat;
 ["antenas"] call fn_LoadStat;
-["prestigeNATO"] call fn_LoadStat;
-["prestigeCSAT"] call fn_LoadStat;
-["hr"] call fn_LoadStat;
 ["planesAAFcurrent"] call fn_LoadStat;
 ["helisAAFcurrent"] call fn_LoadStat;
 ["APCAAFcurrent"] call fn_LoadStat;
@@ -61,10 +58,7 @@ petros allowdamage false;
 ["fecha"] call fn_LoadStat;
 ["prestigeOPFOR"] call fn_LoadStat;
 ["prestigeBLUFOR"] call fn_LoadStat;
-["resourcesAAF"] call fn_LoadStat;
-["resourcesFIA"] call fn_LoadStat;
 ["garrison"] call fn_LoadStat;
-["skillFIA"] call fn_LoadStat;
 ["skillAAF"] call fn_LoadStat;
 ["distanciaSPWN"] call fn_LoadStat;
 ["civPerc"] call fn_LoadStat;

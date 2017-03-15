@@ -1,17 +1,63 @@
-fn_SaveStat =
-{
+
+
+// the function that saves a property persistently.
+AS_fnc_SaveStat = {
 	_varName = _this select 0;
 	_varValue = _this select 1;
 	if (!isNil "_varValue") then {
-		profileNameSpace setVariable [_varName + AS_profileID + AS_sessionID,_varValue];
+		profileNameSpace setVariable [_varName + AS_profileID + AS_sessionID, _varValue];
 	};
 };
 
+// the function that loads a property persistently.
+AS_fnc_LoadStat = {
+	_varName = _this select 0;
+	profileNameSpace getVariable (_varName + AS_profileID + AS_sessionID)
+};
+
+// Variables that are persistent to `server`. They are saved and loaded accordingly.
+// Add variables here that you want to save.
+AS_serverVariables = [
+	"prestigeNATO", "prestigeCSAT", "resourcesAAF", "resourcesFIA", "skillFIA", "hr",  // FIA attributes
+	"enableFTold", "enableMemAcc"  // game options
+];
+
+// function that saves all AS_serverVariables.
+AS_fnc_saveServer = {
+	{[_x, server getVariable _x] call AS_fnc_SaveStat;} forEach AS_serverVariables;
+};
+
+// function that loads all AS_serverVariables.
+AS_fnc_loadServer = {
+	{
+		server setVariable [_x, _x call AS_fnc_LoadStat, true];
+	} forEach AS_serverVariables;
+	
+	call AS_fnc_postLoadServer;
+};
+
+// set non-persistent variables that are functions of persistent variables.
+AS_fnc_postLoadServer = {
+	// increase cost of soldiers (what is this doing exactly??)
+	_skillFIA = server getVariable "skillFIA";
+	{
+		_cost = server getVariable _x;
+		for "_i" from 1 to _skillFIA do {
+			_cost = round (_cost + (_cost * (_i/280)));
+		};
+		server setVariable [_x,_cost,true];
+	} forEach soldadosFIA;
+};
+
+fn_SaveStat = AS_fnc_SaveStat;  // to be replaced in whole project.
+
+
 fn_SaveProfile = {saveProfileNamespace};
 
+// loads global persistent variables.
 fn_LoadStat = {
 	_varName = _this select 0;
-	_varValue = profileNameSpace getVariable (_varName + AS_profileID + AS_sessionID);
+	_varValue = [_varName] call AS_fnc_LoadStat;
 	if(isNil "_varValue") exitWith {};
 	[_varName,_varValue] call fn_SetStat;
 };
@@ -19,7 +65,7 @@ fn_LoadStat = {
 //===========================================================================
 //ADD VARIABLES TO THIS ARRAY THAT NEED SPECIAL SCRIPTING TO LOAD
 specialVarLoads =
-["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","mrkAAF","mrkFIA","prestigeNATO","prestigeCSAT","posHQ", "hr","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","armas","items","mochis","municion","fecha", "prestigeOPFOR","prestigeBLUFOR","resourcesAAF","resourcesFIA","skillFIA","skillAAF","distanciaSPWN","civPerc","minimoFPS","destroyedCities","garrison","tasks","gogglesPlayer","vestPlayer","outfit","hat","scorePlayer","rankPlayer","smallCAmrk","dinero","miembros","unlockedWeapons","unlockedItems","unlockedMagazines","unlockedBackpacks","vehInGarage","destroyedBuildings","personalGarage","idleBases","campsFIA","enableFTold","enableMemAcc","campList","BE_data"];
+["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","mrkAAF","mrkFIA","posHQ","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","armas","items","mochis","municion","fecha", "prestigeOPFOR","prestigeBLUFOR","skillAAF","distanciaSPWN","civPerc","minimoFPS","destroyedCities","garrison","tasks","gogglesPlayer","vestPlayer","outfit","hat","scorePlayer","rankPlayer","smallCAmrk","dinero","miembros","unlockedWeapons","unlockedItems","unlockedMagazines","unlockedBackpacks","vehInGarage","destroyedBuildings","personalGarage","idleBases","campsFIA","campList","BE_data"];
 //THIS FUNCTIONS HANDLES HOW STATS ARE LOADED
 fn_SetStat = {
 	_varName = _this select 0;
@@ -92,9 +138,6 @@ fn_SetStat = {
 				};
 				publicVariable "unlockedMagazines";
 			};
-			if(_varName == 'prestigeNATO') exitWith {server setVariable ["prestigeNATO",_varValue,true]};
-			if(_varName == 'prestigeCSAT') exitWith {server setVariable ["prestigeCSAT",_varValue,true]};
-			if(_varName == 'hr') exitWith {server setVariable ["HR",_varValue,true]};
 			if(_varName == 'planesAAFcurrent') exitWith {
 				planesAAFcurrent = _varValue;
 				if (planesAAFcurrent < 0) then {planesAAFcurrent = 0};
@@ -132,8 +175,6 @@ fn_SetStat = {
 				};
 			};
 			if(_varName == 'fecha') exitWith {setDate _varValue; forceWeatherChange};
-			if(_varName == 'resourcesAAF') exitWith {server setVariable ["resourcesAAF",_varValue,true]};
-			if(_varName == 'resourcesFIA') exitWith {server setVariable ["resourcesFIA",_varValue,true]};
 			if(_varName == 'destroyedCities') exitWith {destroyedCities = _varValue; publicVariable "destroyedCities"};
 			if(_varName == 'destroyedBuildings') exitWith {
 				for "_i" from 0 to (count _varValue) - 1 do {
@@ -152,16 +193,6 @@ fn_SetStat = {
 						destroyedBuildings = destroyedBuildings + [_posBuild];
 					};
 				};
-			};
-			if(_varName == 'skillFIA') exitWith {
-				server setVariable ["skillFIA",_varValue,true];
-				{
-					_coste = server getVariable _x;
-					for "_i" from 1 to _varValue do {
-						_coste = round (_coste + (_coste * (_i/280)));
-					};
-					server setVariable [_x,_coste,true];
-				} forEach soldadosFIA;
 			};
 			if(_varName == 'skillAAF') exitWith {
 				skillAAF = _varvalue;
@@ -269,10 +300,6 @@ fn_SetStat = {
 					};
 				};
 			};
-
-			if(_varName == 'enableFTold') exitWith {server setVariable ["enableFTold",_varValue,true]};
-			if(_varName == 'enableMemAcc') exitWith {server setVariable ["enableMemAcc",_varValue,true]};
-
 
 			if(_varName == 'antenas') exitWith
 				{

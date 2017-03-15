@@ -42,8 +42,9 @@ if (!isDedicated) then
  if (!isServer) exitWith {};
  if (savingServer) exitWith {"Server data save is still in process" remoteExecCall ["hint",stavros]};
  savingServer = true;
- 	["AS_sessionID", server getVariable ["AS_sessionID", round (random 100000)]] call fn_SaveStat;
-	diag_log format ["Maintenance -- Server's sessionID saved: %1", profileNameSpace getVariable ("AS_sessionID" + AS_profileID)];
+ 
+call AS_fnc_saveServer;
+
 	["cuentaCA", cuentaCA] call fn_SaveStat;
 	["smallCAmrk", smallCAmrk] call fn_SaveStat;
 	["miembros", miembros] call fn_SaveStat;
@@ -51,15 +52,11 @@ if (!isDedicated) then
 	["mrkAAF", mrkAAF - controles] call fn_SaveStat;
 	["mrkFIA", mrkFIA - puestosFIA - controles] call fn_SaveStat;
 	["posHQ", getMarkerPos "respawn_west"] call fn_Savestat;
-	["prestigeNATO", server getVariable "prestigeNATO"] call fn_SaveStat;
-	["prestigeCSAT", server getVariable "prestigeCSAT"] call fn_SaveStat;
 	["APCAAFcurrent", APCAAFcurrent] call fn_SaveStat;
 	["tanksAAFcurrent",tanksAAFcurrent] call fn_SaveStat;
 	["planesAAFcurrent", planesAAFcurrent] call fn_SaveStat;
 	["helisAAFcurrent", helisAAFcurrent] call fn_SaveStat;
 	["fecha", date] call fn_SaveStat;
-	["resourcesAAF", server getVariable "resourcesAAF"] call fn_SaveStat;
-	["skillFIA", server getVariable "skillFIA"] call fn_SaveStat;
 	["skillAAF", skillAAF] call fn_SaveStat;
 	["destroyedCities", destroyedCities] call fn_SaveStat;
 	["destroyedBuildings", destroyedBuildings] call fn_SaveStat;
@@ -284,12 +281,6 @@ _arrayCampsFIA = _arrayCampsFIA + [_pospuesto];
 } forEach campsFIA;
 
 ["campsFIA", _arrayCampsFIA] call fn_SaveStat;
-
-_enableFTold = server getVariable "enableFTold";
-["enableFTold", _enableFTold] call fn_SaveStat;
-
-_enableMemAcc = server getVariable "enableMemAcc";
-["enableMemAcc", _enableMemAcc] call fn_SaveStat;
 
 if (!isDedicated) then
 	{

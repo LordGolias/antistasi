@@ -289,6 +289,8 @@ server setVariable ["prestigeCSAT",5,true];//Initial Prestige CSAT
 
 server setVariable ["enableFTold",false,true]; // extended fast travel mode
 server setVariable ["enableMemAcc",false,true]; // simplified arsenal access
+
+// todo: this option is not being saved, so it is irrelevant. Consider removing.
 server setVariable ["enableWpnProf",false,true]; // class-based weapon proficiences, MP only
 
 server setVariable ["easyMode",false,true]; // higher income
