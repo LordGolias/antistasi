@@ -61,10 +61,6 @@ if (!isDedicated) then
 	["distanciaSPWN", distanciaSPWN] call fn_SaveStat;
 	["civPerc", civPerc] call fn_SaveStat;
 	["minimoFPS", minimoFPS] call fn_SaveStat;
-	["unlockedWeapons", unlockedWeapons] call fn_SaveStat;
-	["unlockedItems", unlockedItems] call fn_SaveStat;
-	["unlockedMagazines", unlockedMagazines] call fn_SaveStat;
-	["unlockedBackpacks", unlockedBackpacks] call fn_SaveStat;
 	["vehInGarage", vehInGarage] call fn_SaveStat;
 
 	["BE_data", ([] call fnc_BE_save)] call fn_SaveStat;
@@ -205,10 +201,9 @@ if (_veh distance getMarkerPos "respawn_west" < 50) then
 
 
 ["estaticas", _arrayEst] call fn_SaveStat;
-["armas", _armas] call fn_SaveStat;
-["municion", _municion] call fn_SaveStat;
-["items", _items] call fn_SaveStat;
-["mochis", _mochis] call fn_SaveStat;
+
+[_armas, _municion, _items, _mochis] call AS_fnc_saveArsenal;
+
 
 _marcadores = mrkFIA - puestosFIA - controles - ciudades;
 _garrison = [];

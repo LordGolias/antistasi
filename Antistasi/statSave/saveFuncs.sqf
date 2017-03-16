@@ -77,6 +77,83 @@ AS_fnc_loadCities = {
 };
 
 
+AS_fnc_saveArsenal = {
+	params ["_weapons", "_magazines", "_items", "_backpacks"];
+
+	["ARSENALweapons", _weapons] call fn_SaveStat;
+	["ARSENALmagazines", _magazines] call fn_SaveStat;
+	["ARSENALitems", _items] call fn_SaveStat;
+	["ARSENALbackpacks", _backpacks] call fn_SaveStat;
+
+	["ARSENALunlockedWeapons", unlockedWeapons] call fn_SaveStat;
+	["ARSENALunlockedItems", unlockedItems] call fn_SaveStat;
+	["ARSENALunlockedMagazines", unlockedMagazines] call fn_SaveStat;
+	["ARSENALunlockedBackpacks", unlockedBackpacks] call fn_SaveStat;
+};
+
+AS_fnc_loadArsenal = {
+	private ["_weapons", "_magazines", "_items", "_backpacks"];
+
+	clearWeaponCargoGlobal caja;
+	_weapons = ["ARSENALweapons"] call AS_fnc_LoadStat;
+	{caja addWeaponCargoGlobal [_x,1]} forEach _weapons;
+
+	clearMagazineCargoGlobal caja;
+	_magazines = ["ARSENALmagazines"] call AS_fnc_LoadStat;
+	{caja addMagazineCargoGlobal [_x,1]} forEach _magazines;
+
+	clearItemCargoGlobal caja;
+	_items = ["ARSENALitems"] call AS_fnc_LoadStat;
+	{caja addItemCargoGlobal [_x,1]} forEach _items;
+
+	clearBackpackCargoGlobal caja;
+	_backpacks = ["ARSENALbackpacks"] call AS_fnc_LoadStat;
+	{caja addBackpackCargoGlobal [_x,1]} forEach _backpacks;
+
+	// load unlocked stuff
+	unlockedWeapons = ["ARSENALunlockedWeapons"] call AS_fnc_LoadStat;
+	lockedWeapons = lockedWeapons - unlockedWeapons;
+	if (hayXLA) then {
+		[caja,unlockedWeapons,true] call XLA_fnc_addVirtualWeaponCargo;
+	} else {
+		[caja,unlockedWeapons,true] call BIS_fnc_addVirtualWeaponCargo;
+	};
+	
+	unlockedMagazines = ["ARSENALunlockedMagazines"] call AS_fnc_LoadStat;
+	if (hayXLA) then {
+		[caja,unlockedMagazines,true] call XLA_fnc_addVirtualMagazineCargo;
+	} else {
+		[caja,unlockedMagazines,true] call BIS_fnc_addVirtualMagazineCargo;
+	};
+	
+	unlockedItems = ["ARSENALunlockedItems"] call AS_fnc_LoadStat;
+	if (hayXLA) then {
+		[caja,unlockedItems,true] call XLA_fnc_addVirtualItemCargo;
+	} else {
+		[caja,unlockedItems,true] call BIS_fnc_addVirtualItemCargo;
+	};
+
+	{
+	if (_x in unlockedItems) then {unlockedOptics pushBack _x};
+	} forEach genOptics;
+	publicVariable "unlockedOptics";
+
+	unlockedBackpacks= ["ARSENALunlockedBackpacks"] call AS_fnc_LoadStat;
+	genBackpacks = genBackpacks - unlockedBackpacks;
+	if (hayXLA) then {
+		[caja,unlockedBackpacks,true] call XLA_fnc_addVirtualBackpackCargo;
+	} else {
+		[caja,unlockedBackpacks,true] call BIS_fnc_addVirtualBackpackCargo;
+	};
+
+	publicVariable "unlockedWeapons";
+	publicVariable "unlockedMagazines";
+	publicVariable "unlockedItems";
+	publicVariable "unlockedBackpacks";
+};
+
+
+
 fn_SaveStat = AS_fnc_SaveStat;  // to be replaced in whole project.
 
 fn_SaveProfile = {saveProfileNamespace};
@@ -92,11 +169,11 @@ fn_LoadStat = {
 //===========================================================================
 // Variables that require scripting after loaded. See fn_SetStat.
 specialVarLoads =
-["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","posHQ","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","armas","items","mochis","municion","fecha","skillAAF","garrison","tasks","gogglesPlayer","vestPlayer","outfit","hat","scorePlayer","rankPlayer","dinero","unlockedWeapons","unlockedItems","unlockedMagazines","unlockedBackpacks","destroyedBuildings","idleBases","campsFIA","campList","BE_data"];
+["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","posHQ","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","fecha","skillAAF","garrison","tasks","gogglesPlayer","vestPlayer","outfit","hat","scorePlayer","rankPlayer","dinero","destroyedBuildings","idleBases","campsFIA","campList","BE_data"];
 
 // global variables that are set to be publicVariable on loading.
 AS_publicVariables = [
-	"cuentaCA", "miembros", "unlockedWeapons", "unlockedBackpacks", "unlockedItems", "unlockedMagazines",
+	"cuentaCA", "miembros",
 	"planesAAFcurrent", "helisAAFcurrent", "APCAAFcurrent", "unlockedItems", "tanksAAFcurrent", "destroyedCities",
 	"distanciaSPWN", "civPerc", "minimoFPS", "vehInGarage", "skillAAF", "staticsToSave"
 ];
@@ -121,48 +198,6 @@ fn_SetStat = {
 			if(_varName == 'rankPlayer') exitWith {player setRank _varValue; player setVariable ["rango",_varValue,true]; [player, _varValue] remoteExec ["ranksMP"];};
 
 			if(_varName == 'BE_data') exitWith {[_varValue] call fnc_BE_load};
-			if(_varName == 'unlockedWeapons') exitWith {
-				unlockedWeapons = _varvalue;
-				lockedWeapons = lockedWeapons - unlockedWeapons;
-				// XLA fixed arsenal
-				if (hayXLA) then {
-					[caja,unlockedWeapons,true] call XLA_fnc_addVirtualWeaponCargo;
-				} else {
-					[caja,unlockedWeapons,true] call BIS_fnc_addVirtualWeaponCargo;
-				};
-			};
-			if(_varName == 'unlockedBackpacks') exitWith {
-				unlockedBackpacks = _varvalue;
-				genBackpacks = genBackpacks - unlockedBackpacks;
-				// XLA fixed arsenal
-				if (hayXLA) then {
-					[caja,unlockedBackpacks,true] call XLA_fnc_addVirtualBackpackCargo;
-				} else {
-					[caja,unlockedBackpacks,true] call BIS_fnc_addVirtualBackpackCargo;
-				};
-			};
-			if(_varName == 'unlockedItems') exitWith {
-				unlockedItems = _varValue;
-				// XLA fixed arsenal
-				if (hayXLA) then {
-					[caja,unlockedItems,true] call XLA_fnc_addVirtualItemCargo;
-				} else {
-					[caja,unlockedItems,true] call BIS_fnc_addVirtualItemCargo;
-				};
-				{
-				if (_x in unlockedItems) then {unlockedOptics pushBack _x};
-				} forEach genOptics;
-				publicVariable "unlockedOptics";
-			};
-			if(_varName == 'unlockedMagazines') exitWith {
-				unlockedMagazines = _varValue;
-				// XLA fixed arsenal
-				if (hayXLA) then {
-					[caja,unlockedMagazines,true] call XLA_fnc_addVirtualMagazineCargo;
-				} else {
-					[caja,unlockedMagazines,true] call BIS_fnc_addVirtualMagazineCargo;
-				};
-			};
 			if(_varName == 'planesAAFcurrent') exitWith {
 				planesAAFcurrent = _varValue;
 				if (planesAAFcurrent < 0) then {planesAAFcurrent = 0};
@@ -331,26 +366,6 @@ fn_SetStat = {
 				    deleteMarker _mrk;
 				    };
 				antenasmuertas = _varvalue;
-				};
-			if(_varName == 'armas') exitWith
-				{
-				clearWeaponCargoGlobal caja;
-				{caja addWeaponCargoGlobal [_x,1]} forEach _varValue;
-				};
-			if(_varName == 'municion') exitWith
-				{
-				clearMagazineCargoGlobal caja;
-				{caja addMagazineCargoGlobal [_x,1]} forEach _varValue;
-				};
-			if(_varName == 'items') exitWith
-				{
-				clearItemCargoGlobal caja;
-				{caja addItemCargoGlobal [_x,1]} forEach _varValue;
-				};
-			if(_varName == 'mochis') exitWith
-				{
-				clearBackpackCargoGlobal caja;
-				{caja addBackpackCargoGlobal [_x,1]} forEach _varValue;
 				};
 			if(_varname == 'idleBases') exitWith
 				{
