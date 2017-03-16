@@ -22,12 +22,22 @@ AS_serverVariables = [
 	"enableFTold", "enableMemAcc"  // game options
 ];
 
-// function that saves all AS_serverVariables.
+// function that saves all AS_serverVariables. The two parameters overwrite the server variable value to save.
 AS_fnc_saveServer = {
-	{[_x, server getVariable _x] call AS_fnc_SaveStat;} forEach AS_serverVariables;
+	params ["_varNames", "_varValues"];
+
+	{
+		_index = _varNames find _x;
+		_varValue = server getVariable _x;
+		if (_index != -1) then {
+			_varValue = _varValues select _index;
+		};
+		[_x, _varValue] call AS_fnc_SaveStat;
+	} forEach AS_serverVariables;
 
 	call AS_fnc_saveCities;
 };
+
 
 // function that loads all AS_serverVariables.
 AS_fnc_loadServer = {

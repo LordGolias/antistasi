@@ -42,8 +42,6 @@ if (!isDedicated) then
  if (!isServer) exitWith {};
  if (savingServer) exitWith {"Server data save is still in process" remoteExecCall ["hint",stavros]};
  savingServer = true;
- 
-call AS_fnc_saveServer;
 
 	["cuentaCA", cuentaCA] call fn_SaveStat;
 	["smallCAmrk", smallCAmrk] call fn_SaveStat;
@@ -67,19 +65,20 @@ call AS_fnc_saveServer;
 	["unlockedItems", unlockedItems] call fn_SaveStat;
 	["unlockedMagazines", unlockedMagazines] call fn_SaveStat;
 	["unlockedBackpacks", unlockedBackpacks] call fn_SaveStat;
+	["vehInGarage", vehInGarage] call fn_SaveStat;
 
 	["BE_data", ([] call fnc_BE_save)] call fn_SaveStat;
 
 private ["_hrfondo","_resfondo","_veh","_tipoVeh","_armas","_municion","_items","_mochis","_contenedores","_arrayEst","_posVeh","_dierVeh","_prestigeOPFOR","_prestigeBLUFOR","_ciudad","_datos","_marcadores","_garrison","_arrayMrkMF","_arrayPuestosFIA","_pospuesto","_tipoMina","_posMina","_detectada","_tipos","_exists","_amigo","_arrayCampsFIA","_enableFTold","_enableMemAcc","_campList"];
 
-_hrfondo = (server getVariable "hr") + ({(alive _x) and (not isPlayer _x) and (_x getVariable ["BLUFORSpawn",false])} count allUnits);
-_resfondo = server getVariable "resourcesFIA";
 
+// save all units as hr and money.
+
+_resfondo = server getVariable "resourcesFIA";
 _armas = weaponCargo caja;
 _municion = magazineCargo caja;
 _items = itemCargo caja;
 _mochis = [];
-_vehInGarage = vehInGarage;
 {
 _amigo = _x;
 if (_amigo getVariable ["BLUFORSpawn",false]) then
@@ -120,10 +119,8 @@ if (_amigo getVariable ["BLUFORSpawn",false]) then
 	};
 } forEach allUnits;
 
-
-["resourcesFIA", _resfondo] call fn_SaveStat;
-["hr", _hrfondo] call fn_SaveStat;
-["vehInGarage", _vehInGarage] call fn_SaveStat;
+_hrfondo = (server getVariable "hr") + ({(alive _x) and (not isPlayer _x) and (_x getVariable ["BLUFORSpawn",false])} count allUnits);
+[["resourcesFIA", "hr"], [_resfondo, _hrfondo]] call AS_fnc_saveServer;
 
 if (count backpackCargo caja > 0) then
 	{
