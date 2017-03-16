@@ -27,10 +27,10 @@ AS_fnc_setCityAttrs = {
 	_data = server getVariable _city;
 	
 	for "_i" from 0 to (count _varNames - 1) do {
-		_varName = _varNames select _x;
-		_varValue = _varValues select _x;
+		_varName = _varNames select _i;
+		_varValue = _varValues select _i;
 		
-		_index = AS_cityVars find _x;
+		_index = AS_cityVars find _varName;
 		if (_index == -1) throw ("AS_fnc_setCityAttrs: property " + _varName + " does not exist");
 		_data set [_index, _varValue];
 	};
