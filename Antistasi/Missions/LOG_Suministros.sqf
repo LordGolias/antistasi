@@ -113,6 +113,6 @@ else
 //[_tsk,true] call BIS_fnc_deleteTask;
 [1200,_tsk] spawn borrarTask;
 waitUntil {sleep 1; (not([distanciaSPWN,1,_camion,"BLUFORSpawn"] call distanceUnits)) or ((_camion distance (getMarkerPos "respawn_west") < 60) && (speed _camion < 1))};
-[_camion,true] call vaciar;
+[_camion] call vaciar;
 deleteVehicle _camion;
 

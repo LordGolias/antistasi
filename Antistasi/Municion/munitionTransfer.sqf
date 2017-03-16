@@ -157,17 +157,11 @@ if (count _mochisFinal > 0) then
 		};
 	};
 
-if (count _this == 3) then
-	{
-	deleteVehicle _origen;
-	}
-else
-	{
-	clearMagazineCargoGlobal _origen;
-	clearWeaponCargoGlobal _origen;
-	clearItemCargoGlobal _origen;
-	clearBackpackCargoGlobal _origen;
-	};
+
+clearMagazineCargoGlobal _origen;
+clearWeaponCargoGlobal _origen;
+clearItemCargoGlobal _origen;
+clearBackpackCargoGlobal _origen;
 
 if (_destino == caja) then {
 	if (isMultiplayer) then {{if (_x distance caja < 10) then {[petros,"hint","Ammobox Loaded"] remoteExec ["commsMP",_x]}} forEach playableUnits} else {hint "Ammobox Loaded"};

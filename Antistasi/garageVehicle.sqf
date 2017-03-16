@@ -73,9 +73,12 @@ if (server getVariable "lockTransfer") exitWith {
 		};
 	} forEach playableUnits;
 };
-[_veh,true] call vaciar;
+
+if (!_veh isKindOf "StaticWeapon") then {
+	[_veh] call vaciar;
+};
+deleteVehicle _veh;
 if (_veh in reportedVehs) then {reportedVehs = reportedVehs - [_veh]; publicVariable "reportedVehs"};
-if (_veh isKindOf "StaticWeapon") then {deleteVehicle _veh};
 
 if ((count FIA_texturedVehicles > 0) && !(_tipoVeh in FIA_texturedVehicles)) then {
 	for "_i" from 0 to (count FIA_texturedVehicleConfigs - 1) do {

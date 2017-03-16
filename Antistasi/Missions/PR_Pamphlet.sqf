@@ -129,7 +129,8 @@ if !(PRTruck distance _targetPosition < 550) exitWith {
     [1200,_tsk] spawn borrarTask;
 	waitUntil {sleep 1; (not([distanciaSPWN,1,PRTruck,"BLUFORSpawn"] call distanceUnits)) or ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1))};
 	if ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1)) then {
-		[PRTruck,true] call vaciar;
+		[PRTruck] call vaciar;
+		deleteVehicle PRTruck;
 	};
 	{deleteVehicle _x} forEach _PRCrates;
 	sleep 1;
@@ -302,7 +303,8 @@ else {
 [1200,_tsk] spawn borrarTask;
 waitUntil {sleep 1; (not([distanciaSPWN,1,PRTruck,"BLUFORSpawn"] call distanceUnits)) or ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1))};
 if ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1)) then {
-	[PRTruck,true] call vaciar;
+	[PRTruck] call vaciar;
+	deleteVehicle PRTruck;
 };
 {deleteVehicle _x} forEach _PRCrates;
 sleep 1;
