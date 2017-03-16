@@ -33,9 +33,9 @@ _esFacil = false;
 
 if (_objetivo in ciudades) then
 	{
-	_datos = server getVariable _objetivo;
-	_prestigeBLUFOR = _datos select 3;
-	_prestigeOPFOR = _datos select 2;
+	_data = [_objetivo, ["prestigeBLUFOR", "prestigeOPFOR"]] call AS_fnc_getCityAttrs;
+	_prestigeBLUFOR = _data select 0;
+	_prestigeOPFOR = _data select 1;
 	if ((_prestigeOPFOR == 0) and (_prestigeBLUFOR > 0)) then {_objetivos pushBack _objetivo};
 	}
 else
@@ -159,9 +159,9 @@ if (not("CONVOY" in misiones)) then
 		_base = [_x] call findBasesForConvoy;
 		if (_base != "") then
 			{
-			_datos = server getVariable _x;
-			_prestigeOPFOR = _datos select 2;
-			_prestigeBLUFOR = _datos select 3;
+			_data = [_x, ["prestigeBLUFOR", "prestigeOPFOR"]] call AS_fnc_getCityAttrs;
+			_prestigeBLUFOR = _data select 0;
+			_prestigeOPFOR = _data select 1;
 			if (_prestigeOPFOR + _prestigeBLUFOR < 95) then
 				{
 				_objetivos pushBack [_x,_base];

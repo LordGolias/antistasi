@@ -10,8 +10,9 @@ if ((typeOf _veh in arrayCivVeh) and ({_x getVariable ["BLUFORSpawn",false]} cou
 	_pos = position _veh;
 	[0,-1,_pos] remoteExec ["citySupportChange",2];
 	_ciudad = [ciudades, _pos] call BIS_fnc_nearestPosition;
-	_datos = server getVariable _ciudad;
-	_prestigeOPFOR = _datos select 2;
+	
+	_data = [_ciudad, ["prestigeOPFOR"]] call AS_fnc_getCityAttrs;
+	_prestigeOPFOR = _data select 0;
 	sleep 5;
 	if (random 100 < _prestigeOPFOR) then
 		{

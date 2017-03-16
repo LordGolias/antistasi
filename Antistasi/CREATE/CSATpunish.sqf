@@ -87,9 +87,8 @@ for "_i" from 1 to 3 do
 	sleep 20;
 	};
 
-_datos = server getVariable _mrkDestino;
-
-_numCiv = _datos select 0;
+_data = [_mrkDestino, ["population"]] call AS_fnc_getCityAttrs;
+_numCiv = _data select 0;
 _numCiv = round ((_numCiv * civPerc)/2);
 
 if (_numCiv < 8) then {_numCiv = 8};

@@ -6,13 +6,14 @@ _popFIA = 0;
 _popAAF = 0;
 _pop = 0;
 {
-_datos = server getVariable _x;
-_numCiv = _datos select 0;
-_prestigeOPFOR = _datos select 2;
-_prestigeBLUFOR = _datos select 3;
-_popFIA = _popFIA + (_numCiv * (_prestigeBLUFOR / 100));
-_popAAF = _popAAF + (_numCiv * (_prestigeOPFOR / 100));
-_pop = _pop + _numCiv;
+	_data = [_x, ["population", "prestigeBLUFOR", "prestigeOPFOR"]] call AS_fnc_getCityAttrs;
+	_numCiv = _data select 0;
+	_prestigeBLUFOR = _data select 1;
+	_prestigeOPFOR = _data select 2;
+
+	_popFIA = _popFIA + (_numCiv * (_prestigeBLUFOR / 100));
+	_popAAF = _popAAF + (_numCiv * (_prestigeOPFOR / 100));
+	_pop = _pop + _numCiv;
 } forEach ciudades;
 _popFIA = round _popFIA;
 _popAAF = round _popAAF;
@@ -38,11 +39,10 @@ while {visibleMap} do
 			};
 		if (_sitio in ciudades) then
 			{
-			_datos = server getVariable _sitio;
-
-			_numCiv = _datos select 0;
-			_prestigeOPFOR = _datos select 2;
-			_prestigeBLUFOR = _datos select 3;
+			_data = [_sitio, ["population", "prestigeBLUFOR", "prestigeOPFOR"]] call AS_fnc_getCityAttrs;
+			_numCiv = _data select 0;
+			_prestigeBLUFOR = _data select 1;
+			_prestigeOPFOR = _data select 2;
 			_power = [_sitio] call powerCheck;
 			_texto = format ["%1\n\nPop %2\nAAF Support: %3 %5\nFIA Support: %4 %5",[_sitio,false] call fn_location,_numCiv,_prestigeOPFOR,_prestigeBLUFOR,"%"];
 			if (_power) then {_texto = format ["%1\nPowered",_texto]} else {_texto = format ["%1\nNot Powered",_texto]};

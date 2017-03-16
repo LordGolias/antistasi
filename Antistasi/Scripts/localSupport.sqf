@@ -17,9 +17,10 @@ while {true} do {
 	};
 
 	while {(getMarkerPos _location distance player) < 400} do {
-		_data = server getVariable _location;
-		_prestigeOPFOR = _data select 2;
-		_prestigeBLUFOR = _data select 3;
+		_data = [_location, ["prestigeBLUFOR", "prestigeOPFOR"]] call AS_fnc_getCityAttrs;
+		_prestigeBLUFOR = _data select 0;
+		_prestigeOPFOR = _data select 1;
+		
 		_info = format ["<img image='%1' size='0.4' color='%2' />", _icon, _pSide];
 		_text = format ["<t size='.4' align='right' color='#C1C0BB'>%1 %4 <br />Local Support: <t color='#3399FF'>%2</t> / <t color='#1DA81D'>%3</t></t>", _location, _prestigeBLUFOR, _prestigeOPFOR, _info];
 		[_text,[0.4 * safeZoneW + safeZoneX, 1 * safezoneH + safezoneY],[0.9 * safezoneH + safezoneY, 1 * safezoneH + safezoneY],7,0,0,1911] spawn BIS_fnc_dynamicText;

@@ -14,11 +14,9 @@ _num = round (_num / 100);
 
 private ["_grupo","_grp","_params","_datos","_prestigeOPFOR","_prestigeBLUFOR"];
 
-_datos = server getVariable _marcador;
-//_prestigeOPFOR = _datos select 3;
-//_prestigeBLUFOR = _datos select 4;
-_prestigeOPFOR = _datos select 2;
-_prestigeBLUFOR = _datos select 3;
+_data = [_marcador, ["prestigeBLUFOR", "prestigeOPFOR"]] call AS_fnc_getCityAttrs;
+_prestigeBLUFOR = _data select 0;
+_prestigeOPFOR = _data select 1;
 _esAAF = true;
 if (_marcador in mrkAAF) then
 	{

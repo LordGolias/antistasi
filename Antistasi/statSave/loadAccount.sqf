@@ -56,8 +56,6 @@ call AS_fnc_loadServer;
 ["items"] call fn_LoadStat;
 ["mochis"] call fn_LoadStat;
 ["fecha"] call fn_LoadStat;
-["prestigeOPFOR"] call fn_LoadStat;
-["prestigeBLUFOR"] call fn_LoadStat;
 ["garrison"] call fn_LoadStat;
 ["skillAAF"] call fn_LoadStat;
 ["distanciaSPWN"] call fn_LoadStat;

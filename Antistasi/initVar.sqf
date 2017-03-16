@@ -298,9 +298,11 @@ server setVariable ["hardMode",false,true];
 server setVariable ["testMode",false,true];
 
 staticsToSave = []; publicVariable "staticsToSave";
-prestigeOPFOR = 50;//Initial % support for AAF on each city
-if (not cadetMode) then {prestigeOPFOR = 75};//if you play on vet, this is the number
-prestigeBLUFOR = 0;//Initial % FIA support on each city
+
+initialPrestigeOPFOR = 50; //Initial % support for AAF on each city
+if (not cadetMode) then {initialPrestigeOPFOR = 75}; //if you play on vet, this is the number
+initialPrestigeBLUFOR = 0; //Initial % FIA support on each city
+
 planesAAFmax = 0;
 helisAAFmax = 0;
 APCAAFmax = 0;

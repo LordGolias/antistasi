@@ -20,12 +20,12 @@ while {true} do
 	_recAddCiudadOPFOR = 0;
 	_recAddCiudadBLUFOR = 0;
 	_hrAddCiudad = 0;
-	_datos = server getVariable _ciudad;
-	_numCiv = _datos select 0;
-	_numVeh = _datos select 1;
-	//_roads = _datos select 2;
-	_prestigeOPFOR = _datos select 2;
-	_prestigeBLUFOR = _datos select 3;
+	
+	_data = [_ciudad, ["population", "prestigeBLUFOR", "prestigeOPFOR"]] call AS_fnc_getCityAttrs;
+	_numCiv = _data select 0;
+	_prestigeBLUFOR = _data select 1;
+	_prestigeOPFOR = _data select 2;
+
 	_power = [_ciudad] call powerCheck;
 
 	_popFIA = _popFIA + (_numCiv * (_prestigeBLUFOR / 100));
@@ -91,9 +91,6 @@ while {true} do
 		publicVariable "mrkAAF";
 		publicVariable "mrkFIA";
 		[0,5] remoteExec ["prestige",2];
-		//_datos = [_numCiv,_numVeh,_roads,_prestigeOPFOR,_prestigeBLUFOR,_power];
-		//_datos = [_numCiv,_numVeh,_prestigeOPFOR,_prestigeBLUFOR,_power];
-		//server setVariable [_ciudad,_datos,true];
 		_mrkD = format ["Dum%1",_ciudad];
 		_mrkD setMarkerColor "colorBLUFOR";
 		if (_power) then {_power = false} else {_power = true};
@@ -117,9 +114,6 @@ while {true} do
 		publicVariable "mrkAAF";
 		publicVariable "mrkFIA";
 		[0,-5] remoteExec ["prestige",2];
-		//if (_power) then {_power = false} else {_power = true};
-		//_datos = [_numCiv,_numVeh,_prestigeOPFOR,_prestigeBLUFOR,_power];
-		//server setVariable [_ciudad,_datos,true];
 		_mrkD = format ["Dum%1",_ciudad];
 		_mrkD setMarkerColor "colorGUER";
 		sleep 5;

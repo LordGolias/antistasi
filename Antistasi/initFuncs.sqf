@@ -232,7 +232,7 @@ petrosAnimation = compile preprocessFileLineNumbers "Scripts\petrosAnimation.sqf
 skillAdjustments = compile preprocessFileLineNumbers "Scripts\skillAdjustments.sqf";
 localSupport = compile preprocessFileLineNumbers "Scripts\localSupport.sqf";
 
-execVM "statSave\saveFuncs.sqf";
+call compile preProcessFileLineNumbers "statSave\saveFuncs.sqf";
 
 if ((isMultiplayer) and (isServer)) then {[[petros,"hint","Functions Init Completed"],"commsMP"] call BIS_fnc_MP};
 

@@ -6,12 +6,10 @@ _opfor = _this select 0;
 _blufor = _this select 1;
 _pos = _this select 2;
 if (typeName _pos == typeName "") then {_ciudad = _pos} else {_ciudad = [ciudades, _pos] call BIS_fnc_nearestPosition};
-_datos = server getVariable _ciudad;
-if (!(_datos isEqualType [])) exitWith {citySupportChanging = true; diag_log format ["Error in citysupportchange.sqf. Passed %1 as reference",_pos]};
-_numCiv = _datos select 0;
-_numVeh = _datos select 1;
-_prestigeOPFOR = _datos select 2;
-_prestigeBLUFOR = _datos select 3;
+
+_data = [_ciudad, ["prestigeBLUFOR", "prestigeOPFOR"]] call AS_fnc_getCityAttrs;
+_prestigeBLUFOR = _data select 0;
+_prestigeOPFOR = _data select 1;
 
 if (_prestigeOPFOR + _prestigeBLUFOR > 100) then {
 	_prestigeOPFOR = round (_prestigeOPFOR / 2);
@@ -47,8 +45,7 @@ if (_prestigeBLUFOR < 1) then {_prestigeBLUFOR = 1};
 
 if (_prestigeBLUFOR + _prestigeOPFOR < 5) then {_prestigeOPFOR = 1; _prestigeBLUFOR = 5};
 
-_datos = [_numCiv, _numVeh,_prestigeOPFOR,_prestigeBLUFOR];
+[_ciudad, ["prestigeBLUFOR", "prestigeOPFOR"], [_prestigeBLUFOR, _prestigeOPFOR]] call AS_fnc_setCityAttrs;
 
-server setVariable [_ciudad,_datos,true];
 cityIsSupportChanging = false;
 true

@@ -89,10 +89,7 @@ if ((_nombre != "") and (_nombre != "sagonisi") and (_nombre != "hill12")) then/
     _dmrk setMarkerColor "ColorGUER";
     if (_nroads < _numVeh) then {_numVeh = _nroads};
 
-    _info = [_numCiv, _numVeh, prestigeOPFOR,prestigeBLUFOR];
-    server setVariable [_nombre,_info,true];
-
-    //[_nombre] call crearControles;
+    [_nombre, [_numCiv, _numVeh, initialPrestigeOPFOR, initialPrestigeBLUFOR]] call AS_fnc_initCity;
     };
 }foreach (nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"), ["NameCityCapital","NameCity","NameVillage","CityCenter"], 25000]);
 

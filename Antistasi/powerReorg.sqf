@@ -9,7 +9,6 @@ _power = [power,_pos] call BIS_fnc_nearestPosition;
 _powered = true;
 if (_power == _marcador) then
 	{
-	//_datos = server getVariable _ciudad;
 	if (_marcador in destroyedCities) then
 		{
 		_powered = false;

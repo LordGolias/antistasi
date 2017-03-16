@@ -213,19 +213,6 @@ if (_veh distance getMarkerPos "respawn_west" < 50) then
 ["items", _items] call fn_SaveStat;
 ["mochis", _mochis] call fn_SaveStat;
 
-_prestigeOPFOR = [];
-_prestigeBLUFOR = [];
-
-{
-_ciudad = _x;
-_datos = server getVariable _ciudad;
-_prestigeOPFOR = _prestigeOPFOR + [_datos select 2];
-_prestigeBLUFOR = _prestigeBLUFOR + [_datos select 3];
-} forEach ciudades;
-
-["prestigeOPFOR", _prestigeOPFOR] call fn_SaveStat;
-["prestigeBLUFOR", _prestigeBLUFOR] call fn_SaveStat;
-
 _marcadores = mrkFIA - puestosFIA - controles - ciudades;
 _garrison = [];
 {

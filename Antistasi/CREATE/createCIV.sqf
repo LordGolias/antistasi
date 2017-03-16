@@ -1,20 +1,14 @@
 if (!isServer and hasInterface) exitWith{};
 
-private ["_marcador","_datos","_numCiv","_numVeh","_roads","_prestigeOPFOR","_presitgeBLUFOR","_civs","_grupos","_vehiculos","_civsPatrol","_gruposPatrol","_vehPatrol","_tipoCiv","_tipoVeh","_dirVeh","_cuenta","_grupo","_size","_road"];
+private ["_marcador","_datos","_numCiv","_numVeh","_roads","_civs","_grupos","_vehiculos","_civsPatrol","_gruposPatrol","_vehPatrol","_tipoCiv","_tipoVeh","_dirVeh","_cuenta","_grupo","_size","_road"];
 
 _marcador = _this select 0;
 
-_datos = server getVariable _marcador;
+_data = [_marcador, ["population", "vehicles"]] call AS_fnc_getCityAttrs;
+_numCiv = _data select 0;
+_numVeh = _data select 1;
 
-_numCiv = _datos select 0;
-_numVeh = _datos select 1;
-//_roads = _datos select 2;
-_roads = carreteras getVariable _marcador;//
-//_prestigeOPFOR = _datos select 3;
-//_prestigeBLUFOR = _datos select 4;
-
-_prestigeOPFOR = _datos select 2;
-_prestigeBLUFOR = _datos select 3;
+_roads = carreteras getVariable _marcador;
 
 _civs = [];
 _grupos = [];

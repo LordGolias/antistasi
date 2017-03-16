@@ -162,8 +162,11 @@ player addEventHandler ["HandleHeal", {
 			{
 			_ciudad = [ciudades,_player] call BIS_fnc_nearestPosition;
 			_size = [_ciudad] call sizeMarker;
-			_datos = server getVariable _ciudad;
-			if (random 100 < _datos select 2) then
+			
+			_data = [_ciudad, ["prestigeOPFOR"]] call AS_fnc_getCityAttrs;
+			_prestigeOPFOR = _data select 0;
+			
+			if (random 100 <_prestigeOPFOR) then
 				{
 				if (_player distance getMarkerPos _ciudad < _size * 1.5) then
 					{
