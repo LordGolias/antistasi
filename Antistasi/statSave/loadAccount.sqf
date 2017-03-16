@@ -69,6 +69,7 @@ unlockedRifles = unlockedweapons -  hguns -  mlaunchers - rlaunchers - ["Binocul
 
 _marcadores = mrkFIA + mrkAAF + campsFIA;
 
+// sets ownership of locations.
 {
 _posicion = getMarkerPos _x;
 _cercano = [_marcadores,_posicion] call BIS_fnc_nearestPosition;
@@ -83,14 +84,17 @@ else
 	};
 } forEach controles;
 
+// remaining markers is AAF.
 {
-if ((not(_x in mrkAAF)) and (not(_x in mrkFIA)) and (_x != "FIA_HQ")) then {mrkAAF pushBack _x};
+	if ((not(_x in mrkAAF)) and (not(_x in mrkFIA)) and (_x != "FIA_HQ")) then {
+		mrkAAF pushBack _x
+	};
 } forEach marcadores;
 
 _marcadores = _marcadores + controles;
 
+// sets markers depending on ownership, blackouts cities resources and factories, destroys stuff.
 {
-
 if (_x in mrkFIA) then
 	{
 	private ["_mrkD"];
@@ -129,6 +133,7 @@ if (_x in mrkFIA) then
 	if ((_x in recursos) or (_x in fabricas)) then
 		{
 		if (_x in recursos) then {_mrkD setMarkerText format ["Resource: %1",count (garrison getVariable _x)]} else {_mrkD setMarkerText format ["Factory: %1",count (garrison getVariable _x)]};
+		
 		_power = [power, getMarkerPos _x] call BIS_fnc_nearestPosition;
 		if ((not (_power in mrkFIA))  or (_power in destroyedCities)) then
 			{
@@ -173,7 +178,17 @@ if (_x in mrkAAF) then
 
 } forEach _marcadores;
 
-{if (not (_x in _marcadores)) then {if (_x != "FIA_HQ") then {_marcadores pushBack _x; mrkAAF pushback _x} else {mrkAAF = mrkAAF - ["FIA_HQ"]; if (not("FIA_HQ" in mrkFIA)) then {mrkFIA = mrkFIA + ["FIA_HQ"]}}}} forEach marcadores;//por si actualizo zonas.
+{
+	if (not (_x in _marcadores)) then {
+		if (_x != "FIA_HQ") then {
+			_marcadores pushBack _x;
+			mrkAAF pushback _x;
+		} else {
+			mrkAAF = mrkAAF - ["FIA_HQ"];
+			mrkFIA pushBackUnique "FIA_HQ";
+		}
+	}
+} forEach marcadores;//por si actualizo zonas.
 
 marcadores = _marcadores;
 publicVariable "marcadores";

@@ -161,41 +161,53 @@ else
 	//_mochis pushBack ((backpack player) call BIS_fnc_basicBackpack);
 	};
 
+// list of locations where static weapons are saved.
 _statMrks = [];
 {if ((_x in puestos) || (_x in power) || (_x in recursos) || (_x in fabricas) || (_x in puertos) ||  (_x == "FIA_HQ")) then {_statMrks pushBack _x;};} forEach mrkFIA;
 
+// store in "_arrayEst" the list of vehicles.
 _arrayEst = [];
 {
 _veh = _x;
 _tipoVeh = typeOf _veh;
 
-_test = [_statMrks,getPos _veh] call BIS_fnc_nearestPosition;
-_testPos = getMarkerPos _test;
-_testDist = _veh distance _testPos;
+_test = [_statMrks, getPos _veh] call BIS_fnc_nearestPosition;
+_testDist = _veh distance (getMarkerPos _test);
 
+// saves static weapons everywhere.
 if ((_veh isKindOf "StaticWeapon") and (_testDist < 50)) then {
 	_posVeh = getPos _veh;
 	_dirVeh = getDir _veh;
 	_arrayEst = _arrayEst + [[_tipoVeh,_posVeh,_dirVeh]];
 };
 
+// saves vehicles close to the HQ.
 if (_veh distance getMarkerPos "respawn_west" < 50) then
 	{
-	if ((not (_veh isKindOf "StaticWeapon")) && !(_veh isKindOf "ThingX") and (not (_veh isKindOf "ReammoBox")) and (not (_veh isKindOf "FlagCarrier")) and (not(_veh isKindOf "Building")) and (not (_tipoVeh in planesNATO)) and (not (_tipoVeh in vehNATO)) and (not (_tipoVeh == "C_Van_01_box_F")) and (count attachedObjects _veh == 0) and (alive _veh) and ({(alive _x) and (!isPlayer _x)} count crew _veh == 0) and (not(_tipoVeh == "WeaponHolderSimulated"))) then
-		{
+	if ((not (_veh isKindOf "StaticWeapon")) and 
+		!(_veh isKindOf "ReammoBox") and 
+		!(_veh isKindOf "FlagCarrier") and 
+		!(_veh isKindOf "Building") and 
+		!(_tipoVeh in planesNATO) and 
+		!(_tipoVeh in vehNATO)) and 
+		!(_tipoVeh == "C_Van_01_box_F") and 
+		(count attachedObjects _veh == 0) and 
+		(alive _veh) and 
+		({(alive _x) and (!isPlayer _x)} count crew _veh == 0) and 
+		!(_tipoVeh == "WeaponHolderSimulated") then {
 		_posVeh = getPos _veh;
 		_dirVeh = getDir _veh;
 		_arrayEst = _arrayEst + [[_tipoVeh,_posVeh,_dirVeh]];
+		
 		_armas = _armas + weaponCargo _veh;
 		_municion = _municion + magazineCargo _veh;
 		_items = _items + itemCargo _veh;
-		if (count backpackCargo _veh > 0) then
-			{
+		if (count backpackCargo _veh > 0) then {
 			{
 			_mochis pushBack (_x call BIS_fnc_basicBackpack);
 			} forEach backpackCargo _veh;
-			};
 		};
+	};
 	};
 } forEach vehicles - [caja,bandera,fuego,cajaveh,mapa];
 
