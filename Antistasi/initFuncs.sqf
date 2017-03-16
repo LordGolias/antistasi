@@ -10,6 +10,9 @@ call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
 call compile preprocessFileLineNumbers "Lists\basicLists.sqf";
 call compile preprocessFileLineNumbers "Lists\gearList.sqf";
 
+call compile preprocessFileLineNumbers "statSave\cityAttrs.sqf";
+call compile preProcessFileLineNumbers "statSave\saveFuncs.sqf";
+
 minefieldAAF = compile preProcessFileLineNumbers "CREATE\minefieldAAF.sqf";
 tempMoveMrk = compile preProcessFileLineNumbers "tempMoveMrk.sqf";
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";
@@ -231,8 +234,6 @@ rankCheck = compile preprocessFileLineNumbers "Scripts\rankCheck.sqf";
 petrosAnimation = compile preprocessFileLineNumbers "Scripts\petrosAnimation.sqf";
 skillAdjustments = compile preprocessFileLineNumbers "Scripts\skillAdjustments.sqf";
 localSupport = compile preprocessFileLineNumbers "Scripts\localSupport.sqf";
-
-call compile preProcessFileLineNumbers "statSave\saveFuncs.sqf";
 
 if ((isMultiplayer) and (isServer)) then {[[petros,"hint","Functions Init Completed"],"commsMP"] call BIS_fnc_MP};
 
