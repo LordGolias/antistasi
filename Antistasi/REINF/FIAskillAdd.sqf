@@ -6,7 +6,7 @@ if (hayBE) then {
 	_permission = ["skill"] call fnc_BE_permission;
 };
 
-if !(_permission) exitWith {hint "Our troops are not experienced enough..."};
+if !(_permission) exitWith {hint "Our troops are not experienced enough to be trained yet."};
 // BE module
 
 _skillFIA = server getVariable "skillFIA";

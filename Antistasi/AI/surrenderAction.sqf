@@ -30,7 +30,6 @@ _unit disableAI "AUTOTARGET";
 _unit disableAI "TARGET";
 _unit disableAI "ANIM";
 //_unit disableAI "FSM";
-_unit setSkill 0;
 _unit setUnitPos "UP";
 _caja = "Box_IND_Wps_F" createVehicle position _unit;
 clearMagazineCargoGlobal _caja;

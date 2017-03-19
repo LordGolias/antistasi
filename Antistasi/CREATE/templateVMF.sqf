@@ -29,7 +29,7 @@ opTruck = 			"rhs_kamaz5350_vdv";
 
 opMRAPu = 			"rhs_tigr_vmf";
 
-// infantry classes, to allow for class-specific skill adjustments and pricing
+// infantry classes, to allow for class-specific pricing
 opI_OFF = 	"rhs_vmf_recon_officer"; // officer/official
 opI_PIL = 	"rhs_pilot_combat_heli"; // pilot
 opI_OFF2 = 	"rhs_vmf_recon_officer_armored"; // officer/traitor

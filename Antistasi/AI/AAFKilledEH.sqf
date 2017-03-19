@@ -18,9 +18,6 @@ if ((side _killer == side_blue) || (captive _killer)) then {
 	// scoring and captive.
 	if (isPlayer _killer) then {
 		[2,_killer,false] call playerScoreAdd;
-	} else {
-		_skill = skill _killer;
-		[_killer,_skill + 0.05] remoteExec ["setSkill",_killer];
 	};
 
 	// if dead has no weapons, AAF support increases by 2.

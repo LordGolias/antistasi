@@ -14,7 +14,7 @@ if (!isServer and hasInterface) exitWith {};
 
 #define BE_REQ_XP [150, 200, 250, 350]
 
-#define BE_FIA_SKILL_CAP [4, 8, 12, 20]
+#define BE_FIA_SKILL_CAP [4, 8, 12, AS_maxSkill]
 #define BE_FIA_OUTFIT [0, 25, 50, 75]
 #define BE_FIA_GARAGE_CAPACITY [6, 10, 15, 20]
 #define BE_PERS_GARAGE_CAPACITY [2, 4, 6, 8]

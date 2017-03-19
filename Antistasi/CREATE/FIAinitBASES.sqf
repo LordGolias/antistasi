@@ -1,25 +1,11 @@
-private ["_unit","_muerto","_killer","_skill"];
+params ["_unit", ["_place", nil]];
+private ["_muerto","_killer"];
+if (!isNil "_place") then {_unit setVariable ["marcador", _place]};
 
-_unit = _this select 0;
-
-if (count _this > 1) then {_unit setVariable ["marcador",_this select 1]};
 [_unit] call initRevive;
-
 _unit allowFleeing 0;
-_skillFIA = server getVariable "skillFIA";
-_skill = 0.2 + (_skillFIA * 0.025);
-_unit setSkill _skill;
-_aiming = _skill;
-_spotD = _skill;
-_spotT = _skill;
-_cour = _skill;
-_comm = _skill;
-_aimingSh = _skill;
-_aimingSp = _skill;
-_reload = _skill;
 
-_tipo = typeOf _unit;
-_skillSet = 0;
+[_unit, server getVariable "skillFIA"] call AS_fnc_setDefaultSkill;
 
 if !("ItemRadio" in unlockedItems) then {_unit unlinkItem "ItemRadio"};
 
@@ -45,22 +31,6 @@ if !(hayRHS) then {
 
 		if (_tipo == "B_G_Soldier_F") exitWith {
 			[_unit,true,true,true,true] call randomRifle;
-			if (loadAbs _unit < 340) then {
-				if ((random 20 < _skillFIA) && ("launch_I_Titan_F" in unlockedWeapons)) then {
-					removeBackpackGlobal _unit;
-					_unit addBackpackGlobal "B_AssaultPack_blk";
-					[_unit, "launch_I_Titan_F", 2, 0] call BIS_fnc_addWeapon;
-					removeBackpackGlobal _unit;
-				}
-				else {
-					if ((random 20 < _skillFIA) && ("launch_NLAW_F" in unlockedWeapons)) then {
-						removeBackpackGlobal _unit;
-						_unit addBackpackGlobal "B_AssaultPack_blk";
-						[_unit, "launch_NLAW_F", 2, 0] call BIS_fnc_addWeapon;
-						removeBackpackGlobal _unit;
-					};
-				};
-			};
 		};
 
 		if (_tipo == "B_G_Soldier_GL_F") exitWith {
@@ -69,46 +39,34 @@ if !(hayRHS) then {
 
 		if (_tipo == "B_G_Soldier_lite_F") exitWith {
 			[_unit,true,true,true,true] call randomRifle;
-			_skillSet = 1;
-		};
-
-		if (_tipo == "b_g_soldier_unarmed_f") exitWith {
-			_skillSet = 1;
 		};
 
 		if (_tipo == "B_G_Soldier_SL_F") exitWith {
 			[_unit,false,true,true,false] call randomRifle;
-			_skillSet = 2;
 		};
 
 		if (_tipo == "B_G_Soldier_TL_F") exitWith {
 			[_unit,false,true,true,false] call randomRifle;
-			_skillSet = 3;
 		};
 
 		if (_tipo == "B_G_Soldier_AR_F") exitWith {
 			[_unit,false,true,true,false] call randomRifle;
-			_skillSet = 4;
 		};
 
 		if (_tipo == "B_G_medic_F") exitWith {
-			_skillSet = 5;
 			[_unit,true,true,true,false] call randomRifle;
 		};
 
 		if (_tipo == "B_G_engineer_F") exitWith {
-			_skillSet = 5;
 			[_unit,true,true,true,false] call randomRifle;
 		};
 
 		if (_tipo == "B_G_Soldier_exp_F") exitWith {
-			_skillSet = 5;
 			[_unit,true,true,true,false] call randomRifle;
 			_unit addmagazine atMine;
 		};
 
 		if (_tipo == "B_G_Soldier_A_F") exitWith {
-			_skillSet = 5;
 			[_unit,true,true,true,false] call randomRifle;
 		};
 
@@ -119,11 +77,6 @@ if !(hayRHS) then {
 				_unit removeWeaponGlobal (primaryWeapon _unit);
 				[_unit, "srifle_GM6_SOS_F", 8, 0] call BIS_fnc_addWeapon;
 			};
-			_skillSet = 6;
-		};
-
-		if (_tipo == "B_G_Sharpshooter_F") exitWith {
-			_skillSet = 6;
 		};
 	};
 }
@@ -155,17 +108,6 @@ else {
 
 		if (_tipo == "B_G_Soldier_F") exitWith {
 			[_unit,true,true,true,true] call randomRifle;
-			if ((random 25 < _skillFIA) and ("rhs_weap_igla" in unlockedWeapons)) then {
-				removeBackpackGlobal _unit;
-				_unit addBackpack "B_AssaultPack_blk";
-				[_unit, "rhs_weap_igla", 2, 0] call BIS_fnc_addWeapon;
-				removeBackpackGlobal _unit;
-			}
-			else {
-				if ((random 25 < _skillFIA) and ("rhs_weap_rpg26" in unlockedWeapons)) then {
-					[_unit, "rhs_weap_rpg26", 1] call BIS_fnc_addWeapon;
-				};
-			};
 		};
 
 		if (_tipo == "B_G_Soldier_GL_F") exitWith {
@@ -180,15 +122,9 @@ else {
 
 		if (_tipo == "B_G_Soldier_lite_F") exitWith {
 			[_unit,true,true,true,true] call randomRifle;
-			_skillSet = 1;
-		};
-
-		if (_tipo == "b_g_soldier_unarmed_f") exitWith {
-			_skillSet = 1;
 		};
 
 		if (_tipo == "B_G_Soldier_SL_F") exitWith {
-			_skillSet = 2;
 			removeAllItemsWithMagazines _unit;
 			removeBackpackGlobal _unit;
 			_unit addBackpackGlobal "rhs_sidor";
@@ -212,7 +148,6 @@ else {
 			_unit addPrimaryWeaponItem "rhs_acc_1p29";
 			_unit addMagazineGlobal "SmokeShell";
 			_unit addMagazineGlobal "SmokeShell";
-			_skillSet = 3;
 		};
 
 		if (_tipo == "B_G_Soldier_AR_F") exitWith {
@@ -222,11 +157,9 @@ else {
 			removeBackpackGlobal _unit;
 			_unit addBackpackGlobal "rhs_sidor";
 			[_unit, "rhs_weap_pkm", 3, "rhs_100Rnd_762x54mmR"] call BIS_fnc_addWeapon;
-			_skillSet = 4;
 		};
 
 		if (_tipo == "B_G_medic_F") exitWith {
-			removeVest _unit;
 			_unit addVest "rhs_6b23_digi_medic";
 			removeAllItemsWithMagazines _unit;
 			_unit removeWeaponGlobal (primaryWeapon _unit);
@@ -234,11 +167,9 @@ else {
 			removeBackpackGlobal _unit;
 			_unit addBackpack "rhs_assault_umbts_medic";
 			[_unit, "rhs_weap_aks74u", 4, "rhs_30Rnd_545x39_7N10_AK"] call BIS_fnc_addWeapon;
-			_skillSet = 5;
 		};
 
 		if (_tipo == "B_G_engineer_F") exitWith {
-			removeVest _unit;
 			_unit addVest "rhs_6b23_digi_engineer";
 			removeAllItemsWithMagazines _unit;
 			_unit removeWeaponGlobal (primaryWeapon _unit);
@@ -246,11 +177,9 @@ else {
 			removeBackpackGlobal _unit;
 			_unit addBackpackGlobal "rhs_assault_umbts_engineer";
 			[_unit, "rhs_weap_aks74u", 4, "rhs_30Rnd_545x39_7N10_AK"] call BIS_fnc_addWeapon;
-			_skillSet = 5;
 		};
 
 		if (_tipo == "B_G_Soldier_exp_F") exitWith {
-			_skillSet = 5;
 			[_unit,true,true,true,true] call randomRifle;
 			removeBackpackGlobal _unit;
 			_unit addBackpackGlobal "B_Carryall_oli";
@@ -260,7 +189,6 @@ else {
 		};
 
 		if (_tipo == "B_G_Soldier_A_F") exitWith {
-			_skillSet = 5;
 			[_unit,true,true,true,false] call randomRifle;
 		};
 
@@ -274,7 +202,6 @@ else {
 			else {
 				[_unit, "srifle_GM6_SOS_F", 5, 0] call BIS_fnc_addWeapon;
 			};
-			_skillSet = 6;
 		};
 
 		if (_tipo == "B_G_Sharpshooter_F") exitWith {
@@ -287,74 +214,7 @@ else {
 			else {
 				[_unit, "srifle_GM6_SOS_F", 5, 0] call BIS_fnc_addWeapon;
 			};
-			_skillSet = 6;
 		};
-	};
-};
-
-call {
-	if (_skillSet == 0) exitWith {
-		_aiming = _aiming -0.2;
-		_aimingSh = _aimingSh - 0.2;
-		_aimingSp = _aimingSp - 0.2;
-		_reload = _reload - 0.2;
-	};
-
-	if (_skillSet == 1) exitWith {
-		_aiming = _aiming -0.1;
-		_spotD = _spotD - 0.1;
-		_aimingSh = _aimingSh - 0.1;
-		_aimingSp = _aimingSp + 0.2;
-		_reload = _reload + 0.1;
-	};
-
-	if (_skillSet == 2) exitWith {
-		_aiming = _aiming - 0.1;
-		_spotD = _spotD + 0.2;
-		_spotT = _spotT + 0.2;
-		_cour = _cour + 0.1;
-		_comm = _comm + 0.2;
-		_aimingSh = _aimingSh - 0.1;
-		_aimingSp = _aimingSp - 0.1;
-		_reload = _reload - 0.2;
-	};
-
-	if (_skillSet == 3) exitWith {
-		_aiming = _aiming + 0.1;
-		_spotD = _spotD + 0.1;
-		_spotT = _spotT + 0.1;
-		_cour = _cour + 0.1;
-		_comm = _comm + 0.1;
-		_aimingSh = _aimingSh - 0.1;
-		_aimingSp = _aimingSp - 0.1;
-		_reload = _reload - 0.1;
-	};
-
-	if (_skillSet == 4) exitWith {
-		_aiming = _aiming - 0.1;
-		_aimingSh = _aimingSh + 0.2;
-		_aimingSp = _aimingSp - 0.2;
-		_reload = _reload - 0.2;
-	};
-
-	if (_skillSet == 5) exitWith {
-		_aiming = _aiming - 0.1;
-		_spotD = _spotD - 0.1;
-		_spotT = _spotT - 0.1;
-		_aimingSh = _aimingSh - 0.1;
-		_aimingSp = _aimingSp - 0.1;
-		_reload = _reload - 0.1;
-	};
-
-	if (_skillSet == 6) exitWith {
-		_aiming = _aiming + 0.2;
-		_spotD = _spotD + 0.4;
-		_spotT = _spotT + 0.2;
-		_cour = _cour - 0.1;
-		_comm = _comm - 0.1;
-		_aimingSh = _aimingSh + 0.1;
-		_aimingSp = _aimingSp + 0.1;
-		_reload = _reload - 0.4;
 	};
 };
 
@@ -375,21 +235,9 @@ if (sunOrMoon < 1) then {
 	        _unit removePrimaryWeaponItem indLaser;
 	        _unit addPrimaryWeaponItem indFL;
 	        _unit enableGunLights "forceOn";
-			_spotD = ((_spotD - 0.2) max 0.2);
-			_spotT = ((_spotT - 0.2) max 0.2);
 	    };
 	};
 };
-
-if ((_tipo != "B_G_Soldier_M_F") and (_tipo != "B_G_Sharpshooter_F")) then {if (_aiming > 0.35) then {_aiming = 0.35}};
-_unit setskill ["aimingAccuracy",_aiming];
-_unit setskill ["spotDistance",_spotD];
-_unit setskill ["spotTime",_spotT];
-_unit setskill ["courage",_cour];
-_unit setskill ["commanding",_comm];
-_unit setskill ["aimingShake",_aimingSh];
-_unit setskill ["aimingSpeed",_aimingSp];
-_unit setskill ["reloadSpeed",_reload];
 
 _EHkilledIdx = _unit addEventHandler ["killed", {
 	_muerto = _this select 0;

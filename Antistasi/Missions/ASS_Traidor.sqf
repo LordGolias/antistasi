@@ -124,15 +124,8 @@ if (not alive _traidor) then
 	[0,3] remoteExec ["prestige",2];
 	[0,300] remoteExec ["resourcesFIA",2];
 	{
-	if (!isPlayer _x) then
-		{
-		_skill = skill _x;
-		_skill = _skill + 0.1;
-		_x setSkill _skill;
-		}
-	else
-		{
-		[10,_x] call playerScoreAdd;
+		if (!isPlayer _x) then {
+			[10,_x] call playerScoreAdd;
 		};
 	} forEach ([_tam,0,_posicion,"BLUFORSpawn"] call distanceUnits);
 	[5,stavros] call playerScoreAdd;

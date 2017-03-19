@@ -120,7 +120,7 @@ if ((APCAAFcurrent < APCAAFmax) and ((tanksAAFcurrent > 2) or (APCAAFcurrent < 4
 	};
 
 _skillFIA = server getVariable "skillFIA";
-if ((skillAAF < (_skillFIA + 2)) && (skillAAF < 17)) then {
+if ((skillAAF < (_skillFIA + 4)) && (skillAAF < AS_maxSkill)) then {
 	_coste = 1000 + (1.5*(skillAAF *750));
 	diag_log format ["Econ: AAF skill. Current level: %1; current cost: %2; current resources: %3", skillAAF, _coste, _resourcesAAF];
 	if (_coste < _resourcesAAF) then {

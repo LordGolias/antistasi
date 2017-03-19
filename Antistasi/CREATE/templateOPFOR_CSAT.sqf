@@ -29,7 +29,7 @@ opTruck = 			"O_Truck_02_transport_F";
 
 opMRAPu = 			"O_MRAP_02_F";
 
-// infantry classes, to allow for class-specific skill adjustments and pricing
+// infantry classes, to allow for class-specific pricing
 opI_OFF = 	"O_officer_F"; // officer/official
 opI_PIL = 	"O_helipilot_F"; // pilot
 opI_OFF2 = 	"O_G_officer_F"; // officer/traitor

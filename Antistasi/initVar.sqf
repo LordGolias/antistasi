@@ -12,6 +12,8 @@ debug = false;//debug variable, not useful for everything..
 
 cleantime = 900;//time to delete dead bodies, vehicles etc..
 distanciaSPWN = 1200;//initial spawn distance. Less than 1Km makes parked vehicles spawn in your nose while you approach.
+AS_minAISkill = 0.6; // The minimum skill of the AI.
+AS_maxAISkill = 0.9; // The maximum skill of the AI.
 musicON = true;
 civPerc = 0.2;//initial % civ spawn rate
 posHQ = getMarkerPos "respawn_west";
@@ -198,7 +200,7 @@ if (!isServer and hasInterface) exitWith {};
 
 AAFpatrols = 0;//0
 skillAAF = 0;
-maxSkillAAF = 3;
+AS_maxSkill = 20;
 smallCAmrk = [];
 smallCApos = [];
 

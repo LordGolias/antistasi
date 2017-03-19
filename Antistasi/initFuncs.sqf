@@ -13,6 +13,8 @@ call compile preprocessFileLineNumbers "Lists\gearList.sqf";
 call compile preprocessFileLineNumbers "statSave\cityAttrs.sqf";
 call compile preProcessFileLineNumbers "statSave\saveFuncs.sqf";
 
+AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "CREATE\setDefaultSkill.sqf";
+
 minefieldAAF = compile preProcessFileLineNumbers "CREATE\minefieldAAF.sqf";
 tempMoveMrk = compile preProcessFileLineNumbers "tempMoveMrk.sqf";
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";
