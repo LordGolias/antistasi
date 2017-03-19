@@ -80,4 +80,4 @@ if (count _garrison > 0) then
 
 sleep 5;
 
-petros addAction [localize "STR_act_buildHQ", {[] spawn buildHQ},nil,0,false,true];
+[[Petros,"buildHQ"],"flagaction"] call BIS_fnc_MP;

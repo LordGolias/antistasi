@@ -7,7 +7,9 @@ if (!isDedicated) then {
 	removeBackpackGlobal player;
 	if ("ItemGPS" in (assignedItems player)) then {player unlinkItem "ItemGPS"};
 	if ((!hayTFAR) and ("ItemRadio" in (assignedItems player))) then {player unlinkItem "ItemRadio"};
-	player setPos getMarkerPos "respawn_west";
+
+	_pos = posHQ findEmptyPosition [2, 10, typeOf (vehicle player)];
+	player setPos _pos;
 
 	if (isMultiplayer) then {
 		["gogglesPlayer"] call fn_LoadStat;
@@ -195,7 +197,7 @@ publicVariable "marcadores";
 publicVariable "mrkAAF";
 publicVariable "mrkFIA";
 
-["posHQ"] call fn_LoadStat;
+[] call AS_fnc_loadHQ;
 ["estaticas"] call fn_LoadStat;//tiene que ser el último para que el sleep del borrado del contenido no haga que despawneen
 
 //call AAFassets;
@@ -210,7 +212,8 @@ if (isMultiplayer) then
 		{_jugador removeWeaponGlobal _x} forEach weapons _jugador;
 		removeBackpackGlobal _jugador;
 		};
-	_jugador setPos (getMarkerPos "respawn_west");
+	_pos = posHQ findEmptyPosition [2, 10, typeOf (vehicle _jugador)];
+	_jugador setPos _pos;
 	} forEach playableUnits;
 	}
 else
@@ -218,7 +221,9 @@ else
 	{player removeMagazine _x} forEach magazines player;
 	{player removeWeaponGlobal _x} forEach weapons player;
 	removeBackpackGlobal player;
-	player setPos (getMarkerPos "respawn_west");
+
+	_pos = posHQ findEmptyPosition [2, 10, typeOf (vehicle player)];
+	player setPos _pos;
 	};
 
 [] call arsenalManage;

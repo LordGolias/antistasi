@@ -267,7 +267,9 @@ if (_isJip) then {
 	player setVariable ["punish",0,true];
 	player setUnitRank "PRIVATE";
 	waitUntil {!isNil "posHQ"};
-	player setPos posHQ;
+
+	_pos = posHQ findEmptyPosition [2, 10, typeOf (vehicle player)];
+	player setPos _pos;
 	[true] execVM "reinitY.sqf";
 
 	if (not([player] call isMember)) then {
@@ -321,14 +323,6 @@ if (_isJip) then {
 	};
 	} forEach allUnits;
 
-	if (petros == leader group petros) then {
-		removeAllActions petros;
-		petros addAction [localize "STR_act_missionRequest", {nul=CreateDialog "mission_menu";},nil,0,false,true];
-	}
-	else {
-		removeAllActions petros;
-		petros addAction [localize "STR_act_buildHQ", {[] spawn buildHQ},nil,0,false,true];
-	};
 	if ((player == stavros) and (isNil "placementDone") and (isMultiplayer)) then {
 		[] execVM "Dialogs\initMenu.sqf";
 	}

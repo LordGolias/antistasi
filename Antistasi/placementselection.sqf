@@ -83,12 +83,9 @@ if (visiblemap) then {
         petros setName "Petros";
         petros disableAI "MOVE";
         petros disableAI "AUTOTARGET";
-        if (group _viejo == grupoPetros) then {
-			[[petros,"mission"],"flagaction"] call BIS_fnc_MP;
-		} else {
-			[[petros,"buildHQ"],"flagaction"] call BIS_fnc_MP;
-		};
-         call compile preprocessFileLineNumbers "initPetros.sqf";
+        [[petros,"buildHQ"],"flagaction"] call BIS_fnc_MP;
+
+		call compile preprocessFileLineNumbers "initPetros.sqf";
         deleteVehicle _viejo;
         publicVariable "petros";
 	}

@@ -9,7 +9,7 @@ diag_log "Antistasi MP Server. Funcs init finished";
 call compile preprocessFileLineNumbers "initZones.sqf";
 diag_log "Antistasi MP Server. Zones init finished";
 initZones = true; publicVariable "initZones";
- call compile preprocessFileLineNumbers "initPetros.sqf";
+call compile preprocessFileLineNumbers "initPetros.sqf";
 
 ["Initialize"] call BIS_fnc_dynamicGroups;//Exec on Server
 

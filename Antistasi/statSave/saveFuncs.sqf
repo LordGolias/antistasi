@@ -152,7 +152,68 @@ AS_fnc_loadArsenal = {
 	publicVariable "unlockedBackpacks";
 };
 
+AS_permanent_HQplacements = [caja, cajaVeh, mapa, fuego, bandera];
 
+AS_fnc_saveHQ = {
+	_array = [];
+	{
+		_array pushback [getPos _x, getDir _x];
+	} forEach AS_permanent_HQplacements;
+	["HQPermanents", _array] call fn_SaveStat;
+
+	_array = [];
+	if (!isNil "AS_HQ_placements") then {
+		{
+			// save stuff only close to the HQ.
+			_pos = getPos _x;
+			if (_pos distance posHQ < 50) then {
+				_array pushback [_pos, getDir _x, typeOf _x];
+			};
+		} forEach AS_HQ_placements;
+	};
+	["HQPlacements", _array] call fn_SaveStat;
+
+	["HQpos", getMarkerPos "respawn_west"] call fn_Savestat;
+	["HQinflamed", inflamed fuego] call fn_Savestat;
+};
+
+AS_fnc_loadHQ = {
+	posHQ = ["HQpos"] call AS_fnc_LoadStat;
+	publicVariable "posHQ";
+	{
+		if (getMarkerPos _x distance posHQ < 1000) exitWith {
+			mrkAAF = mrkAAF - [_x];
+			mrkFIA = mrkFIA + [_x];
+		};
+	} forEach controles;
+
+	"FIA_HQ" setMarkerPos posHQ;
+	"respawn_west" setMarkerPos posHQ;
+	"respawn_west" setMarkerAlpha 1;
+	petros setPos posHQ;
+
+	_array = ["HQPermanents"] call AS_fnc_LoadStat;
+	for "_i" from 0 to count AS_permanent_HQplacements - 1 do {
+		(AS_permanent_HQplacements select _i) setPos ((_array select _i) select 0);
+		(AS_permanent_HQplacements select _i) setDir ((_array select _i) select 1);
+	};
+
+	fuego inflame (["HQinflamed"] call AS_fnc_LoadStat);
+
+	// this is modified only by moveObject.sqf
+	AS_HQ_placements = [];
+	_array = ["HQPlacements"] call AS_fnc_LoadStat;
+	for "_i" from 0 to count _array - 1 do {
+		_item = ((_array select _i) select 2) createVehicle ((_array select _i) select 0);
+		_item setDir ((_array select _i) select 1);
+		AS_HQ_placements pushBack _item;
+	};
+	publicVariable "AS_HQ_placements";
+
+	placementDone = true; publicVariable "placementDone";
+	[[petros,"remove"],"flagaction"] call BIS_fnc_MP;
+	[[petros,"mission"], "flagaction"] call BIS_fnc_MP;
+};
 
 fn_SaveStat = AS_fnc_SaveStat;  // to be replaced in whole project.
 
@@ -372,18 +433,6 @@ fn_SetStat = {
 				{
 				server setVariable [(_x select 0),(_x select 1),true];
 				} forEach _varValue;
-				};
-			if(_varName == 'posHQ') exitWith
-				{
-				{if (getMarkerPos _x distance _varvalue < 1000) exitWith
-					{
-					mrkAAF = mrkAAF - [_x];
-					mrkFIA = mrkFIA + [_x];
-					};
-				} forEach controles;
-				"respawn_west" setMarkerPos _varValue;
-				petros setPos _varvalue;
-				[] spawn buildHQ;
 				};
 			if(_varname == 'estaticas') exitWith
 				{

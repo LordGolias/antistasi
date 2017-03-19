@@ -1,8 +1,12 @@
 params ["_t", ["_position", "none"]];
-
 private ["_item","_pos"];
 
-if ((_t == "sandbag") && ((server getVariable ["AS_HQ_sandbag", 0]) > 2)) exitWith {[petros,"BE","No more sandbags for you!"] remoteExec ["commsMP",stavros]};
+if (isNil "AS_HQ_placements") then {AS_HQ_placements = [];};
+
+_maxHQsandbags = 5;
+_currentHQsandbags = ({typeOf _x == "Land_BagFence_Round_F"} count AS_HQ_placements);
+
+if ((_t == "sandbag") && (_currentHQsandbags >= _maxHQsandbags)) exitWith {[petros,"BE","No more sandbags available."] remoteExec ["commsMP",stavros]};
 
 if (_t == "pad") exitWith {
 	if (isNil "vehiclePad") then {
@@ -22,23 +26,10 @@ if (_t == "pad") exitWith {
 	};
 };
 
-_objs = [];
-
 if (_t == "delete") exitWith {
 	{
-    	if ((  str typeof _x find "Land_Camping_Light_F" > -1
-    	    or str typeof _x find "Land_BagFence_Round_F" > -1
-        	or str typeof _x find "CamoNet_BLUFOR_open_F" > -1))
-		then {
-        	_objs pushBack _x;
-   		};
-	} forEach nearestObjects [getPos fuego, [], 50];
-
-	{
 		deleteVehicle _x;
-	} foreach _objs;
-
-	server setVariable ["AS_HQ_sandbag", 0];
+	} foreach AS_HQ_placements;
 
 	[vehiclePad, {deleteVehicle _this}] remoteExec ["call", 0];
 	[vehiclePad, {vehiclePad = nil}] remoteExec ["call", 0];
@@ -46,7 +37,6 @@ if (_t == "delete") exitWith {
 };
 
 _pos = [getPos fuego, 10, floor(random 361)] call BIS_Fnc_relPos;
-
 if (_t == "lantern") then {
 	_item = "Land_Camping_Light_F";
 	_pos = [getPos fuego, 2, floor(random 361)] call BIS_Fnc_relPos;
@@ -58,11 +48,10 @@ if (_t == "net") then {
 
 if (_t == "sandbag") then {
 	_item = "Land_BagFence_Round_F";
-	_count = server getVariable ["AS_HQ_sandbag", 0];
-	server setVariable ["AS_HQ_sandbag", _count + 1];
 };
 
-_ci = _item createVehicle [0,0,0];
-_ci setpos _pos;
+_ci = _item createVehicle _pos;
+
+AS_HQ_placements pushBack _ci; publicVariable "AS_HQ_placements";
 
 [[_ci,"moveObject"],"flagaction"] call BIS_fnc_MP;

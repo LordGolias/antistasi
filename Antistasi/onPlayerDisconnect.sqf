@@ -56,6 +56,7 @@ if (_unit == stavros) then
 		{
 		[] spawn assignStavros;
 		};
+	// this is not right: the HQ may be built close to a location, with undefined behavior.
 	if (group petros == group _unit) then {[] spawn buildHQ};
 	};
 if ((_hr > 0) or (_recursos > 0)) then {[_hr,_recursos] spawn resourcesFIA};

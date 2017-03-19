@@ -103,8 +103,8 @@ petros addMPEventHandler ["mpkilled",
             //petros disableAI "MOVE";
             //petros disableAI "AUTOTARGET";
             petros forceSpeed 0;
-            if (group _viejo == grupoPetros) then {[[Petros,"mission"],"flagaction"] call BIS_fnc_MP;} else {[[Petros,"buildHQ"],"flagaction"] call BIS_fnc_MP;};
-             call compile preprocessFileLineNumbers "initPetros.sqf";
+            [[Petros,"buildHQ"],"flagaction"] call BIS_fnc_MP;
+            call compile preprocessFileLineNumbers "initPetros.sqf";
             deleteVehicle _viejo;
             publicVariable "petros";
             };

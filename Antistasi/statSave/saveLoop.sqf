@@ -49,7 +49,6 @@ if (!isDedicated) then
 	["antenas", antenasmuertas] call fn_SaveStat;
 	["mrkAAF", mrkAAF - controles] call fn_SaveStat;
 	["mrkFIA", mrkFIA - puestosFIA - controles] call fn_SaveStat;
-	["posHQ", getMarkerPos "respawn_west"] call fn_Savestat;
 	["APCAAFcurrent", APCAAFcurrent] call fn_SaveStat;
 	["tanksAAFcurrent",tanksAAFcurrent] call fn_SaveStat;
 	["planesAAFcurrent", planesAAFcurrent] call fn_SaveStat;
@@ -64,6 +63,8 @@ if (!isDedicated) then
 	["vehInGarage", vehInGarage] call fn_SaveStat;
 
 	["BE_data", ([] call fnc_BE_save)] call fn_SaveStat;
+
+[] call AS_fnc_saveHQ;
 
 private ["_hrfondo","_resfondo","_veh","_tipoVeh","_armas","_municion","_items","_mochis","_contenedores","_arrayEst","_posVeh","_dierVeh","_prestigeOPFOR","_prestigeBLUFOR","_ciudad","_datos","_marcadores","_garrison","_arrayMrkMF","_arrayPuestosFIA","_pospuesto","_tipoMina","_posMina","_detectada","_tipos","_exists","_amigo","_arrayCampsFIA","_enableFTold","_enableMemAcc","_campList"];
 
@@ -209,7 +210,7 @@ if (_veh distance getMarkerPos "respawn_west" < 50) then
 		};
 	};
 	};
-} forEach vehicles - [caja,bandera,fuego,cajaveh,mapa];
+} forEach vehicles - AS_permanent_HQplacements;
 
 
 ["estaticas", _arrayEst] call fn_SaveStat;
