@@ -12,6 +12,8 @@ debug = false;//debug variable, not useful for everything..
 
 cleantime = 900;//time to delete dead bodies, vehicles etc..
 distanciaSPWN = 1200;//initial spawn distance. Less than 1Km makes parked vehicles spawn in your nose while you approach.
+AS_spawnLoopTime = 0.5; // seconds between each check of spawn/despawn locations (expensive loop).
+
 AS_minAISkill = 0.6; // The minimum skill of the AI.
 AS_maxAISkill = 0.9; // The maximum skill of the AI.
 musicON = true;

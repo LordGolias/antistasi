@@ -94,7 +94,7 @@ if(isServer) then {
     [caja] call cajaAAF;
     [unlockedWeapons] spawn fnc_weaponsCheck;
     waitUntil {!(isNil "placementDone")};
-    distancias = [] spawn distancias3;
+    [] spawn AS_fnc_spawnLoop;
     resourcecheck = [] execVM "resourcecheck.sqf";
     if (serverName in servidoresOficiales) then {
         [] execVM "orgPlayers\mList.sqf";
