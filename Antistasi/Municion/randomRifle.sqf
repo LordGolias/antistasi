@@ -11,10 +11,17 @@ _rifleFinal = "";
 _skillFIA = server getVariable "skillFIA";
 
 removeVest _unit;
-_vest = ([caja] call AS_fnc_getBestVest);
+_vest = ([caja, "vest"] call AS_fnc_getBestItem);
 if (!isnil "_vest") then {
 	_unit addVest _vest;
+	// todo: add items to vest.
 	caja removeItem _vest;
+};
+
+_helmet = ([caja, "helmet"] call AS_fnc_getBestItem);
+if (!isnil "_helmet") then {
+	_unit addHeadgear _helmet;
+	caja removeItem _helmet;
 };
 
 if (_rifle) then
@@ -38,43 +45,34 @@ if (_rifle) then
 			_unit addPrimaryWeaponItem (_posibles call BIS_fnc_selectRandom);
 			};
 	};
-if (_helmet) then
-	{
-	if (random 20 < _skillFIA) then
-		{
-		_unit addHeadgear (genHelmets call BIS_fnc_selectRandom)
-		}
-	else
-		{
-		if (_uniform) then {
-			// BE module
-			if (hayBE) then {
-				_result = ["outfit"] call fnc_BE_getCurrentValue;
-				if (random 100 > _result) then {
-					_unit forceAddUniform (civUniforms call BIS_fnc_selectRandom);
-					_unit addItemToUniform "FirstAidKit";
-					if !(hayRHS) then {
-						_unit addMagazine ["HandGrenade", 1];
-						_unit addMagazine ["SmokeShell", 1];
-					} else {
-						_unit addMagazine "rhs_mag_rdg2_white";
-						_unit addMagazine "rhs_mag_rgd5";
-					};
-				};
-			}
-			// BE module
-			else {
-				if (random 10 > _skillFIA) then {
-					_unit forceAddUniform (civUniforms call BIS_fnc_selectRandom);
-					_unit addItemToUniform "FirstAidKit";
-					if !(hayRHS) then {
-						_unit addMagazine ["HandGrenade", 1];
-						_unit addMagazine ["SmokeShell", 1];
-					} else {
-						_unit addMagazine "rhs_mag_rdg2_white";
-						_unit addMagazine "rhs_mag_rgd5";
-					};
-				};
+
+if (_uniform) then {
+	// BE module
+	if (hayBE) then {
+		_result = ["outfit"] call fnc_BE_getCurrentValue;
+		if (random 100 > _result) then {
+			_unit forceAddUniform (civUniforms call BIS_fnc_selectRandom);
+			_unit addItemToUniform "FirstAidKit";
+			if !(hayRHS) then {
+				_unit addMagazine ["HandGrenade", 1];
+				_unit addMagazine ["SmokeShell", 1];
+			} else {
+				_unit addMagazine "rhs_mag_rdg2_white";
+				_unit addMagazine "rhs_mag_rgd5";
+			};
+		};
+	}
+	// BE module
+	else {
+		if (random 10 > _skillFIA) then {
+			_unit forceAddUniform (civUniforms call BIS_fnc_selectRandom);
+			_unit addItemToUniform "FirstAidKit";
+			if !(hayRHS) then {
+				_unit addMagazine ["HandGrenade", 1];
+				_unit addMagazine ["SmokeShell", 1];
+			} else {
+				_unit addMagazine "rhs_mag_rdg2_white";
+				_unit addMagazine "rhs_mag_rgd5";
 			};
 		};
 	};

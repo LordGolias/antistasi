@@ -98,19 +98,21 @@ _allAccessories = "
 " configClasses ( configFile >> "cfgWeapons" );
 
 
-// all vests. Used to identify vests that can be used by FIA soldiers.
-AS_allVests = [];
-AS_allVestsAttrs = [];
-_allVests = " 
+_itemFilter = " 
     ( getNumber ( _x >> ""scope"" ) isEqualTo 2 
     && 
     { getText ( _x >> ""simulation"" ) isEqualTo ""Weapon"" 
     && 
     { getNumber ( _x >> ""type"" ) isEqualTo 131072 
     && 
-    { getNumber ( _x >> ""ItemInfo"" >> ""type"" ) isEqualTo 701 
+    { getNumber ( _x >> ""ItemInfo"" >> ""type"" ) isEqualTo %1 
     } } }) 
-" configClasses ( configFile >> "cfgWeapons" );
+";
+
+// all vests. Used to identify vests that can be used by FIA soldiers.
+AS_allVests = [];
+AS_allVestsAttrs = [];
+_allVests = (format [_itemFilter, 701]) configClasses ( configFile >> "cfgWeapons" );
 {
 	_name = configName _x;
 	AS_allVests pushBack _name;
@@ -118,6 +120,18 @@ _allVests = "
 	_armor = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "HitpointsProtectionInfo" >> "Chest" >> "armor"));
 	AS_allVestsAttrs pushBack [_weight, _armor];
 } forEach _allVests;
+
+// all helmets. Used to compute the best helmet to be used by FIA soldiers.
+AS_allHelmets = [];
+AS_allHelmetsAttrs = [];
+_allHelmets = (format [_itemFilter, 605]) configClasses ( configFile >> "cfgWeapons" );
+{
+	_name = configName _x;
+	AS_allHelmets pushBack _name;
+	_weight = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "mass"));
+	_armor = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "HitpointsProtectionInfo" >> "Head" >> "armor"));
+	AS_allHelmetsAttrs pushBack [_weight, _armor];
+} forEach _allHelmets;
 
 
 {
