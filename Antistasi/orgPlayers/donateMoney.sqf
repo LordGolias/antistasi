@@ -16,7 +16,6 @@ if (!isPlayer _target) exitWith {hint "You must be looking to a player in order 
 
 [-100] call resourcesPlayer;
 _money = player getVariable "dinero";
-["dinero",_money] call fn_SaveStat;
 _dinero = _target getVariable "dinero";
 _target setVariable ["dinero",_dinero + 100, true];
 hint format ["You have donated 100 € to %1", name _target];

@@ -1,5 +1,3 @@
-// session ID, needs to be loaded prior to the personal data
-
 if (!isDedicated) then {
 	//["AS_session_client"] call fn_LoadStat;
 	{player removeMagazine _x} forEach magazines player;
@@ -12,24 +10,7 @@ if (!isDedicated) then {
 	player setPos _pos;
 
 	if (isMultiplayer) then {
-		["gogglesPlayer"] call fn_LoadStat;
-		["vestPlayer"] call fn_LoadStat;
-		["outfit"] call fn_LoadStat;
-		["hat"] call fn_LoadStat;
-
-		if ([player] call isMember) then {
-			["scorePlayer"] call fn_LoadStat;
-			["rankPlayer"] call fn_LoadStat;
-		};
-		["dinero"] call fn_LoadStat;
-		["personalGarage"] call fn_LoadStat;
-		diag_log "Antistasi MP: Personal player stats loaded";
-	} else {
-		["gogglesPlayer"] call fn_LoadStat;
-		["vestPlayer"] call fn_LoadStat;
-		["outfit"] call fn_LoadStat;
-		["hat"] call fn_LoadStat;
-		diag_log "Antistasi: SP Personal player stats loaded";
+		[] call AS_fnc_loadLocalPlayer;
 	};
 };
 

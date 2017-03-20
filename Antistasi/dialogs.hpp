@@ -990,7 +990,7 @@ AS_BOX_D(BOX_H_4);
 AS_FRAME_D(FRAME_H_4, "Game Options");
 BTN_BACK(A_CLOSE);
 
-#define STR_GO_PSS "closeDialog 0; [] execVM ""statSave\saveLoop.sqf""; hint ""Personal Stats Saved"";"
+#define STR_GO_PSS "closeDialog 0; [] call AS_fnc_saveLocalPlayer; hint ""Personal stats saved."""
 
 BTN_L1(-1, "Music ON/OFF", "", "closedialog 0; if (musicON) then {musicON = false; hint ""Music turned OFF"";} else {musicON = true; nul = execVM ""musica.sqf""; hint ""Music turned ON""};");
 

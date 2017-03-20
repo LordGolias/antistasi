@@ -1,18 +1,15 @@
-
-
 // the function that saves a property persistently.
 AS_fnc_SaveStat = {
-	_varName = _this select 0;
-	_varValue = _this select 1;
+	params ["_varName", "_varValue"];
 	if (!isNil "_varValue") then {
-		profileNameSpace setVariable [_varName + AS_profileID + AS_sessionID, _varValue];
+		profileNameSpace setVariable [AS_sessionID + _varName, _varValue];
 	};
 };
 
 // the function that loads a property persistently.
 AS_fnc_LoadStat = {
-	_varName = _this select 0;
-	profileNameSpace getVariable (_varName + AS_profileID + AS_sessionID)
+	params ["_varName"];
+	profileNameSpace getVariable (AS_sessionID + _varName)
 };
 
 // Variables that are persistent to `server`. They are saved and loaded accordingly.
@@ -230,7 +227,7 @@ fn_LoadStat = {
 //===========================================================================
 // Variables that require scripting after loaded. See fn_SetStat.
 specialVarLoads =
-["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","posHQ","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","fecha","skillAAF","garrison","tasks","gogglesPlayer","vestPlayer","outfit","hat","scorePlayer","rankPlayer","dinero","destroyedBuildings","idleBases","campsFIA","campList","BE_data"];
+["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","posHQ","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","fecha","skillAAF","garrison","tasks","destroyedBuildings","idleBases","campsFIA","campList","BE_data"];
 
 // global variables that are set to be publicVariable on loading.
 AS_publicVariables = [
@@ -250,14 +247,6 @@ fn_SetStat = {
 			if(_varName == 'cuentaCA') exitWith {
 				if (_varValue < 2700) then {cuentaCA = 2700} else {cuentaCA = _varValue};
 			};
-			if(_varName == 'gogglesPlayer') exitWith {removeGoggles player; player addGoggles _varValue;};
-			if(_varName == 'dinero') exitWith {player setVariable ["dinero",_varValue,true];};
-			if(_varName == 'vestPlayer') exitWith {removeVest player; player addVest _varValue;};
-			if(_varName == 'outfit') exitWith {removeUniform player; player forceAddUniform _varValue;};
-			if(_varName == 'hat') exitWith {removeHeadGear player; player addHeadGear _varValue;};
-			if(_varName == 'scorePlayer') exitWith {player setVariable ["score",_varValue,true];};
-			if(_varName == 'rankPlayer') exitWith {player setRank _varValue; player setVariable ["rango",_varValue,true]; [player, _varValue] remoteExec ["ranksMP"];};
-
 			if(_varName == 'BE_data') exitWith {[_varValue] call fnc_BE_load};
 			if(_varName == 'planesAAFcurrent') exitWith {
 				planesAAFcurrent = _varValue;

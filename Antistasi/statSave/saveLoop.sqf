@@ -1,47 +1,9 @@
-if (savingClient) exitWith {hint "Your personal stats are being saved"};
-if (!isDedicated) then
-	{
-	savingClient = true;
-	["gogglesPlayer", goggles player] call fn_SaveStat;
-	["vestPlayer", vest player] call fn_SaveStat;
-	["outfit", uniform player] call fn_SaveStat;
-	["hat", headGear player] call fn_SaveStat;
-	if (isMultiplayer) then {
-		["AS_sessionID", AS_sessionID] call fn_SaveStat;
+if (!isServer) exitWith {};
 
-		["scorePlayer", player getVariable "score"] call fn_SaveStat;
-		["rankPlayer",rank player] call fn_SaveStat;
-		_resfondo = player getVariable "dinero";
-		{
-		_amigo = _x;
-		if ((!isPlayer _amigo) and (alive _amigo)) then
-			{
-			_resfondo = _resfondo + (server getVariable (typeOf _amigo));
-			if (vehicle _amigo != _amigo) then
-				{
-				_veh = vehicle _amigo;
-				_tipoVeh = typeOf _veh;
-				if (not(_veh in staticsToSave)) then
-					{
-					if ((_veh isKindOf "StaticWeapon") or (driver _veh == _amigo)) then
-						{
-						_resfondo = _resfondo + ([_tipoVeh] call vehiclePrice);
-						if (count attachedObjects _veh != 0) then {{_resfondo = _resfondo + ([typeOf _x] call vehiclePrice)} forEach attachedObjects _veh};
-						};
-					};
-				};
-			};
-		} forEach units group player;
-		["dinero",_resfondo] call fn_SaveStat;
-		_personalGarage = personalGarage;
-		["personalGarage",_personalGarage] call fn_SaveStat;
-		};
-	savingClient = false;
-	};
+if (savingServer) exitWith {"Server data save is still in process" remoteExecCall ["hint",stavros]};
+savingServer = true;
 
- if (!isServer) exitWith {};
- if (savingServer) exitWith {"Server data save is still in process" remoteExecCall ["hint",stavros]};
- savingServer = true;
+call AS_fnc_savePlayers;
 
 	["cuentaCA", cuentaCA] call fn_SaveStat;
 	["smallCAmrk", smallCAmrk] call fn_SaveStat;
@@ -190,12 +152,12 @@ if (_veh distance getMarkerPos "respawn_west" < 50) then
 		!(_veh isKindOf "FlagCarrier") and 
 		!(_veh isKindOf "Building") and 
 		!(_tipoVeh in planesNATO) and 
-		!(_tipoVeh in vehNATO)) and 
+		!(_tipoVeh in vehNATO) and 
 		!(_tipoVeh == "C_Van_01_box_F") and 
 		(count attachedObjects _veh == 0) and 
 		(alive _veh) and 
 		({(alive _x) and (!isPlayer _x)} count crew _veh == 0) and 
-		!(_tipoVeh == "WeaponHolderSimulated") then {
+		!(_tipoVeh == "WeaponHolderSimulated")) then {
 		_posVeh = getPos _veh;
 		_dirVeh = getDir _veh;
 		_arrayEst = _arrayEst + [[_tipoVeh,_posVeh,_dirVeh]];

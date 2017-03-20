@@ -12,6 +12,7 @@ call compile preprocessFileLineNumbers "Lists\gearList.sqf";
 
 call compile preprocessFileLineNumbers "statSave\cityAttrs.sqf";
 call compile preProcessFileLineNumbers "statSave\saveFuncs.sqf";
+call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 
 AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "CREATE\setDefaultSkill.sqf";
 
