@@ -11,6 +11,7 @@ AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "CREATE\setDefaultSki
 AS_fnc_getWeaponItemsCargo = compile preProcessFileLineNumbers "municion\getWeaponItemsCargo.sqf";
 AS_fnc_getUnitArsenal = compile preProcessFileLineNumbers "municion\getUnitArsenal.sqf";
 AS_fnc_getBoxArsenal = compile preProcessFileLineNumbers "municion\getBoxArsenal.sqf";
+AS_fnc_getBestVest = compile preProcessFileLineNumbers "municion\getBestVest.sqf";
 AS_fnc_listToCargoList = compile preProcessFileLineNumbers "municion\listToCargoList.sqf";
 AS_fnc_mergeCargoLists = compile preProcessFileLineNumbers "municion\mergeCargoLists.sqf";
 AS_fnc_populateBox = compile preProcessFileLineNumbers "municion\populateBox.sqf";

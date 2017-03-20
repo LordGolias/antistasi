@@ -10,20 +10,13 @@ _rifleFinal = "";
 
 _skillFIA = server getVariable "skillFIA";
 
-if (_vest) then
-	{
-	if (random 25 < _skillFIA) then
-		{
-		removeVest _unit;
-		if (hayRHS) then {
-			_unit addVest "rhs_6b23_6sh116_flora";
-			_unit addItemToVest "FirstAidKit";
-			}
-		else {
-			_unit addVest "V_PlateCarrierIAGL_oli";
-			};
-		};
-	};
+removeVest _unit;
+_vest = ([caja] call AS_fnc_getBestVest);
+if (!isnil "_vest") then {
+	_unit addVest _vest;
+	caja removeItem _vest;
+};
+
 if (_rifle) then
 	{
 	_mag = currentMagazine _unit;

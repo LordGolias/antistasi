@@ -97,6 +97,29 @@ _allAccessories = "
     { getNumber ( _x >> ""type"" ) isEqualTo 131072 } } )
 " configClasses ( configFile >> "cfgWeapons" );
 
+
+// all vests. Used to identify vests that can be used by FIA soldiers.
+AS_allVests = [];
+AS_allVestsAttrs = [];
+_allVests = " 
+    ( getNumber ( _x >> ""scope"" ) isEqualTo 2 
+    && 
+    { getText ( _x >> ""simulation"" ) isEqualTo ""Weapon"" 
+    && 
+    { getNumber ( _x >> ""type"" ) isEqualTo 131072 
+    && 
+    { getNumber ( _x >> ""ItemInfo"" >> ""type"" ) isEqualTo 701 
+    } } }) 
+" configClasses ( configFile >> "cfgWeapons" );
+{
+	_name = configName _x;
+	AS_allVests pushBack _name;
+	_weight = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "mass"));
+	_armor = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "HitpointsProtectionInfo" >> "Chest" >> "armor"));
+	AS_allVestsAttrs pushBack [_weight, _armor];
+} forEach _allVests;
+
+
 {
 _nombre = configName _x;
 _tipo = [_nombre] call BIS_fnc_itemType;
