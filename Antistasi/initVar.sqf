@@ -312,7 +312,6 @@ helisAAFmax = 0;
 APCAAFmax = 0;
 tanksAAFmax = 0;
 cuentaCA = 600;//600
-lastIncome = 0;
 prestigeIsChanging = false;
 cityIsSupportChanging = false;
 resourcesIsChanging = false;

@@ -36,12 +36,3 @@ cuentaCA = cuentaCA + round (random _tiempo);
 publicVariable "cuentaCA";
 
 diag_log format ["timer changed: %1", cuentaCA];
-
-
-
-/*
-_inc = lastIncome;
-_em = server getVariable "easyMode";
-if (_em) then {_inc = _inc / 2};
-_tiempo = _tiempo - (_inc) - (50*(count (mrkFIA - puestosFIA)));
-*/
