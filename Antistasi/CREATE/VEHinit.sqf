@@ -15,10 +15,7 @@ _tipo = typeOf _veh;
 
 if ((_tipo in vehNATO) or (_tipo in planesNATO)) then
 	{
-	clearMagazineCargoGlobal _veh;
-	clearWeaponCargoGlobal _veh;
-	clearItemCargoGlobal _veh;
-	clearBackpackCargoGlobal _veh;
+	[_veh] call emptyCrate;
 	_veh lock 3;
 	_veh addEventHandler ["GetIn",
 		{
@@ -205,10 +202,7 @@ if (not(_veh in staticsToSave)) then
 			}
 		else
 			{
-			clearMagazineCargoGlobal _veh;
-			clearWeaponCargoGlobal _veh;
-			clearItemCargoGlobal _veh;
-			clearBackpackCargoGlobal _veh;
+			[_veh] call emptyCrate;
 			};
 		};
 	};

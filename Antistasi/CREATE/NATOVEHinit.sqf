@@ -4,10 +4,7 @@ _veh = _this select 0;
 
 if ((_veh isKindOf "FlagCarrier") or (_veh isKindOf "Building")) exitWith {};
 
-clearMagazineCargoGlobal _veh;
-clearWeaponCargoGlobal _veh;
-clearItemCargoGlobal _veh;
-clearBackpackCargoGlobal _veh;
+[_veh] call emptyCrate;
 _veh lock 3;
 _veh addEventHandler ["GetIn",
 	{

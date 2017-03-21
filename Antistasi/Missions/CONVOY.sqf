@@ -384,10 +384,7 @@ if (_tipoConvoy == "Municion") then
 		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMun,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMun, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"rearm"] call BIS_fnc_setTask;
 		[-1200] remoteExec ["timingCA",2];
 		[-10,stavros] call playerScoreAdd;
-		clearMagazineCargoGlobal _vehObj;
-		clearWeaponCargoGlobal _vehObj;
-		clearItemCargoGlobal _vehObj;
-		clearBackpackCargoGlobal _vehObj;
+		[_vehObj] call emptyCrate;
 		}
 	else
 		{

@@ -121,10 +121,7 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown",
 					garageVeh setVariable ["duenyo",getPlayerUID player,true];
 					};
 				if (garageVeh isKindOf "StaticWeapon") then {staticsToSave = staticsToSave + [garageVeh]; publicVariable "staticsToSave"};
-				clearMagazineCargoGlobal garageVeh;
-				clearWeaponCargoGlobal garageVeh;
-				clearItemCargoGlobal garageVeh;
-				clearBackpackCargoGlobal garageVeh;
+				[garageVeh] call emptyCrate;
 				garageVeh allowDamage true;
 				garageVeh enableSimulationGlobal true;
 

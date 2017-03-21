@@ -6,10 +6,7 @@ params ["_box", "_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b", ["_restrict", fa
 private ["_name", "_amount"];
 
 if (_clear) then {
-	clearWeaponCargoGlobal _box;
-	clearMagazineCargoGlobal _box;
-	clearItemCargoGlobal _box;
-	clearBackpackCargoGlobal _box;
+	[_box] call emptyCrate;
 };
 
 for "_i" from 0 to (count (_cargo_w select 0) - 1) do {
