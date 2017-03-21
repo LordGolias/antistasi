@@ -78,7 +78,7 @@ if(isServer) then {
         waitUntil {isPlayer stavros};
         };
     fpsCheck = [] execVM "fpsCheck.sqf";
-    [caja] call cajaAAF;
+    [caja, 10] call AS_fnc_fillCrateNATO;
     [] call fnc_weaponsCheck;
     waitUntil {!(isNil "placementDone")};
     [] spawn AS_fnc_spawnLoop;

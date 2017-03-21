@@ -49,7 +49,7 @@ if (_heli distance _posicion < 300) then
     _chute setPos [getPosASL _heli select 0, getPosASL _heli select 1, (getPosASL _heli select 2) - 50];
     _crate = createVehicle ["B_supplyCrate_F", position _chute, [], 0, 'NONE'];
     _crate attachTo [_chute, [0, 0, -1.3]];
-    [_crate,_NATOSupp] call NATOCrate;
+    [_crate,_NATOSupp] call AS_fnc_fillCrateNATO;
      _vehiculos = _vehiculos + [_chute,_crate];
     _wp3 = _grupoHeli addWaypoint [_orig, 0];
 	_wp3 setWaypointType "MOVE";

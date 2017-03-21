@@ -7,7 +7,6 @@ private ["_cosa","_num","_magazines"];
 [_crate] call emptyCrate;
 
 _AAFcrate = "I_supplyCrate_F";
-_FIAcrate = "IG_supplyCrate_F";
 _weaponList = genWeapons - unlockedWeapons;
 _magList = genAmmo - unlockedMagazines;
 _itemList = genItems - unlockedItems;
@@ -135,7 +134,7 @@ _fnc_gear = {
 
 
 call {
-	if ((typeOf _crate == _AAFcrate) or (typeOf _crate == _FIAcrate)) exitWith {
+	if (typeOf _crate == _AAFcrate) exitWith {
 		["weapon", 4, 4, 3] call _fnc_gear;
 		["magazine", 5, 10] call _fnc_gear;
 		["item", 5, 5] call _fnc_gear;
@@ -195,12 +194,8 @@ call {
 };
 
 if (hayTFAR) then {
-	if (typeOf _crate == _FIAcrate) then {
-		_crate addBackpackCargoGlobal [lrRadio,2];
-	} else {
-		if (4 < random 5) then {
-			_crate addBackpackCargoGlobal [lrRadio,1];
-		};
+	if (4 < random 5) then {
+		_crate addBackpackCargoGlobal [lrRadio,1];
 	};
 };
 

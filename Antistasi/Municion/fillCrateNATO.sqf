@@ -1,9 +1,6 @@
-//if (!isServer) exitWith {};
+params ["_crate", "_NATOSupp"];
+private ["_intNATOSupp", "_weapons","_magazines","_items","_backpacks","_addWeapon"];
 
-private ["_crate","_num","_magazines"];
-
-_crate = _this select 0;
-_NATOSupp = _this select 1;
 _intNATOSupp = floor (_NATOSupp/10);
 
 _weapons = [[],[]];
@@ -63,5 +60,8 @@ if (hayACE) then {
 	(_items select 1) pushBack _intNATOSupp;
 };
 
+if (hayTFAR) then {
+	_crate addBackpackCargoGlobal [lrRadio,2];
+};
 
 [_crate, _weapons, _magazines, _items, _backpacks, false, true] call AS_fnc_populateBox;
