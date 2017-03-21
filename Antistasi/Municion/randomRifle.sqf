@@ -4,13 +4,14 @@ removeAllItemsWithMagazines _unit;
 {_unit removeWeaponGlobal _x} forEach weapons _unit;
 removeBackpackGlobal _unit;
 removeVest _unit;
+_unit unlinkItem "ItemRadio";
 
 /*
 _soldiers = [
 	"B_G_Soldier_LAT_F", // AT rifleman
 	"B_G_Soldier_F", // rifleman
 	"B_G_Soldier_GL_F", // granadier
-	"B_G_Soldier_lite_F", // light rifleman
+	"B_G_Soldier_lite_F", // AA rifleman
 	"B_G_Soldier_SL_F", // squad leader
 	"B_G_Soldier_TL_F", // team leader
 	"B_G_Soldier_AR_F", // autorifleman
@@ -27,6 +28,7 @@ _type = typeOf _unit;
 // survivors have no weapons.
 if (_type == "B_G_Survivor_F") exitWith {};
 
+_unit linkItem "ItemRadio";
 
 _vest = ([caja, "vest"] call AS_fnc_getBestItem);
 if (!isnil "_vest") then {

@@ -1,5 +1,4 @@
 params ["_unit"];
-private ["_tipo"];
 
 _unit setVariable ["BLUFORSpawn",true,true];
 
@@ -8,11 +7,7 @@ _unit allowFleeing 0;
 
 [_unit, server getVariable "skillFIA"] call AS_fnc_setDefaultSkill;
 
-_tipo = typeOf _unit;
-
-if !("ItemRadio" in unlockedItems) then {
-	if ((_unit != leader _unit) && (_tipo != "b_g_soldier_unarmed_f")) then {_unit unlinkItem "ItemRadio"};
-};
+[_unit] call randomRifle;
 
 if (player == leader _unit) then {
 	_EHkilledIdx = _unit addEventHandler ["killed", {
