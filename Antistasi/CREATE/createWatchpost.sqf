@@ -21,7 +21,7 @@ _veh = createVehicle [cFlag, _posicion, [],0, "NONE"];
 _vehiculos = _vehiculos + [_veh];
 _veh = createVehicle ["I_supplyCrate_F", _posicion, [],0, "NONE"];
 _vehiculos = _vehiculos + [_veh];
-[_veh] call cajaAAF;
+[_veh] call AS_fnc_fillCrateAAF;
 _pos = _posicion findEmptyPosition [5,50,"I_Truck_02_covered_F"];
 _veh = createVehicle [selectRandom vehTrucks, _pos, [], 0, "NONE"];
 _veh setDir random 360;

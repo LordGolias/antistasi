@@ -32,7 +32,7 @@ if (spawner getVariable _marcador) then
 		};
 	_camion = vehAmmo createVehicle _pos;
 	_camionCreado = true;
-	[_camion] call cajaAAF;
+	[_camion] call AS_fnc_fillCrateAAF;
 
 	_mrk = createMarkerLocal [format ["%1patrolarea", floor random 100], _pos];
 	_mrk setMarkerShapeLocal "RECTANGLE";

@@ -15,7 +15,7 @@ sleep 2;
 
 {
 	call {
-		if (typeof _x == campCrate) exitWith {[_x] call cajaAAF; [[_x,"heal_camp"],"flagaction"] call BIS_fnc_MP;};
+		if (typeof _x == campCrate) exitWith {[_x] call AS_fnc_fillCrateAAF; [[_x,"heal_camp"],"flagaction"] call BIS_fnc_MP;};
 		if (typeof _x == "Land_MetalBarrel_F") exitWith {[[_x,"refuel"],"flagaction"] call BIS_fnc_MP;};
 		if (typeof _x == "Land_Campfire_F") exitWith {_fire = _x;};
 	};

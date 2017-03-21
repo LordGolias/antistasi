@@ -3,7 +3,7 @@ private ["_veh","_tipo"];
 _veh = _this select 0;
 
 if ((_veh isKindOf "FlagCarrier") or (_veh isKindOf "Building")) exitWith {};
-if (_veh isKindOf "ReammoBox_F") exitWith {[_veh] call cajaAAF};
+if (_veh isKindOf "ReammoBox_F") exitWith {[_veh] call AS_fnc_fillCrateAAF};
 if ((hayACE) && !(random 8 < 1)) then {_veh setVariable ["ace_cookoff_enable", false, true]};
 
 _tipo = typeOf _veh;
@@ -16,7 +16,7 @@ if ((_tipo in vehTrucks) or (_tipo in vehPatrol) or (_tipo in vehSupply) or (_ti
 		{
 		if (_tipo == vehAmmo) then
 			{
-			if (_veh distance getMarkerPos "respawn_west" > 50) then {[_veh] call cajaAAF};
+			if (_veh distance getMarkerPos "respawn_west" > 50) then {[_veh] call AS_fnc_fillCrateAAF};
 			};
 		_veh addEventHandler ["killed",{
 			[-1000] remoteExec ["resourcesAAF",2];
