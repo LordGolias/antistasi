@@ -1,25 +1,36 @@
-private ["_unit","_compatibles","_posibles","_rifle","_helmet","_uniform","_vest"];
-
-_unit = _this select 0;
-
-_rifle = _this select 1;
-_helmet = _this select 2;
-_uniform = _this select 3;
-_vest = _this select 4;
-_rifleFinal = "";
-
-_skillFIA = server getVariable "skillFIA";
-
+params ["_unit"];
 
 removeAllItemsWithMagazines _unit;
 {_unit removeWeaponGlobal _x} forEach weapons _unit;
 removeBackpackGlobal _unit;
 removeVest _unit;
 
+/*
+_soldiers = [
+	"B_G_Soldier_LAT_F", // AT rifleman
+	"B_G_Soldier_F", // rifleman
+	"B_G_Soldier_GL_F", // granadier
+	"B_G_Soldier_lite_F", // light rifleman
+	"B_G_Soldier_SL_F", // squad leader
+	"B_G_Soldier_TL_F", // team leader
+	"B_G_Soldier_AR_F", // autorifleman
+	"B_G_medic_F",
+	"B_G_engineer_F",
+	"B_G_Soldier_exp_F", // exp. specialist
+	"B_G_Soldier_A_F", // ammo bearer
+	"B_G_Soldier_M_F", // sniper
+	"B_G_Survivor_F",
+];
+*/
+_type = typeOf _unit;
+
+// survivors have no weapons.
+if (_type == "B_G_Survivor_F") exitWith {};
+
+
 _vest = ([caja, "vest"] call AS_fnc_getBestItem);
 if (!isnil "_vest") then {
 	_unit addVest _vest;
-	// todo: add items to vest.
 	caja removeItem _vest;
 };
 
@@ -29,83 +40,74 @@ if (!isnil "_helmet") then {
 	caja removeItem _helmet;
 };
 
-_weapon = ([caja] call AS_fnc_getBestWeapon);
-if (!isnil "_weapon") then {
-	[_unit, _weapon, 0, 0] call BIS_fnc_addWeapon;
-	caja removeWeaponGlobal _weapon;
 
-	// The weapon was choosen to have mags available, so this is guaranteed to give ammo.
-	_cargo_m = ([caja, _weapon] call AS_fnc_getBestMagazines);
+// todo: add backpack before weapons and items.
 
-	for "_i" from 0 to (count (_cargo_m select 0) - 1) do {
-		_name = (_cargo_m select 0) select _i;
-		_amount = (_cargo_m select 1) select _i;
-		_unit addMagazines [_name, _amount];
-		// todo: _unit may not be able to carry then all, but all are removed from the box.
-		for "_j" from 0 to _amount do {caja removeMagazineGlobal _name;};
-	};
+// choose a list of weapons to choose from the unit type.
+// see initVar.sqf where AS_weapons is populated.
+_primaryWeapons = (AS_weapons select 13); // Rifles
+_secondaryWeapons = [];
+if (_type == "B_G_Soldier_GL_F") then {
+	_primaryWeapons = AS_weapons select 3; // G. Launchers
+	// todo: check that secondary magazines exist.
+};
+if (_type == "B_G_Soldier_AR_F") then {
+	_primaryWeapons = AS_weapons select 6; // Machine guns
+};
+if (_type == "B_G_Soldier_M_F") then {
+	_primaryWeapons = AS_weapons select 15;  // Snipers
+};
+if (_type == "B_G_Soldier_LAT_F") then {
+	_secondaryWeapons = (AS_weapons select 8); // missile launchers
 };
 
+_addWeapon = {
+	params ["_weapons", "_mags"];
+	_weapon = ([caja, _weapons, _mags] call AS_fnc_getBestWeapon);
+	if (!isnil "_weapon") then {
+		[_unit, _weapon, 0, 0] call BIS_fnc_addWeapon;
+		caja removeWeaponGlobal _weapon;
 
+		// The weapon was choosen to have mags available, so this is guaranteed to give ammo.
+		_cargo_m = ([caja, _weapon, _mags] call AS_fnc_getBestMagazines);
 
-
-/* 
-
-if (_rifle) then
-	{
-	_mag = currentMagazine _unit;
-	_unit removeMagazines _mag;
-	_unit removeWeaponGlobal (primaryWeapon _unit);
-	_rifleFinal = unlockedRifles call BIS_fnc_selectRandom;
-	if (_rifleFinal in genGL) then {
-		if !(hayRHS) then {_unit addMagazine ["1Rnd_HE_Grenade_shell", 4];}
-		else {_unit addMagazine ["rhs_VOG25", 4];};
-	};
-	[_unit, _rifleFinal, 5, 0] call BIS_fnc_addWeapon;
-	if (count unlockedOptics > 0) then
-			{
-			_compatibles = [primaryWeapon _unit] call BIS_fnc_compatibleItems;
-			_posibles = [];
-			{
-			if (_x in _compatibles) then {_posibles pushBack _x};
-			} forEach unlockedOptics;
-			_unit addPrimaryWeaponItem (_posibles call BIS_fnc_selectRandom);
-			};
-	};
-
-if (_uniform) then {
-	// BE module
-	if (hayBE) then {
-		_result = ["outfit"] call fnc_BE_getCurrentValue;
-		if (random 100 > _result) then {
-			_unit forceAddUniform (civUniforms call BIS_fnc_selectRandom);
-			_unit addItemToUniform "FirstAidKit";
-			if !(hayRHS) then {
-				_unit addMagazine ["HandGrenade", 1];
-				_unit addMagazine ["SmokeShell", 1];
-			} else {
-				_unit addMagazine "rhs_mag_rdg2_white";
-				_unit addMagazine "rhs_mag_rgd5";
-			};
-		};
-	}
-	// BE module
-	else {
-		if (random 10 > _skillFIA) then {
-			_unit forceAddUniform (civUniforms call BIS_fnc_selectRandom);
-			_unit addItemToUniform "FirstAidKit";
-			if !(hayRHS) then {
-				_unit addMagazine ["HandGrenade", 1];
-				_unit addMagazine ["SmokeShell", 1];
-			} else {
-				_unit addMagazine "rhs_mag_rdg2_white";
-				_unit addMagazine "rhs_mag_rgd5";
-			};
+		for "_i" from 0 to (count (_cargo_m select 0) - 1) do {
+			_name = (_cargo_m select 0) select _i;
+			_amount = (_cargo_m select 1) select _i;
+			_unit addMagazines [_name, _amount];
+			// todo: _unit may not be able to carry then all, but all are currently removed from the box.
+			for "_j" from 0 to _amount do {caja removeMagazineGlobal _name;};
 		};
 	};
 };
+
+[_primaryWeapons, 6 + 1] call _addWeapon;
+[_secondaryWeapons, 2 + 1] call _addWeapon;
+
 
 if (hayTFAR) then {
 	_unit addItem "tf_anprc152";
 	_unit assignItem "tf_anprc152";
-}; */
+};
+
+_unit selectWeapon (primaryWeapon _unit);
+
+
+if (sunOrMoon < 1) then {
+	if (indNVG in unlockedItems) then {
+		_unit linkItem indNVG;
+		if (indLaser in unlockedItems) then {
+			_unit addPrimaryWeaponItem indLaser;
+	        _unit assignItem indLaser;
+	        _unit enableIRLasers true;
+		};
+	}
+	else {
+		if (indFL in unlockedItems) then {
+			_unit unassignItem indLaser;
+	        _unit removePrimaryWeaponItem indLaser;
+	        _unit addPrimaryWeaponItem indFL;
+	        _unit enableGunLights "forceOn";
+	    };
+	};
+};

@@ -142,6 +142,29 @@ if ((_tipo == "AccessoryMuzzle") || (_tipo == "AccessoryPointer") || (_tipo == "
 };
 } forEach _allAccessories;
 
+
+/*
+AssaultRifle
+BombLauncher
+Cannon
+GrenadeLauncher
+Handgun
+Launcher
+MachineGun
+Magazine
+MissileLauncher
+Mortar
+RocketLauncher
+Shotgun
+Throw
+Rifle
+SubmachineGun
+SniperRifle
+*/
+AS_weapons = [
+	[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
+];
+
 AS_allUsableWeapons = [];
 AS_allUsableWeaponsAttrs = [];
 {
@@ -166,10 +189,8 @@ AS_allUsableWeaponsAttrs = [];
 
 		AS_allUsableWeaponsAttrs pushBack [_weight, _bull_weight*_bull_speed/100*_bull_speed/100, _magazines];
 
-		_weapon = [_name] call BIS_fnc_itemType;
-		_weaponType = _weapon select 1;
-		switch (_weaponType) do
-			{
+		_weaponType = ([_name] call BIS_fnc_itemType) select 1;
+		switch (_weaponType) do {
 			case "AssaultRifle": {arifles pushBack _name};
 			case "MachineGun": {mguns pushBack _name};
 			case "SniperRifle": {srifles pushBack _name};
@@ -178,7 +199,25 @@ AS_allUsableWeaponsAttrs = [];
 			case "RocketLauncher": {rlaunchers pushBack _name};
 			};
 
+		switch (_weaponType) do {
+			case "AssaultRifle": {(AS_weapons select 0) pushBack _name};
+			case "BombLauncher": {(AS_weapons select 1) pushBack _name};
+			case "Cannon": {(AS_weapons select 2) pushBack _name};
+			case "GrenadeLauncher": {(AS_weapons select 3) pushBack _name};
+			case "Handgun": {(AS_weapons select 4) pushBack _name};
+			case "Launcher": {(AS_weapons select 5) pushBack _name};
+			case "MachineGun": {(AS_weapons select 6) pushBack _name};
+			case "Magazine": {(AS_weapons select 7) pushBack _name};
+			case "MissileLauncher": {(AS_weapons select 8) pushBack _name};
+			case "Mortar": {(AS_weapons select 9) pushBack _name};
+			case "RocketLauncher": {(AS_weapons select 10) pushBack _name};
+			case "Shotgun": {(AS_weapons select 11) pushBack _name};
+			case "Throw": {(AS_weapons select 12) pushBack _name};
+			case "Rifle": {(AS_weapons select 13) pushBack _name};
+			case "SubmachineGun": {(AS_weapons select 14) pushBack _name};
+			case "SniperRifle": {(AS_weapons select 15) pushBack _name};
 		};
+	};
 } forEach _allPrimaryWeapons + _allHandGuns + _allLaunchers;
 
 AS_allWeapons pushBackUnique "Rangefinder";

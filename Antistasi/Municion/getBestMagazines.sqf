@@ -1,4 +1,4 @@
-params ["_box", "_weapon", ["_maxAmount", 6]];
+params ["_box", "_weapon", "_maxAmount"];
 private ["_availableItems", "_availableMags", "_fnc_magazineCount", "_indexes", "_attributes", "_allItems", "_allItemsAttrs"];
 
 _availableMags = getMagazineCargo _box;

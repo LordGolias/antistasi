@@ -1,4 +1,4 @@
-params ["_box", ["_validWeapons", arifles]];
+params ["_box", "_validWeapons", "_recomendedMags"];
 private ["_availableItems", "_availableMags", "_fnc_magazineCount", "_indexes", "_attributes", "_allItems", "_allItemsAttrs"];
 
 _availableItems = getWeaponCargo _box;
@@ -30,7 +30,7 @@ _sortingFunction = {
 	_m_count = (_attributes select _x) select 4;
 
 	_w_factor = 1.0/(1 + exp (-2*_amount + 10));  // 0 => 0; 5 => 0.5; 10 => 1
-	_m_factor = 1.0/(1 + exp (-2*_m_count + 20));  // 0 => 0; 10 => 0.5; 100 => 1
+	_m_factor = 1.0/(1 + exp (-2*_m_count + 2*_recomendedMags));  // 0 => 0; _recomendedMags => 0.5; 100 => 1
 
 	_m_factor*_w_factor*(1 + _bullet_energy)/(1 + _weight)
 };
