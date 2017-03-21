@@ -1,12 +1,11 @@
 if (player != leader group player) exitWith {hint "You cannot dismiss anyone if you are not the squad leader"};
 
-private ["_units","_hr","_resourcesFIA","_unit","_groupToDelete"];
-
-_units = _this select 0;
+private _units = _this select 0;
 
 player globalChat "You are no longer needed in this group.";
 
-_ai = false;
+private _ai = false;
+private _groupToDelete = grpNull;
 
 // if only 1 player in the group.
 if ({isPlayer _x} count units group player == 1) then {
@@ -31,35 +30,37 @@ if ({isPlayer _x} count units group player == 1) then {
 if (recruitCooldown < time) then {recruitCooldown = time + 60} else {recruitCooldown = recruitCooldown + 60};
 
 if (_ai) then {
-	_cargo_w = [[], []];
-	_cargo_m = [[], []];
-	_cargo_i = [[], []];
-	_cargo_b = [[], []];
-
 	// order units to return to the HQ.
 	{_x domove getMarkerPos "respawn_west"} forEach units _groupToDelete;
 
-	_tiempo = time + 120;
+	private _time = time + 120;
 
 	// wait until all units are in the HQ.
 	waitUntil {
-		sleep 1; (time > _tiempo) or ({(_x distance getMarkerPos "respawn_west" < 50) and (alive _x)} count units _groupToDelete == {alive _x} count units _groupToDelete)};
+		sleep 1;
+		(time > _time) or (({(_x distance getMarkerPos "respawn_west" < 50) and (alive _x)} count units _groupToDelete) == ({alive _x} count units _groupToDelete))
+	};
 
-	_hr = 0;
-	_resourcesFIA = 0;
+	private _hr = 0;
+	private _resourcesFIA = 0;
 
+	private _cargo_w = [[], []];
+	private _cargo_m = [[], []];
+	private _cargo_i = [[], []];
+	private _cargo_b = [[], []];
 	{
-		_unit = _x;
+		private _unit = _x;
 		if ((alive _unit) and (not(_x getVariable "inconsciente"))) then {
 			_resourcesFIA = _resourcesFIA + (server getVariable (typeOf _unit));
 			_hr = _hr + 1;
 
-			_arsenal = [_unit, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons
+			private _arsenal = [_unit, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons
 			_cargo_w = [_cargo_w, _arsenal select 0] call AS_fnc_mergeCargoLists;
 			_cargo_m = [_cargo_m, _arsenal select 1] call AS_fnc_mergeCargoLists;
 			_cargo_i = [_cargo_i, _arsenal select 2] call AS_fnc_mergeCargoLists;
 			_cargo_b = [_cargo_b, _arsenal select 3] call AS_fnc_mergeCargoLists;
 		};
+		deleteVehicle _unit;
 	} forEach units _groupToDelete;
 	deleteGroup _groupToDelete;
 

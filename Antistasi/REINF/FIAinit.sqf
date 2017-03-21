@@ -18,7 +18,7 @@ if (player == leader _unit) then {
 		[0.25,0,getPos _muerto] remoteExec ["citySupportChange",2];
 		_muerto setVariable ["BLUFORSpawn",nil,true];
 	}];
-	if (_tipo != "b_g_survivor_F") then {
+	if (typeOf _unit != "b_g_survivor_F") then {
 		_idUnit = namesFIASoldiers call BIS_Fnc_selectRandom;
 		namesFIASoldiers = namesFIASoldiers - [_idunit];
 		_unit setIdentity _idUnit;

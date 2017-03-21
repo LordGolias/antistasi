@@ -7,11 +7,7 @@ _unit = _this select 1;
 _old_cargo = [_unit, true] call AS_fnc_getUnitArsenal;
 
 // specify what is available in the arsenal.
-_cargoArray = [caja] call AS_fnc_getBoxArsenal;
-_cargo_w = _cargoArray select 0;
-_cargo_m = _cargoArray select 1;
-_cargo_i = _cargoArray select 2;
-_cargo_b = _cargoArray select 3;
+([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 
 // add allowed stuff.
 ["AmmoboxInit",[caja, false,{true}]] spawn BIS_fnc_arsenal;
@@ -28,10 +24,7 @@ waitUntil {isnull ( uinamespace getvariable "RSCDisplayArsenal" )};
 _new_cargo = [_unit, true] call AS_fnc_getUnitArsenal;
 
 // we update the value since during the wait someone may have removed the last weapon.
-_cargo_w = getWeaponCargo caja;
-_cargo_m = getMagazineCargo caja;
-_cargo_i = getItemCargo caja;
-_cargo_b = getBackpackCargo caja;
+([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 
 // add all the old stuff and removes all the new stuff.
 _cargo_w = [_cargo_w, _old_cargo select 0] call AS_fnc_mergeCargoLists;
