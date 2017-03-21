@@ -10,7 +10,12 @@ _rifleFinal = "";
 
 _skillFIA = server getVariable "skillFIA";
 
+
+removeAllItemsWithMagazines _unit;
+{_unit removeWeaponGlobal _x} forEach weapons _unit;
+removeBackpackGlobal _unit;
 removeVest _unit;
+
 _vest = ([caja, "vest"] call AS_fnc_getBestItem);
 if (!isnil "_vest") then {
 	_unit addVest _vest;
@@ -24,14 +29,25 @@ if (!isnil "_helmet") then {
 	caja removeItem _helmet;
 };
 
-_unit removeMagazines (currentMagazine _unit);
-_unit removeWeaponGlobal (primaryWeapon _unit);
-
 _weapon = ([caja] call AS_fnc_getBestWeapon);
 if (!isnil "_weapon") then {
 	[_unit, _weapon, 0, 0] call BIS_fnc_addWeapon;
-	caja removeWeapon _weapon;
+	caja removeWeaponGlobal _weapon;
+
+	// The weapon was choosen to have mags available, so this is guaranteed to give ammo.
+	_cargo_m = ([caja, _weapon] call AS_fnc_getBestMagazines);
+
+	for "_i" from 0 to (count (_cargo_m select 0) - 1) do {
+		_name = (_cargo_m select 0) select _i;
+		_amount = (_cargo_m select 1) select _i;
+		_unit addMagazines [_name, _amount];
+		// todo: _unit may not be able to carry then all, but all are removed from the box.
+		for "_j" from 0 to _amount do {caja removeMagazineGlobal _name;};
+	};
 };
+
+
+
 
 /* 
 
