@@ -40,13 +40,11 @@ if (!isnil "_helmet") then {
 	caja removeItem _helmet;
 };
 
-
-// todo: add backpack before weapons and items.
-
 // choose a list of weapons to choose from the unit type.
 // see initVar.sqf where AS_weapons is populated.
 _primaryWeapons = (AS_weapons select 13); // Rifles
 _secondaryWeapons = [];
+_useBackpack = false;
 if (_type == "B_G_Soldier_GL_F") then {
 	_primaryWeapons = AS_weapons select 3; // G. Launchers
 	// todo: check that secondary magazines exist.
@@ -59,6 +57,15 @@ if (_type == "B_G_Soldier_M_F") then {
 };
 if (_type == "B_G_Soldier_LAT_F") then {
 	_secondaryWeapons = (AS_weapons select 8); // missile launchers
+	_useBackpack = true;
+};
+
+if (_useBackpack) then {
+	_backpack = ([caja, "backpack"] call AS_fnc_getBestItem);
+	if (!isnil "_backpack") then {
+		_unit addBackpackGlobal _backpack;
+		caja removeBackpackGlobal _backpack;
+	};
 };
 
 _addWeapon = {

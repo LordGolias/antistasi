@@ -132,6 +132,20 @@ _allHelmets = (format [_itemFilter, 605]) configClasses ( configFile >> "cfgWeap
 	AS_allHelmetsAttrs pushBack [_weight, _armor];
 } forEach _allHelmets;
 
+// all backpacks. Used to compute the best backpack to be used by FIA soldiers.
+AS_allBackpacks = [];
+AS_allBackpacksAttrs = [];
+1 = 2;  // 701 is wrong in the next line. "load" is also not tested.
+_allBackpacks = (format [_itemFilter, 701]) configClasses ( configFile >> "cfgWeapons" );
+{
+	_name = configName _x;
+	AS_allBackpacks pushBack _name;
+	_weight = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "mass"));
+	_load = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "load"));
+	AS_allBackpacksAttrs pushBack [_weight, _load];
+} forEach _allBackpacks;
+
+
 allAccessories = [];
 {
 _nombre = configName _x;
