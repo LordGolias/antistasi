@@ -34,7 +34,7 @@ for "_index" from 0 to count _allItems - 1 do {
 		// if the item is unlocked, use amount=100 for this purpose. Otherwise, use the available amount.
 		_amount = 100;
 		if (_i >= count unlockedItems) then {
-			_amount = (_availableItems select 1) select _i;
+			_amount = (_availableItems select 1) select (_i - count unlockedItems);
 		};
 
 		_indexes pushBack _index;

@@ -88,7 +88,6 @@ _allLaunchers = "
     { getNumber ( _x >> ""type"" ) isEqualTo 4 } } )
 " configClasses ( configFile >> "cfgWeapons" );
 
-allAccessories = [];
 _allAccessories = "
     ( getNumber ( _x >> ""scope"" ) isEqualTo 2
     &&
@@ -133,7 +132,7 @@ _allHelmets = (format [_itemFilter, 605]) configClasses ( configFile >> "cfgWeap
 	AS_allHelmetsAttrs pushBack [_weight, _armor];
 } forEach _allHelmets;
 
-
+allAccessories = [];
 {
 _nombre = configName _x;
 _tipo = [_nombre] call BIS_fnc_itemType;
@@ -143,29 +142,43 @@ if ((_tipo == "AccessoryMuzzle") || (_tipo == "AccessoryPointer") || (_tipo == "
 };
 } forEach _allAccessories;
 
-primaryMagazines = [];
+AS_allUsableWeapons = [];
+AS_allUsableWeaponsAttrs = [];
 {
-_nombre = configName _x;
-_nombre = [_nombre] call BIS_fnc_baseWeapon;
-if (not(_nombre in lockedWeapons)) then
-	{
-	_magazines = getArray (configFile / "CfgWeapons" / _nombre / "magazines");
-	primaryMagazines pushBackUnique (_magazines select 0);
-	lockedWeapons pushBackUnique _nombre;
-	AS_allWeapons pushBackUnique _nombre;
-	_weapon = [_nombre] call BIS_fnc_itemType;
-	_weaponType = _weapon select 1;
-	switch (_weaponType) do
-		{
-		case "AssaultRifle": {arifles pushBack _nombre};
-		case "MachineGun": {mguns pushBack _nombre};
-		case "SniperRifle": {srifles pushBack _nombre};
-		case "Handgun": {hguns pushBack _nombre};
-		case "MissileLauncher": {mlaunchers pushBack _nombre};
-		case "RocketLauncher": {rlaunchers pushBack _nombre};
+	_name = configName _x;
+	_name = [_name] call BIS_fnc_baseWeapon;
+	if (not(_name in lockedWeapons)) then {
+		lockedWeapons pushBack _name;
+		AS_allWeapons pushBack _name;
+
+		AS_allUsableWeapons pushBack _name;
+		_weight = (getNumber (configFile >> "CfgWeapons" >> _name >> "WeaponSlotsInfo" >> "mass"));
+		_magazines = (getArray (configFile >> "CfgWeapons" >> _name >> "magazines"));
+		_bull_weight = (getNumber (configFile >> "CfgMagazines" >> (_magazines select 0) >> "mass"));
+		_bull_speed = (getNumber (configFile >> "CfgMagazines" >> (_magazines select 0) >> "initSpeed"));
+
+		if (isNil "_bull_weight") then {
+			_bull_weight = 0;
+		};
+		if (isNil "_bull_speed") then {
+			_bull_speed = 0;
 		};
 
-	};
+		AS_allUsableWeaponsAttrs pushBack [_weight, _bull_weight*_bull_speed/100*_bull_speed/100, _magazines];
+
+		_weapon = [_name] call BIS_fnc_itemType;
+		_weaponType = _weapon select 1;
+		switch (_weaponType) do
+			{
+			case "AssaultRifle": {arifles pushBack _name};
+			case "MachineGun": {mguns pushBack _name};
+			case "SniperRifle": {srifles pushBack _name};
+			case "Handgun": {hguns pushBack _name};
+			case "MissileLauncher": {mlaunchers pushBack _name};
+			case "RocketLauncher": {rlaunchers pushBack _name};
+			};
+
+		};
 } forEach _allPrimaryWeapons + _allHandGuns + _allLaunchers;
 
 AS_allWeapons pushBackUnique "Rangefinder";

@@ -24,6 +24,17 @@ if (!isnil "_helmet") then {
 	caja removeItem _helmet;
 };
 
+_unit removeMagazines (currentMagazine _unit);
+_unit removeWeaponGlobal (primaryWeapon _unit);
+
+_weapon = ([caja] call AS_fnc_getBestWeapon);
+if (!isnil "_weapon") then {
+	[_unit, _weapon, 0, 0] call BIS_fnc_addWeapon;
+	caja removeWeapon _weapon;
+};
+
+/* 
+
 if (_rifle) then
 	{
 	_mag = currentMagazine _unit;
@@ -81,4 +92,4 @@ if (_uniform) then {
 if (hayTFAR) then {
 	_unit addItem "tf_anprc152";
 	_unit assignItem "tf_anprc152";
-};
+}; */

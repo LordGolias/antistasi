@@ -12,6 +12,7 @@ AS_fnc_getWeaponItemsCargo = compile preProcessFileLineNumbers "municion\getWeap
 AS_fnc_getUnitArsenal = compile preProcessFileLineNumbers "municion\getUnitArsenal.sqf";
 AS_fnc_getBoxArsenal = compile preProcessFileLineNumbers "municion\getBoxArsenal.sqf";
 AS_fnc_getBestItem = compile preProcessFileLineNumbers "municion\getBestItem.sqf";
+AS_fnc_getBestWeapon = compile preProcessFileLineNumbers "municion\getBestWeapon.sqf";
 AS_fnc_listToCargoList = compile preProcessFileLineNumbers "municion\listToCargoList.sqf";
 AS_fnc_mergeCargoLists = compile preProcessFileLineNumbers "municion\mergeCargoLists.sqf";
 AS_fnc_populateBox = compile preProcessFileLineNumbers "municion\populateBox.sqf";
