@@ -23,30 +23,26 @@ _soldiers = [
 	"B_G_Survivor_F",
 ];
 */
-_type = typeOf _unit;
+private _type = typeOf _unit;
 
 // survivors have no weapons.
 if (_type == "B_G_Survivor_F") exitWith {};
 
-_unit linkItem "ItemRadio";
-
 _vest = ([caja, "vest"] call AS_fnc_getBestItem);
-if (!isnil "_vest") then {
+if (_vest != "") then {
 	_unit addVest _vest;
-	caja removeItem _vest;
 };
 
 _helmet = ([caja, "helmet"] call AS_fnc_getBestItem);
-if (!isnil "_helmet") then {
+if (_helmet != "") then {
 	_unit addHeadgear _helmet;
-	caja removeItem _helmet;
 };
 
 // choose a list of weapons to choose from the unit type.
 // see initVar.sqf where AS_weapons is populated.
-_primaryWeapons = (AS_weapons select 13); // Rifles
-_secondaryWeapons = [];
-_useBackpack = false;
+private _primaryWeapons = (AS_weapons select 0) + (AS_weapons select 13) + (AS_weapons select 14); // Assault Rifles + Rifles + SubmachineGun
+private _secondaryWeapons = [];
+private _useBackpack = false;
 if (_type == "B_G_Soldier_GL_F") then {
 	_primaryWeapons = AS_weapons select 3; // G. Launchers
 	// todo: check that secondary magazines exist.
@@ -64,18 +60,16 @@ if (_type == "B_G_Soldier_LAT_F") then {
 
 if (_useBackpack) then {
 	_backpack = ([caja, "backpack"] call AS_fnc_getBestItem);
-	if (!isnil "_backpack") then {
+	if (_backpack != "") then {
 		_unit addBackpackGlobal _backpack;
-		caja removeBackpackGlobal _backpack;
 	};
 };
 
-_addWeapon = {
+private _addWeapon = {
 	params ["_weapons", "_mags"];
 	_weapon = ([caja, _weapons, _mags] call AS_fnc_getBestWeapon);
-	if (!isnil "_weapon") then {
+	if (_weapon != "") then {
 		[_unit, _weapon, 0, 0] call BIS_fnc_addWeapon;
-		caja removeWeaponGlobal _weapon;
 
 		// The weapon was choosen to have mags available, so this is guaranteed to give ammo.
 		_cargo_m = ([caja, _weapon, _mags] call AS_fnc_getBestMagazines);
@@ -84,14 +78,21 @@ _addWeapon = {
 			_name = (_cargo_m select 0) select _i;
 			_amount = (_cargo_m select 1) select _i;
 			_unit addMagazines [_name, _amount];
-			// todo: _unit may not be able to carry then all, but all are currently removed from the box.
-			for "_j" from 0 to _amount do {caja removeMagazineGlobal _name;};
 		};
 	};
 };
 
 [_primaryWeapons, 6 + 1] call _addWeapon;
 [_secondaryWeapons, 2 + 1] call _addWeapon;
+
+// remove from box stuff that was used.
+private _cargo = [_unit, true] call AS_fnc_getUnitArsenal;
+([caja] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
+private _cargo_w = [_cargo_w, _cargo select 0, false] call AS_fnc_mergeCargoLists;
+private _cargo_m = [_cargo_m, _cargo select 1, false] call AS_fnc_mergeCargoLists;
+private _cargo_i = [_cargo_i, _cargo select 2, false] call AS_fnc_mergeCargoLists;
+private _cargo_b = [_cargo_b, _cargo select 3, false] call AS_fnc_mergeCargoLists;
+[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true, true] call AS_fnc_populateBox;
 
 
 if (hayTFAR) then {

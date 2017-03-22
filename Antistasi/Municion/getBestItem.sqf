@@ -12,7 +12,7 @@ _sortingFunction = {
 
 	_w_factor = 1.0/(1 + exp (-2*(_amount - 5)));  // 0 => 0; 5 => 0.5; 10 => 1
 
-	_w_factor*(1 + _armor)/(1 + _weight)
+	_w_factor*(0.1 + _armor)/(1 + _weight/200)
 };
 
 _allItems = [];
@@ -55,7 +55,7 @@ for "_index" from 0 to count _allItems - 1 do {
 	};
 };
 
-_item = nil;
+_item = "";
 if ((count _indexes) > 0) then {
 	// select the best item
 	_indexes = [_indexes, [], _sortingFunction, "DESCEND"] call BIS_fnc_sortBy;

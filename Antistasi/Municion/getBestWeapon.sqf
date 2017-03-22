@@ -65,7 +65,7 @@ for "_index" from 0 to count _allItems - 1 do {
 	};
 };
 
-_item = nil;
+_item = "";
 if ((count _indexes) > 0) then {
 	// select the best item
 	_indexes = [_indexes, [], _sortingFunction, "DESCEND"] call BIS_fnc_sortBy;

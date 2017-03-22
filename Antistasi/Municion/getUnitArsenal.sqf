@@ -1,10 +1,9 @@
 params ["_unit", ["_restrict", false]];
-private ["_weapons", "_items", "_magazines", "_backpacks"];
 
-_weapons = [];
-_items = [];
-_magazines = [];
-_backpacks = backpack _unit;
+private _weapons = [];
+private _items = [];
+private _magazines = [];
+private _backpacks = backpack _unit;
 
 if (_backpacks != "") then {
 	_backpacks = [_backpacks];
@@ -20,7 +19,7 @@ if (_backpacks != "") then {
 } forEach [headgear _unit, vest _unit] + items _unit + assignedItems _unit;
 
 // weapons and attachments
-_result = [weaponsItems _unit] call AS_fnc_getWeaponItemsCargo;
+private _result = [weaponsItems _unit] call AS_fnc_getWeaponItemsCargo;
 _weapons = _weapons + (_result select 0);
 _magazines = _magazines + (_result select 1);
 _items = _items + (_result select 2);
@@ -39,9 +38,9 @@ if (_restrict) then {
 };
 
 // transform in cargoList
-_cargo_w = [_weapons] call AS_fnc_listToCargoList;
-_cargo_m = [_magazines] call AS_fnc_listToCargoList;
-_cargo_i = [_items] call AS_fnc_listToCargoList;
-_cargo_b = [_backpacks] call AS_fnc_listToCargoList;
+private _cargo_w = [_weapons] call AS_fnc_listToCargoList;
+private _cargo_m = [_magazines] call AS_fnc_listToCargoList;
+private _cargo_i = [_items] call AS_fnc_listToCargoList;
+private _cargo_b = [_backpacks] call AS_fnc_listToCargoList;
 
 [_cargo_w, _cargo_m, _cargo_i, _cargo_b]
