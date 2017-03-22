@@ -27,8 +27,6 @@ if ({isPlayer _x} count units group player == 1) then {
 	};
 } forEach _units;
 
-if (recruitCooldown < time) then {recruitCooldown = time + 60} else {recruitCooldown = recruitCooldown + 60};
-
 if (_ai) then {
 	// order units to return to the HQ.
 	{_x domove getMarkerPos "respawn_west"} forEach units _groupToDelete;

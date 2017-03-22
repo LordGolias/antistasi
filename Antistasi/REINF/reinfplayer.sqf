@@ -5,8 +5,6 @@ if (not([player] call isMember)) exitWith {hint "Only server members can recruit
 
 if (!allowPlayerRecruit) exitWith {hint "Server is very loaded. \nWait one minute or change FPS settings in order to fulfill this request"};
 
-if (recruitCooldown > time) exitWith {hint format ["You need to wait %1 seconds to be able to recruit units again",round (recruitCooldown - time)]};
-
 if (player != player getVariable ["owner",player]) exitWith {hint "You cannot buy units while you are controlling AI"};
 
 if (player != leader group player) exitWith {hint "You cannot recruit units as you are not your group leader"};
