@@ -37,17 +37,17 @@ AS_BOX_D(BOX_H_10);
 AS_FRAME_D(FRAME_H_10, "Recruitment Options");
 BTN_BACK(A_CLOSE);
 
-BTN_L1(104, "Recruit Militiaman", "", "nul = [""B_G_Soldier_F""] spawn reinfPlayer");
-BTN_L2(105, "Recruit Autorifleman", "", "nul = [""B_G_Soldier_AR_F""] spawn reinfPlayer");
-BTN_L3(106, "Recruit Medic", "", "nul = [""B_G_medic_F""] spawn reinfPlayer");
-BTN_L4(110, "Recruit Marksman", "", "nul = [""B_G_Soldier_M_F""] spawn reinfPlayer");
+BTN_L1(104, "Recruit Militiaman", "", "nul = [""B_G_Soldier_F""] spawn recruitFIAinfantry");
+BTN_L2(105, "Recruit Autorifleman", "", "nul = [""B_G_Soldier_AR_F""] spawn recruitFIAinfantry");
+BTN_L3(106, "Recruit Medic", "", "nul = [""B_G_medic_F""] spawn recruitFIAinfantry");
+BTN_L4(110, "Recruit Marksman", "", "nul = [""B_G_Soldier_M_F""] spawn recruitFIAinfantry");
 
-BTN_R1(107, "Recruit Engineer", "", "nul = [""B_G_engineer_F""] spawn reinfPlayer");
-BTN_R2(109, "Recruit Grenadier", "", "nul = [""B_G_Soldier_GL_F""] spawn reinfPlayer");
-BTN_R3(108, "Recruit Bomb Specialist", "", "nul = [""B_G_Soldier_exp_F""] spawn reinfPlayer");
-BTN_R4(111, "Recruit AT", "", "nul = [""B_G_Soldier_LAT_F""] spawn reinfPlayer");
+BTN_R1(107, "Recruit Engineer", "", "nul = [""B_G_engineer_F""] spawn recruitFIAinfantry");
+BTN_R2(109, "Recruit Grenadier", "", "nul = [""B_G_Soldier_GL_F""] spawn recruitFIAinfantry");
+BTN_R3(108, "Recruit Bomb Specialist", "", "nul = [""B_G_Soldier_exp_F""] spawn recruitFIAinfantry");
+BTN_R4(111, "Recruit AT", "", "nul = [""B_G_Soldier_LAT_F""] spawn recruitFIAinfantry");
 
-BTN_M(BTN_Y_5, 112, "Recruit AA", "", "nul = [""Soldier_AA""] spawn reinfPlayer");
+BTN_M(BTN_Y_5, 112, "Recruit AA", "", "nul = [""Soldier_AA""] spawn recruitFIAinfantry");
 
 	};
 };
@@ -64,15 +64,15 @@ AS_BOX_D(BOX_H_10);
 AS_FRAME_D(FRAME_H_10, "Squad Recruitment Options");
 BTN_BACK("closeDialog 0; createDialog ""radio_comm_commander"";");
 
-BTN_L1(104, "Recruit Inf. Squad", "", "closeDialog 0; nul = [""IRG_InfSquad""] spawn addFIAsquadHC");
-BTN_L2(105, "Recruit Inf. Team", "", "closeDialog 0; nul = [""IRG_InfTeam""] spawn addFIAsquadHC");
-BTN_L3(106, "Recruit AT Squad", "", "closeDialog 0; nul = [""IRG_InfTeam_AT""] spawn addFIAsquadHC");
-BTN_L4(110, "Recruit AA Truck", "", "closeDialog 0; nul = [""B_static_AA_F""] spawn addFIAsquadHC");
+BTN_L1(104, "Recruit Inf. Squad", "", "closeDialog 0; nul = [""IRG_InfSquad""] spawn recruitFIAsquad");
+BTN_L2(105, "Recruit Inf. Team", "", "closeDialog 0; nul = [""IRG_InfTeam""] spawn recruitFIAsquad");
+BTN_L3(106, "Recruit AT Squad", "", "closeDialog 0; nul = [""IRG_InfTeam_AT""] spawn recruitFIAsquad");
+BTN_L4(110, "Recruit AA Truck", "", "closeDialog 0; nul = [""B_static_AA_F""] spawn recruitFIAsquad");
 
-BTN_R1(107, "Recruit Sniper Team", "", "closeDialog 0; nul = [""IRG_SniperTeam_M""] spawn addFIAsquadHC");
-BTN_R2(109, "Recruit AT Truck", "", "closeDialog 0; nul = [""B_static_AT_F""] spawn addFIAsquadHC");
-BTN_R3(108, "Recruit Sentry", "", "closeDialog 0; nul = [""IRG_InfSentry""] spawn addFIAsquadHC");
-BTN_R4(111, "Recruit Mortar Team", "", "closeDialog 0; nul = [""B_G_Mortar_01_F""] spawn addFIAsquadHC");
+BTN_R1(107, "Recruit Sniper Team", "", "closeDialog 0; nul = [""IRG_SniperTeam_M""] spawn recruitFIAsquad");
+BTN_R2(109, "Recruit AT Truck", "", "closeDialog 0; nul = [""B_static_AT_F""] spawn recruitFIAsquad");
+BTN_R3(108, "Recruit Sentry", "", "closeDialog 0; nul = [""IRG_InfSentry""] spawn recruitFIAsquad");
+BTN_R4(111, "Recruit Mortar Team", "", "closeDialog 0; nul = [""B_G_Mortar_01_F""] spawn recruitFIAsquad");
 
 BTN_M(BTN_Y_5, 112, "Recruit Engineers", "", "closeDialog 0; [""delete""] spawn mineDialog;");
 
@@ -91,17 +91,17 @@ AS_BOX_D(BOX_H_10);
 AS_FRAME_D(FRAME_H_10, "Purchase Military Vehicle");
 BTN_BACK("closeDialog 0; nul = createDialog ""vehicle_option"";");
 
-BTN_L1(104, "Buy Quadbike", "", "closedialog 0; nul = [vfs select 3] call addFIAveh");
-BTN_L2(105, "Buy Offroad/UAZ", "", "closedialog 0; nul = [vfs select 4] call addFIAveh");
-BTN_L3(106, "Buy Truck", "", "closedialog 0; nul = [vfs select 5] call addFIAveh");
-BTN_L4(110, "Buy Static AT", "", "closedialog 0; nul = [vfs select 9] call addFIAveh");
+BTN_L1(104, "Buy Quadbike", "", "closedialog 0; nul = [vfs select 3] call buyFIAveh");
+BTN_L2(105, "Buy Offroad/UAZ", "", "closedialog 0; nul = [vfs select 4] call buyFIAveh");
+BTN_L3(106, "Buy Truck", "", "closedialog 0; nul = [vfs select 5] call buyFIAveh");
+BTN_L4(110, "Buy Static AT", "", "closedialog 0; nul = [vfs select 9] call buyFIAveh");
 
-BTN_R1(107, "Buy Armed Offroad", "", "closedialog 0; nul = [vfs select 6] call addFIAveh");
-BTN_R2(109, "Buy Mortar", "", "closedialog 0; nul = [vfs select 8] call addFIAveh");
-BTN_R3(108, "Buy MG", "", "closedialog 0; nul = [vfs select 7] call addFIAveh");
-BTN_R4(111, "Buy Static AA", "", "closedialog 0; nul = [vfs select 10] call addFIAveh");
+BTN_R1(107, "Buy Armed Offroad", "", "closedialog 0; nul = [vfs select 6] call buyFIAveh");
+BTN_R2(109, "Buy Mortar", "", "closedialog 0; nul = [vfs select 8] call buyFIAveh");
+BTN_R3(108, "Buy MG", "", "closedialog 0; nul = [vfs select 7] call buyFIAveh");
+BTN_R4(111, "Buy Static AA", "", "closedialog 0; nul = [vfs select 10] call buyFIAveh");
 
-BTN_M(BTN_Y_5, 112, "Buy APC", "", "if (hayRHS) then {if (player == Stavros) then {closeDialog 0; nul = [vfs select 11] call addFIAveh;} else {hint ""Only Player Commander has access to this function""};}else {hint ""RHS exclusive for now""};");
+BTN_M(BTN_Y_5, 112, "Buy APC", "", "if (hayRHS) then {if (player == Stavros) then {closeDialog 0; nul = [vfs select 11] call buyFIAveh;} else {hint ""Only Player Commander has access to this function""};}else {hint ""RHS exclusive for now""};");
 
 	};
 };
@@ -253,15 +253,15 @@ AS_BOX_D(BOX_H_8);
 AS_FRAME_D(FRAME_H_8, "Garrison Recruitment Options");
 BTN_BACK("closeDialog 0; createDialog ""garrison_menu"";");
 
-BTN_L1(104, "Recruit Militiaman", "", "nul = [""B_G_Soldier_F""] call garrisonAdd");
-BTN_L2(105, "Recruit Autorifleman", "", "nul = [""B_G_Soldier_AR_F""] call garrisonAdd");
-BTN_L3(106, "Recruit Medic", "", "nul = [""B_G_medic_F""] call garrisonAdd");
-BTN_L4(110, "Recruit Marksman", "", "nul = [""B_G_Soldier_M_F""] call garrisonAdd");
+BTN_L1(104, "Recruit Militiaman", "", "nul = [""B_G_Soldier_F""] call recruitFIAgarrison");
+BTN_L2(105, "Recruit Autorifleman", "", "nul = [""B_G_Soldier_AR_F""] call recruitFIAgarrison");
+BTN_L3(106, "Recruit Medic", "", "nul = [""B_G_medic_F""] call recruitFIAgarrison");
+BTN_L4(110, "Recruit Marksman", "", "nul = [""B_G_Soldier_M_F""] call recruitFIAgarrison");
 
-BTN_R1(107, "Recruit Squad Leader", "", "nul = [""B_G_Soldier_SL_F""] call garrisonAdd");
-BTN_R2(109, "Recruit Grenadier", "", "nul = [""B_G_Soldier_GL_F""] call garrisonAdd");
-BTN_R3(108, "Recruit Mortar", "", "nul = [""b_g_soldier_unarmed_f""] call garrisonAdd");
-BTN_R4(111, "Recruit AT", "", "nul = [""B_G_Soldier_LAT_F""] call garrisonAdd");
+BTN_R1(107, "Recruit Squad Leader", "", "nul = [""B_G_Soldier_SL_F""] call recruitFIAgarrison");
+BTN_R2(109, "Recruit Grenadier", "", "nul = [""B_G_Soldier_GL_F""] call recruitFIAgarrison");
+BTN_R3(108, "Recruit Mortar", "", "nul = [""b_g_soldier_unarmed_f""] call recruitFIAgarrison");
+BTN_R4(111, "Recruit AT", "", "nul = [""B_G_Soldier_LAT_F""] call recruitFIAgarrison");
 
 	};
 };
@@ -491,10 +491,10 @@ AS_BOX_D(BOX_H_4);
 AS_FRAME_D(FRAME_H_4, "Buy Civilian Vehicle");
 BTN_BACK("closeDialog 0; nul = createDialog ""vehicle_option"";");
 
-BTN_L1(104, "Offroad", "", "closeDialog 0; nul = [vfs select 0] call addFIAveh;");
-BTN_R1(105, "Truck", "", "closeDialog 0; nul = [vfs select 1] call addFIAveh;");
+BTN_L1(104, "Offroad", "", "closeDialog 0; nul = [vfs select 0] call buyFIAveh;");
+BTN_R1(105, "Truck", "", "closeDialog 0; nul = [vfs select 1] call buyFIAveh;");
 
-BTN_M(BTN_Y_2, 106, "Helicopter", "", "closeDialog 0; nul = [vfs select 2] call addFIAveh;");
+BTN_M(BTN_Y_2, 106, "Helicopter", "", "closeDialog 0; nul = [vfs select 2] call buyFIAveh;");
 
 	};
 };
@@ -534,7 +534,7 @@ BTN_L1(-1, "Temp. AI Control", "", "closeDialog 0; if ((count groupselectedUnits
 BTN_L2(-1, "Auto Heal", "", "if (autoHeal) then {autoHeal = false; hint ""Auto Healing disabled"";} else {autoHeal = true; hint ""Auto Heal enabled""; nul = [] execVM ""AI\autoHealFnc.sqf""}");
 
 BTN_R1(-1, "Auto Rearm", "", "closeDialog 0; if (count groupselectedUnits player == 0) then {nul = (units group player) execVM ""AI\rearmCall.sqf""} else {nul = (groupselectedUnits player) execVM ""AI\rearmCall.sqf""};");
-BTN_R2(-1, "Dismiss Units/Squads", "", "closeDialog 0; if (count groupselectedUnits player > 0) then {nul = [groupselectedUnits player] execVM ""REINF\dismissPlayerGroup.sqf""} else {if (count (hcSelected player) > 0) then {nul = [hcSelected player] execVM ""REINF\dismissSquad.sqf""}}; if ((count groupselectedUnits player == 0) and (count hcSelected player == 0)) then {hint ""No units or squads selected""}");
+BTN_R2(-1, "Dismiss Units/Squads", "", "closeDialog 0; if (count groupselectedUnits player > 0) then {nul = [groupselectedUnits player] execVM ""REINF\dismissFIAinfantry.sqf""} else {if (count (hcSelected player) > 0) then {nul = [hcSelected player] execVM ""REINF\dismissFIAsquad.sqf""}}; if ((count groupselectedUnits player == 0) and (count hcSelected player == 0)) then {hint ""No units or squads selected""}");
 
 	};
 };
