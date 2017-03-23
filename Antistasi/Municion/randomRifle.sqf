@@ -54,6 +54,12 @@ if (_type == "B_G_Soldier_M_F") then {
 	_primaryWeapons = AS_weapons select 15;  // Snipers
 };
 if (_type == "B_G_Soldier_LAT_F") then {
+	// todo: this list includes AT and AA. Fix it.
+	_secondaryWeapons = (AS_weapons select 8); // missile launchers
+	_useBackpack = true;
+};
+if (_type == "B_G_Soldier_lite_F") then {
+	// todo: this list includes AT and AA. Fix it.
 	_secondaryWeapons = (AS_weapons select 8); // missile launchers
 	_useBackpack = true;
 };
@@ -84,6 +90,8 @@ private _addWeapon = {
 
 [_primaryWeapons, 6 + 1] call _addWeapon;
 [_secondaryWeapons, 2 + 1] call _addWeapon;
+
+// todo: add attachments, optics and other items.
 
 // remove from box stuff that was used.
 private _cargo = [_unit, true] call AS_fnc_getUnitArsenal;

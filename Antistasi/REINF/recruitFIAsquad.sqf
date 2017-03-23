@@ -45,12 +45,12 @@ if (_exit) exitWith {};
 
 private _pos = getMarkerPos "respawn_west";
 private _tam = 10;
+private ["_roads", "_road"];
 while {true} do {
-	private _roads = _pos nearRoads _tam;
+	_roads = _pos nearRoads _tam;
 	if (count _roads < 1) then {_tam = _tam + 10};
-	if (count _roads > 0) exitWith {};
+	if (count _roads > 0) exitWith {_road = _roads select 0;};
 };
-private _road = _roads select 0;
 
 private ["_grupo","_camion","_vehicle","_mortero","_morty"];
 
@@ -150,7 +150,7 @@ if (_grouptype == "IRG_InfSentry") then {_groupID = "Stry-"};
 if (_grouptype == "B_G_Mortar_01_F") then {_groupID = "Mort-"};
 if (_grouptype == "B_static_AA_F") then {_groupID = "M.AA-"};
 if (_grouptype == "B_static_AT_F") then {_groupID = "M.AT-"};
-_grupo setGroupId ["%1%2",_groupID,{side (leader _x) == side_blue} count allGroups];
+_grupo setGroupId [format ["%1%2",_groupID,{side (leader _x) == side_blue} count allGroups]];
 
 {[_x] call FIAinit} forEach units _grupo;
 leader _grupo setBehaviour "SAFE";
