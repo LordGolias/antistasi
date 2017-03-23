@@ -8,6 +8,7 @@ _soldados = [];
 
 _posicion = getMarkerPos (_marcador);
 
+// min = 200, max = 800
 _num = [_marcador] call sizeMarker;
 
 _num = round (_num / 100);
@@ -18,22 +19,13 @@ _data = [_marcador, ["prestigeBLUFOR", "prestigeOPFOR"]] call AS_fnc_getCityAttr
 _prestigeBLUFOR = _data select 0;
 _prestigeOPFOR = _data select 1;
 _esAAF = true;
-if (_marcador in mrkAAF) then
-	{
-	_num = round (_num * ((_prestigeOPFOR + _prestigeBLUFOR)/100));
+if (_marcador in mrkAAF) then {
+	_num = round (_num * _prestigeOPFOR/100);
 	_frontera = [_marcador] call isFrontline;
 	if (_frontera) then {_num = _num * 2};
 	_tipoGrupo = [infGarrisonSmall, side_green] call fnc_pickGroup;
 	_params = [_posicion, side_green, _tipogrupo];
-
-	if (random 10 < 5) then {
-		_tipoGrupo = [opGroup_Sniper, side_red] call fnc_pickGroup;
-		_grupoCSAT = [_posicion, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
-		[leader _grupoCSAT, _marcador, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
-		{[_x] spawn CSATinit; _soldados = _soldados + [_x]} forEach units _grupoCSAT;
-		_grupos = _grupos + [_grupoCSAT];
-	};
-	}
+}
 else
 	{
 	_esAAF = false;
@@ -65,7 +57,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _num)} do
 if !(_esAAF) then
 	{
 	{_grp = _x;
-	{[_x] spawn FIAinitBASES; _soldados = _soldados + [_x]} forEach units _grp;} forEach _grupos;
+	{[_x, false] spawn AS_fnc_initUnitFIA; _soldados = _soldados + [_x]} forEach units _grp;} forEach _grupos;
 	};
 
 waitUntil {sleep 1;(not (spawner getVariable _marcador)) or ({alive _x} count _soldados == 0) or ({fleeing _x} count _soldados == {alive _x} count _soldados)};

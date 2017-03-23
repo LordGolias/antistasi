@@ -152,7 +152,7 @@ if (_grouptype == "B_static_AA_F") then {_groupID = "M.AA-"};
 if (_grouptype == "B_static_AT_F") then {_groupID = "M.AT-"};
 _grupo setGroupId [format ["%1%2",_groupID,{side (leader _x) == side_blue} count allGroups]];
 
-{[_x] call FIAinit} forEach units _grupo;
+{[_x] call AS_fnc_initUnitFIA} forEach units _grupo;
 leader _grupo setBehaviour "SAFE";
 Stavros hcSetGroup [_grupo];
 _grupo setVariable ["isHCgroup", true, true];

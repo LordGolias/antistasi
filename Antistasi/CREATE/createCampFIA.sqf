@@ -27,7 +27,7 @@ _grupo = [_posicion, side_blue, (configfile >> "CfgGroups" >> "West" >> "Guerill
 _grupo setBehaviour "STEALTH";
 _grupo setCombatMode "GREEN";
 
-{[_x] spawn FIAinitBASES;} forEach units _grupo;
+{[_x, false] spawn AS_fnc_initUnitFIA;} forEach units _grupo;
 
 sleep 10;
 _fire inflame true;

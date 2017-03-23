@@ -59,7 +59,7 @@ else
 	_grupo setCombatMode "GREEN";
 };
 
-{[_x] spawn FIAinitBASES;} forEach units _grupo;
+{[_x,false] spawn AS_fnc_initUnitFIA;} forEach units _grupo;
 
 waitUntil {sleep 1; (not(spawner getVariable _marcador)) or ({alive _x} count units _grupo == 0) or (not(_marcador in puestosFIA))};
 
