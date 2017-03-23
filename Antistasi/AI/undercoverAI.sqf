@@ -57,6 +57,6 @@ if ((backpack _unit == "") and (_secondaryWeapon == "")) then {
 {_unit addSecondaryWeaponItem _x} forEach _secondaryWeaponItems;
 {_unit addHandgunItem _x} forEach _handgunItems;
 if (_sinMochi) then {removeBackpack _unit};
-_unit addHeadgear _casco;
+_unit addHeadgear _headgear;
 _unit linkItem _hmd;
 _unit setBehaviour _behaviour;
