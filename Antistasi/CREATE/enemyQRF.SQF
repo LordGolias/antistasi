@@ -169,7 +169,7 @@ if (_type == "air") then {
 
 		// spawn dismounts
 		_grpDis2 = [_orig, _side, _dismountGroup] call BIS_Fnc_spawnGroup;
-		[_grpDis2, _side, true, "none"] call fnc_initialiseUnits;
+		[_grpDis2, _side] call fnc_initialiseUnits;
 		{
 			_soldados pushBack _x;
 			_x assignAsCargo _heli2;
@@ -181,7 +181,7 @@ if (_type == "air") then {
 		diag_log format ["Transport dispatched to %1", _dest];
 		if ((_size == "large") && !(_side == side_red)) then {
 			_grpDis1 = [_orig, _side, _dismountGroup] call BIS_Fnc_spawnGroup;
-			[_grpDis1, _side, true, "none"] call fnc_initialiseUnits;
+			[_grpDis1, _side] call fnc_initialiseUnits;
 			{
 				_soldados pushBack _x;
 				_x assignAsCargo _heli2;
@@ -229,7 +229,7 @@ else {
 
 		if (_size == "large") then {
 			_grpDisEsc = [_orig, _side, _dismountGroupEscort] call BIS_Fnc_spawnGroup;
-			[_grpDisEsc, _side, true, "none"] call fnc_initialiseUnits;
+			[_grpDisEsc, _side] call fnc_initialiseUnits;
 			{
 				_soldados pushBack _x;
 				_x assignAsCargo _veh1;
@@ -263,7 +263,7 @@ else {
 
 		// add dismounts
 		_grpDis2 = [_orig, _side, _dismountGroup] call BIS_Fnc_spawnGroup;
-		[_grpDis2, _side, true, "none"] call fnc_initialiseUnits;
+		[_grpDis2, _side] call fnc_initialiseUnits;
 		{
 			_soldados pushBack _x;
 			_x assignAsCargo _veh2;
@@ -273,7 +273,7 @@ else {
 
 		if (_size == "large") then {
 			_grpDis1 = [_orig, _side, _dismountGroup] call BIS_Fnc_spawnGroup;
-			[_grpDis1, _side, true, "none"] call fnc_initialiseUnits;
+			[_grpDis1, _side] call fnc_initialiseUnits;
 			{
 				_soldados pushBack _x;
 				_x assignAsCargo _veh2;

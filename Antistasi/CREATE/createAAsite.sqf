@@ -78,21 +78,21 @@ _grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 sleep 1;
 [leader _grupo, _marcador, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
 _grupos = _grupos + [_grupo];
-{[_x] spawn genInitBASES; _soldados = _soldados + [_x]} forEach units _grupo;
+{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
 
 _tipoGrupo = [infAA, side_green] call fnc_pickGroup;
 _grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 sleep 1;
 [leader _grupo, _marcador, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
 _grupos = _grupos + [_grupo];
-{[_x] spawn genInitBASES; _soldados = _soldados + [_x]} forEach units _grupo;
+{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
 
 _tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
 _grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 sleep 1;
 [leader _grupo, _marcador, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
 _grupos = _grupos + [_grupo];
-{[_x] spawn genInitBASES; _soldados = _soldados + [_x]} forEach units _grupo;
+{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
 
 _maxSol = count _soldados;
 

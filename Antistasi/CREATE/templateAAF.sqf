@@ -1,6 +1,5 @@
 /*
 List of infantry classes. These will have individual equipment mapped to them.
-If you wish to add more soldiers beyond the available variables, you also need to add any new variables to the class lists below as well as to genInit.sqf and genInitBASES.sqf
 */
 sol_A_AA = 	"I_Soldier_AAA_F"; // Assistant AA
 sol_A_AR = 	"I_Soldier_AAR_F"; // Assistant autorifle

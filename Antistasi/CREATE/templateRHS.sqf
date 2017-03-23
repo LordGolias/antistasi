@@ -1,6 +1,5 @@
 /*
 List of infantry classes. These will have individual equipment mapped to them.
-If you wish to add more soldiers beyond the available variables, you also need to add any new variables to genInit.sqf and genInitBASES.sqf.
 
 Note: all classes marked as "extra" do not have a unique class in this template. They are, however, part of other templates and are therfore included in all templates.
 */

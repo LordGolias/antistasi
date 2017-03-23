@@ -1,11 +1,12 @@
-params ["_unit"];
-private ["_tipo"];
+params ["_unit", ["_spawned", true]];
 
-_unit setVariable ["OPFORSpawn",true,true];
+if (typeOf _unit == "Fin_random_F") exitWith {};  // dog
+
+if (_spawned) then {
+	_unit setVariable ["OPFORSpawn",true,true];
+};
 
 [_unit, skillAAF] call AS_fnc_setDefaultSkill;
-
-_tipo = typeOf _unit;
 
 if (round random 13 > skillAAF) then {
 	_unit unassignItem indNVG;

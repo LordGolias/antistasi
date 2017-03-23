@@ -57,8 +57,8 @@ if (spawner getVariable _marcador) then
 	sleep 1;
 	[leader _grupo1, _mrk, "SAFE","SPAWNED", "NOVEH2"] execVM "scripts\UPSMON.sqf";
 
-	{[_x] spawn genInitBASES} forEach units _grupo;
-	{[_x] spawn genInitBASES} forEach units _grupo1;
+	{[_x, false] spawn AS_fnc_initUnitOPFOR} forEach units _grupo;
+	{[_x, false] spawn AS_fnc_initUnitOPFOR} forEach units _grupo1;
 
 	waitUntil {sleep 1; (not alive _camion) or (dateToNumber date > _fechalimnum) or ({_x getVariable ["BLUFORSpawn",false]} count crew _camion > 0)};
 

@@ -41,7 +41,7 @@ while {(spawner getVariable _marcador) and (_cuenta < 2)} do
 		};
 	[leader _grupo, _mrk, "SAFE","SPAWNED", "NOVEH2"] execVM "scripts\UPSMON.sqf";
 	_grupos = _grupos + [_grupo];
-	{[_x] spawn genInitBASES; _soldados pushBack _x} forEach units _grupo;
+	{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados pushBack _x} forEach units _grupo;
 	_cuenta = _cuenta +1;
 	};
 
@@ -97,7 +97,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _tam)} do
 			};
 		[leader _grupo, _marcador, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 		_grupos = _grupos + [_grupo];
-		{[_x] spawn genInitBASES; _soldados = _soldados + [_x]} forEach units _grupo;
+		{[_x,false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
 		};
 	_cuenta = _cuenta + 1;
 	};

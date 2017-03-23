@@ -77,7 +77,7 @@ fnc_initialiseVehicle = {
 	private _vehicleCrew = _vehicleArray select 1;
 	private _vehicleGroup = _vehicleArray select 2;
 
-	[_vehicleCrew, _side, true, _vehicle] call fnc_initialiseUnits;
+	[_vehicleCrew, _side, _vehicle] call fnc_initialiseUnits;
 
 	_allVehicles pushBackUnique _vehicle;
 	_allGroups pushBackUnique _vehicleGroup;
@@ -91,12 +91,7 @@ fnc_initialiseVehicle = {
 };
 
 fnc_initialiseUnits = {
-	params ["_soldiersToInit", ["_initSide", side_green], ["_triggerSpawn", false], ["_vehicleToInit", "none"]];
-
-	private _AAF = genInitBASES;
-	if (_triggerSpawn) then {
-		_AAF = genInit;
-	};
+	params ["_soldiersToInit", ["_initSide", side_green], ["_vehicleToInit", "none"]];
 
 	if (typeName _initSide == "GROUP") then {
 		_initSide = side _initSide;
@@ -114,10 +109,10 @@ fnc_initialiseUnits = {
         };
     } else {
     	if (typeName _soldiersToInit == "ARRAY") then {
-    		{[_x] spawn _AAF} forEach _soldiersToInit;
+    		{[_x] spawn fnc_initialiseUnits} forEach _soldiersToInit;
     	}
     	else {
-    		{[_x] spawn _AAF} forEach units _soldiersToInit;
+    		{[_x] spawn fnc_initialiseUnits} forEach units _soldiersToInit;
     	};
         if !(_vehicleToInit isEqualTo "none") then {
         	[_vehicleToInit] spawn genVEHinit;

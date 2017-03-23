@@ -1,24 +1,21 @@
-//NOTA: TAMBIÉN LO USO PARA FIA
 if (!isServer and hasInterface) exitWith{};
+params ["_marcador"];
 
-_marcador = _this select 0;
+private _grupos = [];
+private _soldados = [];
 
-_grupos = [];
-_soldados = [];
+private _posicion = getMarkerPos (_marcador);
 
-_posicion = getMarkerPos (_marcador);
-
-// min = 200, max = 800
-_num = [_marcador] call sizeMarker;
-
-_num = round (_num / 100);
+private _num = [_marcador] call sizeMarker; // [200, 800]
+_num = round (_num / 100);  // [2, 8]
 
 private ["_grupo","_grp","_params","_datos","_prestigeOPFOR","_prestigeBLUFOR"];
 
-_data = [_marcador, ["prestigeBLUFOR", "prestigeOPFOR"]] call AS_fnc_getCityAttrs;
-_prestigeBLUFOR = _data select 0;
-_prestigeOPFOR = _data select 1;
-_esAAF = true;
+private _data = [_marcador, ["prestigeBLUFOR", "prestigeOPFOR"]] call AS_fnc_getCityAttrs;
+private _prestigeBLUFOR = _data select 0;
+private _prestigeOPFOR = _data select 1;
+
+private _isAAF = true;
 if (_marcador in mrkAAF) then {
 	_num = round (_num * _prestigeOPFOR/100);
 	_frontera = [_marcador] call isFrontline;
@@ -26,47 +23,45 @@ if (_marcador in mrkAAF) then {
 	_tipoGrupo = [infGarrisonSmall, side_green] call fnc_pickGroup;
 	_params = [_posicion, side_green, _tipogrupo];
 }
-else
-	{
-	_esAAF = false;
-	_num = round (_num * (_prestigeBLUFOR/100));
+else {
+	_isAAF = false;
+	_num = round (_num * _prestigeBLUFOR/100);
 	_params = [_posicion, side_blue, (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> "IRG_InfSentry")];
-	};
+};
 
 if (_num < 1) then {_num = 1};
 
-_cuenta = 0;
-while {(spawner getVariable _marcador) and (_cuenta < _num)} do
-	{
+// generate _num patrols.
+for "_i" from 0 to _num - 1 do {
+	if !(spawner getVariable _marcador) exitWith {};
 	_grupo = _params call BIS_Fnc_spawnGroup;
-	{[_x] spawn genInitBASES; _soldados = _soldados + [_x]} forEach units _grupo;
-	sleep 1;
-	if (_esAAF) then {
-		if (random 10 < 2.5) then
-			{
-			_perro = _grupo createUnit ["Fin_random_F",_posicion,[],0,"FORM"];
-			[_perro] spawn guardDog;
-			_soldados pushBack _perro;
-			};
-	};
-	[leader _grupo, _marcador, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
-	_grupos = _grupos + [_grupo];
-	_cuenta = _cuenta + 1;
+	if (_isAAF) then {
+		{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
+
+		// generate dog with some probability.
+		if (random 10 < 2.5) then {
+			_dog = _grupo createUnit ["Fin_random_F",_posicion,[],0,"FORM"];
+			[_dog] spawn guardDog;
+			_soldados pushBack _dog;
+		};
+	}
+	else {
+		{[_x, false] spawn AS_fnc_initUnitFIA; _soldados = _soldados + [_x]} forEach units _grupo;
 	};
 
-if !(_esAAF) then
-	{
-	{_grp = _x;
-	{[_x, false] spawn AS_fnc_initUnitFIA; _soldados = _soldados + [_x]} forEach units _grp;} forEach _grupos;
-	};
+	// put then on patrol.
+	[leader _grupo, _marcador, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+	_grupos pushBack _grupo;
+};
 
 waitUntil {sleep 1;(not (spawner getVariable _marcador)) or ({alive _x} count _soldados == 0) or ({fleeing _x} count _soldados == {alive _x} count _soldados)};
 
-if ((({alive _x} count _soldados == 0) or ({fleeing _x} count _soldados == {alive _x} count _soldados)) and (_marcador in mrkAAF)) then
-	{
+// send patrol?
+if ((({alive _x} count _soldados == 0) or ({fleeing _x} count _soldados == {alive _x} count _soldados)) and (_marcador in mrkAAF)) then {
 	[_posicion] remoteExec ["patrolCA",HCattack];
-	};
+};
 
+// cleanup everything when de-spawn marker.
 waitUntil {sleep 1;not (spawner getVariable _marcador)};
 
 {if (alive _x) then {deleteVehicle _x}} forEach _soldados;
