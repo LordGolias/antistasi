@@ -49,6 +49,7 @@ if (_type == "B_G_Soldier_GL_F") then {
 };
 if (_type == "B_G_Soldier_AR_F") then {
 	_primaryWeapons = AS_weapons select 6; // Machine guns
+	_useBackpack = true;
 };
 if (_type == "B_G_Soldier_M_F") then {
 	_primaryWeapons = AS_weapons select 15;  // Snipers
