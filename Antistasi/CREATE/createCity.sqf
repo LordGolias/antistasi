@@ -64,5 +64,17 @@ if ((({alive _x} count _soldados == 0) or ({fleeing _x} count _soldados == {aliv
 // cleanup everything when de-spawn marker.
 waitUntil {sleep 1;not (spawner getVariable _marcador)};
 
-{if (alive _x) then {deleteVehicle _x}} forEach _soldados;
+{
+	// store unit arsenal if:
+	// - city is FIA and ...
+	//     - was FIA (store FIA units), OR
+	//     - was AAF and unit is dead (store dead AAF units)
+	if (!_marcador in mrkAAF and (!_isAFF or (_isAFF and !alive _x))) then {
+		([_x, true] call AS_fnc_getUnitArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
+		[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true] call AS_fnc_populateBox;
+	};
+	if (alive _x) then {
+		deleteVehicle _x;
+	};
+} forEach _soldados;
 {deleteGroup _x} forEach _grupos;

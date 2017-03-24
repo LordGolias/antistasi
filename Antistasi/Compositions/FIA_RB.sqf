@@ -144,7 +144,7 @@ fnc_RB_placeSingle = {
 	_RBgroup = createGroup side_blue;
 	_gunner = _RBgroup createUnit ["B_G_Soldier_AR_F", [0,0,0], [], 0, "NONE"];
 	_gunner moveInGunner _vehicle;
-	[_gunner, false] spawn AS_fnc_initUnitFIA;
+	[_gunner, false] spawn AS_fnc_initUnitFIA;// these functions are only called by `createFIApuestos2`, which are responsible for undoing this call.
 
 	[[_vehicle, _gunner]] spawn fnc_protectVehicle;
 
@@ -161,5 +161,5 @@ fnc_RB_placeDouble = {
 
 	diag_log format ["R: %1; L: %2", (_dataR select 2), (_dataL select 2)];
 
-	[(_dataR select 0) + (_dataL select 0), (_dataR select 1) + (_dataL select 1), selectRandom [(_dataR select 2), (_dataL select 2)]];
+	[(_dataR select 0) + (_dataL select 0), (_dataR select 1) + (_dataL select 1), selectRandom [(_dataR select 2), (_dataL select 2)]]
 };

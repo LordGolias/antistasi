@@ -46,7 +46,15 @@ if ({alive _x} count units _grupo == 0) then
 
 waitUntil {sleep 5; (not(spawner getVariable _marcador)) or (not(_marcador in campsFIA))};
 
-{deleteVehicle _x} forEach units _grupo;
+{
+	if (_marcador in campsFIA) then {
+		([_x, true] call AS_fnc_getUnitArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
+		[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true] call AS_fnc_populateBox;
+	};
+	if (alive _x) then {
+		deleteVehicle _x;
+	};
+} forEach units _grupo;
 deleteGroup _grupo;
 
 _fire inflame false;

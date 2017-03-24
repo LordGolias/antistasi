@@ -147,10 +147,12 @@ if (spawner getVariable _marcador) then
 waitUntil {sleep 1; not (spawner getVariable _marcador)};
 
 {
-_soldado = _x;
-if (alive _soldado) then
-	{
-	deleteVehicle _x
+	if (_marcador in mrkFIA) then {
+		([_x, true] call AS_fnc_getUnitArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
+		[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true] call AS_fnc_populateBox;
+	};
+	if (alive _x) then {
+		deleteVehicle _x;
 	};
 } forEach _soldados;
 if (!isNull _periodista) then {deleteVehicle _periodista};

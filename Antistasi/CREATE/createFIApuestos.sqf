@@ -192,13 +192,16 @@ waitUntil {sleep 1; (not (spawner getVariable _marcador))};
 {if ((!alive _x) and (not(_x in destroyedBuildings))) then {destroyedBuildings = destroyedBuildings + [position _x]; publicVariableServer "destroyedBuildings"}} forEach _buildings;
 
 {
-_soldado = _x;
-if (alive _soldado) then
-	{
-	deleteVehicle _x
+	if (_marcador in mrkFIA) then {
+		([_x, true] call AS_fnc_getUnitArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
+		[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true] call AS_fnc_populateBox;
+	};
+	if (alive _x) then {
+		deleteVehicle _x;
 	};
 } forEach _soldados;
 {
+// These soldiers are not initialized by initUnitFIA.
 if (alive _x) then {deleteVehicle _x};
 } forEach _soldadosMG;
 if (!isNull _periodista) then {deleteVehicle _periodista};

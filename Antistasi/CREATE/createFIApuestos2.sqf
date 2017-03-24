@@ -89,5 +89,13 @@ if ((_advanced) || (_escarretera)) then {
 	{deleteVehicle _x;} forEach _vehicles;
 };
 
-{deleteVehicle _x} forEach units _grupo;
+{
+	if (_marcador in mrkFIA) then {
+		([_x, true] call AS_fnc_getUnitArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
+		[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true] call AS_fnc_populateBox;
+	};
+	if (alive _x) then {
+		deleteVehicle _x;
+	};
+} forEach units _grupo;
 deleteGroup _grupo;

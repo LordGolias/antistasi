@@ -98,15 +98,11 @@ if ((_camion distance _posicionTel < 50) and ({alive _x} count units _grupo > 0)
 		group player selectLeader player;
 		hint "";
 		};
-	stavros hcRemoveGroup _grupo;
 	[[petros,"hint","Engineer Team deploying mines."],"commsMP"] call BIS_fnc_MP;
 	[leader _grupo, _mrk, "SAFE","SPAWNED", "SHOWMARKER"] execVM "scripts\UPSMON.sqf";
 	sleep 30*_cantidad;
 	if ((alive _camion) and ({alive _x} count units _grupo > 0)) then
 		{
-		{deleteVehicle _x} forEach units _grupo;
-		deleteGroup _grupo;
-		deleteVehicle _camion;
 		for "_i" from 1 to _cantidad do
 			{
 			_mina = createMine [_tipo,_posicionTel,[],100];
@@ -122,12 +118,8 @@ if ((_camion distance _posicionTel < 50) and ({alive _x} count units _grupo > 0)
 		{
 		_tsk = ["Mines",[side_blue,civilian],[format ["An Engineer Team has been deployed at your command with High Command Option. Once they reach the position, they will start to deploy %1 mines in the area. Cover them in the meantime.",_cantidad],"Minefield Deploy",_mrk],_posicionTel,"FAILED",5,true,true,"Map"] call BIS_fnc_setTask;
 		sleep 15;
-		stavros hcRemoveGroup _grupo;
 		//[_tsk,true] call BIS_fnc_deleteTask;
 		[0,_tsk] spawn borrarTask;
-		{deleteVehicle _x} forEach units _grupo;
-		deleteGroup _grupo;
-		deleteVehicle _camion;
 		deleteMarker _mrk;
 		};
 	}
@@ -135,12 +127,19 @@ else
 	{
 	_tsk = ["Mines",[side_blue,civilian],[format ["An Engineer Team has been deployed at your command with High Command Option. Once they reach the position, they will start to deploy %1 mines in the area. Cover them in the meantime.",_cantidad],"Minefield Deploy",_mrk],_posicionTel,"FAILED",5,true,true,"Map"] call BIS_fnc_setTask;
 	sleep 15;
-	stavros hcRemoveGroup _grupo;
 	//[_tsk,true] call BIS_fnc_deleteTask;
 	[0,_tsk] spawn borrarTask;
-	{deleteVehicle _x} forEach units _grupo;
-	deleteGroup _grupo;
-	deleteVehicle _camion;
 	deleteMarker _mrk;
 	};
 
+stavros hcRemoveGroup _grupo;
+{
+	if (alive _x) then {
+		([_x, true] call AS_fnc_getUnitArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
+		[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true] call AS_fnc_populateBox;
+
+		deleteVehicle _x;
+	};
+} forEach units _grupo;
+deleteGroup _grupo;
+deleteVehicle _camion;
