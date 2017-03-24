@@ -121,8 +121,6 @@ if ((_marcador in fabricas) or (_marcador in recursos)) then
 	};
 
 {[_marcador,_x] spawn deleteControles} forEach controles;
-sleep 15;
-[_marcador] remoteExec ["autoGarrison",HCattack];
 
 waitUntil {sleep 1; (not (spawner getVariable _marcador)) or (({(not(vehicle _x isKindOf "Air")) and (alive _x) and (!fleeing _x)} count ([_size,0,_posicion,"OPFORSpawn"] call distanceUnits)) > 3*({(alive _x)} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)))};
 

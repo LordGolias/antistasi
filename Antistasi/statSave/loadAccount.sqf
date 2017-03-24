@@ -226,9 +226,7 @@ _radio = [_x] call radioCheck;
 if ((_base != "") and (_radio) and (_x in mrkFIA) and (not(_x in smallCAmrk))) then
 	{
 	[_x] remoteExec ["patrolCA",HCattack];
-	sleep 5;
 	smallCAmrk pushBackUnique _x;
-	[_x] remoteExec ["autoGarrison",HCattack];
 	};
 } forEach _tmpCAmrk;
 publicVariable "smallCAmrk";

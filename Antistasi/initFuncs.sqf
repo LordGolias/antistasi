@@ -105,7 +105,6 @@ AS_fnc_initUnitOPFOR = compile preProcessFileLineNumbers "fnc_initUnitOPFOR.sqf"
 postmortem = compile preProcessFileLineNumbers "REINF\postmortem.sqf";
 commsMP = compile preProcessFileLineNumbers "commsMP.sqf";
 radioCheck = compile preProcessFileLineNumbers "radioCheck.sqf";
-autoGarrison = compile preProcessFileLineNumbers "REINF\autoGarrison.sqf";
 sellVehicle = compile preProcessFileLineNumbers "sellVehicle.sqf";
 resourceCheckSkipTime = compile preProcessFileLineNumbers "resourcecheckSkipTime.sqf";
 CONVOY = compile preProcessFileLineNumbers "Missions\CONVOY.sqf";
