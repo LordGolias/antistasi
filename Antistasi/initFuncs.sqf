@@ -129,6 +129,7 @@ flagaction = compile preProcessFileLineNumbers "flagaction.sqf";
 resourcesFIA = compile preProcessFileLineNumbers "resourcesFIA.sqf";
 prestige = compile preProcessFileLineNumbers "prestige.sqf";
 createCIV = compile preProcessFileLineNumbers "CREATE\createCIV.sqf";
+AS_fnc_populateMilBuildings = compile preProcessFileLineNumbers "CREATE\populateMilBuildings.sqf";
 createFIArecursos = compile preProcessFileLineNumbers "CREATE\createFIArecursos.sqf";
 createFIApuestos = compile preProcessFileLineNumbers "CREATE\createFIApuestos.sqf";
 createFIApower = compile preProcessFileLineNumbers "CREATE\createFIApower.sqf";
