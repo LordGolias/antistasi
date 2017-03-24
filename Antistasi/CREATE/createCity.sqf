@@ -69,7 +69,7 @@ waitUntil {sleep 1;not (spawner getVariable _marcador)};
 	// - city is FIA and ...
 	//     - was FIA (store FIA units), OR
 	//     - was AAF and unit is dead (store dead AAF units)
-	if (!_marcador in mrkAAF and (!_isAFF or (_isAFF and !alive _x))) then {
+	if (!(_marcador in mrkAAF) and (!_isAAF or (_isAAF and !alive _x))) then {
 		([_x, true] call AS_fnc_getUnitArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 		[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true] call AS_fnc_populateBox;
 	};

@@ -194,21 +194,7 @@ if ("b_g_soldier_unarmed_f" in _garrison) then
 	_gruposFIA = _gruposFIA + [_grupoMort];
 	};
 
-_periodista = objNull;
-if ((random 100 < (((server getVariable "prestigeNATO") + (server getVariable "prestigeCSAT")))) and (spawner getVariable _marcador)) then
-	{
-	_pos = [];
-	_grupo = createGroup civilian;
-	while {true} do
-		{
-		_pos = [_posicion, round (random _size), random 360] call BIS_Fnc_relPos;
-		if (!surfaceIsWater _pos) exitWith {};
-		};
-	_periodista = _grupo createUnit ["C_journalist_F", _pos, [],0, "NONE"];
-	[_periodista] spawn CIVinit;
-	_grupos pushBack _grupo;
-	[_periodista, _marcador, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";
-	};
+private _journalist = [_marcador, _grupos] call AS_fnc_createJournalist;
 
 // experimental
 
@@ -234,7 +220,7 @@ waitUntil {sleep 1; not (spawner getVariable _marcador)};
 		deleteVehicle _x
 	};
 } forEach _soldadosFIA;
-if (!isNull _periodista) then {deleteVehicle _periodista};
+if (!isNull _journalist) then {deleteVehicle _journalist};
 {deleteGroup _x} forEach _gruposFIA;
 {if (alive _x) then {deleteVehicle _x}} forEach _soldados;
 {deleteGroup _x} forEach _grupos;

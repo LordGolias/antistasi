@@ -103,21 +103,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _tam)} do
 	_cuenta = _cuenta + 1;
 	};
 
-_periodista = objNull;
-if ((random 100 < (((server getVariable "prestigeNATO") + (server getVariable "prestigeCSAT"))/10)) and (spawner getVariable _marcador)) then
-	{
-	_pos = [];
-	_grupo = createGroup civilian;
-	while {true} do
-		{
-		_pos = [_posicion, round (random _size), random 360] call BIS_Fnc_relPos;
-		if (!surfaceIsWater _pos) exitWith {};
-		};
-	_periodista = _grupo createUnit ["C_journalist_F", _pos, [],0, "NONE"];
-	[_periodista] spawn CIVinit;
-	_grupos pushBack _grupo;
-	[_periodista, _marcador, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";
-	};
+private _journalist = [_marcador, _grupos] call AS_fnc_createJournalist;
 
 waitUntil {sleep 1; (not (spawner getVariable _marcador)) or (({(not(vehicle _x isKindOf "Air"))} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)) > 3*({(alive _x) and (!(captive _x)) and (_x distance _posicion < _size)} count _soldados))};
 if ((spawner getVariable _marcador) and (not(_marcador in mrkFIA))) then
@@ -130,6 +116,6 @@ waitUntil {sleep 1; not (spawner getVariable _marcador)};
 deleteMarker _mrk;
 {if (alive _x) then {deleteVehicle _x}} forEach _soldados;
 {deleteVehicle _x} forEach _civs;
-if (!isNull _periodista) then {deleteVehicle _periodista};
+if (!isNull _journalist) then {deleteVehicle _journalist};
 {deleteGroup _x} forEach _grupos;
 {if (!([distanciaSPWN-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x}} forEach _vehiculos;

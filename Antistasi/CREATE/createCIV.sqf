@@ -107,18 +107,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _numCiv)} do
 	_cuenta = _cuenta + 1;
 	};
 
-if ((random 100 < ((server getVariable "prestigeNATO") + (server getVariable "prestigeCSAT"))) and (spawner getVariable _marcador)) then
-	{
-	_pos = [];
-	while {true} do
-		{
-		_pos = [_posicion, round (random _area), random 360] call BIS_Fnc_relPos;
-		if (!surfaceIsWater _pos) exitWith {};
-		};
-	_civ = _grupo createUnit ["C_journalist_F", _pos, [],0, "NONE"];
-	[_civ] spawn CIVinit;
-	_civs pushBack _civ;
-	};
+private _journalist = [_marcador, _grupos] call AS_fnc_createJournalist;
 
 [leader _grupo, _marcador, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";
 
@@ -176,6 +165,7 @@ for "_i" from 1 to _andanadas do
 waitUntil {sleep 1;not (spawner getVariable _marcador)};
 
 {deleteVehicle _x} forEach _civs;
+if (!isNull _journalist) then {deleteVehicle _journalist};
 {deleteGroup _x} forEach _grupos;
 {
 if (!([distanciaSPWN-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then

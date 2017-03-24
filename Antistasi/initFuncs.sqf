@@ -142,6 +142,7 @@ NATOinit = compile preProcessFileLineNumbers "CREATE\NATOinit.sqf";
 NATOinitCA = compile preProcessFileLineNumbers "CREATE\NATOinitCA.sqf";
 CIVinit = compile preProcessFileLineNumbers "CREATE\CIVinit.sqf";
 VEHinit = compile preProcessFileLineNumbers "CREATE\VEHinit.sqf";
+AS_fnc_createJournalist = compile preProcessFileLineNumbers "CREATE\createJournalist.sqf";
 patrolCA = compile preProcessFileLineNumbers "CREATE\patrolCA.sqf";
 combinedCA = compile preProcessFileLineNumbers "CREATE\combinedCA.sqf";
 NATOCA = compile preProcessFileLineNumbers "CREATE\NATOCA.sqf";
