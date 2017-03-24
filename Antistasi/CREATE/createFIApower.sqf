@@ -145,7 +145,6 @@ waitUntil {sleep 1; not (spawner getVariable _marcador)};
 	if (alive _x) then {
 		deleteVehicle _x;
 	};
-};
 } forEach _soldados;
 {deleteVehicle _x} forEach _civs;
 if (!isNull _journalist) then {deleteVehicle _journalist};
