@@ -36,5 +36,4 @@ publicVariable "unlockedMagazines";
 publicVariable "unlockedItems";
 publicVariable "unlockedOptics";
 
-if (hayBE) then {[] call fnc_BE_gearUpdate; [] call fnc_BE_refresh};
 [false] call fnc_MAINT_arsenal;

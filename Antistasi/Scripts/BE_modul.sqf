@@ -55,15 +55,7 @@ fnc_BE_initialize = {
 
 	BE_mil_vehicles = BE_class_Heli + BE_class_MBT + BE_class_APC + BE_class_MRAP;
 
-	[] call fnc_BE_gearUpdate;
 	[true] call fnc_BE_refresh;
-};
-
-fnc_BE_gearUpdate = {
-	BE_defWeap = unlockedWeapons arrayIntersect (arifles + mguns + srifles);
-	BE_defVests = unlockedItems select {(getNumber (configfile >> "CfgWeapons" >> _x >> "ItemInfo" >> "type")) == 701};
-	BE_defHelmets = unlockedItems select {(getNumber (configfile >> "CfgWeapons" >> _x >> "ItemInfo" >> "type")) == 605};
-	BE_defOptics = unlockedOptics;
 };
 
 fnc_BE_captureVehicle = {
@@ -305,10 +297,8 @@ fnc_BE_save = {
 	} forEach vehicles - [caja,bandera,fuego,cajaveh,mapa];
 
 	_result pushBack BE_currentStage;
-	_result pushBack "legacy";
 	_result pushBack BE_currentXP;
 	_result pushBack _current_vehicles;
-	_result pushBack [BE_defWeap, BE_defVests, BE_defHelmets, BE_defOptics];
 	_result pushBack BE_progressLock;
 
 	diag_log format ["BE - module save -- save: %1", _result];
@@ -320,15 +310,9 @@ fnc_BE_load = {
 	params ["_save"];
 
 	BE_currentStage = _save select 0;
-	BE_currentXP = _save select 2;
-	BE_current_vehicles = _save select 3;
-	if (count _save > 4) then {
-		BE_defWeap = (_save select 4) select 0;
-		BE_defVests = (_save select 4) select 1;
-		BE_defHelmets = (_save select 4) select 2;
-		BE_defOptics = (_save select 4) select 3;
-		BE_progressLock = _save select 5;
-	};
+	BE_currentXP = _save select 1;
+	BE_current_vehicles = _save select 2;
+    BE_progressLock = _save select 3;
 
 	{
 		if ((_x distance (getMarkerPos "respawn_west") < 50) && (typeOf _x in BE_current_vehicles)) then {
@@ -555,93 +539,12 @@ fnc_BE_C_TER = {
 	[(count (mrkFIA arrayIntersect _base) > 0), BE_STR_CTER]
 };
 
-#define BE_STR_CWPN1 "At least 2 primary weapons unlocked in the arsenal"
-#define BE_STR_CWPN2 "At least 4 primary weapons unlocked in the arsenal"
-#define BE_STR_CWPN3 "At least 6 primary weapons unlocked in the arsenal"
-fnc_BE_C_WPN = {
-	private _base = arifles + mguns + srifles - BE_defWeap;
-	private _minVal = 6;
-	BE_STR_CWPN = BE_STR_CWPN3;
-	call {
-		if (BE_currentStage == 1) exitWith {
-			_minVal = 4;
-			BE_STR_CWPN = BE_STR_CWPN2;
-		};
-		if (BE_currentStage == 0) exitWith {
-			_minVal = 2;
-			BE_STR_CWPN = BE_STR_CWPN1;
-		};
-	};
-
-	[(count (_base arrayIntersect unlockedWeapons) >= _minVal), BE_STR_CWPN]
-};
-
-#define BE_STR_CHEL1 ""
-#define BE_STR_CHEL2 "At least 1 helmet unlocked in the arsenal"
-#define BE_STR_CHEL3 "At least 1 helmet unlocked in the arsenal"
-fnc_BE_C_HEL = {
-	private _base = genHelmets - BE_defHelmets;
-	BE_STR_CHEL = BE_STR_CHEL3;
-
-	[(count (_base arrayIntersect unlockedItems) > 0), BE_STR_CHEL]
-};
-
-#define BE_STR_CVES1 "At least 1 vest unlocked in the arsenal"
-#define BE_STR_CVES2 "At least 1 vest unlocked in the arsenal"
-#define BE_STR_CVES3 "At least 1 vest unlocked in the arsenal"
-fnc_BE_C_VES = {
-	private _base = genVests - BE_defVests;
-	BE_STR_CVES = BE_STR_CVES3;
-
-	[(count (_base arrayIntersect unlockedItems) > 0), BE_STR_CVES]
-};
-
-#define BE_STR_COPT1 "At least 1 optic unlocked in the arsenal"
-#define BE_STR_COPT2 ""
-#define BE_STR_COPT3 ""
-fnc_BE_C_OPT = {
-	BE_STR_COPT = BE_STR_COPT1;
-	[(count (unlockedOptics - BE_defOptics) > 0), BE_STR_COPT]
-};
-
-#define BE_STR_CNVG1 ""
-#define BE_STR_CNVG2 ""
-#define BE_STR_CNVG3 "NVGs unlocked in the arsenal"
-fnc_BE_C_NVG = {
-	BE_STR_CNVG = BE_STR_CNVG3;
-	[(indNVG in unlockedItems), BE_STR_CNVG]
-};
-
-#define BE_STR_CAT1 "At least 1 type of AT unlocked in the arsenal"
-#define BE_STR_CAT2 "At least 1 type of AT unlocked in the arsenal"
-#define BE_STR_CAT3 "At least 1 type of AT unlocked in the arsenal"
-fnc_BE_C_AT = {
-	BE_STR_CAT = BE_STR_CAT3;
-	[!(server getVariable ["genATlocked", false]), BE_STR_CAT]
-};
-
-#define BE_STR_CAA1 ""
-#define BE_STR_CAA2 "At least 1 type of AA unlocked in the arsenal"
-#define BE_STR_CAA3 "At least 1 type of AA unlocked in the arsenal"
-fnc_BE_C_AA = {
-	BE_STR_CAA = BE_STR_CAA3;
-	[!(server getVariable ["genAAlocked", false]), BE_STR_CAA]
-};
-
 #define BE_STR_CMTN1 ""
 #define BE_STR_CMTN2 "Have cleared at least 1 CSAT hilltop"
 #define BE_STR_CMTN3 ""
 fnc_BE_C_MTN = {
 	BE_STR_CMTN = BE_STR_CMTN2;
 	[(count (colinasAA arrayIntersect mrkFIA) > 0), BE_STR_CMTN]
-};
-
-#define BE_STR_CATM1 ""
-#define BE_STR_CATM2 ""
-#define BE_STR_CATM3 "AT mines unlocked in the arsenal"
-fnc_BE_C_ATM = {
-	BE_STR_CATM = BE_STR_CATM3;
-	[(atMine in unlockedMagazines), BE_STR_CATM]
 };
 
 #define BE_STR_CHR1 "Have at least 20 HR"
@@ -694,6 +597,6 @@ fnc_BE_C_VEH = {
 	[(_result >= _minVal), BE_STR_CVEH]
 };
 
-BE_reqs_0 = [fnc_BE_C_TER, fnc_BE_C_WPN, fnc_BE_C_OPT, fnc_BE_C_VES, fnc_BE_C_AT, fnc_BE_C_HR, fnc_BE_C_VEH];
-BE_reqs_1 = [fnc_BE_C_TER, fnc_BE_C_WPN, fnc_BE_C_VES, fnc_BE_C_HEL, fnc_BE_C_AT, fnc_BE_C_AA, fnc_BE_C_HR, fnc_BE_C_MTN, fnc_BE_C_VEH];
-BE_reqs_2 = [fnc_BE_C_TER, fnc_BE_C_WPN, fnc_BE_C_VES, fnc_BE_C_HEL, fnc_BE_C_AT, fnc_BE_C_AA, fnc_BE_C_ATM, fnc_BE_C_HR, fnc_BE_C_VEH];
+BE_reqs_0 = [fnc_BE_C_TER, fnc_BE_C_HR, fnc_BE_C_MTN, fnc_BE_C_VEH];
+BE_reqs_1 = [fnc_BE_C_TER, fnc_BE_C_HR, fnc_BE_C_MTN, fnc_BE_C_VEH];
+BE_reqs_2 = [fnc_BE_C_TER, fnc_BE_C_HR, fnc_BE_C_MTN, fnc_BE_C_VEH];
