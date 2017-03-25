@@ -831,35 +831,23 @@ class exp_menu // 430
 	AS_FRAME_D(FRAME_H_10, "Buy Ordnance");
 	BTN_BACK(A_CLOSE);
 
-	#define STR_EXP_SCH "closeDialog 0; if (player == Stavros) then {[""expLight"", 300] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_MCH "closeDialog 0; if (player == Stavros) then {[""expLight"", 800] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_CH "if (player == Stavros) then {[""explosives"", 800] remoteExec [""buyGear"", 2];}"
 
-	#define STR_EXP_SWP "closeDialog 0; createDialog ""wpns_small"";"
-	#define STR_EXP_MWP "closeDialog 0; createDialog ""wpns_large"";"
+	#define STR_EXP_WP "closeDialog 0; createDialog ""wpns"";"
 
-	#define STR_EXP_SMS "closeDialog 0; if (player == Stavros) then {[""expHeavy"", 300] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_MMS "closeDialog 0; if (player == Stavros) then {[""expHeavy"", 800] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_MS "if (player == Stavros) then {[""mines"", 300] remoteExec [""buyGear"", 2];}"
 
-	#define STR_EXP_SAC "closeDialog 0; if (player == Stavros) then {[""aCache"", 500] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_MAC "closeDialog 0; if (player == Stavros) then {[""aCache"", 5000] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_AC "if (player == Stavros) then {[""assessories"", 500] remoteExec [""buyGear"", 2];}"
 
+	BTN_L1(-1, "Charges", "Spend 800 Euros on explosives.", STR_EXP_CH);
+	BTN_L2(-1, "Weapons", "Spend 500 Euros on weapons and ammo.", STR_EXP_WP);
 
-	BTN_L1(-1, "Some Charges", "Spend 300 Euros on a small bag of explosives.", STR_EXP_SCH);
-	BTN_L2(-1, "Many Charges", "Spend 800 Euros on a large bag of explosives.", STR_EXP_MCH);
-	BTN_L3(-1, "Some Weapons", "Spend 1000 Euros on a small cache of weapons.", STR_EXP_SWP);
-	BTN_L4(-1, "Many Weapons", "Spend 2500 Euros on a large cache of weapons.", STR_EXP_MWP);
-
-	BTN_R1(-1, "Some Mines", "Spend 300 Euros on a small bag of mines.", STR_EXP_SMS);
-	BTN_R2(-1, "Many Mines", "Spend 800 Euros on a large bag of mines.", "");
-	BTN_R3(-1, "Some Accessories", "Spend 500 Euros on a small cache of weapon accessories.", STR_EXP_SAC);
-	BTN_R4(-1, "Many Accessories", "Spend 5000 Euros on a large cache of weapon accessories.", STR_EXP_MAC);
-
-	BTN_M(BTN_Y_5, -1, "Some Ammo", "Currently not available", A_CLOSE);
-
+	BTN_R1(-1, "Mines", "Spend 300 Euros on mines.", STR_EXP_MS);
+	BTN_R2(-1, "Accessories", "Spend 500 Euros on 4 weapon accessories.", STR_EXP_AC);
 	};
 };
 
-class wpns_small
+class wpns
 {
 	idd=-1;
 	movingenable=false;
@@ -868,53 +856,24 @@ class wpns_small
 	{
 
 	AS_BOX_D(BOX_H_6);
-	AS_FRAME_D(FRAME_H_6, "Weapon Options");
+	AS_FRAME_D(FRAME_H_6, "Buy weapons");
 	BTN_BACK("closeDialog 0; createDialog ""exp_menu"";");
 
-	#define STR_EXP_ASS_S "closeDialog 0; if (player == Stavros) then {[""ASRifles"", 1000] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_PIS_S "closeDialog 0; if (player == Stavros) then {[""Pistols"", 1000] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_MGS_S "closeDialog 0; if (player == Stavros) then {[""Machineguns"", 1000] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_SNP_S "closeDialog 0; if (player == Stavros) then {[""Sniper Rifles"", 1000] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_LCH_S "closeDialog 0; if (player == Stavros) then {[""Launchers"", 1000] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_RND_S "closeDialog 0; if (player == Stavros) then {[""Random"", 1000] remoteExec [""buyGear"", 2];}"
+    #define STR_EXP_ASS_S "if (player == Stavros) then {[""ASRifles"", 500] remoteExec [""buyGear"", 2];}"
+    #define STR_EXP_PIS_S "if (player == Stavros) then {[""Pistols"", 500] remoteExec [""buyGear"", 2];}"
+    #define STR_EXP_MGS_S "if (player == Stavros) then {[""Machineguns"", 500] remoteExec [""buyGear"", 2];}"
+    #define STR_EXP_SNP_S "if (player == Stavros) then {[""Sniper Rifles"", 500] remoteExec [""buyGear"", 2];}"
+    #define STR_EXP_LCH_S "if (player == Stavros) then {[""Launchers"", 500] remoteExec [""buyGear"", 2];}"
+    #define STR_EXP_GLA_S "if (player == Stavros) then {[""GLaunchers"", 500] remoteExec [""buyGear"", 2];}"
 
-	BTN_L1(-1, "Assault Rifles", "", STR_EXP_ASS_S);
-	BTN_L2(-1, "Machineguns", "", STR_EXP_MGS_S);
-	BTN_L3(-1, "Launchers", "", STR_EXP_LCH_S);
+    // these amounts are in buyGear.sqf
+    BTN_L1(-1, "10 Rifles", "", STR_EXP_ASS_S);
+    BTN_L2(-1, "5 G. Launchers", "", STR_EXP_GLA_S);
+    BTN_L3(-1, "5 Machineguns", "", STR_EXP_MGS_S);
 
-	BTN_R1(-1, "Pistols", "", STR_EXP_PIS_S);
-	BTN_R2(-1, "Sniper Rifles", "", STR_EXP_SNP_S);
-	BTN_R3(-1, "Random", "", STR_EXP_RND_S);
-
-	};
-};
-
-class wpns_large
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-
-	AS_BOX_D(BOX_H_6);
-	AS_FRAME_D(FRAME_H_6, "Weapon Options");
-	BTN_BACK("closeDialog 0; createDialog ""exp_menu"";");
-
-	#define STR_EXP_ASS_L "closeDialog 0; if (player == Stavros) then {[""ASRifles"", 2500] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_PIS_L "closeDialog 0; if (player == Stavros) then {[""Pistols"", 2500] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_MGS_L "closeDialog 0; if (player == Stavros) then {[""Machineguns"", 2500] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_SNP_L "closeDialog 0; if (player == Stavros) then {[""Sniper Rifles"", 2500] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_LCH_L "closeDialog 0; if (player == Stavros) then {[""Launchers"", 2500] remoteExec [""buyGear"", 2];}"
-	#define STR_EXP_RND_L "closeDialog 0; if (player == Stavros) then {[""Random"", 2500] remoteExec [""buyGear"", 2];}"
-
-	BTN_L1(-1, "Assault Rifles", "", STR_EXP_ASS_L);
-	BTN_L2(-1, "Machineguns", "", STR_EXP_MGS_L);
-	BTN_L3(-1, "Launchers", "", STR_EXP_LCH_L);
-
-	BTN_R1(-1, "Pistols", "", STR_EXP_PIS_L);
-	BTN_R2(-1, "Sniper Rifles", "", STR_EXP_SNP_L);
-	BTN_R3(-1, "Random", "", STR_EXP_RND_L);
+    BTN_R1(-1, "2 Launchers", "", STR_EXP_LCH_S);
+    BTN_R2(-1, "2 Snipers", "", STR_EXP_SNP_S);
+    BTN_R3(-1, "20 Pistols", "", STR_EXP_PIS_S);
 
 	};
 };

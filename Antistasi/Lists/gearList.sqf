@@ -992,15 +992,10 @@ srifles = srifles + _aToS;
 };
 
 // items that can appear in boxes.
-aceWeapons = [];
 aceAccessories = [];
 aceItems = [];
 
 if (hayACE) then {
-
-aceWeapons = [
-"srifle_DMR_03_spotter_F",
-"ACE_VMM3"];
 
 aceAccessories = [
 "ACE_muzzle_mzls_H",
