@@ -6,8 +6,6 @@ if ((server getVariable "resourcesFIA") < _money) exitWith {
     [[_l1],"DIRECT",0.15] execVM "createConv.sqf";
 };
 
-_accessories = AS_allOptics;
-
 switch (_type) do {
 	case "ASRifles": {_weapons = (AS_weapons select 0); _amount = 10;};  // assault + G. launchers
 	case "Machineguns": {_weapons = (AS_weapons select 6); _amount = 5;};
@@ -17,7 +15,7 @@ switch (_type) do {
 	case "GLaunchers": {_weapons = (AS_weapons select 3); _amount = 5;};
 
 	case "assessories": {
-        _accessories = AS_allOptics - unlockedOptics;
+        _accessories = AS_allBipods + AS_allOptics + AS_allMuzzles + AS_allMounts + AS_allUAVs - unlockedOptics;
         for "_i" from 1 to 4 do {
 			expCrate addItemCargoGlobal [selectRandom _accessories, 1];
 		};

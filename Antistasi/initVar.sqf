@@ -129,6 +129,28 @@ _allOptics = (format [_itemFilter, 201]) configClasses ( configFile >> "cfgWeapo
 	AS_allOpticsAttrs pushBack [_zoomMin, _zoomMax];
 } forEach _allOptics;
 
+AS_allUAVs = [];
+{
+	AS_allUAVs pushBack (configName _x);
+} forEach ((format [_itemFilter, 621]) configClasses ( configFile >> "cfgWeapons" ));
+
+AS_allMounts = [];
+{
+	AS_allMounts pushBack (configName _x);
+} forEach ((format [_itemFilter, 301]) configClasses ( configFile >> "cfgWeapons" ));
+
+AS_allBipods = [];
+_allBipods = (format [_itemFilter, 302]) configClasses ( configFile >> "cfgWeapons" );
+{
+	AS_allBipods pushBack (configName _x);
+} forEach _allBipods;
+
+AS_allMuzzles = [];
+_allMuzles = (format [_itemFilter, 101]) configClasses ( configFile >> "cfgWeapons" );
+{
+	AS_allMuzzles pushBack (configName _x);
+} forEach _allMuzles;
+
 // all vests. Used to identify vests that can be used by FIA soldiers.
 AS_allVests = [];
 AS_allVestsAttrs = [];
@@ -164,16 +186,20 @@ AS_allBackpacksAttrs = [];
 	AS_allBackpacksAttrs pushBack [_weight, _load];
 } forEach _allBackpacks;
 
-allAccessories = [];
-{
-    _name = configName _x;
-    _tipo = [_name] call BIS_fnc_itemType;
-    _tipo = _tipo select 1;
-    if ((_tipo == "AccessoryMuzzle") || (_tipo == "AccessoryPointer") || (_tipo == "AccessorySights")) then {
-        allAccessories pushBackUnique _name;
-    };
-} forEach _allAccessories;
+// All relevant assessories
+AS_allAssessories = AS_allVests + AS_allHelmets + AS_allBackpacks + AS_allBipods + AS_allOptics + AS_allMuzzles + AS_allMounts + AS_allUAVs;
 
+private _allUniforms = [];
+{
+	_allUniforms pushBack (configName _x);
+} forEach ((format [_itemFilter, 801]) configClasses ( configFile >> "cfgWeapons" ));
+
+// Assessories that are not reachable in the game.
+AS_allOtherAssessories = [];
+{
+    AS_allOtherAssessories pushBack (configName _x);
+} forEach _allAccessories;
+AS_allOtherAssessories = AS_allOtherAssessories - AS_allAssessories - _allUniforms;
 
 /*
 AssaultRifle
