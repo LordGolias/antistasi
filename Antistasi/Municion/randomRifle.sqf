@@ -43,6 +43,7 @@ if (_helmet != "") then {
 private _primaryWeapons = (AS_weapons select 0) + (AS_weapons select 13) + (AS_weapons select 14); // Assault Rifles + Rifles + SubmachineGun
 private _secondaryWeapons = [];
 private _useBackpack = false;
+private _scopeType = "rifleScope";  // "rifleScope" or "sniperScope" to choose betwene "low min zoom and high max zoom" or "very high max zoom".
 if (_type == "B_G_Soldier_GL_F") then {
 	_primaryWeapons = AS_weapons select 3; // G. Launchers
 	// todo: check that secondary magazines exist.
@@ -53,6 +54,7 @@ if (_type == "B_G_Soldier_AR_F") then {
 };
 if (_type == "B_G_Soldier_M_F") then {
 	_primaryWeapons = AS_weapons select 15;  // Snipers
+    _scopeType = "sniperScope";
 };
 if (_type == "B_G_Soldier_LAT_F") then {
 	// todo: this list includes AT and AA. Fix it.
@@ -92,7 +94,11 @@ private _addWeapon = {
 [_primaryWeapons, 6 + 1] call _addWeapon;
 [_secondaryWeapons, 2 + 1] call _addWeapon;
 
-// todo: add attachments, optics and other items.
+
+_scope = ([caja, _scopeType] call AS_fnc_getBestItem);
+if (_scope != "") then {
+	_unit addPrimaryWeaponItem _scope;
+};
 
 // remove from box stuff that was used.
 private _cargo = [_unit, true] call AS_fnc_getUnitArsenal;

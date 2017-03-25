@@ -114,6 +114,24 @@ _itemFilter = "
     } } }) 
 ";
 
+AS_allOptics = [];
+AS_allOpticsAttrs = [];
+_allOptics = (format [_itemFilter, 201]) configClasses ( configFile >> "cfgWeapons" );
+{
+	_name = configName _x;
+	AS_allOptics pushBack _name;
+    _zoomMin = 10000;
+    _zoomMax = 0;
+    {
+        _o_zoomMin = getNumber (_x >> "opticsZoomMin");
+        _o_zoomMax = getNumber (_x >> "opticsZoomMax");
+        if (_zoomMin > _o_zoomMin) then {_zoomMin = _o_zoomMin;};
+        if (_zoomMax < _o_zoomMax) then {_zoomMax = _o_zoomMax;};
+    } forEach ("true" configClasses (_x >> "ItemInfo" >> "OpticsModes"));
+
+	AS_allOpticsAttrs pushBack [_zoomMin, _zoomMax];
+} forEach _allOptics;
+
 // all vests. Used to identify vests that can be used by FIA soldiers.
 AS_allVests = [];
 AS_allVestsAttrs = [];
@@ -149,15 +167,14 @@ AS_allBackpacksAttrs = [];
 	AS_allBackpacksAttrs pushBack [_weight, _load];
 } forEach _allBackpacks;
 
-
 allAccessories = [];
 {
-_nombre = configName _x;
-_tipo = [_nombre] call BIS_fnc_itemType;
-_tipo = _tipo select 1;
-if ((_tipo == "AccessoryMuzzle") || (_tipo == "AccessoryPointer") || (_tipo == "AccessorySights")) then {
-	allAccessories pushBackUnique _nombre;
-};
+    _name = configName _x;
+    _tipo = [_name] call BIS_fnc_itemType;
+    _tipo = _tipo select 1;
+    if ((_tipo == "AccessoryMuzzle") || (_tipo == "AccessoryPointer") || (_tipo == "AccessorySights")) then {
+        allAccessories pushBackUnique _name;
+    };
 } forEach _allAccessories;
 
 

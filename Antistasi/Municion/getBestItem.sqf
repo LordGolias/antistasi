@@ -32,6 +32,27 @@ if (_type == "backpack") then {
 	_allItemsAttrs = AS_allBackpacksAttrs;
 	_unlockedItems = unlockedBackpacks;
 };
+if (_type in ["rifleScope", "sniperScope"]) then {
+	_allItems = AS_allOptics;
+	_allItemsAttrs = AS_allOpticsAttrs;
+	_unlockedItems = unlockedOptics;
+
+    private _is_sniper = (_type == "sniperScope");
+    _sortingFunction = {
+        private _index = _input0 find _x;
+        private _zoomMin = (_input1 select _index) select 0;
+        private _zoomMax = (_input1 select _index) select 1;
+        private _amount = (_input1 select _index) select 2;
+
+        private _w_factor = 1.0/(1 + exp (-2*(_amount - 5)));  // 0 => 0; 5 => 0.5; 10 => 1
+
+        _result = _zoomMax/_zoomMin;
+        if (_is_sniper) then {
+            _result = _zoomMax;
+        };
+        _w_factor*_result
+    };
+};
 
 // create the list of _indexes to be sorted and respective properties to use for sorting.
 private _indexes = [];
