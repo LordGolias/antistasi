@@ -1,6 +1,7 @@
 if (!isServer and hasInterface) exitWith{};
 
 private ["_marcador","_datos","_numCiv","_numVeh","_roads","_civs","_grupos","_vehiculos","_civsPatrol","_gruposPatrol","_vehPatrol","_tipoCiv","_tipoVeh","_dirVeh","_cuenta","_grupo","_size","_road"];
+private ["_civ","_grupo","_cuenta","_veh","_dirVeh","_roads","_roadcon"];
 
 _marcador = _this select 0;
 
@@ -26,9 +27,6 @@ _posicion = getMarkerPos (_marcador);
 
 _area = [_marcador] call sizeMarker;
 
-private ["_civ","_grupo","_cuenta","_veh","_dirVeh","_roads","_roadcon"];
-_roads = _roads call BIS_fnc_arrayShuffle;
-
 if (_marcador in destroyedCities) then
 	{
 	_numCiv = _numCiv / 10;
@@ -44,68 +42,40 @@ if (_numCiv < 1) then {_numCiv = 1};
 _grupo = createGroup civilian;
 _grupos = _grupos + [_grupo];
 
-while {(spawner getVariable _marcador) and (_cuenta < _numCiv)} do
-	{
-	if (diag_fps > minimoFPS) then
-		{
-		_pos = [];
-		while {true} do
-			{
-			_pos = [_posicion, round (random _area), random 360] call BIS_Fnc_relPos;
-			if (!surfaceIsWater _pos) exitWith {};
-			};
-		_tipociv = arrayCivs call BIS_Fnc_selectRandom;
-		_civ = _grupo createUnit [_tipociv, _pos, [],0, "NONE"];
-		[_civ] spawn CIVinit;
-		_civs pushBack _civ;
-		/*
-		if (random 10 <= 1) then
-			{
-			_civ = _grupo createUnit ["Fin_random_F",_pos,[],0,"NONE"];
-			_civs pushBack _civ;
-			[_civ] spawn
-				{
-				_perro = _this select 0;
-				while {alive _perro} do
-					{
-					if (random 10 < 4) then
-						{
-						playSound3D [missionPath + (ladridos call BIS_fnc_selectRandom),_perro, false, getPosASL _perro, 1, 1, 100];
-						};
-					sleep 10 + random 10;
-					};
-				};
-			};
-		*/
-		if (_cuenta < _numVeh) then
-			{
-			_p1 = _roads select _cuenta;
-			_road = (_p1 nearRoads 5) select 0;
-			if (!isNil "_road") then
-				{
-				_roadcon = roadsConnectedto (_road);
-				//_roadcon = roadsConnectedto (_roads select _cuenta);
-				//_p1 = getPos (_roads select _cuenta);
-				_p2 = getPos (_roadcon select 0);
-				_dirveh = [_p1,_p2] call BIS_fnc_DirTo;
-				_pos = [_p1, 3, _dirveh + 90] call BIS_Fnc_relPos;
-				_tipoveh = arrayCivVeh call BIS_Fnc_selectRandom;
-				if (count (_pos findEmptyPosition [0,5,_tipoveh]) > 0) then {
-					_veh = _tipoveh createVehicle _pos;
-					_veh setDir _dirveh;
-					_vehiculos = _vehiculos + [_veh];
-					[_veh] spawn civVEHinit;
-				};
-				};
-			};
-		sleep 0.5;
-		}
-	else
-		{
-		if (debug) then {stavros globalChat "Nos hemos quedado sin FPS, dejo de spawnear civiles"};
-		};
-	_cuenta = _cuenta + 1;
+for "_i" from 0 to _numCiv - 1 do {
+	if (diag_fps < minimoFPS) exitWith {};
+
+	_pos = [];
+	while {true} do {
+		_pos = [_posicion, round (random _area), random 360] call BIS_Fnc_relPos;
+		if (!surfaceIsWater _pos) exitWith {};
 	};
+	_tipociv = arrayCivs call BIS_Fnc_selectRandom;
+	_civ = _grupo createUnit [_tipociv, _pos, [],0, "NONE"];
+	[_civ] spawn CIVinit;
+	_civs pushBack _civ;
+};
+
+_counter = 0;  // how many vehicles were already spawned.
+while {_counter < _numVeh} do {
+	if (diag_fps < minimoFPS) exitWith {};
+
+	_p1 = selectRandom _roads;
+	_road = (_p1 nearRoads 5) select 0;
+	if (!isNil "_road") then {
+		_p2 = getPos ((roadsConnectedto _road) select 0);
+		_dirveh = [_p1,_p2] call BIS_fnc_DirTo;
+		_pos = [_p1, 3, _dirveh + 90] call BIS_Fnc_relPos;
+		_tipoveh = arrayCivVeh call BIS_Fnc_selectRandom;
+		if (count (_pos findEmptyPosition [0,5,_tipoveh]) > 0) then {
+			_veh = _tipoveh createVehicle _pos;
+			_veh setDir _dirveh;
+			_vehiculos pushBack _veh;
+			[_veh] spawn civVEHinit;
+			_counter = _counter + 1;
+		};
+	};
+};
 
 private _journalist = [_marcador, _grupos] call AS_fnc_createJournalist;
 
