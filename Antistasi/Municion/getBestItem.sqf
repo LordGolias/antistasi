@@ -37,7 +37,6 @@ if (_type in ["rifleScope", "sniperScope"]) then {
 	_allItemsAttrs = AS_allOpticsAttrs;
 	_unlockedItems = unlockedOptics;
 
-    private _is_sniper = (_type == "sniperScope");
     _sortingFunction = {
         private _index = _input0 find _x;
         private _zoomMin = (_input1 select _index) select 0;
@@ -47,7 +46,7 @@ if (_type in ["rifleScope", "sniperScope"]) then {
         private _w_factor = 1.0/(1 + exp (-2*(_amount - 5)));  // 0 => 0; 5 => 0.5; 10 => 1
 
         _result = _zoomMax/_zoomMin;
-        if (_is_sniper) then {
+        if (_type == "sniperScope") then {
             _result = _zoomMax;
         };
         _w_factor*_result
