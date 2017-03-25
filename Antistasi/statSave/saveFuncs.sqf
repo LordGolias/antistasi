@@ -100,8 +100,6 @@ AS_fnc_loadArsenal = {
 
 	// load unlocked stuff
 	unlockedWeapons = ["ARSENALunlockedWeapons"] call AS_fnc_LoadStat;
-	lockedWeapons = lockedWeapons - unlockedWeapons;
-
 	unlockedMagazines = ["ARSENALunlockedMagazines"] call AS_fnc_LoadStat;
 	unlockedItems = ["ARSENALunlockedItems"] call AS_fnc_LoadStat;
 

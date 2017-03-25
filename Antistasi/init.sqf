@@ -16,7 +16,6 @@ if (!isMultiPlayer) then
     call compile preprocessFileLineNumbers "initZones.sqf";//this is the file where you can transport Antistasi to another island
     diag_log "Antistasi SP. Zones init finished";
     call compile preprocessFileLineNumbers "initPetros.sqf";
-    lockedWeapons = lockedWeapons - unlockedWeapons;
 
     HCciviles = 2;
     HCgarrisons = 2;

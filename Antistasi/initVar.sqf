@@ -61,8 +61,6 @@ hayGREF = false;
 hayACE = false;
 hayBE = false;
 
-lockedWeapons = ["Rangefinder","Laserdesignator"];
-
 _allPrimaryWeapons = "
     ( getNumber ( _x >> ""scope"" ) isEqualTo 2
     &&
@@ -205,8 +203,7 @@ AS_allUsableWeaponsAttrs = [];
 {
 	_name = configName _x;
 	_name = [_name] call BIS_fnc_baseWeapon;
-	if (not(_name in lockedWeapons)) then {
-		lockedWeapons pushBack _name;
+	if (not(_name in AS_allWeapons)) then {
 		AS_allWeapons pushBack _name;
 
 		AS_allUsableWeapons pushBack _name;
@@ -262,10 +259,10 @@ AS_allWeapons pushBackUnique "Laserdesignator_02";
 AS_allWeapons pushBackUnique "Laserdesignator_03";
 
 //rhs detection and integration
-if ("rhs_weap_akms" in lockedWeapons) then {
+if ("rhs_weap_akms" in AS_allWeapons) then {
 	hayRHS = true;
 };
-if ("rhs_weap_m4a1_d" in lockedWeapons) then {
+if ("rhs_weap_m4a1_d" in AS_allWeapons) then {
 	hayUSAF = true;
 };
 
