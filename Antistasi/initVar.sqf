@@ -232,7 +232,14 @@ AS_allUsableWeaponsAttrs = [];
 			};
 
 		switch (_weaponType) do {
-			case "AssaultRifle": {(AS_weapons select 0) pushBack _name};
+            case "AssaultRifle": {
+                // a sub-optimal fix to not put snipers in this bucket.
+                if (_name select [0, 6] != "srifle") then {
+                    (AS_weapons select 0) pushBack _name;
+                } else {
+                    (AS_weapons select 15) pushBack _name;
+                };
+            };
 			case "BombLauncher": {(AS_weapons select 1) pushBack _name};
 			case "Cannon": {(AS_weapons select 2) pushBack _name};
 			case "GrenadeLauncher": {(AS_weapons select 3) pushBack _name};
