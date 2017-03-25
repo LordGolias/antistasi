@@ -9,16 +9,11 @@ if (_hqDestroyed) then {
 }
 else {
 	diag_log "Antistasi: New Game selected";
-	"Initial HQ Placement Selection" hintC ["Click on the Map Position you want to start the Game.","Close the map with M to start in the default position.","Don't select areas with enemies nearby!!\n\nGame experience changes a lot on different starting positions."];
+	hint "Select the position you want to put your HQ.
+          \nClose the map to start in the default position.
+          \nChoose wisely: game changes a lot with the initial position!
+          \nYou can move your HQ later.";
 };
-
-hintC_arr_EH = findDisplay 72 displayAddEventHandler ["unload", {
-	0 = _this spawn
-		{
-		_this select 0 displayRemoveEventHandler ["unload", hintC_arr_EH];
-		hintSilent "";
-		};
-}];
 
 _enemyLocations = mrkAAF;
 if (_hqDestroyed) then {
@@ -27,6 +22,25 @@ if (_hqDestroyed) then {
 else {
 	_enemyLocations = _enemyLocations - controles;  // first-time location can be close to controllers.
 	openMap true;
+};
+
+// +100 so the location is not spawned every time.
+// This is for placement only: moving the HQ still allows to place it anywhere.
+private _minDistanceToLocation = distanciaSPWN + 100;
+// min distance from enemy troops to do not get killed on placement.
+private _minDistanceToEnemy = 500;
+
+
+// Add markers to simplify the selection
+_tempMarkers = [];
+for "_i" from 0 to count _enemyLocations - 1 do {
+    private _loc = _enemyLocations select _i;
+    _mrk = createMarker [format ["initialHelper%1",_i], getMarkerPos _loc];
+    _mrk setMarkerShape "ELLIPSE";
+    _mrk setMarkerSize [_minDistanceToLocation, _minDistanceToLocation];
+    _mrk setMarkerColor "ColorRed";
+    _mrk setMarkerAlpha 0.1;
+    _tempMarkers pushBack _mrk;
 };
 
 // wait until a valid position (or cancelled positioning for hqmoving)
@@ -43,29 +57,26 @@ while {true} do {
 	
 	_validLocation = true;
 	
-	if (_closestEnemyLocation distance _posicionTel < 1000) then {
+	if (_closestEnemyLocation distance _posicionTel < _minDistanceToLocation) then {
 		_validLocation = false;
-		hint "Place selected is very close to enemy zones.\n\n Please select another position";
+		hint "That is too close from the enemy. Select another place.";
 	};
 	if (_validLocation and surfaceIsWater _posicionTel) then {
 		_validLocation = false;
 		hint "Selected position cannot be in water";
 	};
 
-	// check if there is any enemy in the sorroundings.
-	if (_validLocation) then {
+	// check if there is any enemy in the surroundings.
+	if (_validLocation and _hqDestroyed) then {
 		_enemigos = false;
-		if (_hqDestroyed) then {
-			{
-			if ((side _x == side_green) or (side _x == side_red)) then
-				{
-				if (_x distance _posicionTel < 1000) then {_enemigos = true};
-				};
-			} forEach allUnits;
-		};
-		if (_enemigos) then {
+		{
+            if ((side _x == side_green) or (side _x == side_red)) then {
+                if (_x distance _posicionTel < _minDistanceToEnemy) exitWith {_enemigos = true};
+            };
+		} forEach allUnits;
+        if (_enemigos) then {
 			_validLocation = false;
-			hint "There are enemies in the surroundings of that area, please select another.";
+			hint "There are enemies in the surroundings. Select another place.";
 		};
 	};
 
@@ -160,6 +171,10 @@ if (visiblemap) then {
 };
 "FIA_HQ" setMarkerPos (getMarkerPos "respawn_west");
 posHQ = getMarkerPos "respawn_west"; publicVariable "posHQ";
+
+{
+    deleteMarker _x;
+} forEach _tempMarkers;
 
 if (_hqInitialPlacement) then {
 	placementDone = true;
