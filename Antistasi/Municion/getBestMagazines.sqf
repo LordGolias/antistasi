@@ -2,11 +2,11 @@ params ["_box", "_weapon", "_maxAmount"];
 
 private _availableMags = getMagazineCargo _box;
 
-private _index = AS_allUsableWeapons find _weapon;
+private _index = AS_allWeapons find _weapon;
 if (_index == -1) exitWith {};
 
 // all magazines of this weapon.
-private _suitableMags = (AS_allUsableWeaponsAttrs select _index) select 2;
+private _suitableMags = (AS_allWeaponsAttrs select _index) select 2;
 
 // all magazines of this weapon that are unlocked.
 private _alwaysAvailable = _suitableMags arrayIntersect unlockedMagazines;

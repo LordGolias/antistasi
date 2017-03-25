@@ -35,8 +35,8 @@ private _sortingFunction = {
 	_m_factor*_w_factor*(1 + _bullet_energy)/(1 + _weight)
 };
 
-private _allItems = AS_allUsableWeapons;
-private _allItemsAttrs = AS_allUsableWeaponsAttrs;
+private _allItems = AS_allWeapons;
+private _allItemsAttrs = AS_allWeaponsAttrs;
 
 // create the list of _indexes to be sorted and respective properties to use for sorting.
 private _indexes = [];

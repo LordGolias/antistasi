@@ -52,7 +52,6 @@ mguns = [];
 hguns = [];
 mlaunchers = [];
 rlaunchers = [];
-AS_allWeapons = [];
 AS_allMagazines = [];
 
 hayRHS = false;
@@ -198,15 +197,13 @@ AS_weapons = [
 	[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
 ];
 
-AS_allUsableWeapons = [];
-AS_allUsableWeaponsAttrs = [];
+AS_allWeapons = [];
+AS_allWeaponsAttrs = [];
 {
 	_name = configName _x;
 	_name = [_name] call BIS_fnc_baseWeapon;
 	if (not(_name in AS_allWeapons)) then {
 		AS_allWeapons pushBack _name;
-
-		AS_allUsableWeapons pushBack _name;
 		_weight = (getNumber (configFile >> "CfgWeapons" >> _name >> "WeaponSlotsInfo" >> "mass"));
 		_magazines = (getArray (configFile >> "CfgWeapons" >> _name >> "magazines"));
 		_bull_weight = (getNumber (configFile >> "CfgMagazines" >> (_magazines select 0) >> "mass"));
@@ -219,7 +216,7 @@ AS_allUsableWeaponsAttrs = [];
 			_bull_speed = 0;
 		};
 
-		AS_allUsableWeaponsAttrs pushBack [_weight, _bull_weight*_bull_speed/100*_bull_speed/100, _magazines];
+		AS_allWeaponsAttrs pushBack [_weight, _bull_weight*_bull_speed/100*_bull_speed/100, _magazines];
 
 		_weaponType = ([_name] call BIS_fnc_itemType) select 1;
 		switch (_weaponType) do {
