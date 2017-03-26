@@ -282,6 +282,8 @@ AS_allWeapons pushBackUnique "Laserdesignator";
 AS_allWeapons pushBackUnique "Laserdesignator_02";
 AS_allWeapons pushBackUnique "Laserdesignator_03";
 
+// default unlocked items.
+call compile preprocessFileLineNumbers "initUnlocked.sqf";
 
 /////////////////////// Mods detection ///////////////////////
 hayRHS = false;
