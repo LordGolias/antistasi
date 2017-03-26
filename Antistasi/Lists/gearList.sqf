@@ -991,13 +991,6 @@ srifles = srifles + _aToS;
 
 };
 
-blockedWeapons = ["rhs_weap_svd","rhs_weap_rpg18","rhs_weap_strela","rhs_weap_svd_pso1","rhs_weap_pkp_pkas","rhs_weap_pkp_1p63","rhs_weap_pkp_1p29"];
-
-AS_allMagazines = [];
-{
-	AS_allMagazines pushBackUnique configName _x;
-} forEach ("(getText ( _x >> ""simulation"" ) isEqualTo ""ProxyMagazines"")" configClasses ( configFile >> "CfgMagazines" ));
-
 _aToS = ["srifle_EBR_F","srifle_GM6_F","srifle_GM6_camo_F","srifle_LRR_F","srifle_LRR_camo_F","srifle_LRR_tna_F","srifle_GM6_ghex_F"];
 
 arifles = arifles - _aToS;

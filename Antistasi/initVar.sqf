@@ -52,7 +52,6 @@ mguns = [];
 hguns = [];
 mlaunchers = [];
 rlaunchers = [];
-AS_allMagazines = [];
 
 _allPrimaryWeapons = "
     ( getNumber ( _x >> ""scope"" ) isEqualTo 2
@@ -232,6 +231,13 @@ AS_allOtherAssessories = [];
     AS_allOtherAssessories pushBack (configName _x);
 } forEach _allAccessories;
 AS_allOtherAssessories = AS_allOtherAssessories - (AS_allAssessories + _allUniforms + AS_allVests + AS_allHelmets + AS_allBackpacks);
+
+
+AS_allMagazines = [];
+{
+	AS_allMagazines pushBackUnique configName _x;
+} forEach ("(getText ( _x >> ""simulation"" ) isEqualTo ""ProxyMagazines"")" configClasses ( configFile >> "CfgMagazines" ));
+
 
 /*
 AssaultRifle
@@ -562,8 +568,6 @@ for "_i" from 0 to (count _allVehicles - 1) do {
     	FIA_texturedVehicleConfigs pushBackUnique _vehicle;
     };
 };
-
-allItems = genItems + genOptics + genVests + genHelmets;
 
 if (worldName == "Altis") then {
 	{
