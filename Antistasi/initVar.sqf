@@ -54,12 +54,6 @@ mlaunchers = [];
 rlaunchers = [];
 AS_allMagazines = [];
 
-hayRHS = false;
-hayUSAF = false;
-hayGREF = false;
-hayACE = false;
-hayBE = false;
-
 _allPrimaryWeapons = "
     ( getNumber ( _x >> ""scope"" ) isEqualTo 2
     &&
@@ -288,16 +282,33 @@ AS_allWeapons pushBackUnique "Laserdesignator";
 AS_allWeapons pushBackUnique "Laserdesignator_02";
 AS_allWeapons pushBackUnique "Laserdesignator_03";
 
+
+/////////////////////// Mods detection ///////////////////////
+hayRHS = false;
+hayUSAF = false;
+hayGREF = false;
+hayACE = false;
+hayBE = false;
+
+hayACEhearing = false;
+hayACEMedical = false;
+if (!isNil "ace_common_settingFeedbackIcons") then {
+	hayACE = true;
+	if (isClass (configFile >> "CfgSounds" >> "ACE_EarRinging_Weak")) then {
+		hayACEhearing = true;
+	};
+	if (isClass (ConfigFile >> "CfgSounds" >> "ACE_heartbeat_fast_3") and
+        (ace_medical_level != 0)) then {
+		hayACEMedical = true;
+	};
+};
+
 //rhs detection and integration
 if ("rhs_weap_akms" in AS_allWeapons) then {
 	hayRHS = true;
 };
 if ("rhs_weap_m4a1_d" in AS_allWeapons) then {
 	hayUSAF = true;
-};
-
-if (!isNil "ace_common_settingFeedbackIcons") then {
-	hayACE = true;
 };
 
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
@@ -490,30 +501,6 @@ if (isClass (configFile >> "CfgPatches" >> "task_force_radio")) then
 	tf_same_lr_frequencies_for_side = true; publicVariable "tf_same_lr_frequencies_for_side";
     //unlockedBackpacks pushBack "tf_rt1523g_sage";//uncomment this if you are adding LR radios for players
     };
-
-//ACE detection and ACE item availability in Arsenal
-if (!isNil "ace_common_settingFeedbackIcons") then
-	{
-	unlockedItems = unlockedItems + ["ACE_EarPlugs","ACE_RangeCard","ACE_Clacker","ACE_M26_Clacker","ACE_DeadManSwitch","ACE_DefusalKit","ACE_MapTools","ACE_Flashlight_MX991","ACE_Sandbag_empty","ACE_wirecutter","ACE_RangeTable_82mm","ACE_SpareBarrel","ACE_EntrenchingTool","ACE_Cellphone","ACE_ConcertinaWireCoil","ACE_CableTie","ACE_SpottingScope","ACE_Tripod","ACE_Chemlight_HiWhite","ACE_Chemlight_HiRed"];
-	unlockedBackpacks pushBackUnique "ACE_TacticalLadder_Pack";
-	unlockedWeapons pushBackUnique "ACE_VMH3";
-	unlockedMagazines = unlockedMagazines + ["ACE_HandFlare_White","ACE_HandFlare_Red"];
-	genItems = genItems + ["ACE_Kestrel4500","ACE_ATragMX"];
-
-	hayACE = true;
-	if (isClass (configFile >> "CfgSounds" >> "ACE_EarRinging_Weak")) then
-		{
-		hayACEhearing = true;
-		};
-	if (isClass (ConfigFile >> "CfgSounds" >> "ACE_heartbeat_fast_3")) then
-		{
-		if (ace_medical_level != 0) then
-			{
-			hayACEMedical = true;
-			unlockedItems = unlockedItems + ["ACE_fieldDressing","ACE_bloodIV_500","ACE_bloodIV","ACE_epinephrine","ACE_morphine","ACE_bodyBag"];
-			};
-		};
-	};
 
 // texture mod detection
 FIA_texturedVehicles = [];

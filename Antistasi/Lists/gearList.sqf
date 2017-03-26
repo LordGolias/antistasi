@@ -991,61 +991,6 @@ srifles = srifles + _aToS;
 
 };
 
-// items that can appear in boxes.
-aceAccessories = [];
-aceItems = [];
-
-if (hayACE) then {
-
-aceAccessories = [
-"ACE_muzzle_mzls_H",
-"ACE_muzzle_mzls_B",
-"ACE_muzzle_mzls_L",
-"ACE_muzzle_mzls_smg_01",
-"ACE_muzzle_mzls_smg_02",
-"ACE_muzzle_mzls_338",
-"ACE_muzzle_mzls_93mmg",
-"ACE_acc_pointer_green",
-"ACE_optic_Hamr_2D",
-"ACE_optic_Hamr_PIP",
-"ACE_optic_Arco_2D",
-"ACE_optic_Arco_PIP",
-"ACE_optic_MRCO_2D",
-"ACE_optic_SOS_2D",
-"ACE_optic_SOS_PIP",
-"ACE_optic_LRPS_2D",
-"ACE_optic_LRPS_PIP"];
-
-aceItems = [
-"ACE_EarPlugs",
-"ACE_RangeCard",
-"ACE_Clacker",
-"ACE_M26_Clacker",
-"ACE_DeadManSwitch",
-"ACE_DefusalKit",
-"ACE_MapTools",
-"ACE_Flashlight_MX991",
-"ACE_Sandbag_empty",
-"ACE_wirecutter",
-"ACE_RangeTable_82mm",
-"ACE_SpareBarrel",
-"ACE_EntrenchingTool",
-"ACE_Cellphone",
-"ACE_ConcertinaWireCoil",
-"ACE_CableTie",
-"ACE_SpottingScope",
-"ACE_Tripod",
-"ACE_Chemlight_HiWhite",
-"ACE_Chemlight_HiRed",
-"ACE_fieldDressing",
-"ACE_bloodIV_500",
-"ACE_bloodIV",
-"ACE_epinephrine",
-"ACE_morphine",
-"ACE_bodyBag"];
-
-};
-
 blockedWeapons = ["rhs_weap_svd","rhs_weap_rpg18","rhs_weap_strela","rhs_weap_svd_pso1","rhs_weap_pkp_pkas","rhs_weap_pkp_1p63","rhs_weap_pkp_1p29"];
 
 AS_allMagazines = [];
