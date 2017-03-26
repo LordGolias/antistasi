@@ -369,8 +369,6 @@ unlockedBackpacks = [
 	"B_TacticalPack_blk"
 ];
 
-unlockedOptics = [];
-
 // Default rifle types, required to unlock specific unit types. Unfortunatly, not all mods classify their weapons the same way, so automatic detection doesn't work reliably enough.
 mguns = mguns + ["LMG_Mk200_F","LMG_Zafir_F","arifle_MX_SW_F"];
 mguns = mguns arrayIntersect mguns;

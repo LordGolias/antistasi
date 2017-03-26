@@ -102,10 +102,6 @@ AS_fnc_loadArsenal = {
 	unlockedWeapons = ["ARSENALunlockedWeapons"] call AS_fnc_LoadStat;
 	unlockedMagazines = ["ARSENALunlockedMagazines"] call AS_fnc_LoadStat;
 	unlockedItems = ["ARSENALunlockedItems"] call AS_fnc_LoadStat;
-
-	{if (_x in unlockedItems) then {unlockedOptics pushBack _x};} forEach genOptics;
-	publicVariable "unlockedOptics";
-
 	unlockedBackpacks = ["ARSENALunlockedBackpacks"] call AS_fnc_LoadStat;
 
 	publicVariable "unlockedWeapons";

@@ -10,7 +10,7 @@ _AAFcrate = "I_supplyCrate_F";
 _weaponList = genWeapons - unlockedWeapons;
 _magList = genAmmo - unlockedMagazines;
 _itemList = genItems - unlockedItems;
-_opticsList = genOptics - unlockedOptics;
+_opticsList = genOptics - unlockedItems;
 _launcherList = genLaunchers - unlockedWeapons;
 _mineList = genMines - unlockedMagazines;
 
@@ -172,13 +172,7 @@ call {
 			_crate addMagazineCargoGlobal [getArray (configFile / "CfgWeapons" / _item / "magazines") select 0, 15];
 		};
 
-		if (indNVG in unlockedItems) then {
-			_crate addItemCargoGlobal [indNVG, 10];
-		};
-
-		if (indNVG in unlockedItems) then {
-			_crate addItemCargoGlobal [indNVG, 10];
-		};
+		_crate addItemCargoGlobal [indNVG, 2];
 
 		_crate addItemCargoGlobal ["FirstAidKit", 10];
 		_crate addItemCargoGlobal ["ToolKit", 1];

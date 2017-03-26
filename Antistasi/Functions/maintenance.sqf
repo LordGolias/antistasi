@@ -25,9 +25,6 @@ fnc_MAINT_arsenal = {
 		unlockedBackpacks = unlockedBackpacks arrayIntersect unlockedBackpacks;
 		publicVariable "unlockedBackpacks";
 
-		unlockedOptics = unlockedOptics arrayIntersect unlockedOptics;
-		publicVariable "unlockedOptics";
-
 		unlockedRifles = unlockedRifles arrayIntersect unlockedRifles;
 		unlockedRifles = unlockedRifles arrayIntersect unlockedWeapons;
 		publicVariable "unlockedRifles";

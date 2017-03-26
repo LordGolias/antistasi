@@ -15,7 +15,7 @@ switch (_type) do {
 	case "GLaunchers": {_weapons = (AS_weapons select 3); _amount = 5;};
 
 	case "assessories": {
-        _accessories = AS_allBipods + AS_allOptics + AS_allMuzzles + AS_allMounts + AS_allUAVs - unlockedOptics;
+        _accessories = AS_allAssessories - unlockedItems;
         for "_i" from 1 to 4 do {
 			expCrate addItemCargoGlobal [selectRandom _accessories, 1];
 		};

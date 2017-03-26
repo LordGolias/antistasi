@@ -373,8 +373,6 @@ unlockedBackpacks = [
 	"rhs_assault_umbts"
 ];
 
-unlockedOptics = [];
-
 // Default rifle types, required to unlock specific unit types. Unfortunatly, not all mods classify their weapons the same way, so automatic detection doesn't work reliably enough.
 mguns = mguns + ["rhs_weap_pkp","rhs_weap_pkm"];
 mguns = mguns arrayIntersect mguns;

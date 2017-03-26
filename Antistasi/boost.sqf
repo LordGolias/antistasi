@@ -28,12 +28,10 @@ call {
 
 unlockedWeapons = unlockedWeapons + _weapons;
 unlockedMagazines = unlockedMagazines + _magazines;
-unlockedItems = unlockedItems + _items;
-unlockedOptics = unlockedOptics + _optics;
+unlockedItems = unlockedItems + _items + _optics;
 
 publicVariable "unlockedWeapons";
 publicVariable "unlockedMagazines";
 publicVariable "unlockedItems";
-publicVariable "unlockedOptics";
 
 [false] call fnc_MAINT_arsenal;

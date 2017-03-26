@@ -105,6 +105,44 @@ _itemFilter = "
     } } }) 
 ";
 
+_allItems = "(
+getNumber ( _x >> ""scope"" ) isEqualTo 2 && {
+getNumber ( _x >> ""type"" ) isEqualTo 4096
+})" configClasses ( configFile >> "cfgWeapons" );
+
+_allNVG = "(
+getNumber ( _x >> ""scope"" ) isEqualTo 2 && {
+getNumber ( _x >> ""type"" ) isEqualTo 4096 && {
+getText ( _x >> ""simulation"" ) isEqualTo ""NVGoggles""
+}})" configClasses ( configFile >> "cfgWeapons" );
+
+_allBinoculars = "(
+getNumber ( _x >> ""scope"" ) isEqualTo 2 && {
+getNumber ( _x >> ""type"" ) isEqualTo 4096 && {
+getText ( _x >> ""simulation"" ) isEqualTo ""Binocular""
+}})" configClasses ( configFile >> "cfgWeapons" );
+
+_allLDesignators = "(
+getNumber ( _x >> ""scope"" ) isEqualTo 2 && {
+getNumber ( _x >> ""type"" ) isEqualTo 4096 && {
+getText ( _x >> ""simulation"" ) isEqualTo ""weapon""
+}})" configClasses ( configFile >> "cfgWeapons" );
+
+AS_allItems = [];
+{
+	AS_allItems pushBack (configName _x);
+} forEach _allItems;
+
+AS_allNVG = [];
+{
+	AS_allNVG pushBack (configName _x);
+} forEach _allNVG;
+
+AS_allBinoculars = [];
+{
+	AS_allBinoculars pushBack (configName _x);
+} forEach _allBinoculars + _allLDesignators;
+
 AS_allOptics = [];
 AS_allOpticsAttrs = [];
 _allOptics = (format [_itemFilter, 201]) configClasses ( configFile >> "cfgWeapons" );
@@ -181,7 +219,7 @@ AS_allBackpacksAttrs = [];
 } forEach _allBackpacks;
 
 // All relevant assessories
-AS_allAssessories = AS_allVests + AS_allHelmets + AS_allBackpacks + AS_allBipods + AS_allOptics + AS_allMuzzles + AS_allMounts + AS_allUAVs;
+AS_allAssessories = AS_allBipods + AS_allOptics + AS_allMuzzles + AS_allMounts + AS_allUAVs + AS_allNVG + AS_allBinoculars + (AS_allItems - AS_allNVG - AS_allBinoculars);
 
 private _allUniforms = [];
 {
@@ -193,7 +231,7 @@ AS_allOtherAssessories = [];
 {
     AS_allOtherAssessories pushBack (configName _x);
 } forEach _allAccessories;
-AS_allOtherAssessories = AS_allOtherAssessories - AS_allAssessories - _allUniforms;
+AS_allOtherAssessories = AS_allOtherAssessories - (AS_allAssessories + _allUniforms + AS_allVests + AS_allHelmets + AS_allBackpacks);
 
 /*
 AssaultRifle
@@ -276,12 +314,6 @@ AS_allWeaponsAttrs = [];
 	};
 } forEach _allPrimaryWeapons + _allHandGuns + _allLaunchers;
 
-AS_allWeapons pushBackUnique "Rangefinder";
-AS_allWeapons pushBackUnique "Binocular";
-AS_allWeapons pushBackUnique "Laserdesignator";
-AS_allWeapons pushBackUnique "Laserdesignator_02";
-AS_allWeapons pushBackUnique "Laserdesignator_03";
-
 // default unlocked items.
 call compile preprocessFileLineNumbers "initUnlocked.sqf";
 
@@ -303,6 +335,9 @@ if (!isNil "ace_common_settingFeedbackIcons") then {
         (ace_medical_level != 0)) then {
 		hayACEMedical = true;
 	};
+
+    // modifies unlockedItems
+    call compile preprocessFileLineNumbers "initACE.sqf";
 };
 
 //rhs detection and integration
@@ -349,8 +384,6 @@ if (hayUSAF) then {
 else {
 	call compile preprocessFileLineNumbers "CREATE\templateNATO.sqf";
 };
-
-AS_allWeapons pushBackUnique indRF;
 
 // deprecated variables, used to maintain compatibility
 vehAAFAT = enemyMotorpool;
@@ -487,8 +520,6 @@ vehInGarage = ["C_Van_01_transport_F","C_Offroad_01_F","C_Offroad_01_F","B_G_Qua
 destroyedBuildings = []; publicVariable "destroyedBuildings";
 reportedVehs = [];
 hayTFAR = false;
-hayACEhearing = false;
-hayACEMedical = false;
 //TFAR detection and config.
 if (isClass (configFile >> "CfgPatches" >> "task_force_radio")) then
     {
@@ -546,7 +577,6 @@ if (worldName == "Altis") then {
 publicVariable "unlockedWeapons";
 publicVariable "unlockedRifles";
 publicVariable "unlockedItems";
-publicVariable "unlockedOptics";
 publicVariable "unlockedBackpacks";
 publicVariable "unlockedMagazines";
 publicVariable "miembros";
@@ -554,7 +584,6 @@ publicVariable "vehInGarage";
 publicVariable "reportedVehs";
 publicVariable "hayACE";
 publicVariable "hayTFAR";
-
 publicVariable "hayACEhearing";
 publicVariable "hayACEMedical";
 publicVariable "skillAAF";

@@ -35,7 +35,7 @@ if (_type == "backpack") then {
 if (_type in ["rifleScope", "sniperScope"]) then {
 	_allItems = AS_allOptics;
 	_allItemsAttrs = AS_allOpticsAttrs;
-	_unlockedItems = unlockedOptics;
+	_unlockedItems = unlockedItems;
 
     _sortingFunction = {
         private _index = _input0 find _x;
