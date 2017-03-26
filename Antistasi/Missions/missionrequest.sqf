@@ -74,13 +74,7 @@ if (_tipo == "LOG") then
 					_posibles pushBack _sitio;
 				}
 				else {
-					if (_sitio in puestos) then {
-						_nmbr = (count unlockedWeapons) + (count unlockedMagazines) + (count unlockedItems) + (count unlockedBackpacks);
-						if (_nmbr < 125) then {_posibles = _posibles + [_sitio];};
-					}
-					else {
-						_posibles = _posibles + [_sitio];
-					};
+                    _posibles = _posibles + [_sitio];
 				};
 			};
 			if (_sitio in bancos) then
