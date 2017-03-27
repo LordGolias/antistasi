@@ -21,6 +21,8 @@ AS_fnc_mergeCargoLists = compile preProcessFileLineNumbers "municion\mergeCargoL
 AS_fnc_populateBox = compile preProcessFileLineNumbers "municion\populateBox.sqf";
 AS_fnc_getTotalCargo = compile preProcessFileLineNumbers "municion\fnc_getTotalCargo.sqf";
 
+call compile preProcessFileLineNumbers "templates\medicUnitBackpack.sqf";
+
 minefieldAAF = compile preProcessFileLineNumbers "CREATE\minefieldAAF.sqf";
 tempMoveMrk = compile preProcessFileLineNumbers "tempMoveMrk.sqf";
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";

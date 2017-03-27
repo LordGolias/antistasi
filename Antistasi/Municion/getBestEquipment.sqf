@@ -28,6 +28,7 @@ if (_type == "B_G_Survivor_F") exitWith {};
 private _primaryWeapons = (AS_weapons select 0) + (AS_weapons select 13) + (AS_weapons select 14); // Assault Rifles + Rifles + SubmachineGun
 private _secondaryWeapons = [];
 private _useBackpack = false;
+private _backpackItems = [];
 private _scopeType = "rifleScope";  // "rifleScope" or "sniperScope" to choose betwene "low min zoom and high max zoom" or "very high max zoom".
 private _primaryMagCount = 6 + 1;  // +1 for the weapon.
 if (_type == "B_G_Soldier_GL_F") then {
@@ -54,7 +55,14 @@ if (_type == "B_G_Soldier_lite_F") then {
     _secondaryWeapons = (AS_weapons select 8); // missile launchers
     _useBackpack = true;
 };
-
+if (_type == "B_G_medic_F") then {
+    _useBackpack = true;
+    _backpackItems = [] call AS_fnc_FIAMedicBackpack;
+};
+if (_type == "B_G_engineer_F") then {
+    _useBackpack = true;
+    _backpackItems = [["ToolKit", 1]];
+};
 
 private _backpack = "";
 if (_useBackpack) then {
@@ -75,4 +83,4 @@ if (_secondaryWeapon != "") then {
 
 _scope = ([caja, _scopeType] call AS_fnc_getBestItem);
 
-[_vest, _helmet, _backpack, _primaryWeapon, _primaryMags, _secondaryWeapon, _secondaryMags, _scope]
+[_vest, _helmet, _backpack, _primaryWeapon, _primaryMags, _secondaryWeapon, _secondaryMags, _scope, _backpackItems]
