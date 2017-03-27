@@ -82,6 +82,22 @@ if (_secondaryWeapon != "") then {
     _secondaryMags = ([caja, _secondaryWeapon, 2 + 1] call AS_fnc_getBestMagazines);
 };
 
-_scope = ([caja, _scopeType] call AS_fnc_getBestItem);
+private _scope = ([caja, _scopeType] call AS_fnc_getBestItem);
 
-[_vest, _helmet, _backpack, _primaryWeapon, _primaryMags, _secondaryWeapon, _secondaryMags, _scope, _uniformItems, _backpackItems]
+private _primaryWeaponItems = [];
+private _googles = "";
+if (SunOrMoon < 1) then {
+    _googles = ([caja, "nvg"] call AS_fnc_getBestItem);
+
+    if (_googles != "") then {
+        if (indLaser in (itemCargo caja)) then {
+            _primaryWeaponItems pushBack indLaser;
+        };
+    } else {
+        if (indFL in (itemCargo caja)) then {
+            _primaryWeaponItems pushBack indFL;
+        };
+    };
+};
+
+[_vest, _helmet, _googles, _backpack, _primaryWeapon, _primaryMags, _secondaryWeapon, _secondaryMags, _scope, _uniformItems, _backpackItems, _primaryWeaponItems]

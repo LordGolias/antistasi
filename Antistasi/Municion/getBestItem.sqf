@@ -52,6 +52,16 @@ if (_type in ["rifleScope", "sniperScope"]) then {
         _w_factor*_result
     };
 };
+if (_type == "nvg") then {
+    _allItems = AS_allNVGs;
+	_allItemsAttrs = [];  // we only use this because Attrs need to have the same size as allItems. The sorting function will not use it anyway.
+    {_allItemsAttrs pushBack [];} forEach _allItems;
+	_unlockedItems = unlockedItems;
+
+    _sortingFunction = {
+        0  // in this case, it does not matter which item to pick.
+    };
+};
 
 // create the list of _indexes to be sorted and respective properties to use for sorting.
 private _indexes = [];

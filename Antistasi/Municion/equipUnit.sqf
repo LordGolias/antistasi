@@ -6,7 +6,7 @@ removeBackpackGlobal _unit;
 removeVest _unit;
 _unit unlinkItem "ItemRadio";
 
-_arsenal params ["_vest", "_helmet", "_backpack", "_primaryWeapon", "_primaryMags", "_secondaryWeapon", "_secondaryMags", "_scope", "_uniformItems", "_backpackItems"];
+_arsenal params ["_vest", "_helmet", "_googles", "_backpack", "_primaryWeapon", "_primaryMags", "_secondaryWeapon", "_secondaryMags", "_scope", "_uniformItems", "_backpackItems", "_primaryWeaponItems"];
 
 private _fnc_equipUnit = {
     params ["_weapon", "_mags"];
@@ -27,6 +27,10 @@ if (_vest != "") then {
 
 if (_helmet != "") then {
     _unit addHeadgear _helmet;
+};
+
+if (_googles != "") then {
+    _unit linkItem _googles;
 };
 
 if (_backpack != "") then {
@@ -79,6 +83,19 @@ if (_scope != "") then {
     _unit addPrimaryWeaponItem _scope;
 };
 
+{
+    if (_x == indLaser) then {
+        _unit addPrimaryWeaponItem indLaser;
+        _unit assignItem indLaser;
+        _unit enableIRLasers true;
+    };
+    if (_x == indFL) then {
+        _unit addPrimaryWeaponItem indFL;
+        _unit enableGunLights "AUTO";
+    };
+} forEach _primaryWeaponItems;
+
+
 // remove from box stuff that was used.
 private _cargo = [_unit, true] call AS_fnc_getUnitArsenal;
 ([caja] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
@@ -95,23 +112,3 @@ if (hayTFAR) then {
 };
 
 _unit selectWeapon (primaryWeapon _unit);
-
-
-if (sunOrMoon < 1) then {
-    if (indNVG in unlockedItems) then {
-        _unit linkItem indNVG;
-        if (indLaser in unlockedItems) then {
-            _unit addPrimaryWeaponItem indLaser;
-            _unit assignItem indLaser;
-            _unit enableIRLasers true;
-        };
-    }
-    else {
-        if (indFL in unlockedItems) then {
-            _unit unassignItem indLaser;
-            _unit removePrimaryWeaponItem indLaser;
-            _unit addPrimaryWeaponItem indFL;
-            _unit enableGunLights "forceOn";
-        };
-    };
-};

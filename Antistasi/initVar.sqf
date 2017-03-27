@@ -128,9 +128,9 @@ AS_allItems = [];
 	AS_allItems pushBack (configName _x);
 } forEach _allItems;
 
-AS_allNVG = [];
+AS_allNVGs = [];
 {
-	AS_allNVG pushBack (configName _x);
+	AS_allNVGs pushBack (configName _x);
 } forEach _allNVG;
 
 AS_allBinoculars = [];
@@ -214,7 +214,7 @@ AS_allBackpacksAttrs = [];
 } forEach _allBackpacks;
 
 // All relevant assessories
-AS_allAssessories = AS_allBipods + AS_allOptics + AS_allMuzzles + AS_allMounts + AS_allUAVs + AS_allNVG + AS_allBinoculars + (AS_allItems - AS_allNVG - AS_allBinoculars);
+AS_allAssessories = AS_allBipods + AS_allOptics + AS_allMuzzles + AS_allMounts + AS_allUAVs + AS_allNVGs + AS_allBinoculars + (AS_allItems - AS_allNVGs - AS_allBinoculars);
 
 private _allUniforms = [];
 {
