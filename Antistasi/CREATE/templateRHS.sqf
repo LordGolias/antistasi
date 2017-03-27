@@ -351,11 +351,6 @@ unlockedWeapons = [
 	"rhs_weap_aks74u"
 ];
 
-// Standard rifles for AI are picked from this array. Add only rifles.
-unlockedRifles = [
-	"rhs_weap_aks74u"
-];
-
 unlockedMagazines = [
 	"rhs_mag_9x18_8_57N181S",
 	"rhs_30Rnd_545x39_AK",
@@ -374,14 +369,7 @@ unlockedBackpacks = [
 ];
 
 // Default rifle types, required to unlock specific unit types. Unfortunatly, not all mods classify their weapons the same way, so automatic detection doesn't work reliably enough.
-mguns = mguns + ["rhs_weap_pkp","rhs_weap_pkm"];
-mguns = mguns arrayIntersect mguns;
-srifles = srifles + ["rhs_weap_vss","rhs_weap_svds","rhs_weap_svdp_wd","srifle_GM6_F","rhs_weap_svdp"];
-srifles = srifles arrayIntersect srifles;
 genGL = ["rhs_weap_akm_gp25","rhs_weap_akms_gp25","rhs_weap_ak103_gp25","rhs_weap_ak74m_gp25"];
-
-// Standard rifles for your troops to be equipped with
-baseRifles =+ unlockedRifles;
 
 // Default launchers
 genAALaunchers = ["rhs_weap_igla"];

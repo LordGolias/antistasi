@@ -49,8 +49,6 @@ call AS_fnc_loadArsenal;
 ["idleBases"] call fn_LoadStat;
 //===========================================================================
 
-unlockedRifles = unlockedweapons -  hguns -  mlaunchers - rlaunchers - ["Binocular","Laserdesignator","Rangefinder"] - srifles - mguns; publicVariable "unlockedRifles";
-
 _marcadores = mrkFIA + mrkAAF + campsFIA;
 
 // sets ownership of locations.

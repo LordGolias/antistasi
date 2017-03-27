@@ -961,37 +961,3 @@ rhsAccessoriesUSAF = [
 "rhsusf_acc_SR25S",
 "rhsusf_acc_wmx"
 ];
-
-_aToS = [
-"rhs_weap_vss",
-"rhs_weap_vss_grip",
-"rhs_weap_vss_npz",
-"rhs_weap_vss_grip_npz",
-"rhs_weap_svdp",
-"rhs_weap_svdp_npz",
-"rhs_weap_svdp_wd",
-"rhs_weap_svdp_wd_npz",
-"rhs_weap_svds",
-"rhs_weap_svds_npz",
-"rhs_weap_sr25",
-"rhs_weap_sr25_ec",
-"rhs_weap_sr25_wd",
-"rhs_weap_sr25_ec_wd",
-"rhs_weap_sr25_d",
-"rhs_weap_sr25_ec_d",
-"rhs_weap_M107",
-"rhs_weap_M107_d",
-"rhs_weap_M107_w",
-"rhs_weap_m24sws",
-"rhs_weap_m24sws_blk",
-"rhs_weap_m24sws_ghillie"];
-
-arifles = arifles - _aToS;
-srifles = srifles + _aToS;
-
-};
-
-_aToS = ["srifle_EBR_F","srifle_GM6_F","srifle_GM6_camo_F","srifle_LRR_F","srifle_LRR_camo_F","srifle_LRR_tna_F","srifle_GM6_ghex_F"];
-
-arifles = arifles - _aToS;
-srifles = srifles + _aToS;

@@ -38,7 +38,7 @@ if (_muerto distance _unit < _distancia) then
 
 if (_Pweapon != "") then
 	{
-	if (_Pweapon in baseRifles) then
+	if (_Pweapon in unlockedWeapons) then
 		{
 		_necesita = true;
 		if (count _objetos > 0) then
@@ -55,7 +55,8 @@ if (_Pweapon != "") then
 						{
 						_posible = _armas select _i;
 						_basePosible = [_posible] call BIS_fnc_baseWeapon;
-						if (!(_posible in baseRifles) and ((_basePosible in arifles) or (_basePosible in srifles) or (_basePosible in mguns))) then
+                        _validWeapons = (AS_weapons select 0) + (AS_weapons select 5) + (AS_weapons select 3) + (AS_weapons select 6) + (AS_weapons select 15);
+						if (_basePosible in _validWeapons) then
 							{
 							_target = _objeto;
 							_hayCaja = true;
@@ -103,7 +104,7 @@ if (_Pweapon != "") then
 		};
 	_hayCaja = false;
 	_cuenta = 4;
-	if (_Pweapon in mguns) then {_cuenta = 2};
+	if (_Pweapon in (AS_weapons select 6)) then {_cuenta = 2};
 	_magazines = getArray (configFile / "CfgWeapons" / _Pweapon / "magazines");
 	if ({_x in _magazines} count (magazines _unit) < _cuenta) then
 		{
@@ -181,10 +182,11 @@ if ((_Sweapon == "") and (loadAbs _unit < 340)) then
 			if ((count weaponCargo _objeto > 0) and (isNil "_busy")) then
 				{
 				_armas = weaponCargo _objeto;
+                _valid = (AS_weapons select 10) + (AS_weapons select 8) + (AS_weapons select 5);
 				for "_i" from 0 to (count _armas - 1) do
 					{
 					_posible = _armas select _i;
-					if ((_posible in mlaunchers) or (_posible in rlaunchers)) then
+					if (_posible in _valid) then
 						{
 						_target = _objeto;
 						_hayCaja = true;

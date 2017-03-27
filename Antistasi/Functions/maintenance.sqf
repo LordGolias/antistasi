@@ -24,15 +24,6 @@ fnc_MAINT_arsenal = {
 
 		unlockedBackpacks = unlockedBackpacks arrayIntersect unlockedBackpacks;
 		publicVariable "unlockedBackpacks";
-
-		unlockedRifles = unlockedRifles arrayIntersect unlockedRifles;
-		unlockedRifles = unlockedRifles arrayIntersect unlockedWeapons;
-		publicVariable "unlockedRifles";
-
-		[true] call fnc_weaponsCheck;
-	}
-	else {
-		[] call fnc_weaponsCheck;
 	};
 
 	0 = [] call fnc_MAINT_refillArsenal;

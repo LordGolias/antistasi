@@ -35,12 +35,12 @@ _fnc_text = {
 _fnc_adjust = {
 	params ["_aim", "_recoil"];
 
-	if (([primaryWeapon player] call BIS_fnc_baseWeapon) in mguns) exitWith {
+	if (([primaryWeapon player] call BIS_fnc_baseWeapon) in (AS_weapons select 6)) exitWith {
 		player setCustomAimCoef (_aim select 1);
 		player setUnitRecoilCoefficient (_recoil select 1);
 		if ((_aim select 1) > (_aim select 0)) then {[MSG_LOW] call _fnc_text};
 	};
-	if (([primaryWeapon player] call BIS_fnc_baseWeapon) in srifles) exitWith {
+	if (([primaryWeapon player] call BIS_fnc_baseWeapon) in (AS_weapons select 15)) exitWith {
 		player setCustomAimCoef (_aim select 2);
 		player setUnitRecoilCoefficient (_recoil select 2);
 		if ((_aim select 2) > (_aim select 0)) then {[MSG_LOW] call _fnc_text};

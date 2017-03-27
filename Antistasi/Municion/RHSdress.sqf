@@ -22,7 +22,7 @@ if ((_tipo == "B_G_Soldier_F") or (_tipo == "B_G_Soldier_GL_F") or (_tipo == "B_
 			_unit removeMagazine "30Rnd_556x45_Stanag";
 			};
 		_unit removeWeaponGlobal (primaryWeapon _unit);
-		[_unit, unlockedRifles call BIS_fnc_selectRandom, 5, 0] call BIS_fnc_addWeapon;
+		[_unit, (unlockedWeapons arrayIntersect (AS_weapons select 0)) call BIS_fnc_selectRandom, 5, 0] call BIS_fnc_addWeapon;
 		}
 	else
 		{

@@ -9,16 +9,6 @@ if (player != player getVariable ["owner",player]) exitWith {hint "You cannot bu
 
 if (player != leader group player) exitWith {hint "You cannot recruit units as you are not your group leader"};
 
-_available = true;
-call {
-	if ((_type == "B_G_Soldier_AR_F") && (server getVariable "genLMGlocked")) exitWith {_available = false;};
-	if ((_type == "B_G_Soldier_GL_F") && (server getVariable "genGLlocked")) exitWith {_available = false;};
-	if ((_type == "B_G_Soldier_M_F") && (server getVariable "genSNPRlocked")) exitWith {_available = false;};
-	if ((_type == "B_G_Soldier_LAT_F") && (server getVariable "genATlocked")) exitWith {_available = false;};
-	if ((_type == "Soldier_AA") && (server getVariable "genAAlocked")) exitWith {_available = false;};
-};
-if !(_available) exitWith {hint "Required weapon not unlocked yet."};
-
 _enemiesClose = false;
 {
 	if (((side _x == side_red) or (side _x == side_green)) and (_x distance player < 500) and (not(captive _x))) exitWith {_enemiesClose = true};

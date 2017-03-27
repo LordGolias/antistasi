@@ -1,28 +1,5 @@
 if (!isServer and hasInterface) exitWith {};
 
-// set flags for availability of specific weapon types
-fnc_weaponsCheck = {
-	params [["_reset", false]];
-
-	if (_reset) then {
-		server setVariable ["genLMGlocked",true,true];
-		server setVariable ["genGLlocked",true,true];
-		server setVariable ["genSNPRlocked",true,true];
-		server setVariable ["genATlocked",true,true];
-		server setVariable ["genAAlocked",true,true];
-	};
-
-	{
-		call {
-			if (_x in mguns) exitWith {server setVariable ["genLMGlocked",false,true];};
-			if (_x in genGL) exitWith {server setVariable ["genGLlocked",false,true];};
-			if (_x in srifles) exitWith {server setVariable ["genSNPRlocked",false,true];};
-			if (_x in genATLaunchers) exitWith {server setVariable ["genATlocked",false,true];};
-			if (_x in genAALaunchers) exitWith {server setVariable ["genAAlocked",false,true];};
-		};
-	} forEach unlockedWeapons;
-};
-
 // find road spots to spawn vehicles on, provide initial heading
 fnc_findSpawnSpots = {
 	params ["_origin", ["_dest", "base_4"], ["_spot", false]];
@@ -163,9 +140,6 @@ fnc_infoScreen = {
 			_p2 = [_p2] + _p2v;
 			_pI pushBackUnique (format _p2);
 		};
-
-		private _p3 = ["Weapon categories unlocked\nLMG: %1 -- GL: %2 -- Sniper: %3 -- AT: %4 -- AA: %5", !(server getVariable ["genLMGlocked",false]), !(server getVariable ["genGLlocked",false]), !(server getVariable ["genSNPRlocked",false]), !(server getVariable ["genATlocked",false]), !(server getVariable ["genAAlocked",false])];
-		_pI pushBackUnique (format _p3);
 	};
 
 	[petros,_type,_pI] remoteExec ["commsMP",stavros];

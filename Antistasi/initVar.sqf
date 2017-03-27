@@ -46,10 +46,6 @@ for "_i" from 0 to (count _cfgMagazines) -1 do
 		};
 	};
 
-arifles = [];
-srifles = [];
-mguns = [];
-hguns = [];
 mlaunchers = [];
 rlaunchers = [];
 
@@ -283,14 +279,6 @@ AS_allWeaponsAttrs = [];
 		AS_allWeaponsAttrs pushBack [_weight, _bull_weight*_bull_speed/100*_bull_speed/100, _magazines];
 
 		_weaponType = ([_name] call BIS_fnc_itemType) select 1;
-		switch (_weaponType) do {
-			case "AssaultRifle": {arifles pushBack _name};
-			case "MachineGun": {mguns pushBack _name};
-			case "SniperRifle": {srifles pushBack _name};
-			case "Handgun": {hguns pushBack _name};
-			case "MissileLauncher": {mlaunchers pushBack _name};
-			case "RocketLauncher": {rlaunchers pushBack _name};
-			};
 
 		switch (_weaponType) do {
             case "AssaultRifle": {
@@ -439,12 +427,6 @@ server setVariable ["jTime", 0, true];
 
 server setVariable ["lockTransfer", false, true];
 
-server setVariable ["genLMGlocked",true,true];
-server setVariable ["genGLlocked",true,true];
-server setVariable ["genSNPRlocked",true,true];
-server setVariable ["genATlocked",true,true];
-server setVariable ["genAAlocked",true,true];
-
 //Pricing values for soldiers, vehicles
 {server setVariable [_x,50,true]} forEach ["B_G_Soldier_F","B_G_Soldier_lite_F","b_g_soldier_unarmed_f"];
 {server setVariable [_x,100,true]} forEach ["B_G_Soldier_AR_F","B_G_medic_F","B_G_engineer_F","B_G_Soldier_exp_F","B_G_Soldier_GL_F","B_G_Soldier_TL_F","B_G_Soldier_A_F"];
@@ -579,7 +561,6 @@ if (worldName == "Altis") then {
 };
 
 publicVariable "unlockedWeapons";
-publicVariable "unlockedRifles";
 publicVariable "unlockedItems";
 publicVariable "unlockedBackpacks";
 publicVariable "unlockedMagazines";

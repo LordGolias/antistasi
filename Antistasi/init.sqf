@@ -78,7 +78,6 @@ if(isServer) then {
         };
     fpsCheck = [] execVM "fpsCheck.sqf";
     [caja, 10] call AS_fnc_fillCrateNATO;
-    [] call fnc_weaponsCheck;
     waitUntil {!(isNil "placementDone")};
     [] spawn AS_fnc_spawnLoop;
     resourcecheck = [] execVM "resourcecheck.sqf";
