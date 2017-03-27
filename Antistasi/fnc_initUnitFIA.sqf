@@ -1,4 +1,4 @@
-params ["_unit", ["_spawned", true], ["_place", nil]];
+params ["_unit", ["_spawned", true], ["_place", nil], ["_equipment", []]];
 
 if (_spawned) then {
 	_unit setVariable ["BLUFORSpawn",true,true];
@@ -12,7 +12,10 @@ _unit allowFleeing 0;
 
 [_unit, server getVariable "skillFIA"] call AS_fnc_setDefaultSkill;
 
-[_unit] call randomRifle;
+if (count _equipment == 0) then {
+    _equipment = [typeOf _unit] call AS_fnc_getBestEquipment;
+};
+[_unit, _equipment] call AS_fnc_equipUnit;
 
 if (player == leader _unit) then {
 	if (typeOf _unit != "b_g_survivor_F") then {

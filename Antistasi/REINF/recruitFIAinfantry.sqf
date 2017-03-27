@@ -28,12 +28,30 @@ if (_cost > _moneyAvailable) exitWith {hint format ["You do not have enough mone
 
 if ((count units group player) + (count units MIASquadUnits) > 9) exitWith {hint "Your squad is full or you have too many scattered units with no radio contact"};
 
+
 if (_type == "Soldier_AA") then {
-	_unit = group player createUnit ["B_G_Soldier_lite_F", position player, [], 0, "NONE"];
-}
-else {
-	_unit = group player createUnit [_type, position player, [], 0, "NONE"];
+    _type = "B_G_Soldier_lite_F";
 };
+
+private _equipment = [_type] call AS_fnc_getBestEquipment;
+
+_equipment params ["_vest", "_helmet", "_backpack", "_primaryWeapon", "_primaryMags", "_secondaryWeapon", "_secondaryMags", "_scope"];
+
+if (_type == "B_G_Soldier_M_F" and (_primaryWeapon == "" or ([_primaryMags] call AS_fnc_getTotalCargo) < 6 or _scope == "")) exitWith {
+    hint "No snipers, ammo or scopes to equip a sniper.";
+};
+if (_type == "B_G_Soldier_GL_F" and _primaryWeapon == "") exitWith {
+    // todo: check existence of enough grenades.
+    hint "No grenade launchers or ammo to equip a grenadier.";
+};
+if (_type in ["B_G_Soldier_LAT_F", "B_G_Soldier_lite_F"] and _secondaryWeapon == "") exitWith {
+    // todo: check existence of enough rockets
+    hint "No launchers.";
+};
+
+////////////////////// Checks completed //////////////////////
+
+_unit = group player createUnit [_type, position player, [], 0, "NONE"];
 
 if (!isMultiPlayer) then {
 	[-1, - _cost] remoteExec ["resourcesFIA",2];
@@ -44,7 +62,7 @@ else {
 	hint "Soldier Recruited.\n\nRemember: if you use the group menu to switch groups you will lose control of your recruited AI";
 };
 
-[_unit] spawn AS_fnc_initUnitFIA;
+[_unit, true, nil, _equipment] spawn AS_fnc_initUnitFIA;
 
 _unit disableAI "AUTOCOMBAT";
 sleep 1;

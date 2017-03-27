@@ -9,6 +9,8 @@ call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 
 AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "CREATE\setDefaultSkill.sqf";
 AS_fnc_getWeaponItemsCargo = compile preProcessFileLineNumbers "municion\getWeaponItemsCargo.sqf";
+AS_fnc_getBestEquipment = compile preProcessFileLineNumbers "municion\getBestEquipment.sqf";
+AS_fnc_equipUnit = compile preProcessFileLineNumbers "municion\equipUnit.sqf";
 AS_fnc_getUnitArsenal = compile preProcessFileLineNumbers "municion\getUnitArsenal.sqf";
 AS_fnc_getBoxArsenal = compile preProcessFileLineNumbers "municion\getBoxArsenal.sqf";
 AS_fnc_getBestItem = compile preProcessFileLineNumbers "municion\getBestItem.sqf";
@@ -17,6 +19,7 @@ AS_fnc_getBestMagazines = compile preProcessFileLineNumbers "municion\getBestMag
 AS_fnc_listToCargoList = compile preProcessFileLineNumbers "municion\listToCargoList.sqf";
 AS_fnc_mergeCargoLists = compile preProcessFileLineNumbers "municion\mergeCargoLists.sqf";
 AS_fnc_populateBox = compile preProcessFileLineNumbers "municion\populateBox.sqf";
+AS_fnc_getTotalCargo = compile preProcessFileLineNumbers "municion\fnc_getTotalCargo.sqf";
 
 minefieldAAF = compile preProcessFileLineNumbers "CREATE\minefieldAAF.sqf";
 tempMoveMrk = compile preProcessFileLineNumbers "tempMoveMrk.sqf";
@@ -49,7 +52,6 @@ mortyAI = compile preProcessFileLineNumbers "AI\mortyAI.sqf";
 surrenderAction = compile preProcessFileLineNumbers "AI\surrenderAction.sqf";
 guardDog = compile preProcessFileLineNumbers "AI\guardDog.sqf";
 VEHdespawner = compile preProcessFileLineNumbers "CREATE\VEHdespawner.sqf";
-randomRifle = compile preProcessFileLineNumbers "Municion\randomRifle.sqf";
 findSafeRoadToUnload = compile preProcessFileLineNumbers "AI\findSafeRoadToUnload.sqf";
 garageVehicle = compile preProcessFileLineNumbers "garageVehicle.sqf";
 garage = compile preProcessFileLineNumbers "garage.sqf";
