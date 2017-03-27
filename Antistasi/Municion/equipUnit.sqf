@@ -6,7 +6,7 @@ removeBackpackGlobal _unit;
 removeVest _unit;
 _unit unlinkItem "ItemRadio";
 
-_arsenal params ["_vest", "_helmet", "_backpack", "_primaryWeapon", "_primaryMags", "_secondaryWeapon", "_secondaryMags", "_scope", "_backpackItems"];
+_arsenal params ["_vest", "_helmet", "_backpack", "_primaryWeapon", "_primaryMags", "_secondaryWeapon", "_secondaryMags", "_scope", "_uniformItems", "_backpackItems"];
 
 private _fnc_equipUnit = {
     params ["_weapon", "_mags"];
@@ -50,6 +50,26 @@ if (_backpack != "") then {
         };
         _i = _i + 1;
     };
+};
+
+// add items to uniform
+private _isFull = false;
+private _i = 0;
+while {!_isFull and _i < count _uniformItems} do {
+    private _name = (_uniformItems select _i) select 0;
+    private _amount = (_uniformItems select _i) select 1;
+
+    private _j = 0;
+    while {!_isFull and _j < _amount} do {
+        _fits = _unit canAddItemToUniform _name;
+        if (_fits) then {
+            _unit addItemToUniform _name;
+        } else {
+            _isFull = true;
+        };
+        _j = _j + 1;
+    };
+    _i = _i + 1;
 };
 
 [_primaryWeapon, _primaryMags] call _fnc_equipUnit;

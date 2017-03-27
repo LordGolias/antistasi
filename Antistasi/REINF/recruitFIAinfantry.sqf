@@ -35,7 +35,7 @@ if (_type == "Soldier_AA") then {
 
 private _equipment = [_type] call AS_fnc_getBestEquipment;
 
-_equipment params ["_vest", "_helmet", "_backpack", "_primaryWeapon", "_primaryMags", "_secondaryWeapon", "_secondaryMags", "_scope", "_backpackItems"];
+_equipment params ["_vest", "_helmet", "_backpack", "_primaryWeapon", "_primaryMags", "_secondaryWeapon", "_secondaryMags", "_scope", "_uniformItems", "_backpackItems"];
 
 if (_type == "B_G_Soldier_M_F" and (_primaryWeapon == "" or ([_primaryMags] call AS_fnc_getTotalCargo) < 6 or _scope == "")) exitWith {
     hint "No snipers, ammo or scopes to equip a sniper.";

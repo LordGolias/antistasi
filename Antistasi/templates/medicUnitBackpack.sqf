@@ -8,3 +8,13 @@ AS_fnc_FIAMedicBackpack = {
         [["FirstAidKit", 10], ["Medikit", 1]]
     };
 };
+
+AS_fnc_FIAUniformMedic = {
+    call {
+        if (hayACE and ace_medical_level == 1) exitWith {
+            [["ACE_fieldDressing", 8], ["ACE_morphine", 4], ["ACE_epinephrine", 4], ["ACE_bloodIV_250", 2]]
+        };
+        // todo: add ACE lvl 2
+        [["FirstAidKit", 3]]
+    };
+};
