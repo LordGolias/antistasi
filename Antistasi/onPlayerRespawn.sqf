@@ -44,8 +44,6 @@ if (_viejo == stavros) then {
 	[_nuevo] call stavrosInit;
 };
 
-
-
 removeAllItemsWithMagazines _nuevo;
 {_nuevo removeWeaponGlobal _x} forEach weapons _nuevo;
 removeBackpackGlobal _nuevo;
@@ -54,12 +52,6 @@ if ((not("ItemGPS" in unlockedItems)) and ("ItemGPS" in (assignedItems _nuevo)))
 if ((!hayTFAR) and ("ItemRadio" in (assignedItems player)) and (not("ItemRadio" in unlockedItems))) then {player unlinkItem "ItemRadio"};
 if (!isPlayer (leader group player)) then {(group player) selectLeader player};
 
-
 [] call AS_fnc_initPlayer;
 
 [0,true] remoteExec ["pBarMP",player];
-[true] execVM "reinitY.sqf";
-statistics= [] execVM "statistics.sqf";
-
-[player] execVM "OrgPlayers\unitTraits.sqf";
-0 = [player] spawn rankCheck;

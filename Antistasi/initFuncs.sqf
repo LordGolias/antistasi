@@ -180,7 +180,6 @@ mrkLOOSE = compile preProcessFileLineNumbers "mrkLOOSE.sqf";
 mrkUpdate = compile preProcessFileLineNumbers "mrkUpdate.sqf";
 moveHQ = compile preProcessFileLineNumbers "moveHQ.sqf";
 buildHQ = compile preProcessFileLineNumbers "buildHQ.sqf";
-statistics = compile preProcessFileLineNumbers "statistics.sqf";
 /*
 Generics
 */
@@ -237,7 +236,6 @@ suspendTransfer = compile preProcessFileLineNumbers "Municion\suspendTransfer.sq
 attackWaves = compile preprocessFileLineNumbers "Scripts\attackWaves.sqf";
 teleport = compile preprocessFileLineNumbers "teleport.sqf";
 
-cleanGear = compile preProcessFileLineNumbers "OrgPlayers\cleanGear.sqf";
 rankCheck = compile preprocessFileLineNumbers "Scripts\rankCheck.sqf";
 petrosAnimation = compile preprocessFileLineNumbers "Scripts\petrosAnimation.sqf";
 skillAdjustments = compile preprocessFileLineNumbers "Scripts\skillAdjustments.sqf";

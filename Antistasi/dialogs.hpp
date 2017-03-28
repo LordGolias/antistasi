@@ -930,7 +930,7 @@ BTN_L4(-1, "FPS Limiter", "", "closeDialog 0; nul = createDialog ""fps_limiter""
 
 BTN_R1(-1, "Garbage Clean", "", STR_GO_GAR);
 BTN_R2(-1, "Persistent Save", "", STR_GO_PSS);
-BTN_R3(-1, "Reinit UI \ Radio", "", "closeDialog 0; [] execVM ""reinitY.sqf"";statistics= [] execVM ""statistics.sqf"";");
+BTN_R3(-1, "Reinit UI \ Radio", "", "closeDialog 0; [] execVM ""reinitY.sqf"";");
 BTN_R4(-1, "Spawn Dist. Config", "", "closeDialog 0; nul = createDialog ""spawn_config"";");
 
 BTN_M(BTN_Y_5, -1, "Hard Gear Reset", "General maintenance. Use this only to remove weapons/ammo from mods that you no longer use. Maintenance accessible through the regular commander's menu should suffice for anything else.", STR_GO_RSA);
@@ -953,7 +953,7 @@ BTN_BACK(A_CLOSE);
 
 BTN_L1(-1, "Music ON/OFF", "", "closedialog 0; if (musicON) then {musicON = false; hint ""Music turned OFF"";} else {musicON = true; nul = execVM ""musica.sqf""; hint ""Music turned ON""};");
 
-BTN_R1(-1, "Reinit UI \ Radio", "", "closeDialog 0; [] execVM ""reinitY.sqf"";statistics= [] execVM ""statistics.sqf"";");
+BTN_R1(-1, "Reinit UI \ Radio", "", "closeDialog 0; [] execVM ""reinitY.sqf"";");
 
 BTN_M(BTN_Y_2, -1, "Persistent Save", "", STR_GO_PSS);
 	};

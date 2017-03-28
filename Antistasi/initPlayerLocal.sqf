@@ -2,8 +2,13 @@ waitUntil {!isNull player};
 waitUntil {player == player};
 
 #include "Scripts\SHK_Fastrope.sqf"
-player removeweaponGlobal "itemmap";
-player removeweaponGlobal "itemgps";
+
+// removes everything but map, GPS, etc.
+removeAllItemsWithMagazines player;
+{player removeWeaponGlobal _x} forEach weapons player;
+removeBackpackGlobal player;
+removeVest player;
+
 if (isMultiplayer) then {
 	[] execVM "briefing.sqf";
 	if (!isServer) then {
@@ -58,7 +63,6 @@ else {
 	player setUnitRank "COLONEL";
 	player hcSetGroup [_group];
 	waitUntil {(scriptdone _introshot) and (!isNil "serverInitDone")};
-	addMissionEventHandler ["Loaded", {[] execVM "statistics.sqf";[] execVM "reinitY.sqf";}]
 };
 
 disableUserInput false;
@@ -77,17 +81,13 @@ MIASquadUnits = creategroup WEST;  // units that are not in the squad because th
 
 (group player) enableAttack false;
 if (!hayACE) then {
-	[player] execVM "Revive\initRevive.sqf";
 	tags = [] execVM "tags.sqf";
 	if ((cadetMode) and (isMultiplayer)) then {[] execVM "playerMarkers.sqf"};
 }
 else {
-	if (hayACEhearing) then {player addItem "ACE_EarPlugs"};
-	if (!hayACEMedical) then {[player] execVM "Revive\initRevive.sqf"} else {player setVariable ["inconsciente",false,true]};
 	[] execVM "playerMarkers.sqf";
 };
 
-gameMenu = (findDisplay 46) displayAddEventHandler ["KeyDown",teclas];
 if (hayRHS) then {[player] execVM "Municion\RHSdress.sqf"};
 
 player setvariable ["compromised", 0];  // Used by undercover mechanics
@@ -153,7 +153,6 @@ if (_isJip) then {
 
 	_pos = posHQ findEmptyPosition [2, 10, typeOf (vehicle player)];
 	player setPos _pos;
-	[true] execVM "reinitY.sqf";
 
 	if (not([player] call isMember)) then {
 		if (serverCommandAvailable "#logout") then {
@@ -276,14 +275,7 @@ if (hayTFAR or hayACE or hayRHS or hayUSAF) then {
 		// };
 };
 
-statistics = [] execVM "statistics.sqf";
 removeAllActions caja;
-
 caja addaction [localize "STR_act_arsenal", {_this call accionArsenal;}, [], 6, true, false, "", "(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",5];
 caja addAction [localize "STR_act_unloadCargo", "[] call vaciar"];
 caja addAction [localize "STR_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == stavros)"];
-
-[player] execVM "OrgPlayers\unitTraits.sqf";
-[player] call cleanGear;
-0 = [player] spawn rankCheck;
-0 = [player] spawn localSupport;

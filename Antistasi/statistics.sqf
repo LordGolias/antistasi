@@ -1,6 +1,5 @@
 private ["_texto","_viejoTexto","_display","_setText"];
-showStatistics = false;
-sleep 3;
+if (!isNil "showStatistics") exitWith {};
 showStatistics = true;
 disableSerialization;
 //1 cutRsc ["H8erHUD","PLAIN",0,false];

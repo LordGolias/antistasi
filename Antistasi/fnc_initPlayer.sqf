@@ -1,6 +1,13 @@
 waitUntil {!isNull player};
 waitUntil {player == player};
 
+if (hayACEhearing) then {player addItem "ACE_EarPlugs"};
+if (!hayACEMedical) then {
+    [player] execVM "Revive\initRevive.sqf";
+} else {
+    player setVariable ["inconsciente",false,true];
+};
+
 player addEventHandler ["HandleHeal", {
 	_player = _this select 0;
 	if (captive _player) then {
@@ -89,16 +96,13 @@ if (isMultiplayer) then {
 };
 
 if (!isMultiplayer and hayACEMedical) then {
-	player setVariable ["inconsciente",false,true];
 	player setVariable ["respawning",false];
 	player addEventHandler ["HandleDamage", {
 		if (player getVariable ["ACE_isUnconscious", false]) then {
-			[player] spawn {
+			[] spawn {
                 sleep 15;
                 if !(player getVariable ["inconsciente", false]) then {
                     // put the player in the inconscious state where it can respawn with "SPACEBAR".
-                    player setVariable ["ACE_isUnconscious",false,true];
-                    player setVariable ["inconsciente",false,true];
                     player setDamage 0.9;
                     [player] spawn inconsciente;
                 };
@@ -106,3 +110,10 @@ if (!isMultiplayer and hayACEMedical) then {
 		};
 	}];
 };
+
+[] execVM "reinitY.sqf";
+[] execVM "statistics.sqf";
+
+[player] execVM "OrgPlayers\unitTraits.sqf";
+[player] spawn rankCheck;
+[player] spawn localSupport;  // show local support when close to city.
