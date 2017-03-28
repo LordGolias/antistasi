@@ -23,6 +23,8 @@ AS_fnc_getTotalCargo = compile preProcessFileLineNumbers "municion\fnc_getTotalC
 
 call compile preProcessFileLineNumbers "templates\medicUnitBackpack.sqf";
 
+AS_fnc_initPlayer = compile preProcessFileLineNumbers "fnc_initPlayer.sqf";
+
 minefieldAAF = compile preProcessFileLineNumbers "CREATE\minefieldAAF.sqf";
 tempMoveMrk = compile preProcessFileLineNumbers "tempMoveMrk.sqf";
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";
