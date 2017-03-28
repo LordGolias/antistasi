@@ -18,11 +18,10 @@ if (_owner != _viejo) exitWith {hint "Died while AI Remote Control"; selectPlaye
 _score = _viejo getVariable ["score",0];
 _punish = _viejo getVariable ["punish",0];
 _dinero = _viejo getVariable ["dinero",0];
-_dinero = round (_dinero - (_dinero * 0.1));
 _elegible = _viejo getVariable ["elegible",true];
 _rango = _viejo getVariable ["rango","PRIVATE"];
 
-_dinero = round (_dinero - (_dinero * 0.05));
+_dinero = round (_dinero - (_dinero * 0.1));
 if (_dinero < 0) then {_dinero = 0};
 
 _nuevo setVariable ["score",_score -1,true];
@@ -33,18 +32,17 @@ _nuevo setVariable ["dinero",_dinero,true];
 //_nuevo setUnitRank (rank _viejo);
 _nuevo setVariable ["compromised",0];
 _nuevo setVariable ["elegible",_elegible,true];
-_nuevo setVariable ["BLUFORSpawn",true,true];
 _viejo setVariable ["BLUFORSpawn",nil,true];
+_nuevo setVariable ["BLUFORSpawn",true,true];
 _nuevo setCaptive false;
-_nuevo setRank (_rango);
+_nuevo setRank _rango;
 _nuevo setVariable ["rango",_rango,true];
-//if (!hayACEMedical) then {[_nuevo] call initRevive};
+
 disableUserInput false;
 //_nuevo enableSimulation true;
-if (_viejo == stavros) then
-	{
+if (_viejo == stavros) then {
 	[_nuevo] call stavrosInit;
-	};
+};
 
 
 

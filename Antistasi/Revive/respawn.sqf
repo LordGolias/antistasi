@@ -2,38 +2,35 @@ params ["_unit"];
 
 if (!local _unit) exitWith {};
 if (_unit getVariable "respawning") exitWith {};
-if (not( _unit getVariable "inconsciente")) exitWith {};
+if (!( _unit getVariable "inconsciente")) exitWith {};
 if (_unit != _unit getVariable ["owner",_unit]) exitWith {};
 if (!isPlayer _unit) exitWith {};
 _unit setVariable ["respawning",true];
 
-if (!(isMultiplayer) && (hayACEMedical)) then {
-	sleep 3;
+if (!(isMultiplayer) and hayACEMedical) then {
 	[player, player] call ace_medical_fnc_treatmentAdvanced_fullHeal;
 };
 
 //_unit enableSimulation true;
 ["Respawning",0,0,3,0,0,4] spawn bis_fnc_dynamicText;
 titleText ["", "BLACK IN", 0];
-if (isMultiplayer) exitWith
-	{
-	if (!isNil "deadCam") then
-		{
-		if (!isNull deadCam) then
-			{
+
+if (isMultiplayer) exitWith {
+	if (!isNil "deadCam") then {
+		if (!isNull deadCam) then {
 			deadCam camSetPos position player;
 			deadCam camCommit 1;
 			sleep 1;
 			deadCam cameraEffect ["terminate", "BACK"];
 			camDestroy deadCam;
-			};
 		};
+	};
 	(findDisplay 46) displayRemoveEventHandler ["KeyDown", respawnMenu];
 	_unit setCaptive false;
 	_unit setVariable ["inconsciente",false,true];
 	_unit setVariable ["respawning",false];
 	_unit setDamage 1;
-	};
+};
 private ["_posicion","_tam","_roads","_road","_pos"];
 _posicion = getMarkerPos "respawn_west";
 if (_unit getVariable "inconsciente") then {_unit setVariable ["inconsciente",false,true]};
