@@ -104,8 +104,8 @@ else
 		if (_part == "head") then
 			{
 			removeHeadgear _unit;
+            _dam = 0.9;
 			};
-		_dam = 0.9;
 		};
 	};
 _dam
