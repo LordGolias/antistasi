@@ -93,7 +93,16 @@ if (!isMultiplayer and hayACEMedical) then {
 	player setVariable ["respawning",false];
 	player addEventHandler ["HandleDamage", {
 		if (player getVariable ["ACE_isUnconscious", false]) then {
-			0 = [player] spawn ACErespawn;
+			[player] spawn {
+                sleep 15;
+                if !(player getVariable ["inconsciente", false]) then {
+                    // put the player in the inconscious state where it can respawn with "SPACEBAR".
+                    player setVariable ["ACE_isUnconscious",false,true];
+                    player setVariable ["inconsciente",false,true];
+                    player setDamage 0.9;
+                    [player] spawn inconsciente;
+                };
+            };
 		};
 	}];
 };
