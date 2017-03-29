@@ -228,6 +228,10 @@ AS_allOtherAssessories = [];
 } forEach _allAccessories;
 AS_allOtherAssessories = AS_allOtherAssessories - (AS_allAssessories + _allUniforms + AS_allVests + AS_allHelmets + AS_allBackpacks);
 
+AS_allThrowGrenades = [];
+{
+    AS_allThrowGrenades append getArray(configFile >> "CfgWeapons" >> "Throw" >> _x >> "magazines");
+} forEach getArray(configFile >> "CfgWeapons" >> "Throw" >> "muzzles");
 
 AS_allMagazines = [];
 {
