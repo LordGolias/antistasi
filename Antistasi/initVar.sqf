@@ -33,22 +33,6 @@ savingClient = false;
 incomeRep = false;
 closeMarkersUpdating = 0;
 
-//All weapons, MOD ones included, will be added to this arrays, but it's useless without integration, as if those weapons don't spawn, players won't be able to collect them, and after, unlock them in the arsenal.
-allMagazines = [];
-_cfgmagazines = configFile >> "cfgmagazines";
-for "_i" from 0 to (count _cfgMagazines) -1 do
-	{
-	_magazine = _cfgMagazines select _i;
-	if (isClass _magazine) then
-		{
-		_nombre = configName (_magazine);
-		allMagazines pushBack _nombre;
-		};
-	};
-
-mlaunchers = [];
-rlaunchers = [];
-
 _allPrimaryWeapons = "
     ( getNumber ( _x >> ""scope"" ) isEqualTo 2
     &&
