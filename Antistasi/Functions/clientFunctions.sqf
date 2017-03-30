@@ -195,25 +195,6 @@ fnc_resetSkills = {
 	player setUnitRecoilCoefficient 1;
 };
 
-fnc_add1PSEH = {
-	if !(isNil "AS_1PS_EH") then {[] call fnc_remove1PSEH};
-	AS_enable3rdInVeh = true;
-	AS_enable3rdDist = 20;
-	if(!isDedicated && hasInterface) then {
-	    AS_1PS_EH = addMissionEventHandler ["Draw3D", {
-	         if (cameraView in ["INTERNAL","GUNNER"]) exitWith {};
-	         if ((AS_enable3rdDist) > (player distance (getMarkerPos "respawn_west"))) exitWith {};
-	         if (AS_enable3rdInVeh && (vehicle player != player)) exitWith {};
-	         vehicle player switchCamera "INTERNAL";
-	    }];
-	};
-};
-
-fnc_remove1PSEH = {
-	removeMissionEventHandler ['Draw3D', AS_1PS_EH];
-	AS_1PS_EH = nil;
-};
-
 fnc_loadTFARsettings = {
 	params ["_unit"];
 	private _settings = [];
