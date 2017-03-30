@@ -33,7 +33,7 @@ if (_posroad distance _pos > 400) then
                         _mrk setMarkerBrush "SOLID";
                         _mrk setMarkerColor "ColorGUER";
                         _mrk setMarkerText _nombre;
-                        if (not debug) then {_mrk setMarkerAlpha 0};
+                        _mrk setMarkerAlpha 0;
                         controles pushBackUnique _nombre;
                         marcadores pushBackUnique _nombre;
                         spawner setVariable [_nombre,false,true];

@@ -116,7 +116,7 @@ _mrk setMarkerColorLocal "ColorRed";
 _mrk setMarkerBrushLocal "DiagGrid";
 _ang = markerDir _marcador;
 _mrk setMarkerDirLocal _ang;
-if (!debug) then {_mrk setMarkerAlphaLocal 0};
+_mrk setMarkerAlphaLocal 0;
 _cuenta = 0;
 while {(spawner getVariable _marcador) and (_cuenta < 4)} do
 	{

@@ -40,7 +40,7 @@ if (spawner getVariable _marcador) then
 	_mrk setMarkerTypeLocal "hd_warning";
 	_mrk setMarkerColorLocal "ColorRed";
 	_mrk setMarkerBrushLocal "DiagGrid";
-	if (!debug) then {_mrk setMarkerAlphaLocal 0};
+	_mrk setMarkerAlphaLocal 0;
 
 	_tipoGrupo = [infGarrisonSmall, side_green] call fnc_pickGroup;
 	_grupo = [_pos, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;

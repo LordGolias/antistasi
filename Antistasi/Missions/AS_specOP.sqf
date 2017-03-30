@@ -28,7 +28,7 @@ _mrkfin setMarkerSizeLocal [500,500];
 _mrkfin setMarkerTypeLocal "hd_warning";
 _mrkfin setMarkerColorLocal "ColorRed";
 _mrkfin setMarkerBrushLocal "DiagGrid";
-if (!debug) then {_mrkfin setMarkerAlphaLocal 0};
+_mrkfin setMarkerAlphaLocal 0;
 
 _tipoGrupo = [opGroup_SpecOps, side_red] call fnc_pickGroup;
 _grupo = [_posicion, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;

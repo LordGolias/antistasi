@@ -24,7 +24,6 @@ _base = "";
 _base = [_mrkdestino] call findBasesForCA;
 _aeropuerto = "";
 _aeropuerto = [_mrkdestino] call findAirportsForCA;
-if (debug) then {player globalChat format ["Van a atacar %1 desde la base %2 y el aeropuerto %3",_mrkdestino,_base,_aeropuerto]; sleep 3;};
 
 //if (_mrkdestino == "puesto_13") then {_base = ""};
 
@@ -33,7 +32,6 @@ if ((_base=="") and (_aeropuerto=="")) exitWith {};
 _CSAT = false;
 if ((random 100 < _prestigeCSAT) and (_prestigeCSAT > 19) && !(server getVariable "blockCSAT")) then
 	{
-	if (debug) then {hint format ["CSAT ataca a %1",_mrkDestino]};
 	_CSAT = true;
 	};
 

@@ -8,8 +8,6 @@ antistasiVersion = "v 1.7 -- modded";
 
 servidoresOficiales = ["Antistasi Official EU","Antistasi Official EU - TEST", "Antistasi:Altis Official"];//this is for author's fine tune the official servers. If I get you including your server in this variable, I will create a special variable for your server. Understand?
 
-debug = false;//debug variable, not useful for everything..
-
 cleantime = 900;//time to delete dead bodies, vehicles etc..
 distanciaSPWN = 1200;//initial spawn distance. Less than 1Km makes parked vehicles spawn in your nose while you approach.
 AS_spawnLoopTime = 0.5; // seconds between each check of spawn/despawn locations (expensive loop).

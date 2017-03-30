@@ -75,7 +75,6 @@ else
 				};
 			};
 		} forEach _marcadores;
-		//if (debug) then {hint format ["Marcador: %1. ScoreneededLand: %2. ScoreneededAir: %3. ScoreLand: %4. ScoreAir: %5",_objetivo, _scoreNeededLand, _scoreNeededAir,_scoreLand,_scoreAir]; sleep 5};
 		if (_scoreNeededLand > _scoreLand) then
 			{
 			_base = "";
@@ -91,7 +90,6 @@ else
 						_esFacil = true;
 						if (!(_objetivo in smallCAmrk)) then
 							{
-							//if (debug) then {hint format ["%1 Es facil para bases",_objetivo]; sleep 5};
 							_cuentaFacil = _cuentaFacil + 2;
 							[_objetivo,_base] remoteExec ["patrolCA",HCattack];
 							sleep 15;
@@ -115,7 +113,6 @@ else
 						_esFacil = true;
 						if (!(_objetivo in smallCAmrk)) then
 							{
-							//if (debug) then {hint format ["%1 Es facil para aire",_objetivo]; sleep 5};
 							_cuentaFacil = _cuentaFacil + 1;
 							[_objetivo,_aeropuerto] remoteExec ["patrolCA",HCattack];
 							sleep 15;
@@ -124,7 +121,6 @@ else
 					};
 				};
 			};
-		//stavros globalChat format ["Marcador: %1. ScoreNeededLand: %2. ScoreLand: %3. ScoreNeededAir: %4. ScoreAir: %5",_objetivo,_scoreNeededLand,_scoreLand,_scoreNeededAir,_scoreAir]; sleep 5;
 		if (((_base != "") or (_aeropuerto != "")) and (!_esFacil)) then
 			{
 			_cuenta = 1;

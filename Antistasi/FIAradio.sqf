@@ -6,8 +6,6 @@ _marcador = [marcadores,_pos] call BIS_fnc_nearestPosition;
 if ((not(_marcador in mrkAAF)) and (alive _x)) then {_chance = _chance + 2.25};
 } forEach antenas;
 
-if (debug) then {_chance = 100};
-
 if (random 100 < _chance) then
 	{
 	if (not revelar) then

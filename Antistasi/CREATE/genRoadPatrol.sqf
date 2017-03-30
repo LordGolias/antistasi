@@ -117,7 +117,6 @@ if (_tipoCoche isKindOf "Car") then
 while {alive _veh} do
 	{
 	_destino = _arraydestinos call bis_Fnc_selectRandom;
-	if (debug) then {player globalChat format ["Patrulla AAF generada. Origen: %2 Destino %1", _destino, _base]; sleep 3;};
 	_posdestino = getMarkerPos _destino;
 	_Vwp0 = _grupoVeh addWaypoint [_posdestino, 0];
 	_Vwp0 setWaypointType "MOVE";

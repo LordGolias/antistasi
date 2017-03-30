@@ -1,7 +1,6 @@
 if (isDedicated) exitWith {};
 
 _chance = 8;
-if (debug) then {_chance = 100};
 
 if (count _this == 1) then
 	{

@@ -21,11 +21,9 @@ while {true} do
 		fpsCuenta = fpsCuenta + 1;
 		};
 
-	//if (debug) then {stavros globalChat format ["FPS Av:%1.FPS Lim:%2",fpsTotal / fpsCuenta, minimoFPS]};
 	if (diag_fps < minimoFPS) then
 		{
 		{if ((alive _x) and (side _x == civilian) and (diag_fps < minimoFPS) and (typeOf _x in arrayCivs) && !(typeOf _x in CIV_specialUnits)) then {deleteVehicle _x; sleep 1}} forEach allUnits;
-		//if (debug) then {stavros sideChat "Eliminados algunos civiles para incrementar FPS"};
 		_cuentaFail = _cuentaFail + 1;
 		if (_cuentaFail > 11) then
 			{

@@ -59,13 +59,11 @@ if ((_side == side_blue) or (_side == civilian)) then
 			};
 		};
 	};
-if ((_text == "AAF Convoy Objective") or (_text == "Mission Vehicle") or (debug)) then {_convoy = true;};
+if ((_text == "AAF Convoy Objective") or (_text == "Mission Vehicle")) then {_convoy = true;};
 
 if (!_convoy) exitWith {};
 
-if (debug) then {revelar = true};
-
-waitUntil {sleep 1;(not alive _veh) or ({(_x knowsAbout _veh > 1.4) and (side _x == side_blue)} count allUnits >0) or (!_enemigo) or (revelar)};
+waitUntil {sleep 1;(not alive _veh) or ({(_x knowsAbout _veh > 1.4) and (side _x == side_blue)} count allUnits >0) or (!_enemigo)};
 
 if (!alive _veh) exitWith {};
 
