@@ -1,20 +1,17 @@
-//Arma 3 - Antistasi by Barbolani
-//Do whatever you want with this code, but credit me for the thousand hours spent making this.
 enableSaving [ false, false ];
 if (isServer and (isNil "serverInitDone")) then {skipTime random 24};
 
-if (!isMultiPlayer) then
-    {
-    [] execVM "briefing.sqf";
+// it is a SP game, initialize the server.
+if (!isMultiPlayer) then {
     {if ((side _x == west) and (_x != comandante) and (_x != Petros) and (_x != server) and (_x!=garrison) and (_x != carreteras)) then {_grupete = group _x; deleteVehicle _x; deleteGroup _grupete}} forEach allUnits;
-    [] execVM "musica.sqf";
     diag_log "Starting Antistasi SP";
-    call compile preprocessFileLineNumbers "initVar.sqf";//this is the file where you can modify a few things.
-    diag_log format ["Antistasi SP. InitVar done. Version: %1",antistasiVersion];
     call compile preprocessFileLineNumbers "initFuncs.sqf";
-    diag_log "Antistasi SP. Funcs init finished";
-    call compile preprocessFileLineNumbers "initZones.sqf";//this is the file where you can transport Antistasi to another island
-    diag_log "Antistasi SP. Zones init finished";
+    diag_log "Antistasi SP Server.initFuncs finished";
+    call compile preprocessFileLineNumbers "initVar.sqf";
+    diag_log "Antistasi SP Server. initVar finished";
+    call compile preprocessFileLineNumbers "initZones.sqf";
+    diag_log "Antistasi SP Server. initZones finished";
+
     call compile preprocessFileLineNumbers "initPetros.sqf";
 
     HCciviles = 2;
@@ -24,7 +21,7 @@ if (!isMultiPlayer) then
     serverInitDone = true;
     diag_log "Antistasi SP. serverInitDone is true. Arsenal loaded";
     [] execVM "modBlacklist.sqf";
-    };
+};
 
 waitUntil {(!isNil "saveFuncsLoaded") and (!isNil "serverInitDone")};
 
@@ -76,6 +73,7 @@ if(isServer) then {
         waitUntil {!isNil "stavros"};
         waitUntil {isPlayer stavros};
         };
+    publicVariable "miembros";
     fpsCheck = [] execVM "fpsCheck.sqf";
     [caja, 10] call AS_fnc_fillCrateNATO;
     waitUntil {!(isNil "placementDone")};

@@ -389,8 +389,17 @@ soldadosAAF = infList_sniper + infList_NCO + infList_special + infList_auto + in
 #include "Compositions\spawnPositions.sqf"
 #include "Functions\clientFunctions.sqf"
 #include "Functions\gearFunctions.sqf"
+call compile preprocessFileLineNumbers "Lists\gearList.sqf";
+call compile preprocessFileLineNumbers "Lists\basicLists.sqf";
 
 if (!isServer and hasInterface) exitWith {};
+
+// Compositions used to spawn camps, etc.
+call compile preprocessFileLineNumbers "Compositions\campList.sqf";
+call compile preprocessFileLineNumbers "Compositions\cmpMTN.sqf";
+call compile preprocessFileLineNumbers "Compositions\cmpOP.sqf";
+call compile preprocessFileLineNumbers "Compositions\FIA_RB.sqf";
+
 
 AAFpatrols = 0;//0
 skillAAF = 0;
@@ -552,20 +561,12 @@ for "_i" from 0 to (count _allVehicles - 1) do {
     };
 };
 
-if (worldName == "Altis") then {
-	{
-		server setVariable [_x select 0,_x select 1]
-	} forEach [
-		["Therisa",154],["Zaros",371],["Poliakko",136],["Katalaki",95],["Alikampos",115],["Neochori",309],["Stavros",122],["Lakka",173],["AgiosDionysios",84],["Panochori",264],["Topolia",33],["Ekali",9],["Pyrgos",531],["Orino",45],["Neri",242],["Kore",133],["Kavala",660],["Aggelochori",395],["Koroni",32],["Gravia",291],["Anthrakia",143],["Syrta",151],["Negades",120],["Galati",151],["Telos",84],["Charkia",246],["Athira",342],["Dorida",168],["Ifestiona",48],["Chalkeia",214],["AgiosKonstantinos",39],["Abdera",89],["Panagia",91],["Nifi",24],["Rodopoli",212],["Kalithea",36],["Selakano",120],["Frini",69],["AgiosPetros",11],["Feres",92],["AgiaTriada",8],["Paros",396],["Kalochori",189],["Oreokastro",63],["Ioannina",48],["Delfinaki",29],["Sofia",179],["Molos",188]
-		];
-	call compile preprocessFileLineNumbers "roadsDB.sqf";
-};
+call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
 
 publicVariable "unlockedWeapons";
 publicVariable "unlockedItems";
 publicVariable "unlockedBackpacks";
 publicVariable "unlockedMagazines";
-publicVariable "miembros";
 publicVariable "vehInGarage";
 publicVariable "reportedVehs";
 publicVariable "hayACE";

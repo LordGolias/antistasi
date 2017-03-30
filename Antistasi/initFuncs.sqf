@@ -1,7 +1,7 @@
-call compile preprocessFileLineNumbers "Compositions\FIA_RB.sqf";
-call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
-call compile preprocessFileLineNumbers "Lists\basicLists.sqf";
-call compile preprocessFileLineNumbers "Lists\gearList.sqf";
+/*
+File that initializes functions. This should only initialize functions and variables, not call them.
+At this point you cannot use variables from initVar.
+*/
 
 call compile preprocessFileLineNumbers "statSave\cityAttrs.sqf";
 call compile preProcessFileLineNumbers "statSave\saveFuncs.sqf";
@@ -242,7 +242,3 @@ skillAdjustments = compile preprocessFileLineNumbers "Scripts\skillAdjustments.s
 localSupport = compile preprocessFileLineNumbers "Scripts\localSupport.sqf";
 
 if ((isMultiplayer) and (isServer)) then {[[petros,"hint","Functions Init Completed"],"commsMP"] call BIS_fnc_MP};
-
-call compile preprocessFileLineNumbers "Compositions\campList.sqf";
-call compile preprocessFileLineNumbers "Compositions\cmpMTN.sqf";
-call compile preprocessFileLineNumbers "Compositions\cmpOP.sqf";

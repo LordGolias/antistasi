@@ -1,6 +1,7 @@
 waitUntil {!isNull player};
 waitUntil {player == player};
 
+[] execVM "briefing.sqf";
 #include "Scripts\SHK_Fastrope.sqf"
 
 // removes everything but map, GPS, etc.
@@ -9,14 +10,12 @@ removeAllItemsWithMagazines player;
 removeBackpackGlobal player;
 removeVest player;
 
-if (isMultiplayer) then {
-	[] execVM "briefing.sqf";
-	if (!isServer) then {
-		call compile preprocessFileLineNumbers "initVar.sqf";
-		if (!hasInterface) then {call compile preprocessFileLineNumbers "roadsDB.sqf"};
-		call compile preprocessFileLineNumbers "initFuncs.sqf";
-	};
+if (isMultiplayer and !isServer) then {
+    call compile preprocessFileLineNumbers "initFuncs.sqf";
+    call compile preprocessFileLineNumbers "initVar.sqf";
 };
+
+[] execVM "musica.sqf";
 
 _isJip = _this select 1;
 private ["_colorWest", "_colorEast"];
@@ -40,7 +39,9 @@ _introShot =
     ]
     ] spawn BIS_fnc_establishingShot;
 
-if (isMultiplayer) then {waitUntil {!isNil "initVar"}; diag_log format ["Antistasi MP Client. initVar is public. Version %1",antistasiVersion];};
+// wait for the server to be ready to receive players (see initServer.sqf)
+if (isMultiplayer) then {waitUntil {!isNil "serverInitVarsDone"}; diag_log format ["Antistasi MP Client. initVar is public. Version %1",antistasiVersion];};
+
 _titulo = ["A3 - Antistasi","by Barbolani",antistasiVersion] spawn BIS_fnc_infoText;
 
 if (isMultiplayer) then {
@@ -138,7 +139,6 @@ player addEventHandler ["GetOutMan", {
 
 if (isMultiplayer) then {
 	["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;//Exec on client
-	["InitializeGroup", [player,WEST,true]] call BIS_fnc_dynamicGroups;
 	personalGarage = [];
 };
 

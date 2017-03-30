@@ -1,3 +1,7 @@
+/*
+    This file is run only once, by the server. It initializes everything related with the map.
+*/
+
 //usage: place on the map markers covering the areas where you want the AAF operate, and put names depending on if they are powerplants,resources, bases etc.. The marker must cover the whole operative area, it's buildings etc.. (for example in an airport, you must cover more than just the runway, you have to cover the service buildings etc..)
 //markers cannot have more than 500 mts size on any side or you may find "insta spawn in your nose" effects.
 //do not do it on cities and hills, as the mission will do it automatically
@@ -35,6 +39,17 @@ spawner setVariable [_x,false,true];
 {_x setMarkerAlpha 0} forEach seaMarkers;
 private ["_sizeX","_sizeY","_size"];
 
+if (worldName == "Altis") then {
+	// set cities population.
+    {
+		server setVariable [_x select 0,_x select 1]
+	} forEach [
+		["Therisa",154],["Zaros",371],["Poliakko",136],["Katalaki",95],["Alikampos",115],["Neochori",309],["Stavros",122],["Lakka",173],["AgiosDionysios",84],["Panochori",264],["Topolia",33],["Ekali",9],["Pyrgos",531],["Orino",45],["Neri",242],["Kore",133],["Kavala",660],["Aggelochori",395],["Koroni",32],["Gravia",291],["Anthrakia",143],["Syrta",151],["Negades",120],["Galati",151],["Telos",84],["Charkia",246],["Athira",342],["Dorida",168],["Ifestiona",48],["Chalkeia",214],["AgiosKonstantinos",39],["Abdera",89],["Panagia",91],["Nifi",24],["Rodopoli",212],["Kalithea",36],["Selakano",120],["Frini",69],["AgiosPetros",11],["Feres",92],["AgiaTriada",8],["Paros",396],["Kalochori",189],["Oreokastro",63],["Ioannina",48],["Delfinaki",29],["Sofia",179],["Molos",188]
+		];
+	// initialize roads.
+    call compile preprocessFileLineNumbers "roadsDB.sqf";
+};
+
 {
 //_nombre = text _x;
 _nombre = [text _x, true] call fn_location;
@@ -47,7 +62,7 @@ if ((_nombre != "") and (_nombre != "sagonisi") and (_nombre != "hill12")) then/
     if (_size < 200) then {_size = 200};
     _roads = [];
     _numCiv = 0;
-    if (worldName != "Altis") then//If Altis, data is picked from a DB in initVar.sqf, if not, is built on the fly.
+    if (worldName != "Altis") then//If Altis, data is picked from a DB (see above), if not, is built on the fly.
         {
         _numCiv = (count (nearestObjects [_pos, ["house"], _size]));
         _roadsProv = _pos nearRoads _size;

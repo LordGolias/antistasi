@@ -1,24 +1,26 @@
+/*
+    Code that only runs on the server of a multiplayer game.
+*/
 if (!isMultiplayer) exitWith {};
 if (!(isNil "serverInitDone")) exitWith {};
 diag_log "Antistasi MP Server init";
-call compile preprocessFileLineNumbers "initVar.sqf";
-initVar = true; publicVariable "initVar";
-diag_log format ["Antistasi MP. InitVar done. Version: %1",antistasiVersion];
 call compile preprocessFileLineNumbers "initFuncs.sqf";
-diag_log "Antistasi MP Server. Funcs init finished";
+diag_log "Antistasi MP Server.initFuncs finished";
+call compile preprocessFileLineNumbers "initVar.sqf";
+diag_log "Antistasi MP Server. initVar finished";
 call compile preprocessFileLineNumbers "initZones.sqf";
-diag_log "Antistasi MP Server. Zones init finished";
-initZones = true; publicVariable "initZones";
+diag_log "Antistasi MP Server. initZones finished";
+
 call compile preprocessFileLineNumbers "initPetros.sqf";
 
-["Initialize"] call BIS_fnc_dynamicGroups;//Exec on Server
+["Initialize"] call BIS_fnc_dynamicGroups;
+
+// tell every client that the server is ready to receive players (see initPlayerLocal.sqf)
+serverInitVarsDone = true; publicVariable "serverInitVarsDone";
 
 waitUntil {(count playableUnits) > 0};
 waitUntil {({(isPlayer _x) and (!isNull _x) and (_x == _x)} count allUnits) == (count playableUnits)};//ya estamos todos
 [] execVM "modBlacklist.sqf";
-
-diag_log "Antistasi MP Server. Arsenal config finished";
-[[petros,"hint","Server Init Completed"],"commsMP"] call BIS_fnc_MP;
 
 addMissionEventHandler ["HandleDisconnect",{[_this select 0] call onPlayerDisconnect;false}];
 
