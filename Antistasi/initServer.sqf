@@ -87,16 +87,5 @@ publicVariable "HCgarrisons";
 publicVariable "HCattack";
 publicVariable "hcArray";
 
-caja addEventHandler ["ContainerOpened",
-    {
-    _jugador = _this select 1;
-    if (not([_jugador] call isMember)) then
-        {
-        _jugador setPos position petros;
-        "You are not in the Member's List of this Server.\n\nAsk the Commander in order to be allowed to access the HQ Ammobox.\n\nIn the meantime you may use the other box to store equipment and share it with others." remoteExecCall ["hint", _jugador];
-        };
-    }
-];
-
 serverInitDone = true; publicVariable "serverInitDone";
 diag_log "Antistasi MP Server. serverInitDone set to true.";

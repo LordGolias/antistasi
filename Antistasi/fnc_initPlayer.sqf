@@ -53,14 +53,6 @@ if (isMultiplayer) then {
 			             "Ask the Commander in order to be allowed to access the HQ Ammobox.\n\n"+
 				         "In the meantime you may use the other box to store equipment and share it with others.";
 
-	caja addEventHandler ["ContainerOpened", {
-	    _jugador = _this select 1;
-	    if (not([_jugador] call isMember)) then {
-	    	_jugador setPos position petros;
-			hint _notAMemberMessage;
-	    };
-	}];
-
 	player addEventHandler ["InventoryOpened", {
 		_control = false;
 		if !([_this select 0] call isMember) then {
