@@ -137,46 +137,47 @@ statMGtowerBackpacks = 	["I_HMG_01_high_weapon_F","I_HMG_01_support_high_F"];
 ================ Gear ================
 Weapons, ammo, launchers, missiles, mines, items and optics will spawn in ammo crates, the rest will not. These lists, together with the corresponding lists in the NATO/USAF template, determine what can be unlocked. Weapons of all kinds and ammo are the exception: they can all be unlocked.
 */
-genWeapons = [
+AAFWeapons = [
 	"arifle_TRG21_F",
 	"arifle_TRG21_GL_F",
+    "LMG_Mk200_F",
 	"srifle_GM6_F",
-	"LMG_Mk200_F",
-	"launch_NLAW_F",
 	"srifle_DMR_06_olive_F",
 	"srifle_EBR_F"
 ];
 
-genAmmo = [
-	"200Rnd_65x39_cased_Box",
-	"30Rnd_556x45_Stanag",
-	"5Rnd_127x108_Mag",
-	"5Rnd_127x108_APDS_Mag",
-	"NLAW_F",
-	"1Rnd_HE_Grenade_shell",
-	"UGL_FlareWhite_F",
-	"UGL_FlareGreen_F",
-	"1Rnd_Smoke_Grenade_shell",
-	"3Rnd_HE_Grenade_shell",
+private _getWeaponMags = {
+    params ["_weapon"];
+    private _index = AS_allWeapons find _weapon;
+    if (_index == -1) exitWith {[]};
+
+    // all magazines of this weapon.
+    (AS_allWeaponsAttrs select _index) select 2
+};
+
+AAFMagazines = [];
+{
+    AAFMagazines append ([_x] call _getWeaponMags);
+} forEach AAFWeapons;
+
+AAFGrenades = [
 	"HandGrenade",
-	"20Rnd_762x51_Mag",
-	"9Rnd_45ACP_Mag",
-	"30Rnd_9x21_Mag",
+    "MiniGrenade",
 	"SmokeShell",
-	"Laserbatteries"
+    "SmokeShellGreen"
 ];
 
-genLaunchers = [
+AAFLaunchers = [
 	"launch_I_Titan_F",
-	"launch_I_Titan_short_F"
+	"launch_I_Titan_short_F",
+    "launch_NLAW_F"
 ];
 
-genMissiles = [
-	"Titan_AT",
-	"Titan_AP",
-	"Titan_AA"
-];
-genMines = [
+// Default launchers
+genAALaunchers = ["launch_I_Titan_F"];
+genATLaunchers = ["launch_I_Titan_short_F","launch_NLAW_F"];
+
+AAFMines = [
 	"SLAMDirectionalMine_Wire_Mag",
 	"SatchelCharge_Remote_Mag",
 	"ClaymoreDirectionalMine_Remote_Mag",
@@ -186,10 +187,8 @@ genMines = [
 	"APERSBoundingMine_Range_Mag"
 ];
 
-genItems = [
+AAFItems = [
 	"Binocular",
-	"FirstAidKit",
-	"Medikit",
 	"MineDetector",
 	"NVGoggles",
 	"ToolKit",
@@ -210,24 +209,7 @@ genItems = [
 	"acc_pointer_IR"
 ];
 
-genOptics = [
-	"optic_DMS",
-	"optic_LRPS",
-	"optic_tws",
-	"optic_tws_mg",
-	"optic_NVS",
-	"optic_Nightstalker",
-	"optic_MRCO",
-	"optic_SOS",
-	"optic_Hamr",
-	"optic_Arco",
-	"optic_KHS_old",
-	"optic_Holosight",
-	"optic_ACO_grn",
-	"optic_Aco_smg",
-	"optic_ACO_grn_smg",
-	"optic_Holosight_smg"
-];
+AAFOptics = AS_allOptics;
 
 genBackpacks = [
 	"B_AssaultPack_khk",
@@ -366,12 +348,6 @@ unlockedBackpacks = [
 
 // Default rifle types, required to unlock specific unit types. Unfortunatly, not all mods classify their weapons the same way, so automatic detection doesn't work reliably enough.
 genGL = ["arifle_Katiba_GL_F","arifle_MX_GL_F","arifle_Mk20_GL_F","arifle_TRG21_GL_F"];
-
-// Default launchers
-genAALaunchers = ["launch_I_Titan_F"];
-genATLaunchers = ["launch_I_Titan_short_F","launch_NLAW_F"];
-
-AAmissile = 	"Titan_AA";
 
 // NVG, flashlight, laser, mine types
 indNVG = 		"NVGoggles_INDEP";

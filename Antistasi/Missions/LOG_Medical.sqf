@@ -250,14 +250,14 @@ else {
 				if (random 10 < 5) then {
 					if (random 10 < 5) then {
 						for [{_i=1},{_i<=(1 + round random 2)},{_i=_i+1}] do {
-							_cosa = genMines call BIS_Fnc_selectRandom;
+							_cosa = AAFMines call BIS_Fnc_selectRandom;
 							_num = 1 + (floor random 5);
 							if (not(_cosa in unlockedMagazines)) then {cajaVeh addMagazineCargoGlobal [_cosa, _num]};
 						};
 					}
 					else {
 						for [{_i=1},{_i<=(1 + round random 2)},{_i=_i+1}] do {
-							_cosa = (genOptics - unlockedItems) call BIS_Fnc_selectRandom;
+							_cosa = (AAFOptics - unlockedItems) call BIS_Fnc_selectRandom;
 							_num = 1 + (floor random 5);
 							cajaVeh addItemCargoGlobal [_cosa, _num];
 						};

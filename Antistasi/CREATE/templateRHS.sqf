@@ -137,7 +137,7 @@ statMGtowerBackpacks = 	["RHS_Kord_Gun_Bag","RHS_Kord_Tripod_Bag"];
 ================ Gear ================
 Weapons, ammo, launchers, missiles, mines, items and optics will spawn in ammo crates, the rest will not. These lists, together with the corresponding lists in the NATO/USAF template, determine what can be unlocked. Weapons of all kinds and ammo are the exception: they can all be unlocked.
 */
-genWeapons = [
+AAFWeapons = [
 	"rhs_weap_ak74m",
 	"rhs_weap_ak74m_gp25",
 	"rhs_weap_asval_grip",
@@ -150,46 +150,33 @@ genWeapons = [
 	"rhs_weap_ak74mr"
 ];
 
-genAmmo = [
-	"rhs_30Rnd_545x39_AK",
-	"rhs_45Rnd_545x39_AK",
-	"rhs_VOG25",
-	"rhs_30Rnd_762x39mm",
-	"rhs_10Rnd_762x54mmR_7N1",
-	"rhs_100Rnd_762x54mmR_green",
-	"rhs_20rnd_9x39mm_SP5",
-	"rhs_mag_rdg2_white",
-	"rhs_mag_fakels",
-	"rhs_GDM40",
-	"rhs_10rnd_9x39mm_SP5",
-	"rhs_20rnd_9x39mm_SP5",
-	"rhs_20rnd_9x39mm_SP6"
-];
+private _getWeaponMags = {
+    params ["_weapon"];
+    private _index = AS_allWeapons find _weapon;
+    if (_index == -1) exitWith {[]};
 
-genLaunchers = [
+    // all magazines of this weapon.
+    (AS_allWeaponsAttrs select _index) select 2
+};
+
+AAFMagazines = [];
+{
+    AAFMagazines append ([_x] call _getWeaponMags);
+} forEach AAFWeapons;
+
+AAFLaunchers = [
 	"rhs_weap_rpg26",
 	"rhs_weap_rshg2",
 	"rhs_weap_rpg7",
 	"rhs_weap_igla"
 ];
 
-genMissiles = [
-	"rhs_rpg7_PG7VL_mag",
-	"rhs_rpg7_OG7V_mag",
-	"rhs_rpg7_TBG7V_mag",
-	"rhs_rpg7_PG7V_mag",
-	"rhs_rpg26_mag",
-	"rhs_rshg2_mag",
-	"rhs_mag_9k38_rocket"
-];
-
-genMines = [
+AAFMines = [
 	"rhs_mine_tm62m_mag",
 	"rhs_mine_pmn2_mag"
 ];
 
-genItems = [
-	"FirstAidKit",
+AAFItems = [
 	"MineDetector",
 	"rhs_acc_pgs64",
 	"rhs_acc_dtk",
@@ -205,7 +192,7 @@ genItems = [
 	"rhs_pdu4"
 ];
 
-genOptics = [
+AAFOptics = [
 	"rhs_acc_ekp1",
 	"rhs_acc_pso1m2",
 	"rhs_acc_1p29",
@@ -374,8 +361,6 @@ genGL = ["rhs_weap_akm_gp25","rhs_weap_akms_gp25","rhs_weap_ak103_gp25","rhs_wea
 // Default launchers
 genAALaunchers = ["rhs_weap_igla"];
 genATLaunchers = ["rhs_weap_rpg26","rhs_weap_rpg7"];
-
-AAmissile = 	"rhs_mag_9k38_rocket";
 
 // NVG, flashlight, laser, mine types
 indNVG = 		"rhs_1PN138";

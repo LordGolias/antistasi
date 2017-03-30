@@ -406,7 +406,7 @@ if (hmd _unit == "") then
 		};
 	};
 _hayCaja = false;
-if (not(headgear _unit in genHelmets)) then
+if (not(headgear _unit)) then
 	{
 	_necesita = true;
 	_hayCaja = false;
@@ -414,7 +414,7 @@ if (not(headgear _unit in genHelmets)) then
 	{
 	_muerto = _x;
 	_busy = _muerto getVariable "busy";
-	if (((headgear _muerto) in genHelmets) and (isNil "_busy")) then
+	if ((headgear _muerto != "") and (isNil "_busy")) then
 		{
 		_target = _muerto;
 		_hayCaja = true;

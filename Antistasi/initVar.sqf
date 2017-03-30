@@ -367,6 +367,21 @@ else {
 	call compile preprocessFileLineNumbers "CREATE\templateNATO.sqf";
 };
 
+// populate AAF items with relevant meds.
+if (hayACE) then {
+    if (ace_medical_level == 0) then {
+        AAFItems append ["FirstAidKit","Medikit"];
+    };
+    if (ace_medical_level >= 1) then {
+        AAFItems append AS_aceBasicMedical;
+    };
+    if (ace_medical_level == 2) then {
+        AAFItems append AS_aceAdvMedical;
+    };
+} else {
+    AAFItems append ["FirstAidKit","Medikit"];
+};
+
 // deprecated variables, used to maintain compatibility
 vehAAFAT = enemyMotorpool;
 planesAAF = indAirForce;

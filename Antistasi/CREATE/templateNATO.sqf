@@ -171,5 +171,3 @@ bluAAMissile = [
 bluItems = bluVest + bluScopes + bluAttachments;
 
 genGL = genGL + bluGL;
-//genATLaunchers = genATLaunchers + bluAT; // using vanilla launchers right now
-//genAALaunchers = genAALaunchers + bluAA;

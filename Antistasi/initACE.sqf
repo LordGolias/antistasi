@@ -10,7 +10,7 @@ unlockedItems = unlockedItems + [
     "ACE_SpottingScope", "ACE_Cellphone", "ACE_RangeCard", "ACE_RangeTable_82mm"
 ];
 
-_aceBasicMedical = [
+AS_aceBasicMedical = [
     "ACE_fieldDressing",
     "ACE_bloodIV_250",
     "ACE_bloodIV_500",
@@ -20,7 +20,7 @@ _aceBasicMedical = [
     "ACE_bodyBag"
 ];
 
-_aceAdvMedical = [
+AS_aceAdvMedical = [
     "ACE_salineIV_250",
     "ACE_salineIV_500",
     "ACE_salineIV",
@@ -37,17 +37,20 @@ _aceAdvMedical = [
 ];
 
 if (ace_medical_level >= 1) then {
-    unlockedItems = unlockedItems + _aceBasicMedical;
+    unlockedItems = unlockedItems + AS_aceBasicMedical;
+    unlockedItems = unlockedItems - ["FirstAidKit","Medikit"];
+    AS_allItems = AS_allItems - ["FirstAidKit","Medikit"];
+    AS_allAssessories = AS_allAssessories - ["FirstAidKit","Medikit"];
 } else {
-    AS_allItems = AS_allItems - _aceBasicMedical;
-    AS_allAssessories = AS_allAssessories - _aceBasicMedical;
+    AS_allItems = AS_allItems - AS_aceBasicMedical;
+    AS_allAssessories = AS_allAssessories - AS_aceBasicMedical;
 };
 
 if (ace_medical_level == 2) then {
-    unlockedItems = unlockedItems + _aceAdvMedical;
+    unlockedItems = unlockedItems + AS_aceAdvMedical;
 } else {
-    AS_allItems = AS_allItems - _aceAdvMedical;
-    AS_allAssessories = AS_allAssessories - _aceAdvMedical;
+    AS_allItems = AS_allItems - AS_aceAdvMedical;
+    AS_allAssessories = AS_allAssessories - AS_aceAdvMedical;
 };
 
 if (hayACEhearing) then {
