@@ -26,14 +26,14 @@ private _position = "";
 if (typeName _marcador == typeName "") then {
 	_isMarker = true;
 	_position = getMarkerPos _marcador;
-else {
+} else {
 	_position = _marcador;
 };
 
 if (_isMarker and !_isDirectAttack and (_marcador in smallCAmrk)) exitWith {}; // marker already being patrolled.
 
 private _exit = false;
-if (!_isMarker) {
+if (!_isMarker) then {
 	// do not patrol closeby patrol locations.
 	_closestPatrolPosition = [smallCApos, _position] call BIS_fnc_nearestPosition;
 	if (_closestPatrolPosition distance _position < (distanciaSPWN/2)) exitWith {_exit = true;};
@@ -58,7 +58,7 @@ if (!_isDirectAttack) then {
 
 // check if CSAT will help.
 private _hayCSAT = false;
-if ((_base == "") and (_aeropuerto == "") and (random 100 < server getVariable "prestigeCSAT")) then
+if ((_base == "") and (_aeropuerto == "") and (random 100 < server getVariable "prestigeCSAT")) then {
 	_hayCSAT = true;
 };
 
