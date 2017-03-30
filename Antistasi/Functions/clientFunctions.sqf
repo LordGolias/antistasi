@@ -2,8 +2,6 @@
 fnc_pickGroup = {
 	params ["_groupType", "_affiliation"];
 
-	if (count _this < 2) exitWith {diag_log "Error in fnc_pickGroup, incorrect number of parameters.";};
-
 	private _failureText = "";
 	private _returnGroup = "";
 	private _cfgPath = "";
@@ -19,7 +17,7 @@ fnc_pickGroup = {
 			_cfgPath = bluCfgInf;
 		};
 		default {
-			_failureText = format ["Error in fnc_pickGroup, incorrect affiliation. Group type: %1; affiliation: %2", _groupType, _affiliation];
+			_failureText = format ["incorrect affiliation. Group type: %1; affiliation: %2", _groupType, _affiliation];
 		};
 	};
 
@@ -71,7 +69,7 @@ fnc_pickGroup = {
 				_returnGroup = (_cfgPath >> _groupType);
 			}
 			else {
-				_failureText = format ["Error in fnc_pickGroup, incorrect group type. Group type: %1; affiliation: %2", _groupType, _affiliation];
+				_failureText = format ["incorrect group type. Group type: %1; affiliation: %2", _groupType, _affiliation];
 			};
 		}
 		else {
@@ -82,7 +80,7 @@ fnc_pickGroup = {
 		};
 	};
 	if !(_failureText == "") exitWith {
-		diag_log _failureText;
+		diag_log ("[AS] ERROR (fnc_pickGroup) " + _failureText);
 	};
 	_returnGroup
 };

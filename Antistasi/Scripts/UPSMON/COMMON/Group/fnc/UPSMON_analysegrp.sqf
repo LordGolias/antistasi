@@ -440,8 +440,6 @@ If (count (_grp getvariable ["UPSMON_LastAssignedvehicle",_assignedvehicles]) > 
 	} foreach _assignedvehicles;
 	_grp setvariable ["UPSMON_LastAssignedvehicle",_array];
 };
-	
-//if (UPSMON_Debug>0) then {diag_log format ["Grpcompos/ typeofgrp:%1 Capacity:%2 Assignedvehicles:%3 range:%4 Points:%5",_typeofgrp,_capacityofgrp,_assignedvehicles,_engagementrange,_points];};
-	
+
 _result = [_typeofgrp,_capacityofgrp,_assignedvehicles,_engagementrange];
 _result;

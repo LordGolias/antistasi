@@ -18,7 +18,6 @@ _vehiculos = [];
 
 _prestigeCSAT = server getVariable "prestigeCSAT";
 //[-8100] remoteExec ["resourcesAAF",2];
-diag_log format ["timer prior to attack: %1", cuentaCA];
 
 _base = "";
 _base = [_mrkdestino] call findBasesForCA;
@@ -472,8 +471,6 @@ waitUntil {sleep 5; (({not (captive _x)} count _soldados) < ({captive _x} count 
 
 //forcedSpawn = forcedSpawn - [_mrkDestino]; publicVariable "forcedSpawn";
 
-diag_log format ["Attack finished. Target: %1", _mrkDestino];
-
 if (not(_mrkDestino in mrkAAF)) then
 	{
 	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_posdestino,"BLUFORSpawn"] call distanceUnits);
@@ -495,7 +492,6 @@ else
 	if (!_CSAT) then
 		{
 		_tsk = ["AtaqueAAF",[side_blue,civilian],[format ["AAF Is attacking from %1. Intercept them or we may loose a sector",_nombreorig],"AAF Attack",_markTsk],getMarkerPos _markTsk,"FAILED",10,true,true,"Defend"] call BIS_fnc_setTask;
-		diag_log format ["Territory lost. Target: %1", _mrkDestino];
 		}
 	else
 		{
@@ -511,8 +507,6 @@ if (cuentaCA < 0) then {
 [2700] remoteExec ["timingCA",2];
 
 sleep 30;
-
-diag_log format ["timer after attack: %1", cuentaCA];
 
 [0,_tsk] spawn borrarTask;
 

@@ -40,7 +40,10 @@ _introShot =
     ] spawn BIS_fnc_establishingShot;
 
 // wait for the server to be ready to receive players (see initServer.sqf)
-if (isMultiplayer) then {waitUntil {!isNil "serverInitVarsDone"}; diag_log format ["Antistasi MP Client. initVar is public. Version %1",antistasiVersion];};
+if (isMultiplayer) then {
+    waitUntil {!isNil "serverInitVarsDone"};
+    diag_log "[AS] client: serverInitVarsDone";
+};
 
 _titulo = ["A3 - Antistasi","by Barbolani",antistasiVersion] spawn BIS_fnc_infoText;
 
@@ -50,11 +53,11 @@ if (isMultiplayer) then {
 	waitUntil {scriptdone _introshot};
 	disableUserInput true;
 	cutText ["Waiting for Players and Server Init","BLACK",0];
-	diag_log "Antistasi MP Client. Waiting for serverInitDone";
+	diag_log "[AS] client: waiting for serverInitDone";
 	waitUntil {(!isNil "serverInitDone")};
 	cutText ["Starting Mission","BLACK IN",0];
-	diag_log "Antistasi MP Client. serverInitDone is public";
-	diag_log format ["Antistasi MP Client: JIP?: %1",_isJip];
+	diag_log "[AS] client: serverInitDone";
+	diag_log format ["[AS] client: isJIP: %1", _isJip];
 }
 else {
 	stavros = player;
@@ -214,8 +217,6 @@ if (_isJip) then {
 	
 	// sync the inventory content to the JIP.
 	remoteExec ["fnc_MAINT_refillArsenal", 2];
-	
-	diag_log "Antistasi MP Client. JIP client finished";
 }
 else {  // not JIP
 	if (isNil "placementDone") then {
@@ -225,7 +226,6 @@ else {  // not JIP
 		    	HC_comandante synchronizeObjectsAdd [player];
 				player synchronizeObjectsAdd [HC_comandante];
 		    	[] execVM "Dialogs\initMenu.sqf";
-		    	diag_log "Antistasi MP Client. Client finished";
 		    }
 		    else {
 		    	miembros = [];
@@ -279,3 +279,4 @@ removeAllActions caja;
 caja addaction [localize "STR_act_arsenal", {_this call accionArsenal;}, [], 6, true, false, "", "(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",5];
 caja addAction [localize "STR_act_unloadCargo", "[] call vaciar"];
 caja addAction [localize "STR_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == stavros)"];
+diag_log "[AS] client: ready";

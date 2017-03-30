@@ -82,8 +82,6 @@ _infdir = _dirveh + 180;
 if (_infdir >= 360) then {_infdir = _infdir - 360};
 _grupoInf setFormDir _infdir;
 
-diag_log format ["direction: %1; infdir: %2", _dirveh, _infdir];
-
 _unit = ([_posicion, 0, bluCrew, _grupo] call bis_fnc_spawnvehicle) select 0;
 _unit moveInGunner _HMG;
 _unit = ([_posicion, 0, bluCrew, _grupo] call bis_fnc_spawnvehicle) select 0;

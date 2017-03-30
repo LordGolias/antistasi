@@ -11,7 +11,6 @@ if (count _this > 2) then {_notification = false};
 
 //if (rank _jugador == "COLONEL") exitWith {};
 _jugador = _jugador getVariable ["owner",_jugador];
-//if (typeName _jugador == typeName "") exitWith {diag_log format ["Antistasi Error: Intento de asignar puntos a un %1 siendo en realidad %2",_jugador, _this select 1]};
 if (isMultiplayer) exitWith {
 	_puntosJ = _jugador getVariable ["score",0];
 	_dineroJ = _jugador getVariable ["dinero",0];

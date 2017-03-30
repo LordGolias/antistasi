@@ -3,8 +3,6 @@ if (!isServer) exitWith{};
 _tiempo = _this select 0;
 
 _fb = bases - mrkAAF;
-diag_log format ["timingCA -- number of bases: %1", count _fb];
-
 
 if (count _fb > 0) then {
 	if (count _fb == 1) then {
@@ -27,12 +25,8 @@ if (count _fb > 0) then {
 	};
 };
 
-diag_log format ["timingCA -- number: %1", _tiempo];
-
 if (_tiempo < 0) then {_tiempo = 0};
 
 cuentaCA = cuentaCA + round (random _tiempo);
 
 publicVariable "cuentaCA";
-
-diag_log format ["timer changed: %1", cuentaCA];

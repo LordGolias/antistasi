@@ -261,4 +261,3 @@ pospepe = [];
 {pospepe = pospepe + getPos _x} forEach pepe;
 copytoclipboard str pospepe;
 */
-if (isMultiplayer) then {[[petros,"hint","Zones Init Completed"],"commsMP"] call BIS_fnc_MP;}

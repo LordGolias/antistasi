@@ -3,13 +3,14 @@
 */
 if (!isMultiplayer) exitWith {};
 if (!(isNil "serverInitDone")) exitWith {};
-diag_log "Antistasi MP Server init";
+
+diag_log "[AS] Server MP: starting";
 call compile preprocessFileLineNumbers "initFuncs.sqf";
-diag_log "Antistasi MP Server.initFuncs finished";
+diag_log "[AS] Server MP: initFuncs done";
 call compile preprocessFileLineNumbers "initVar.sqf";
-diag_log "Antistasi MP Server. initVar finished";
+diag_log "[AS] Server MP: initVar done";
 call compile preprocessFileLineNumbers "initZones.sqf";
-diag_log "Antistasi MP Server. initZones finished";
+diag_log "[AS] Server MP: initZones done";
 
 call compile preprocessFileLineNumbers "initPetros.sqf";
 
@@ -17,6 +18,7 @@ call compile preprocessFileLineNumbers "initPetros.sqf";
 
 // tell every client that the server is ready to receive players (see initPlayerLocal.sqf)
 serverInitVarsDone = true; publicVariable "serverInitVarsDone";
+diag_log "[AS] Server MP: serverInitVarsDone";
 
 waitUntil {(count playableUnits) > 0};
 waitUntil {({(isPlayer _x) and (!isNull _x) and (_x == _x)} count allUnits) == (count playableUnits)};//ya estamos todos
@@ -48,8 +50,8 @@ else
         //_x setVariable ["score", 25,true];
         };
     } forEach playableUnits;
-    diag_log "Antistasi MP Server. Players are in";
     };
+diag_log "[AS] Server MP: players are in";
 publicVariable "maxPlayers";
 
 hcArray = [];
@@ -68,16 +70,16 @@ if (count hcArray > 0) then
     HCciviles = hcArray select 0;
     HCgarrisons = hcArray select 0;
     HCattack = hcArray select 0;
-    diag_log "Antistasi MP Server. Headless Client 1 detected";
+    diag_log "[AS] Server MP: Headless Client 1 detected";
     if (count hcArray > 1) then
         {
         HCciviles = hcArray select 1;
         HCattack = hcArray select 1;
-        diag_log "Antistasi MP Server. Headless Client 2 detected";
+        diag_log "[AS] Server MP: Headless Client 2 detected";
         if (count hcArray > 2) then
             {
             HCciviles = hcArray select 2;
-            diag_log "Antistasi MP Server. Headless Client 3 detected";
+            diag_log "[AS] Server MP: Headless Client 3 detected";
             };
         };
     };
@@ -88,4 +90,4 @@ publicVariable "HCattack";
 publicVariable "hcArray";
 
 serverInitDone = true; publicVariable "serverInitDone";
-diag_log "Antistasi MP Server. serverInitDone set to true.";
+diag_log "[AS] Server MP: serverInitDone";

@@ -12,7 +12,8 @@ if ((side _unit == side_green) or (side _unit == side_red)) then
 	[0,10] remoteExec ["resourcesFIA",2];
 	[-2,0,getPos _unit] remoteExec ["citySupportChange",2];
 	_coste = server getVariable (typeOf _unit);
-	if (isNil "_coste") then {diag_log format ["Falta incluir a %1 en las tablas de coste",typeOf _unit]} else {[-_coste] remoteExec ["resourcesAAF",2]};
+    if (isNil "_coste") then {diag_log format ["[AS] ERROR: cost of %1 not defined.",typeOf _unit]; _coste = 0};
+	[-_coste] remoteExec ["resourcesAAF",2];
 	}
 else
 	{

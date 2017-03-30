@@ -29,7 +29,7 @@ fnc_MAINT_arsenal = {
 	0 = [] call fnc_MAINT_refillArsenal;
 
 	[[petros,"hint","Arsenal synchronized"],"commsMP"] call BIS_fnc_MP;
-	diag_log "Maintenance: Arsenal resynchronised";
+	diag_log "[AS] maintenance: Arsenal resynchronised";
 };
 
 fnc_MAINT_refillArsenal = {
@@ -42,7 +42,7 @@ fnc_MAINT_BE = {
 
 fnc_MAINT_moveStatic = {
 	[] remoteExec ["fnc_addMoveObjAction",stavros];
-	diag_log "Maintenance: statics moveable";
+	diag_log "[AS] maintenance: statics moveable";
 };
 
 fnc_MAINT_resetPetros = {
@@ -57,5 +57,5 @@ fnc_MAINT_resetPetros = {
 	petros setPos _defPos;
 	petros setDir (petros getDir fuego);
 
-	diag_log "Maintenance: Petros repositioned";
+	diag_log "[AS] maintenance: Petros repositioned";
 };

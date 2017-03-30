@@ -113,7 +113,7 @@ fnc_RB_placeSingle = {
 
 	_connectedRoads = roadsConnectedto (_roads select 0);
 
-	if ((isNull (_roads select 0)) or (isNull (_connectedRoads select 0))) exitWith {diag_log format ["Roadblock error report -- bad position: %1", _position]};
+	if ((isNull (_roads select 0)) or (isNull (_connectedRoads select 0))) exitWith {diag_log format ["[AS] ERROR: Roadblock bad position: %1", _position]};
 
 	if  (_lane == "right") then {
 		_rotation = 90;
@@ -158,8 +158,6 @@ fnc_RB_placeDouble = {
 
 	_dataR = [_position, "right"] call fnc_RB_placeSingle;
 	_dataL = [_position, "left"] call fnc_RB_placeSingle;
-
-	diag_log format ["R: %1; L: %2", (_dataR select 2), (_dataL select 2)];
 
 	[(_dataR select 0) + (_dataL select 0), (_dataR select 1) + (_dataL select 1), selectRandom [(_dataR select 2), (_dataL select 2)]]
 };

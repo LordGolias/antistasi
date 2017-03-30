@@ -4,13 +4,13 @@ if (isServer and (isNil "serverInitDone")) then {skipTime random 24};
 // it is a SP game, initialize the server.
 if (!isMultiPlayer) then {
     {if ((side _x == west) and (_x != comandante) and (_x != Petros) and (_x != server) and (_x!=garrison) and (_x != carreteras)) then {_grupete = group _x; deleteVehicle _x; deleteGroup _grupete}} forEach allUnits;
-    diag_log "Starting Antistasi SP";
+    diag_log "[AS] Server: start SP";
     call compile preprocessFileLineNumbers "initFuncs.sqf";
-    diag_log "Antistasi SP Server.initFuncs finished";
+    diag_log "[AS] Server SP: initFuncs finished";
     call compile preprocessFileLineNumbers "initVar.sqf";
-    diag_log "Antistasi SP Server. initVar finished";
+    diag_log "[AS] Server SP: initVar finished";
     call compile preprocessFileLineNumbers "initZones.sqf";
-    diag_log "Antistasi SP Server. initZones finished";
+    diag_log "[AS] Server SP: initZones finished";
 
     call compile preprocessFileLineNumbers "initPetros.sqf";
 
@@ -19,7 +19,7 @@ if (!isMultiPlayer) then {
     HCattack = 2;
     hcArray = [HC1,HC2,HC3];
     serverInitDone = true;
-    diag_log "Antistasi SP. serverInitDone is true. Arsenal loaded";
+    diag_log "[AS] Server SP: serverInitDone.";
     [] execVM "modBlacklist.sqf";
 };
 
@@ -33,8 +33,6 @@ if(isNil "AS_profileID") then {
 	AS_profileID = str(round((random(100000)) + random 10000));
 	profileNameSpace setVariable ["AS_profileID", AS_profileID];
 };
-diag_log format ["Maintenance -- current AS_profileID: %1", AS_profileID];
-waitUntil {!isNil "AS_profileID"};
 
 if(isServer) then {
 	// AS_sessionID is the ID of the server. It points to AS_profileID.

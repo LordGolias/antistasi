@@ -17,7 +17,6 @@ if (count _s > 0) then {
 	};
 };
 
-diag_log format ["s: %1", _c];
 if (_c < 1) exitWith {[[_l3],"DIRECT",0.15] execVM "createConv.sqf"};
 _jDuration = 20 + (_c * 10);
 _delay = 20 + (10 * (round (_c / 3)));

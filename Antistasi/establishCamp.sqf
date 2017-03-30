@@ -21,7 +21,6 @@ if (_tipo == "delete") exitWith {
 	campsFIA = campsFIA - [_mrk]; publicVariable "campsFIA";
 	campList = campList - [[_mrk, _txt]]; publicVariable "campList";
 	usedCN = usedCN - [_txt]; publicVariable "usedCN";
-	diag_log format ["deleting: %1", [_txt]];
 	marcadores = marcadores - [_mrk]; publicVariable "marcadores";
 };
 

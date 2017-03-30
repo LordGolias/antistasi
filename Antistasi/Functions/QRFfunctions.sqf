@@ -3,8 +3,6 @@ if (!isServer and hasInterface) exitWith {};
 fnc_QRF_gunship = {
 	params ["_vehGroup", "_origin", "_dest", "_duration"];
 
-	diag_log format ["QRF - Gunship // veh: %1; origin: %2; destination: %3; duration: %4", _vehGroup, _origin, _dest, _duration];
-
 	[_vehGroup, _origin, _dest] call fnc_QRF_approachTarget;
 	[_vehGroup, _origin, _dest, 300, _duration] call fnc_QRF_loiter;
 };
@@ -12,23 +10,17 @@ fnc_QRF_gunship = {
 fnc_QRF_leadVehicle = {
 	params ["_vehGroup", "_origin", "_dest", "_mrk", "_infGroup", "_duration"];
 
-	diag_log format ["QRF - lead vehicle // veh: %1; origin: %2; destination: %3; mark: %4; inf group: %5; duration: %6", _vehGroup, _origin, _dest, _mrk, _infGroup, _duration];
-
 	[_vehGroup, _origin, _dest, _mrk, _infGroup, _duration] call fnc_QRF_groundAssault;
 };
 
 fnc_QRF_truck = {
 	params ["_vehGroup", "_origin", "_dest", "_mrk", "_infGroups", "_duration"];
 
-	diag_log format ["QRF - truck // veh: %1; origin: %2; destination: %3; mark: %4; inf group: %5; duration: %6", _vehGroup, _origin, _dest, _mrk, _infGroups, _duration];
-
 	[_vehGroup, _origin, _dest, _mrk, _infGroups, _duration, "ground"] call fnc_QRF_dismountTroops;
 };
 
 fnc_QRF_airCavalry = {
 	params ["_vehGroup", "_origin", "_dest", "_mrk", "_infGroups", "_duration", "_type"];
-
-	diag_log format ["QRF - air cav // veh: %1; origin: %2; destination: %3; mark: %4; inf group: %5; duration: %6", _vehGroup, _origin, _dest, _mrk, _infGroups, _duration];
 
 	if (_type == "rope") then {
 		[_vehGroup, _origin, _dest, _mrk, _infGroups, _duration] call fnc_QRF_fastrope;
@@ -124,9 +116,6 @@ fnc_QRF_dismountTroops = {
 		_dest = [_dest, _origin, 0] call findSafeRoadToUnload;
 	};
 
-	diag_log format ["QRF - dismount // veh: %1; origin: %2; destination: %3; mark: %4; inf group: %5; duration: %6", _vehGroup, _origin, _dest, _mrk, _infGroups, _duration];
-	[format ["QRF - dismount // veh: %1; origin: %2; destination: %3; mark: %4; inf group: %5; duration: %6", _vehGroup, _origin, _dest, _mrk, _infGroups, _duration]] remoteExec ["fnc_logOutput", 2];
-
 	_wp400 = _vehGroup addWaypoint [_dest, 0];
 	_wp400 setWaypointBehaviour "CARELESS";
 	_wp400 setWaypointSpeed "FULL";
@@ -173,15 +162,12 @@ fnc_QRF_dismountTroops = {
 fnc_QRF_fastrope = {
 	params ["_vehGroup", "_origin", "_dest", "_mrk", "_infGroups", "_duration"];
 
-	diag_log format ["QRF - fast rope // veh: %1; origin: %2; destination: %3; mark: %4; inf groups: %5; duration: %6", _vehGroup, _origin, _dest, _mrk, _infGroups, _duration];
-
 	private _infGroup1 = _infGroups;
 	private _infGroup2 = "";
 
 	if (typeName _infGroups == "ARRAY") then {
 		_infGroup1 = _infGroups select 0;
 		_infGroup2 = _infGroups select 1;
-		diag_log format ["QRF - fast rope // two inf groups: %1; %2", _infGroup1, _infGroup2];
 	};
 
 	_wp600 = _vehGroup addWaypoint [_dest, 10];
@@ -223,7 +209,6 @@ fnc_QRF_fastrope = {
 
 fnc_QRF_RTB = {
 	params ["_vehGroup", "_dest"];
-	diag_log format ["QRF - RTB - veh:%1; dest: %2", _vehGroup, _dest];
 
 	{_x disableAI "AUTOCOMBAT"} forEach units _vehGroup;
 

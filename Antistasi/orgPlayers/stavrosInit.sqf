@@ -26,18 +26,6 @@ else {
 		if (_x getVariable ["isHCgroup",false]) then {
 			_unit hcSetGroup [_x];
 		};
-		/*
-	if (_x getVariable ["esNATO",false]) then
-		{
-		diag_log format ["NATO group: %1", _x];
-		_unit hcSetGroup [_x];
-		};
-	if ((leader _x getVariable ["BLUFORSpawn",false]) and (!isPlayer leader _x)) then
-		{
-		_unit hcSetGroup [_x];
-		diag_log format ["BLUFOR group: %1", _x];
-		};
-		*/
 	} forEach allGroups;
 };
 

@@ -8,7 +8,7 @@ if (_hqDestroyed) then {
 	"Petros is Dead" hintC "Petros has been killed. You lost part of your assets and need to select a new HQ position far from the enemies.";
 }
 else {
-	diag_log "Antistasi: New Game selected";
+	diag_log "[AS] INFO: New Game selected.";
 	hint "Select the position you want to put your HQ.
           \nClose the map to start in the default position.
           \nChoose wisely: game changes a lot with the initial position!

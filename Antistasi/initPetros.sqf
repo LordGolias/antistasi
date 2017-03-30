@@ -44,7 +44,7 @@ petros addMPEventHandler ["mpkilled",
     _killer = _this select 1;
     if (isServer) then
         {
-            diag_log format ["MAINTENANCE: Petros died. Killer: %1", _killer];
+            diag_log format ["[AS] INFO: Petros died. Killer: %1", _killer];
         if ((side _killer == side_red) or (side _killer == side_green)) then {
             [] spawn
                 {

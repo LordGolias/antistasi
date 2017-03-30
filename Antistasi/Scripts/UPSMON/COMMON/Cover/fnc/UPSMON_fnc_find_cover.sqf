@@ -66,8 +66,7 @@ _vdir = [_unitpos, _lookpos] call BIS_fnc_DirTo;
 					if (UPSMON_Debug>0) then 
 					{
 						_ballCover = "sign_sphere100cm_F" createvehicle _coverPosition;
-						_ballCover setpos _coverPosition;	
-						diag_log format ["object: %1",_object];
+						_ballCover setpos _coverPosition;
 					};	
 					
 					_movetocover pushback _x;

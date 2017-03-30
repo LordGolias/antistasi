@@ -41,19 +41,16 @@ _text = "Error in permission system, module garage.";
 if (hayBE) then {
 	if (_pool) then {
 		_permission = ["FIA_garage"] call fnc_BE_permission;
-		diag_log format ["GARAGE -- perm 1: %1", _permission];
 		_checkText = format ["first :%1 -- %2", _permission, _checkText];
 		_text = "There's not enough space in our garage...";
 	} else {
 		_permission = ["pers_garage"] call fnc_BE_permission;
-		diag_log format ["GARAGE -- perm 2: %1", _permission];
 		_checkText = format ["second :%1 -- %2", _permission, _checkText];
 		_text = "There's not enough space in your garage...";
 	};
 
 	if (_permission) then {
 		_permission = ["vehicle", _tipoVeh, _veh] call fnc_BE_permission;
-		diag_log format ["GARAGE -- perm 3: %1", _permission];
 		_checkText = format ["third :%1 -- %2", _permission, _checkText];
 		_text = "We cannot maintain this type of vehicle.";
 	};

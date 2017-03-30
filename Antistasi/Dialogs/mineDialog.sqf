@@ -50,8 +50,6 @@ if (_tipo == "ATMine") then {
 			_cantidad = {_x == "rhs_mine_tm62m_mag"} count (magazineCargo caja);
 		};
 	};
-
-	diag_log format ["AT mines: %1", _cantidad];
 };
 
 if (_tipo == "APERSMine") then {
@@ -66,7 +64,6 @@ if (_tipo == "APERSMine") then {
 			_cantidad = {_x == "rhs_mine_pmn2_mag"} count (magazineCargo caja);
 		};
 	};
-	diag_log format ["AP mines: %1", _cantidad];
 };
 
 if (_cantidad < 5) exitWith {hint "You need at least 5 mines of this type to build a Minefield"};

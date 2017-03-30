@@ -15,7 +15,6 @@ if (_chance < 20) then {_chance = 20};
 
 sleep 5;
 _rnd = round random 100;
-diag_log format ["value: %1; threshold: %2", _rnd, _chance];
 
 if (_rnd < _chance) then
 	{

@@ -129,7 +129,6 @@ if (_type == "air") then {
 		_heli1 lock 3;
 
 		// spawn loiter script for armed escort
-		diag_log format ["Escort dispatched to %1", _dest];
 		[_grpVeh1, _orig, _dest, _duration*60] spawn fnc_QRF_gunship;
 	};
 
@@ -178,7 +177,6 @@ if (_type == "air") then {
 		_grpDis2 selectLeader (units _grpDis2 select 0);
 
 		// spawn dismount script
-		diag_log format ["Transport dispatched to %1", _dest];
 		if ((_size == "large") && !(_side == side_red)) then {
 			_grpDis1 = [_orig, _side, _dismountGroup] call BIS_Fnc_spawnGroup;
 			[_grpDis1, _side] call fnc_initialiseUnits;
@@ -240,7 +238,6 @@ else {
 
 		// add waypoints
 		[_grpVeh1, _orig, _dest, _mrk, _grpDisEsc, _duration*60] spawn fnc_QRF_leadVehicle;
-		diag_log format ["Escort dispatched to %1", _dest];
 	};
 
 	// small delay to allow for AI pathfinding shenanigans
@@ -283,7 +280,6 @@ else {
 		};
 
 		// spawn dismount script
-		diag_log format ["Transport dispatched to %1", _dest];
 		[_grpVeh2, _orig, _landpos1, _mrk, [_grpDis1, _grpDis2], _duration*60] spawn fnc_QRF_truck;
 	};
 };

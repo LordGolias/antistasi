@@ -35,8 +35,6 @@ if (_resourcesAAF > 5000) then
 		}
 	else
 		{
-		diag_log format ["Antenna - number of destroyed antennas: %1", count antenasMuertas];
-		diag_log format ["Antenna - coordinates of destroyed antennas: %1", antenasMuertas];
 		if ((count antenasMuertas > 0) and (not("REP" in misiones))) then
 			{
 			{
@@ -45,7 +43,6 @@ if (_resourcesAAF > 5000) then
 				_marcador = [marcadores, _x] call BIS_fnc_nearestPosition;
 				if ((_marcador in mrkAAF) and (not(spawner getVariable _marcador))) then
 					{
-					diag_log format ["Repairing antenna: %1", _marcador];
 					[_marcador,_x] remoteExec ["REP_Antena",HCattack];
 					_resourcesAAF = _resourcesAAF - (5000*_multiplicador);
 					};
@@ -65,7 +62,6 @@ if (((planesAAFcurrent < planesAAFmax) and (helisAAFcurrent > 3)) and (_cuenta >
 			planesAAF = planesAAF + planes;
 			publicVariable "planesAAF"
 			};
-		diag_log format ["Econ: airplanes. Current number: %1; current resources: %2", planesAAFcurrent, _resourcesAAF];
 		planesAAFcurrent = planesAAFcurrent + 1;
 		publicVariable "planesAAFcurrent";
 		_resourcesAAF = _resourcesAAF - (17500*_multiplicador);
@@ -80,7 +76,6 @@ if (((tanksAAFcurrent < tanksAAFmax) and (APCAAFcurrent > 3)) and (_cuenta > 5) 
 			vehAAFAT = vehAAFAT + vehTank;
 			publicVariable "vehAAFAT";
 			};
-		diag_log format ["Econ: tanks. Current number: %1; current resources: %2", tanksAAFcurrent, _resourcesAAF];
 		tanksAAFcurrent = tanksAAFcurrent + 1; publicVariable "tanksAAFcurrent";
 	    _resourcesAAF = _resourcesAAF - (10000*_multiplicador);
 		};
@@ -94,7 +89,6 @@ if (((helisAAFcurrent < helisAAFmax) and ((helisAAFcurrent < 4) or (planesAAFcur
 			planesAAF = planesAAF + heli_armed;
 			publicVariable "planesAAF"
 			};
-		diag_log format ["Econ: helicopters. Current number: %1; current resources: %2", helisAAFcurrent, _resourcesAAF];
 		helisAAFcurrent = helisAAFcurrent + 1; publicVariable "helisAAFcurrent";
 		_resourcesAAF = _resourcesAAF - (7000*_multiplicador);
 		};
@@ -113,7 +107,6 @@ if ((APCAAFcurrent < APCAAFmax) and ((tanksAAFcurrent > 2) or (APCAAFcurrent < 4
 	        vehAAFAT = vehAAFAT +  vehIFV;
 			publicVariable "vehAAFAT";
 	        };
-	    diag_log format ["Econ: APCs/IFVs. Current number: %1; current resources: %2", APCAAFcurrent, _resourcesAAF];
 	    APCAAFcurrent = APCAAFcurrent + 1; publicVariable "APCAAFcurrent";
 	    _resourcesAAF = _resourcesAAF - (5000*_multiplicador);
 		};
@@ -122,7 +115,6 @@ if ((APCAAFcurrent < APCAAFmax) and ((tanksAAFcurrent > 2) or (APCAAFcurrent < 4
 _skillFIA = server getVariable "skillFIA";
 if ((skillAAF < (_skillFIA + 4)) && (skillAAF < AS_maxSkill)) then {
 	_coste = 1000 + (1.5*(skillAAF *750));
-	diag_log format ["Econ: AAF skill. Current level: %1; current cost: %2; current resources: %3", skillAAF, _coste, _resourcesAAF];
 	if (_coste < _resourcesAAF) then {
 		skillAAF = skillAAF + 1;
 		publicVariable "skillAAF";
@@ -145,7 +137,6 @@ if (_resourcesAAF > 2000) then
 		_minefieldDone = false;
 		_minefieldDone = [_cercano,_x] call minefieldAAF;
 		if (_minefieldDone) then {_resourcesAAF = _resourcesAAF - 2000};
-		diag_log format ["Econ: minefield deployed. Location: %1; current resources: %2", _x, _resourcesAAF];
 		};
 	} forEach (bases - mrkFIA);
 	};

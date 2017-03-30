@@ -209,7 +209,7 @@ else
 ["BE_data"] call fn_LoadStat;
 
 [[petros,"hintCS","Persistent Savegame Loaded"],"commsMP"] call BIS_fnc_MP;
-diag_log "Antistasi: Server sided Persistent Load done";
+diag_log "[AS] Server: game loaded";
 
 sleep 25;
 ["tasks"] call fn_LoadStat;

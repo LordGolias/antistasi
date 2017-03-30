@@ -24,7 +24,7 @@ _roadscon = roadsConnectedto (_roads select 0);
 //if (count _roadscon == 0) then {player setpos position (_roads select 0)};
 
 _dirveh = [_roads select 0, _roadscon select 0] call BIS_fnc_DirTo;
-if ((isNull (_roads select 0)) or (isNull (_roadscon select 0))) then {diag_log format ["Antistasi Roadblock error report: %1 position is bad",_marcador]};
+if ((isNull (_roads select 0)) or (isNull (_roadscon select 0))) exitWith {diag_log format ["[AS] ERROR: Roadblock bad position: ""%1""", _marcador]};
 _pos = [getPos (_roads select 0), 7, _dirveh + 270] call BIS_Fnc_relPos;
 _bunker = "Land_BagBunker_Small_F" createVehicle _pos;
 _vehiculos = _vehiculos + [_bunker];

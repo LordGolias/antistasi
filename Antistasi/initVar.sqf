@@ -581,5 +581,3 @@ publicVariable "FIA_texturedVehicleConfigs";
 publicVariable "hayBE";
 publicVariable "FIA_WP_list";
 publicVariable "FIA_RB_list";
-
-if (isMultiplayer) then {[[petros,"hint","Variables Init Completed"],"commsMP"] call BIS_fnc_MP;};

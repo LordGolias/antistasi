@@ -28,7 +28,6 @@ while {!(_break) && (count _roads > 0)} do {
 		if (((_roads select _i) distance _posSite >150) && ((_roads select _i) distance _posSite <300)) exitWith {_p1 = (_roads select _i); _index = _i;};
 	};
 
-	if (typeName _p1 != "ARRAY") exitWith {diag_log "no road found"};
 	_road = (_p1 nearRoads 5) select 0;
 	if (!isNil "_road") then {
 		_roadcon = roadsConnectedto (_road);
