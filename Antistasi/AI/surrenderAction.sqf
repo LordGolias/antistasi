@@ -35,7 +35,7 @@ _unit setUnitPos "UP";
 // create box and add all content to it.
 _box = "Box_IND_Wps_F" createVehicle position _unit;
 _cargoArray = [_unit] call AS_fnc_getUnitArsenal;
-[_box, _cargoArray select 0, _cargoArray select 1, _cargoArray select 2, _cargoArray select 3] call AS_fnc_populateBox;
+[_box, _cargoArray select 0, _cargoArray select 1, _cargoArray select 2, _cargoArray select 3, false, true] call AS_fnc_populateBox;
 
 removeAllWeapons _unit;
 removeAllItems _unit;
