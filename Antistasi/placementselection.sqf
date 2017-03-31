@@ -32,13 +32,13 @@ private _minDistanceToEnemy = 500;
 
 
 // Add markers to simplify the selection
-_tempMarkers = [];
+private _tempMarkers = [];
 for "_i" from 0 to count _enemyLocations - 1 do {
     private _loc = _enemyLocations select _i;
     _mrk = createMarker [format ["initialHelper%1",_i], getMarkerPos _loc];
     _mrk setMarkerShape "ELLIPSE";
     _mrk setMarkerSize [_minDistanceToLocation, _minDistanceToLocation];
-    _mrk setMarkerColor "ColorRed";
+    _mrk setMarkerColor "ColorGreen";
     _mrk setMarkerAlpha 0.1;
     _tempMarkers pushBack _mrk;
 };
@@ -123,12 +123,9 @@ if (visiblemap) then {
 		server setVariable ["AS_vehicleOrientation", 0, true];
 	};
 
-	if (isMultiplayer) then {hint "Please wait while moving HQ Assets to selected position";sleep 5};
-
 	_pos = [_posicionTel, 3, getDir petros] call BIS_Fnc_relPos;
 	fuego setPos _pos;
 	_rnd = getdir Petros;
-	if (isMultiplayer) then {sleep 5};
 	_pos = [getPos fuego, 3, _rnd] call BIS_Fnc_relPos;
 	caja setPos _pos;
 	_rnd = _rnd + 45;
