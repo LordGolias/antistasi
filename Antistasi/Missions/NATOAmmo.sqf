@@ -36,12 +36,12 @@ _heli disableAI "AUTOTARGET";
 _heli flyInHeight 200;
 _grupoHeli setCombatMode "BLUE";
 
-Stavros hcSetGroup [_grupoHeli];
+AS_commander hcSetGroup [_grupoHeli];
 _grupoHeli setVariable ["isHCgroup", true, true];
 
 waitUntil {sleep 2; (_heli distance _posicion < 300) or (!canMove _heli) or (dateToNumber date > _fechalimnum)};
 
-stavros hcRemoveGroup _grupoHeli;
+AS_commander hcRemoveGroup _grupoHeli;
 
 if (_heli distance _posicion < 300) then
 	{

@@ -1,4 +1,4 @@
-if (player != stavros) exitWith {hint "Only Player Commander is allowed to move assets"};
+if (player != AS_commander) exitWith {hint "Only Player Commander is allowed to move assets"};
 if (vehicle player != player) exitWith {hint "You cannot move assets while in a vehicle"};
 
 _cosa = _this select 0;
@@ -48,7 +48,7 @@ waitUntil {sleep 1; (vehicle player != player) or (player distance _location > _
 
 {detach _x} forEach attachedObjects player;
 
-_cosa addAction [localize "STR_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == stavros)", 5];
+_cosa addAction [localize "STR_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == AS_commander)", 5];
 
 _cosa setPosATL [getPosATL _cosa select 0,getPosATL _cosa select 1,0];
 

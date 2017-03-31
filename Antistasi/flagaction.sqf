@@ -46,6 +46,6 @@ switch _tipo do {
 	case "jam": {_flag addAction [localize "STR_act_jamCSAT", "jamLRRAdio.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
 	case "toggle_device": {_flag addAction [localize "STR_act_toggleDevice", "Scripts\toggleDevice.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
 	case "unload_pamphlets": {_flag addAction [localize "STR_act_pamphlets", {server setVariable ["pr_unloading_pamphlets", true, true]; [[_this select 0,"remove"],"flagaction"] call BIS_fnc_MP;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
-	case "moveObject" : {_flag addAction [localize "STR_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == stavros)"]};
-	case "deploy" : {_flag addAction [localize "STR_act_buildPad", {[_this select 0, _this select 1] remoteExec ["fnc_deployPad", 2]},nil,0,false,true,"","(_this == stavros)"]};
+	case "moveObject" : {_flag addAction [localize "STR_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == AS_commander)"]};
+	case "deploy" : {_flag addAction [localize "STR_act_buildPad", {[_this select 0, _this select 1] remoteExec ["fnc_deployPad", 2]},nil,0,false,true,"","(_this == AS_commander)"]};
 };

@@ -4,7 +4,7 @@ if (player getVariable ["inconsciente",false]) exitWith {_handled};
 if (player getVariable ["owner",player] != player) exitWith {_handled};
 if (_key == 21) then {
 	if (_shift) then {
-		if (player == stavros) then {
+		if (player == AS_commander) then {
 			if (_ctrl) then {
 				0 = CreateDialog "com_menu";
 			} else {
@@ -12,7 +12,7 @@ if (_key == 21) then {
 			};
 		};
 	} else {
-		if (player == stavros) then {
+		if (player == AS_commander) then {
 			closedialog 0;
 			createDialog "radio_comm_commander";
 		} else {

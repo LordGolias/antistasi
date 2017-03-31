@@ -140,7 +140,7 @@ if !(server getVariable "BCactive") then {
 if (_break) exitWith {
 	_tsk = ["PR",[side_blue,civilian],[format [_tskDesc_fail,_targetName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_targetMarker],_targetPosition,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
 	[5,-5,_targetMarker] remoteExec ["citySupportChange",2];
-	[-10,stavros] call playerScoreAdd;
+	[-10,AS_commander] call playerScoreAdd;
 
 	[1200,_tsk] spawn borrarTask;
 
@@ -306,13 +306,13 @@ if (_break) then {
 if (_break) then {
 	_tsk = ["PR",[side_blue,civilian],[format [_tskDesc_fail2,_targetName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_targetMarker],_targetPosition,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
 	[5,-5,_targetMarker] remoteExec ["citySupportChange",2];
-	[-10,stavros] call playerScoreAdd;
+	[-10,AS_commander] call playerScoreAdd;
 }
 else {
 	_tsk = ["PR",[side_blue,civilian],[format [_tskDesc_success,_targetName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_targetMarker],_targetPosition,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
 	[0,_prestige,_targetMarker] remoteExec ["citySupportChange",2];
 	{if (_x distance _targetPosition < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-	[10,stavros] call playerScoreAdd;
+	[10,AS_commander] call playerScoreAdd;
 	// BE module
 	if (hayBE) then {
 		["mis"] remoteExec ["fnc_BE_XP", 2];

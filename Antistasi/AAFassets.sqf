@@ -1,4 +1,4 @@
-if !(isPlayer stavros) exitWith {};
+if !(isPlayer AS_commander) exitWith {};
 
 private ["_veh","_tipo"];
 _veh = _this select 0;

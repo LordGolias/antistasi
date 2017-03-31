@@ -11,7 +11,7 @@ while {true} do {
 	_puestos = puestos - puestosAA;
 	_colinas = colinas - colinasAA;
 
-	waitUntil {!isNil "stavros"};
+	waitUntil {!isNil "AS_commander"};
 
 	_amigos = [];
 	_enemigos = [];

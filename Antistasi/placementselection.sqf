@@ -4,7 +4,7 @@ _hqInitialPlacement = isNil "placementDone";
 _hqDestroyed = !_hqInitialPlacement;
 
 if (_hqDestroyed) then {
-	stavros allowDamage false;
+	AS_commander allowDamage false;
 	"Petros is Dead" hintC "Petros has been killed. You lost part of your assets and need to select a new HQ position far from the enemies.";
 }
 else {
@@ -144,11 +144,11 @@ if (visiblemap) then {
 		if (isMultiplayer) then {
 			{_x setPos getPos petros} forEach playableUnits;
 		} else {
-			stavros setPos (getMarkerPos "respawn_west");
+			AS_commander setPos (getMarkerPos "respawn_west");
 		}
 	}
 	else {
-		stavros allowDamage true;
+		AS_commander allowDamage true;
 	};
 	if (isMultiplayer) then {
 		caja hideObjectGlobal false;

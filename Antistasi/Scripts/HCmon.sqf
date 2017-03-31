@@ -62,19 +62,19 @@ while {true} do {
 		if (count _currentHCs > _numHCs) then {
 			if (count _currentHCs > count _initialHCs) then {
 				_text = format ["A new client has connected. %1", _text];
-				[petros,"hint",_text] remoteExec ["commsMP", stavros];
+				[petros,"hint",_text] remoteExec ["commsMP", AS_commander];
 				sleep 180;
 				0 = [] call _addHC;
 			} else {
 				_text = format ["A headless client has reconnected. %1", _text];
-				[petros,"hint",_text] remoteExec ["commsMP", stavros];
+				[petros,"hint",_text] remoteExec ["commsMP", AS_commander];
 				sleep 180;
 				0 = [] call _reset;
 			};
 			_numHCs =+ _currentHCs;
 		} else {
 			_text = format ["A headless client has lost connection. %1", _text];
-			[petros,"hint",_text] remoteExec ["commsMP", stavros];
+			[petros,"hint",_text] remoteExec ["commsMP", AS_commander];
 			sleep 180;
 			0 = [] call _reset;
 		};

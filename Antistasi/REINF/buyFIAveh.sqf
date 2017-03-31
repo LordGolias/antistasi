@@ -17,7 +17,7 @@ _coste = [_tipoVeh] call vehiclePrice;
 
 if (!isMultiPlayer) then {_resourcesFIA = server getVariable "resourcesFIA"} else
 	{
-	if (player != stavros) then
+	if (player != AS_commander) then
 		{
 		_resourcesFIA = player getVariable "dinero";
 		}
@@ -37,7 +37,7 @@ if (!isMultiplayer) then
 	}
 else
 	{
-	if (player != stavros) then
+	if (player != AS_commander) then
 		{
 		[-1* _coste] call resourcesPlayer;
 		_veh setVariable ["duenyo",getPlayerUID player,true];
@@ -56,7 +56,7 @@ else
 		};
 	};
 [_veh] spawn VEHinit;
-if (_tipoVeh in _milstatics) then {staticsToSave pushBackUnique _veh; publicVariable "staticsToSave"; _veh addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == stavros)"];};
+if (_tipoVeh in _milstatics) then {staticsToSave pushBackUnique _veh; publicVariable "staticsToSave"; _veh addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == AS_commander)"];};
 hint "Vehicle Purchased";
 player reveal _veh;
 petros directSay "SentGenBaseUnlockVehicle";

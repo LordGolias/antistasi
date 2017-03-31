@@ -154,7 +154,7 @@ if (not alive _heli) then
 	//[-3,3,_posicion] remoteExec ["citySupportChange",2];
 	[1200] remoteExec ["timingCA",2];
 	{if (_x distance _heli < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-	[5,stavros] call playerScoreAdd;
+	[5,AS_commander] call playerScoreAdd;
 	// BE module
 	if (hayBE) then {
 		["mis"] remoteExec ["fnc_BE_XP", 2];
@@ -167,7 +167,7 @@ if ((dateToNumber date > _fechalimnum) or (_vehT distance _posicion < 100)) then
 	_tsk = ["DES",[side_blue,civilian],[format [_tskDesc,_nombrebase],_tskTitle,_mrkfin],_posCrashMrk,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 	//[3,0,_posicion] remoteExec ["citySupportChange",2];
 	[-600] remoteExec ["timingCA",2];
-	[-10,stavros] call playerScoreAdd;
+	[-10,AS_commander] call playerScoreAdd;
 	};
 
 if (!isNull _humo) then

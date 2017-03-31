@@ -17,7 +17,7 @@ _objetos = nearestObjects [_camion, ["ReammoBox_F","Land_PlasticCase_01_medium_F
 if (count _objetos == 0) exitWith {[petros,"hint", "No crates nearby."] remoteExec ["commsMP",_jugador]};
 _caja = _objetos select 0;
 
-if ((_caja == caja) and (player!=stavros)) exitWith {[petros,"hint", "Only the Commander can transfer this ammobox content to any truck"] remoteExec ["commsMP",_jugador]};
+if ((_caja == caja) and (player!=AS_commander)) exitWith {[petros,"hint", "Only the Commander can transfer this ammobox content to any truck"] remoteExec ["commsMP",_jugador]};
 
 
 _armas = weaponCargo _caja;

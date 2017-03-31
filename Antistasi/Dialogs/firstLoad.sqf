@@ -7,7 +7,7 @@ if (count _this > 0) then {_bypass = true};
 waitUntil {dialog};
 waitUntil {!dialog};
 //sleep 1;
-if ((!dialog) and (!visibleMap) and (isNil "statsLoaded") and (player == stavros) and (!_bypass) and (isNil "placementDone")) then
+if ((!dialog) and (!visibleMap) and (isNil "statsLoaded") and (player == AS_commander) and (!_bypass) and (isNil "placementDone")) then
 	{
 	[] spawn placementSelection;
 	};

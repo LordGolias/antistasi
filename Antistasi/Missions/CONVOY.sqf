@@ -356,7 +356,7 @@ if (_tipoConvoy == "HVT") then {
 		{
 		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescHVT,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleHVT, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 		[-1200] remoteExec ["timingCA",2];
-		[-10,stavros] call playerScoreAdd;
+		[-10,AS_commander] call playerScoreAdd;
 		}
 	else
 		{
@@ -365,7 +365,7 @@ if (_tipoConvoy == "HVT") then {
 		[0,5,_posdestino] remoteExec ["citySupportChange",2];
 		[1800] remoteExec ["timingCA",2];
 		{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_hvt,"BLUFORSpawn"] call distanceUnits);
-		[5,stavros] call playerScoreAdd;
+		[5,AS_commander] call playerScoreAdd;
 		[position _hvt] spawn patrolCA;
 		// BE module
 		if (hayBE) then {
@@ -383,7 +383,7 @@ if (_tipoConvoy == "Municion") then
 		{
 		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMun,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMun, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"rearm"] call BIS_fnc_setTask;
 		[-1200] remoteExec ["timingCA",2];
-		[-10,stavros] call playerScoreAdd;
+		[-10,AS_commander] call playerScoreAdd;
 		[_vehObj] call emptyCrate;
 		}
 	else
@@ -392,7 +392,7 @@ if (_tipoConvoy == "Municion") then
 		[0,300] remoteExec ["resourcesFIA",2];
 		[1800] remoteExec ["timingCA",2];
 		{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_vehObj,"BLUFORSpawn"] call distanceUnits);
-		[5,stavros] call playerScoreAdd;
+		[5,AS_commander] call playerScoreAdd;
 		[position _vehObj] spawn patrolCA;
 		// BE module
 		if (hayBE) then {
@@ -411,7 +411,7 @@ if (_tipoConvoy == "Armor") then
 		tanksAAFcurrent = tanksAAFcurrent + 1;
 		server setVariable [_destino,dateToNumber date,true];
 		[-1200] remoteExec ["timingCA",2];
-		[-10,stavros] call playerScoreAdd;
+		[-10,AS_commander] call playerScoreAdd;
 		}
 	else
 		{
@@ -420,7 +420,7 @@ if (_tipoConvoy == "Armor") then
 		[0,5,_posdestino] remoteExec ["citySupportChange",2];
 		[2700] remoteExec ["timingCA",2];
 		{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_vehObj,"BLUFORSpawn"] call distanceUnits);
-		[5,stavros] call playerScoreAdd;
+		[5,AS_commander] call playerScoreAdd;
 		[position _vehObj] spawn patrolCA;
 		// BE module
 		if (hayBE) then {
@@ -439,7 +439,7 @@ if (_tipoConvoy == "Prisoners") then
 		{_x setCaptive false} forEach _POWs;
 		_cuenta = 2 * (count _POWs);
 		[_cuenta,0] remoteExec ["prestige",2];
-		[-10,stavros] call playerScoreAdd;
+		[-10,AS_commander] call playerScoreAdd;
 		};
 	if ((not alive driver _vehObj) or (driver _vehObj getVariable ["BLUFORSpawn",false])) then
 		{
@@ -452,7 +452,7 @@ if (_tipoConvoy == "Prisoners") then
 			_cuenta = 2 * (count _POWs);
 			[_cuenta,0] remoteExec ["prestige",2];
 			//[0,- _cuenta, _posdestino] remoteExec ["citySupportChange",2];
-			[-10,stavros] call playerScoreAdd;
+			[-10,AS_commander] call playerScoreAdd;
 			}
 		else
 			{
@@ -465,7 +465,7 @@ if (_tipoConvoy == "Prisoners") then
 			[2*_cuenta,0] remoteExec ["prestige",2];
 			{[_x] join _grppow; [_x] orderGetin false} forEach _POWs;
 			{[_cuenta,_x] call playerScoreAdd} forEach (allPlayers - hcArray);
-			[round (_cuenta/2),stavros] call playerScoreAdd;
+			[round (_cuenta/2),AS_commander] call playerScoreAdd;
 			// BE module
 			if (hayBE) then {
 				["mis"] remoteExec ["fnc_BE_XP", 2];
@@ -487,7 +487,7 @@ if (_tipoConvoy == "Money") then
 			_resourcesAAF = _resourcesAAF + 5000;
 			server setVariable ["resourcesAAF",_resourcesAAF,true];
 			[-1200] remoteExec ["timingCA",2];
-			[-10,stavros] call playerScoreAdd;
+			[-10,AS_commander] call playerScoreAdd;
 			}
 		else
 			{
@@ -521,7 +521,7 @@ if (_tipoConvoy == "Money") then
 			[0,5000] remoteExec ["resourcesFIA",2];
 			[-1200] remoteExec ["timingCA",2];
 			{if (_x distance _vehObj < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-			[5,stavros] call playerScoreAdd;
+			[5,AS_commander] call playerScoreAdd;
 			// BE module
 			if (hayBE) then {
 				["mis"] remoteExec ["fnc_BE_XP", 2];
@@ -544,7 +544,7 @@ if (_tipoConvoy == "Supplies") then
 		[position _vehObj] spawn patrolCA;
 		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescSup,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleSup, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"heal"] call BIS_fnc_setTask;
 		[-5,0] remoteExec ["prestige",2];
-		[-10,stavros] call playerScoreAdd;
+		[-10,AS_commander] call playerScoreAdd;
 		};
 	if ((dateToNumber date > _fechafinNum) or (_vehObj distance _posdestino < 100) or (driver _vehObj getVariable ["BLUFORSpawn",false])) then
 		{
@@ -558,7 +558,7 @@ if (_tipoConvoy == "Supplies") then
 				[5,0] remoteExec ["prestige",2];
 				[0,15,_destino] remoteExec ["citySupportChange",2];
 				{if (_x distance _vehObj < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-				[5,stavros] call playerScoreAdd;
+				[5,AS_commander] call playerScoreAdd;
 				// BE module
 				if (hayBE) then {
 					["mis"] remoteExec ["fnc_BE_XP", 2];
@@ -570,7 +570,7 @@ if (_tipoConvoy == "Supplies") then
 				_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescSup,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleSup, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"heal"] call BIS_fnc_setTask;
 				[5,-10,_destino] remoteExec ["citySupportChange",2];
 				[-5,0] remoteExec ["prestige",2];
-				[-10,stavros] call playerScoreAdd;
+				[-10,AS_commander] call playerScoreAdd;
 				};
 			}
 		else
@@ -578,7 +578,7 @@ if (_tipoConvoy == "Supplies") then
 			_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescSup,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleSup, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"heal"] call BIS_fnc_setTask;
 			[2,0] remoteExec ["prestige",2];
 			[15,0,_destino] remoteExec ["citySupportChange",2];
-			[-10,stavros] call playerScoreAdd;
+			[-10,AS_commander] call playerScoreAdd;
 			};
 		};
 	reportedVehs = reportedVehs - [_vehObj];

@@ -67,8 +67,8 @@ petros addMPEventHandler ["mpkilled",
 
                 [] remoteExec ["fnc_MAINT_arsenal", 2];
 
-                waitUntil {sleep 6; isPlayer stavros};
-                [] remoteExec ["placementSelection",stavros];
+                waitUntil {sleep 6; isPlayer AS_commander};
+                [] remoteExec ["placementSelection",AS_commander];
                };
             }
         else

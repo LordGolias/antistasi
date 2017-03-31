@@ -32,7 +32,7 @@ player addEventHandler ["HandleHeal", {
 player addEventHandler ["WeaponAssembled", {
 	params ["_EHunit", "_EHobj"];
 	if (_EHunit isKindOf "StaticWeapon") then {
-		_EHobj addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == stavros)"];
+		_EHobj addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == AS_commander)"];
 		if !(_EHunit in staticsToSave) then {
 			staticsToSave pushBack _EHunit;
 			publicVariable "staticsToSave";

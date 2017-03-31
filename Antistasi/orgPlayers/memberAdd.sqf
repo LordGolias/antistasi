@@ -1,4 +1,4 @@
-if (player != stavros) exitWith {hint "Only Player Commander has access to this function"};
+if (player != AS_commander) exitWith {hint "Only Player Commander has access to this function"};
 
 if !(serverCommandAvailable "#logout") exitWith {hint "Only Server Admins can add a new member"};
 

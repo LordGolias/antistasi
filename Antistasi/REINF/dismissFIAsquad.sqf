@@ -20,8 +20,8 @@ if (_salir) exitWith {hint "You cannot dismiss NATO groups"};
 _pos = getMarkerPos "respawn_west";
 
 {
-stavros sideChat format ["Petros, I'm sending %1 back to base", _x];
-stavros hcRemoveGroup _x;
+AS_commander sideChat format ["Petros, I'm sending %1 back to base", _x];
+AS_commander hcRemoveGroup _x;
 _wp = _x addWaypoint [_pos, 0];
 _wp setWaypointType "MOVE";
 sleep 3} forEach _groups;

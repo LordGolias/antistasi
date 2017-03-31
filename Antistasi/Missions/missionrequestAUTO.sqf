@@ -5,7 +5,7 @@ if (leader group Petros != Petros) exitWith {};
 _tipos = ["CON","LOG","RES","CONVOY","PR","ASS"];
 _tipo = "";
 
-if (!isPlayer stavros) then {_tipos = _tipos - ["ASS"]};
+if (!isPlayer AS_commander) then {_tipos = _tipos - ["ASS"]};
 
 {
 if (_x in misiones) then {_tipos = _tipos - [_x]};

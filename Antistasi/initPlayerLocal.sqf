@@ -60,7 +60,7 @@ if (isMultiplayer) then {
 	diag_log format ["[AS] client: isJIP: %1", _isJip];
 }
 else {
-	stavros = player;
+	AS_commander = player;
 	_group = group player;
 	_group setGroupId ["Stavros","GroupColor4"];
 	player setIdentity "protagonista";
@@ -78,7 +78,7 @@ player setVariable ["dinero",100,true];
 player setVariable ["BLUFORSpawn",true,true];
 player setVariable ["rango",rank player,true];
 _score = 0;
-if (player==stavros) then {_score = 25};
+if (player==AS_commander) then {_score = 25};
 player setVariable ["score", _score, true];
 
 MIASquadUnits = creategroup WEST;  // units that are not in the squad because they lost communication with the player (no radio).
@@ -208,7 +208,7 @@ if (_isJip) then {
 	};
 	} forEach allUnits;
 
-	if ((player == stavros) and (isNil "placementDone") and (isMultiplayer)) then {
+	if ((player == AS_commander) and (isNil "placementDone") and (isMultiplayer)) then {
 		[] execVM "Dialogs\initMenu.sqf";
 	}
 	else {
@@ -220,8 +220,8 @@ if (_isJip) then {
 }
 else {  // not JIP
 	if (isNil "placementDone") then {
-		waitUntil {!isNil "stavros"};
-		if (player == stavros) then {
+		waitUntil {!isNil "AS_commander"};
+		if (player == AS_commander) then {
 		    if (isMultiplayer) then {
 		    	HC_comandante synchronizeObjectsAdd [player];
 				player synchronizeObjectsAdd [HC_comandante];
@@ -278,5 +278,5 @@ if (hayTFAR or hayACE or hayRHS or hayUSAF) then {
 removeAllActions caja;
 caja addaction [localize "STR_act_arsenal", {_this call accionArsenal;}, [], 6, true, false, "", "(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",5];
 caja addAction [localize "STR_act_unloadCargo", "[] call vaciar"];
-caja addAction [localize "STR_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == stavros)"];
+caja addAction [localize "STR_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == AS_commander)"];
 diag_log "[AS] client: ready";

@@ -26,7 +26,7 @@ waitUntil {({(isPlayer _x) and (!isNull _x) and (_x == _x)} count allUnits) == (
 
 addMissionEventHandler ["HandleDisconnect",{[_this select 0] call onPlayerDisconnect;false}];
 
-stavros = objNull;
+AS_commander = objNull;
 maxPlayers = playableSlotsNumber west;
 if (serverName in servidoresOficiales) then
     {
@@ -43,8 +43,8 @@ else
         }
     else
         {
-        stavros = _x;
-        publicVariable "stavros";
+        AS_commander = _x;
+        publicVariable "AS_commander";
         _x setRank "CORPORAL";
         [_x,"CORPORAL"] remoteExec ["ranksMP"];
         //_x setVariable ["score", 25,true];

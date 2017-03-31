@@ -78,7 +78,7 @@ _grupo addVehicle _camion;
 {[_x] spawn AS_fnc_initUnitFIA; [_x] orderGetIn true} forEach units _grupo;
 [_camion] spawn VEHinit;
 leader _grupo setBehaviour "SAFE";
-Stavros hcSetGroup [_grupo];
+AS_commander hcSetGroup [_grupo];
 _grupo setVariable ["isHCgroup", true, true];
 _camion allowCrewInImmobile true;
 
@@ -132,7 +132,7 @@ else
 	deleteMarker _mrk;
 	};
 
-stavros hcRemoveGroup _grupo;
+AS_commander hcRemoveGroup _grupo;
 {
 	if (alive _x) then {
 		([_x, true] call AS_fnc_getUnitArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];

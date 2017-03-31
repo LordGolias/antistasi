@@ -98,7 +98,7 @@ fnc_addMoveObjAction = {
 	} forEach nearestObjects [getPos fuego, [], 60];
 	{
 		removeAllActions _x;
-		_x addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == stavros)", 5];
+		_x addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == AS_commander)", 5];
 	} forEach staticsToSave + _objs;
 };
 

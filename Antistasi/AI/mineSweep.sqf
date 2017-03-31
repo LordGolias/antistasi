@@ -31,7 +31,7 @@ _camion setVariable ["owner",_grupo,true];
 _unit assignAsDriver _camion;
 [_unit] orderGetIn true;
 //_unit setBehaviour "SAFE";
-Stavros hcSetGroup [_grupo];
+AS_commander hcSetGroup [_grupo];
 _grupo setVariable ["isHCgroup", true, true];
 
 while {alive _unit} do

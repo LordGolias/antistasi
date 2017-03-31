@@ -124,7 +124,7 @@ waitUntil {sleep 1; (not alive PRTruck) or (dateToNumber date > _fechalimnum) or
 if !(PRTruck distance _targetPosition < 550) exitWith {
 	_tsk = ["PR",[side_blue,civilian], [format [_tskDesc_fail, _targetName],_tskTitle,_targetMarker],_targetPosition,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
     [5,-5,_targetPosition] remoteExec ["citySupportChange",2];
-	[-10,stavros] call playerScoreAdd;
+	[-10,AS_commander] call playerScoreAdd;
 
     [1200,_tsk] spawn borrarTask;
 	waitUntil {sleep 1; (not([distanciaSPWN,1,PRTruck,"BLUFORSpawn"] call distanceUnits)) or ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1))};
@@ -285,14 +285,14 @@ while {(alive PRTruck) && (dateToNumber date < _fechalimnum) && (_currentDropCou
 if ((not alive PRTruck) or (dateToNumber date > _fechalimnum)) then {
 	_tsk = ["PR",[side_blue,civilian], [format [_tskDesc_fail, _targetName],_tskTitle,_targetMarker],_targetPosition,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
 	[0,-2,_targetMarker] remoteExec ["citySupportChange",2];
-	[-10,stavros] call playerScoreAdd;
+	[-10,AS_commander] call playerScoreAdd;
 }
 else {
 	_tsk = ["PR",[side_blue,civilian], [format [_tskDesc_success,_targetName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_targetMarker],_targetPosition,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
 	[-15,5,_targetMarker] remoteExec ["citySupportChange",2];
 	[5,0] remoteExec ["prestige",2];
 	{if (_x distance _targetPosition < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-	[5,stavros] call playerScoreAdd;
+	[5,AS_commander] call playerScoreAdd;
 	// BE module
 	if (hayBE) then {
 		["mis"] remoteExec ["fnc_BE_XP", 2];

@@ -1,6 +1,6 @@
 if (!isServer) exitWith {};
 
-if (savingServer) exitWith {"Server data save is still in process" remoteExecCall ["hint",stavros]};
+if (savingServer) exitWith {"Server data save is still in process" remoteExecCall ["hint",AS_commander]};
 savingServer = true;
 
 call AS_fnc_savePlayers;
@@ -46,7 +46,7 @@ if (_amigo getVariable ["BLUFORSpawn",false]) then
 	{
 	if ((alive _amigo) and (!isPlayer _amigo)) then
 		{
-		if ((isPlayer leader _amigo) or (group _amigo in (hcAllGroups stavros)) and (not((group _amigo) getVariable ["esNATO",false]))) then
+		if ((isPlayer leader _amigo) or (group _amigo in (hcAllGroups AS_commander)) and (not((group _amigo) getVariable ["esNATO",false]))) then
 			{
 			if (isPlayer (leader group _amigo)) then
 				{
@@ -68,7 +68,7 @@ if (_amigo getVariable ["BLUFORSpawn",false]) then
 					{
 					if ((_veh isKindOf "StaticWeapon") or (driver _veh == _amigo)) then
 						{
-						if ((group _amigo in (hcAllGroups stavros)) or (!isMultiplayer)) then
+						if ((group _amigo in (hcAllGroups AS_commander)) or (!isMultiplayer)) then
 							{
 							_resfondo = _resfondo + ([_tipoVeh] call vehiclePrice);
 							if (count attachedObjects _veh != 0) then {{_resfondo = _resfondo + ([typeOf _x] call vehiclePrice)} forEach attachedObjects _veh};
@@ -238,5 +238,5 @@ _datos pushBack [_x,server getVariable _x];
 savingServer = false;
 
 _text = "Savegame Done.\n\nYou won't lose your stats in the event of a game update.\n\nRemember: if you want to preserve any vehicle, it must be near the HQ Flag with no AI inside.\nIf AI inside, you will save the funds you spent on it.\n\nAI will be refunded\n\nStolen and purchased Static Weapons need to be ASSEMBLED in order to get saved. Disassembled weapons may get saved in your ammobox\n\nMounted Statics (Mortar/AA/AT squads) won't get saved, but you will be able to recover the cost.\n\nSame for assigned vehicles more than 50 mts far from HQ";
-[petros,"save",_text] remoteExec ["commsMP",stavros];
+[petros,"save",_text] remoteExec ["commsMP",AS_commander];
 diag_log "[AS] server: game saved.";

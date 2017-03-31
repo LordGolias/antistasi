@@ -135,7 +135,7 @@ if ((({not (captive _x)} count _soldados) < ({captive _x} count _soldados)) or (
 	[10,0] remoteExec ["prestige",2];
 	{[-5,0,_x] remoteExec ["citySupportChange",2]} forEach ciudades;
 	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_posdestino,"BLUFORSpawn"] call distanceUnits);
-	[10,stavros] call playerScoreAdd;
+	[10,AS_commander] call playerScoreAdd;
 	}
 else
 	{

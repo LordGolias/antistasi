@@ -1,4 +1,4 @@
-if (!isPlayer stavros) exitWith {};
+if (!isPlayer AS_commander) exitWith {};
 
 private ["_resourcesAAF","_coste"];
 

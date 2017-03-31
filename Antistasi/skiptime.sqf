@@ -1,4 +1,4 @@
-if (player!= Stavros) exitWith {hint "Only the Commander can order to rest"};
+if (player!= AS_commander) exitWith {hint "Only the Commander can order to rest"};
 _presente = false;
 
 {

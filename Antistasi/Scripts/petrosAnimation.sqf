@@ -55,7 +55,7 @@ _fnc_check = {
 
 sleep 30;
 
-while {(group petros != group stavros) && (petros getVariable ["AS_animPetros", false])} do {
+while {(group petros != group AS_commander) && (petros getVariable ["AS_animPetros", false])} do {
 	if ({((side _x == side_green) || (side _x == side_red)) and (_x distance petros < 800) and !(captive _x)} count allUnits > 0) then {
 		_contact = true;
 		petros allowDamage true;

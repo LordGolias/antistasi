@@ -40,7 +40,7 @@ _nuevo setVariable ["rango",_rango,true];
 
 disableUserInput false;
 //_nuevo enableSimulation true;
-if (_viejo == stavros) then {
+if (_viejo == AS_commander) then {
 	[_nuevo] call stavrosInit;
 };
 

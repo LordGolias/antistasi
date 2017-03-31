@@ -22,7 +22,7 @@ if ([_x] call isMember) then
 	if (_x getVariable ["elegible",true]) then
 		{
 		_elegibles pushBack _x;
-		if (_x == stavros) then
+		if (_x == AS_commander) then
 			{
 			_lider = _x;
 			_datos = [_lider] call numericRank;
@@ -66,7 +66,7 @@ if ((_multiplicador > _puntMax) and (_x!=_lider)) then
 
 if (!isNull _selectable) then
 	{
-	if (_disconnected) then {_texto = format ["Player Commander disconnected or renounced. %1 is our new leader. Greet him!", name _selectable]} else {_texto = format ["%1 is no longer leader of the FIA Forces.\n\n %2 is our new leader. Greet him!", name stavros, name _selectable]};
+	if (_disconnected) then {_texto = format ["Player Commander disconnected or renounced. %1 is our new leader. Greet him!", name _selectable]} else {_texto = format ["%1 is no longer leader of the FIA Forces.\n\n %2 is our new leader. Greet him!", name AS_commander, name _selectable]};
 	[_selectable] call stavrosInit;
 	sleep 5;
 	[[petros,"hint",_texto],"commsMP"] call BIS_fnc_MP;

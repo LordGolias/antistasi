@@ -56,7 +56,7 @@ if (hayBE) then {
 	};
 };
 
-//[petros,"hint",_checkText] remoteExec ["commsMP",stavros];
+//[petros,"hint",_checkText] remoteExec ["commsMP",AS_commander];
 
 if !(_permission) exitWith {hint _text};
 // BE module

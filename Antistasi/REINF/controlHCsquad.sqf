@@ -1,5 +1,5 @@
 if (hayACE) exitWith {hint "Feature disabled with ACE Mod"};
-if (player != Stavros) exitWith {hint "Only Commander has the ability to control HC units"};
+if (player != AS_commander) exitWith {hint "Only Commander has the ability to control HC units"};
 
 _grupos = _this select 0;
 
@@ -34,13 +34,13 @@ _tiempo = 60;
 
 _unit addAction [localize "STR_act_returnControl",{selectPlayer (player getVariable ["owner",player])}];
 
-waitUntil {sleep 1; hint format ["Time to return control to AI: %1", _tiempo]; _tiempo = _tiempo - 1; (_tiempo < 0) or (isPlayer Stavros)};
+waitUntil {sleep 1; hint format ["Time to return control to AI: %1", _tiempo]; _tiempo = _tiempo - 1; (_tiempo < 0) or (isPlayer AS_commander)};
 
 removeAllActions _unit;
 if (!isPlayer (_unit getVariable ["owner",_unit])) then {selectPlayer (_unit getVariable ["owner",_unit])};
 //_unit setVariable ["owner",nil,true];
 
-{[_x] joinsilent group stavros} forEach units group stavros;
-group stavros selectLeader Stavros;
+{[_x] joinsilent group AS_commander} forEach units group AS_commander;
+group AS_commander selectLeader AS_commander;
 hint "";
 

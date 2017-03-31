@@ -196,7 +196,7 @@ if ((not(_marcador in forcedSpawn)) and (_posicionTel distance (getMarkerPos _ma
 	};
 
 _texto = format ["Requesting fire support on Grid %1. %2 Rounds", mapGridPosition _posicionTel, round _rounds];
-[[stavros,"sideChat",_texto],"commsMP"] call BIS_fnc_MP;
+[[AS_commander,"sideChat",_texto],"commsMP"] call BIS_fnc_MP;
 
 if (_tipoArty == "BARRAGE") then
 	{

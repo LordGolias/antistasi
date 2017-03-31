@@ -38,7 +38,7 @@ if (not alive _oficial) then {
 	[0,300] remoteExec ["resourcesFIA",2];
 	[1800] remoteExec ["timingCA",2];
 	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_posicion,"BLUFORSpawn"] call distanceUnits);
-	[5,stavros] call playerScoreAdd;
+	[5,AS_commander] call playerScoreAdd;
 	[_marcador,30] execVM "addTimeForIdle.sqf";
 	// BE module
 	if (hayBE) then {
@@ -48,7 +48,7 @@ if (not alive _oficial) then {
 } else {
 	_tsk = ["AS",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_marcador],_posicion,"FAILED",5,true,true,"Kill"] call BIS_fnc_setTask;
 	[-600] remoteExec ["timingCA",2];
-	[-10,stavros] call playerScoreAdd;
+	[-10,AS_commander] call playerScoreAdd;
 	[_marcador,-30] execVM "addTimeForIdle.sqf";
 };
 

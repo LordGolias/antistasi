@@ -1,4 +1,4 @@
-//if (player != Stavros) exitWith {hint "Only Commander can ask for NATO support"};
+//if (player != AS_commander) exitWith {hint "Only Commander can ask for NATO support"};
 _tipo = _this select 0;
 
 if (!allowPlayerRecruit) exitWith {hint "Server is very loaded. \nWait one minute or change FPS settings in order to fulfill this request"};

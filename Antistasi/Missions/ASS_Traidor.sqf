@@ -128,7 +128,7 @@ if (not alive _traidor) then
 			[10,_x] call playerScoreAdd;
 		};
 	} forEach ([_tam,0,_posicion,"BLUFORSpawn"] call distanceUnits);
-	[5,stavros] call playerScoreAdd;
+	[5,AS_commander] call playerScoreAdd;
 	// BE module
 	if (hayBE) then {
 		["mis"] remoteExec ["fnc_BE_XP", 2];
@@ -138,7 +138,7 @@ if (not alive _traidor) then
 else
 	{
 	_tsk = ["ASS",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_marcador],_traidor,"FAILED",5,true,true,"Kill"] call BIS_fnc_setTask;
-	[-10,stavros] call playerScoreAdd;
+	[-10,AS_commander] call playerScoreAdd;
 	if (dateToNumber date > _fechalimnum) then
 		{
 		_hrT = server getVariable "hr";
@@ -147,7 +147,7 @@ else
 		}
 	else
 		{
-		if (isPlayer Stavros) then
+		if (isPlayer AS_commander) then
 			{
 			if (!("DEF_HQ" in misiones)) then
 				{

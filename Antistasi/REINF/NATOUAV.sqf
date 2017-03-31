@@ -3,7 +3,7 @@ if (!isServer and hasInterface) exitWith {};
 _prestigio = server getVariable "prestigeNATO";
 _aeropuertos = aeropuertos - mrkAAF + ["spawnNATO"];
 
-_origen = [_aeropuertos,stavros] call BIS_fnc_nearestPosition;
+_origen = [_aeropuertos,AS_commander] call BIS_fnc_nearestPosition;
 _orig = getMarkerPos _origen;
 
 [-10,0] remoteExec ["prestige",2];
@@ -39,7 +39,7 @@ for "_i" from 1 to 1 do
 
 	sleep 10;
 	};
-Stavros hcSetGroup [_grupoHeli];
+AS_commander hcSetGroup [_grupoHeli];
 _grupoHeli setVariable ["isHCgroup", true, true];
 
 waitUntil {sleep 1; (dateToNumber date > _fechalimnum) or ({alive _x} count _vehiculos == 0) or ({canMove _x} count _vehiculos == 0)};

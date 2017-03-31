@@ -1314,7 +1314,7 @@ class Mission
 			class Attributes
 			{
 				skill=0.2;
-				init="this allowDamage false; " \n "this addAction [localize ""str_act_hqOptions"",{nul=[] execVM ""Dialogs\dialogHQ.sqf"";},nil,0,false,true,"""",""(isPlayer _this) and (player == Stavros) and (_this == _this getVariable ['owner',objNull]) and (petros == leader group petros)""]; " \n "this addAction [localize ""str_act_recruitUnit"", {nul=[] execVM ""Dialogs\unit_recruit.sqf"";},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]; " \n "this addAction [localize ""str_act_buyVehicle"", {nul = createDialog ""vehicle_option""},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]; " \n "if (isMultiplayer) then {this addAction [localize ""str_act_persGarage"", {nul = [true] spawn garage},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]}; " \n "this addAction [localize ""str_act_moveAsset"", ""moveObject.sqf"",nil,0,false,true,"""",""(_this == stavros)"", 5];";
+				init="this allowDamage false; " \n "this addAction [localize ""str_act_hqOptions"",{nul=[] execVM ""Dialogs\dialogHQ.sqf"";},nil,0,false,true,"""",""(isPlayer _this) and (player == AS_commander) and (_this == _this getVariable ['owner',objNull]) and (petros == leader group petros)""]; " \n "this addAction [localize ""str_act_recruitUnit"", {nul=[] execVM ""Dialogs\unit_recruit.sqf"";},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]; " \n "this addAction [localize ""str_act_buyVehicle"", {nul = createDialog ""vehicle_option""},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]; " \n "if (isMultiplayer) then {this addAction [localize ""str_act_persGarage"", {nul = [true] spawn garage},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]}; " \n "this addAction [localize ""str_act_moveAsset"", ""moveObject.sqf"",nil,0,false,true,"""",""(_this == AS_commander)"", 5];";
 				name="bandera";
 			};
 			id=96;
@@ -1334,7 +1334,7 @@ class Mission
 			class Attributes
 			{
 				skill=0.2;
-				init="this allowDamage false; " \n "this addAction [localize ""str_act_gameOptions"", {hint format [""Arma 3 - Antistasi\n\nVersion: %1"",antistasiVersion]; nul=CreateDialog ""game_options_commander"";},nil,0,false,true,"""",""(isPlayer _this) and (_this == stavros) and (_this == _this getVariable ['owner',objNull])""]; " \n "this addAction [localize ""str_act_gameOptions"", {hint format [""Arma 3 - Antistasi\n\nVersion: %1"",antistasiVersion]; nul=CreateDialog ""game_options_player"";},nil,0,false,true,"""",""(isPlayer _this) and !(_this == stavros) and (_this == _this getVariable ['owner',objNull])""]; " \n "this addAction [localize ""str_act_mapInfo"", {nul = [] execVM ""cityinfo.sqf"";},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]; " \n "this addAction [localize ""str_act_tfar"", {nul=CreateDialog ""tfar_menu"";},nil,0,false,true,"""",""(isClass (configFile >> """"CfgPatches"""" >> """"task_force_radio""""))"", 5]; " \n "this addAction [localize ""str_act_moveAsset"", ""moveObject.sqf"",nil,0,false,true,"""",""(_this == stavros)"", 5];";
+				init="this allowDamage false; " \n "this addAction [localize ""str_act_gameOptions"", {hint format [""Arma 3 - Antistasi\n\nVersion: %1"",antistasiVersion]; nul=CreateDialog ""game_options_commander"";},nil,0,false,true,"""",""(isPlayer _this) and (_this == AS_commander) and (_this == _this getVariable ['owner',objNull])""]; " \n "this addAction [localize ""str_act_gameOptions"", {hint format [""Arma 3 - Antistasi\n\nVersion: %1"",antistasiVersion]; nul=CreateDialog ""game_options_player"";},nil,0,false,true,"""",""(isPlayer _this) and !(_this == AS_commander) and (_this == _this getVariable ['owner',objNull])""]; " \n "this addAction [localize ""str_act_mapInfo"", {nul = [] execVM ""cityinfo.sqf"";},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]; " \n "this addAction [localize ""str_act_tfar"", {nul=CreateDialog ""tfar_menu"";},nil,0,false,true,"""",""(isClass (configFile >> """"CfgPatches"""" >> """"task_force_radio""""))"", 5]; " \n "this addAction [localize ""str_act_moveAsset"", ""moveObject.sqf"",nil,0,false,true,"""",""(_this == AS_commander)"", 5];";
 				name="mapa";
 			};
 			id=97;
@@ -1374,7 +1374,7 @@ class Mission
 			class Attributes
 			{
 				skill=0.60000002;
-				init="this allowDamage false; " \n "this addAction [localize ""str_act_healRepair"", ""healandrepair.sqf"",nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]; " \n "this addAction [localize ""str_act_moveAsset"", ""moveObject.sqf"",nil,0,false,true,"""",""(_this == stavros)"",5];";
+				init="this allowDamage false; " \n "this addAction [localize ""str_act_healRepair"", ""healandrepair.sqf"",nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]; " \n "this addAction [localize ""str_act_moveAsset"", ""moveObject.sqf"",nil,0,false,true,"""",""(_this == AS_commander)"",5];";
 				name="cajaveh";
 			};
 			id=99;

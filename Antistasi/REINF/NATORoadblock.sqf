@@ -7,7 +7,7 @@ _posicionTel = _this select 0;
 _prestigio = server getVariable "prestigeNATO";
 _base = bases - mrkAAF + ["spawnNATO"];
 
-_origen = [_base,stavros] call BIS_fnc_nearestPosition;
+_origen = [_base,AS_commander] call BIS_fnc_nearestPosition;
 _orig = getMarkerPos _origen;
 
 [-10,0] remoteExec ["prestige",2];
@@ -54,7 +54,7 @@ _grupo addVehicle _camion;
 {[_x] call NATOinitCA} forEach units _grupo;
 leader _grupo setBehaviour "SAFE";
 
-Stavros hcSetGroup [_grupo];
+AS_commander hcSetGroup [_grupo];
 _grupo setVariable ["isHCgroup", true, true];
 
 waitUntil {sleep 1; ({alive _x} count units _grupo == 0) or ({(alive _x) and (_x distance _posicionTel < 10)} count units _grupo > 0) or (dateToNumber date > _fechalimnum)};
@@ -71,7 +71,7 @@ if ({(alive _x) and (_x distance _posicionTel < 10)} count units _grupo > 0) the
 		waitUntil {!(isPlayer leader _grupo)};
 	};
 
-	stavros hcRemoveGroup _grupo;
+	AS_commander hcRemoveGroup _grupo;
 	{deleteVehicle _x} forEach units _grupo;
 	deleteVehicle _camion;
 	deleteGroup _grupo;
@@ -100,7 +100,7 @@ else {
 	sleep 3;
 	deleteMarker _mrk;
 
-	stavros hcRemoveGroup _grupo;
+	AS_commander hcRemoveGroup _grupo;
 	{deleteVehicle _x} forEach units _grupo;
 	deleteVehicle _camion;
 	deleteGroup _grupo;

@@ -4,7 +4,7 @@ _part = _this select 1;
 _dam = _this select 2;
 _injurer = _this select 3;
 
-//faltará todos los checks de petros, y de castigo, en stavros init habrá que esperar a que no esté inconsciente, también los checks de owner
+//faltará todos los checks de petros, y de castigo, en AS_commander init habrá que esperar a que no esté inconsciente, también los checks de owner
 
 if (isPlayer _unit) then
 	{

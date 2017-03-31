@@ -5,7 +5,7 @@ if (count units group player > 1) exitWith {hint "Your group must be empty in or
 if (!isPlayer _objetivo) exitWith {hint "You must be targeting a player in order to join him"};
 if ({!isPlayer _x} count units group _objetivo > 0) exitWith {hint "Target player has AI in it's group. Only pure player groups can be joined"};
 if (count units group _objetivo > 9) exitWith {hint "Target group is full"};
-if (_objetivo == stavros) exitWith {hint "You cannot join Stavros group"};
+if (_objetivo == AS_commander) exitWith {hint "You cannot join AS_commander group"};
 
 removeAllActions player;
 _viejogrupo = group player;

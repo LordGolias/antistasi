@@ -7,7 +7,7 @@ scriptName "resourcecheck";
 while {true} do
 	{
 	sleep 600;//600
-	if (isMultiplayer) then {waitUntil {sleep 10; isPlayer stavros}};
+	if (isMultiplayer) then {waitUntil {sleep 10; isPlayer AS_commander}};
 
 	_AAFnewMoney = 0;
 	_FIAnewMoney = 25;

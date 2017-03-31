@@ -41,7 +41,7 @@ fnc_MAINT_BE = {
 };
 
 fnc_MAINT_moveStatic = {
-	[] remoteExec ["fnc_addMoveObjAction",stavros];
+	[] remoteExec ["fnc_addMoveObjAction",AS_commander];
 	diag_log "[AS] maintenance: statics moveable";
 };
 

@@ -47,16 +47,16 @@ if(isServer) then {
 		[] execVM "orgPlayers\mList.sqf";
         ["miembros"] call fn_LoadStat;
         {
-        if (([_x] call isMember) and (isNull stavros)) then
+        if (([_x] call isMember) and (isNull AS_commander)) then
             {
-            stavros = _x;
+            AS_commander = _x;
             _x setRank "LIEUTENANT";
             [_x,"LIEUTENANT"] remoteExec ["ranksMP"];
             //_x setVariable ["score", 25,true];
             };
         } forEach playableUnits;
-        publicVariable "stavros";
-        if (isNull stavros) then
+        publicVariable "AS_commander";
+        if (isNull AS_commander) then
             {
             [] execVM "statSave\loadAccount.sqf"; switchCom = false; publicVariable "switchCom";
             diag_log "Antistasi MP Server. Players are in, no members";
@@ -68,8 +68,8 @@ if(isServer) then {
         }
     else
         {
-        waitUntil {!isNil "stavros"};
-        waitUntil {isPlayer stavros};
+        waitUntil {!isNil "AS_commander"};
+        waitUntil {isPlayer AS_commander};
         };
     publicVariable "miembros";
     fpsCheck = [] execVM "fpsCheck.sqf";

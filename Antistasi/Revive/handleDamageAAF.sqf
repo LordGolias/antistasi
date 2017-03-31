@@ -5,7 +5,7 @@ _dam = _this select 2;
 _source = _this select 3;
 _proj = _this select 4;
 
-//faltará todos los checks de petros, y de castigo, en stavros init habrá que esperar a que no esté inconsciente, también los checks de owner
+//faltará todos los checks de petros, y de castigo, en AS_commander init habrá que esperar a que no esté inconsciente, también los checks de owner
 
 
 if (_part == "") then {
@@ -21,5 +21,5 @@ else {
 	};
 };
 
-//stavros sidechat format ["Final Daño_ %1. Parte %2",_dam,_part];
+//AS_commander sidechat format ["Final Daño_ %1. Parte %2",_dam,_part];
 _dam

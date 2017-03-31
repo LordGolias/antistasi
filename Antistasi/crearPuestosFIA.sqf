@@ -71,7 +71,7 @@ _camion = _tipoVeh createVehicle _pos;
 _grupo addVehicle _camion;
 {[_x] call AS_fnc_initUnitFIA} forEach units _grupo;
 leader _grupo setBehaviour "SAFE";
-Stavros hcSetGroup [_grupo];
+AS_commander hcSetGroup [_grupo];
 _grupo setVariable ["isHCgroup", true, true];
 
 waitUntil {sleep 1; ({alive _x} count units _grupo == 0) or ({(alive _x) and (_x distance _posicionTel < 10)} count units _grupo > 0) or (dateToNumber date > _fechalimnum)};
@@ -125,7 +125,7 @@ else
 	deleteMarker _mrk;
 	};
 
-stavros hcRemoveGroup _grupo;
+AS_commander hcRemoveGroup _grupo;
 {
 	if (alive _x) then {
 		([_x, true] call AS_fnc_getUnitArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];

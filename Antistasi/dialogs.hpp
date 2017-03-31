@@ -101,7 +101,7 @@ BTN_R2(109, "Buy Mortar", "", "closedialog 0; nul = [vfs select 8] call buyFIAve
 BTN_R3(108, "Buy MG", "", "closedialog 0; nul = [vfs select 7] call buyFIAveh");
 BTN_R4(111, "Buy Static AA", "", "closedialog 0; nul = [vfs select 10] call buyFIAveh");
 
-BTN_M(BTN_Y_5, 112, "Buy APC", "", "if (hayRHS) then {if (player == Stavros) then {closeDialog 0; nul = [vfs select 11] call buyFIAveh;} else {hint ""Only Player Commander has access to this function""};}else {hint ""RHS exclusive for now""};");
+BTN_M(BTN_Y_5, 112, "Buy APC", "", "if (hayRHS) then {if (player == AS_commander) then {closeDialog 0; nul = [vfs select 11] call buyFIAveh;} else {hint ""Only Player Commander has access to this function""};}else {hint ""RHS exclusive for now""};");
 
 	};
 };
@@ -117,7 +117,7 @@ class first_load
 AS_BOX_D(BOX_H_2);
 AS_FRAME_D(FRAME_H_2, "Load previous session?");
 
-#define STR_LOAD_YES "closeDialog 0; if ((player == Stavros) and (isNil ""placementDone"")) then {[""statSave\loadAccount.sqf"",""BIS_fnc_execVM""] call BIS_fnc_MP; placementDone = true; publicVariable ""placementDone""} else {nul = [] execVM ""statSave\loadAccount.sqf"";};"
+#define STR_LOAD_YES "closeDialog 0; if ((player == AS_commander) and (isNil ""placementDone"")) then {[""statSave\loadAccount.sqf"",""BIS_fnc_execVM""] call BIS_fnc_MP; placementDone = true; publicVariable ""placementDone""} else {nul = [] execVM ""statSave\loadAccount.sqf"";};"
 
 BTN_L1(-1,"YES", "", STR_LOAD_YES);
 BTN_R1(-1,"NO", "", A_CLOSE);
@@ -153,7 +153,7 @@ class build_menu
 
 AS_BOX_D(BOX_H_6);
 AS_FRAME_D(FRAME_H_6, "Building Options");
-BTN_BACK("closeDialog 0; if (player == Stavros) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
+BTN_BACK("closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
 
 BTN_L1(-1,"O.Post - Roadblock", "", "closeDialog 0; [""create""] spawn puestoDialog");
 BTN_L2(-1,"Build Minefield", "", "closeDialog 0; createDialog ""minebuild_menu"";");
@@ -177,13 +177,13 @@ AS_BOX_D(BOX_H_8);
 AS_FRAME_D(FRAME_H_8, "Available Missions");
 BTN_BACK(A_CLOSE);
 
-#define STR_MIS_MIL "closeDialog 0; if ((player == Stavros) or (not(isPlayer Stavros))) then {[[""FND_M""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_CIV "closeDialog 0; if ((player == Stavros) or (not(isPlayer Stavros))) then {[[""FND_C""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_EXP "closeDialog 0; if ((player == Stavros) or (not(isPlayer Stavros))) then {[[""FND_E""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_LOG	"closeDialog 0; if ((player == Stavros) or (not(isPlayer Stavros))) then {[[""LOG""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_DES	"closeDialog 0; if ((player == Stavros) or (not(isPlayer Stavros))) then {[[""DES""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_RES "closeDialog 0; if ((player == Stavros) or (not(isPlayer Stavros))) then {[[""RES""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_PRO "closeDialog 0; if ((player == Stavros) or (not(isPlayer Stavros))) then {[[""PR"",false,true],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
+#define STR_MIS_MIL "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""FND_M""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
+#define STR_MIS_CIV "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""FND_C""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
+#define STR_MIS_EXP "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""FND_E""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
+#define STR_MIS_LOG	"closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""LOG""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
+#define STR_MIS_DES	"closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""DES""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
+#define STR_MIS_RES "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""RES""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
+#define STR_MIS_PRO "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""PR"",false,true],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
 
 BTN_L1(-1,"Military Contact", "", STR_MIS_MIL);
 BTN_L2(-1,"Civilian Contact", "", STR_MIS_CIV);
@@ -377,7 +377,7 @@ class player_money
 
 AS_BOX_D(BOX_H_4);
 AS_FRAME_D(FRAME_H_4, "Player and Money Interaction");
-BTN_BACK("closeDialog 0; if (player == Stavros) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
+BTN_BACK("closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
 
 #define STR_CIV_PLUS "if (civPerc < 1) then {civPerc = (civPerc + 0.01) min 1; publicVariable ""civPerc""; hint format [""Civilian Percentage Set to %1 percent"",civPerc * 100];};"
 #define STR_CIV_MINUS "if (civPerc > 0) then {civPerc = (civPerc - 0.01) max 0; publicVariable ""civPerc""; hint format [""Civilian Percentage Set to %1 percent"",civPerc * 100];};"
@@ -418,12 +418,12 @@ class vehicle_manager
 
 AS_BOX_D(BOX_H_4);
 AS_FRAME_D(FRAME_H_4, "Vehicle Manager");
-BTN_BACK("closeDialog 0; if (player == Stavros) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
+BTN_BACK("closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
 
 BTN_L1(-1, "Garage\Sell Vehicle", "", "closeDialog 0; nul = createDialog ""garage_sell"";");
-BTN_R1(-1, "Vehicles and Squads", "", "closeDialog 0; if (player == Stavros) then {nul = createDialog ""squad_manager""} else {hint ""Only Player Commander has access to this function""};");
+BTN_R1(-1, "Vehicles and Squads", "", "closeDialog 0; if (player == AS_commander) then {nul = createDialog ""squad_manager""} else {hint ""Only Player Commander has access to this function""};");
 
-BTN_M(BTN_Y_2, -1, "Unlock Vehicle", "", "closeDialog 0; if !(isMultiplayer) then {hint ""It's unlocked already.""} else {if (player != stavros) then {nul = [false] call unlockVehicle} else {nul = [true] call unlockVehicle};};");
+BTN_M(BTN_Y_2, -1, "Unlock Vehicle", "", "closeDialog 0; if !(isMultiplayer) then {hint ""It's unlocked already.""} else {if (player != AS_commander) then {nul = [false] call unlockVehicle} else {nul = [true] call unlockVehicle};};");
 
 	};
 };
@@ -440,8 +440,8 @@ AS_BOX_D(BOX_H_2);
 AS_FRAME_D(FRAME_H_2, "Sell or Garage Vehicle");
 BTN_BACK("closeDialog 0; createDialog ""vehicle_manager"";");
 
-BTN_L1(-1, "Garage Vehicle", "", "closeDialog 0; if (player != stavros) then {nul = [false] call garageVehicle} else {if (isMultiplayer) then {createDialog ""garage_check""} else {nul = [true] call garageVehicle}};");
-BTN_R1(-1, "Sell Vehicle", "", "closeDialog 0; if (player == stavros) then {nul = [] call sellVehicle} else {hint ""Only the Commander can sell vehicles""};");
+BTN_L1(-1, "Garage Vehicle", "", "closeDialog 0; if (player != AS_commander) then {nul = [false] call garageVehicle} else {if (isMultiplayer) then {createDialog ""garage_check""} else {nul = [true] call garageVehicle}};");
+BTN_R1(-1, "Sell Vehicle", "", "closeDialog 0; if (player == AS_commander) then {nul = [] call sellVehicle} else {hint ""Only the Commander can sell vehicles""};");
 
 	};
 };
@@ -528,7 +528,7 @@ class AI_management
 
 AS_BOX_D(BOX_H_4);
 AS_FRAME_D(FRAME_H_4, "AI Management");
-BTN_BACK("closeDialog 0; if (player == Stavros) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
+BTN_BACK("closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
 
 BTN_L1(-1, "Temp. AI Control", "", "closeDialog 0; if ((count groupselectedUnits player > 0) and (count hcSelected player > 0)) exitWith {hint ""You must select from HC or Squad Bars, not both""}; if (count groupselectedUnits player == 1) then {nul = [groupselectedUnits player] execVM ""REINF\controlunit.sqf""}; if (count hcSelected player == 1) then {nul = [hcSelected player] execVM ""REINF\controlHCsquad.sqf"";};");
 BTN_L2(-1, "Auto Heal", "", "if (autoHeal) then {autoHeal = false; hint ""Auto Healing disabled"";} else {autoHeal = true; hint ""Auto Heal enabled""; nul = [] execVM ""AI\autoHealFnc.sqf""}");
@@ -647,7 +647,7 @@ class fasttravel_dialog // 340
 
 	AS_BOX_D(BOX_H_2);
 	AS_FRAME_D(FRAME_H_2, "Fast Travel");
-	BTN_BACK("closeDialog 0; if (player == Stavros) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
+	BTN_BACK("closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
 
 	BTN_L1(-1, "Fast Travel (old)", "Targets: all FIA-controlled zones", "closeDialog 0; nul = [] execVM ""fastTravelRadio.sqf"";");
 	BTN_R1(-1, "Fast Travel (new)", "Only FIA camps and HQ", "closeDialog 0; nul = [] execVM ""altFastTravel.sqf"";");
@@ -689,7 +689,7 @@ class com_menu // 360
 
 	#define STR_COM_RES "closeDialog 0; [""restrictions""] remoteExecCall [""fnc_BE_broadcast"", 2];"
 	#define STR_COM_PRO "closeDialog 0; [""progress""] remoteExecCall [""fnc_BE_broadcast"", 2];"
-	#define STR_COM_FIA "closeDialog 0; if (player == Stavros) then {[""status""] remoteExecCall [""fnc_infoScreen"", 2]};"
+	#define STR_COM_FIA "closeDialog 0; if (player == AS_commander) then {[""status""] remoteExecCall [""fnc_infoScreen"", 2]};"
 
 	BTN_L1(-1, "Current Restrictions", "Display current AXP restrictions", STR_COM_RES);
 	BTN_L2(-1, "Current Progress", "Display current AXP progress", STR_COM_PRO);
@@ -712,8 +712,8 @@ class boost_menu // 390
 	AS_BOX_D(BOX_H_2);
 	AS_FRAME_D(FRAME_H_2, "Is the start too hard for you?");
 
-	#define STR_BST_YES "closeDialog 0; if (player == stavros) then {[[], ""boost.sqf""] remoteExec [""execVM"", 2];};if ((player == stavros) and (isNil ""placementDone"")) then {[] spawn placementselection};"
-	#define STR_BST_NO "closeDialog 0; [false] remoteExec [""fnc_MAINT_arsenal"", 2]; if (hayBE) then {[] call fnc_BE_refresh}; if ((player == stavros) and (isNil ""placementDone"")) then {[] spawn placementselection};"
+	#define STR_BST_YES "closeDialog 0; if (player == AS_commander) then {[[], ""boost.sqf""] remoteExec [""execVM"", 2];};if ((player == AS_commander) and (isNil ""placementDone"")) then {[] spawn placementselection};"
+	#define STR_BST_NO "closeDialog 0; [false] remoteExec [""fnc_MAINT_arsenal"", 2]; if (hayBE) then {[] call fnc_BE_refresh}; if ((player == AS_commander) and (isNil ""placementDone"")) then {[] spawn placementselection};"
 
 	BTN_L1(-1, "YES", "You'll get some resources, and basic gear will be unlocked", STR_BST_YES);
 	BTN_R1(-1, "NO", "Pea shooters, iron sights and plain clothes it is", STR_BST_NO);
@@ -732,9 +732,9 @@ class misCiv_menu // 400
 	AS_FRAME_D(FRAME_H_4, "Available Missions");
 	BTN_BACK(A_CLOSE);
 
-	#define STR_CIV_ASS "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == Stavros)) then {[[""ASS""],""misReqCiv""] call BIS_fnc_MP} else {hint ""Stranger does not trust you.""};"
-	#define STR_CIV_CVY "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == Stavros)) then {[[""CONVOY""],""misReqCiv""] call BIS_fnc_MP} else {hint ""Stranger does not trust you.""};"
-	#define STR_CIV_CON "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == Stavros)) then {[[""CON""],""misReqCiv""] call BIS_fnc_MP} else {hint ""Stranger does not trust you.""};"
+	#define STR_CIV_ASS "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""ASS""],""misReqCiv""] call BIS_fnc_MP} else {hint ""Stranger does not trust you.""};"
+	#define STR_CIV_CVY "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""CONVOY""],""misReqCiv""] call BIS_fnc_MP} else {hint ""Stranger does not trust you.""};"
+	#define STR_CIV_CON "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""CON""],""misReqCiv""] call BIS_fnc_MP} else {hint ""Stranger does not trust you.""};"
 
 	BTN_L1(-1, "Assassination Mission", "", STR_CIV_ASS);
 	BTN_R1(-1, "Convoy Ambush", "", STR_CIV_CVY);
@@ -756,10 +756,10 @@ class misMil_menu // 410
 	AS_FRAME_D(FRAME_H_4, "Available Missions");
 	BTN_BACK(A_CLOSE);
 
-	#define STR_MIL_ASS "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == Stavros)) then {[[""AS""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
-	#define STR_MIL_CVY "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == Stavros)) then {[[""CONVOY""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
-	#define STR_MIL_CON "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == Stavros)) then {[[""CON""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
-	#define STR_MIL_DES "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == Stavros)) then {[[""DES""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
+	#define STR_MIL_ASS "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""AS""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
+	#define STR_MIL_CVY "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""CONVOY""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
+	#define STR_MIL_CON "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""CON""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
+	#define STR_MIL_DES "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""DES""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
 
 	BTN_L1(-1, "Assassination Mission", "", STR_MIL_ASS);
 	BTN_L2(-1, "Convoy Ambush", "", STR_MIL_CVY);
@@ -831,13 +831,13 @@ class exp_menu // 430
 	AS_FRAME_D(FRAME_H_10, "Buy Ordnance");
 	BTN_BACK(A_CLOSE);
 
-	#define STR_EXP_CH "if (player == Stavros) then {[""explosives"", 800] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_CH "if (player == AS_commander) then {[""explosives"", 800] remoteExec [""buyGear"", 2];}"
 
 	#define STR_EXP_WP "closeDialog 0; createDialog ""wpns"";"
 
-	#define STR_EXP_MS "if (player == Stavros) then {[""mines"", 300] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_MS "if (player == AS_commander) then {[""mines"", 300] remoteExec [""buyGear"", 2];}"
 
-	#define STR_EXP_AC "if (player == Stavros) then {[""assessories"", 500] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_AC "if (player == AS_commander) then {[""assessories"", 500] remoteExec [""buyGear"", 2];}"
 
 	BTN_L1(-1, "Charges", "Spend 800 Euros on explosives.", STR_EXP_CH);
 	BTN_L2(-1, "Weapons", "Spend 500 Euros on weapons and ammo.", STR_EXP_WP);
@@ -859,12 +859,12 @@ class wpns
 	AS_FRAME_D(FRAME_H_6, "Buy weapons");
 	BTN_BACK("closeDialog 0; createDialog ""exp_menu"";");
 
-    #define STR_EXP_ASS_S "if (player == Stavros) then {[""ASRifles"", 500] remoteExec [""buyGear"", 2];}"
-    #define STR_EXP_PIS_S "if (player == Stavros) then {[""Pistols"", 500] remoteExec [""buyGear"", 2];}"
-    #define STR_EXP_MGS_S "if (player == Stavros) then {[""Machineguns"", 500] remoteExec [""buyGear"", 2];}"
-    #define STR_EXP_SNP_S "if (player == Stavros) then {[""Sniper Rifles"", 500] remoteExec [""buyGear"", 2];}"
-    #define STR_EXP_LCH_S "if (player == Stavros) then {[""Launchers"", 500] remoteExec [""buyGear"", 2];}"
-    #define STR_EXP_GLA_S "if (player == Stavros) then {[""GLaunchers"", 500] remoteExec [""buyGear"", 2];}"
+    #define STR_EXP_ASS_S "if (player == AS_commander) then {[""ASRifles"", 500] remoteExec [""buyGear"", 2];}"
+    #define STR_EXP_PIS_S "if (player == AS_commander) then {[""Pistols"", 500] remoteExec [""buyGear"", 2];}"
+    #define STR_EXP_MGS_S "if (player == AS_commander) then {[""Machineguns"", 500] remoteExec [""buyGear"", 2];}"
+    #define STR_EXP_SNP_S "if (player == AS_commander) then {[""Sniper Rifles"", 500] remoteExec [""buyGear"", 2];}"
+    #define STR_EXP_LCH_S "if (player == AS_commander) then {[""Launchers"", 500] remoteExec [""buyGear"", 2];}"
+    #define STR_EXP_GLA_S "if (player == AS_commander) then {[""GLaunchers"", 500] remoteExec [""buyGear"", 2];}"
 
     // these amounts are in buyGear.sqf
     BTN_L1(-1, "10 Rifles", "", STR_EXP_ASS_S);
@@ -921,7 +921,7 @@ BTN_BACK(A_CLOSE);
 
 #define STR_GO_GAR "closeDialog 0; [[], ""garbageCleaner.sqf""] remoteExec [""execVM"", 2];"
 #define STR_GO_PSS "closeDialog 0; [""statSave\saveLoop.sqf"",""BIS_fnc_execVM""] call BIS_fnc_MP;"
-#define STR_GO_RSA "closeDialog 0; if (player == stavros) then {[] remoteExec [""fnc_MAINT_main"", 2];};"
+#define STR_GO_RSA "closeDialog 0; if (player == AS_commander) then {[] remoteExec [""fnc_MAINT_main"", 2];};"
 
 BTN_L1(-1, "Civ Config", "", "closeDialog 0; nul = createDialog ""civ_config"";");
 BTN_L2(-1, "Commander Menu", "", "closeDialog 0; nul = createDialog ""com_menu"";");

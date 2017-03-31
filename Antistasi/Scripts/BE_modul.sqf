@@ -194,7 +194,7 @@ fnc_BE_updateProgressBar = {
 			BE_progressLock = true;
 			BE_currentXP = 0;
 		};
-		[format ["<t color='#1DA81D'>New FIA Skill Level: %1</t>", _v+1],0,0,4,0,0,4] remoteExec ["bis_fnc_dynamicText", stavros];
+		[format ["<t color='#1DA81D'>New FIA Skill Level: %1</t>", _v+1],0,0,4,0,0,4] remoteExec ["bis_fnc_dynamicText", AS_commander];
 		[] spawn {sleep 2; [] call fnc_BE_updateProgressBar};
 	};
 
@@ -245,7 +245,7 @@ fnc_BE_calcPrice = {
 
 fnc_BE_buyUpgrade = {
 	if (BE_currentStage == 3) exitWith {
-		[petros,"hint","No further training available."] remoteExec ["commsMP",stavros];
+		[petros,"hint","No further training available."] remoteExec ["commsMP",AS_commander];
 	};
 	private _price = call fnc_BE_calcPrice;
 
@@ -253,7 +253,7 @@ fnc_BE_buyUpgrade = {
 		[_price] call fnc_BE_upgrade;
 		diag_log format ["Maintenance: upgrade acquired. New stage: %1; price paid: %2", BE_currentStage, BE_currentPrice];
 	} else {
-		[petros,"hint","We don't have the resources."] remoteExec ["commsMP",stavros];
+		[petros,"hint","We don't have the resources."] remoteExec ["commsMP",AS_commander];
 	};
 };
 
@@ -516,7 +516,7 @@ fnc_BE_broadcast = {
 		_pI pushBackUnique (format ["Current FIA watchpost type: %1", ["simple", "advanced"] select (BE_current_FIA_WP_Style > 0)]);
 	};
 
-	[petros,"BE",_pI] remoteExec ["commsMP",stavros];
+	[petros,"BE",_pI] remoteExec ["commsMP",AS_commander];
 };
 
 #define BE_STR_CTER1 "At least 1 outpost/base/airport under your control"

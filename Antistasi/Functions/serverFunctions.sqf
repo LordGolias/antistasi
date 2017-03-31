@@ -142,7 +142,7 @@ fnc_infoScreen = {
 		};
 	};
 
-	[petros,_type,_pI] remoteExec ["commsMP",stavros];
+	[petros,_type,_pI] remoteExec ["commsMP",AS_commander];
 };
 
 fnc_togglePetrosAnim = {
@@ -155,7 +155,7 @@ fnc_togglePetrosAnim = {
 	};
 
 	if (server getVariable ["AS_toggleAnim", false]) exitWith {
-		[petros,"BE", "Currently changing Petros' state, try again in a few seconds."] remoteExec ["commsMP",stavros];
+		[petros,"BE", "Currently changing Petros' state, try again in a few seconds."] remoteExec ["commsMP",AS_commander];
 	};
 
 	server setVariable ["AS_toggleAnim", true, true];
@@ -193,11 +193,11 @@ fnc_deployPad = {
 	private _pos = position _obj;
 	server setVariable ["AS_vehicleOrientation", [_caller, _obj] call BIS_fnc_dirTo, true];
 	if ((_pos distance fuego) > 30) exitWith {
-		[petros,"hint","Too far from HQ."] remoteExec ["commsMP",stavros];
+		[petros,"hint","Too far from HQ."] remoteExec ["commsMP",AS_commander];
 		deleteVehicle _obj;
 	};
 	if !(isNil "vehiclePad") exitWith {
-		[petros,"hint","Pad already deployed."] remoteExec ["commsMP",stavros];
+		[petros,"hint","Pad already deployed."] remoteExec ["commsMP",AS_commander];
 		deleteVehicle _obj;
 	};
 

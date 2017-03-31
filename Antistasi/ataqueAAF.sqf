@@ -22,7 +22,7 @@ if (count _marcadores == 0) exitWith {};
 _scoreLand = APCAAFcurrent + (5*tanksAAFcurrent);
 _scoreAir = helisAAFcurrent + (5*planesAAFcurrent);
 if (_hayCSAT) then {_scoreLand = _scoreLand + 15; _scoreAir = _scoreAir + 15};
-//stavros sideChat format ["AAF Land forces: %1. AAF Air forces: %2",_scoreLand,_scoreAir];
+//AS_commander sideChat format ["AAF Land forces: %1. AAF Air forces: %2",_scoreLand,_scoreAir];
 _scoreNeededLandBase = 0;
 _scoreNeededAirBase = 0;
 if (count (unlockedWeapons - genATLaunchers) != count unlockedWeapons) then {_scoreNeededLandBase = 3};

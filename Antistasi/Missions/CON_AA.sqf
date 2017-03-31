@@ -30,7 +30,7 @@ if (dateToNumber date > _fechalimnum) then
 	_tsk = ["CON",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_marcador],_posicion,"FAILED",5,true,true,"Target"] call BIS_fnc_setTask;
 	[5,0,_posicion] remoteExec ["citySupportChange",2];
 	[-600] remoteExec ["timingCA",2];
-	[-10,stavros] call playerScoreAdd;
+	[-10,AS_commander] call playerScoreAdd;
 	};
 
 if (not(_marcador in mrkAAF)) then
@@ -41,7 +41,7 @@ if (not(_marcador in mrkAAF)) then
 	[-5,0,_posicion] remoteExec ["citySupportChange",2];
 	[600] remoteExec ["timingCA",2];
 	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_posicion,"BLUFORSpawn"] call distanceUnits);
-	[10,stavros] call playerScoreAdd;
+	[10,AS_commander] call playerScoreAdd;
 	// BE module
 	if (hayBE) then {
 		["mis"] remoteExec ["fnc_BE_XP", 2];

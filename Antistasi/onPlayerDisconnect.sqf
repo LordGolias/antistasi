@@ -5,7 +5,7 @@ _unit = _this select 0;
 _recursos = 0;
 _hr = 0;
 
-if (_unit == stavros) then
+if (_unit == AS_commander) then
 	{
 	{
 	if (!(_x getVariable ["esNATO",false])) then

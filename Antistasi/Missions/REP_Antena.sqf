@@ -49,7 +49,7 @@ if (spawner getVariable _marcador) then
 		[2,0] remoteExec ["prestige",2];
 		[1200] remoteExec ["timingCA",2];
 		{if (_x distance _veh < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-		[5,stavros] call playerScoreAdd;
+		[5,AS_commander] call playerScoreAdd;
 		};
 	};
 if (dateToNumber date > _fechalimnum) then
@@ -60,7 +60,7 @@ if (dateToNumber date > _fechalimnum) then
 		[2,0] remoteExec ["prestige",2];
 		[1200] remoteExec ["timingCA",2];
 		{if (_x distance _veh < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-		[5,stavros] call playerScoreAdd;
+		[5,AS_commander] call playerScoreAdd;
 		// BE module
 		if (hayBE) then {
 			["mis"] remoteExec ["fnc_BE_XP", 2];
@@ -72,7 +72,7 @@ if (dateToNumber date > _fechalimnum) then
 		_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],_tskTitle,_marcador],_posicion,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 		//[5,0,_posicion] remoteExec ["citySupportChange",2];
 		[-600] remoteExec ["timingCA",2];
-		[-10,stavros] call playerScoreAdd;
+		[-10,AS_commander] call playerScoreAdd;
 		};
 	antenasMuertas = antenasMuertas - [_posicion];
 	_antena = nearestBuilding _posicion;

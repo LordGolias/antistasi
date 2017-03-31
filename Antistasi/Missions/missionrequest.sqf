@@ -287,7 +287,7 @@ if (_tipo == "PR") then {
 			};
 		};
 
-		{if ((isPlayer _x) && (_x == Stavros)) then {[_posiblesA, _posiblesB] remoteExec ["missionSelect",_x]}} forEach ([20,0,petros,"BLUFORSpawn"] call distanceUnits);
+		{if ((isPlayer _x) && (_x == AS_commander)) then {[_posiblesA, _posiblesB] remoteExec ["missionSelect",_x]}} forEach ([20,0,petros,"BLUFORSpawn"] call distanceUnits);
 	}
 	else {
 		_sitios = ciudades - mrkFIA;

@@ -54,7 +54,7 @@ _camion = _tipoVeh createVehicle _pos;
 _grupo addVehicle _camion;
 {[_x] call AS_fnc_initUnitFIA} forEach units _grupo;
 leader _grupo setBehaviour "SAFE";
-Stavros hcSetGroup [_grupo];
+AS_commander hcSetGroup [_grupo];
 _grupo setVariable ["isHCgroup", true, true];
 
 _crate = "Box_FIA_Support_F" createVehicle _pos;
@@ -90,7 +90,7 @@ else {
 	deleteMarker _mrk;
 };
 
-stavros hcRemoveGroup _grupo;
+AS_commander hcRemoveGroup _grupo;
 {
 	if (alive _x) then {
 		([_x, true] call AS_fnc_getUnitArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];

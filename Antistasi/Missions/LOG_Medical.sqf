@@ -148,7 +148,7 @@ _mrkfin setMarkerShape "ICON";
 if ((not alive _sTruck) or (dateToNumber date > _fechalimnum)) then {
 	_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, _nombreOrig, A3_STR_INDEP],_tskTitle,_mrkfin],_posCrashMrk,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
 	[5,-5,_posicion] remoteExec ["citySupportChange",2];
-	[-10,stavros] call playerScoreAdd;
+	[-10,AS_commander] call playerScoreAdd;
 }
 else {
 	_tsk = ["LOG",[side_blue,civilian],[format ["Secure the vehicle, load the cargo, and deliver the supplies to the people in %1 before %2:%3. AAF command has probably dispatched a patrol from %4 to retrieve the goods, so you better hurry. Note: no cargo left behind!",_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, _nombreOrig, A3_STR_INDEP],_tskTitle,_mrkfin],_poscrash,"AUTOASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
@@ -240,7 +240,7 @@ else {
 				[0,15,_marcador] remoteExec ["citySupportChange",2];
 				[5,0] remoteExec ["prestige",2];
 				{if (_x distance _posicion < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-				[5,stavros] call playerScoreAdd;
+				[5,AS_commander] call playerScoreAdd;
 				// BE module
 				if (hayBE) then {
 					["mis"] remoteExec ["fnc_BE_XP", 2];
@@ -269,13 +269,13 @@ else {
 			else {
 				_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, _nombreOrig, A3_STR_INDEP],_tskTitle,_mrkfin],_posCrashMrk,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
 				[5,-5,_posicion] remoteExec ["citySupportChange",2];
-				[-10,stavros] call playerScoreAdd;
+				[-10,AS_commander] call playerScoreAdd;
 			};
 	}
 	else {
 			_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, _nombreOrig, A3_STR_INDEP],_tskTitle,_mrkfin],_posCrashMrk,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
 			[5,-5,_posicion] remoteExec ["citySupportChange",2];
-			[-10,stavros] call playerScoreAdd;
+			[-10,AS_commander] call playerScoreAdd;
 	};
 };
 

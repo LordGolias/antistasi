@@ -62,7 +62,7 @@ if ((dateToNumber date > _fechalimnum) or (!alive _camion)) then
 	_resourcesAAF = _resourcesAAF + 5000;
 	server setVariable ["resourcesAAF",_resourcesAAF,true];
 	[-1800] remoteExec ["timingCA",2];
-	[-10,stavros] call playerScoreAdd;
+	[-10,AS_commander] call playerScoreAdd;
 	}
 else
 	{
@@ -111,7 +111,7 @@ if ((_camion distance _posbase < 50) and (dateToNumber date < _fechalimnum)) the
 	[-20,0] remoteExec ["prestige",2];
 	[1800] remoteExec ["timingCA",2];
 	{if (_x distance _camion < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-	[5,stavros] call playerScoreAdd;
+	[5,AS_commander] call playerScoreAdd;
 	// BE module
 	if (hayBE) then {
 		["mis"] remoteExec ["fnc_BE_XP", 2];
@@ -122,7 +122,7 @@ if (!alive _camion) then
 	{
 	_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],_tskTitle,_mrkfin],_posicion,"FAILED",5,true,true,"Interact"] call BIS_fnc_setTask;
 	[1800] remoteExec ["timingCA",2];
-	[-10,stavros] call playerScoreAdd;
+	[-10,AS_commander] call playerScoreAdd;
 	};
 
 waitUntil {sleep 1; speed _camion == 0};

@@ -6,7 +6,7 @@ if (isNil "AS_HQ_placements") then {AS_HQ_placements = [];};
 _maxHQsandbags = 5;
 _currentHQsandbags = ({typeOf _x == "Land_BagFence_Round_F"} count AS_HQ_placements);
 
-if ((_t == "sandbag") && (_currentHQsandbags >= _maxHQsandbags)) exitWith {[petros,"BE","No more sandbags available."] remoteExec ["commsMP",stavros]};
+if ((_t == "sandbag") && (_currentHQsandbags >= _maxHQsandbags)) exitWith {[petros,"BE","No more sandbags available."] remoteExec ["commsMP",AS_commander]};
 
 if (_t == "pad") exitWith {
 	if (isNil "vehiclePad") then {

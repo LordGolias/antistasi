@@ -65,7 +65,7 @@ if ({alive _x} count _POWs == 0) then
 	_cuenta = count _POWs;
 	[_cuenta,0] remoteExec ["prestige",2];
 	[0,-15,_posicion] remoteExec ["citySupportChange",2];
-	[-10,stavros] call playerScoreAdd;
+	[-10,AS_commander] call playerScoreAdd;
 	}
 else
 	{
@@ -77,7 +77,7 @@ else
 	[0,_cuenta,_marcador] remoteExec ["citySupportChange",2];
 	[_cuenta,0] remoteExec ["prestige",2];
 	{if (_x distance getMarkerPos "respawn_west" < 500) then {[_cuenta,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-	[round (_cuenta/2),stavros] call playerScoreAdd;
+	[round (_cuenta/2),AS_commander] call playerScoreAdd;
 	{[_x] join _grupo; [_x] orderGetin false} forEach _POWs;
 	// BE module
 	if (hayBE) then {
