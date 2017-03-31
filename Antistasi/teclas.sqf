@@ -47,21 +47,4 @@ if (_key == 21) then {
 	};
 };
 
-if (server getVariable ["testMode",false]) then {
-	if (_key == 76) then {
-		if (_ctrl && _shift) then {
-			[] spawn teleport;
-		};
-	};
-	if (_key == 80) then {
-		if (_ctrl && _shift) then {
-			["progress"] remoteExecCall ["fnc_BE_broadcast", 2];
-		};
-	};
-	if (_key == 79) then {
-		if (_ctrl && _shift) then {
-			["restrictions"] remoteExecCall ["fnc_BE_broadcast", 2];
-		};
-	};
-};
 _handled

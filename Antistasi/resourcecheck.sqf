@@ -137,11 +137,6 @@ while {true} do
 		};
 	} forEach recursos;
 
-	if (server getVariable "easyMode") then {
-		_FIAnewMoney = _FIAnewMoney * 1.5;
-		_FIAnewHR = _FIAnewHR * 2;
-	};
-
 	_texto = format ["<t size='0.6' color='#C1C0BB'>Taxes Income.<br/> <t size='0.5' color='#C1C0BB'><br/>Manpower: +%1<br/>Money: +%2 €",_FIAnewHR,_FIAnewMoney];
 
 	_AAFnewMoney = (server getVariable "resourcesAAF") + round _AAFnewMoney;

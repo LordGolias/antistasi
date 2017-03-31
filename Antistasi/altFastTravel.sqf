@@ -16,7 +16,6 @@ if (({isPlayer _x} count units _grupo > 1) and (!_esHC)) exitWith {hint "You can
 if (player != player getVariable ["owner",player]) exitWith {hint "You cannot Fast Travel while you are controlling AI"};
 
 _origin = [_marcadores, position player] call BIS_Fnc_nearestPosition;
-//if ((server getVariable ["hardMode", false]) && (position player distance getMarkerPos _origin > 100)) exitWith {Hint "Snotty can't get a fix on ya. Get closer to one of our campsites or HQ, and have a McWalrus."};
 
 _chequeo = false;
 _check1 = false;

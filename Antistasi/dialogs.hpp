@@ -1068,13 +1068,11 @@ class com_options
 	BTN_BACK("closeDialog 0; nul = createDialog ""com_menu"";");
 
 	#define STR_COM_OPT_FT "if (server getVariable ""enableFTold"") then {server setVariable [""enableFTold"",false,true]; [[petros,""hint"",""Fast Travel limited to camps and HQ""],""commsMP""] call BIS_fnc_MP;} else {server setVariable [""enableFTold"",true,true]; [[petros,""hint"",""Extended Fast Travel system enabled""],""commsMP""] call BIS_fnc_MP;};"
-	#define STR_COM_OPT_INC "if (server getVariable ""easyMode"") then {server setVariable [""easyMode"",false,true]; [[petros,""hint"",""Easy Mode disabled.""],""commsMP""] call BIS_fnc_MP;} else {server setVariable [""easyMode"",true,true]; [[petros,""hint"",""FIA income permanently increased.""],""commsMP""] call BIS_fnc_MP;};"
 	#define STR_COM_OPT_ARS "if (server getVariable ""enableMemAcc"") then {server setVariable [""enableMemAcc"",false,true]; [[petros,""hint"",""Arsenal access set to default.""],""commsMP""] call BIS_fnc_MP;} else {server setVariable [""enableMemAcc"",true,true]; [[petros,""hint"",""Members now get to keep their gear.""],""commsMP""] call BIS_fnc_MP;};"
 	#define STR_COM_OPT_AXP "if (hayBe) then {hayBe = false} else {hayBe = true}; publicVariable ""hayBE""; hint format [""Current setting: %1"", [""off"", ""on""] select hayBe];"
 	#define STR_COM_OPT_WPP "if (server getVariable [""enableWpnProf"",false]) then {server setVariable [""enableWpnProf"",false,true]; [] remoteExec [""fnc_resetSkills"", [0,-2] select isDedicated,true]} else {server setVariable [""enableWpnProf"",true,true]}; hint format [""Current setting: %1"", [""off"", ""on""] select (server getVariable [""enableWpnProf"",false])];"
 
 	BTN_L1(-1, "FT On/Off", "Toggle the old Fast Travel system on/off", STR_COM_OPT_FT);
-	BTN_L2(-1, "Toggle Increased Income", "", STR_COM_OPT_INC);
 
 	BTN_R1(-1, "Arsenal Access On/Off", "Simplified: members are exempt from gear-removal upon accessing the arsenal.", STR_COM_OPT_ARS);
 	BTN_R2(-1, "Toggle Army XP System", "Turn the extended Army XP system on/off, including all restrictions.", STR_COM_OPT_AXP);

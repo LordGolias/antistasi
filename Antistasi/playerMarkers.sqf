@@ -16,8 +16,6 @@ while {true} do
 			_mrk setMarkerTypeLocal "mil_triangle";
 			_mrk setMarkerColorLocal "ColorWhite";
 			_mrk setMarkerTextLocal format ["%1",name _jugador];
-			if (server getVariable ["hardMode", false]) then {_mrk setMarkerAlphaLocal 0};
-			//_mrk setMarkerAlphaLocal 0; // <<-- hard mode
 			_marcadores pushBack _mrk;
 			};
 		} forEach playableUnits;
@@ -28,23 +26,17 @@ while {true} do
 			_mrk = format ["%1",_jugador];
 			if (vehicle _jugador == _jugador) then
 				{
-				if !(server getVariable ["hardMode", false]) then {_mrk setMarkerAlphaLocal 1};
-				//_mrk setMarkerAlphaLocal 1; // <<-- normal mode
 				_mrk setMarkerPosLocal position _jugador;
 				_mrk setMarkerDirLocal getDir _jugador;
 				if ((_jugador getVariable ["inconsciente",false]) || (_jugador getVariable ["ACE_isUnconscious",false])) then
 					{
 					_mrk setMarkerTypeLocal "mil_join";
-					if (server getVariable ["hardMode", false]) then {_mrk setMarkerAlphaLocal 1};
-					//_mrk setMarkerAlphaLocal 1; // <<-- hard mode
 					_mrk setMarkerTextLocal format ["%1 Injured",name _jugador];
 					_mrk setMarkerColorLocal "ColorPink";
 					}
 				else
 					{
 					_mrk setMarkerTypeLocal "mil_triangle";
-					if (server getVariable ["hardMode", false]) then {_mrk setMarkerAlphaLocal 0};
-					//_mrk setMarkerAlphaLocal 0; // <<-- hard mode
 					_mrk setMarkerTextLocal format ["%1",name _jugador];
 					_mrk setMarkerColorLocal "ColorWhite";
 					};
@@ -54,8 +46,6 @@ while {true} do
 				_veh = vehicle _jugador;
 				if ((isNull driver _veh) or (driver _veh == _jugador)) then
 					{
-					if !(server getVariable ["hardMode", false]) then {_mrk setMarkerAlphaLocal 1};
-					//_mrk setMarkerAlphaLocal 1; // <<-- normal mode
 					_mrk setMarkerPosLocal position _veh;
 					_mrk setMarkerDirLocal getDir _veh;
 					_texto = format ["%1 (%2)/",name _jugador,getText(configFile>>"CfgVehicles">>typeOf _veh>>"DisplayName")];
