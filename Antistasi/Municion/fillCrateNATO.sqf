@@ -19,23 +19,36 @@ _addWeapon = {
 	(_magazines select 1) pushBack _mags;
 };
 
-[selectRandom bluSmallWpn, 4*_intNATOSupp, 3*4*_intNATOSupp] call _addWeapon;
-[selectRandom bluRifle, 3*_intNATOSupp, 3*3*_intNATOSupp] call _addWeapon;
+[selectRandom bluSmallWpn, 4*_intNATOSupp, 10*4*_intNATOSupp] call _addWeapon;
+[selectRandom bluRifle, 3*_intNATOSupp, 10*3*_intNATOSupp] call _addWeapon;
 [selectRandom bluLMG, _intNATOSupp, 3*_intNATOSupp] call _addWeapon;
 
-[selectRandom bluSNPR, _intNATOSupp, 3*_intNATOSupp] call _addWeapon;
+[selectRandom bluGL, _intNATOSupp, 10*_intNATOSupp] call _addWeapon;
+(_magazines select 0) pushBack (blu40mm select 0);
+(_magazines select 1) pushBack 6*_intNATOSupp;
+
+[selectRandom bluSNPR, _intNATOSupp, 10*_intNATOSupp] call _addWeapon;
 (_items select 0) pushBack (bluScopes select 0);
 (_items select 1) pushBack _intNATOSupp;
 
 [selectRandom bluAT, _intNATOSupp, 3*_intNATOSupp] call _addWeapon;
 [selectRandom bluAA, _intNATOSupp, 3*_intNATOSupp] call _addWeapon;
 
-// - _items because it cannot be repeated.
-(_items select 0) pushBack (selectRandom (bluVest - _items));
-(_items select 1) pushBack 3*_intNATOSupp;
+(_magazines select 0) pushBack (selectRandom bluGrenades);
+(_magazines select 1) pushBack 10*_intNATOSupp;
+
+for "_i" from 1 to 5 do {
+    (_items select 0) pushBack (selectRandom bluVest);
+    (_items select 1) pushBack _intNATOSupp;
+};
+
+for "_i" from 1 to 5 do {
+    (_items select 0) pushBack (selectRandom bluHelmets);
+    (_items select 1) pushBack _intNATOSupp;
+};
 
 for "_i" from 1 to 3 do {
-	(_items select 0) pushBack (selectRandom (bluAttachments - _items));
+	(_items select 0) pushBack (selectRandom bluAttachments);
 	(_items select 1) pushBack _intNATOSupp;
 };
 
@@ -61,7 +74,8 @@ if (hayACE) then {
 };
 
 if (hayTFAR) then {
-	_crate addBackpackCargoGlobal [lrRadio,2];
+    (_backpacks select 0) pushBack lrRadio;
+	(_backpacks select 1) pushBack 2*_intNATOSupp;
 };
 
-[_crate, _weapons, _magazines, _items, _backpacks, false, true] call AS_fnc_populateBox;
+[_crate, _weapons, _magazines, _items, _backpacks, true, true] call AS_fnc_populateBox;

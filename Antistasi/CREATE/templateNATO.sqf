@@ -59,8 +59,8 @@ bluCfgInf = (configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry");
 
 
 bluRifle = [
-	"arifle_MX_F",
-	"arifle_MX_SW_F"
+	"arifle_MXC_F",
+    "arifle_MX_F"
 ];
 
 bluGL = [
@@ -80,55 +80,19 @@ bluLMG = [
 ];
 
 bluSmallWpn = [
-	"SMG_01_F",
+	"SMG_02_F",
 	"hgun_ACPC2_F"
 ];
 
-bluRifleAmmo = [
-	"30Rnd_65x39_Caseless_mag",
-	"30Rnd_65x39_caseless_mag_Tracer"
-];
-
-bluSNPRAmmo = [
-	"7Rnd_408_Mag",
-	"10Rnd_338_Mag",
-	"20Rnd_762x51_Mag"
-];
-
-bluLMGAmmo = [
-	"130Rnd_338_Mag",
-	"100Rnd_65x39_Caseless_mag",
-	"100Rnd_65x39_caseless_mag_Tracer"
-];
-
-bluSmallAmmo = [
-	"30Rnd_45ACP_Mag_SMG_01",
-	"30Rnd_45ACP_Mag_SMG_01_tracer_green",
-	"11Rnd_45ACP_Mag"
-];
-
-bluAmmo = [
-	"30Rnd_65x39_Caseless_mag",
-	"30Rnd_65x39_caseless_mag_Tracer",
-	"100Rnd_65x39_Caseless_mag",
-	"100Rnd_65x39_caseless_mag_Tracer",
-	"20Rnd_762x51_Mag",
-	"7Rnd_408_Mag",
-	"30Rnd_45ACP_Mag_SMG_01",
-	"30Rnd_45ACP_Mag_SMG_01_tracer_green",
-	"11Rnd_45ACP_Mag",
-	"20Rnd_762x51_Mag",
-	"10Rnd_338_Mag",
-	"130Rnd_338_Mag"
-];
-
+// first needs to be the dammage one.
 blu40mm = [
 	"1Rnd_HE_Grenade_shell",
 	"1Rnd_Smoke_Grenade_shell"
 ];
 
-bluGrenade = [
-	"HandGrenade"
+bluGrenades = [
+	"HandGrenade",
+    "MiniGrenade"
 ];
 
 bluAT = [
@@ -141,15 +105,19 @@ bluAA = [
 ];
 
 bluVest = [
-	"V_PlateCarrierSpec_mtp"
+    "V_PlateCarrier1_rgr",
+    "V_PlateCarrier2_rgr",
+	"V_PlateCarrierGL_rgr",
+    "V_PlateCarrierSpec_rgr"
 ];
 
-bluScopes = [
-	"optic_Nightstalker",
-	"optic_Holosight",
-	"optic_Hamr",
-	"optic_ERCO_snd_F"
+bluHelmets = [
+    "H_HelmetB",
+    "H_HelmetB_light",
+    "H_HelmetSpecB"
 ];
+
+bluScopes = AS_allOptics;
 
 bluAttachments = [
 	"muzzle_snds_338_sand",
@@ -157,17 +125,5 @@ bluAttachments = [
 	"muzzle_snds_H_khk_F",
 	"muzzle_snds_B_snd_F"
 ];
-
-bluATMissile = [
-	"NLAW_F",
-	"Titan_AT",
-	"Titan_AP"
-];
-
-bluAAMissile = [
-	"Titan_AA"
-];
-
-bluItems = bluVest + bluScopes + bluAttachments;
 
 genGL = genGL + bluGL;

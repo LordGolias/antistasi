@@ -86,47 +86,6 @@ bluSmallWpn = 	[
 	"rhsusf_weap_m1911a1"
 ];
 
-bluRifleAmmo = [
-	"rhs_mag_30Rnd_556x45_Mk318_Stanag",
-	"rhs_mag_30Rnd_556x45_M855A1_Stanag_Tracer_Red"
-];
-
-bluSNPRAmmo = [
-	"rhsusf_mag_10Rnd_STD_50BMG_M33",
-	"rhsusf_mag_10Rnd_STD_50BMG_mk211",
-	"rhsusf_10Rnd_762x51_m118_special_Mag",
-	"rhsusf_20Rnd_762x51_m118_special_Mag",
-	"20Rnd_762x51_Mag"
-];
-
-bluLMGAmmo = [
-	"rhsusf_50Rnd_762x51",
-	"rhsusf_100Rnd_762x51_m62_tracer",
-	"rhs_200rnd_556x45_M_SAW"
-];
-
-bluSmallAmmo = [
-	"rhsusf_5Rnd_00Buck",
-	"rhsusf_5Rnd_FRAG",
-	"rhsusf_mag_7x45acp_MHP"
-];
-
-bluAmmo = [
-	"rhsusf_mag_10Rnd_STD_50BMG_M33",
-	"rhsusf_mag_10Rnd_STD_50BMG_mk211",
-	"rhs_mag_30Rnd_556x45_Mk318_Stanag",
-	"rhs_mag_30Rnd_556x45_M855A1_Stanag_Tracer_Red",
-	"rhsusf_20Rnd_762x51_m118_special_Mag",
-	"rhsusf_10Rnd_762x51_m118_special_Mag",
-	"rhs_200rnd_556x45_M_SAW",
-	"rhsusf_5Rnd_00Buck",
-	"20Rnd_762x51_Mag",
-	"rhsusf_100Rnd_762x51_m61_ap",
-	"rhsusf_100Rnd_762x51_m62_tracer",
-	"rhsusf_mag_7x45acp_MHP",
-	"rhs_mag_smaw_SR"
-];
-
 blu40mm = [
 	"rhs_mag_M433_HEDP",
 	"1Rnd_HE_Grenade_shell",
@@ -135,7 +94,7 @@ blu40mm = [
 	"rhs_mag_m576"
 ];
 
-bluGrenade = [
+bluGrenades = [
 	"HandGrenade",
 	"MiniGrenade"
 ];
@@ -154,6 +113,9 @@ bluVest = [
 	"rhsusf_spc_crewman"
 ];
 
+// todo: add helmets.
+bluHelmets = [];
+
 bluScopes = [
 	"rhsusf_acc_LEUPOLDMK4",
 	"rhsusf_acc_ACOG3_USMC",
@@ -166,16 +128,6 @@ bluAttachments = [
 	"rhsusf_acc_anpeq15A",
 	"rhsusf_acc_nt4_black"
 ];
-
-bluATMissile = [
-	"rhs_mag_smaw_HEAA"
-];
-
-bluAAMissile = [
-	"rhs_fim92_mag"
-];
-
-bluItems = bluVest + bluScopes + bluAttachments;
 
 genGL = genGL + bluGL;
 genATLaunchers = genATLaunchers + bluAT;
