@@ -3,6 +3,12 @@ private ["_box","_unit","_computeAll"];
 _box = _this select 0;
 _unit = _this select 1;
 
+// if the box is not "caja", then transfer everything to caja.
+// This guarantees that the player still has access to everything.
+if (_box != caja) then {
+    [_box, caja] call munitionTransfer;
+};
+
 // Get all stuff in the unit before going to the arsenal
 _old_cargo = [_unit, true] call AS_fnc_getUnitArsenal;
 
@@ -16,7 +22,7 @@ _old_cargo = [_unit, true] call AS_fnc_getUnitArsenal;
 [caja,(_cargo_i select 0) + unlockedItems, true] call BIS_fnc_addVirtualItemCargo;
 [caja,(_cargo_b select 0) + unlockedBackpacks, true] call BIS_fnc_addVirtualBackpackCargo;
 
-["Open",[nil,_box,_unit]] call BIS_fnc_arsenal;
+["Open",[nil,caja,_unit]] call BIS_fnc_arsenal;
 
 // wait for the arsenal to close.
 waitUntil {isnull ( uinamespace getvariable "RSCDisplayArsenal" )};

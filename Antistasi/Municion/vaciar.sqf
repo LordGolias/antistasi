@@ -46,5 +46,6 @@ if (isMultiplayer) then {
 };
 
 [_camion, caja] remoteExec ["munitionTransfer",2];
+if (isMultiplayer) then {{if (_x distance caja < 10) then {[petros,"hint","Ammobox Loaded"] remoteExec ["commsMP",_x]}} forEach playableUnits} else {hint "Ammobox Loaded"};
 
 [] spawn suspendTransfer;

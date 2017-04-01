@@ -60,6 +60,7 @@ if (_cuenta > 0) then
 		if !(_cuenta > _counter) then
 			{
 			[_caja,_camion] remoteExec ["munitionTransfer",2];
+            [petros,"hint","Truck Loaded"] remoteExec ["commsMP", driver _camion];
 			_proceder = true;
 			};
 		if ((_camion != vehicle player) or (speed _camion != 0)) then

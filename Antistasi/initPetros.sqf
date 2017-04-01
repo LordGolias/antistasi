@@ -51,10 +51,7 @@ petros addMPEventHandler ["mpkilled",
                 garrison setVariable ["FIA_HQ",[],true];
 
 				// remove 1/2 of every item.
-				_cargo_w = getWeaponCargo caja;
-				_cargo_m = getMagazineCargo caja;
-				_cargo_i = getItemCargo caja;
-				_cargo_b = getBackpackCargo caja;
+				([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 				{
 					_values = _x select 1;
 					for "_i" from 0 to (count _values - 1) do {

@@ -10,13 +10,6 @@ if (_tipo == "delete") exitWith {
 	_pos = getMarkerPos _mrk;
 	_txt = markerText _mrk;
 	hint format ["Deleting %1", _txt];
-	_coste = 0;
-	_hr = 0;
-	_tipogrupo = "IRG_SniperTeam_M";
-	_formato = (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> _tipogrupo);
-	_unidades = [_formato] call groupComposition;
-	{_coste = _coste + (server getVariable _x); _hr = _hr +1} forEach _unidades;
-	[_hr,_coste] remoteExec ["resourcesFIA",2];
 	deleteMarker _mrk;
 	campsFIA = campsFIA - [_mrk]; publicVariable "campsFIA";
 	campList = campList - [[_mrk, _txt]]; publicVariable "campList";
