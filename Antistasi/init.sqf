@@ -83,5 +83,3 @@ if(isServer) then {
 };
 
 [] execVM "Scripts\fn_advancedTowingInit.sqf";
-
-[] execVM "Dialogs\welcome.sqf";
