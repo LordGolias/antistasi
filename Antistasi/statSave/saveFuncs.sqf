@@ -1,16 +1,5 @@
-// the function that saves a property persistently.
-AS_fnc_SaveStat = {
-	params ["_varName", "_varValue"];
-	if (!isNil "_varValue") then {
-		profileNameSpace setVariable [AS_sessionID + _varName, _varValue];
-	};
-};
-
-// the function that loads a property persistently.
-AS_fnc_LoadStat = {
-	params ["_varName"];
-	profileNameSpace getVariable (AS_sessionID + _varName)
-};
+call compile PreprocessFileLineNumbers "statSave\core.sqf";
+call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 
 // Variables that are persistent to `server`. They are saved and loaded accordingly.
 // Add variables here that you want to save.
@@ -20,8 +9,8 @@ AS_serverVariables = [
 ];
 
 // function that saves all AS_serverVariables. The two parameters overwrite the server variable value to save.
-AS_fnc_saveServer = {
-	params ["_varNames", "_varValues"];
+AS_fnc_saveServerVariables = {
+	params ["_saveName", "_varNames", "_varValues"];
 
 	{
 		_index = _varNames find _x;
@@ -29,21 +18,22 @@ AS_fnc_saveServer = {
 		if (_index != -1) then {
 			_varValue = _varValues select _index;
 		};
-		[_x, _varValue] call AS_fnc_SaveStat;
+		[_saveName, _x, _varValue] call AS_fnc_SaveStat;
 	} forEach AS_serverVariables;
 
-	call AS_fnc_saveCities;
+	[_saveName] call AS_fnc_saveCities;
 };
 
 
 // function that loads all AS_serverVariables.
-AS_fnc_loadServer = {
+AS_fnc_loadServerVariables = {
+    params ["_saveName"];
 	{
-		server setVariable [_x, [_x] call AS_fnc_LoadStat, true];
+		server setVariable [_x, [_saveName, _x] call AS_fnc_LoadStat, true];
 	} forEach AS_serverVariables;
 
-	call AS_fnc_loadCities;
-	call AS_fnc_postLoadServer;
+	[_saveName] call AS_fnc_loadCities;
+	[_saveName] call AS_fnc_postLoadServer;
 };
 
 // set non-persistent variables that are functions of persistent variables.
@@ -61,48 +51,50 @@ AS_fnc_postLoadServer = {
 
 // function that persistently saves cities.
 AS_fnc_saveCities = {
+    params ["_saveName"];
 	{
 		_data = server getVariable _x;
-		["CITY" + _x, _data] call AS_fnc_SaveStat;
+		[_saveName, "CITY" + _x, _data] call AS_fnc_SaveStat;
 	} forEach ciudades;
 };
 
 AS_fnc_loadCities = {
+    params ["_saveName"];
 	{
-		server setVariable [_x, ["CITY" + _x] call AS_fnc_LoadStat];
+		server setVariable [_x, [_saveName, "CITY" + _x] call AS_fnc_LoadStat, true];
 	} forEach ciudades;
 };
 
-
 AS_fnc_saveArsenal = {
-	params ["_weapons", "_magazines", "_items", "_backpacks"];
+	params ["_saveName", "_weapons", "_magazines", "_items", "_backpacks"];
 
-	["ARSENALweapons", _weapons] call fn_SaveStat;
-	["ARSENALmagazines", _magazines] call fn_SaveStat;
-	["ARSENALitems", _items] call fn_SaveStat;
-	["ARSENALbackpacks", _backpacks] call fn_SaveStat;
+	[_saveName, "ARSENALweapons", _weapons] call fn_SaveStat;
+	[_saveName, "ARSENALmagazines", _magazines] call fn_SaveStat;
+	[_saveName, "ARSENALitems", _items] call fn_SaveStat;
+	[_saveName, "ARSENALbackpacks", _backpacks] call fn_SaveStat;
 
-	["ARSENALunlockedWeapons", unlockedWeapons] call fn_SaveStat;
-	["ARSENALunlockedItems", unlockedItems] call fn_SaveStat;
-	["ARSENALunlockedMagazines", unlockedMagazines] call fn_SaveStat;
-	["ARSENALunlockedBackpacks", unlockedBackpacks] call fn_SaveStat;
+	[_saveName, "ARSENALunlockedWeapons", unlockedWeapons] call fn_SaveStat;
+	[_saveName, "ARSENALunlockedItems", unlockedItems] call fn_SaveStat;
+	[_saveName, "ARSENALunlockedMagazines", unlockedMagazines] call fn_SaveStat;
+	[_saveName, "ARSENALunlockedBackpacks", unlockedBackpacks] call fn_SaveStat;
 };
 
 AS_fnc_loadArsenal = {
+    params ["_saveName"];
 	private ["_weapons", "_magazines", "_items", "_backpacks"];
 
-	_weapons = ["ARSENALweapons"] call AS_fnc_LoadStat;
-	_magazines = ["ARSENALmagazines"] call AS_fnc_LoadStat;
-	_items = ["ARSENALitems"] call AS_fnc_LoadStat;
-	_backpacks = ["ARSENALbackpacks"] call AS_fnc_LoadStat;
+	_weapons = [_saveName, "ARSENALweapons"] call AS_fnc_LoadStat;
+	_magazines = [_saveName, "ARSENALmagazines"] call AS_fnc_LoadStat;
+	_items = [_saveName, "ARSENALitems"] call AS_fnc_LoadStat;
+	_backpacks = [_saveName, "ARSENALbackpacks"] call AS_fnc_LoadStat;
 
 	[caja, _weapons, _magazines, _items, _backpacks, true, true] call AS_fnc_populateBox;
 
 	// load unlocked stuff
-	unlockedWeapons = ["ARSENALunlockedWeapons"] call AS_fnc_LoadStat;
-	unlockedMagazines = ["ARSENALunlockedMagazines"] call AS_fnc_LoadStat;
-	unlockedItems = ["ARSENALunlockedItems"] call AS_fnc_LoadStat;
-	unlockedBackpacks = ["ARSENALunlockedBackpacks"] call AS_fnc_LoadStat;
+	unlockedWeapons = [_saveName, "ARSENALunlockedWeapons"] call AS_fnc_LoadStat;
+	unlockedMagazines = [_saveName, "ARSENALunlockedMagazines"] call AS_fnc_LoadStat;
+	unlockedItems = [_saveName, "ARSENALunlockedItems"] call AS_fnc_LoadStat;
+	unlockedBackpacks = [_saveName, "ARSENALunlockedBackpacks"] call AS_fnc_LoadStat;
 
 	publicVariable "unlockedWeapons";
 	publicVariable "unlockedMagazines";
@@ -113,11 +105,12 @@ AS_fnc_loadArsenal = {
 AS_permanent_HQplacements = [caja, cajaVeh, mapa, fuego, bandera];
 
 AS_fnc_saveHQ = {
+    params ["_saveName"];
 	_array = [];
 	{
 		_array pushback [getPos _x, getDir _x];
 	} forEach AS_permanent_HQplacements;
-	["HQPermanents", _array] call fn_SaveStat;
+	[_saveName, "HQPermanents", _array] call fn_SaveStat;
 
 	_array = [];
 	if (!isNil "AS_HQ_placements") then {
@@ -129,14 +122,14 @@ AS_fnc_saveHQ = {
 			};
 		} forEach AS_HQ_placements;
 	};
-	["HQPlacements", _array] call fn_SaveStat;
+	[_saveName, "HQPlacements", _array] call fn_SaveStat;
 
-	["HQpos", getMarkerPos "respawn_west"] call fn_Savestat;
-	["HQinflamed", inflamed fuego] call fn_Savestat;
+	[_saveName, "HQpos", getMarkerPos "respawn_west"] call fn_Savestat;
+	[_saveName, "HQinflamed", inflamed fuego] call fn_Savestat;
 };
 
 AS_fnc_loadHQ = {
-	posHQ = ["HQpos"] call AS_fnc_LoadStat;
+	posHQ = [_saveName, "HQpos"] call AS_fnc_LoadStat;
 	publicVariable "posHQ";
 	{
 		if (getMarkerPos _x distance posHQ < 1000) exitWith {
@@ -150,17 +143,17 @@ AS_fnc_loadHQ = {
 	"respawn_west" setMarkerAlpha 1;
 	petros setPos posHQ;
 
-	_array = ["HQPermanents"] call AS_fnc_LoadStat;
+	_array = [_saveName, "HQPermanents"] call AS_fnc_LoadStat;
 	for "_i" from 0 to count AS_permanent_HQplacements - 1 do {
 		(AS_permanent_HQplacements select _i) setPos ((_array select _i) select 0);
 		(AS_permanent_HQplacements select _i) setDir ((_array select _i) select 1);
 	};
 
-	fuego inflame (["HQinflamed"] call AS_fnc_LoadStat);
+	fuego inflame ([_saveName, "HQinflamed"] call AS_fnc_LoadStat);
 
 	// this is modified only by moveObject.sqf
 	AS_HQ_placements = [];
-	_array = ["HQPlacements"] call AS_fnc_LoadStat;
+	_array = [_saveName, "HQPlacements"] call AS_fnc_LoadStat;
 	for "_i" from 0 to count _array - 1 do {
 		_item = ((_array select _i) select 2) createVehicle ((_array select _i) select 0);
 		_item setDir ((_array select _i) select 1);
@@ -174,16 +167,9 @@ AS_fnc_loadHQ = {
 };
 
 fn_SaveStat = AS_fnc_SaveStat;  // to be replaced in whole project.
+fn_LoadStat = AS_fnc_LoadStat;  // to be replaced in whole project.
 
 fn_SaveProfile = {saveProfileNamespace};
-
-// loads global persistent variables.
-fn_LoadStat = {
-	_varName = _this select 0;
-	_varValue = [_varName] call AS_fnc_LoadStat;
-	if(isNil "_varValue") exitWith {};
-	[_varName,_varValue] call fn_SetStat;
-};
 
 //===========================================================================
 // Variables that require scripting after loaded. See fn_SetStat.
@@ -432,5 +418,10 @@ fn_SetStat = {
 	};
 };
 
-//==================================================================================================================================================================================================
+
+AS_fnc_saveServer = compile preProcessFileLineNumbers "statSave\saveServer.sqf";
+AS_fnc_loadServer = compile preProcessFileLineNumbers "statSave\loadServer.sqf";
+
+call compile preprocessFileLineNumbers "statSave\cityAttrs.sqf";
+
 saveFuncsLoaded = true;

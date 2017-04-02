@@ -16,6 +16,12 @@ AS_minAISkill = 0.6; // The minimum skill of the AI.
 AS_maxAISkill = 0.9; // The maximum skill of the AI.
 musicON = true;
 civPerc = 0.2;//initial % civ spawn rate
+
+// todo: have a menu to switch this behaviour
+switchCom = false;  // Game will not auto assign Commander position to the highest ranked player
+
+// we set the maker on petros so the HQ position is correct in new games.
+"respawn_west" setMarkerPos (position petros);
 posHQ = getMarkerPos "respawn_west";
 //minefieldMrk = [];
 minimoFPS = 15;//initial FPS minimum.
@@ -558,6 +564,8 @@ for "_i" from 0 to (count _allVehicles - 1) do {
 };
 
 call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
+
+publicVariable "switchCom";
 
 publicVariable "unlockedWeapons";
 publicVariable "unlockedItems";

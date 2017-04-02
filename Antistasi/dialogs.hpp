@@ -1,3 +1,4 @@
+#include "statSave\dialogs.hpp"
 
 class HQ_menu
 {
@@ -87,41 +88,6 @@ BTN_R(4,111, "Buy Static AA", "", "closedialog 0; nul = [vfs select 10] call buy
 
 BTN_M(5, 112, "Buy APC", "", "if (hayRHS) then {if (player == AS_commander) then {closeDialog 0; nul = [vfs select 11] call buyFIAveh;} else {hint ""Only Player Commander has access to this function""};}else {hint ""RHS exclusive for now""};");
 
-	};
-};
-
-class first_load
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-AS_BOX(1);
-AS_FRAME(1,"Load previous session?");
-
-#define STR_LOAD_YES "closeDialog 0; if ((player == AS_commander) and (isNil ""placementDone"")) then {[""statSave\loadAccount.sqf"",""BIS_fnc_execVM""] call BIS_fnc_MP; placementDone = true; publicVariable ""placementDone""} else {nul = [] execVM ""statSave\loadAccount.sqf"";};"
-
-BTN_L(1,-1,"YES", "", STR_LOAD_YES);
-BTN_R(1,-1,"NO", "", A_CLOSE);
-
-	};
-};
-
-class init_menu
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-AS_BOX(2);
-AS_FRAME(2,"Enable Switch Commander?");
-
-BTN_L(1,-1,"YES", "", "switchCom = true; publicVariable ""switchCom""; hint ""Switch Commander Enabled\n\nGame will auto assign Commander position to the highest ranked player"";");
-BTN_R(1,-1,"NO", "", "switchCom = false; publicVariable ""switchCom""; hint ""Switch Commander Disabled\n\nGame will only assign Commander position upon Commander disconnection"";");
-
-BTN_M(2, -1, "Done", "", "if (!isNil ""switchCom"") then {closedialog 0; nul = [] execVM ""Dialogs\membersMenu.sqf"";} else {hint ""Select an option first""};");
 	};
 };
 
@@ -341,23 +307,6 @@ BTN_R(2,-1, "Donate 100 € to FIA", "", "[] call donateMoney;");
 	};
 };
 
-class members_menu
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-AS_BOX(2);
-AS_FRAME(2,"Enable Server Membership?");
-
-BTN_L(1,-1, "YES", "", "miembros = []; {miembros pushBack (getPlayerUID _x)} forEach playableUnits; publicVariable ""miembros""; hint ""Server Membership Enabled.\n\nAll the present players have been added to the Member's List.\n\nNon-members cannot use the HQ Ammobox and cannot be commanders, even with Switch Commander enabled.\n\nIf you load a session with this feature disabled, it will change to disabled.\n\nUse this option for Open Server Environments"";");
-BTN_R(1,-1, "NO", "", "miembros = []; publicVariable ""miembros""; hint ""Server Membership Disabled.\n\nAnyone can use the HQ Ammobox and become Commander (if Switch Commander is enabled).\n\nIf you load a session with this feature enabled, it will become enabled.\n\nUse this option for Private Server environments."";");
-
-BTN_M(2, -1, "Done", "", "if (!isNil ""miembros"") then {closedialog 0; nul = [] execVM ""Dialogs\firstLoad.sqf"";} else {hint ""Select an option first""};");
-
-	};
-};
 class vehicle_manager
 {
 	idd=-1;
@@ -806,7 +755,6 @@ class game_options_commander
 AS_DIALOG(5,"Game Options",A_CLOSE);
 
 #define STR_GO_GAR "closeDialog 0; [[], ""garbageCleaner.sqf""] remoteExec [""execVM"", 2];"
-#define STR_GO_PSS "closeDialog 0; [""statSave\saveLoop.sqf"",""BIS_fnc_execVM""] call BIS_fnc_MP;"
 #define STR_GO_RSA "closeDialog 0; if (player == AS_commander) then {[] remoteExec [""fnc_MAINT_main"", 2];};"
 
 BTN_L(1,-1, "Civ Config", "", "closeDialog 0; nul = createDialog ""civ_config"";");
@@ -815,7 +763,7 @@ BTN_L(3,-1, "Music ON/OFF", "", "closedialog 0; if (musicON) then {musicON = fal
 BTN_L(4,-1, "FPS Limiter", "", "closeDialog 0; nul = createDialog ""fps_limiter"";");
 
 BTN_R(1,-1, "Garbage Clean", "", STR_GO_GAR);
-BTN_R(2,-1, "Persistent Save", "", STR_GO_PSS);
+BTN_R(2,-1, "Load/Save", "", "closeDialog 0; [] call AS_fncUI_LoadSaveMenu;");
 BTN_R(3,-1, "Reinit UI \ Radio", "", "closeDialog 0; [] execVM ""reinitY.sqf"";");
 BTN_R(4,-1, "Spawn Dist. Config", "", "closeDialog 0; nul = createDialog ""spawn_config"";");
 
@@ -830,15 +778,11 @@ class game_options_player
 
 	class controls
 	{
-AS_DIALOG(2,"Game Options",A_CLOSE);
-
-#define STR_GO_PSS "closeDialog 0; [] call AS_fnc_saveLocalPlayer; hint ""Personal stats saved."""
+AS_DIALOG(1,"Game Options",A_CLOSE);
 
 BTN_L(1,-1, "Music ON/OFF", "", "closedialog 0; if (musicON) then {musicON = false; hint ""Music turned OFF"";} else {musicON = true; nul = execVM ""musica.sqf""; hint ""Music turned ON""};");
 
 BTN_R(1,-1, "Reinit UI \ Radio", "", "closeDialog 0; [] execVM ""reinitY.sqf"";");
-
-BTN_M(2, -1, "Persistent Save", "", STR_GO_PSS);
 	};
 };
 

@@ -1,32 +1,40 @@
 if (!isServer) exitWith {};
+params ["_saveName"];
 
 if (savingServer) exitWith {"Server data save is still in process" remoteExecCall ["hint",AS_commander]};
 savingServer = true;
 
-call AS_fnc_savePlayers;
+// spawn and wait for all clients to report their data.
+private _savingPlayersHandle = ([_saveName] spawn {
+    params ["_saveName"];
+    [] call AS_fnc_getPlayersData;
+    // todo: This is bad: we want to wait for every client to answer or timeout.
+    sleep 5;  // brute force method of waiting for every client...
+    [_saveName] call AS_fnc_savePlayers;
+});
 
-	["cuentaCA", cuentaCA] call fn_SaveStat;
-	["smallCAmrk", smallCAmrk] call fn_SaveStat;
-	["miembros", miembros] call fn_SaveStat;
-	["antenas", antenasmuertas] call fn_SaveStat;
-	["mrkAAF", mrkAAF - controles] call fn_SaveStat;
-	["mrkFIA", mrkFIA - puestosFIA - controles] call fn_SaveStat;
-	["APCAAFcurrent", APCAAFcurrent] call fn_SaveStat;
-	["tanksAAFcurrent",tanksAAFcurrent] call fn_SaveStat;
-	["planesAAFcurrent", planesAAFcurrent] call fn_SaveStat;
-	["helisAAFcurrent", helisAAFcurrent] call fn_SaveStat;
-	["fecha", date] call fn_SaveStat;
-	["skillAAF", skillAAF] call fn_SaveStat;
-	["destroyedCities", destroyedCities] call fn_SaveStat;
-	["destroyedBuildings", destroyedBuildings] call fn_SaveStat;
-	["distanciaSPWN", distanciaSPWN] call fn_SaveStat;
-	["civPerc", civPerc] call fn_SaveStat;
-	["minimoFPS", minimoFPS] call fn_SaveStat;
-	["vehInGarage", vehInGarage] call fn_SaveStat;
+[_saveName, "cuentaCA", cuentaCA] call fn_SaveStat;
+[_saveName, "smallCAmrk", smallCAmrk] call fn_SaveStat;
+[_saveName, "miembros", miembros] call fn_SaveStat;
+[_saveName, "antenas", antenasmuertas] call fn_SaveStat;
+[_saveName, "mrkAAF", mrkAAF - controles] call fn_SaveStat;
+[_saveName, "mrkFIA", mrkFIA - puestosFIA - controles] call fn_SaveStat;
+[_saveName, "APCAAFcurrent", APCAAFcurrent] call fn_SaveStat;
+[_saveName, "tanksAAFcurrent",tanksAAFcurrent] call fn_SaveStat;
+[_saveName, "planesAAFcurrent", planesAAFcurrent] call fn_SaveStat;
+[_saveName, "helisAAFcurrent", helisAAFcurrent] call fn_SaveStat;
+[_saveName, "fecha", date] call fn_SaveStat;
+[_saveName, "skillAAF", skillAAF] call fn_SaveStat;
+[_saveName, "destroyedCities", destroyedCities] call fn_SaveStat;
+[_saveName, "destroyedBuildings", destroyedBuildings] call fn_SaveStat;
+[_saveName, "distanciaSPWN", distanciaSPWN] call fn_SaveStat;
+[_saveName, "civPerc", civPerc] call fn_SaveStat;
+[_saveName, "minimoFPS", minimoFPS] call fn_SaveStat;
+[_saveName, "vehInGarage", vehInGarage] call fn_SaveStat;
 
-	["BE_data", ([] call fnc_BE_save)] call fn_SaveStat;
+[_saveName, "BE_data", ([] call fnc_BE_save)] call fn_SaveStat;
 
-[] call AS_fnc_saveHQ;
+[_saveName] call AS_fnc_saveHQ;
 
 private ["_hrfondo","_resfondo","_veh","_tipoVeh","_contenedores","_arrayEst","_posVeh","_dierVeh","_prestigeOPFOR","_prestigeBLUFOR","_ciudad","_datos","_marcadores","_garrison","_arrayMrkMF","_arrayPuestosFIA","_pospuesto","_tipoMina","_posMina","_detectada","_tipos","_exists","_amigo","_arrayCampsFIA","_enableFTold","_enableMemAcc","_campList"];
 
@@ -82,7 +90,7 @@ if (_amigo getVariable ["BLUFORSpawn",false]) then
 } forEach allUnits;
 
 _hrfondo = (server getVariable "hr") + ({(alive _x) and (not isPlayer _x) and (_x getVariable ["BLUFORSpawn",false])} count allUnits);
-[["resourcesFIA", "hr"], [_resfondo, _hrfondo]] call AS_fnc_saveServer;
+[_saveName, ["resourcesFIA", "hr"], [_resfondo, _hrfondo]] call AS_fnc_saveServerVariables;
 
 if (isMultiplayer) then {
 	{
@@ -148,10 +156,9 @@ if (_veh distance getMarkerPos "respawn_west" < 50) then
 	};
 } forEach vehicles - AS_permanent_HQplacements;
 
+[_saveName, "estaticas", _arrayEst] call fn_SaveStat;
 
-["estaticas", _arrayEst] call fn_SaveStat;
-
-[_cargo_w, _cargo_m, _cargo_i, _cargo_b] call AS_fnc_saveArsenal;
+[_saveName, _cargo_w, _cargo_m, _cargo_i, _cargo_b] call AS_fnc_saveArsenal;
 
 _marcadores = mrkFIA - puestosFIA - controles - ciudades;
 _garrison = [];
@@ -159,7 +166,7 @@ _garrison = [];
 _garrison = _garrison + [garrison getVariable [_x,[]]];
 } forEach _marcadores;
 
-["garrison",_garrison] call fn_SaveStat;
+[_saveName, "garrison",_garrison] call fn_SaveStat;
 
 _arrayMinas = [];
 {
@@ -171,7 +178,7 @@ if (_x mineDetectedBy side_blue) then {_detectada = true};
 _arrayMinas = _arrayMinas + [[_tipoMina,_posMina,_detectada,_dirMina]];
 } forEach allMines;
 
-["minas", _arrayMinas] call fn_SaveStat;
+[_saveName, "minas", _arrayMinas] call fn_SaveStat;
 
 _arraypuestosFIA = [];
 
@@ -180,7 +187,7 @@ _pospuesto = getMarkerPos _x;
 _arraypuestosFIA = _arraypuestosFIA + [_pospuesto];
 } forEach puestosFIA;
 
-["puestosFIA", _arraypuestosFIA] call fn_SaveStat;
+[_saveName, "puestosFIA", _arraypuestosFIA] call fn_SaveStat;
 
 if (count campList != 0) then {
 	_campList = [];
@@ -199,7 +206,7 @@ else {
 	} forEach campsFIA;
 };
 
-["campList", _campList] call fn_SaveStat;
+[_saveName, "campList", _campList] call fn_SaveStat;
 
 _arrayCampsFIA = [];
 {
@@ -207,7 +214,7 @@ _pospuesto = getMarkerPos _x;
 _arrayCampsFIA = _arrayCampsFIA + [_pospuesto];
 } forEach campsFIA;
 
-["campsFIA", _arrayCampsFIA] call fn_SaveStat;
+[_saveName, "campsFIA", _arrayCampsFIA] call fn_SaveStat;
 
 if (!isDedicated) then
 	{
@@ -231,12 +238,13 @@ _datos = [];
 _datos pushBack [_x,server getVariable _x];
 } forEach (aeropuertos + bases);
 
-["idleBases",_datos] call fn_SaveStat;
+[_saveName, "idleBases",_datos] call fn_SaveStat;
+
+// if the spawning is faster, let us wait until it is finished.
+waitUntil {scriptDone _savingPlayersHandle};
 
 [] call fn_SaveProfile;
 
 savingServer = false;
 
-_text = "Savegame Done.\n\nYou won't lose your stats in the event of a game update.\n\nRemember: if you want to preserve any vehicle, it must be near the HQ Flag with no AI inside.\nIf AI inside, you will save the funds you spent on it.\n\nAI will be refunded\n\nStolen and purchased Static Weapons need to be ASSEMBLED in order to get saved. Disassembled weapons may get saved in your ammobox\n\nMounted Statics (Mortar/AA/AT squads) won't get saved, but you will be able to recover the cost.\n\nSame for assigned vehicles more than 50 mts far from HQ";
-[petros,"save",_text] remoteExec ["commsMP",AS_commander];
 diag_log "[AS] server: game saved.";

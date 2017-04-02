@@ -69,20 +69,6 @@ else {
 	waitUntil {(scriptdone _introshot) and (!isNil "serverInitDone")};
 };
 
-disableUserInput false;
-player addWeaponGlobal "itemmap";
-player addWeaponGlobal "itemgps";
-player setVariable ["owner",player,true];
-player setVariable ["punish",0,true];
-player setVariable ["dinero",100,true];
-player setVariable ["BLUFORSpawn",true,true];
-player setVariable ["rango",rank player,true];
-_score = 0;
-if (player==AS_commander) then {_score = 25};
-player setVariable ["score", _score, true];
-
-MIASquadUnits = creategroup WEST;  // units that are not in the squad because they lost communication with the player (no radio).
-
 (group player) enableAttack false;
 if (!hayACE) then {
 	tags = [] execVM "tags.sqf";
@@ -94,7 +80,31 @@ else {
 
 if (hayRHS) then {[player] execVM "Municion\RHSdress.sqf"};
 
+disableUserInput false;
+MIASquadUnits = creategroup WEST;  // units that are not in the squad because they lost communication with the player (no radio).
+player addWeaponGlobal "itemmap";
+player addWeaponGlobal "itemgps";
 player setvariable ["compromised", 0];  // Used by undercover mechanics
+player setVariable ["owner",player,true];
+player setVariable ["punish",0,true];
+player setVariable ["dinero",100,true];
+player setVariable ["BLUFORSpawn",true,true];
+player setUnitRank "PRIVATE";
+player setVariable ["rango",rank player,true];
+_score = 0;
+if (player==AS_commander) then {_score = 25};
+player setVariable ["score", _score, true];
+
+if (isMultiplayer) then {
+	["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;//Exec on client
+
+    personalGarage = [];
+};
+
+_pos = posHQ findEmptyPosition [2, 10, typeOf (vehicle player)];
+player setPos _pos;
+
+call AS_fnc_loadLocalPlayer;
 
 [] call AS_fnc_initPlayer;
 
@@ -140,22 +150,9 @@ player addEventHandler ["GetOutMan", {
 	};
 }];
 
-if (isMultiplayer) then {
-	["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;//Exec on client
-	personalGarage = [];
-};
-
 if (_isJip) then {
 	waitUntil {scriptdone _introshot};
 	[] execVM "modBlacklist.sqf";
-	//player setVariable ["score",0,true];
-	//player setVariable ["owner",player,true];
-	player setVariable ["punish",0,true];
-	player setUnitRank "PRIVATE";
-	waitUntil {!isNil "posHQ"};
-
-	_pos = posHQ findEmptyPosition [2, 10, typeOf (vehicle player)];
-	player setPos _pos;
 
 	if (not([player] call isMember)) then {
 		if (serverCommandAvailable "#logout") then {
@@ -208,29 +205,20 @@ if (_isJip) then {
 	};
 	} forEach allUnits;
 
-	if ((player == AS_commander) and (isNil "placementDone") and (isMultiplayer)) then {
-		[] execVM "Dialogs\initMenu.sqf";
-	}
-	else {
-		[true] execVM "Dialogs\firstLoad.sqf";
+	if ((player == AS_commander) and (isNil "placementDone")) then {
+        [] spawn AS_fncUI_LoadSaveMenu;
 	};
-	
+
 	// sync the inventory content to the JIP.
 	remoteExec ["fnc_MAINT_refillArsenal", 2];
 }
 else {  // not JIP
 	if (isNil "placementDone") then {
 		waitUntil {!isNil "AS_commander"};
-		if (player == AS_commander) then {
-		    if (isMultiplayer) then {
-		    	HC_comandante synchronizeObjectsAdd [player];
-				player synchronizeObjectsAdd [HC_comandante];
-		    	[] execVM "Dialogs\initMenu.sqf";
-		    }
-		    else {
-		    	miembros = [];
-		    	 [] execVM "Dialogs\firstLoad.sqf";
-		    };
+		if (isMultiplayer and player == AS_commander) then {
+            HC_comandante synchronizeObjectsAdd [player];
+            player synchronizeObjectsAdd [HC_comandante];
+            [] spawn AS_fncUI_LoadSaveMenu;
 		};
 	};
 };

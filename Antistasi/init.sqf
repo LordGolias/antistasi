@@ -35,12 +35,6 @@ if(isNil "AS_profileID") then {
 };
 
 if(isServer) then {
-	// AS_sessionID is the ID of the server. It points to AS_profileID.
-	// The load-save functionality uses `AS_profileID + AS_sessionID` to select the relevant save.
-	AS_sessionID = serverName + AS_profileID;
-	publicVariable "AS_sessionID";
-	waitUntil {!isNil "AS_sessionID"};
-
 	miembros = [];
     if (serverName in servidoresOficiales) then
         {

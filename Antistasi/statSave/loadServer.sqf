@@ -1,53 +1,36 @@
-if (!isDedicated) then {
-	//["AS_session_client"] call fn_LoadStat;
-	{player removeMagazine _x} forEach magazines player;
-	{player removeWeaponGlobal _x} forEach weapons player;
-	removeBackpackGlobal player;
-	if ("ItemGPS" in (assignedItems player)) then {player unlinkItem "ItemGPS"};
-	if ((!hayTFAR) and ("ItemRadio" in (assignedItems player))) then {player unlinkItem "ItemRadio"};
-
-	_pos = posHQ findEmptyPosition [2, 10, typeOf (vehicle player)];
-	player setPos _pos;
-
-	if (isMultiplayer) then {
-		[] call AS_fnc_loadLocalPlayer;
-	};
-};
-
 if (!isServer) exitWith {};
-statsLoaded = 0; publicVariable "statsLoaded";
-//ADD STATS THAT NEED TO BE LOADED HERE.
+params ["_saveName"];
+
 petros allowdamage false;
 
-call AS_fnc_loadServer;
-call AS_fnc_loadArsenal;
+[_saveName] call AS_fnc_loadServerVariables;
+[_saveName] call AS_fnc_loadArsenal;
 [true] call fnc_MAINT_arsenal;
 
-["campList"] call fn_LoadStat; publicVariable "campList";
-["campsFIA"] call fn_LoadStat; publicVariable "campsFIA";
-["puestosFIA"] call fn_LoadStat; publicVariable "puestosFIA";
-["mrkFIA"] call fn_LoadStat; mrkFIA = mrkFIA + puestosFIA; publicVariable "mrkFIA"; if (isMultiplayer) then {sleep 5};
-["mrkAAF"] call fn_LoadStat;
-["destroyedCities"] call fn_LoadStat;
-["minas"] call fn_LoadStat;
-["cuentaCA"] call fn_LoadStat;
-["antenas"] call fn_LoadStat;
-["planesAAFcurrent"] call fn_LoadStat;
-["helisAAFcurrent"] call fn_LoadStat;
-["APCAAFcurrent"] call fn_LoadStat;
-["tanksAAFcurrent"] call fn_LoadStat;
-["fecha"] call fn_LoadStat;
-["garrison"] call fn_LoadStat;
-["skillAAF"] call fn_LoadStat;
-["distanciaSPWN"] call fn_LoadStat;
-["civPerc"] call fn_LoadStat;
-["minimoFPS"] call fn_LoadStat;
-["smallCAmrk"] call fn_LoadStat;
-["miembros"] call fn_LoadStat;
-["vehInGarage"] call fn_LoadStat;
-["destroyedBuildings"] call fn_LoadStat;
-["idleBases"] call fn_LoadStat;
-//===========================================================================
+[_saveName, "campList"] call fn_LoadStat; publicVariable "campList";
+[_saveName, "campsFIA"] call fn_LoadStat; publicVariable "campsFIA";
+[_saveName, "puestosFIA"] call fn_LoadStat; publicVariable "puestosFIA";
+[_saveName, "mrkFIA"] call fn_LoadStat; mrkFIA = mrkFIA + puestosFIA; publicVariable "mrkFIA";
+[_saveName, "mrkAAF"] call fn_LoadStat;
+[_saveName, "destroyedCities"] call fn_LoadStat;
+[_saveName, "minas"] call fn_LoadStat;
+[_saveName, "cuentaCA"] call fn_LoadStat;
+[_saveName, "antenas"] call fn_LoadStat;
+[_saveName, "planesAAFcurrent"] call fn_LoadStat;
+[_saveName, "helisAAFcurrent"] call fn_LoadStat;
+[_saveName, "APCAAFcurrent"] call fn_LoadStat;
+[_saveName, "tanksAAFcurrent"] call fn_LoadStat;
+[_saveName, "fecha"] call fn_LoadStat;
+[_saveName, "garrison"] call fn_LoadStat;
+[_saveName, "skillAAF"] call fn_LoadStat;
+[_saveName, "distanciaSPWN"] call fn_LoadStat;
+[_saveName, "civPerc"] call fn_LoadStat;
+[_saveName, "minimoFPS"] call fn_LoadStat;
+[_saveName, "smallCAmrk"] call fn_LoadStat;
+[_saveName, "miembros"] call fn_LoadStat;
+[_saveName, "vehInGarage"] call fn_LoadStat;
+[_saveName, "destroyedBuildings"] call fn_LoadStat;
+[_saveName, "idleBases"] call fn_LoadStat;
 
 _marcadores = mrkFIA + mrkAAF + campsFIA;
 
@@ -177,58 +160,58 @@ publicVariable "marcadores";
 publicVariable "mrkAAF";
 publicVariable "mrkFIA";
 
-[] call AS_fnc_loadHQ;
-["estaticas"] call fn_LoadStat;//tiene que ser el último para que el sleep del borrado del contenido no haga que despawneen
+[_saveName] call AS_fnc_loadHQ;
+[_saveName, "estaticas"] call fn_LoadStat;//tiene que ser el último para que el sleep del borrado del contenido no haga que despawneen
 
 //call AAFassets;
 
-if (isMultiplayer) then
+if (isMultiplayer) then {
 	{
-	{
-	_jugador = _x;
-	if ([_jugador] call isMember) then
-		{
-		{_jugador removeMagazine _x} forEach magazines _jugador;
-		{_jugador removeWeaponGlobal _x} forEach weapons _jugador;
-		removeBackpackGlobal _jugador;
-		};
-	_pos = posHQ findEmptyPosition [2, 10, typeOf (vehicle _jugador)];
-	_jugador setPos _pos;
+        _jugador = _x;
+        if ([_jugador] call isMember) then
+            {
+            {_jugador removeMagazine _x} forEach magazines _jugador;
+            {_jugador removeWeaponGlobal _x} forEach weapons _jugador;
+            removeBackpackGlobal _jugador;
+            };
+        _pos = posHQ findEmptyPosition [2, 10, typeOf (vehicle _jugador)];
+        _jugador setPos _pos;
 	} forEach playableUnits;
-	}
-else
-	{
+
+    call AS_fnc_loadPlayers;
+
+} else {
 	{player removeMagazine _x} forEach magazines player;
 	{player removeWeaponGlobal _x} forEach weapons player;
 	removeBackpackGlobal player;
 
 	_pos = posHQ findEmptyPosition [2, 10, typeOf (vehicle player)];
 	player setPos _pos;
-	};
+};
 
-["BE_data"] call fn_LoadStat;
+[_saveName, "BE_data"] call fn_LoadStat;
 
-[[petros,"hintCS","Persistent Savegame Loaded"],"commsMP"] call BIS_fnc_MP;
-diag_log "[AS] Server: game loaded";
-
-sleep 25;
-["tasks"] call fn_LoadStat;
-
-_tmpCAmrk = + smallCAmrk;
-smallCAmrk = [];
-
-{
-_base = [_x] call findBasesForCA;
-//if (_x == "puesto_13") then {_base = ""};
-_radio = [_x] call radioCheck;
-if ((_base != "") and (_radio) and (_x in mrkFIA) and (not(_x in smallCAmrk))) then
-	{
-	[_x] remoteExec ["patrolCA",HCattack];
-	smallCAmrk pushBackUnique _x;
-	};
-} forEach _tmpCAmrk;
-publicVariable "smallCAmrk";
-
+diag_log format ['[AS] Server: game "%1" loaded', _saveName];
 petros allowdamage true;
-//END
-//hint "Stats loaded";
+
+// resume existing attacks in 25 seconds.
+[_saveName] spawn {
+    params ["_saveName"];
+    sleep 25;
+    [_saveName, "tasks"] call fn_LoadStat;
+
+    _tmpCAmrk = + smallCAmrk;
+    smallCAmrk = [];
+
+    {
+    _base = [_x] call findBasesForCA;
+    //if (_x == "puesto_13") then {_base = ""};
+    _radio = [_x] call radioCheck;
+    if ((_base != "") and (_radio) and (_x in mrkFIA) and (not(_x in smallCAmrk))) then
+        {
+        [_x] remoteExec ["patrolCA",HCattack];
+        smallCAmrk pushBackUnique _x;
+        };
+    } forEach _tmpCAmrk;
+    publicVariable "smallCAmrk";
+};

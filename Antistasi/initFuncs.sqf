@@ -2,10 +2,8 @@
 File that initializes functions. This should only initialize functions and variables, not call them.
 At this point you cannot use variables from initVar.
 */
-
-call compile preprocessFileLineNumbers "statSave\cityAttrs.sqf";
 call compile preProcessFileLineNumbers "statSave\saveFuncs.sqf";
-call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
+call compile preProcessFileLineNumbers "statSave\dialogs.sqf";
 
 AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "CREATE\setDefaultSkill.sqf";
 AS_fnc_getWeaponItemsCargo = compile preProcessFileLineNumbers "municion\getWeaponItemsCargo.sqf";

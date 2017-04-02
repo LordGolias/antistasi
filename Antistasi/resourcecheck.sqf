@@ -1,7 +1,5 @@
 ﻿if (!isServer) exitWith{};
 
-if (isMultiplayer) then {waitUntil {!isNil "switchCom"}};
-
 private ["_texto"];
 scriptName "resourcecheck";
 while {true} do

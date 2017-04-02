@@ -28,7 +28,6 @@ fnc_MAINT_arsenal = {
 
 	0 = [] call fnc_MAINT_refillArsenal;
 
-	[[petros,"hint","Arsenal synchronized"],"commsMP"] call BIS_fnc_MP;
 	diag_log "[AS] maintenance: Arsenal resynchronised";
 };
 

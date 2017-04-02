@@ -96,6 +96,34 @@
 //Base Classes//
 ////////////////
 
+// class used to set a common theme.
+class RscColors {
+    colorBackground[] = {
+        "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])",
+        "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])",
+        "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])",
+        0.7
+    };
+    colorBackgroundActive[] = {
+        "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])",
+        "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])",
+        "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])",
+        1
+    };
+    colorBackgroundDisabled[] = {0.95,0.95,0.95,1};
+
+    colorText[] = {1,1,1,1};
+    colorDisabled[] = {0.4,0.4,0.4,1};
+    
+    font = "PuristaMedium";
+	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+    access = 0;
+
+    shadow = 2;
+	colorShadow[] = {0,0,0,1};
+};
+
+
 class RscPicture
 {
     access = 0;
@@ -116,47 +144,28 @@ class RscPicture
     h = 0.15;
 };
 
-class RscButton {
+class RscButton : RscColors {
     idc = -1;
     type = 1;
     style = 2;
-    access = 0;
     borderSize = 0;
-    colorBackground[] = {
-        "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])",
-        "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])",
-        "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])",
-        0.7
-    };
-    colorBackgroundActive[] = {
-        "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])",
-        "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])",
-        "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])",
-        1
-    };
-    colorBackgroundDisabled[] = {0.95,0.95,0.95,1};
+
     colorBorder[] = {0,0,0,1};
-    colorDisabled[] = {0.4,0.4,0.4,1};
     colorFocused[] = {
         "(profilenamespace getvariable ['GUI_BCG_RGB_R',0.3843])",
         "(profilenamespace getvariable ['GUI_BCG_RGB_G',0.7019])",
         "(profilenamespace getvariable ['GUI_BCG_RGB_B',0.8862])",
         1
     };
-    colorShadow[] = {0,0,0,1};
-    colorText[] = {1,1,1,1};
-    font = "PuristaMedium";
+
     offsetPressedX = 0;
     offsetPressedY = 0;
     offsetX = 0;
     offsetY = 0;
-    shadow = 2;
-    sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
     soundClick[] = {"\A3\ui_f\data\sound\onclick",0.07,1};
     soundEnter[] = {"\A3\ui_f\data\sound\onover",0.09,1};
     soundEscape[] = {"\A3\ui_f\data\sound\onescape",0.09,1};
     soundPush[] = {"\A3\ui_f\data\sound\new1",0,0};
-    text = "";
 };
 
 class RscFrame {
@@ -171,24 +180,54 @@ class RscFrame {
     text = "";
 };
 
-class RscEdit {
-  access = 0;
+class RscListBox : RscColors {
+	deletable = 0;
+	fade = 0;
+	type = CT_LISTBOX;
+	rowHeight = 0;
+	//colorScrollbar[] = {1,0,0,0.5};
+	colorSelect[] = {1,1,1,1,0.5};
+	colorSelect2[] = {1,1,1,0.5};
+
+	colorSelectBackground[] = {0,0,0,0.5};
+	colorSelectBackground2[] = {0.667,0.714,0.635,1};
+	soundSelect[] = {
+		"\A3\ui_f\data\sound\RscListbox\soundSelect",0.09,1};
+	autoScrollSpeed = -1;
+	autoScrollDelay = 5;
+	autoScrollRewind = 0;
+
+    colorPicture[] = {1,1,1,1};
+	colorPictureSelected[] = {1,1,1,1};
+	colorPictureDisabled[] = {1,1,1,0.25};
+	colorPictureRight[] = {1,1,1,1};
+	colorPictureRightSelected[] = {1,1,1,1};
+	colorPictureRightDisabled[] = {1,1,1,0.25};
+
+    tooltipColorText[] = {1,1,1,1};
+	tooltipColorBox[] = {1,1,1,1};
+	tooltipColorShade[] = {0,0,0,0.65};
+	class ListScrollBar {
+		color[] = {0,0,0,0.5};
+		autoScrollEnabled = 1;
+        arrowEmpty = "#(argb,8,8,3)color(1,1,1,1)";
+        arrowFull = "#(argb,8,8,3)color(1,1,1,1)";
+	};
+	style = LB_TEXTURES;
+	period = 1.2;
+	maxHistoryDelay = 1;
+	colorTextRight[] = {1,1,1,1};
+	colorSelectRight[] = {0,0,0,1};
+	colorSelect2Right[] = {0,0,0,1};
+};
+
+class RscEdit : RscColors {
   type = CT_EDIT;
   style = ST_LEFT+ST_FRAME;
-  x = 0;
-  y = 0;
-  w = 0.055589;
-  h = 0.039216;
-  colorBackground[] = {0.75,0.75,0.75,0.8};
-  colorText[] = {1,1,1,.9};
-  colorSelection[] = {1,1,1,0.25};
-  colorDisabled[] = {0.4,0.4,0.4,0};
-  font = "PuristaMedium";
-  sizeEx = 0.03;
   autocomplete = "";
   text = "";
-  size = 0.2;
-  shadow = 2;
+
+  colorSelection[] = {1,1,1,1,0.5};
 };
 
 // The height of a button
@@ -214,15 +253,21 @@ class RscEdit {
 
 #define BTN_Y(n) (BTN_BACK_Y(n) + n*(BTN_SPACING + BTN_H))
 
+// size of list (same as the size of n buttons combined.)
+#define LIST_H(nSize) (nSize*(BTN_SPACING + BTN_H) - BTN_SPACING)
+
 #define BTN_X_L (0.272481 * safezoneW + safezoneX)
 #define BTN_X_R (0.482498 * safezoneW + safezoneX)
 #define BTN_X_M (0.37749 * safezoneW + safezoneX)
+
+// 0 => BTN_X_L, 1 => BTN_X_R
+#define LEFT_OR_RIGHT(position) (BTN_X_L + position*(BTN_X_R - BTN_X_L))
 
 #define BTN_W (0.175015 * safezoneW)
 
 #define A_CLOSE "closeDialog 0"
 
-// the black box that fills the whole screen.
+// the black box that fills the dialog.
 class AS_box {
   type = CT_STATIC;
   idc = -1;
@@ -264,7 +309,7 @@ class NAME##FRAME : AS_frame { \
 
 class AS_button_back: RscButton
 {
-  idc = -1;
+  idc = 72;  // so we can modify it if needed.
   text = "Back";
   x = 0.61 * safezoneW + safezoneX;
   w = 0.06 * safezoneW;
@@ -326,3 +371,31 @@ class NAME##BTN_M##n : AS_button_R { \
 AS_BOX(n); \
 AS_FRAME(n,F_TEXT); \
 BTN_BACK(n,BACK_ACTION);
+
+// List of stuff
+class AS_RscListBox : RscListBox {
+    w = BTN_W;
+    
+};
+
+#define LIST_L(P, yP,IDC,nSize,ON_SELECTION) \
+class NAME##LIST_L##nPosition : AS_RscListBox { \
+  x = LEFT_OR_RIGHT(P); \
+  y = BTN_Y(yP); \
+  h = LIST_H(nSize); \
+  idc = IDC; \
+  onLBSelChanged  = ON_SELECTION; \
+};
+
+class AS_RscEdit : RscEdit {
+    w = BTN_W;
+    h = BTN_H;
+};
+
+#define WRITE(position,n,BTN_IDC,BTN_TEXT) \
+class NAME##WRITE##position##n : AS_RscEdit { \
+  x = LEFT_OR_RIGHT(position); \
+  y = BTN_Y(n); \
+  idc = BTN_IDC; \
+  text = BTN_TEXT; \
+};\

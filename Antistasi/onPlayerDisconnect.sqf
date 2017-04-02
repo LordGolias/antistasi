@@ -73,3 +73,5 @@ if (alive _unit) then
 	_unit setDamage 1;
 	};
 
+// send data to the server.
+call AS_fnc_saveLocalPlayerData;

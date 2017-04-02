@@ -91,6 +91,13 @@ player createDiaryRecord ["SpecialK",["Battle Options","Press Y in-game to have 
 player createDiarySubject ["Features","Features Detail"];
 player createDiaryRecord ["Features",["Player and Money","Use this option to donate money to other players or your faction funds. Commanders may add or remove players from the Server Members List if the feature is enabled"]];
 player createDiaryRecord ["Features",["Server Members","For MP only. If enabled, this feature will exclude all non-members from using the HQ Ammobox and become Commander. This feature is intended to avoid having your game ruined by the casual troll in open server environments."]];
+player createDiaryRecord ["Features",["Save game", 
+    "Save your progress at (HQ Map -> Game Options).
+     If you want to preserve any vehicle, it must be near the HQ Flag with no AI inside.
+     All AIs are saved.
+     Stolen and purchased static weapons need to be assembled or stored in the ammobox.
+     Mortar/AA/AT squads are not saved but you recover the cost."
+]];
 player createDiaryRecord ["Features",["Base Static Emplacement","Purchased static weapons won't despawn if you leave them in a base or zone, AI garrison will man them. Reinforce places as you desire."]];
 player createDiaryRecord ["Features",["Fast Travel","When there are no enemies nearby, fast travel to FIA controlled places. The Commander also has the ability to use this option on HC groups, selecting the group on HC bar and clicking on this button"]];
 player createDiaryRecord ["Features",["Ammobox Transfer","When you mount a truck, you may use the Transfer action in the action menu. It will search for nearby ammoboxes and load the contents of the nearest one into the truck's cargo space. You may then unload the truck in your ammobox at HQ for future use. Before transferring, make sure to unload backpack/vest contents into the Truck cargo space and then transfer. TIP: If your HQ Ammobox is full, use this functionality from a nearby truck to add more content to the ammobox as it will then accept everything :)"]];
