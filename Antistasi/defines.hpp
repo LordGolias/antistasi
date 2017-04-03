@@ -162,10 +162,10 @@ class RscButton : RscColors {
     offsetPressedY = 0;
     offsetX = 0;
     offsetY = 0;
-    soundClick[] = {"\A3\ui_f\data\sound\onclick",0.07,1};
-    soundEnter[] = {"\A3\ui_f\data\sound\onover",0.09,1};
-    soundEscape[] = {"\A3\ui_f\data\sound\onescape",0.09,1};
-    soundPush[] = {"\A3\ui_f\data\sound\new1",0,0};
+    soundClick[] = {"\A3\ui_f\data\sound\RscButton\soundClick",0.09,1};
+    soundEnter[] = {"\A3\ui_f\data\Sound\RscButton\soundEnter",0.09,1};
+    soundEscape[] = {"\A3\ui_f\data\sound\RscButton\soundEscape",0.09,1};
+    soundPush[] = {"\A3\ui_f\data\sound\RscButton\soundPush",0.09,1};
 };
 
 class RscFrame {
