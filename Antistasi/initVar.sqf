@@ -111,6 +111,12 @@ getNumber ( _x >> ""type"" ) isEqualTo 4096 && {
 getText ( _x >> ""simulation"" ) isEqualTo ""weapon""
 }})" configClasses ( configFile >> "cfgWeapons" );
 
+_allMagazines = "(
+getNumber ( _x >> ""scope"" ) isEqualTo 2 && {
+getText ( _x >> ""simulation"" ) isEqualTo ""ProxyMagazines""
+})" configClasses ( configFile >> "CfgMagazines" );
+
+
 AS_allItems = [];
 {
 	AS_allItems pushBack (configName _x);
@@ -224,7 +230,7 @@ AS_allThrowGrenades = [];
 AS_allMagazines = [];
 {
 	AS_allMagazines pushBackUnique configName _x;
-} forEach ("(getText ( _x >> ""simulation"" ) isEqualTo ""ProxyMagazines"")" configClasses ( configFile >> "CfgMagazines" ));
+} forEach _allMagazines;
 
 
 /*
