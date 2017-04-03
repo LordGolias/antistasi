@@ -13,10 +13,10 @@
 params ["_items", ["_cargo", [[], []]], ["_value", 1]];
 
 for "_i" from 0 to (count _items - 1) do {
-	_name = _items select _i;
-	_index = (_cargo select 0) find _name;
+	private _name = _items select _i;
+	private _index = (_cargo select 0) find _name;
 	if (_index != -1) then {
-		_amount = ((_cargo select 1) select _index);
+		private _amount = ((_cargo select 1) select _index);
 		(_cargo select 1) set [_index, _amount + _value];
 	}
 	else {
