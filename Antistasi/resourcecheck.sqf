@@ -1,4 +1,5 @@
-﻿if (!isServer) exitWith{};
+﻿#include "macros.hpp"
+if (!isServer) exitWith{};
 
 private ["_texto"];
 scriptName "resourcecheck";
@@ -137,9 +138,9 @@ while {true} do
 
 	_texto = format ["<t size='0.6' color='#C1C0BB'>Taxes Income.<br/> <t size='0.5' color='#C1C0BB'><br/>Manpower: +%1<br/>Money: +%2 €",_FIAnewHR,_FIAnewMoney];
 
-	_AAFnewMoney = (AS_persistent getVariable "resourcesAAF") + round _AAFnewMoney;
-	_FIAnewMoney = (AS_persistent getVariable "resourcesFIA") + round _FIAnewMoney;
-	_FIAnewHR = (AS_persistent getVariable "hr") + round _FIAnewHR;
+	_AAFnewMoney = AS_P("resourcesAAF") + round _AAFnewMoney;
+	_FIAnewMoney = AS_P("resourcesFIA") + round _FIAnewMoney;
+	_FIAnewHR = AS_P("hr") + round _FIAnewHR;
 
 	if (hayBE) then {
 		if (_FIAnewHR > 0) then {

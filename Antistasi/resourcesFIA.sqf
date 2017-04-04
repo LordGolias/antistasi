@@ -1,3 +1,4 @@
+#include "macros.hpp"
 private ["_hr","_resourcesFIA","_hrT","_resourcesFIAT"];
 waitUntil {!resourcesIsChanging};
 resourcesIsChanging = true;
@@ -6,8 +7,8 @@ _resourcesFIA = _this select 1;
 if (isNil "_resourcesFIA") then {diag_log "Tienes algún coste sin definit en las tablas de FIA"};
 if ((isNil "_hr") or (isNil "_resourcesFIA")) exitWith {};
 
-_hrT = AS_persistent getVariable "hr";
-_resourcesFIAT = AS_persistent getVariable "resourcesFIA";
+_hrT = AS_P("hr");
+_resourcesFIAT = AS_P("resourcesFIA");
 
 // BE module
 if (hayBE) then {

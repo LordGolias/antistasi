@@ -1,3 +1,4 @@
+#include "macros.hpp"
 if (!isServer) exitWith {};
 
 private ["_cuentaFail","_texto"];
@@ -32,7 +33,7 @@ while {true} do
 				distanciaSPWN = distanciaSPWN - 100;
 				publicVariable "distanciaSPWN";
 				};
-            _civPerc = AS_persistent getVariable "civPerc";
+            _civPerc = AS_P("civPerc");
 			if (_civPerc > 0.05) then
 				{
                 AS_persistent setVariable ["civPerc", _civPerc - 0.01, true];

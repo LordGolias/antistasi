@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 private ["_display","_childControl","_texto"];
 createDialog "HQ_menu";
 
@@ -14,7 +15,7 @@ if (str (_display) != "no display") then
 	if (hayBE) then {
 		_texto = format ["Current Stage: %2 \nNext Stage Training Cost: %1 €", BE_currentPrice, BE_currentStage];
 	} else {
-		_texto = format ["Current level: %2. Next Level Training Cost: %1 €",1000 + (1.5*((AS_persistent getvariable "skillFIA") *750)),AS_persistent getvariable "skillFIA"];
+		_texto = format ["Current level: %2. Next Level Training Cost: %1 €",1000 + (1.5*AS_P("skillFIA")*750),AS_P("skillFIA")];
 	};
 	_childControl  ctrlSetTooltip _texto;
 };

@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
 
 private ["_origen"];
@@ -24,7 +25,7 @@ _soldados = [];
 _vehiculos = [];
 _grupos = [];
 _tipoveh = "";
-_cuenta = AS_persistent getVariable "prestigeNATO";
+_cuenta = AS_P("prestigeNATO");
 _cuenta = round (_cuenta / 10);
 
 [-20,0] remoteExec ["prestige",2];

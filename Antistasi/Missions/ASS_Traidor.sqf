@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
 
 _tskTitle = localize "STR_tsk_ASSTraitor";
@@ -141,8 +142,8 @@ else
 	[-10,AS_commander] call playerScoreAdd;
 	if (dateToNumber date > _fechalimnum) then
 		{
-		_hrT = AS_persistent getVariable "hr";
-		_resourcesFIAT = AS_persistent getVariable "resourcesFIA";
+		_hrT = AS_P("hr");
+		_resourcesFIAT = AS_P("resourcesFIA");
 		[-1*(round(_hrT/3)),-1*(round(_resourcesFIAT/3))] remoteExec ["resourcesFIA",2];
 		}
 	else

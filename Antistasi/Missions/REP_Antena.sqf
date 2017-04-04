@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
 
 _tskTitle = localize "STR_tsk_repAntenna";
@@ -96,7 +97,7 @@ if (dateToNumber date > _fechalimnum) then
 		];
 	};
 
-_resourcesAAF = AS_persistent getVariable "resourcesAAF";
+_resourcesAAF = AS_P("resourcesAAF");
 _resourcesAAF = _resourcesAAF - 10000;
 AS_persistent setVariable ["resourcesAAF",_resourcesAAF,true];
 [60,_tsk] spawn borrarTask;

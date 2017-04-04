@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 
 if (player != AS_commander) exitWith {hint "Only the commander has access to this function"};
 if (!allowPlayerRecruit) exitWith {hint "Server is very loaded. \nWait one minute or change FPS settings in order to fulfill this request"};
@@ -16,8 +17,8 @@ params ["_grouptype"];
 private _isInfantry = false;
 private _cost = 0;
 private _costHR = 0;
-private _hr = AS_persistent getVariable "hr";
-private _resourcesFIA = AS_persistent getVariable "resourcesFIA";
+private _hr = AS_P("hr");
+private _resourcesFIA = AS_P("resourcesFIA");
 
 if (_grouptype in ["IRG_InfSquad","IRG_InfTeam","IRG_InfTeam_AT","IRG_SniperTeam_M","IRG_InfSentry"]) then {
 	private _units = [(configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> _grouptype)] call groupComposition;
@@ -183,7 +184,7 @@ else
 
 _cost = [_vehType] call vehiclePrice;
 private ["_display","_childControl"];
-if (_cost > AS_persistent getVariable "resourcesFIA") exitWith {};
+if (_cost > AS_P("resourcesFIA")) exitWith {};
 
 createDialog "veh_query";
 

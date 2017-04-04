@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
 
 if (server getVariable "blockCSAT") exitWith {};
@@ -58,7 +59,7 @@ if (!_isDirectAttack) then {
 
 // check if CSAT will help.
 private _hayCSAT = false;
-if ((_base == "") and (_aeropuerto == "") and (random 100 < AS_persistent getVariable "prestigeCSAT")) then {
+if ((_base == "") and (_aeropuerto == "") and (random 100 < AS_P("prestigeCSAT"))) then {
 	_hayCSAT = true;
 };
 

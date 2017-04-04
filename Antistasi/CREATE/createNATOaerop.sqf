@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
 
 private ["_marcador","_vehiculos","_grupos","_soldados","_posicion","_pos","_size","_veh","_estaticas","_nVeh","_cuenta","_grupo","_unit","_buildings","_tipoveh","_ang","_soldadosFIA","_gruposFIA","_prestigio","_grupoMort"];
@@ -12,7 +13,7 @@ _gruposFIA = [];
 
 _posicion = getMarkerPos (_marcador);
 _pos = [];
-_prestigio = (AS_persistent getVariable "prestigeNATO")/100;
+_prestigio = AS_P("prestigeNATO")/100;
 
 _size = [_marcador] call sizeMarker;
 _estaticas = staticsToSave select {_x distance _posicion < _size};

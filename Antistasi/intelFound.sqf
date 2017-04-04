@@ -1,3 +1,4 @@
+#include "macros.hpp"
 if (isDedicated) exitWith {};
 
 _chance = 8;
@@ -23,7 +24,7 @@ _texto = format ["<t size='0.6' color='#C1C0BB'>Intel Found.<br/> <t size='0.5' 
 
 if (random 100 < _chance) then
 	{
-	_texto = format ["%1 AAF Troop Skill Level: %2<br/>",_texto, AS_persistent getVariable "skillAAF"];
+	_texto = format ["%1 AAF Troop Skill Level: %2<br/>",_texto, AS_P("skillAAF")];
 	};
 if (random 100 < _chance) then
 	{
@@ -31,7 +32,7 @@ if (random 100 < _chance) then
 	};
 if (random 100 < _chance) then
 	{
-	_resourcesAAF = AS_persistent getVariable "resourcesAAF";
+	_resourcesAAF = AS_P("resourcesAAF");
 	if (_resourcesAAF < 1000) then {_texto = format ["%1 AAF Funds: Poor<br/>",_texto]} else {_texto = format ["%1 AAF Funds: %2 €<br/>",_texto,_resourcesAAF]};
 	};
 if (random 100 < _chance) then

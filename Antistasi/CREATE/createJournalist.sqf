@@ -1,9 +1,10 @@
+#include "../macros.hpp"
 params ["_marcador", "_grupos"];
 
 private _size = [_marcador] call sizeMarker;
 
 private _journalist = objNull;
-if ((random 100 < (((AS_persistent getVariable "prestigeNATO") + (AS_persistent getVariable "prestigeCSAT"))/10)) and (spawner getVariable _marcador)) then {
+if ((random 100 < ((AS_P("prestigeNATO") + AS_P("prestigeCSAT"))/10)) and (spawner getVariable _marcador)) then {
 	_pos = [];
 	_grupo = createGroup civilian;
 	while {true} do {

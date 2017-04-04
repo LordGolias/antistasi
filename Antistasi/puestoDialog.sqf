@@ -1,3 +1,4 @@
+#include "macros.hpp"
 private ["_tipo","_coste","_grupo","_unit","_tam","_roads","_road","_pos","_camion","_texto","_mrk","_hr","_exists","_posicionTel","_escarretera","_tipogrupo","_resourcesFIA","_hrFIA"];
 
 if ("PuestosFIA" in misiones) exitWith {hint "We can only deploy / delete one Post or Roadblock at a time."};
@@ -66,8 +67,8 @@ else
 	};
 //if ((_tipo == "delete") and (_posicionTel distance _pos >10)) exitWith {hint "No post nearby"};
 
-_resourcesFIA = AS_persistent getVariable "resourcesFIA";
-_hrFIA = AS_persistent getVariable "hr";
+_resourcesFIA = AS_P("resourcesFIA");
+_hrFIA = AS_P("hr");
 
 if (((_resourcesFIA < _coste) or (_hrFIA < _hr)) and (_tipo!= "delete")) exitWith {hint format ["You lack of resources to build this Outpost or Roadblock \n %1 HR and %2 € needed",_hr,_coste]};
 

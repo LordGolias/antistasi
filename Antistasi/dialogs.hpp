@@ -1,3 +1,4 @@
+#include "macros.hpp"
 #include "statSave\dialogs.hpp"
 
 class HQ_menu
@@ -242,8 +243,8 @@ class civ_config
 	{
 AS_DIALOG(1,"Civ Presence Config", "closeDialog 0; createDialog ""game_options_commander"";");
 
-#define STR_CIV_PLUS "if ((AS_persistent getVariable ""civPerc"") < 1) then {(AS_persistent setVariable [""civPerc"", ((AS_persistent getVariable ""civPerc"") + 0.01) min 1, true]); hint format [""Civilian Percentage Set to %1 percent"",(AS_persistent getVariable ""civPerc"") * 100];};"
-#define STR_CIV_MINUS "if ((AS_persistent getVariable ""civPerc"") > 0) then {(AS_persistent setVariable [""civPerc"", ((AS_persistent getVariable ""civPerc"") - 0.01) max 0, true]); hint format [""Civilian Percentage Set to %1 percent"",(AS_persistent getVariable ""civPerc"") * 100];};"
+#define STR_CIV_PLUS "if ((AS_P(""civPerc"") < 1) then {(AS_persistent setVariable [""civPerc"", ((AS_P(""civPerc"") + 0.01) min 1, true]); hint format [""Civilian Percentage Set to %1 percent"",(AS_P(""civPerc"") * 100];};"
+#define STR_CIV_MINUS "if ((AS_P(""civPerc"") > 0) then {(AS_persistent setVariable [""civPerc"", ((AS_P(""civPerc"") - 0.01) max 0, true]); hint format [""Civilian Percentage Set to %1 percent"",(AS_P(""civPerc"") * 100];};"
 
 BTN_L(1,-1, "+1% Civ Spawn.", "", STR_CIV_PLUS);
 BTN_R(1,-1, "-1% Civ Spawn.", "", STR_CIV_MINUS);
@@ -789,7 +790,7 @@ class radio_comm_commander
 	{
 AS_DIALOG(5,"Battle Options",A_CLOSE);
 
-BTN_L(1,-1, "Fast Travel", "", "closeDialog 0; if (AS_persistent getVariable ""enableFTold"") then {nul= createDialog ""fasttravel_dialog""} else {nul = [] execVM ""altFastTravel.sqf""};");
+BTN_L(1,-1, "Fast Travel", "", "closeDialog 0; if (AS_P(""enableFTold"") then {nul= createDialog ""fasttravel_dialog""} else {nul = [] execVM ""altFastTravel.sqf""};");
 BTN_L(2,-1, "Disguise Yourself", "", "closeDialog 0; nul = [] spawn undercover");
 BTN_L(3,-1, "Vehicle Manager", "", "closeDialog 0; nul = createDialog ""vehicle_manager"";");
 BTN_L(4,-1, "AI Management", "", "if (player == leader group player) then {closeDialog 0; nul = createDialog ""AI_management""} else {hint ""Only group leaders may access to this option""};");
@@ -813,7 +814,7 @@ class radio_comm_player
 	{
 AS_DIALOG(3,"Battle Options",A_CLOSE);
 
-BTN_L(1,-1, "Fast Travel", "", "closeDialog 0; if (AS_persistent getVariable ""enableFTold"") then {nul= createDialog ""fasttravel_dialog""} else {nul = [] execVM ""altFastTravel.sqf""};");
+BTN_L(1,-1, "Fast Travel", "", "closeDialog 0; if (AS_P(""enableFTold"") then {nul= createDialog ""fasttravel_dialog""} else {nul = [] execVM ""altFastTravel.sqf""};");
 BTN_L(2,-1, "Disguise Yourself", "", "closeDialog 0; nul = [] spawn undercover");
 BTN_L(3,-1, "Resign Commander", "", "closedialog 0; if (isMultiplayer) then {execVM ""orgPlayers\commResign.sqf""} else {hint ""This feature is MP Only""};");
 
@@ -873,8 +874,8 @@ class com_options
 	{
     AS_DIALOG(3,"Options Menu","closeDialog 0; nul = createDialog ""com_menu"";");
 
-	#define STR_COM_OPT_FT "if (AS_persistent getVariable ""enableFTold"") then {AS_persistent setVariable [""enableFTold"",false,true]; [[petros,""hint"",""Fast Travel limited to camps and HQ""],""commsMP""] call BIS_fnc_MP;} else {AS_persistent setVariable [""enableFTold"",true,true]; [[petros,""hint"",""Extended Fast Travel system enabled""],""commsMP""] call BIS_fnc_MP;};"
-	#define STR_COM_OPT_ARS "if (AS_persistent getVariable ""enableMemAcc"") then {AS_persistent setVariable [""enableMemAcc"",false,true]; [[petros,""hint"",""Arsenal access set to default.""],""commsMP""] call BIS_fnc_MP;} else {AS_persistent setVariable [""enableMemAcc"",true,true]; [[petros,""hint"",""Members now get to keep their gear.""],""commsMP""] call BIS_fnc_MP;};"
+	#define STR_COM_OPT_FT "if (AS_P(""enableFTold"") then {AS_persistent setVariable [""enableFTold"",false,true]; [[petros,""hint"",""Fast Travel limited to camps and HQ""],""commsMP""] call BIS_fnc_MP;} else {AS_persistent setVariable [""enableFTold"",true,true]; [[petros,""hint"",""Extended Fast Travel system enabled""],""commsMP""] call BIS_fnc_MP;};"
+	#define STR_COM_OPT_ARS "if (AS_P(""enableMemAcc"") then {AS_persistent setVariable [""enableMemAcc"",false,true]; [[petros,""hint"",""Arsenal access set to default.""],""commsMP""] call BIS_fnc_MP;} else {AS_persistent setVariable [""enableMemAcc"",true,true]; [[petros,""hint"",""Members now get to keep their gear.""],""commsMP""] call BIS_fnc_MP;};"
 	#define STR_COM_OPT_AXP "if (hayBe) then {hayBe = false} else {hayBe = true}; publicVariable ""hayBE""; hint format [""Current setting: %1"", [""off"", ""on""] select hayBe];"
 	#define STR_COM_OPT_WPP "if (server getVariable [""enableWpnProf"",false]) then {server setVariable [""enableWpnProf"",false,true]; [] remoteExec [""fnc_resetSkills"", [0,-2] select isDedicated,true]} else {server setVariable [""enableWpnProf"",true,true]}; hint format [""Current setting: %1"", [""off"", ""on""] select (server getVariable [""enableWpnProf"",false])];"
 

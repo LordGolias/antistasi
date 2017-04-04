@@ -1,4 +1,5 @@
-_resourcesFIA = AS_persistent getVariable "resourcesFIA";
+#include "../macros.hpp"
+_resourcesFIA = AS_P("resourcesFIA");
 if (_resourcesFIA < 100) exitWith {hint "FIA has not enough resources to grab"};
 [100] call resourcesPlayer;
 AS_persistent setvariable ["resourcesFIA",_resourcesFIA - 100, true];

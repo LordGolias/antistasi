@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 private ["_chequeo","_pos","_veh","_newPos","_coste"];
 
 _chequeo = false;
@@ -9,7 +10,7 @@ if (_chequeo) exitWith {Hint "You cannot buy vehicles with enemies nearby"};
 
 _coste = AS_data_allCosts getVariable "B_G_Boat_Transport_01_F";
 
-if (AS_persistent getVariable "resourcesFIA" < _coste) exitWith {hint format ["You need %1 € to buy a boat",_coste]};
+if (AS_P("resourcesFIA") < _coste) exitWith {hint format ["You need %1 € to buy a boat",_coste]};
 
 _ang = 0;
 _dist = 200;

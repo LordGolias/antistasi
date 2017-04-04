@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 call compile PreprocessFileLineNumbers "statSave\core.sqf";
 call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 
@@ -39,7 +40,7 @@ AS_fnc_loadPersistents = {
 // set non-persistent variables that are functions of persistent variables.
 AS_fnc_postLoadServer = {
 	// increase cost of soldiers (what is this doing exactly??)
-	_skillFIA = AS_persistent getVariable "skillFIA";
+	_skillFIA = AS_P("skillFIA");
 	{
 		_cost = AS_data_allCosts getVariable _x;
 		for "_i" from 1 to _skillFIA do {
@@ -48,7 +49,7 @@ AS_fnc_postLoadServer = {
 		AS_data_allCosts setVariable [_x,_cost,true];
 	} forEach soldadosFIA;
 
-    _skillAAF = AS_persistent getVariable "skillAAF";
+    _skillAAF = AS_P("skillAAF");
     {
         _cost = AS_data_allCosts getVariable _x;
         for "_i" from 1 to _skillAAF do {

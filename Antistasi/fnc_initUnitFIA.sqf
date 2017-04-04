@@ -1,3 +1,4 @@
+#include "macros.hpp"
 params ["_unit", ["_spawned", true], ["_place", nil], ["_equipment", []]];
 
 if (_spawned) then {
@@ -10,7 +11,7 @@ else {
 [_unit] call initRevive;
 _unit allowFleeing 0;
 
-[_unit, AS_persistent getVariable "skillFIA"] call AS_fnc_setDefaultSkill;
+[_unit, AS_P("skillFIA")] call AS_fnc_setDefaultSkill;
 
 if (count _equipment == 0) then {
     _equipment = [typeOf _unit] call AS_fnc_getBestEquipment;

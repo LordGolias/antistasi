@@ -1,3 +1,4 @@
+#include "macros.hpp"
 if (!isServer) exitWith{};
 
 _tiempo = _this select 0;
@@ -13,8 +14,7 @@ if (count _fb > 0) then {
 			_tiempo = _tiempo * 0.75;
 		}
 		else {
-            _skillAAF = AS_persistent getVariable "skillAAF";
-			if ((count _fb == 3) && (_skillAAF < 10)) then {
+			if ((count _fb == 3) && (AS_P("skillAAF") < 10)) then {
 			_tiempo = _tiempo * 0.5;
 			}
 			else {

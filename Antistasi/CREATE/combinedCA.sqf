@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
 
 private ["_posorigen","_tipogrupo","_nombreorig","_markTsk","_wp1","_soldados","_landpos","_pad","_vehiculos","_wp0","_wp3","_wp4","_wp2",
@@ -16,7 +17,7 @@ _soldados = [];
 _pilotos = [];
 _vehiculos = [];
 
-_prestigeCSAT = AS_persistent getVariable "prestigeCSAT";
+_prestigeCSAT = AS_P("prestigeCSAT");
 //[-8100] remoteExec ["resourcesAAF",2];
 
 _base = "";
@@ -54,7 +55,7 @@ _tiempo = time + 3600;
 
 if (_CSAT) then
 	{
-	_resourcesAAF = AS_persistent getVariable "resourcesAAF";
+	_resourcesAAF = AS_P("resourcesAAF");
 	if (_resourcesAAF > 20000) then
 		{
 		AS_persistent setVariable ["resourcesAAF",_resourcesAAF - 20000,true];

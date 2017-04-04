@@ -1,3 +1,4 @@
+#include "macros.hpp"
 private ["_tipo","_coste","_grupo","_unit","_tam","_roads","_road","_pos","_camion","_texto","_mrk","_hr","_exists","_posicionTel","_tipogrupo","_resourcesFIA","_hrFIA"];
 
 if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
@@ -89,8 +90,8 @@ while {(_tipo == "rename")} do {
 
 if (_break) exitWith {openMap false; hint _txt;};
 
-_resourcesFIA = AS_persistent getVariable "resourcesFIA";
-_hrFIA = AS_persistent getVariable "hr";
+_resourcesFIA = AS_P("resourcesFIA");
+_hrFIA = AS_P("hr");
 
 if (((_resourcesFIA < _coste) or (_hrFIA < _hr)) and (_tipo == "create")) exitWith {hint format ["You lack of resources to build this camp. \n %1 HR and %2 € needed",_hr,_coste]};
 

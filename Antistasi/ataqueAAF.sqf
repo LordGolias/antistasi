@@ -1,3 +1,4 @@
+#include "macros.hpp"
 
 private ["_objetivos","_marcadores","_base","_objetivo","_cuenta","_aeropuerto","_datos","_prestigeOPFOR","_scoreLand","_scoreAir","_analizado","_garrison","_size","_estaticas","_salir"];
 
@@ -11,7 +12,7 @@ _hayCSAT = true;
 
 cuentaCA = cuentaCA + 600; //experimental
 
-if ((random 100 > (AS_persistent getVariable "prestigeCSAT")) or ({_x in bases} count mrkFIA == 0) || (server getVariable "blockCSAT")) then
+if ((random 100 > AS_P("prestigeCSAT")) or ({_x in bases} count mrkFIA == 0) || (server getVariable "blockCSAT")) then
 	{
 	_marcadores = _marcadores - ciudades;
 	_hayCSAT = false;

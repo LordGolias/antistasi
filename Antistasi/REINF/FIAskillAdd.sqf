@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (player != AS_commander) exitWith {hint "Only Commander AS_commander has access to this function"};
 
 // BE module
@@ -9,9 +10,9 @@ if (hayBE) then {
 if !(_permission) exitWith {hint "Our troops are not experienced enough to be trained yet."};
 // BE module
 
-_skillFIA = AS_persistent getVariable "skillFIA";
+_skillFIA = AS_P("skillFIA");
 if (_skillFIA > 19) exitWith {hint "Your troops have the maximum training"};
-_resourcesFIA = AS_persistent getVariable "resourcesFIA";
+_resourcesFIA = AS_P("resourcesFIA");
 _coste = 1000 + (1.5*(_skillFIA *750));
 if (_resourcesFIA < _coste) exitWith {hint format ["You do not have enough money to afford additional training. %1 € needed",_coste]};
 

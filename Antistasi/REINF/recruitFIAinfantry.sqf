@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 params ["_type"];
 private ["_enemiesClose","_cost","_moneyAvailable","_unit"];
 
@@ -15,11 +16,11 @@ _enemiesClose = false;
 } forEach allUnits;
 if (_enemiesClose) exitWith {Hint "You cannot recruit units with enemies nearby"};
 
-if (AS_persistent getVariable "hr" < 1) exitWith {hint "You do not have enough HR for this request"};
+if (AS_P("hr") < 1) exitWith {hint "You do not have enough HR for this request"};
 
 _cost = AS_data_allCosts getVariable _type;
 if (!isMultiPlayer) then {
-	_moneyAvailable = AS_persistent getVariable "resourcesFIA";
+	_moneyAvailable = AS_P("resourcesFIA");
 } else {
 	_moneyAvailable = player getVariable "dinero";
 };

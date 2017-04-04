@@ -1,8 +1,9 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
 
 private ["_prestigio","_marcador","_posicion","_tiempolim","_fechalim","_fechalimnum","_nombredest","_tsk","_soldados","_vehiculos","_grupo","_tipoVeh","_cuenta","_size"];
 
-_prestigio = AS_persistent getVariable "prestigeNATO";
+_prestigio = AS_P("prestigeNATO");
 
 _marcador = _this select 0;
 _posicion = getMarkerPos _marcador;

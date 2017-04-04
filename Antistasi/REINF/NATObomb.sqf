@@ -1,4 +1,5 @@
-if (AS_persistent getVariable "prestigeNATO" < 10) exitWith {hint "You lack of enough NATO Support to make this request"};
+#include "../macros.hpp"
+if (AS_P("prestigeNATO") < 10) exitWith {hint "You lack of enough NATO Support to make this request"};
 if (!allowPlayerRecruit) exitWith {hint "Server is very loaded. \nWait one minute or change FPS settings in order to fulfill this request"};
 	if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
 _tipo = _this select 0;

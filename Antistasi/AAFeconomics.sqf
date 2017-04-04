@@ -1,8 +1,9 @@
+#include "macros.hpp"
 private ["_resourcesAAF","_prestigeCSAT","_coste","_destroyedCities","_destroyed","_nombre"];
 
-_resourcesAAF = AS_persistent getVariable "resourcesAAF";
+_resourcesAAF = AS_P("resourcesAAF");
 
-_prestigeCSAT = AS_persistent getVariable "prestigeCSAT";
+_prestigeCSAT = AS_P("prestigeCSAT");
 
 waitUntil {!resourcesIsChanging};
 resourcesIsChanging = true;
@@ -112,8 +113,8 @@ if ((APCAAFcurrent < APCAAFmax) and ((tanksAAFcurrent > 2) or (APCAAFcurrent < 4
 		};
 	};
 
-_skillFIA = AS_persistent getVariable "skillFIA";
-_skillAAF = AS_persistent getVariable "skillAAF";
+_skillFIA = AS_P("skillFIA");
+_skillAAF = AS_P("skillAAF");
 if ((_skillAAF < (_skillFIA + 4)) && (_skillAAF < AS_maxSkill)) then {
 	_coste = 1000 + (1.5*(_skillAAF *750));
 	if (_coste < _resourcesAAF) then {

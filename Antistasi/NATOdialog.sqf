@@ -1,3 +1,4 @@
+#include "macros.hpp"
 //if (player != AS_commander) exitWith {hint "Only Commander can ask for NATO support"};
 _tipo = _this select 0;
 
@@ -66,7 +67,7 @@ switch (_tipo) do {
 	};
 };
 
-_NATOSupp = AS_persistent getVariable "prestigeNATO";
+_NATOSupp = AS_P("prestigeNATO");
 
 if (_NATOSupp < _costeNATO) exitWith {hint format ["We lack of enough NATO Support in order to proceed with this request (%1 needed)",_costeNATO]};
 

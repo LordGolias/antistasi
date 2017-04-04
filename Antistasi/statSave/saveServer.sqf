@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer) exitWith {};
 params ["_saveName"];
 
@@ -39,7 +40,7 @@ private ["_hrfondo","_resfondo","_veh","_tipoVeh","_contenedores","_arrayEst","_
 
 // save all units as hr and money.
 
-_resfondo = AS_persistent getVariable "resourcesFIA";
+_resfondo = AS_P("resourcesFIA");
 _cargoArray = [caja, true] call AS_fnc_getBoxArsenal;  // restricted to locked weapons
 _cargo_w = _cargoArray select 0;
 _cargo_m = _cargoArray select 1;
@@ -87,7 +88,7 @@ if (_amigo getVariable ["BLUFORSpawn",false]) then
 	};
 } forEach allUnits;
 
-_hrfondo = (AS_persistent getVariable "hr") + ({(alive _x) and (not isPlayer _x) and (_x getVariable ["BLUFORSpawn",false])} count allUnits);
+_hrfondo = AS_P("hr") + ({(alive _x) and (not isPlayer _x) and (_x getVariable ["BLUFORSpawn",false])} count allUnits);
 [_saveName, ["resourcesFIA", "hr"], [_resfondo, _hrfondo]] call AS_fnc_savePersistents;
 
 if (isMultiplayer) then {

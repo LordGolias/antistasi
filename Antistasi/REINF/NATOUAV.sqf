@@ -1,6 +1,7 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
 
-_prestigio = AS_persistent getVariable "prestigeNATO";
+_prestigio = AS_P("prestigeNATO");
 _aeropuertos = aeropuertos - mrkAAF + ["spawnNATO"];
 
 _origen = [_aeropuertos,AS_commander] call BIS_fnc_nearestPosition;

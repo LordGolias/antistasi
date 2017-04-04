@@ -1,3 +1,4 @@
+#include "macros.hpp"
 params ["_unit", ["_spawned", true]];
 
 if (typeOf _unit == "Fin_random_F") exitWith {};  // dog
@@ -6,7 +7,7 @@ if (_spawned) then {
 	_unit setVariable ["OPFORSpawn",true,true];
 };
 
-_skillAAF = AS_persistent getVariable "skillAAF";
+_skillAAF = AS_P("skillAAF");
 [_unit, _skillAAF] call AS_fnc_setDefaultSkill;
 
 if (round random 13 > _skillAAF) then {

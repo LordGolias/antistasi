@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
 
 _origen = _this select 0;
@@ -17,7 +18,7 @@ misiones pushBack _tsk; publicVariable "misiones";
 _soldados = [];
 _vehiculos = [];
 
-_cuenta = AS_persistent getVariable "prestigeNATO";
+_cuenta = AS_P("prestigeNATO");
 _cuenta = round (_cuenta / 25);
 [-20,0] remoteExec ["prestige",2];
 

@@ -1,3 +1,4 @@
+#include "macros.hpp"
 private ["_nato","_csat"];
 
 waitUntil {!prestigeIsChanging};
@@ -5,8 +6,8 @@ prestigeIsChanging = true;
 _nato = _this select 0;
 _csat = _this select 1;
 
-_natoT = AS_persistent getVariable "prestigeNATO";
-_csatT = AS_persistent getVariable "prestigeCSAT";
+_natoT = AS_P("prestigeNATO");
+_csatT = AS_P("prestigeCSAT");
 
 _natoT = _natoT + _nato;
 _csatT = _csatT + _csat;

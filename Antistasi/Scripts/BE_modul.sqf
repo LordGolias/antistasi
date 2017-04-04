@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
 
 #define BE_XP_KILL 0.5
@@ -249,7 +250,7 @@ fnc_BE_buyUpgrade = {
 	};
 	private _price = call fnc_BE_calcPrice;
 
-	if ((AS_persistent getVariable "resourcesFIA") > BE_currentPrice) then {
+	if (AS_P("resourcesFIA") > BE_currentPrice) then {
 		[_price] call fnc_BE_upgrade;
 		diag_log format ["Maintenance: upgrade acquired. New stage: %1; price paid: %2", BE_currentStage, BE_currentPrice];
 	} else {
@@ -260,7 +261,7 @@ fnc_BE_buyUpgrade = {
 fnc_BE_upgrade = {
 	params [["_price", 10000]];
 
-	private _tempFunds = AS_persistent getVariable "resourcesFIA";
+	private _tempFunds = AS_P("resourcesFIA");
 	diag_log format ["Price: %1; Funds: %2", _price, _tempFunds];
 	AS_persistent setVariable ["skillFIA", BE_current_FIA_Skill_Cap, true];
 	AS_persistent setVariable ["resourcesFIA", _tempFunds - _price, true];
@@ -350,7 +351,7 @@ fnc_BE_permission = {
 
 	switch (_category) do {
 		case "skill": {
-			if (BE_current_FIA_Skill_Cap > (AS_persistent getVariable "skillFIA")) then {
+			if (BE_current_FIA_Skill_Cap > AS_P("skillFIA")) then {
 				_result = true;
 			};
 		};
@@ -384,9 +385,9 @@ fnc_BE_permission = {
 			};
 		};
 		case "HR": {
-			if (BE_current_FIA_HR_Cap > (AS_persistent getVariable "hr")) then {
+			if (BE_current_FIA_HR_Cap > AS_P("hr")) then {
 				_result = true;
-				_return = BE_current_FIA_HR_Cap - (AS_persistent getVariable "hr");
+				_return = BE_current_FIA_HR_Cap - AS_P("hr");
 			} else {
 				_return = 0;
 			};
@@ -425,7 +426,7 @@ fnc_BE_getCurrentValue = {
 
 	switch (_category) do {
 		case "HR": {
-			_result = BE_current_FIA_HR_Cap - (AS_persistent getVariable "hr");
+			_result = BE_current_FIA_HR_Cap - AS_P("hr");
 		};
 		case "outfit": {
 			_result = BE_current_FIA_Outfit;

@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
 private ["_posorigen","_tipogrupo","_nombreorig","_markTsk","_wp1","_soldados","_landpos","_pad","_vehiculos","_wp0","_wp3","_wp4","_wp2","_grupo","_grupos","_tipoveh","_vehicle","_heli","_heliCrew","_grupoheli","_pilotos","_rnd","_resourcesAAF","_nVeh","_tam","_roads","_Vwp1","_tanques","_road","_veh","_vehCrew","_grupoVeh","_Vwp0","_size","_Hwp0","_grupo1","_uav","_grupouav","_uwp0","_tsk","_vehiculo","_soldado","_piloto","_mrkdestino","_posdestino","_prestigeCSAT","_base","_aeropuerto","_nombredest","_tiempo","_solMax","_pos","_timeOut"];
 _mrkDestino = _this select 0;
@@ -89,7 +90,7 @@ for "_i" from 1 to 3 do
 
 _data = [_mrkDestino, ["population"]] call AS_fnc_getCityAttrs;
 _numCiv = _data select 0;
-_numCiv = round ((_numCiv * (AS_persistent getVariable "civPerc"))/2);
+_numCiv = round ((_numCiv * AS_P("civPerc"))/2);
 
 if (_numCiv < 8) then {_numCiv = 8};
 

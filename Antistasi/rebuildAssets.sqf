@@ -1,5 +1,6 @@
+#include "macros.hpp"
 
-_resourcesFIA = AS_persistent getVariable "resourcesFIA";
+_resourcesFIA = AS_P("resourcesFIA");
 
 if (_resourcesFIA < 5000) exitWith {hint "You do not have enough money to rebuild any Asset. You need 5.000 €"};
 

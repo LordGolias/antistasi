@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 private ["_tipo","_coste","_posicionTel","_cantidad","_cantidadMax"];
 
 if ("Mines" in misiones) exitWith {hint "We can only deploy one minefield at a time."};
@@ -13,7 +14,7 @@ if (_tipo == "delete") then
 	_coste = _coste - (AS_data_allCosts getVariable "B_G_Soldier_exp_F");
 	_hr = 1;
 	};
-if ((AS_persistent getVariable "resourcesFIA" < _coste) or (AS_persistent getVariable "hr" < _hr)) exitWith {hint format ["Not enought resources to recruit a mine deploying team (%1 € and %2 HR needed)",_coste,_hr]};
+if ((AS_P("resourcesFIA") < _coste) or (AS_P("hr") < _hr)) exitWith {hint format ["Not enought resources to recruit a mine deploying team (%1 € and %2 HR needed)",_coste,_hr]};
 
 if (_tipo == "delete") exitWith
 	{

@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 _unit = _this select 0;
 _jugador = _this select 1;
 
@@ -7,7 +8,7 @@ if (!alive _unit) exitWith {};
 
 _jugador globalChat "You have one chance, join us and help us liberate Altis from tiranny!";
 
-_chance = (AS_persistent getVariable "prestigeNATO") - (AS_persistent getVariable "prestigeCSAT");
+_chance = AS_P("prestigeNATO") - AS_P("prestigeCSAT");
 
 _chance = _chance + 20;
 

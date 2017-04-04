@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (player != player getVariable ["owner",player]) exitWith {hint "You cannot buy vehicles while you are controlling AI"};
 
 _chequeo = false;
@@ -15,7 +16,7 @@ _milstatics = vfs select [7,4];
 
 _coste = [_tipoVeh] call vehiclePrice;
 
-if (!isMultiPlayer) then {_resourcesFIA = AS_persistent getVariable "resourcesFIA"} else
+if (!isMultiPlayer) then {_resourcesFIA = AS_P("resourcesFIA")} else
 	{
 	if (player != AS_commander) then
 		{
@@ -23,7 +24,7 @@ if (!isMultiPlayer) then {_resourcesFIA = AS_persistent getVariable "resourcesFI
 		}
 	else
 		{
-		if ((_tipoVeh in _milveh) or (_tipoVeh == civHeli)) then {_resourcesFIA = AS_persistent getVariable "resourcesFIA"} else {_resourcesFIA = player getVariable "dinero"};
+		if ((_tipoVeh in _milveh) or (_tipoVeh == civHeli)) then {_resourcesFIA = AS_P("resourcesFIA")} else {_resourcesFIA = player getVariable "dinero"};
 		};
 	};
 
