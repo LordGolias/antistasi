@@ -150,9 +150,9 @@ while {true} do
 
 	[[petros,"taxRep",_texto],"commsMP"] call BIS_fnc_MP;
 
-	AS_persistent setVariable ["hr",_FIAnewHR,true];
-	AS_persistent setVariable ["resourcesFIA",_FIAnewMoney,true];
-	AS_persistent setVariable ["resourcesAAF",_AAFnewMoney,true];
+	AS_Pset("hr",_FIAnewHR);
+	AS_Pset("resourcesFIA",_FIAnewMoney);
+	AS_Pset("resourcesAAF",_AAFnewMoney);
 
 	// Assign new commander if needed.
 	if (isMultiplayer) then {[] spawn assignStavros};

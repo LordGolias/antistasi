@@ -18,8 +18,8 @@ if (_csatT < 0) then {_csatT = 0};
 if (_csatT > 100) then {_csatT = 100};
 
 
-if (_nato != 0) then {AS_persistent setVariable ["prestigeNATO",_natoT,true]};
-if (_csat != 0) then {AS_persistent setVariable ["prestigeCSAT",_csatT,true]};
+if (_nato != 0) then {AS_Pset("prestigeNATO",_natoT);
+if (_csat != 0) then {AS_Pset("prestigeCSAT",_csatT);
 prestigeIsChanging = false;
 
 _texto = "";

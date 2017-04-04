@@ -12,5 +12,5 @@ if (isNil "_coste") then {_coste = 0};
 _resourcesAAF = AS_P("resourcesAAF");
 _resourcesAAF = _resourcesAAF + _coste;
 if (_resourcesAAF < 0) then {_resourcesAAF = 0};
-AS_persistent setVariable ["resourcesAAF",_resourcesAAF,true];
+AS_Pset("resourcesAAF",_resourcesAAF);
 resourcesIsChanging = false;

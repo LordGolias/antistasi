@@ -118,7 +118,7 @@ _skillAAF = AS_P("skillAAF");
 if ((_skillAAF < (_skillFIA + 4)) && (_skillAAF < AS_maxSkill)) then {
 	_coste = 1000 + (1.5*(_skillAAF *750));
 	if (_coste < _resourcesAAF) then {
-        AS_persistent setVariable ["skillAAF", _skillAAF + 1, true];
+        AS_Pset("skillAAF",_skillAAF + 1);
         _skillAAF = _skillAAF + 1;
 		_resourcesAAF = _resourcesAAF - _coste;
 		{
@@ -144,6 +144,6 @@ if (_resourcesAAF > 2000) then
 	};
 _resourcesAAF = round _resourcesAAF;
 
-AS_persistent setVariable ["resourcesAAF",_resourcesAAF,true];
+AS_Pset("resourcesAAF",_resourcesAAF);
 
 resourcesIsChanging = false;

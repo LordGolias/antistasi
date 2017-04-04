@@ -99,7 +99,7 @@ if (dateToNumber date > _fechalimnum) then
 
 _resourcesAAF = AS_P("resourcesAAF");
 _resourcesAAF = _resourcesAAF - 10000;
-AS_persistent setVariable ["resourcesAAF",_resourcesAAF,true];
+AS_Pset("resourcesAAF",_resourcesAAF);
 [60,_tsk] spawn borrarTask;
 
 waitUntil {sleep 1; not (spawner getVariable _marcador)};

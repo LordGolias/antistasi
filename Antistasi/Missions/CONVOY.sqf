@@ -486,7 +486,7 @@ if (_tipoConvoy == "Money") then
 			{
 			_resourcesAAF = AS_P("resourcesAAF");
 			_resourcesAAF = _resourcesAAF + 5000;
-			AS_persistent setVariable ["resourcesAAF",_resourcesAAF,true];
+			AS_Pset("resourcesAAF",_resourcesAAF);
 			[-1200] remoteExec ["timingCA",2];
 			[-10,AS_commander] call playerScoreAdd;
 			}
@@ -495,7 +495,7 @@ if (_tipoConvoy == "Money") then
 			[position _vehObj] spawn patrolCA;
 			_resourcesAAF = AS_P("resourcesAAF");
 			_resourcesAAF = _resourcesAAF - 5000;
-			AS_persistent setVariable ["resourcesAAF",_resourcesAAF,true];
+			AS_Pset("resourcesAAF",_resourcesAAF);
 			[2700] remoteExec ["timingCA",2];
 			};
 		};
@@ -508,7 +508,7 @@ if (_tipoConvoy == "Money") then
 			_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMny,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMny, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"move"] call BIS_fnc_setTask;
 			_resourcesAAF = AS_P("resourcesAAF");
 			_resourcesAAF = _resourcesAAF - 5000;
-			AS_persistent setVariable ["resourcesAAF",_resourcesAAF,true];
+			AS_Pset("resourcesAAF",_resourcesAAF);
 			[1800] remoteExec ["timingCA",2];
 			};
 		if (_vehObj distance _posHQ < 50) then
@@ -516,7 +516,7 @@ if (_tipoConvoy == "Money") then
 			_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMny,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMny, A3_STR_INDEP],_destino],_posdestino,"SUCCEEDED",5,true,true,"move"] call BIS_fnc_setTask;
 			_resourcesAAF = AS_P("resourcesAAF");
 			_resourcesAAF = _resourcesAAF - 5000;
-			AS_persistent setVariable ["resourcesAAF",_resourcesAAF,true];
+			AS_Pset("resourcesAAF",_resourcesAAF);
 			[10,-20,_destino] remoteExec ["citySupportChange",2];
 			[-20,0] remoteExec ["prestige",2];
 			[0,5000] remoteExec ["resourcesFIA",2];

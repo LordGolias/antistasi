@@ -24,8 +24,8 @@ _resourcesFIAT = round (_resourcesFIAT + _resourcesFIA);
 if (_hrT < 0) then {_hrT = 0};
 if (_resourcesFIAT < 0) then {_resourcesFIAT = 0};
 
-AS_persistent setVariable ["hr",_hrT,true];
-AS_persistent setVariable ["resourcesFIA",_resourcesFIAT,true];
+AS_Pset("hr",_hrT);
+AS_Pset("resourcesFIA",_resourcesFIAT);
 resourcesIsChanging = false;
 
 _texto = "";

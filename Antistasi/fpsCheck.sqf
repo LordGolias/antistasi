@@ -36,7 +36,7 @@ while {true} do
             _civPerc = AS_P("civPerc");
 			if (_civPerc > 0.05) then
 				{
-                AS_persistent setVariable ["civPerc", _civPerc - 0.01, true];
+                AS_Pset("civPerc",_civPerc - 0.01);
 				};
 			if (minimoFPS > 25) then
 				{

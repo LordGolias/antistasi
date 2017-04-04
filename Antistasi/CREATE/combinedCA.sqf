@@ -58,7 +58,7 @@ if (_CSAT) then
 	_resourcesAAF = AS_P("resourcesAAF");
 	if (_resourcesAAF > 20000) then
 		{
-		AS_persistent setVariable ["resourcesAAF",_resourcesAAF - 20000,true];
+        AS_Pset("resourcesAAF",_resourcesAAF - 20000);
 		[5,0] remoteExec ["prestige",2];
 		}
 	else

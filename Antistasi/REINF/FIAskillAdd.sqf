@@ -19,8 +19,8 @@ if (_resourcesFIA < _coste) exitWith {hint format ["You do not have enough money
 _resourcesFIA = _resourcesFIA - _coste;
 _skillFIA = _skillFIA + 1;
 hint format ["FIA Skill Level has been Upgraded\nCurrent level is %1",_skillFIA];
-AS_persistent setVariable ["skillFIA",_skillFIA,true];
-AS_persistent setVariable ["resourcesFIA",_resourcesFIA,true];
+AS_Pset("skillFIA",_skillFIA);
+AS_Pset("resourcesFIA",_resourcesFIA);
 
 {
 _coste = AS_data_allCosts getVariable _x;

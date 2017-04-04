@@ -188,7 +188,7 @@ fnc_BE_updateProgressBar = {
 	_pV = [BE_COLOR_DONE, BE_COLOR_DEF, _v, _v+1, "Army XP"];
 
 	if (_cV > 1) then {
-		AS_persistent setVariable ["skillFIA", _v+1, true];
+		AS_Pset("skillFIA",_v+1);
 		BE_currentXP = BE_currentXP - _req;
 		if ((_v+1) >= BE_current_FIA_Skill_Cap) then {
 			_pV = [BE_COLOR_LOCK, BE_COLOR_LOCK, BE_current_FIA_Skill_Cap, BE_current_FIA_Skill_Cap+1, "Army XP"];
@@ -263,8 +263,8 @@ fnc_BE_upgrade = {
 
 	private _tempFunds = AS_P("resourcesFIA");
 	diag_log format ["Price: %1; Funds: %2", _price, _tempFunds];
-	AS_persistent setVariable ["skillFIA", BE_current_FIA_Skill_Cap, true];
-	AS_persistent setVariable ["resourcesFIA", _tempFunds - _price, true];
+	AS_Pset("skillFIA",BE_current_FIA_Skill_Cap);
+	AS_Pset("resourcesFIA",_tempFunds - _price);
 	BE_currentStage = BE_currentStage + 1;
 	[] call fnc_BE_refresh;
 	BE_progressLock = false;

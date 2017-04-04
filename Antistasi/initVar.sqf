@@ -1,3 +1,4 @@
+#include "macros.hpp"
 //Antistasi var settings
 //If some setting can be modified it will be commented with a // after it.
 //Make changes at your own risk!!
@@ -222,17 +223,18 @@ if (hayRHS) then {
 	AS_data_allCosts setVariable [vehTruckAA, 800, true];
 };
 
-AS_persistent setVariable ["hr",8,true];//initial HR value
-AS_persistent setVariable ["resourcesFIA",1000,true];//Initial FIA money pool value
-AS_persistent setVariable ["resourcesAAF",0,true];//Initial AAF resources
-AS_persistent setVariable ["skillFIA",0,true];//Initial skill level for FIA soldiers
-AS_persistent setVariable ["skillAAF",0,true];//Initial skill level for AAF soldiers
-AS_persistent setVariable ["prestigeNATO",5,true];//Initial Prestige NATO
-AS_persistent setVariable ["prestigeCSAT",5,true];//Initial Prestige CSAT
-AS_persistent setVariable ["civPerc",0.05,true]; //initial % civ spawn rate
+AS_Pset("hr",8); //initial HR value
+AS_Pset("resourcesFIA",1000); //Initial FIA money pool value
 
-AS_persistent setVariable ["enableFTold",false,true]; // extended fast travel mode
-AS_persistent setVariable ["enableMemAcc",false,true]; // simplified arsenal access
+AS_Pset("resourcesAAF",0);//Initial AAF resources
+AS_Pset("skillFIA",0);//Initial skill level for FIA soldiers
+AS_Pset("skillAAF",0);//Initial skill level for AAF soldiers
+AS_Pset("prestigeNATO",5);//Initial Prestige NATO
+AS_Pset("prestigeCSAT",5);//Initial Prestige CSAT
+AS_Pset("civPerc",0.05); //initial % civ spawn rate
+
+AS_Pset("enableFTold",false); // extended fast travel mode
+AS_Pset("enableMemAcc",false); // simplified arsenal access
 
 // todo: this option is not being saved, so it is irrelevant. Consider removing.
 server setVariable ["enableWpnProf",false,true]; // class-based weapon proficiences, MP only

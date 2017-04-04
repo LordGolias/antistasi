@@ -243,8 +243,8 @@ class civ_config
 	{
 AS_DIALOG(1,"Civ Presence Config", "closeDialog 0; createDialog ""game_options_commander"";");
 
-#define STR_CIV_PLUS "if ((AS_P(""civPerc"") < 1) then {(AS_persistent setVariable [""civPerc"", ((AS_P(""civPerc"") + 0.01) min 1, true]); hint format [""Civilian Percentage Set to %1 percent"",(AS_P(""civPerc"") * 100];};"
-#define STR_CIV_MINUS "if ((AS_P(""civPerc"") > 0) then {(AS_persistent setVariable [""civPerc"", ((AS_P(""civPerc"") - 0.01) max 0, true]); hint format [""Civilian Percentage Set to %1 percent"",(AS_P(""civPerc"") * 100];};"
+#define STR_CIV_PLUS "if ((AS_P(""civPerc"") < 1) then {(AS_Pset(""civPerc"",(AS_P(""civPerc"") + 0.01) min 1); hint format [""Civilian Percentage Set to %1 percent"",(AS_P(""civPerc"") * 100];};"
+#define STR_CIV_MINUS "if ((AS_P(""civPerc"") > 0) then {(AS_Pset(""civPerc"",(AS_P(""civPerc"") - 0.01) max 0); hint format [""Civilian Percentage Set to %1 percent"",(AS_P(""civPerc"") * 100];};"
 
 BTN_L(1,-1, "+1% Civ Spawn.", "", STR_CIV_PLUS);
 BTN_R(1,-1, "-1% Civ Spawn.", "", STR_CIV_MINUS);
@@ -874,8 +874,8 @@ class com_options
 	{
     AS_DIALOG(3,"Options Menu","closeDialog 0; nul = createDialog ""com_menu"";");
 
-	#define STR_COM_OPT_FT "if (AS_P(""enableFTold"") then {AS_persistent setVariable [""enableFTold"",false,true]; [[petros,""hint"",""Fast Travel limited to camps and HQ""],""commsMP""] call BIS_fnc_MP;} else {AS_persistent setVariable [""enableFTold"",true,true]; [[petros,""hint"",""Extended Fast Travel system enabled""],""commsMP""] call BIS_fnc_MP;};"
-	#define STR_COM_OPT_ARS "if (AS_P(""enableMemAcc"") then {AS_persistent setVariable [""enableMemAcc"",false,true]; [[petros,""hint"",""Arsenal access set to default.""],""commsMP""] call BIS_fnc_MP;} else {AS_persistent setVariable [""enableMemAcc"",true,true]; [[petros,""hint"",""Members now get to keep their gear.""],""commsMP""] call BIS_fnc_MP;};"
+	#define STR_COM_OPT_FT "if (AS_P(""enableFTold"") then {AS_Pset(""enableFTold"",false); [[petros,""hint"",""Fast Travel limited to camps and HQ""],""commsMP""] call BIS_fnc_MP;} else {AS_Pset(""enableFTold"",true); [[petros,""hint"",""Extended Fast Travel system enabled""],""commsMP""] call BIS_fnc_MP;};"
+	#define STR_COM_OPT_ARS "if (AS_P(""enableMemAcc"") then {AS_Pset(""enableMemAcc"",false); [[petros,""hint"",""Arsenal access set to default.""],""commsMP""] call BIS_fnc_MP;} else {AS_Pset(""enableMemAcc"",true); [[petros,""hint"",""Members now get to keep their gear.""],""commsMP""] call BIS_fnc_MP;};"
 	#define STR_COM_OPT_AXP "if (hayBe) then {hayBe = false} else {hayBe = true}; publicVariable ""hayBE""; hint format [""Current setting: %1"", [""off"", ""on""] select hayBe];"
 	#define STR_COM_OPT_WPP "if (server getVariable [""enableWpnProf"",false]) then {server setVariable [""enableWpnProf"",false,true]; [] remoteExec [""fnc_resetSkills"", [0,-2] select isDedicated,true]} else {server setVariable [""enableWpnProf"",true,true]}; hint format [""Current setting: %1"", [""off"", ""on""] select (server getVariable [""enableWpnProf"",false])];"
 

@@ -1,11 +1,12 @@
+#include "macros.hpp"
 if (!isServer) exitWith {};
 
 private ["_weapons", "_magazines", "_items", "_optics"];
 scriptName "boost";
 
-AS_persistent setVariable ["hr",20,true];
-AS_persistent setVariable ["resourcesFIA",10000,true];
-AS_persistent setVariable ["prestigeNATO",30,true];
+AS_Pset("hr",20);
+AS_Pset("resourcesFIA",10000);
+AS_Pset("prestigeNATO",30);
 
 call {
 	if (hayGREF) exitWith {
