@@ -5,6 +5,7 @@ call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 // Add variables here that you want to save.
 AS_serverVariables = [
 	"prestigeNATO", "prestigeCSAT", "resourcesAAF", "resourcesFIA", "skillFIA", "hr",  // FIA attributes
+    "skillAAF",
 	"enableFTold", "enableMemAcc"  // game options
 ];
 
@@ -47,6 +48,15 @@ AS_fnc_postLoadServer = {
 		};
 		AS_data_allCosts setVariable [_x,_cost,true];
 	} forEach soldadosFIA;
+
+    _skillAAF = AS_persistent getVariable "skillAAF";
+    {
+        _cost = AS_data_allCosts getVariable _x;
+        for "_i" from 1 to _skillAAF do {
+            _coste = round (_coste + (_coste * (_i/280)));
+        };
+        AS_data_allCosts setVariable [_x,_coste,true];
+    } forEach soldadosAAF;
 };
 
 // function that persistently saves cities.
@@ -173,13 +183,13 @@ fn_SaveProfile = {saveProfileNamespace};
 //===========================================================================
 // Variables that require scripting after loaded. See fn_SetStat.
 specialVarLoads =
-["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","fecha","skillAAF","garrison","tasks","destroyedBuildings","idleBases","campsFIA","campList","BE_data"];
+["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","fecha","garrison","tasks","destroyedBuildings","idleBases","campsFIA","campList","BE_data"];
 
 // global variables that are set to be publicVariable on loading.
 AS_publicVariables = [
 	"cuentaCA", "miembros",
 	"planesAAFcurrent", "helisAAFcurrent", "APCAAFcurrent", "unlockedItems", "tanksAAFcurrent", "destroyedCities",
-	"distanciaSPWN", "civPerc", "minimoFPS", "vehInGarage", "skillAAF", "staticsToSave"
+	"distanciaSPWN", "civPerc", "minimoFPS", "vehInGarage", "staticsToSave"
 ];
 
 //THIS FUNCTIONS HANDLES HOW STATS ARE LOADED
@@ -244,16 +254,6 @@ fn_SetStat = {
 						destroyedBuildings = destroyedBuildings + [_posBuild];
 					};
 				};
-			};
-			if(_varName == 'skillAAF') exitWith {
-				skillAAF = _varvalue;
-				{
-					_coste = AS_data_allCosts getVariable _x;
-					for "_i" from 1 to skillAAF do {
-						_coste = round (_coste + (_coste * (_i/280)));
-					};
-					AS_data_allCosts setVariable [_x,_coste,true];
-				} forEach soldadosAAF;
 			};
 			if(_varName == 'minas') exitWith
 				{

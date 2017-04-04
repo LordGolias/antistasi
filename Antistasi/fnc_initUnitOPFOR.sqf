@@ -6,9 +6,10 @@ if (_spawned) then {
 	_unit setVariable ["OPFORSpawn",true,true];
 };
 
-[_unit, skillAAF] call AS_fnc_setDefaultSkill;
+_skillAAF = AS_persistent getVariable "skillAAF";
+[_unit, _skillAAF] call AS_fnc_setDefaultSkill;
 
-if (round random 13 > skillAAF) then {
+if (round random 13 > _skillAAF) then {
 	_unit unassignItem indNVG;
 	_unit removeItem indNVG;
 

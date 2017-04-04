@@ -23,7 +23,7 @@ _texto = format ["<t size='0.6' color='#C1C0BB'>Intel Found.<br/> <t size='0.5' 
 
 if (random 100 < _chance) then
 	{
-	_texto = format ["%1 AAF Troop Skill Level: %2<br/>",_texto,skillAAF];
+	_texto = format ["%1 AAF Troop Skill Level: %2<br/>",_texto, AS_persistent getVariable "skillAAF"];
 	};
 if (random 100 < _chance) then
 	{

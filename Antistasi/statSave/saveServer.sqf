@@ -24,7 +24,6 @@ private _savingPlayersHandle = ([_saveName] spawn {
 [_saveName, "planesAAFcurrent", planesAAFcurrent] call fn_SaveStat;
 [_saveName, "helisAAFcurrent", helisAAFcurrent] call fn_SaveStat;
 [_saveName, "fecha", date] call fn_SaveStat;
-[_saveName, "skillAAF", skillAAF] call fn_SaveStat;
 [_saveName, "destroyedCities", destroyedCities] call fn_SaveStat;
 [_saveName, "destroyedBuildings", destroyedBuildings] call fn_SaveStat;
 [_saveName, "distanciaSPWN", distanciaSPWN] call fn_SaveStat;

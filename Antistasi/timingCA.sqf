@@ -13,7 +13,8 @@ if (count _fb > 0) then {
 			_tiempo = _tiempo * 0.75;
 		}
 		else {
-			if ((count _fb == 3) && (skillAAF < 10)) then {
+            _skillAAF = AS_persistent getVariable "skillAAF";
+			if ((count _fb == 3) && (_skillAAF < 10)) then {
 			_tiempo = _tiempo * 0.5;
 			}
 			else {

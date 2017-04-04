@@ -146,7 +146,6 @@ call compile preprocessFileLineNumbers "Compositions\FIA_RB.sqf";
 
 
 AAFpatrols = 0;//0
-skillAAF = 0;
 AS_maxSkill = 20;
 smallCAmrk = [];
 smallCApos = [];
@@ -228,6 +227,7 @@ AS_persistent setVariable ["hr",8,true];//initial HR value
 AS_persistent setVariable ["resourcesFIA",1000,true];//Initial FIA money pool value
 AS_persistent setVariable ["resourcesAAF",0,true];//Initial AAF resources
 AS_persistent setVariable ["skillFIA",0,true];//Initial skill level for FIA soldiers
+AS_persistent setVariable ["skillAAF",0,true];//Initial skill level for AAF soldiers
 AS_persistent setVariable ["prestigeNATO",5,true];//Initial Prestige NATO
 AS_persistent setVariable ["prestigeCSAT",5,true];//Initial Prestige CSAT
 
@@ -316,7 +316,6 @@ publicVariable "hayACE";
 publicVariable "hayTFAR";
 publicVariable "hayACEhearing";
 publicVariable "hayACEMedical";
-publicVariable "skillAAF";
 publicVariable "misiones";
 publicVariable "revelar";
 publicVariable "FIA_texturedVehicles";

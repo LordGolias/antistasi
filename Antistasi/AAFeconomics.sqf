@@ -113,15 +113,16 @@ if ((APCAAFcurrent < APCAAFmax) and ((tanksAAFcurrent > 2) or (APCAAFcurrent < 4
 	};
 
 _skillFIA = AS_persistent getVariable "skillFIA";
-if ((skillAAF < (_skillFIA + 4)) && (skillAAF < AS_maxSkill)) then {
-	_coste = 1000 + (1.5*(skillAAF *750));
+_skillAAF = AS_persistent getVariable "skillAAF";
+if ((_skillAAF < (_skillFIA + 4)) && (_skillAAF < AS_maxSkill)) then {
+	_coste = 1000 + (1.5*(_skillAAF *750));
 	if (_coste < _resourcesAAF) then {
-		skillAAF = skillAAF + 1;
-		publicVariable "skillAAF";
+        AS_persistent setVariable ["skillAAF", _skillAAF + 1, true];
+        _skillAAF = _skillAAF + 1;
 		_resourcesAAF = _resourcesAAF - _coste;
 		{
 			_coste = AS_data_allCosts getVariable _x;
-			_coste = round (_coste + (_coste * (skillAAF/280)));
+			_coste = round (_coste + (_coste * (_skillAAF/280)));
 			AS_data_allCosts setVariable [_x,_coste,true];
 		} forEach soldadosAAF;
 	};
