@@ -35,3 +35,12 @@ In MP, `initServer.sqf` is responsible for the server, and `initPlayerLocal.sqf`
 
 - Scripts that create stuff are responsible for cleaning them in the end, by tracking everything they created.
 - Other units are managed by the client or server.
+
+## Persistent saving
+
+The code in `statSave/saveFuncs.sqf` is responsible for saving stuff.
+Essentially, the following things are saved:
+
+- Variables in the Logic `AS_persistent` named in the array `statSave/saveFuncs.AS_serverVariables`.
+- Variables in the Logic `AS_persistent_cities` named in the array `statSave/cityAttrs.AS_cityVars`.
+- Various global variables

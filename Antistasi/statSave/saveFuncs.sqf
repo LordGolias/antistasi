@@ -53,7 +53,7 @@ AS_fnc_postLoadServer = {
 AS_fnc_saveCities = {
     params ["_saveName"];
 	{
-		_data = server getVariable _x;
+		_data = AS_persistent_cities getVariable _x;
 		[_saveName, "CITY" + _x, _data] call AS_fnc_SaveStat;
 	} forEach ciudades;
 };
@@ -61,7 +61,7 @@ AS_fnc_saveCities = {
 AS_fnc_loadCities = {
     params ["_saveName"];
 	{
-		server setVariable [_x, [_saveName, "CITY" + _x] call AS_fnc_LoadStat, true];
+		AS_persistent_cities setVariable [_x, [_saveName, "CITY" + _x] call AS_fnc_LoadStat, true];
 	} forEach ciudades;
 };
 

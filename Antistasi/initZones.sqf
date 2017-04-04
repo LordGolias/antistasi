@@ -42,7 +42,7 @@ private ["_sizeX","_sizeY","_size"];
 if (worldName == "Altis") then {
 	// set cities population.
     {
-		server setVariable [_x select 0,_x select 1]
+		AS_persistent_cities setVariable [_x select 0,_x select 1]
 	} forEach [
 		["Therisa",154],["Zaros",371],["Poliakko",136],["Katalaki",95],["Alikampos",115],["Neochori",309],["Stavros",122],["Lakka",173],["AgiosDionysios",84],["Panochori",264],["Topolia",33],["Ekali",9],["Pyrgos",531],["Orino",45],["Neri",242],["Kore",133],["Kavala",660],["Aggelochori",395],["Koroni",32],["Gravia",291],["Anthrakia",143],["Syrta",151],["Negades",120],["Galati",151],["Telos",84],["Charkia",246],["Athira",342],["Dorida",168],["Ifestiona",48],["Chalkeia",214],["AgiosKonstantinos",39],["Abdera",89],["Panagia",91],["Nifi",24],["Rodopoli",212],["Kalithea",36],["Selakano",120],["Frini",69],["AgiosPetros",11],["Feres",92],["AgiaTriada",8],["Paros",396],["Kalochori",189],["Oreokastro",63],["Ioannina",48],["Delfinaki",29],["Sofia",179],["Molos",188]
 		];
@@ -79,7 +79,7 @@ if ((_nombre != "") and (_nombre != "sagonisi") and (_nombre != "hill12")) then/
     else
         {
         _roads = carreteras getVariable _nombre;
-        _numCiv = server getVariable _nombre;
+        _numCiv = AS_persistent_cities getVariable _nombre;
         if (isNil "_numCiv") then {hint format ["A mi no me sale en %1",_nombre]};
         if (typeName _numCiv != typeName 0) then {hint format ["Datos erróneos en %1. Son del tipo %2",_nombre, typeName _numCiv]};
         //if (isNil "_roads") then {hint format ["A mi no me sale en %1",_nombre]};
