@@ -174,7 +174,7 @@ if (isMultiplayer) then {
             {_jugador removeWeaponGlobal _x} forEach weapons _jugador;
             removeBackpackGlobal _jugador;
             };
-        _pos = posHQ findEmptyPosition [2, 10, typeOf (vehicle _jugador)];
+        _pos = (getMarkerPos "respawn_west") findEmptyPosition [2, 10, typeOf (vehicle _jugador)];
         _jugador setPos _pos;
 	} forEach playableUnits;
 
@@ -185,7 +185,7 @@ if (isMultiplayer) then {
 	{player removeWeaponGlobal _x} forEach weapons player;
 	removeBackpackGlobal player;
 
-	_pos = posHQ findEmptyPosition [2, 10, typeOf (vehicle player)];
+	_pos = (getMarkerPos "respawn_west") findEmptyPosition [2, 10, typeOf (vehicle player)];
 	player setPos _pos;
 };
 

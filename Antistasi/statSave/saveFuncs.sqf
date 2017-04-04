@@ -117,7 +117,7 @@ AS_fnc_saveHQ = {
 		{
 			// save stuff only close to the HQ.
 			_pos = getPos _x;
-			if (_pos distance posHQ < 50) then {
+			if (_pos distance (getMarkerPos "respawn_west") < 50) then {
 				_array pushback [_pos, getDir _x, typeOf _x];
 			};
 		} forEach AS_HQ_placements;
@@ -129,19 +129,18 @@ AS_fnc_saveHQ = {
 };
 
 AS_fnc_loadHQ = {
-	posHQ = [_saveName, "HQpos"] call AS_fnc_LoadStat;
-	publicVariable "posHQ";
+	private _posHQ = [_saveName, "HQpos"] call AS_fnc_LoadStat;
 	{
-		if (getMarkerPos _x distance posHQ < 1000) exitWith {
+		if (getMarkerPos _x distance _posHQ < 1000) exitWith {
 			mrkAAF = mrkAAF - [_x];
 			mrkFIA = mrkFIA + [_x];
 		};
 	} forEach controles;
 
-	"FIA_HQ" setMarkerPos posHQ;
-	"respawn_west" setMarkerPos posHQ;
+	"FIA_HQ" setMarkerPos _posHQ;
+	"respawn_west" setMarkerPos _posHQ;
 	"respawn_west" setMarkerAlpha 1;
-	petros setPos posHQ;
+	petros setPos _posHQ;
 
 	_array = [_saveName, "HQPermanents"] call AS_fnc_LoadStat;
 	for "_i" from 0 to count AS_permanent_HQplacements - 1 do {
@@ -174,7 +173,7 @@ fn_SaveProfile = {saveProfileNamespace};
 //===========================================================================
 // Variables that require scripting after loaded. See fn_SetStat.
 specialVarLoads =
-["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","posHQ","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","fecha","skillAAF","garrison","tasks","destroyedBuildings","idleBases","campsFIA","campList","BE_data"];
+["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","fecha","skillAAF","garrison","tasks","destroyedBuildings","idleBases","campsFIA","campList","BE_data"];
 
 // global variables that are set to be publicVariable on loading.
 AS_publicVariables = [

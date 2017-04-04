@@ -167,7 +167,6 @@ if (visiblemap) then {
 	openmap [false,false];
 };
 "FIA_HQ" setMarkerPos (getMarkerPos "respawn_west");
-posHQ = getMarkerPos "respawn_west"; publicVariable "posHQ";
 
 {
     deleteMarker _x;

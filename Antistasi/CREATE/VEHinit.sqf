@@ -138,7 +138,7 @@ else
 								if (random 8 < 1) then
 									{
 									_mortero = _this select 0;
-									if (_mortero distance posHQ < 200) then
+									if (_mortero distance (getMarkerPos "respawn_west") < 200) then
 										{
 										if (!("DEF_HQ" in misiones)) then
 											{

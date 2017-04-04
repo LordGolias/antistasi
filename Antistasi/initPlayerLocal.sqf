@@ -96,7 +96,7 @@ if (isMultiplayer) then {
     personalGarage = [];
 };
 
-_pos = posHQ findEmptyPosition [2, 10, typeOf (vehicle player)];
+_pos = (getMarkerPos "respawn_west") findEmptyPosition [2, 10, typeOf (vehicle player)];
 player setPos _pos;
 
 call AS_fnc_loadLocalPlayer;

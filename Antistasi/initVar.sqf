@@ -22,7 +22,6 @@ switchCom = false;  // Game will not auto assign Commander position to the highe
 
 // we set the maker on petros so the HQ position is correct in new games.
 "respawn_west" setMarkerPos (position petros);
-posHQ = getMarkerPos "respawn_west";
 //minefieldMrk = [];
 minimoFPS = 15;//initial FPS minimum.
 //destroyedCities = [];

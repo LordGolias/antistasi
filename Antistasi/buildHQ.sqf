@@ -9,7 +9,6 @@ if (group petros != grupoPetros) then
 petros forceSpeed 0;
 "respawn_west" setMarkerPos getPos petros;
 "FIA_HQ" setMarkerPos getPos petros;
-posHQ = getMarkerPos "respawn_west"; publicVariable "posHQ";
 
 if (isMultiplayer) then
 	{
