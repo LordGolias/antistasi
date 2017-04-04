@@ -21,16 +21,16 @@ private _resourcesFIA = server getVariable "resourcesFIA";
 
 if (_grouptype in ["IRG_InfSquad","IRG_InfTeam","IRG_InfTeam_AT","IRG_SniperTeam_M","IRG_InfSentry"]) then {
 	private _units = [(configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> _grouptype)] call groupComposition;
-	{_cost = _cost + (server getVariable _x); _costHR = _costHR + 1} forEach _units;
+	{_cost = _cost + (AS_data_allCosts getVariable _x); _costHR = _costHR + 1} forEach _units;
 	_isInfantry = true;
 }
 else {
-	_cost = 2*(server getVariable "B_G_Soldier_lite_F");
+	_cost = 2*(AS_data_allCosts getVariable "B_G_Soldier_lite_F");
 	_costHR = 2;
 	_cost = _cost + ([_grouptype] call vehiclePrice) + (["B_G_Van_01_transport_F"] call vehiclePrice);
 
 	if ((hayRHS) && (_grouptype == "B_static_AA_F")) then {
-		_cost = 3*(server getVariable "B_G_Soldier_lite_F");
+		_cost = 3*(AS_data_allCosts getVariable "B_G_Soldier_lite_F");
 		_costHR = 3;
 		_cost = _cost + ([vehTruckAA] call vehiclePrice);
 	};

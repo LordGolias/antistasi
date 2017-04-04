@@ -51,7 +51,7 @@ if (_tipo == "rem") then
 						{
 						if (typeOf _x == "b_g_soldier_unarmed_f") then {_coste = _coste - (["B_G_Mortar_01_F"] call vehiclePrice)};
 						_hr = _hr - 1;
-						_coste = _coste - (server getVariable (typeOf _x));
+						_coste = _coste - (AS_data_allCosts getVariable (typeOf _x));
 						};
 					};
 				if (typeOf (vehicle _x) == "B_G_Mortar_01_F") then {deleteVehicle vehicle _x};
@@ -63,7 +63,7 @@ if (_tipo == "rem") then
 	{
 	if (_x == "b_g_soldier_unarmed_f") then {_coste = _coste + (["B_G_Mortar_01_F"] call vehiclePrice)};
 	_hr = _hr + 1;
-	_coste = _coste + (server getVariable _x);
+	_coste = _coste + (AS_data_allCosts getVariable _x);
 	} forEach _garrison;
 	[_hr,_coste] remoteExec ["resourcesFIA",2];
 	garrison setVariable [_cercano,[],true];
@@ -90,20 +90,20 @@ else
 	if (str (_display) != "no display") then
 		{
 		_ChildControl = _display displayCtrl 104;
-		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",server getVariable "B_G_Soldier_F"];
+		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",AS_data_allCosts getVariable "B_G_Soldier_F"];
 		_ChildControl = _display displayCtrl 105;
-		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",server getVariable "B_G_Soldier_AR_F"];
+		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",AS_data_allCosts getVariable "B_G_Soldier_AR_F"];
 		_ChildControl = _display displayCtrl 126;
-		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",server getVariable "B_G_medic_F"];
+		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",AS_data_allCosts getVariable "B_G_medic_F"];
 		_ChildControl = _display displayCtrl 107;
-		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",server getVariable "B_G_Soldier_SL_F"];
+		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",AS_data_allCosts getVariable "B_G_Soldier_SL_F"];
 		_ChildControl = _display displayCtrl 108;
-		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",(server getVariable "b_g_soldier_unarmed_f") + (["B_G_Mortar_01_F"] call vehiclePrice)];
+		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",(AS_data_allCosts getVariable "b_g_soldier_unarmed_f") + (["B_G_Mortar_01_F"] call vehiclePrice)];
 		_ChildControl = _display displayCtrl 109;
-		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",server getVariable "B_G_Soldier_GL_F"];
+		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",AS_data_allCosts getVariable "B_G_Soldier_GL_F"];
 		_ChildControl = _display displayCtrl 110;
-		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",server getVariable "B_G_Soldier_M_F"];
+		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",AS_data_allCosts getVariable "B_G_Soldier_M_F"];
 		_ChildControl = _display displayCtrl 111;
-		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",server getVariable "B_G_Soldier_LAT_F"];
+		_ChildControl  ctrlSetTooltip format ["Cost: %1 €",AS_data_allCosts getVariable "B_G_Soldier_LAT_F"];
 		};
 	};

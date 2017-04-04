@@ -183,45 +183,46 @@ server setVariable ["jTime", 0, true];
 server setVariable ["lockTransfer", false, true];
 
 //Pricing values for soldiers, vehicles
-{server setVariable [_x,50,true]} forEach ["B_G_Soldier_F","B_G_Soldier_lite_F","b_g_soldier_unarmed_f"];
-{server setVariable [_x,100,true]} forEach ["B_G_Soldier_AR_F","B_G_medic_F","B_G_engineer_F","B_G_Soldier_exp_F","B_G_Soldier_GL_F","B_G_Soldier_TL_F","B_G_Soldier_A_F"];
-{server setVariable [_x,150,true]} forEach ["B_G_Soldier_M_F","B_G_Soldier_LAT_F","B_G_Soldier_SL_F","B_G_officer_F","B_G_Sharpshooter_F","Soldier_AA"];
-{server setVariable [_x,100,true]} forEach ["I_crew_F","O_crew_F","C_man_1"];
-{server setVariable [_x,100,true]} forEach infList_regular;
-{server setVariable [_x,150,true]} forEach infList_auto;
-{server setVariable [_x,150,true]} forEach infList_crew;
-{server setVariable [_x,150,true]} forEach infList_pilots;
-{server setVariable [_x,200,true]} forEach infList_special;
-{server setVariable [_x,200,true]} forEach infList_NCO;
-{server setVariable [_x,200,true]} forEach infList_sniper;
+{AS_data_allCosts setVariable [_x,50,true]} forEach ["B_G_Soldier_F","B_G_Soldier_lite_F","b_g_soldier_unarmed_f"];
+{AS_data_allCosts setVariable [_x,100,true]} forEach ["B_G_Soldier_AR_F","B_G_medic_F","B_G_engineer_F","B_G_Soldier_exp_F","B_G_Soldier_GL_F","B_G_Soldier_TL_F","B_G_Soldier_A_F"];
+{AS_data_allCosts setVariable [_x,150,true]} forEach ["B_G_Soldier_M_F","B_G_Soldier_LAT_F","B_G_Soldier_SL_F","B_G_officer_F","B_G_Sharpshooter_F","Soldier_AA"];
+{AS_data_allCosts setVariable [_x,100,true]} forEach ["I_crew_F","O_crew_F","C_man_1"];
+{AS_data_allCosts setVariable [_x,100,true]} forEach infList_regular;
+{AS_data_allCosts setVariable [_x,150,true]} forEach infList_auto;
+{AS_data_allCosts setVariable [_x,150,true]} forEach infList_crew;
+{AS_data_allCosts setVariable [_x,150,true]} forEach infList_pilots;
+{AS_data_allCosts setVariable [_x,200,true]} forEach infList_special;
+{AS_data_allCosts setVariable [_x,200,true]} forEach infList_NCO;
+{AS_data_allCosts setVariable [_x,200,true]} forEach infList_sniper;
 
-server setVariable ["C_Offroad_01_F",300,true];//200
-server setVariable ["C_Van_01_transport_F",600,true];//600
-server setVariable ["C_Heli_Light_01_civil_F",12000,true];//12000
-server setVariable ["B_G_Quadbike_01_F",50,true];//50
-server setVariable ["B_G_Offroad_01_F",200,true];//200
-server setVariable ["B_G_Van_01_transport_F",450,true];//300
-server setVariable ["B_G_Offroad_01_armed_F",700,true];//700
-{server setVariable [_x,400,true]} forEach ["B_HMG_01_high_F","B_G_Boat_Transport_01_F","B_G_Offroad_01_repair_F"];//400
-{server setVariable [_x,800,true]} forEach ["B_G_Mortar_01_F","B_static_AT_F","B_static_AA_F"];//800
+AS_data_allCosts setVariable ["C_Offroad_01_F",300,true];//200
+AS_data_allCosts setVariable ["C_Van_01_transport_F",600,true];//600
+AS_data_allCosts setVariable ["C_Heli_Light_01_civil_F",12000,true];//12000
+AS_data_allCosts setVariable ["B_G_Quadbike_01_F",50,true];//50
+AS_data_allCosts setVariable ["B_G_Offroad_01_F",200,true];//200
+AS_data_allCosts setVariable ["B_G_Van_01_transport_F",450,true];//300
+AS_data_allCosts setVariable ["B_G_Offroad_01_armed_F",700,true];//700
+{AS_data_allCosts setVariable [_x,400,true]} forEach ["B_HMG_01_high_F","B_G_Boat_Transport_01_F","B_G_Offroad_01_repair_F"];//400
+{AS_data_allCosts setVariable [_x,800,true]} forEach ["B_G_Mortar_01_F","B_static_AT_F","B_static_AA_F"];//800
 
-server setVariable [vfs select 0,300,true];
-server setVariable [vfs select 1,600,true];//600
-server setVariable [vfs select 2,6000,true];//12000
-server setVariable [vfs select 3,50,true];//50
-server setVariable [vfs select 4,200,true];//200
-server setVariable [vfs select 5,450,true];//300
-server setVariable [vfs select 6,700,true];//700
-server setVariable [vfs select 7,400,true];//700
-server setVariable [vfs select 8,800,true];
-server setVariable [vfs select 9,800,true];
-server setVariable [vfs select 10,800,true];
+AS_data_allCosts setVariable [vfs select 0,300,true];
+AS_data_allCosts setVariable [vfs select 1,600,true];//600
+AS_data_allCosts setVariable [vfs select 2,6000,true];//12000
+AS_data_allCosts setVariable [vfs select 3,50,true];//50
+AS_data_allCosts setVariable [vfs select 4,200,true];//200
+AS_data_allCosts setVariable [vfs select 5,450,true];//300
+AS_data_allCosts setVariable [vfs select 6,700,true];//700
+AS_data_allCosts setVariable [vfs select 7,400,true];//700
+AS_data_allCosts setVariable [vfs select 8,800,true];
+AS_data_allCosts setVariable [vfs select 9,800,true];
+AS_data_allCosts setVariable [vfs select 10,800,true];
 
 if (hayRHS) then {
-	server setVariable [vfs select 2,6000,true];
-	server setVariable [vfs select 11,5000,true];
-	server setVariable [vfs select 12,600,true];
-	server setVariable [vehTruckAA, 800, true];
+	AS_data_allCosts setVariable [vfs select 2,6000,true];
+	AS_data_allCosts setVariable [vfs select 11,5000,true];
+	AS_data_allCosts setVariable [vfs select 12,600,true];
+	AS_data_allCosts setVariable [vehTruckAA, 800, true];
+	AS_data_allCosts setVariable [vehTruckAA, 800, true];
 };
 
 server setVariable ["hr",8,true];//initial HR value

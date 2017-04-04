@@ -4,7 +4,7 @@ _tipo = _this select 0;
 
 if (isNil {_tipo}) exitWith {};
 
-_coste = server getVariable _tipo;
+_coste = AS_data_allCosts getVariable _tipo;
 
 if (isNil "_coste") then {
 	call {

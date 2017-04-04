@@ -22,7 +22,7 @@ server setVariable ["skillFIA",_skillFIA,true];
 server setVariable ["resourcesFIA",_resourcesFIA,true];
 
 {
-_coste = server getVariable _x;
+_coste = AS_data_allCosts getVariable _x;
 _coste = round (_coste + (_coste * (_skillFIA/280)));
-server setVariable [_x,_coste,true];
+AS_data_allCosts setVariable [_x,_coste,true];
 } forEach soldadosFIA;

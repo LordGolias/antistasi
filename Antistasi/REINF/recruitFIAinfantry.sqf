@@ -17,7 +17,7 @@ if (_enemiesClose) exitWith {Hint "You cannot recruit units with enemies nearby"
 
 if (server getVariable "hr" < 1) exitWith {hint "You do not have enough HR for this request"};
 
-_cost = server getVariable _type;
+_cost = AS_data_allCosts getVariable _type;
 if (!isMultiPlayer) then {
 	_moneyAvailable = server getVariable "resourcesFIA";
 } else {

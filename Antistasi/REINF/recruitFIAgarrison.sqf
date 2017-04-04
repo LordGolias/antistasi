@@ -10,7 +10,7 @@ _resourcesFIA = server getVariable "resourcesFIA";
 
 if (closeMarkersUpdating > 0) exitWith {hint format ["We are currently adding garrison units to this zone. HQ nearby zones require more time to add garrisons.\n\nPlease try again in %1 seconds.",closeMarkersUpdating]};
 
-_coste = server getVariable _tipo;
+_coste = AS_data_allCosts getVariable _tipo;
 _salir = false;
 
 if (_tipo == "b_g_soldier_unarmed_f") then{

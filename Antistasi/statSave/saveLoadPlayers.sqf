@@ -22,7 +22,7 @@ AS_fnc_serializeLocalPlayer = {
 		{
 		_hired = _x;
 		if ((!isPlayer _hired) and (alive _hired)) then {
-			_money = _money + (server getVariable (typeOf _hired));
+			_money = _money + (AS_data_allCosts getVariable (typeOf _hired));
 			if (vehicle _hired != _hired) then {
 				_veh = vehicle _hired;
 				_tipoVeh = typeOf _veh;

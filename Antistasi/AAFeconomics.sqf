@@ -120,9 +120,9 @@ if ((skillAAF < (_skillFIA + 4)) && (skillAAF < AS_maxSkill)) then {
 		publicVariable "skillAAF";
 		_resourcesAAF = _resourcesAAF - _coste;
 		{
-			_coste = server getVariable _x;
+			_coste = AS_data_allCosts getVariable _x;
 			_coste = round (_coste + (_coste * (skillAAF/280)));
-			server setVariable [_x,_coste,true];
+			AS_data_allCosts setVariable [_x,_coste,true];
 		} forEach soldadosAAF;
 	};
 };

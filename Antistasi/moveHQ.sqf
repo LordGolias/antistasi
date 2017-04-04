@@ -60,7 +60,7 @@ if (count _garrison > 0) then
 					{
 					if (typeOf _x == "b_g_soldier_unarmed_f") then {_coste = _coste - (["B_G_Mortar_01_F"] call vehiclePrice)};
 					_hr = _hr - 1;
-					_coste = _coste - (server getVariable (typeOf _x));
+					_coste = _coste - (AS_data_allCosts getVariable (typeOf _x));
 					};
 				};
 			if (typeOf (vehicle _x) == "B_G_Mortar_01_F") then {deleteVehicle vehicle _x};
@@ -71,7 +71,7 @@ if (count _garrison > 0) then
 	{
 	if (_x == "b_g_soldier_unarmed_f") then {_coste = _coste + (["B_G_Mortar_01_F"] call vehiclePrice)};
 	_hr = _hr + 1;
-	_coste = _coste + (server getVariable _x);
+	_coste = _coste + (AS_data_allCosts getVariable _x);
 	} forEach _garrison;
 	[_hr,_coste] remoteExec ["resourcesFIA",2];
 	garrison setVariable ["FIA_HQ",[],true];

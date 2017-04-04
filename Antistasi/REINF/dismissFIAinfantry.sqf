@@ -49,7 +49,7 @@ if (_ai) then {
 	{
 		private _unit = _x;
 		if ((alive _unit) and (not(_x getVariable "inconsciente"))) then {
-			_resourcesFIA = _resourcesFIA + (server getVariable (typeOf _unit));
+			_resourcesFIA = _resourcesFIA + (AS_data_allCosts getVariable (typeOf _unit));
 			_hr = _hr + 1;
 
 			private _arsenal = [_unit, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons

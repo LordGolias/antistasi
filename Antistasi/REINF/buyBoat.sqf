@@ -7,7 +7,7 @@ _chequeo = false;
 
 if (_chequeo) exitWith {Hint "You cannot buy vehicles with enemies nearby"};
 
-_coste = server getVariable "B_G_Boat_Transport_01_F";
+_coste = AS_data_allCosts getVariable "B_G_Boat_Transport_01_F";
 
 if (server getVariable "resourcesFIA" < _coste) exitWith {hint format ["You need %1 € to buy a boat",_coste]};
 

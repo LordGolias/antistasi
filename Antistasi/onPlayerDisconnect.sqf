@@ -16,7 +16,7 @@ if (_unit == AS_commander) then
 				{
 				if (alive _x) then
 					{
-					_recursos = _recursos + (server getVariable (typeOf _x));
+					_recursos = _recursos + (AS_data_allCosts getVariable (typeOf _x));
 					_hr = _hr + 1;
 					};
 				if (!isNull (assignedVehicle _x)) then

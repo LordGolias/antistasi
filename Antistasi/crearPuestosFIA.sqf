@@ -15,12 +15,12 @@ if (_tipo == "delete") exitWith {
 	if (markerText _mrk != "FIA Observation Post") then
 		{
 		_tipogrupo = "IRG_InfTeam_AT";
-		_coste = _coste + (["B_G_Offroad_01_armed_F"] call vehiclePrice) + (server getVariable "B_G_Soldier_F");
+		_coste = _coste + (["B_G_Offroad_01_armed_F"] call vehiclePrice) + (AS_data_allCosts getVariable "B_G_Soldier_F");
 		_hr = _hr + 1;
 		};
 	_formato = (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> _tipogrupo);
 	_unidades = [_formato] call groupComposition;
-	{_coste = _coste + (server getVariable _x); _hr = _hr +1} forEach _unidades;
+	{_coste = _coste + (AS_data_allCosts getVariable _x); _hr = _hr +1} forEach _unidades;
 	[_hr,_coste] remoteExec ["resourcesFIA",2];
 	deleteMarker _mrk;
 	puestosFIA = puestosFIA - [_mrk]; publicVariable "puestosFIA";

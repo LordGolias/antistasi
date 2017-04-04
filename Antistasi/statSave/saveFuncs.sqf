@@ -41,11 +41,11 @@ AS_fnc_postLoadServer = {
 	// increase cost of soldiers (what is this doing exactly??)
 	_skillFIA = server getVariable "skillFIA";
 	{
-		_cost = server getVariable _x;
+		_cost = AS_data_allCosts getVariable _x;
 		for "_i" from 1 to _skillFIA do {
 			_cost = round (_cost + (_cost * (_i/280)));
 		};
-		server setVariable [_x,_cost,true];
+		AS_data_allCosts setVariable [_x,_cost,true];
 	} forEach soldadosFIA;
 };
 
@@ -249,11 +249,11 @@ fn_SetStat = {
 			if(_varName == 'skillAAF') exitWith {
 				skillAAF = _varvalue;
 				{
-					_coste = server getVariable _x;
+					_coste = AS_data_allCosts getVariable _x;
 					for "_i" from 1 to skillAAF do {
 						_coste = round (_coste + (_coste * (_i/280)));
 					};
-					server setVariable [_x,_coste,true];
+					AS_data_allCosts setVariable [_x,_coste,true];
 				} forEach soldadosAAF;
 			};
 			if(_varName == 'minas') exitWith

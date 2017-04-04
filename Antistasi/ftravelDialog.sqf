@@ -49,7 +49,7 @@ if (_tipo == "create") then {
 	_tipogrupo = "IRG_SniperTeam_M";
 	_formato = (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> _tipogrupo);
 	_unidades = [_formato] call groupComposition;
-	{_coste = _coste + (server getVariable _x); _hr = _hr +1} forEach _unidades;
+	{_coste = _coste + (AS_data_allCosts getVariable _x); _hr = _hr +1} forEach _unidades;
 };
 
 _txt = "";

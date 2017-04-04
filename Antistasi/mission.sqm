@@ -5,10 +5,10 @@ class EditorData
 	angleGridStep=0.2617994;
 	scaleGridStep=1;
 	autoGroupingDist=10;
-	toggles=1;
+	toggles=129;
 	class ItemIDProvider
 	{
-		nextID=462;
+		nextID=463;
 	};
 	class MarkerIDProvider
 	{
@@ -57,7 +57,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=189;
+		items=190;
 		class Item0
 		{
 			dataType="Marker";
@@ -488,6 +488,7 @@ class Mission
 			b=60;
 			angle=136.12096;
 			id=33;
+			atlOffset=1.9073486e-006;
 		};
 		class Item34
 		{
@@ -1276,7 +1277,7 @@ class Mission
 			};
 			id=95;
 			type="IG_supplyCrate_F";
-			atlOffset=-0.0048341751;
+			atlOffset=-0.0048236847;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -1790,6 +1791,7 @@ class Mission
 			name="seaPatrol_19";
 			type="Empty";
 			id=205;
+			atlOffset=-7.6293945e-006;
 		};
 		class Item132
 		{
@@ -1867,6 +1869,7 @@ class Mission
 			a=50;
 			b=50;
 			id=215;
+			atlOffset=-7.6293945e-006;
 		};
 		class Item141
 		{
@@ -1879,7 +1882,7 @@ class Mission
 			name="spawner";
 			id=216;
 			type="Logic";
-			atlOffset=1.9073486e-006;
+			atlOffset=2.8610229e-006;
 		};
 		class Item142
 		{
@@ -2058,14 +2061,14 @@ class Mission
 					};
 					id=376;
 					type="B_G_officer_F";
-					atlOffset=0.023994446;
+					atlOffset=0.023995399;
 				};
 			};
 			class Attributes
 			{
 			};
 			id=375;
-			atlOffset=0.023994446;
+			atlOffset=0.023995399;
 		};
 		class Item147
 		{
@@ -2516,14 +2519,14 @@ class Mission
 					};
 					id=402;
 					type="B_G_medic_F";
-					atlOffset=0.010622978;
+					atlOffset=0.010608673;
 				};
 			};
 			class Attributes
 			{
 			};
 			id=401;
-			atlOffset=0.010622978;
+			atlOffset=0.010608673;
 		};
 		class Item160
 		{
@@ -3469,6 +3472,17 @@ class Mission
 			};
 			id=459;
 			atlOffset=0.0079984665;
+		};
+		class Item189
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3606,17,10303};
+			};
+			name="AS_data_allCosts";
+			id=462;
+			type="Logic";
 		};
 	};
 	class Connections
