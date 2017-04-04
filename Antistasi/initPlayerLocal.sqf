@@ -5,10 +5,7 @@ waitUntil {player == player};
 #include "Scripts\SHK_Fastrope.sqf"
 
 // removes everything but map, GPS, etc.
-removeAllItemsWithMagazines player;
-{player removeWeaponGlobal _x} forEach weapons player;
-removeBackpackGlobal player;
-removeVest player;
+[player] call AS_fnc_emptyUnit;
 
 if (isMultiplayer and !isServer) then {
     call compile preprocessFileLineNumbers "initFuncs.sqf";
@@ -82,15 +79,13 @@ if (hayRHS) then {[player] execVM "Municion\RHSdress.sqf"};
 
 disableUserInput false;
 MIASquadUnits = creategroup WEST;  // units that are not in the squad because they lost communication with the player (no radio).
-player addWeaponGlobal "itemmap";
-player addWeaponGlobal "itemgps";
 player setvariable ["compromised", 0];  // Used by undercover mechanics
-player setVariable ["owner",player,true];
-player setVariable ["punish",0,true];
-player setVariable ["dinero",100,true];
-player setVariable ["BLUFORSpawn",true,true];
+player setVariable ["owner",player,true];  // used to gain temporary control over other units (player != player getVariabe ["owner", player])
+player setVariable ["punish",0,true];  // punish time for Team kill
+player setVariable ["dinero",100,true];  // initial money
+player setVariable ["BLUFORSpawn",true,true];  // means that the unit triggers spawn of zones.
 player setUnitRank "PRIVATE";
-player setVariable ["rango",rank player,true];
+player setVariable ["rango",rank player,true];  // todo: check that this is really necessary.
 _score = 0;
 if (player==AS_commander) then {_score = 25};
 player setVariable ["score", _score, true];
@@ -215,7 +210,7 @@ if (_isJip) then {
 else {  // not JIP
 	if (isNil "placementDone") then {
 		waitUntil {!isNil "AS_commander"};
-		if (isMultiplayer and player == AS_commander) then {
+		if (player == AS_commander) then {
             HC_comandante synchronizeObjectsAdd [player];
             player synchronizeObjectsAdd [HC_comandante];
             [] spawn AS_fncUI_LoadSaveMenu;

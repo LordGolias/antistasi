@@ -18,6 +18,7 @@ AS_fnc_listToCargoList = compile preProcessFileLineNumbers "municion\listToCargo
 AS_fnc_mergeCargoLists = compile preProcessFileLineNumbers "municion\mergeCargoLists.sqf";
 AS_fnc_populateBox = compile preProcessFileLineNumbers "municion\populateBox.sqf";
 AS_fnc_getTotalCargo = compile preProcessFileLineNumbers "municion\fnc_getTotalCargo.sqf";
+AS_fnc_emptyUnit = compile preProcessFileLineNumbers "municion\emptyUnit.sqf";
 
 call compile preProcessFileLineNumbers "templates\medicUnitBackpack.sqf";
 
