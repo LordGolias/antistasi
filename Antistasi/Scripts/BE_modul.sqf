@@ -176,7 +176,7 @@ fnc_BE_updateProgressBar = {
 
 	_req = BE_REQ_XP select BE_currentStage;
 	_cV = BE_currentXP / _req;
-	_v = server getVariable ["skillFIA", 0];
+	_v = AS_persistent getVariable ["skillFIA", 0];
 
 	if (BE_progressLock) exitWith {
 		_pV = [BE_COLOR_LOCK, BE_COLOR_LOCK, BE_current_FIA_Skill_Cap, BE_current_FIA_Skill_Cap+1, "Army XP"];
@@ -187,7 +187,7 @@ fnc_BE_updateProgressBar = {
 	_pV = [BE_COLOR_DONE, BE_COLOR_DEF, _v, _v+1, "Army XP"];
 
 	if (_cV > 1) then {
-		server setVariable ["skillFIA", _v+1, true];
+		AS_persistent setVariable ["skillFIA", _v+1, true];
 		BE_currentXP = BE_currentXP - _req;
 		if ((_v+1) >= BE_current_FIA_Skill_Cap) then {
 			_pV = [BE_COLOR_LOCK, BE_COLOR_LOCK, BE_current_FIA_Skill_Cap, BE_current_FIA_Skill_Cap+1, "Army XP"];
@@ -249,7 +249,7 @@ fnc_BE_buyUpgrade = {
 	};
 	private _price = call fnc_BE_calcPrice;
 
-	if ((server getVariable "resourcesFIA") > BE_currentPrice) then {
+	if ((AS_persistent getVariable "resourcesFIA") > BE_currentPrice) then {
 		[_price] call fnc_BE_upgrade;
 		diag_log format ["Maintenance: upgrade acquired. New stage: %1; price paid: %2", BE_currentStage, BE_currentPrice];
 	} else {
@@ -260,10 +260,10 @@ fnc_BE_buyUpgrade = {
 fnc_BE_upgrade = {
 	params [["_price", 10000]];
 
-	private _tempFunds = server getVariable "resourcesFIA";
+	private _tempFunds = AS_persistent getVariable "resourcesFIA";
 	diag_log format ["Price: %1; Funds: %2", _price, _tempFunds];
-	server setVariable ["skillFIA", BE_current_FIA_Skill_Cap, true];
-	server setVariable ["resourcesFIA", _tempFunds - _price, true];
+	AS_persistent setVariable ["skillFIA", BE_current_FIA_Skill_Cap, true];
+	AS_persistent setVariable ["resourcesFIA", _tempFunds - _price, true];
 	BE_currentStage = BE_currentStage + 1;
 	[] call fnc_BE_refresh;
 	BE_progressLock = false;
@@ -350,7 +350,7 @@ fnc_BE_permission = {
 
 	switch (_category) do {
 		case "skill": {
-			if (BE_current_FIA_Skill_Cap > (server getVariable "skillFIA")) then {
+			if (BE_current_FIA_Skill_Cap > (AS_persistent getVariable "skillFIA")) then {
 				_result = true;
 			};
 		};
@@ -384,9 +384,9 @@ fnc_BE_permission = {
 			};
 		};
 		case "HR": {
-			if (BE_current_FIA_HR_Cap > (server getVariable "hr")) then {
+			if (BE_current_FIA_HR_Cap > (AS_persistent getVariable "hr")) then {
 				_result = true;
-				_return = BE_current_FIA_HR_Cap - (server getVariable "hr");
+				_return = BE_current_FIA_HR_Cap - (AS_persistent getVariable "hr");
 			} else {
 				_return = 0;
 			};
@@ -425,7 +425,7 @@ fnc_BE_getCurrentValue = {
 
 	switch (_category) do {
 		case "HR": {
-			_result = BE_current_FIA_HR_Cap - (server getVariable "hr");
+			_result = BE_current_FIA_HR_Cap - (AS_persistent getVariable "hr");
 		};
 		case "outfit": {
 			_result = BE_current_FIA_Outfit;
@@ -564,7 +564,7 @@ fnc_BE_C_HR = {
 		};
 	};
 
-	[((server getVariable ["hr", 0]) >= _minVal), BE_STR_CHR]
+	[((AS_persistent getVariable ["hr", 0]) >= _minVal), BE_STR_CHR]
 };
 
 #define BE_STR_CVEH1 "Captured at least 2 MRAPs in garage"

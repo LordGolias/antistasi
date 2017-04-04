@@ -1,7 +1,7 @@
-_resourcesFIA = server getVariable "resourcesFIA";
+_resourcesFIA = AS_persistent getVariable "resourcesFIA";
 if (_resourcesFIA < 100) exitWith {hint "FIA has not enough resources to grab"};
 [100] call resourcesPlayer;
-server setvariable ["resourcesFIA",_resourcesFIA - 100, true];
+AS_persistent setvariable ["resourcesFIA",_resourcesFIA - 100, true];
 //[-2,AS_commander] call playerScoreAdd;
 ["scorePlayer", player getVariable "score"] call fn_SaveStat;
 

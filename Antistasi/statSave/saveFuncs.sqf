@@ -1,20 +1,20 @@
 call compile PreprocessFileLineNumbers "statSave\core.sqf";
 call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 
-// Variables that are persistent to `server`. They are saved and loaded accordingly.
+// Variables that are persistent to `AS_persistent`. They are saved and loaded accordingly.
 // Add variables here that you want to save.
 AS_serverVariables = [
 	"prestigeNATO", "prestigeCSAT", "resourcesAAF", "resourcesFIA", "skillFIA", "hr",  // FIA attributes
 	"enableFTold", "enableMemAcc"  // game options
 ];
 
-// function that saves all AS_serverVariables. The two parameters overwrite the server variable value to save.
-AS_fnc_saveServerVariables = {
+// function that saves all AS_serverVariables. The two parameters overwrite the AS_persistent variable value to save.
+AS_fnc_savePersistents = {
 	params ["_saveName", "_varNames", "_varValues"];
 
 	{
 		_index = _varNames find _x;
-		_varValue = server getVariable _x;
+		_varValue = AS_persistent getVariable _x;
 		if (_index != -1) then {
 			_varValue = _varValues select _index;
 		};
@@ -26,10 +26,10 @@ AS_fnc_saveServerVariables = {
 
 
 // function that loads all AS_serverVariables.
-AS_fnc_loadServerVariables = {
+AS_fnc_loadPersistents = {
     params ["_saveName"];
 	{
-		server setVariable [_x, [_saveName, _x] call AS_fnc_LoadStat, true];
+		AS_persistent setVariable [_x, [_saveName, _x] call AS_fnc_LoadStat, true];
 	} forEach AS_serverVariables;
 
 	[_saveName] call AS_fnc_loadCities;
@@ -39,7 +39,7 @@ AS_fnc_loadServerVariables = {
 // set non-persistent variables that are functions of persistent variables.
 AS_fnc_postLoadServer = {
 	// increase cost of soldiers (what is this doing exactly??)
-	_skillFIA = server getVariable "skillFIA";
+	_skillFIA = AS_persistent getVariable "skillFIA";
 	{
 		_cost = AS_data_allCosts getVariable _x;
 		for "_i" from 1 to _skillFIA do {

@@ -225,15 +225,15 @@ if (hayRHS) then {
 	AS_data_allCosts setVariable [vehTruckAA, 800, true];
 };
 
-server setVariable ["hr",8,true];//initial HR value
-server setVariable ["resourcesFIA",1000,true];//Initial FIA money pool value
-server setVariable ["resourcesAAF",0,true];//Initial AAF resources
-server setVariable ["skillFIA",0,true];//Initial skill level for FIA soldiers
-server setVariable ["prestigeNATO",5,true];//Initial Prestige NATO
-server setVariable ["prestigeCSAT",5,true];//Initial Prestige CSAT
+AS_persistent setVariable ["hr",8,true];//initial HR value
+AS_persistent setVariable ["resourcesFIA",1000,true];//Initial FIA money pool value
+AS_persistent setVariable ["resourcesAAF",0,true];//Initial AAF resources
+AS_persistent setVariable ["skillFIA",0,true];//Initial skill level for FIA soldiers
+AS_persistent setVariable ["prestigeNATO",5,true];//Initial Prestige NATO
+AS_persistent setVariable ["prestigeCSAT",5,true];//Initial Prestige CSAT
 
-server setVariable ["enableFTold",false,true]; // extended fast travel mode
-server setVariable ["enableMemAcc",false,true]; // simplified arsenal access
+AS_persistent setVariable ["enableFTold",false,true]; // extended fast travel mode
+AS_persistent setVariable ["enableMemAcc",false,true]; // simplified arsenal access
 
 // todo: this option is not being saved, so it is irrelevant. Consider removing.
 server setVariable ["enableWpnProf",false,true]; // class-based weapon proficiences, MP only

@@ -16,7 +16,7 @@ _soldados = [];
 _pilotos = [];
 _vehiculos = [];
 
-_prestigeCSAT = server getVariable "prestigeCSAT";
+_prestigeCSAT = AS_persistent getVariable "prestigeCSAT";
 //[-8100] remoteExec ["resourcesAAF",2];
 
 _base = "";
@@ -54,10 +54,10 @@ _tiempo = time + 3600;
 
 if (_CSAT) then
 	{
-	_resourcesAAF = server getVariable "resourcesAAF";
+	_resourcesAAF = AS_persistent getVariable "resourcesAAF";
 	if (_resourcesAAF > 20000) then
 		{
-		server setVariable ["resourcesAAF",_resourcesAAF - 20000,true];
+		AS_persistent setVariable ["resourcesAAF",_resourcesAAF - 20000,true];
 		[5,0] remoteExec ["prestige",2];
 		}
 	else

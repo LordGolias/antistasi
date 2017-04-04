@@ -58,7 +58,7 @@ if (!_isDirectAttack) then {
 
 // check if CSAT will help.
 private _hayCSAT = false;
-if ((_base == "") and (_aeropuerto == "") and (random 100 < server getVariable "prestigeCSAT")) then {
+if ((_base == "") and (_aeropuerto == "") and (random 100 < AS_persistent getVariable "prestigeCSAT")) then {
 	_hayCSAT = true;
 };
 

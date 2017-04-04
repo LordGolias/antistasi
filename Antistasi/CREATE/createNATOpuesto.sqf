@@ -5,7 +5,7 @@ private ["_marcador","_posicion","_escarretera","_tam","_road","_veh","_grupo","
 _marcador = _this select 0;
 _posicion = getMarkerPos _marcador;
 
-_NATOSupp = server getVariable "prestigeNATO";
+_NATOSupp = AS_persistent getVariable "prestigeNATO";
 
 _grupo = createGroup side_blue;
 

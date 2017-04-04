@@ -16,8 +16,8 @@ params ["_grouptype"];
 private _isInfantry = false;
 private _cost = 0;
 private _costHR = 0;
-private _hr = server getVariable "hr";
-private _resourcesFIA = server getVariable "resourcesFIA";
+private _hr = AS_persistent getVariable "hr";
+private _resourcesFIA = AS_persistent getVariable "resourcesFIA";
 
 if (_grouptype in ["IRG_InfSquad","IRG_InfTeam","IRG_InfTeam_AT","IRG_SniperTeam_M","IRG_InfSentry"]) then {
 	private _units = [(configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> _grouptype)] call groupComposition;
@@ -183,7 +183,7 @@ else
 
 _cost = [_vehType] call vehiclePrice;
 private ["_display","_childControl"];
-if (_cost > server getVariable "resourcesFIA") exitWith {};
+if (_cost > AS_persistent getVariable "resourcesFIA") exitWith {};
 
 createDialog "veh_query";
 

@@ -66,8 +66,8 @@ else
 	};
 //if ((_tipo == "delete") and (_posicionTel distance _pos >10)) exitWith {hint "No post nearby"};
 
-_resourcesFIA = server getVariable "resourcesFIA";
-_hrFIA = server getVariable "hr";
+_resourcesFIA = AS_persistent getVariable "resourcesFIA";
+_hrFIA = AS_persistent getVariable "hr";
 
 if (((_resourcesFIA < _coste) or (_hrFIA < _hr)) and (_tipo!= "delete")) exitWith {hint format ["You lack of resources to build this Outpost or Roadblock \n %1 HR and %2 € needed",_hr,_coste]};
 

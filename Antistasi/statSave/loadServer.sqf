@@ -3,7 +3,7 @@ params ["_saveName"];
 
 petros allowdamage false;
 
-[_saveName] call AS_fnc_loadServerVariables;
+[_saveName] call AS_fnc_loadPersistents;
 [_saveName] call AS_fnc_loadArsenal;
 [true] call fnc_MAINT_arsenal;
 

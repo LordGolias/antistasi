@@ -8,7 +8,7 @@ class EditorData
 	toggles=129;
 	class ItemIDProvider
 	{
-		nextID=463;
+		nextID=464;
 	};
 	class MarkerIDProvider
 	{
@@ -57,7 +57,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=190;
+		items=191;
 		class Item0
 		{
 			dataType="Marker";
@@ -3483,6 +3483,19 @@ class Mission
 			name="AS_data_allCosts";
 			id=462;
 			type="Logic";
+			atlOffset=-0.71469307;
+		};
+		class Item190
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3604,17,10303};
+			};
+			name="AS_persistent";
+			id=463;
+			type="Logic";
+			atlOffset=-1.0480213;
 		};
 	};
 	class Connections

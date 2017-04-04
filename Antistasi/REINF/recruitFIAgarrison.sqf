@@ -2,11 +2,11 @@ params ["_tipo"];
 private _location = posicionGarr;  // sent via global variable
 private ["_hr","_resourcesFIA","_coste","_marcador","_garrison","_posicion","_unit","_grupo","_veh","_pos","_salir"];
 
-_hr = server getVariable "hr";
+_hr = AS_persistent getVariable "hr";
 
 if (_hr < 1) exitWith {hint "You lack of HR to make a new recruitment"};
 
-_resourcesFIA = server getVariable "resourcesFIA";
+_resourcesFIA = AS_persistent getVariable "resourcesFIA";
 
 if (closeMarkersUpdating > 0) exitWith {hint format ["We are currently adding garrison units to this zone. HQ nearby zones require more time to add garrisons.\n\nPlease try again in %1 seconds.",closeMarkersUpdating]};
 

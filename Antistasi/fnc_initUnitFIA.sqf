@@ -10,7 +10,7 @@ else {
 [_unit] call initRevive;
 _unit allowFleeing 0;
 
-[_unit, server getVariable "skillFIA"] call AS_fnc_setDefaultSkill;
+[_unit, AS_persistent getVariable "skillFIA"] call AS_fnc_setDefaultSkill;
 
 if (count _equipment == 0) then {
     _equipment = [typeOf _unit] call AS_fnc_getBestEquipment;

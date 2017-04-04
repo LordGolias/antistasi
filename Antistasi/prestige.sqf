@@ -5,8 +5,8 @@ prestigeIsChanging = true;
 _nato = _this select 0;
 _csat = _this select 1;
 
-_natoT = server getVariable "prestigeNATO";
-_csatT = server getVariable "prestigeCSAT";
+_natoT = AS_persistent getVariable "prestigeNATO";
+_csatT = AS_persistent getVariable "prestigeCSAT";
 
 _natoT = _natoT + _nato;
 _csatT = _csatT + _csat;
@@ -17,8 +17,8 @@ if (_csatT < 0) then {_csatT = 0};
 if (_csatT > 100) then {_csatT = 100};
 
 
-if (_nato != 0) then {server setVariable ["prestigeNATO",_natoT,true]};
-if (_csat != 0) then {server setVariable ["prestigeCSAT",_csatT,true]};
+if (_nato != 0) then {AS_persistent setVariable ["prestigeNATO",_natoT,true]};
+if (_csat != 0) then {AS_persistent setVariable ["prestigeCSAT",_csatT,true]};
 prestigeIsChanging = false;
 
 _texto = "";

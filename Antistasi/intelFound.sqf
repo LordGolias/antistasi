@@ -31,7 +31,7 @@ if (random 100 < _chance) then
 	};
 if (random 100 < _chance) then
 	{
-	_resourcesAAF = server getVariable "resourcesAAF";
+	_resourcesAAF = AS_persistent getVariable "resourcesAAF";
 	if (_resourcesAAF < 1000) then {_texto = format ["%1 AAF Funds: Poor<br/>",_texto]} else {_texto = format ["%1 AAF Funds: %2 €<br/>",_texto,_resourcesAAF]};
 	};
 if (random 100 < _chance) then

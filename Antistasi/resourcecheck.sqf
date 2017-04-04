@@ -137,9 +137,9 @@ while {true} do
 
 	_texto = format ["<t size='0.6' color='#C1C0BB'>Taxes Income.<br/> <t size='0.5' color='#C1C0BB'><br/>Manpower: +%1<br/>Money: +%2 €",_FIAnewHR,_FIAnewMoney];
 
-	_AAFnewMoney = (server getVariable "resourcesAAF") + round _AAFnewMoney;
-	_FIAnewMoney = (server getVariable "resourcesFIA") + round _FIAnewMoney;
-	_FIAnewHR = (server getVariable "hr") + round _FIAnewHR;
+	_AAFnewMoney = (AS_persistent getVariable "resourcesAAF") + round _AAFnewMoney;
+	_FIAnewMoney = (AS_persistent getVariable "resourcesFIA") + round _FIAnewMoney;
+	_FIAnewHR = (AS_persistent getVariable "hr") + round _FIAnewHR;
 
 	if (hayBE) then {
 		if (_FIAnewHR > 0) then {
@@ -149,9 +149,9 @@ while {true} do
 
 	[[petros,"taxRep",_texto],"commsMP"] call BIS_fnc_MP;
 
-	server setVariable ["hr",_FIAnewHR,true];
-	server setVariable ["resourcesFIA",_FIAnewMoney,true];
-	server setVariable ["resourcesAAF",_AAFnewMoney,true];
+	AS_persistent setVariable ["hr",_FIAnewHR,true];
+	AS_persistent setVariable ["resourcesFIA",_FIAnewMoney,true];
+	AS_persistent setVariable ["resourcesAAF",_AAFnewMoney,true];
 
 	// Assign new commander if needed.
 	if (isMultiplayer) then {[] spawn assignStavros};

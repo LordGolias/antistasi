@@ -12,7 +12,7 @@ _gruposFIA = [];
 
 _posicion = getMarkerPos (_marcador);
 _pos = [];
-_prestigio = (server getVariable "prestigeNATO")/100;
+_prestigio = (AS_persistent getVariable "prestigeNATO")/100;
 
 _size = [_marcador] call sizeMarker;
 _estaticas = staticsToSave select {_x distance _posicion < _size};

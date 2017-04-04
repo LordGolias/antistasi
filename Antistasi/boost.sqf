@@ -3,9 +3,9 @@ if (!isServer) exitWith {};
 private ["_weapons", "_magazines", "_items", "_optics"];
 scriptName "boost";
 
-server setVariable ["hr",20,true];
-server setVariable ["resourcesFIA",10000,true];
-server setVariable ["prestigeNATO",30,true];
+AS_persistent setVariable ["hr",20,true];
+AS_persistent setVariable ["resourcesFIA",10000,true];
+AS_persistent setVariable ["prestigeNATO",30,true];
 
 call {
 	if (hayGREF) exitWith {

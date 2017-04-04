@@ -6,8 +6,8 @@ _resourcesFIA = _this select 1;
 if (isNil "_resourcesFIA") then {diag_log "Tienes algún coste sin definit en las tablas de FIA"};
 if ((isNil "_hr") or (isNil "_resourcesFIA")) exitWith {};
 
-_hrT = server getVariable "hr";
-_resourcesFIAT = server getVariable "resourcesFIA";
+_hrT = AS_persistent getVariable "hr";
+_resourcesFIAT = AS_persistent getVariable "resourcesFIA";
 
 // BE module
 if (hayBE) then {
@@ -23,8 +23,8 @@ _resourcesFIAT = round (_resourcesFIAT + _resourcesFIA);
 if (_hrT < 0) then {_hrT = 0};
 if (_resourcesFIAT < 0) then {_resourcesFIAT = 0};
 
-server setVariable ["hr",_hrT,true];
-server setVariable ["resourcesFIA",_resourcesFIAT,true];
+AS_persistent setVariable ["hr",_hrT,true];
+AS_persistent setVariable ["resourcesFIA",_resourcesFIAT,true];
 resourcesIsChanging = false;
 
 _texto = "";

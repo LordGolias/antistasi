@@ -6,7 +6,7 @@ if (!alive _unit) exitWith {};
 
 _jugador globalChat "You souvlaki! Tell me what you know!";
 
-_chance = (server getVariable "prestigeNATO") - (server getVariable "prestigeCSAT");
+_chance = (AS_persistent getVariable "prestigeNATO") - (AS_persistent getVariable "prestigeCSAT");
 
 _chance = _chance + 20;
 

@@ -40,8 +40,8 @@ _unit setDamage 0;
 _unit setVariable ["compromised",0];
 [0,-1,getPos _unit] remoteExec ["citySupportChange",2];
 
-_hr = round ((server getVariable "hr") * 0.1);
-_resourcesFIA = round ((server getVariable "resourcesFIA") * 0.05);
+_hr = round ((AS_persistent getVariable "hr") * 0.1);
+_resourcesFIA = round ((AS_persistent getVariable "resourcesFIA") * 0.05);
 
 [- _hr, - _resourcesFIA] remoteExec ["resourcesFIA",2];
 

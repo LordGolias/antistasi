@@ -1,8 +1,8 @@
 private ["_resourcesAAF","_prestigeCSAT","_coste","_destroyedCities","_destroyed","_nombre"];
 
-_resourcesAAF = server getVariable "resourcesAAF";
+_resourcesAAF = AS_persistent getVariable "resourcesAAF";
 
-_prestigeCSAT = server getVariable "prestigeCSAT";
+_prestigeCSAT = AS_persistent getVariable "prestigeCSAT";
 
 waitUntil {!resourcesIsChanging};
 resourcesIsChanging = true;
@@ -112,7 +112,7 @@ if ((APCAAFcurrent < APCAAFmax) and ((tanksAAFcurrent > 2) or (APCAAFcurrent < 4
 		};
 	};
 
-_skillFIA = server getVariable "skillFIA";
+_skillFIA = AS_persistent getVariable "skillFIA";
 if ((skillAAF < (_skillFIA + 4)) && (skillAAF < AS_maxSkill)) then {
 	_coste = 1000 + (1.5*(skillAAF *750));
 	if (_coste < _resourcesAAF) then {
@@ -142,6 +142,6 @@ if (_resourcesAAF > 2000) then
 	};
 _resourcesAAF = round _resourcesAAF;
 
-server setVariable ["resourcesAAF",_resourcesAAF,true];
+AS_persistent setVariable ["resourcesAAF",_resourcesAAF,true];
 
 resourcesIsChanging = false;

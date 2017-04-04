@@ -66,7 +66,7 @@ switch (_tipo) do {
 	};
 };
 
-_NATOSupp = server getVariable "prestigeNATO";
+_NATOSupp = AS_persistent getVariable "prestigeNATO";
 
 if (_NATOSupp < _costeNATO) exitWith {hint format ["We lack of enough NATO Support in order to proceed with this request (%1 needed)",_costeNATO]};
 

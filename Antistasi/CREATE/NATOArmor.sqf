@@ -17,7 +17,7 @@ misiones pushBack _tsk; publicVariable "misiones";
 _soldados = [];
 _vehiculos = [];
 
-_cuenta = server getVariable "prestigeNATO";
+_cuenta = AS_persistent getVariable "prestigeNATO";
 _cuenta = round (_cuenta / 25);
 [-20,0] remoteExec ["prestige",2];
 

@@ -483,18 +483,18 @@ if (_tipoConvoy == "Money") then
 		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMny,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMny, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"move"] call BIS_fnc_setTask;
 		if ((dateToNumber date > _fechafinNum) or (_vehObj distance _posdestino < 100)) then
 			{
-			_resourcesAAF = server getVariable "resourcesAAF";
+			_resourcesAAF = AS_persistent getVariable "resourcesAAF";
 			_resourcesAAF = _resourcesAAF + 5000;
-			server setVariable ["resourcesAAF",_resourcesAAF,true];
+			AS_persistent setVariable ["resourcesAAF",_resourcesAAF,true];
 			[-1200] remoteExec ["timingCA",2];
 			[-10,AS_commander] call playerScoreAdd;
 			}
 		else
 			{
 			[position _vehObj] spawn patrolCA;
-			_resourcesAAF = server getVariable "resourcesAAF";
+			_resourcesAAF = AS_persistent getVariable "resourcesAAF";
 			_resourcesAAF = _resourcesAAF - 5000;
-			server setVariable ["resourcesAAF",_resourcesAAF,true];
+			AS_persistent setVariable ["resourcesAAF",_resourcesAAF,true];
 			[2700] remoteExec ["timingCA",2];
 			};
 		};
@@ -505,17 +505,17 @@ if (_tipoConvoy == "Money") then
 		if ((not alive _vehObj) or (dateToNumber date > _fechafinNum)) then
 			{
 			_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMny,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMny, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"move"] call BIS_fnc_setTask;
-			_resourcesAAF = server getVariable "resourcesAAF";
+			_resourcesAAF = AS_persistent getVariable "resourcesAAF";
 			_resourcesAAF = _resourcesAAF - 5000;
-			server setVariable ["resourcesAAF",_resourcesAAF,true];
+			AS_persistent setVariable ["resourcesAAF",_resourcesAAF,true];
 			[1800] remoteExec ["timingCA",2];
 			};
 		if (_vehObj distance _posHQ < 50) then
 			{
 			_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMny,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMny, A3_STR_INDEP],_destino],_posdestino,"SUCCEEDED",5,true,true,"move"] call BIS_fnc_setTask;
-			_resourcesAAF = server getVariable "resourcesAAF";
+			_resourcesAAF = AS_persistent getVariable "resourcesAAF";
 			_resourcesAAF = _resourcesAAF - 5000;
-			server setVariable ["resourcesAAF",_resourcesAAF,true];
+			AS_persistent setVariable ["resourcesAAF",_resourcesAAF,true];
 			[10,-20,_destino] remoteExec ["citySupportChange",2];
 			[-20,0] remoteExec ["prestige",2];
 			[0,5000] remoteExec ["resourcesFIA",2];

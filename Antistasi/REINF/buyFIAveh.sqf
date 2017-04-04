@@ -15,7 +15,7 @@ _milstatics = vfs select [7,4];
 
 _coste = [_tipoVeh] call vehiclePrice;
 
-if (!isMultiPlayer) then {_resourcesFIA = server getVariable "resourcesFIA"} else
+if (!isMultiPlayer) then {_resourcesFIA = AS_persistent getVariable "resourcesFIA"} else
 	{
 	if (player != AS_commander) then
 		{
@@ -23,7 +23,7 @@ if (!isMultiPlayer) then {_resourcesFIA = server getVariable "resourcesFIA"} els
 		}
 	else
 		{
-		if ((_tipoVeh in _milveh) or (_tipoVeh == civHeli)) then {_resourcesFIA = server getVariable "resourcesFIA"} else {_resourcesFIA = player getVariable "dinero"};
+		if ((_tipoVeh in _milveh) or (_tipoVeh == civHeli)) then {_resourcesFIA = AS_persistent getVariable "resourcesFIA"} else {_resourcesFIA = player getVariable "dinero"};
 		};
 	};
 

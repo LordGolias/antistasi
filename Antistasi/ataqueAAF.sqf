@@ -11,7 +11,7 @@ _hayCSAT = true;
 
 cuentaCA = cuentaCA + 600; //experimental
 
-if ((random 100 > (server getVariable "prestigeCSAT")) or ({_x in bases} count mrkFIA == 0) || (server getVariable "blockCSAT")) then
+if ((random 100 > (AS_persistent getVariable "prestigeCSAT")) or ({_x in bases} count mrkFIA == 0) || (server getVariable "blockCSAT")) then
 	{
 	_marcadores = _marcadores - ciudades;
 	_hayCSAT = false;

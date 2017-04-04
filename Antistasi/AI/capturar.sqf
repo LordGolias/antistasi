@@ -7,7 +7,7 @@ if (!alive _unit) exitWith {};
 
 _jugador globalChat "You have one chance, join us and help us liberate Altis from tiranny!";
 
-_chance = (server getVariable "prestigeNATO") - (server getVariable "prestigeCSAT");
+_chance = (AS_persistent getVariable "prestigeNATO") - (AS_persistent getVariable "prestigeCSAT");
 
 _chance = _chance + 20;
 

@@ -89,8 +89,8 @@ while {(_tipo == "rename")} do {
 
 if (_break) exitWith {openMap false; hint _txt;};
 
-_resourcesFIA = server getVariable "resourcesFIA";
-_hrFIA = server getVariable "hr";
+_resourcesFIA = AS_persistent getVariable "resourcesFIA";
+_hrFIA = AS_persistent getVariable "hr";
 
 if (((_resourcesFIA < _coste) or (_hrFIA < _hr)) and (_tipo == "create")) exitWith {hint format ["You lack of resources to build this camp. \n %1 HR and %2 € needed",_hr,_coste]};
 

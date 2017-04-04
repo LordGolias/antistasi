@@ -141,8 +141,8 @@ else
 	[-10,AS_commander] call playerScoreAdd;
 	if (dateToNumber date > _fechalimnum) then
 		{
-		_hrT = server getVariable "hr";
-		_resourcesFIAT = server getVariable "resourcesFIA";
+		_hrT = AS_persistent getVariable "hr";
+		_resourcesFIAT = AS_persistent getVariable "resourcesFIA";
 		[-1*(round(_hrT/3)),-1*(round(_resourcesFIAT/3))] remoteExec ["resourcesFIA",2];
 		}
 	else

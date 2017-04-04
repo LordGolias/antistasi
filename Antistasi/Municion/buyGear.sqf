@@ -1,7 +1,7 @@
 params ["_type", "_money"];
 private ["_weapons", "_accessories", "_amount"];
 
-if ((server getVariable "resourcesFIA") < _money) exitWith {
+if ((AS_persistent getVariable "resourcesFIA") < _money) exitWith {
 	_l1 = ["Devin", "Get lost ya cheap wanker!"];
     [[_l1],"DIRECT",0.15] execVM "createConv.sqf";
 };

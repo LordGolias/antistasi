@@ -96,9 +96,9 @@ if (dateToNumber date > _fechalimnum) then
 		];
 	};
 
-_resourcesAAF = server getVariable "resourcesAAF";
+_resourcesAAF = AS_persistent getVariable "resourcesAAF";
 _resourcesAAF = _resourcesAAF - 10000;
-server setVariable ["resourcesAAF",_resourcesAAF,true];
+AS_persistent setVariable ["resourcesAAF",_resourcesAAF,true];
 [60,_tsk] spawn borrarTask;
 
 waitUntil {sleep 1; not (spawner getVariable _marcador)};
