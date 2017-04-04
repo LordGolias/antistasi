@@ -23,7 +23,6 @@ petros allowdamage false;
 [_saveName, "fecha"] call fn_LoadStat;
 [_saveName, "garrison"] call fn_LoadStat;
 [_saveName, "distanciaSPWN"] call fn_LoadStat;
-[_saveName, "civPerc"] call fn_LoadStat;
 [_saveName, "minimoFPS"] call fn_LoadStat;
 [_saveName, "smallCAmrk"] call fn_LoadStat;
 [_saveName, "miembros"] call fn_LoadStat;

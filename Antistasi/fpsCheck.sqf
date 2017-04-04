@@ -32,10 +32,10 @@ while {true} do
 				distanciaSPWN = distanciaSPWN - 100;
 				publicVariable "distanciaSPWN";
 				};
-			if (civPerc > 0.05) then
+            _civPerc = AS_persistent getVariable "civPerc";
+			if (_civPerc > 0.05) then
 				{
-				civPerc = civPerc - 0.01;
-				publicVariable "civPerc";
+                AS_persistent setVariable ["civPerc", _civPerc - 0.01, true];
 				};
 			if (minimoFPS > 25) then
 				{

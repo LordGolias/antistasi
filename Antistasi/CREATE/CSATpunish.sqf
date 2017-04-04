@@ -89,7 +89,7 @@ for "_i" from 1 to 3 do
 
 _data = [_mrkDestino, ["population"]] call AS_fnc_getCityAttrs;
 _numCiv = _data select 0;
-_numCiv = round ((_numCiv * civPerc)/2);
+_numCiv = round ((_numCiv * (AS_persistent getVariable "civPerc"))/2);
 
 if (_numCiv < 8) then {_numCiv = 8};
 

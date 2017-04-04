@@ -3507,6 +3507,7 @@ class Mission
 			name="AS_persistent_cities";
 			id=464;
 			type="Logic";
+			atlOffset=-1.3813496;
 		};
 	};
 	class Connections

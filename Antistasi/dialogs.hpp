@@ -242,8 +242,8 @@ class civ_config
 	{
 AS_DIALOG(1,"Civ Presence Config", "closeDialog 0; createDialog ""game_options_commander"";");
 
-#define STR_CIV_PLUS "if (civPerc < 1) then {civPerc = (civPerc + 0.01) min 1; publicVariable ""civPerc""; hint format [""Civilian Percentage Set to %1 percent"",civPerc * 100];};"
-#define STR_CIV_MINUS "if (civPerc > 0) then {civPerc = (civPerc - 0.01) max 0; publicVariable ""civPerc""; hint format [""Civilian Percentage Set to %1 percent"",civPerc * 100];};"
+#define STR_CIV_PLUS "if ((AS_persistent getVariable ""civPerc"") < 1) then {(AS_persistent setVariable [""civPerc"", ((AS_persistent getVariable ""civPerc"") + 0.01) min 1, true]); hint format [""Civilian Percentage Set to %1 percent"",(AS_persistent getVariable ""civPerc"") * 100];};"
+#define STR_CIV_MINUS "if ((AS_persistent getVariable ""civPerc"") > 0) then {(AS_persistent setVariable [""civPerc"", ((AS_persistent getVariable ""civPerc"") - 0.01) max 0, true]); hint format [""Civilian Percentage Set to %1 percent"",(AS_persistent getVariable ""civPerc"") * 100];};"
 
 BTN_L(1,-1, "+1% Civ Spawn.", "", STR_CIV_PLUS);
 BTN_R(1,-1, "-1% Civ Spawn.", "", STR_CIV_MINUS);
@@ -259,9 +259,6 @@ class squad_manager
 	class controls
 	{
 AS_DIALOG(2,"HC Squad Options", "closeDialog 0; createDialog ""radio_comm_commander"";");
-
-#define STR_CIV_PLUS "if (civPerc < 1) then {civPerc = (civPerc + 0.01) min 1; publicVariable ""civPerc""; hint format [""Civilian Percentage Set to %1 percent"",civPerc * 100];};"
-#define STR_CIV_MINUS "if (civPerc > 0) then {civPerc = (civPerc - 0.01) max 0; publicVariable ""civPerc""; hint format [""Civilian Percentage Set to %1 percent"",civPerc * 100];};"
 
 BTN_L(1,-1, "Squad Add Vehicle", "", "closeDialog 0; [] execVM ""REINF\addSquadVeh.sqf"";");
 BTN_L(2,-1, "Squad Vehicle Stats", "", "[""stats""] execVM ""REINF\vehStats.sqf"";");
@@ -294,9 +291,6 @@ class player_money
 	class controls
 	{
 AS_DIALOG(2,"Player and Money Interaction", "closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
-
-#define STR_CIV_PLUS "if (civPerc < 1) then {civPerc = (civPerc + 0.01) min 1; publicVariable ""civPerc""; hint format [""Civilian Percentage Set to %1 percent"",civPerc * 100];};"
-#define STR_CIV_MINUS "if (civPerc > 0) then {civPerc = (civPerc - 0.01) max 0; publicVariable ""civPerc""; hint format [""Civilian Percentage Set to %1 percent"",civPerc * 100];};"
 
 BTN_L(1,-1, "Add Server Member", "", "if (isMultiplayer) then {closeDialog 0; nul = [""add""] call memberAdd;} else {hint ""This function is MP only""};");
 BTN_L(2,-1, "Remove Server Member", "", "if (isMultiplayer) then {closeDialog 0; nul = [""remove""] call memberAdd;} else {hint ""This function is MP only""};");

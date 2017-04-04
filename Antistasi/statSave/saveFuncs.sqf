@@ -4,9 +4,8 @@ call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 // Variables that are persistent to `AS_persistent`. They are saved and loaded accordingly.
 // Add variables here that you want to save.
 AS_serverVariables = [
-	"prestigeNATO", "prestigeCSAT", "resourcesAAF", "resourcesFIA", "skillFIA", "hr",  // FIA attributes
-    "skillAAF",
-	"enableFTold", "enableMemAcc"  // game options
+	"prestigeNATO", "prestigeCSAT", "resourcesAAF", "resourcesFIA", "skillFIA", "skillAAF", "hr",  // FIA attributes
+	"enableFTold", "enableMemAcc", "civPerc"  // game options
 ];
 
 // function that saves all AS_serverVariables. The two parameters overwrite the AS_persistent variable value to save.
@@ -188,8 +187,8 @@ specialVarLoads =
 // global variables that are set to be publicVariable on loading.
 AS_publicVariables = [
 	"cuentaCA", "miembros",
-	"planesAAFcurrent", "helisAAFcurrent", "APCAAFcurrent", "unlockedItems", "tanksAAFcurrent", "destroyedCities",
-	"distanciaSPWN", "civPerc", "minimoFPS", "vehInGarage", "staticsToSave"
+	"planesAAFcurrent", "helisAAFcurrent", "APCAAFcurrent", "tanksAAFcurrent", "destroyedCities",
+	"distanciaSPWN", "minimoFPS", "vehInGarage", "staticsToSave"
 ];
 
 //THIS FUNCTIONS HANDLES HOW STATS ARE LOADED

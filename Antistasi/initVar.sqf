@@ -15,7 +15,6 @@ AS_spawnLoopTime = 0.5; // seconds between each check of spawn/despawn locations
 AS_minAISkill = 0.6; // The minimum skill of the AI.
 AS_maxAISkill = 0.9; // The maximum skill of the AI.
 musicON = true;
-civPerc = 0.2;//initial % civ spawn rate
 
 // todo: have a menu to switch this behaviour
 switchCom = false;  // Game will not auto assign Commander position to the highest ranked player
@@ -230,6 +229,7 @@ AS_persistent setVariable ["skillFIA",0,true];//Initial skill level for FIA sold
 AS_persistent setVariable ["skillAAF",0,true];//Initial skill level for AAF soldiers
 AS_persistent setVariable ["prestigeNATO",5,true];//Initial Prestige NATO
 AS_persistent setVariable ["prestigeCSAT",5,true];//Initial Prestige CSAT
+AS_persistent setVariable ["civPerc",0.05,true]; //initial % civ spawn rate
 
 AS_persistent setVariable ["enableFTold",false,true]; // extended fast travel mode
 AS_persistent setVariable ["enableMemAcc",false,true]; // simplified arsenal access
