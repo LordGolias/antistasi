@@ -44,13 +44,7 @@ if (_viejo == AS_commander) then {
 	[_nuevo] call stavrosInit;
 };
 
-removeAllItemsWithMagazines _nuevo;
-{_nuevo removeWeaponGlobal _x} forEach weapons _nuevo;
-removeBackpackGlobal _nuevo;
-removeVest _nuevo;
-if ((not("ItemGPS" in unlockedItems)) and ("ItemGPS" in (assignedItems _nuevo))) then {_nuevo unlinkItem "ItemGPS"};
-if ((!hayTFAR) and ("ItemRadio" in (assignedItems player)) and (not("ItemRadio" in unlockedItems))) then {player unlinkItem "ItemRadio"};
-if (!isPlayer (leader group player)) then {(group player) selectLeader player};
+[_nuevo] call AS_fnc_emptyUnit;
 
 [] call AS_fnc_initPlayer;
 

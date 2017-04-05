@@ -13,11 +13,9 @@ _punish = _tonto getVariable ["punish",0];
 _punish = _punish + _tiempo;
 
 disableUserInput true;
-player removeMagazines (primaryWeapon player);
-removeAllItemsWithMagazines player;
-player removeMagazines (secondaryWeapon player);
-player removeWeaponGlobal (primaryWeapon player);
-player removeWeaponGlobal (secondaryWeapon player);
+_cargoArray = [player, true] call AS_fnc_getUnitArsenal;
+[caja, _cargoArray select 0, _cargoArray select 1, _cargoArray select 2, _cargoArray select 3] call AS_fnc_populateBox;
+[player] call AS_fnc_emptyUnit;
 player setPosASL [0,0,0];
 
 hint "Being an asshole is not a desired skill of the general Antistasi player";

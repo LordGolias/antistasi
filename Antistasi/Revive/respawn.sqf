@@ -81,15 +81,8 @@ else
 	};
 //_x hideObject false;
 } forEach (units group _unit) + (units MIASquadUnits);
-removeAllItemsWithMagazines _unit;
-_hmd = hmd _unit;
-if (_hmd != "") then
-	{
-	_unit unassignItem _hmd;
-	_unit removeItem _hmd;
-	};
-{_unit removeWeaponGlobal _x} forEach weapons _unit;
-removeBackpack _unit;
-removeVest _unit;
+
+[_unit] call AS_fnc_emptyUnit;
+
 _unit setCaptive false;
 _unit setVariable ["respawning",false];

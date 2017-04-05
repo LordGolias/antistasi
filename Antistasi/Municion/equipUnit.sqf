@@ -1,10 +1,6 @@
 params ["_unit", "_arsenal"];
 
-removeAllItemsWithMagazines _unit;
-{_unit removeWeaponGlobal _x} forEach weapons _unit;
-removeBackpackGlobal _unit;
-removeVest _unit;
-_unit unlinkItem "ItemRadio";
+[_unit] call AS_fnc_emptyUnit;
 
 _arsenal params ["_vest", "_helmet", "_googles", "_backpack", "_primaryWeapon", "_primaryMags", "_secondaryWeapon", "_secondaryMags", "_scope", "_uniformItems", "_backpackItems", "_primaryWeaponItems"];
 
