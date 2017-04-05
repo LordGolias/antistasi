@@ -200,58 +200,6 @@ BTN_R(4,111, "Recruit AT", "", "nul = [""B_G_Soldier_LAT_F""] call recruitFIAgar
 	};
 };
 
-class fps_limiter
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(1,"FPS Limiter", "closeDialog 0; createDialog ""game_options_commander"";");
-
-#define STR_FPS_PLUS "[[1],""fpsChange""] call BIS_fnc_MP;"
-#define STR_FPS_MINUS "[[-1],""fpsChange""] call BIS_fnc_MP;"
-
-BTN_L(1,-1, "+1 FPS Limit", "", STR_FPS_PLUS);
-BTN_R(1,-1, "-1 FPS Limit", "", STR_FPS_MINUS);
-
-	};
-};
-class spawn_config
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(1,"Spawn Distance Config", "closeDialog 0; createDialog ""game_options_commander"";");
-
-#define STR_DIST_PLUS "if (AS_P(""spawnDistance"") < 2500) then {AS_Pset(""spawnDistance"",(AS_P(""spawnDistance"") + 100) min 2500); hint format [""Spawn Distance Set to %1 meters. Be careful, this may affect game performance"",AS_P(""spawnDistance"")];};"
-#define STR_DIST_MINUS "if (AS_P(""spawnDistance"") > 1000) then {AS_Pset(""spawnDistance"",(AS_P(""spawnDistance"") - 100) max 100); hint format [""Spawn Distance Set to %1 meters. Be careful, this may affect game performance"",AS_P(""spawnDistance"")];};"
-
-BTN_L(1,-1, "+100 Spawn Dist.", "", STR_DIST_PLUS);
-BTN_R(1,-1, "-100 Spawn Dist.", "", STR_DIST_MINUS);
-
-	};
-};
-class civ_config
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(1,"Civ Presence Config", "closeDialog 0; createDialog ""game_options_commander"";");
-
-#define STR_CIV_PLUS "if ((AS_P(""civPerc"") < 1) then {(AS_Pset(""civPerc"",(AS_P(""civPerc"") + 0.01) min 1); hint format [""Civilian Percentage Set to %1 percent"",(AS_P(""civPerc"") * 100];};"
-#define STR_CIV_MINUS "if ((AS_P(""civPerc"") > 0) then {(AS_Pset(""civPerc"",(AS_P(""civPerc"") - 0.01) max 0); hint format [""Civilian Percentage Set to %1 percent"",(AS_P(""civPerc"") * 100];};"
-
-BTN_L(1,-1, "+1% Civ Spawn.", "", STR_CIV_PLUS);
-BTN_R(1,-1, "-1% Civ Spawn.", "", STR_CIV_MINUS);
-
-	};
-};
-
 class squad_manager
 {
 	idd=-1;
@@ -527,26 +475,23 @@ class camp_dialog // 350
 	};
 };
 
-class com_menu // 360
+class commander_menu // 360
 {
 	idd=-1;
 	movingenable=false;
 
 	class controls
 	{
-    AS_DIALOG(3,"Commander Menu",A_CLOSE);
+    AS_DIALOG(2,"Commander Menu",A_CLOSE);
 
 	#define STR_COM_RES "closeDialog 0; [""restrictions""] remoteExecCall [""fnc_BE_broadcast"", 2];"
 	#define STR_COM_PRO "closeDialog 0; [""progress""] remoteExecCall [""fnc_BE_broadcast"", 2];"
 	#define STR_COM_FIA "closeDialog 0; if (player == AS_commander) then {[""status""] remoteExecCall [""fnc_infoScreen"", 2]};"
 
 	BTN_L(1,-1, "Current Restrictions", "Display current AXP restrictions", STR_COM_RES);
-	BTN_L(2,-1, "Current Progress", "Display current AXP progress", STR_COM_PRO);
+	BTN_R(1,-1, "Current Progress", "Display current AXP progress", STR_COM_PRO);
 
-	BTN_R(1,-1, "Additional Options", "Toggle AXP system, easy mode, old fast-travel system, etc", "closeDialog 0; nul = createDialog ""com_options"";");
-	BTN_R(2,-1, "Maintenance", "Resync the arsenal, run gear checks, update FIA progress, etc", "closeDialog 0; nul = createDialog ""maintenance_menu"";");
-
-	BTN_M(3, -1, "FIA Status", "Display FIA details", STR_COM_FIA);
+	BTN_M(2, -1, "FIA Status", "Display FIA details", STR_COM_FIA);
 	};
 };
 
@@ -749,20 +694,43 @@ class game_options_commander
 	{
 AS_DIALOG(5,"Game Options",A_CLOSE);
 
-#define STR_GO_GAR "closeDialog 0; [[], ""garbageCleaner.sqf""] remoteExec [""execVM"", 2];"
-#define STR_GO_RSA "closeDialog 0; if (player == AS_commander) then {[] remoteExec [""fnc_MAINT_main"", 2];};"
-
-BTN_L(1,-1, "Civ Config", "", "closeDialog 0; nul = createDialog ""civ_config"";");
-BTN_L(2,-1, "Commander Menu", "", "closeDialog 0; nul = createDialog ""com_menu"";");
+BTN_L(1,-1, "Commander Menu", "Summary of your current situation", "closeDialog 0; nul = createDialog ""commander_menu"";");
+BTN_L(2,-1, "Load/Save", "", "closeDialog 0; [] call AS_fncUI_LoadSaveMenu;");
 BTN_L(3,-1, "Music ON/OFF", "", "closedialog 0; if (musicON) then {musicON = false; hint ""Music turned OFF"";} else {musicON = true; nul = execVM ""musica.sqf""; hint ""Music turned ON""};");
-BTN_L(4,-1, "FPS Limiter", "", "closeDialog 0; nul = createDialog ""fps_limiter"";");
 
-BTN_R(1,-1, "Garbage Clean", "", STR_GO_GAR);
-BTN_R(2,-1, "Load/Save", "", "closeDialog 0; [] call AS_fncUI_LoadSaveMenu;");
-BTN_R(3,-1, "Reinit UI \ Radio", "", "closeDialog 0; [] execVM ""reinitY.sqf"";");
-BTN_R(4,-1, "Spawn Dist. Config", "", "closeDialog 0; nul = createDialog ""spawn_config"";");
+BTN_R(1,-1, "Performance Options", "Options to improve performance in case of low FPS.", "closeDialog 0; createDialog ""performance_menu"";");
+BTN_R(2,-1, "Maintenance Options", "When something is broken, sometimes you can fix it here.", "closeDialog 0; nul = createDialog ""maintenance_menu"";");
+BTN_R(3,-1, "Gameplay Options", "Options that affect gameplay.", "closeDialog 0; nul = createDialog ""gameplay_options"";");
+	};
+};
 
-BTN_M(5, -1, "Hard Gear Reset", "General maintenance. Use this only to remove weapons/ammo from mods that you no longer use. Maintenance accessible through the regular commander's menu should suffice for anything else.", STR_GO_RSA);
+class performance_menu {
+	idd=-1;
+	movingenable=false;
+
+	class controls
+	{
+AS_DIALOG(5,"Performance","closeDialog 0; createDialog ""game_options_commander"";");
+
+#define _code "['spawnDistance', 100, 2500, 'Spawn distance set to %1 meters.'] call AS_UIfnc_change_var;"
+BTN_L(1,-1, "+100 Spawn Dist.", "The distance from places that triggers its spawn", _code);
+#define _code "['spawnDistance', -100, 1000, 'Spawn distance set to %1 meters.'] call AS_UIfnc_change_var;"
+BTN_R(1,-1, "-100 Spawn Dist.", "The distance from places that triggers its spawn", _code);
+#define _code "[""cleantime"", 60, nil, ""Cleanup time set to %1 minutes.""] call AS_UIfnc_change_var;"
+BTN_L(2,-1, "+1m cleanup time", "Minutes for dead bodies/vehicles to disappear.", _code);
+#define _code "[""cleantime"", -60, 2*60, ""Cleanup time set to %1 minutes.""] call AS_UIfnc_change_var;"
+BTN_R(2,-1, "-1m cleanup time", "Minutes for dead bodies/vehicles to disappear.", _code);
+#define _code "[""civPerc"", 0.01, 1, ""Civilian percentage set to %1 percent.""] call AS_UIfnc_change_var;"
+BTN_L(3,-1, "+1% Civ Spawn.", "The percentage of the population that appears in the city.", _code);
+#define _code "[""civPerc"", -0.01, 0.01, ""Civilian percentage set to %1 percent.""] call AS_UIfnc_change_var;"
+BTN_R(3,-1, "-1% Civ Spawn.", "The percentage of the population that appears in the city.", _code);
+#define _code "[[1],""fpsChange""] call BIS_fnc_MP;"
+BTN_L(4,-1, "+1 FPS limit", "The limit on which the game does a dramatic reduction of stuff", _code);
+#define _code "[[-1],""fpsChange""] call BIS_fnc_MP;"
+BTN_R(4,-1, "-1 FPS limit", "The limit on which the game does a dramatic reduction of stuff", _code);
+#define _code "[[], ""garbageCleaner.sqf""] remoteExec [""execVM"", 2];"
+BTN_M(5,-1, "Clean garbage", "Remove dead bodies and others.", _code);
+#undef _code
 	};
 };
 
@@ -790,7 +758,7 @@ class radio_comm_commander
 	{
 AS_DIALOG(5,"Battle Options",A_CLOSE);
 
-BTN_L(1,-1, "Fast Travel", "", "closeDialog 0; if (AS_P(""enableFTold"") then {nul= createDialog ""fasttravel_dialog""} else {nul = [] execVM ""altFastTravel.sqf""};");
+BTN_L(1,-1, "Fast Travel", "", "[] call AS_UIfnc_fastTravel");
 BTN_L(2,-1, "Disguise Yourself", "", "closeDialog 0; nul = [] spawn undercover");
 BTN_L(3,-1, "Vehicle Manager", "", "closeDialog 0; nul = createDialog ""vehicle_manager"";");
 BTN_L(4,-1, "AI Management", "", "if (player == leader group player) then {closeDialog 0; nul = createDialog ""AI_management""} else {hint ""Only group leaders may access to this option""};");
@@ -814,7 +782,7 @@ class radio_comm_player
 	{
 AS_DIALOG(3,"Battle Options",A_CLOSE);
 
-BTN_L(1,-1, "Fast Travel", "", "closeDialog 0; if (AS_P(""enableFTold"") then {nul= createDialog ""fasttravel_dialog""} else {nul = [] execVM ""altFastTravel.sqf""};");
+BTN_L(1,-1, "Fast Travel", "", "call AS_UIfnc_fastTravel;");
 BTN_L(2,-1, "Disguise Yourself", "", "closeDialog 0; nul = [] spawn undercover");
 BTN_L(3,-1, "Resign Commander", "", "closedialog 0; if (isMultiplayer) then {execVM ""orgPlayers\commResign.sqf""} else {hint ""This feature is MP Only""};");
 
@@ -847,44 +815,47 @@ class maintenance_menu
 
 	class controls
 	{
-    AS_DIALOG(3,"Maintenance Menu","closeDialog 0; createDialog ""com_menu"";");
+    AS_DIALOG(3,"Maintenance","closeDialog 0; createDialog ""game_options_commander"";");
 
-	#define STR_MAINT_ARS "closeDialog 0; [] remoteExec [""fnc_MAINT_arsenal"", 2];"
-	#define STR_MAINT_PAN "closeDialog 0; [] remoteExec [""fnc_togglePetrosAnim"", 2];"
-	#define STR_MAINT_PET "closeDialog 0; [true] remoteExec [""fnc_togglePetrosAnim"", 2]; [] remoteExec [""fnc_MAINT_resetPetros"", 2];"
-	#define STR_MAINT_MOV "closeDialog 0; [] remoteExec [""fnc_MAINT_moveStatic"", 2];"
-	#define STR_MAINT_AXP "if (hayBe) then {hayBe = true} else {hayBe = false}; hint format [""Current setting: %1"", [""off"", ""on""] select hayBe];"
+	#define STR_MAINT_ARS "[] remoteExec [""fnc_MAINT_main"", 2];"
+	#define STR_MAINT_PAN "[] remoteExec [""fnc_togglePetrosAnim"", 2];"
+	#define STR_MAINT_PET "[true] remoteExec [""fnc_togglePetrosAnim"", 2]; [] remoteExec [""fnc_MAINT_resetPetros"", 2];"
+	#define STR_MAINT_MOV "[] remoteExec [""fnc_MAINT_moveStatic"", 2];"
 
-	BTN_L(1,-1, "Arsenal", "Fix minor issues with the arsenal.", STR_MAINT_ARS);
-	BTN_L(2,-1, "Toggle Petros' animations", "Turn the idle animation of Petros on/off.", STR_MAINT_PAN);
-	BTN_L(3,-1, "Toggle Army XP System", "Turn the extended Army XP system on/off, including all restrictions.", STR_MAINT_AXP);
+	BTN_L(1,-1, "Reset HQ", "Resets all HQ items to near Petros.", "closeDialog 0; createDialog ""HQ_reset_menu"";");
+	BTN_L(2,-1, "Cleanup arsenal", "Remove items that do not exist or are unlocked.", STR_MAINT_ARS);
+	BTN_L(3,-1, "Toggle Petros' animations", "Turn the idle animation of Petros on/off.", STR_MAINT_PAN);
 
-	BTN_R(1,-1, "Reset HQ", "If you managed to lose one of your HQ items, this will reset all of them near Petros.", "closeDialog 0; createDialog ""HQ_reset_menu"";");
-	BTN_R(2,-1, "Reset Petros' position", "Terminate Petros' animation, move him next to the campfire at HQ.", STR_MAINT_PET);
-	BTN_R(3,-1, "Move statics/HQ items", "Reset your ability to move statics and HQ assets.", STR_MAINT_MOV);
+	BTN_R(1,-1, "Reset Petros' position", "Terminate Petros' animation, move him next to the campfire at HQ.", STR_MAINT_PET);
+	BTN_R(2,-1, "Move statics/HQ items", "Reset your ability to move statics and HQ assets.", STR_MAINT_MOV);
+	BTN_R(3,-1, "Fix Y button", "Press in case the Y button stops working.", "closeDialog 0; [] execVM ""reinitY.sqf"";");
 	};
 };
 
-class com_options
+class gameplay_options
 {
 	idd=-1;
 	movingenable=false;
 
 	class controls
 	{
-    AS_DIALOG(3,"Options Menu","closeDialog 0; nul = createDialog ""com_menu"";");
+    AS_DIALOG(4,"Gameplay options","closeDialog 0; createDialog ""game_options_commander"";");
 
-	#define STR_COM_OPT_FT "if (AS_P(""enableFTold"") then {AS_Pset(""enableFTold"",false); [[petros,""hint"",""Fast Travel limited to camps and HQ""],""commsMP""] call BIS_fnc_MP;} else {AS_Pset(""enableFTold"",true); [[petros,""hint"",""Extended Fast Travel system enabled""],""commsMP""] call BIS_fnc_MP;};"
-	#define STR_COM_OPT_ARS "if (AS_P(""enableMemAcc"") then {AS_Pset(""enableMemAcc"",false); [[petros,""hint"",""Arsenal access set to default.""],""commsMP""] call BIS_fnc_MP;} else {AS_Pset(""enableMemAcc"",true); [[petros,""hint"",""Members now get to keep their gear.""],""commsMP""] call BIS_fnc_MP;};"
-	#define STR_COM_OPT_AXP "if (hayBe) then {hayBe = false} else {hayBe = true}; publicVariable ""hayBE""; hint format [""Current setting: %1"", [""off"", ""on""] select hayBe];"
-	#define STR_COM_OPT_WPP "if (server getVariable [""enableWpnProf"",false]) then {server setVariable [""enableWpnProf"",false,true]; [] remoteExec [""fnc_resetSkills"", [0,-2] select isDedicated,true]} else {server setVariable [""enableWpnProf"",true,true]}; hint format [""Current setting: %1"", [""off"", ""on""] select (server getVariable [""enableWpnProf"",false])];"
+    #define _code "[""minAISkill"", -0.1, 0, """"] call AS_UIfnc_change_var;"
+	BTN_L(1,-1, "-0.1 min AI skill", "Decreases lowest AI skill (default=0.6).", _code);
+    #define _code "[""minAISkill"", 0.1, 1, """"] call AS_UIfnc_change_var;"
+	BTN_R(1,-1, "+0.1 min AI skill", "Increases lowest AI skill (default=0.6).", _code);
 
-	BTN_L(1,-1, "FT On/Off", "Toggle the old Fast Travel system on/off", STR_COM_OPT_FT);
+    #define _code "[""maxAISkill"", -0.1, 0, """"] call AS_UIfnc_change_var;"
+	BTN_L(2,-1, "-0.1 max AI skill", "Decreases highest skill AI (default=0.9)", _code);
+    #define _code "[""maxAISkill"", 0.1, 1, """"] call AS_UIfnc_change_var;"
+	BTN_R(2,-1, "+0.1 max AI skill", "Increases highest skill AI (default=0.9)", _code);
 
-	BTN_R(1,-1, "Arsenal Access On/Off", "Simplified: members are exempt from gear-removal upon accessing the arsenal.", STR_COM_OPT_ARS);
-	BTN_R(2,-1, "Toggle Army XP System", "Turn the extended Army XP system on/off, including all restrictions.", STR_COM_OPT_AXP);
-
-	BTN_M(3, -1, "Weapon Proficiencies", "Turn the extended weapon proficiencies system on/off (MP exclusive)", STR_COM_OPT_WPP);
+    #define _code  "[""enableFTold"",""Extended Fast Travel system enabled"",""Fast Travel limited to camps and HQ""] call AS_UIfnc_toggle_bool;"
+	BTN_L(3,-1, "Fast travel On/Off", "Toggle the old Fast Travel system on/off", _code);
+    #define _code "if (server getVariable [""enableWpnProf"",false]) then {server setVariable [""enableWpnProf"",false,true]; [] remoteExec [""fnc_resetSkills"", [0,-2] select isDedicated,true]} else {server setVariable [""enableWpnProf"",true,true]}; hint format [""Current setting: %1"", [""off"", ""on""] select (server getVariable [""enableWpnProf"",false])];"
+	BTN_R(3,-1, "Weapon Proficiencies", "Turn the extended weapon proficiencies system on/off (MP exclusive)", _code);
+    #undef _code
 	};
 };
 

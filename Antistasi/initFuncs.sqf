@@ -5,6 +5,8 @@ At this point you cannot use variables from initVar.
 call compile preProcessFileLineNumbers "statSave\saveFuncs.sqf";
 call compile preProcessFileLineNumbers "statSave\dialogs.sqf";
 
+call compile preProcessFileLineNumbers "dialogs.sqf";
+
 AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "CREATE\setDefaultSkill.sqf";
 AS_fnc_getWeaponItemsCargo = compile preProcessFileLineNumbers "municion\getWeaponItemsCargo.sqf";
 AS_fnc_getBestEquipment = compile preProcessFileLineNumbers "municion\getBestEquipment.sqf";

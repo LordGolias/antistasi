@@ -6,7 +6,7 @@ call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 // Add variables here that you want to save.
 AS_serverVariables = [
 	"prestigeNATO", "prestigeCSAT", "resourcesAAF", "resourcesFIA", "skillFIA", "skillAAF", "hr",  // FIA attributes
-	"enableFTold", "enableMemAcc", "civPerc", "spawnDistance", "minimumFPS", "cleantime"  // game options
+	"enableFTold", "civPerc", "spawnDistance", "minimumFPS", "cleantime"  // game options
 ];
 
 // function that saves all AS_serverVariables. The two parameters overwrite the AS_persistent variable value to save.
