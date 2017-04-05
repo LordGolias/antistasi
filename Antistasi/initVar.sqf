@@ -108,19 +108,19 @@ vfs = [];
 // Initialisation of units and gear
 vehFIA = [];
 if (hayRHS) then {
-	call compile preprocessFileLineNumbers "CREATE\templateRHS.sqf";
-	call compile preprocessFileLineNumbers "CREATE\templateVMF.sqf";
+	call compile preprocessFileLineNumbers "templates\RHS.sqf";
+	call compile preprocessFileLineNumbers "templates\VMF.sqf";
 }
 else {
-	call compile preprocessFileLineNumbers "CREATE\templateAAF.sqf";
-	call compile preprocessFileLineNumbers "CREATE\templateOPFOR_CSAT.sqf";
+	call compile preprocessFileLineNumbers "templates\AAF.sqf";
+	call compile preprocessFileLineNumbers "templates\CSAT.sqf";
 };
 
 if (hayUSAF) then {
-	call compile preprocessFileLineNumbers "CREATE\templateUSAF.sqf";
+	call compile preprocessFileLineNumbers "templates\USAF.sqf";
 }
 else {
-	call compile preprocessFileLineNumbers "CREATE\templateNATO.sqf";
+	call compile preprocessFileLineNumbers "templates\NATO.sqf";
 };
 
 // populate AAF items with relevant meds.
