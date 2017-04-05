@@ -19,7 +19,7 @@ if (_fromBase != "") then {
 	};
 };
 
-if ((!_isDirectAttack) and (diag_fps < minimoFPS)) exitWith {};
+if ((!_isDirectAttack) and (diag_fps < AS_P("minimumFPS"))) exitWith {};
 
 private _isMarker = false;
 private _exit = false;

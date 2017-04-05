@@ -22,9 +22,9 @@ while {true} do
 		fpsCuenta = fpsCuenta + 1;
 		};
 
-	if (diag_fps < minimoFPS) then
+	if (diag_fps < AS_P("minimumFPS")) then
 		{
-		{if ((alive _x) and (side _x == civilian) and (diag_fps < minimoFPS) and (typeOf _x in arrayCivs) && !(typeOf _x in CIV_specialUnits)) then {deleteVehicle _x; sleep 1}} forEach allUnits;
+		{if ((alive _x) and (side _x == civilian) and (diag_fps < AS_P("minimumFPS")) and (typeOf _x in arrayCivs) && !(typeOf _x in CIV_specialUnits)) then {deleteVehicle _x; sleep 1}} forEach allUnits;
 		_cuentaFail = _cuentaFail + 1;
 		if (_cuentaFail > 11) then
 			{
@@ -37,15 +37,13 @@ while {true} do
 				{
                 AS_Pset("civPerc",_civPerc - 0.01);
 				};
-			if (minimoFPS > 25) then
-				{
-				minimoFPS = 25;
-				};
-			publicVariable "minimoFPS";
+            if (AS_P("minimumFPS") > 25) then {
+                AS_Pset("minimumFPS",25);
+                };
 			_cuentaFail = 0;
 			{if (!alive _x) then {deleteVehicle _x}} forEach vehicles;
 			{deleteVehicle _x} forEach allDead;
-			_texto = format ["Server has a low FPS average:\n%1\n\nGame settings changed to:\nSpawn Distance: %2 mts\nCiv. Percentage: %3 percent\nFPS Limit established at %4\n\nAll wrecked vehicles and corpses have been deleted",round (fpsTotal/fpsCuenta), AS_P("spawnDistance"),civPerc * 100, minimoFPS];
+			_texto = format ["Server has a low FPS average:\n%1\n\nGame settings changed to:\nSpawn Distance: %2 mts\nCiv. Percentage: %3 percent\nFPS Limit established at %4\n\nAll wrecked vehicles and corpses have been deleted",round (fpsTotal/fpsCuenta), AS_P("spawnDistance"),AS_P("civPerc") * 100, AS_P("minimumFPS")];
 			[[petros,"hint",_texto],"commsMP"] call BIS_fnc_MP;
 			allowPlayerRecruit = false; publicVariable "allowPlayerRecruit";
 			};

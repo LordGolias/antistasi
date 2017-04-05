@@ -27,7 +27,6 @@ private _savingPlayersHandle = ([_saveName] spawn {
 [_saveName, "fecha", date] call fn_SaveStat;
 [_saveName, "destroyedCities", destroyedCities] call fn_SaveStat;
 [_saveName, "destroyedBuildings", destroyedBuildings] call fn_SaveStat;
-[_saveName, "minimoFPS", minimoFPS] call fn_SaveStat;
 [_saveName, "vehInGarage", vehInGarage] call fn_SaveStat;
 
 [_saveName, "BE_data", ([] call fnc_BE_save)] call fn_SaveStat;

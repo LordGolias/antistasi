@@ -6,7 +6,7 @@ call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 // Add variables here that you want to save.
 AS_serverVariables = [
 	"prestigeNATO", "prestigeCSAT", "resourcesAAF", "resourcesFIA", "skillFIA", "skillAAF", "hr",  // FIA attributes
-	"enableFTold", "enableMemAcc", "civPerc", "spawnDistance"  // game options
+	"enableFTold", "enableMemAcc", "civPerc", "spawnDistance", "minimumFPS", "cleantime"  // game options
 ];
 
 // function that saves all AS_serverVariables. The two parameters overwrite the AS_persistent variable value to save.
@@ -15,7 +15,7 @@ AS_fnc_savePersistents = {
 
 	{
 		_index = _varNames find _x;
-		_varValue = AS_persistent getVariable _x;
+		_varValue = AS_P(_x);
 		if (_index != -1) then {
 			_varValue = _varValues select _index;
 		};
@@ -30,7 +30,7 @@ AS_fnc_savePersistents = {
 AS_fnc_loadPersistents = {
     params ["_saveName"];
 	{
-		AS_persistent setVariable [_x, [_saveName, _x] call AS_fnc_LoadStat, true];
+        AS_Pset(_x, [_saveName, _x] call AS_fnc_LoadStat);
 	} forEach AS_serverVariables;
 
 	[_saveName] call AS_fnc_loadCities;
@@ -189,7 +189,7 @@ specialVarLoads =
 AS_publicVariables = [
 	"cuentaCA", "miembros",
 	"planesAAFcurrent", "helisAAFcurrent", "APCAAFcurrent", "tanksAAFcurrent", "destroyedCities",
-	"minimoFPS", "vehInGarage", "staticsToSave"
+	"vehInGarage", "staticsToSave"
 ];
 
 //THIS FUNCTIONS HANDLES HOW STATS ARE LOADED

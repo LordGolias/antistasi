@@ -64,7 +64,7 @@ _pos = _posicion;
 _cuenta = 0;
 while {(spawner getVariable _marcador) and (_cuenta < _nveh)} do
 	{
-	if (diag_fps > minimoFPS) then
+	if (diag_fps > AS_P("minimumFPS")) then
 		{
 		_tipoVeh = vehNATO call BIS_fnc_selectRandom;
 		if (_size > 40) then {_pos = [_posicion, 10, _size/2, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos} else {_pos = _pos findEmptyPosition [10,60,_tipoVeh]};
@@ -88,7 +88,7 @@ _grupos = _grupos + [_grupo];
 _cuenta = 0;
 while {(spawner getVariable _marcador) and (_cuenta < _nveh)} do
 	{
-	if (diag_fps > minimoFPS) then
+	if (diag_fps > AS_P("minimumFPS")) then
 		{
 		while {true} do
 			{

@@ -44,7 +44,7 @@ _grupo = createGroup civilian;
 _grupos = _grupos + [_grupo];
 
 for "_i" from 0 to _numCiv - 1 do {
-	if (diag_fps < minimoFPS) exitWith {};
+	if (diag_fps < AS_P("minimumFPS")) exitWith {};
 
 	_pos = [];
 	while {true} do {
@@ -59,7 +59,7 @@ for "_i" from 0 to _numCiv - 1 do {
 
 _counter = 0;  // how many vehicles were already spawned.
 while {_counter < _numVeh} do {
-	if (diag_fps < minimoFPS) exitWith {};
+	if (diag_fps < AS_P("minimumFPS")) exitWith {};
 
 	_p1 = selectRandom _roads;
 	_road = (_p1 nearRoads 5) select 0;

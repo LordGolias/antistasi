@@ -177,7 +177,7 @@ fnc_BE_updateProgressBar = {
 
 	_req = BE_REQ_XP select BE_currentStage;
 	_cV = BE_currentXP / _req;
-	_v = AS_persistent getVariable ["skillFIA", 0];
+	_v = AS_P("skillFIA");
 
 	if (BE_progressLock) exitWith {
 		_pV = [BE_COLOR_LOCK, BE_COLOR_LOCK, BE_current_FIA_Skill_Cap, BE_current_FIA_Skill_Cap+1, "Army XP"];
@@ -565,7 +565,7 @@ fnc_BE_C_HR = {
 		};
 	};
 
-	[((AS_persistent getVariable ["hr", 0]) >= _minVal), BE_STR_CHR]
+	[AS_P("hr") >= _minVal, BE_STR_CHR]
 };
 
 #define BE_STR_CVEH1 "Captured at least 2 MRAPs in garage"

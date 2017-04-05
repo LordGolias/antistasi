@@ -86,7 +86,7 @@ _frontera = [_marcador] call isFrontline;
 if (_frontera) then {_tam = _tam * 2};
 while {(spawner getVariable _marcador) and (_cuenta < _tam)} do
 	{
-	if ((diag_fps > minimoFPS) or (_cuenta == 0)) then
+	if ((diag_fps > AS_P("minimumFPS")) or (_cuenta == 0)) then
 		{
 		_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
 		_grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;

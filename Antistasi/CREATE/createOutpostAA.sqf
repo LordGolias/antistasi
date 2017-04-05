@@ -99,7 +99,7 @@ _grupos = _grupos + [_grupo];
 
 if (_marcador in _pLarge) then {
 	while {(spawner getVariable _marcador) and (_cuenta < _tam)} do {
-		if ((diag_fps > minimoFPS) or (_cuenta == 0)) then {
+		if ((diag_fps > AS_P("minimumFPS")) or (_cuenta == 0)) then {
 			_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
 			_grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 			sleep 1;
@@ -122,7 +122,7 @@ else {
 	{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
 
 	while {(spawner getVariable _marcador) and (_cuenta < _tam)} do {
-		if ((diag_fps > minimoFPS) or (_cuenta == 0)) then {
+		if ((diag_fps > AS_P("minimumFPS")) or (_cuenta == 0)) then {
 			_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
 			_grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 			sleep 1;

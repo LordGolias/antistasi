@@ -90,7 +90,7 @@ deleteMarker _mrkOrig;
 deleteMarker _mrkDest;
 if ((!canMove _plane) and (!isNull _plane)) then
 	{
-	sleep cleantime;
+	sleep AS_P("cleantime");
 	{deleteVehicle _x} forEach crew _plane; deleteVehicle _plane;
 	deleteGroup group _plane;
 	};

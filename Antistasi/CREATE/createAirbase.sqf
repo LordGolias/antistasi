@@ -123,7 +123,7 @@ _nVeh = round (_size/60);
 _cuenta = 0;
 while {(spawner getVariable _marcador) and (_cuenta < _nVeh)} do
 	{
-	if (diag_fps > minimoFPS) then
+	if (diag_fps > AS_P("minimumFPS")) then
 		{
 		_tipoVeh = _arrayVeh call BIS_fnc_selectRandom;
 		_pos = [_posicion, 10, _size/2, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
@@ -149,7 +149,7 @@ if (_frontera) then {_nveh = _nveh * 2};
 
 while {(spawner getVariable _marcador) and (_cuenta < _nveh)} do
 	{
-	if (diag_fps > minimoFPS) then
+	if (diag_fps > AS_P("minimumFPS")) then
 		{
 		while {true} do
 			{

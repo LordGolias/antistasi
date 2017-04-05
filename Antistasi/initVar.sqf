@@ -9,6 +9,8 @@ antistasiVersion = "v 1.7 -- modded";
 
 servidoresOficiales = ["Antistasi Official EU","Antistasi Official EU - TEST", "Antistasi:Altis Official"];//this is for author's fine tune the official servers. If I get you including your server in this variable, I will create a special variable for your server. Understand?
 
+// AS_Pset(a,b) is a macro to `(AS_persistent setVariable (a,b,true))`.
+// These are options for the initial setting.
 AS_Pset("hr",8); //initial HR value
 AS_Pset("resourcesFIA",1000); //Initial FIA money pool value
 
@@ -17,27 +19,25 @@ AS_Pset("skillFIA",0);//Initial skill level for FIA soldiers
 AS_Pset("skillAAF",0);//Initial skill level for AAF soldiers
 AS_Pset("prestigeNATO",5);//Initial Prestige NATO
 AS_Pset("prestigeCSAT",5);//Initial Prestige CSAT
-AS_Pset("civPerc",0.05); //initial % civ spawn rate
 
+// These are game options that are saved.
+AS_Pset("civPerc",0.05); //initial % civ spawn rate
 AS_Pset("enableFTold",false); // extended fast travel mode
 AS_Pset("enableMemAcc",false); // simplified arsenal access
+AS_Pset("spawnDistance",1200); //initial spawn distance. Less than 1Km makes parked vehicles spawn in your nose while you approach.
+AS_Pset("minimumFPS",15); //initial minimum FPS. This value can be changed in a menu.
+AS_Pset("cleantime",20*60); // time to delete dead bodies and vehicles.
 
-AS_P("spawnDistance",1200); //initial spawn distance. Less than 1Km makes parked vehicles spawn in your nose while you approach.
-
-cleantime = 900;//time to delete dead bodies, vehicles etc..
 AS_spawnLoopTime = 0.5; // seconds between each check of spawn/despawn locations (expensive loop).
-
 AS_minAISkill = 0.6; // The minimum skill of the AI.
 AS_maxAISkill = 0.9; // The maximum skill of the AI.
 musicON = true;
-
 // todo: have a menu to switch this behaviour
 switchCom = false;  // Game will not auto assign Commander position to the highest ranked player
 
 // we set the maker on petros so the HQ position is correct in new games.
 "respawn_west" setMarkerPos (position petros);
 //minefieldMrk = [];
-minimoFPS = 15;//initial FPS minimum.
 //destroyedCities = [];
 autoHeal = false;
 allowPlayerRecruit = true;

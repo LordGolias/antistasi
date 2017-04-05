@@ -175,7 +175,7 @@ while {true} do
 	// start AAF attacks under certain conditions.
 	cuentaCA = cuentaCA - 600;
 	publicVariable "cuentaCA";
-	if ((cuentaCA < 1) and (diag_fps > minimoFPS)) then {
+	if ((cuentaCA < 1) and (diag_fps > AS_P("minimumFPS"))) then {
 		_awActive = false;
 		if !(isNil {server getVariable "waves_active"}) then {
 			_awActive = (server getVariable "waves_active");
