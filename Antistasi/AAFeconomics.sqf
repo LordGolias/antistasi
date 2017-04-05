@@ -121,11 +121,6 @@ if ((_skillAAF < (_skillFIA + 4)) && (_skillAAF < AS_maxSkill)) then {
         AS_Pset("skillAAF",_skillAAF + 1);
         _skillAAF = _skillAAF + 1;
 		_resourcesAAF = _resourcesAAF - _coste;
-		{
-			_coste = AS_data_allCosts getVariable _x;
-			_coste = round (_coste + (_coste * (_skillAAF/280)));
-			AS_data_allCosts setVariable [_x,_coste,true];
-		} forEach soldadosAAF;
 	};
 };
 

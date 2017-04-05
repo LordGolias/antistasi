@@ -21,9 +21,3 @@ _skillFIA = _skillFIA + 1;
 hint format ["FIA Skill Level has been Upgraded\nCurrent level is %1",_skillFIA];
 AS_Pset("skillFIA",_skillFIA);
 AS_Pset("resourcesFIA",_resourcesFIA);
-
-{
-_coste = AS_data_allCosts getVariable _x;
-_coste = round (_coste + (_coste * (_skillFIA/280)));
-AS_data_allCosts setVariable [_x,_coste,true];
-} forEach soldadosFIA;

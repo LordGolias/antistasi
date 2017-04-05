@@ -34,29 +34,6 @@ AS_fnc_loadPersistents = {
 	} forEach AS_serverVariables;
 
 	[_saveName] call AS_fnc_loadCities;
-	[_saveName] call AS_fnc_postLoadServer;
-};
-
-// set non-persistent variables that are functions of persistent variables.
-AS_fnc_postLoadServer = {
-	// increase cost of soldiers (what is this doing exactly??)
-	_skillFIA = AS_P("skillFIA");
-	{
-		_cost = AS_data_allCosts getVariable _x;
-		for "_i" from 1 to _skillFIA do {
-			_cost = round (_cost + (_cost * (_i/280)));
-		};
-		AS_data_allCosts setVariable [_x,_cost,true];
-	} forEach soldadosFIA;
-
-    _skillAAF = AS_P("skillAAF");
-    {
-        _cost = AS_data_allCosts getVariable _x;
-        for "_i" from 1 to _skillAAF do {
-            _coste = round (_coste + (_coste * (_i/280)));
-        };
-        AS_data_allCosts setVariable [_x,_coste,true];
-    } forEach soldadosAAF;
 };
 
 // function that persistently saves cities.
