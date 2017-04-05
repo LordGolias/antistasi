@@ -11,7 +11,7 @@ This modified version has the same mechanics and the same features but improves 
 * The HQ is now fully saved: both items positions (e.g. flag) and new constructions (e.g. sandbags).
 * There is no unlocking mechanism: everything is always finite. You lose half of every item if the HQ is destroyed.
 * Camps gives access to the arsenal: everything available in the HQ is available in camps (and you can store things there without having them lost).
-* AI skill is now a initVar that can be changed, and its complexity was greatly reduced.
+* All game and performance options, including AI skill and cleanup time, are now modifiable by the commander.
 * There is no "petros cavalary": this is the commander's responsibility.
 * Menus were remade from scratch to better accommodate more buttons and other layouts.
 
