@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 private ["_soldados","_vehiculos","_grupos","_base","_posbase","_roads","_tipoCoche","_arrayBases","_arrayDestinos","_tam","_road","_veh","_vehCrew","_grupoVeh","_grupo","_grupoP","_distancia"];
 
 _soldados = [];
@@ -136,11 +137,11 @@ while {alive _veh} do
 				{
 				{
 				_grupoP = _x;
-				if (leader _grupoP distance _veh < distanciaSPWN) then {_grupoP reveal [_arevelar,_nivel]};
+				if (leader _grupoP distance _veh < AS_P("spawnDistance")) then {_grupoP reveal [_arevelar,_nivel]};
 				} forEach allGroups;
 				};
 			};
-		} forEach (driver _veh nearTargets distanciaSPWN);
+		} forEach (driver _veh nearTargets AS_P("spawnDistance"));
 		if ((_veh distance _posdestino < _distancia) or ({alive _x} count _soldados == 0) or ({fleeing _x} count _soldados == {alive _x} count _soldados) or (!canMove _veh)) exitWith {};
 		};
 
@@ -165,8 +166,8 @@ while {alive _veh} do
 
 AAFpatrols = AAFpatrols - 1;publicVariableServer "AAFpatrols";
 {_unit = _x;
-waitUntil {sleep 1;!([distanciaSPWN,1,_unit,"BLUFORSpawn"] call distanceUnits)};deleteVehicle _unit} forEach _soldados;
+waitUntil {sleep 1;!([AS_P("spawnDistance"),1,_unit,"BLUFORSpawn"] call distanceUnits)};deleteVehicle _unit} forEach _soldados;
 
 {_veh = _x;
-if !([distanciaSPWN,1,_veh,"BLUFORSpawn"] call distanceUnits) then {deleteVehicle _veh}} forEach _vehiculos;
+if !([AS_P("spawnDistance"),1,_veh,"BLUFORSpawn"] call distanceUnits) then {deleteVehicle _veh}} forEach _vehiculos;
 {deleteGroup _x} forEach _grupos;

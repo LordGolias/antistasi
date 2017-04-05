@@ -173,19 +173,19 @@ if (_source == "civ") then {
 	server setVariable ["civActive", _val - 1, true];
 };
 
-waitUntil {sleep 1; !([distanciaSPWN,1,_veh,"BLUFORSpawn"] call distanceUnits)};
+waitUntil {sleep 1; !([AS_P("spawnDistance"),1,_veh,"BLUFORSpawn"] call distanceUnits)};
 
 {
-waitUntil {sleep 1; !([distanciaSPWN,1,_x,"BLUFORSpawn"] call distanceUnits)};
+waitUntil {sleep 1; !([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits)};
 deleteVehicle _x
 } forEach units _grptraidor;
 deleteGroup _grptraidor;
 
 {
-waitUntil {sleep 1; !([distanciaSPWN,1,_x,"BLUFORSpawn"] call distanceUnits)};
+waitUntil {sleep 1; !([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits)};
 deleteVehicle _x
 } forEach units _grupo;
 deleteGroup _grupo;
 
-waitUntil {sleep 1; !([distanciaSPWN,1,_veh,"BLUFORSpawn"] call distanceUnits)};
+waitUntil {sleep 1; !([AS_P("spawnDistance"),1,_veh,"BLUFORSpawn"] call distanceUnits)};
 deleteVehicle _veh;

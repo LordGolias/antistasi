@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
 
 _tskTitle = localize "Str_tsk_fndExp";
@@ -184,7 +185,7 @@ server setVariable ["expActive", false, true];
 sleep 30;
 deleteMarker "Devin";
 deleteMarker "DevPat";
-waitUntil {sleep 1; {_x distance Devin < distanciaSPWN/2} count (allPlayers - hcArray) == 0};
+waitUntil {sleep 1; {_x distance Devin < AS_P("spawnDistance")/2} count (allPlayers - hcArray) == 0};
 {deleteVehicle _x} forEach _vehiculos;
 {deleteVehicle _x} forEach _soldados;
 {deleteGroup _x} forEach _grupos;

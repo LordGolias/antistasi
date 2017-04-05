@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
 
 _tskTitle = localize "STR_tsk_NATOSupply";
@@ -72,11 +73,11 @@ deleteMarker _mrkFin;
 [1200,_tsk] spawn borrarTask;
 {
 _soldado = _x;
-waitUntil {sleep 1; {_x distance _soldado < distanciaSPWN} count (allPlayers - hcArray) == 0};
+waitUntil {sleep 1; {_x distance _soldado < AS_P("spawnDistance")} count (allPlayers - hcArray) == 0};
 deleteVehicle _soldado;
 } forEach _heliCrew;
 deleteGroup _grupoHeli;
 {_vehiculo = _x;
-waitUntil {sleep 1; {_x distance _vehiculo < distanciaSPWN} count (allPlayers - hcArray) == 0};
+waitUntil {sleep 1; {_x distance _vehiculo < AS_P("spawnDistance")} count (allPlayers - hcArray) == 0};
 deleteVehicle _vehiculo;
 } forEach _vehiculos;

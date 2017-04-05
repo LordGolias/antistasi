@@ -37,12 +37,12 @@ private _exit = false;
 if (!_isMarker) then {
 	// do not patrol closeby patrol locations.
 	_closestPatrolPosition = [smallCApos, _position] call BIS_fnc_nearestPosition;
-	if (_closestPatrolPosition distance _position < (distanciaSPWN/2)) exitWith {_exit = true;};
+	if (_closestPatrolPosition distance _position < (AS_P("spawnDistance")/2)) exitWith {_exit = true;};
 
 	// do not patrol closeby to patrolled markers.
 	if (count smallCAmrk > 0) then {
 		_closestPatrolMarker = [smallCAmrk, _position] call BIS_fnc_nearestPosition;
-		if ((getMarkerPos _closestPatrolMarker) distance _position < (distanciaSPWN/2)) then {_exit = true;};
+		if ((getMarkerPos _closestPatrolMarker) distance _position < (AS_P("spawnDistance")/2)) then {_exit = true;};
 	};
 };
 
@@ -400,14 +400,14 @@ if (_isMarker) then {
 	waitUntil {sleep 1; not (spawner getVariable _marcador)};
 }
 else {
-	waitUntil {sleep 1; !([distanciaSPWN,1,_position,"BLUFORSpawn"] call distanceUnits)};
+	waitUntil {sleep 1; !([AS_P("spawnDistance"),1,_position,"BLUFORSpawn"] call distanceUnits)};
 	smallCApos = smallCApos - [_marcador];
 };
 
 if !(isNil {_soldados}) then {
 	if (count _soldados > 0) then {
 		{
-			waitUntil {sleep 1; !([distanciaSPWN,1,_x,"BLUFORSpawn"] call distanceUnits)};
+			waitUntil {sleep 1; !([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits)};
 			deleteVehicle _x;
 		} forEach _soldados;
 	};
@@ -419,7 +419,7 @@ if !(isNil {_soldados}) then {
 if !(isNil {_vehiculos}) then {
 	if (count _vehiculos > 0) then {
 		{
-			if (!([distanciaSPWN,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x};
+			if (!([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x};
 		} forEach _vehiculos;
 	};
 };

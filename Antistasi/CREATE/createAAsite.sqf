@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
 params ["_marcador"];
 
@@ -140,6 +141,6 @@ waitUntil {sleep 1; not (spawner getVariable _marcador)};
 {deleteVehicle _x} forEach units _grupoUAV;
 deleteVehicle _uav;
 deleteGroup _grupoUAV;
-{if (!([distanciaSPWN-100,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x}} forEach _vehiculos;
+{if (!([AS_P("spawnDistance")-100,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x}} forEach _vehiculos;
 
 {deleteVehicle _x} forEach _objs;

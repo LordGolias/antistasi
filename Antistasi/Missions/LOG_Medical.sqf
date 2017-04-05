@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
 
 _tskTitle = localize "STR_tsk_logMedical";
@@ -163,7 +164,7 @@ else {
 			[_amigo,false] remoteExec ["setCaptive",_amigo];
 		};
 		{
-			if ((side _x == side_green) and (_x distance _posCrash < distanciaSPWN)) then {
+			if ((side _x == side_green) and (_x distance _posCrash < AS_P("spawnDistance"))) then {
 			if (_x distance _posCrash < 300) then {_x doMove _posCrash} else {_x reveal [_amigo,4]};
 			};
 			if ((side _x == civilian) and (_x distance _posCrash < 300)) then {_x doMove position _sTruck};
@@ -287,7 +288,7 @@ deleteVehicle _crate4;
 [1200,_tsk] spawn borrarTask;
 deleteMarker _mrkfin;
 {
-waitUntil {sleep 1;(!([distanciaSPWN,1,_x,"BLUFORSpawn"] call distanceUnits))};
+waitUntil {sleep 1;(!([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits))};
 deleteVehicle _x} forEach _vehiculos;
 {deleteVehicle _x} forEach _soldados;
 {deleteGroup _x} forEach _grupos;

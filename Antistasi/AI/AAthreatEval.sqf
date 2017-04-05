@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 private ["_marcador","_threat","_esMarcador","_posicion","_esFIA","_analizado","_size"];
 
 _threat = 0;
@@ -15,7 +16,7 @@ if (_esMarcador) then
 	if (_marcador in mrkAAF) then
 		{
 		{
-		if (getMarkerPos _x distance _posicion < (distanciaSPWN*1.5)) then
+		if (getMarkerPos _x distance _posicion < (AS_P("spawnDistance")*1.5)) then
 			{
 			if ((_x in bases) or (_x in aeropuertos)) then {_threat = _threat + 3} else {_threat = _threat + 1};
 			};
@@ -33,7 +34,7 @@ else
 
 if (_esFIA) then {
 	{
-	if (getMarkerPos _x distance _posicion < distanciaSPWN) then {
+	if (getMarkerPos _x distance _posicion < AS_P("spawnDistance")) then {
 		_analizado = _x;
 		_garrison = garrison getVariable [_analizado,[]];
 		_threat = _threat + (floor((count _garrison)/4));

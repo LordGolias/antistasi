@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer) exitWith {};
 params ["_saveName"];
 
@@ -22,7 +23,6 @@ petros allowdamage false;
 [_saveName, "tanksAAFcurrent"] call fn_LoadStat;
 [_saveName, "fecha"] call fn_LoadStat;
 [_saveName, "garrison"] call fn_LoadStat;
-[_saveName, "distanciaSPWN"] call fn_LoadStat;
 [_saveName, "minimoFPS"] call fn_LoadStat;
 [_saveName, "smallCAmrk"] call fn_LoadStat;
 [_saveName, "miembros"] call fn_LoadStat;

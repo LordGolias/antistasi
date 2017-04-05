@@ -254,7 +254,7 @@ sleep 20;
 _vehObj = _tipoVehObj createVehicle _posRoad;
 _vehObj setDir _dir;
 _vehObj addEventHandler ["HandleDamage", {
-	if (((_this select 1) find "wheel" != -1) && !([distanciaSPWN,1,_vehObj,"BLUFORSpawn"] call distanceUnits)) then {
+	if (((_this select 1) find "wheel" != -1) && !([AS_P("spawnDistance"),1,_vehObj,"BLUFORSpawn"] call distanceUnits)) then {
 		0;
 	} else {
 		(_this select 2);
@@ -611,11 +611,11 @@ if (_source == "civ") then {
 
 [600,_tsk] spawn borrarTask;
 {
-waitUntil {sleep 1; (!([distanciaSPWN,1,_x,"BLUFORSpawn"] call distanceUnits))};
+waitUntil {sleep 1; (!([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits))};
 deleteVehicle _x;
 } forEach _soldados;
 {
-if (!([distanciaSPWN,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x}
+if (!([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x}
 } forEach _vehiculos;
 
 {deleteGroup _x} forEach _grupos;

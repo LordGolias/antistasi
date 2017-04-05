@@ -1,6 +1,6 @@
 private ["_distancia","_modo","_result","_referencia","_variable","_cuenta","_exit"];
 
-_distancia = _this select 0;//la distancia requisito, normalmente distanciaSPWN)
+_distancia = _this select 0;//la distancia requisito, normalmente AS_P("spawnDistance"))
 _modo = _this select 1;//lo que devuelve la función, 0 un array, un número mayor un boolean cuando la cuenta llegue a ese número.
 _referencia = _this select 2; // posición en formato array u objeto
 _variable = _this select 3;//"OPFORSpawn" o "BLUFORSpawn" según queramos ver unidades de uno u otro bando

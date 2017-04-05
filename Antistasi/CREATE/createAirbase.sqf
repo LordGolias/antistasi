@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
 
 private ["_pos","_marcador","_vehiculos","_grupos","_soldados","_posicion","_busy","_buildings","_pos1","_pos2","_grupo","_cuenta","_tipoVeh","_veh","_unit","_arrayVehAAF","_nVeh","_frontera","_size","_ang","_mrk","_tipogrupo","_bandera","_perro"];
@@ -46,7 +47,7 @@ if ((spawner getVariable _marcador) and _frontera) then
 
 _mrk = createMarkerLocal [format ["%1patrolarea", random 100], _posicion];
 _mrk setMarkerShapeLocal "RECTANGLE";
-_mrk setMarkerSizeLocal [(distanciaSPWN/2),(distanciaSPWN/2)];
+_mrk setMarkerSizeLocal [(AS_P("spawnDistance")/2),(AS_P("spawnDistance")/2)];
 _mrk setMarkerTypeLocal "hd_warning";
 _mrk setMarkerColorLocal "ColorRed";
 _mrk setMarkerBrushLocal "DiagGrid";
@@ -193,6 +194,6 @@ deleteMarker _mrk;
 {if (alive _x) then {deleteVehicle _x}} forEach _soldados;
 if (!isNull _journalist) then {deleteVehicle _journalist};
 {deleteGroup _x} forEach _grupos;
-{if (!([distanciaSPWN-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x}} forEach _vehiculos;
+{if (!([AS_P("spawnDistance")-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x}} forEach _vehiculos;
 
 

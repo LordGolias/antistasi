@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
 
 _tskTitle = localize "STR_tsk_ASSpecOp";
@@ -74,11 +75,11 @@ if (_source == "mil") then {
 };
 
 {
-waitUntil {sleep 1; !([distanciaSPWN,1,_x,"BLUFORSpawn"] call distanceUnits)};
+waitUntil {sleep 1; !([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits)};
 deleteVehicle _x
 } forEach units _grupo;
 deleteGroup _grupo;
-waitUntil {sleep 1; !([distanciaSPWN,1,_uav,"BLUFORSpawn"] call distanceUnits)};
+waitUntil {sleep 1; !([AS_P("spawnDistance"),1,_uav,"BLUFORSpawn"] call distanceUnits)};
 {deleteVehicle _x} forEach units _grupoUAV;
 deleteVehicle _uav;
 deleteGroup _grupoUAV;

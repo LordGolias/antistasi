@@ -226,8 +226,8 @@ class spawn_config
 	{
 AS_DIALOG(1,"Spawn Distance Config", "closeDialog 0; createDialog ""game_options_commander"";");
 
-#define STR_DIST_PLUS "if (distanciaSPWN < 2500) then {distanciaSPWN = (distanciaSPWN + 100) min 2500; publicVariable ""distanciaSPWN""; hint format [""Spawn Distance Set to %1 meters. Be careful, this may affect game performance"",distanciaSPWN];};"
-#define STR_DIST_MINUS "if (distanciaSPWN > 1000) then {distanciaSPWN = (distanciaSPWN - 100) max 100; publicVariable ""distanciaSPWN""; hint format [""Spawn Distance Set to %1 meters. Be careful, this may affect game performance"",distanciaSPWN];};"
+#define STR_DIST_PLUS "if (AS_P(""spawnDistance"") < 2500) then {AS_Pset(""spawnDistance"",(AS_P(""spawnDistance"") + 100) min 2500); hint format [""Spawn Distance Set to %1 meters. Be careful, this may affect game performance"",AS_P(""spawnDistance"")];};"
+#define STR_DIST_MINUS "if (AS_P(""spawnDistance"") > 1000) then {AS_Pset(""spawnDistance"",(AS_P(""spawnDistance"") - 100) max 100); hint format [""Spawn Distance Set to %1 meters. Be careful, this may affect game performance"",AS_P(""spawnDistance"")];};"
 
 BTN_L(1,-1, "+100 Spawn Dist.", "", STR_DIST_PLUS);
 BTN_R(1,-1, "-100 Spawn Dist.", "", STR_DIST_MINUS);

@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
 
 _tskTitle = localize "STR_tsk_PRBrain";
@@ -144,7 +145,7 @@ if (_break) exitWith {
 
 	[1200,_tsk] spawn borrarTask;
 
-	waitUntil {sleep 1;(!([distanciaSPWN,1,_x,"BLUFORSpawn"] call distanceUnits))};
+	waitUntil {sleep 1;(!([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits))};
 	deleteVehicle propTruck;
 	{
 		deleteVehicle _x;
@@ -194,7 +195,7 @@ propTruck engineOn false;
 		[_amigo,false] remoteExec ["setCaptive",_amigo];
 	};
 	{
-		if ((side _x == side_green) and (_x distance propTruck < distanciaSPWN)) then {
+		if ((side _x == side_green) and (_x distance propTruck < AS_P("spawnDistance"))) then {
 			if (_x distance propTruck < 300) then {_x doMove position propTruck} else {_x reveal [_amigo,4]};
 		};
 	} forEach allUnits;
@@ -322,7 +323,7 @@ else {
 
 [1200,_tsk] spawn borrarTask;
 
-waitUntil {sleep 1;(!([distanciaSPWN,1,propTruck,"BLUFORSpawn"] call distanceUnits))};
+waitUntil {sleep 1;(!([AS_P("spawnDistance"),1,propTruck,"BLUFORSpawn"] call distanceUnits))};
 deleteVehicle propTruck;
 
 {
@@ -330,7 +331,7 @@ deleteVehicle propTruck;
 } foreach _grafArray;
 
 // remove the propaganda site
-waitUntil {sleep 1; (not([distanciaSPWN,1,_targetPosition,"BLUFORSpawn"] call distanceUnits))};
+waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,_targetPosition,"BLUFORSpawn"] call distanceUnits))};
 {
 	deleteVehicle _x;
 } foreach _objectsToDelete;

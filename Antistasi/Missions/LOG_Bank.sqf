@@ -77,7 +77,7 @@ else
 		{if (side _x == side_green) then {_x reveal [_amigo,4]};
 		} forEach allUnits;
 		};
-	} forEach ([distanciaSPWN,0,_posicion,"BLUFORSpawn"] call distanceUnits);
+	} forEach ([AS_P("spawnDistance"),0,_posicion,"BLUFORSpawn"] call distanceUnits);
 	while {(_cuenta > 0) or (_camion distance _posicion < 7) and (alive _camion) and (dateToNumber date < _fechalimnum)} do
 		{
 		while {(_cuenta > 0) and (_camion distance _posicion < 7) and (alive _camion)} do
@@ -133,7 +133,7 @@ deleteVehicle _camion;
 
 [1200,_tsk] spawn borrarTask;
 
-waitUntil {sleep 1; !([distanciaSPWN,1,_posicion,"BLUFORSpawn"] call distanceUnits)};
+waitUntil {sleep 1; !([AS_P("spawnDistance"),1,_posicion,"BLUFORSpawn"] call distanceUnits)};
 
 {deleteVehicle _x} forEach units _grupo;
 deleteGroup _grupo;

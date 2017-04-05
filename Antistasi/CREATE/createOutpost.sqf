@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
 
 _marcador = _this select 0;
@@ -149,6 +150,6 @@ if (!isNull _journalist) then {deleteVehicle _journalist};
 {
 if (not(_x in staticsToSave)) then
 	{
-	if (!([distanciaSPWN-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x};
+	if (!([AS_P("spawnDistance")-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x};
 	};
 } forEach _vehiculos;

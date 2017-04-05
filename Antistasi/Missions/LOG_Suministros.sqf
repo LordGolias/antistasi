@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
 
 _tskTitle = localize "STR_tsk_logSupply";
@@ -50,7 +51,7 @@ else
 		[_amigo,false] remoteExec ["setCaptive",_amigo];
 		};
 	{
-	if ((side _x == side_green) and (_x distance _posicion < distanciaSPWN)) then
+	if ((side _x == side_green) and (_x distance _posicion < AS_P("spawnDistance"))) then
 		{
 		if (_x distance _posicion < 300) then {_x doMove _posicion} else {_x reveal [_amigo,4]};
 		};
@@ -112,7 +113,7 @@ else
 
 //[_tsk,true] call BIS_fnc_deleteTask;
 [1200,_tsk] spawn borrarTask;
-waitUntil {sleep 1; (not([distanciaSPWN,1,_camion,"BLUFORSpawn"] call distanceUnits)) or ((_camion distance (getMarkerPos "respawn_west") < 60) && (speed _camion < 1))};
+waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,_camion,"BLUFORSpawn"] call distanceUnits)) or ((_camion distance (getMarkerPos "respawn_west") < 60) && (speed _camion < 1))};
 [_camion] call vaciar;
 deleteVehicle _camion;
 

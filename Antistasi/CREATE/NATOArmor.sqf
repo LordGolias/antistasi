@@ -65,13 +65,13 @@ sleep 15;
 
 {
 _soldado = _x;
-waitUntil {sleep 1; {_x distance _soldado < distanciaSPWN} count (allPlayers - hcArray) == 0};
+waitUntil {sleep 1; {_x distance _soldado < AS_P("spawnDistance")} count (allPlayers - hcArray) == 0};
 deleteVehicle _soldado;
 } forEach _soldados;
 deleteGroup _grupo;
 {
 _vehiculo = _x;
-waitUntil {sleep 1; {_x distance _vehiculo < distanciaSPWN} count (allPlayers - hcArray) == 0};
+waitUntil {sleep 1; {_x distance _vehiculo < AS_P("spawnDistance")} count (allPlayers - hcArray) == 0};
 deleteVehicle _x} forEach _vehiculos;
 
 [0,_tsk] spawn borrarTask;

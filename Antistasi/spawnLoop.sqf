@@ -1,3 +1,4 @@
+#include "macros.hpp"
 if (!isServer) exitWith{};
 
 private ["_tiempo","_marcadores","_marcador","_posicionMRK"];
@@ -43,7 +44,7 @@ while {true} do {
 
 	_isSpawned = spawner getVariable _marcador;
 	if (_marcador in mrkAAF) then {
-		_spawnCondition = ({(_x distance _posicionMRK < distanciaSPWN)} count _amigos > 0) or (_marcador in forcedSpawn);
+		_spawnCondition = ({(_x distance _posicionMRK < AS_P("spawnDistance"))} count _amigos > 0) or (_marcador in forcedSpawn);
 		if (!_isSpawned) then {
 			if (_spawnCondition) then {
 				spawner setVariable [_marcador,true,true];
@@ -69,10 +70,10 @@ while {true} do {
 		// not clear what this is doing. owner is about who controls it, not something else. 
 		_playerIsClose = (_marcador in forcedSpawn) or
 						 ({((_x getVariable ["owner", objNull]) == _x) and
-						   (_x distance _posicionMRK < distanciaSPWN)} count _amigos > 0);
+						   (_x distance _posicionMRK < AS_P("spawnDistance"))} count _amigos > 0);
 		// enemies are close.
 		_spawnCondition = (_playerIsClose or
-						   ({_x distance _posicionMRK < distanciaSPWN} count _enemigos > 0));
+						   ({_x distance _posicionMRK < AS_P("spawnDistance")} count _enemigos > 0));
 		if (!_isSpawned) then {
 			if (_spawnCondition) then {
 				spawner setVariable [_marcador,true,true];

@@ -50,10 +50,10 @@ else
 		_scoreNeededAir = _scoreNeededAirBase;
 		if (_base != "") then
 			{
-			_scoreNeededLand = _scoreNeededLand + 2 * ({(isOnRoad getMarkerPos _x) and (getMarkerPos _x distance _posObjetivo < distanciaSPWN)} count puestosFIA);
+			_scoreNeededLand = _scoreNeededLand + 2 * ({(isOnRoad getMarkerPos _x) and (getMarkerPos _x distance _posObjetivo < AS_P("spawnDistance"))} count puestosFIA);
 			};
 		{
-		if (getMarkerPos _x distance _posObjetivo < distanciaSPWN) then
+		if (getMarkerPos _x distance _posObjetivo < AS_P("spawnDistance")) then
 			{
 			_analizado = _x;
 			_garrison = garrison getVariable [_analizado,[]];

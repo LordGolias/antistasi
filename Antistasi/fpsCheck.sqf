@@ -28,10 +28,9 @@ while {true} do
 		_cuentaFail = _cuentaFail + 1;
 		if (_cuentaFail > 11) then
 			{
-			if (distanciaSPWN > 1000) then
+			if (AS_P("spawnDistance") > 1000) then
 				{
-				distanciaSPWN = distanciaSPWN - 100;
-				publicVariable "distanciaSPWN";
+				AS_Pset("spawnDistance", AS_P("spawnDistance") - 100);
 				};
             _civPerc = AS_P("civPerc");
 			if (_civPerc > 0.05) then
@@ -46,7 +45,7 @@ while {true} do
 			_cuentaFail = 0;
 			{if (!alive _x) then {deleteVehicle _x}} forEach vehicles;
 			{deleteVehicle _x} forEach allDead;
-			_texto = format ["Server has a low FPS average:\n%1\n\nGame settings changed to:\nSpawn Distance: %2 mts\nCiv. Percentage: %3 percent\nFPS Limit established at %4\n\nAll wrecked vehicles and corpses have been deleted",round (fpsTotal/fpsCuenta), distanciaSPWN,civPerc * 100, minimoFPS];
+			_texto = format ["Server has a low FPS average:\n%1\n\nGame settings changed to:\nSpawn Distance: %2 mts\nCiv. Percentage: %3 percent\nFPS Limit established at %4\n\nAll wrecked vehicles and corpses have been deleted",round (fpsTotal/fpsCuenta), AS_P("spawnDistance"),civPerc * 100, minimoFPS];
 			[[petros,"hint",_texto],"commsMP"] call BIS_fnc_MP;
 			allowPlayerRecruit = false; publicVariable "allowPlayerRecruit";
 			};

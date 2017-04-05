@@ -9,8 +9,22 @@ antistasiVersion = "v 1.7 -- modded";
 
 servidoresOficiales = ["Antistasi Official EU","Antistasi Official EU - TEST", "Antistasi:Altis Official"];//this is for author's fine tune the official servers. If I get you including your server in this variable, I will create a special variable for your server. Understand?
 
+AS_Pset("hr",8); //initial HR value
+AS_Pset("resourcesFIA",1000); //Initial FIA money pool value
+
+AS_Pset("resourcesAAF",0);//Initial AAF resources
+AS_Pset("skillFIA",0);//Initial skill level for FIA soldiers
+AS_Pset("skillAAF",0);//Initial skill level for AAF soldiers
+AS_Pset("prestigeNATO",5);//Initial Prestige NATO
+AS_Pset("prestigeCSAT",5);//Initial Prestige CSAT
+AS_Pset("civPerc",0.05); //initial % civ spawn rate
+
+AS_Pset("enableFTold",false); // extended fast travel mode
+AS_Pset("enableMemAcc",false); // simplified arsenal access
+
+AS_P("spawnDistance",1200); //initial spawn distance. Less than 1Km makes parked vehicles spawn in your nose while you approach.
+
 cleantime = 900;//time to delete dead bodies, vehicles etc..
-distanciaSPWN = 1200;//initial spawn distance. Less than 1Km makes parked vehicles spawn in your nose while you approach.
 AS_spawnLoopTime = 0.5; // seconds between each check of spawn/despawn locations (expensive loop).
 
 AS_minAISkill = 0.6; // The minimum skill of the AI.
@@ -222,19 +236,6 @@ if (hayRHS) then {
 	AS_data_allCosts setVariable [vehTruckAA, 800, true];
 	AS_data_allCosts setVariable [vehTruckAA, 800, true];
 };
-
-AS_Pset("hr",8); //initial HR value
-AS_Pset("resourcesFIA",1000); //Initial FIA money pool value
-
-AS_Pset("resourcesAAF",0);//Initial AAF resources
-AS_Pset("skillFIA",0);//Initial skill level for FIA soldiers
-AS_Pset("skillAAF",0);//Initial skill level for AAF soldiers
-AS_Pset("prestigeNATO",5);//Initial Prestige NATO
-AS_Pset("prestigeCSAT",5);//Initial Prestige CSAT
-AS_Pset("civPerc",0.05); //initial % civ spawn rate
-
-AS_Pset("enableFTold",false); // extended fast travel mode
-AS_Pset("enableMemAcc",false); // simplified arsenal access
 
 // todo: this option is not being saved, so it is irrelevant. Consider removing.
 server setVariable ["enableWpnProf",false,true]; // class-based weapon proficiences, MP only

@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {false};
 private ["_marcador","_base","_posbase","_posmarcador","_angOrig","_ang","_intentos","_distancia","_pos","_fallo","_mina"];
 
@@ -12,7 +13,7 @@ _angOrig = [_posbase,_posmarcador] call BIS_fnc_dirTo;
 _angOrig = _angOrig - 45;
 _ang = _angOrig + random 90;
 _intentos = 1;
-//_distancia = (distanciaSPWN/2) + 101;
+//_distancia = (AS_P("spawnDistance")/2) + 101;
 _distancia = 500;
 
 _pos = [];

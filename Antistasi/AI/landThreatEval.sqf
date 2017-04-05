@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 private ["_marcador","_threat","_posicion","_analizado","_size"];
 
 _threat = 0;
@@ -9,10 +10,10 @@ if (hayRHS) then {{if (_x in unlockedWeapons) then {_threat = 2};} forEach genAT
 _marcador = _this select 0;
 
 if (_marcador isEqualType []) then {_posicion = _marcador} else {_posicion = getMarkerPos _marcador};
-_threat = _threat + 2 * ({(isOnRoad getMarkerPos _x) and (getMarkerPos _x distance _posicion < distanciaSPWN)} count puestosFIA);
+_threat = _threat + 2 * ({(isOnRoad getMarkerPos _x) and (getMarkerPos _x distance _posicion < AS_P("spawnDistance"))} count puestosFIA);
 
 {
-if (getMarkerPos _x distance _posicion < distanciaSPWN) then {
+if (getMarkerPos _x distance _posicion < AS_P("spawnDistance")) then {
 	_analizado = _x;
 	_garrison = garrison getVariable [_analizado,[]];
 	_threat = _threat + (2*({(_x == "B_G_Soldier_A_F")} count _garrison)) + (floor((count _garrison)/8));

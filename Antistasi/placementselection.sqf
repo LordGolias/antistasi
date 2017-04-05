@@ -1,3 +1,4 @@
+#include "macros.hpp"
 private ["_hqDestroyed", "_hqInitialPlacement", "_posicionTel","_marcador","_closestEnemyLocation"];
 
 _hqInitialPlacement = isNil "placementDone";
@@ -26,7 +27,7 @@ else {
 
 // +100 so the location is not spawned every time.
 // This is for placement only: moving the HQ still allows to place it anywhere.
-private _minDistanceToLocation = distanciaSPWN + 100;
+private _minDistanceToLocation = AS_P("spawnDistance") + 100;
 // min distance from enemy troops to do not get killed on placement.
 private _minDistanceToEnemy = 500;
 

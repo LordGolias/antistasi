@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 private ["_veh","_marcador","_posicion","_grupos","_conocidos","_grupo","_lider"];
 
 _veh = _this select 0;
@@ -9,7 +10,7 @@ while {alive _veh} do
 	{
 	_conocidos = [];
 	_grupos = [];
-	_enemigos = [distanciaSPWN,0,_posicion,"OPFORSpawn"] call distanceUnits;
+	_enemigos = [AS_P("spawnDistance"),0,_posicion,"OPFORSpawn"] call distanceUnits;
 	sleep 60;
 	{
 	_lider = leader _x;

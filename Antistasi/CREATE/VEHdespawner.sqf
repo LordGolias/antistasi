@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 _veh = _this select 0;
 
 _inside = _veh getVariable "inDespawner";
@@ -22,14 +23,14 @@ if ((typeOf _veh in arrayCivVeh) and ({_x getVariable ["BLUFORSpawn",false]} cou
 			[_amigo,false] remoteExec ["setCaptive",_amigo];
 			};
 		{
-		if ((side _x == side_green) and (_x distance _pos < distanciaSPWN)) then {_x reveal [_amigo,4]};
+		if ((side _x == side_green) and (_x distance _pos < AS_P("spawnDistance"))) then {_x reveal [_amigo,4]};
 		} forEach allUnits;
 		} forEach crew _veh;
 		};
 	};
 while {alive _veh} do
 	{
-	if ((not([distanciaSPWN,1,_veh,"BLUFORSpawn"] call distanceUnits)) and (not([distanciaSPWN,1,_veh,"OPFORSpawn"] call distanceUnits)) and (not(_veh in staticsToSave)) and (_veh distance getMarkerPos "respawn_west" > 100)) then
+	if ((not([AS_P("spawnDistance"),1,_veh,"BLUFORSpawn"] call distanceUnits)) and (not([AS_P("spawnDistance"),1,_veh,"OPFORSpawn"] call distanceUnits)) and (not(_veh in staticsToSave)) and (_veh distance getMarkerPos "respawn_west" > 100)) then
 		{
 		//hint format ["%1 se lo ha cargado el despawner",_veh];
 		if (_veh in reportedVehs) then {reportedVehs = reportedVehs - [_veh]; publicVariable "reportedVehs"};

@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
 
 _tskTitle = localize "STR_tsk_PRPamphlet";
@@ -127,7 +128,7 @@ if !(PRTruck distance _targetPosition < 550) exitWith {
 	[-10,AS_commander] call playerScoreAdd;
 
     [1200,_tsk] spawn borrarTask;
-	waitUntil {sleep 1; (not([distanciaSPWN,1,PRTruck,"BLUFORSpawn"] call distanceUnits)) or ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1))};
+	waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,PRTruck,"BLUFORSpawn"] call distanceUnits)) or ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1))};
 	if ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1)) then {
 		[PRTruck] call vaciar;
 		deleteVehicle PRTruck;
@@ -136,7 +137,7 @@ if !(PRTruck distance _targetPosition < 550) exitWith {
 	sleep 1;
 	deleteVehicle PRTruck;
 
-	waitUntil {sleep 1; (not([distanciaSPWN,1,_targetPosition,"BLUFORSpawn"] call distanceUnits))};
+	waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,_targetPosition,"BLUFORSpawn"] call distanceUnits))};
 	{if (alive _x) then {deleteVehicle _x}} forEach _soldados;
 	{deleteGroup _x} forEach _grupos;
 	{deleteVehicle _x} forEach _leafletDrops;
@@ -301,7 +302,7 @@ else {
 };
 
 [1200,_tsk] spawn borrarTask;
-waitUntil {sleep 1; (not([distanciaSPWN,1,PRTruck,"BLUFORSpawn"] call distanceUnits)) or ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1))};
+waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,PRTruck,"BLUFORSpawn"] call distanceUnits)) or ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1))};
 if ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1)) then {
 	[PRTruck] call vaciar;
 	deleteVehicle PRTruck;
@@ -310,7 +311,7 @@ if ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1)
 sleep 1;
 deleteVehicle PRTruck;
 
-waitUntil {sleep 1; (not([distanciaSPWN,1,_targetPosition,"BLUFORSpawn"] call distanceUnits))};
+waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,_targetPosition,"BLUFORSpawn"] call distanceUnits))};
 {if (alive _x) then {deleteVehicle _x}} forEach _soldados;
 {deleteGroup _x} forEach _grupos;
 {deleteVehicle _x} forEach _leafletDrops;

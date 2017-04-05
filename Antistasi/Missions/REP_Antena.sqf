@@ -108,5 +108,5 @@ if (_camionCreado) then
 	{
 	{deleteVehicle _x} forEach units _grupo;
 	deleteGroup _grupo;
-	if (!([distanciaSPWN,1,_veh,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _veh};
+	if (!([AS_P("spawnDistance"),1,_veh,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _veh};
 	};

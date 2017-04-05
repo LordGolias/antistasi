@@ -139,17 +139,17 @@ waitUntil {sleep 1;not (spawner getVariable _marcador)};
 if (!isNull _journalist) then {deleteVehicle _journalist};
 {deleteGroup _x} forEach _grupos;
 {
-if (!([distanciaSPWN-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then
+if (!([AS_P("spawnDistance")-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then
 	{
 	if (_x in reportedVehs) then {reportedVehs = reportedVehs - [_x]; publicVariable "reportedVehs"};
 	deleteVehicle _x;
 	}
 } forEach _vehiculos;
 {
-waitUntil {sleep 1; !([distanciaSPWN,1,_x,"BLUFORSpawn"] call distanceUnits)};
+waitUntil {sleep 1; !([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits)};
 deleteVehicle _x} forEach _civsPatrol;
 {
-if (!([distanciaSPWN,1,_x,"BLUFORSpawn"] call distanceUnits)) then
+if (!([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits)) then
 	{
 	if (_x in reportedVehs) then {reportedVehs = reportedVehs - [_x]; publicVariable "reportedVehs"};
 	deleteVehicle _x
