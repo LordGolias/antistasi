@@ -37,6 +37,7 @@ switchCom = false;  // Game will not auto assign Commander position to the highe
 
 // we set the maker on petros so the HQ position is correct in new games.
 "respawn_west" setMarkerPos (position petros);
+"FIA_HQ" setMarkerPos (position petros);
 //minefieldMrk = [];
 //destroyedCities = [];
 autoHeal = false;
@@ -48,7 +49,6 @@ APCAAFcurrent = 0;
 tanksAAFcurrent= 0;
 savingClient = false;
 incomeRep = false;
-closeMarkersUpdating = 0;
 
 call compile preprocessFileLineNumbers "initItems.sqf";
 
@@ -142,6 +142,9 @@ if (hayACE) then {
 vehAAFAT = enemyMotorpool;
 planesAAF = indAirForce;
 soldadosAAF = infList_sniper + infList_NCO + infList_special + infList_auto + infList_regular + infList_crew + infList_pilots;
+
+call compile preprocessFileLineNumbers "templates\FIA.sqf";
+
 //------------------ /unit module ------------------//
 
 #include "Compositions\spawnPositions.sqf"
@@ -195,9 +198,6 @@ server setVariable ["jTime", 0, true];
 server setVariable ["lockTransfer", false, true];
 
 //Pricing values for soldiers, vehicles
-{AS_data_allCosts setVariable [_x,50,true]} forEach ["B_G_Soldier_F","B_G_Soldier_lite_F","b_g_soldier_unarmed_f"];
-{AS_data_allCosts setVariable [_x,100,true]} forEach ["B_G_Soldier_AR_F","B_G_medic_F","B_G_engineer_F","B_G_Soldier_exp_F","B_G_Soldier_GL_F","B_G_Soldier_TL_F","B_G_Soldier_A_F"];
-{AS_data_allCosts setVariable [_x,150,true]} forEach ["B_G_Soldier_M_F","B_G_Soldier_LAT_F","B_G_Soldier_SL_F","B_G_officer_F","B_G_Sharpshooter_F","Soldier_AA"];
 {AS_data_allCosts setVariable [_x,100,true]} forEach ["I_crew_F","O_crew_F","C_man_1"];
 {AS_data_allCosts setVariable [_x,100,true]} forEach infList_regular;
 {AS_data_allCosts setVariable [_x,150,true]} forEach infList_auto;

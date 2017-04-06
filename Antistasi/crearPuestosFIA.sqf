@@ -11,16 +11,16 @@ if (_tipo == "delete") exitWith {
 	hint format ["Deleting %1",markerText _mrk];
 	_coste = 0;
 	_hr = 0;
-	_tipogrupo = "IRG_SniperTeam_M";
+	_tipogrupo = "Sniper Team";
 	if (markerText _mrk != "FIA Observation Post") then
 		{
-		_tipogrupo = "IRG_InfTeam_AT";
-		_coste = _coste + (["B_G_Offroad_01_armed_F"] call vehiclePrice) + (AS_data_allCosts getVariable "B_G_Soldier_F");
+		_tipogrupo = "AT Team";
+		_coste = _coste + (["B_G_Offroad_01_armed_F"] call vehiclePrice) + (AS_data_allCosts getVariable "Crew");
 		_hr = _hr + 1;
 		};
-	_formato = (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> _tipogrupo);
-	_unidades = [_formato] call groupComposition;
-	{_coste = _coste + (AS_data_allCosts getVariable _x); _hr = _hr +1} forEach _unidades;
+	([_tipogrupo] call AS_fnc_getFIASquadCost) params ["_cost1", "_hr1"];
+	_coste = _coste + _cost1;
+	_hr = _hr + _hr1;
 	[_hr,_coste] remoteExec ["resourcesFIA",2];
 	deleteMarker _mrk;
 	puestosFIA = puestosFIA - [_mrk]; publicVariable "puestosFIA";
@@ -36,13 +36,13 @@ if (_tipo == "delete") exitWith {
 _escarretera = isOnRoad _posicionTel;
 
 _texto = "FIA Observation Post";
-_tipogrupo = "IRG_SniperTeam_M";
+_tipogrupo = "Sniper Team";
 _tipoVeh = "B_G_Quadbike_01_F";
 
 if (_escarretera) then
 	{
 	_texto = "FIA Roadblock";
-	_tipogrupo = "IRG_InfTeam_AT";
+	_tipogrupo = "AT Team";
 	_tipoVeh = "B_G_Offroad_01_F";
 	};
 
@@ -54,7 +54,7 @@ _fechalimnum = dateToNumber _fechalim;
 
 _tsk = ["PuestosFIA",[side_blue,civilian],["We are sending a team to establish an Observation Post or Roadblock. Send and cover the team until reaches it's destination.","Post \ Roadblock Deploy",_mrk],_posicionTel,"CREATED",5,true,true,"Move"] call BIS_fnc_setTask;
 misiones pushBackUnique _tsk; publicVariable "misiones";
-_grupo = [getMarkerPos "respawn_west", side_blue, (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> _tipogrupo)] call BIS_Fnc_spawnGroup;
+_grupo = [getMarkerPos "respawn_west", side_blue, [_tipogrupo] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
 _grupo setGroupId ["Watch"];
 
 _tam = 10;

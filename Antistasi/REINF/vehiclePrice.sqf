@@ -1,14 +1,10 @@
-private ["_tipo","_coste"];
+params ["_tipoVeh"];
 
-_tipo = _this select 0;
-
-if (isNil {_tipo}) exitWith {};
-
-_coste = AS_data_allCosts getVariable _tipo;
+private _coste = AS_data_allCosts getVariable _tipoVeh;
 
 if (isNil "_coste") then {
 	call {
-		if ((_tipo in vehTrucks) or (_tipo in vehPatrol) or (_tipo in vehSupply)) exitWith {_coste = 300};
+		if (_tipoVeh in (vehTrucks + vehPatrol + vehSupply)) exitWith {_coste = 300};
 		if (_tipoVeh in vehAPC) exitWith {_coste = 1000};
 		if (_tipoVeh in vehIFV) exitWith {_coste = 2000};
 		if (_tipoVeh in vehTank) exitWith {_coste = 5000};
@@ -16,7 +12,7 @@ if (isNil "_coste") then {
 		if (_tipoVeh in arrayCivVeh) exitWith {_coste = 25};
 
 		_coste = 0;
-		diag_log format ["Antistasi: Error en vehicle prize con este: %1",_tipo];
+		diag_log format ["Antistasi: Error en vehicle prize con este: %1",_tipoVeh];
 		};
 	}
 else

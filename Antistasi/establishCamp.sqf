@@ -19,7 +19,7 @@ if (_tipo == "delete") exitWith {
 
 _nameOptions = campNames - usedCN;
 _texto = selectRandom _nameOptions;
-_tipogrupo = "IRG_SniperTeam_M";
+_tipogrupo = "Sniper Team";
 //_tipoVeh = "B_G_Quadbike_01_F";
 _tipoVeh = "B_G_Van_01_transport_F";
 
@@ -31,7 +31,7 @@ _fechalimnum = dateToNumber _fechalim;
 
 _tsk = ["campsFIA",[side_blue,civilian],["We are sending a team to establish a camp. Send and cover the team until reaches it's destination.","Camp Setup",_mrk],_posicionTel,"CREATED",5,true,true,"Move"] call BIS_fnc_setTask;
 misiones pushBackUnique _tsk; publicVariable "misiones";
-_grupo = [getMarkerPos "respawn_west", side_blue, (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> _tipogrupo)] call BIS_Fnc_spawnGroup;
+_grupo = [getMarkerPos "respawn_west", side_blue, [_tipogrupo] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
 _grupo setGroupId ["Watch"];
 
 _tam = 10;
@@ -99,14 +99,3 @@ _crate hideObjectGlobal true;
 sleep 15;
 
 [0,_tsk] spawn borrarTask;
-
-
-
-
-
-
-
-
-
-
-

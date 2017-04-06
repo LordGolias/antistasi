@@ -91,7 +91,7 @@ player createDiaryRecord ["SpecialK",["Battle Options","Press Y in-game to have 
 player createDiarySubject ["Features","Features Detail"];
 player createDiaryRecord ["Features",["Player and Money","Use this option to donate money to other players or your faction funds. Commanders may add or remove players from the Server Members List if the feature is enabled"]];
 player createDiaryRecord ["Features",["Server Members","For MP only. If enabled, this feature will exclude all non-members from using the HQ Ammobox and become Commander. This feature is intended to avoid having your game ruined by the casual troll in open server environments."]];
-player createDiaryRecord ["Features",["Save game", 
+player createDiaryRecord ["Features",["Save game",
     "Save your progress at (HQ Map -> Game Options).
      If you want to preserve any vehicle, it must be near the HQ Flag with no AI inside.
      All AIs are saved.

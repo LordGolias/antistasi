@@ -7,7 +7,7 @@ private _addChopper = (_side == side_green) and !([_marcador] call isFrontline);
 // FIA
 private _staticAA = "B_static_AA_F";
 private _staticMG = "B_HMG_01_high_F";
-private _gunnerCrew = "B_G_Soldier_lite_F";
+private _gunnerCrew = ["Crew"] call AS_fnc_getFIAUnitClass;
 // AAF
 if (_side == side_green) then {
 	_staticAA = statAA;

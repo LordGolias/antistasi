@@ -14,12 +14,12 @@ _unit allowFleeing 0;
 [_unit, AS_P("skillFIA")] call AS_fnc_setDefaultSkill;
 
 if (count _equipment == 0) then {
-    _equipment = [typeOf _unit] call AS_fnc_getBestEquipment;
+    _equipment = [[_unit] call AS_fnc_getFIAUnitType] call AS_fnc_getBestEquipment;
 };
 [_unit, _equipment] call AS_fnc_equipUnit;
 
 if (player == leader _unit) then {
-	if (typeOf _unit != "b_g_survivor_F") then {
+	if ([_unit] call AS_fnc_getFIAUnitType != "Survivor") then {
 		_idUnit = namesFIASoldiers call BIS_Fnc_selectRandom;
 		namesFIASoldiers = namesFIASoldiers - [_idunit];
 		_unit setIdentity _idUnit;
@@ -30,7 +30,7 @@ if (player == leader _unit) then {
 		_muerto = _this select 0;
 		[_muerto] remoteExec ["postmortem",2];
 
-		if (typeOf _muerto != "b_g_survivor_F") then {namesFIASoldiers = namesFIASoldiers + [name _muerto]};
+		if ([_muerto] call AS_fnc_getFIAUnitType != "Survivor") then {namesFIASoldiers = namesFIASoldiers + [name _muerto]};
 		[0.25,0,getPos _muerto] remoteExec ["citySupportChange",2];
 		_muerto setVariable ["BLUFORSpawn",nil,true];
 	}];

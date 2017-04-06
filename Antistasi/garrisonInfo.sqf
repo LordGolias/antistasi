@@ -1,12 +1,22 @@
-private ["_sitio","_texto","_garrison","_size","_posicion"];
+params ["_marker", ["_restructured", false]];
+private ["_texto","_garrison","_size","_posicion"];
 
-_sitio = _this select 0;
+_garrison = garrison getVariable [_marker,[]];
 
-_garrison = garrison getVariable [_sitio,[]];
+_size = [_marker] call sizeMarker;
+_posicion = getMarkerPos _marker;
 
-_size = [_sitio] call sizeMarker;
-_posicion = getMarkerPos _sitio;
+private _lineBreak = "\n";
+if (_restructured) then {
+    _lineBreak = "<br/>";
+};
 
-_texto = format ["\n\nGarrison men: %1\n\nSquad Leaders: %2\nMortars: %3\nRiflemen: %4\nAutoriflemen: %5\nMedics: %6\nGrenadiers: %7\nMarksmen: %8\nAT Men: %9\nStatic Weap: %10", count _garrison, {_x == "B_G_Soldier_SL_F"} count _garrison, {_x == "b_g_soldier_unarmed_f"} count _garrison, {_x == "B_G_Soldier_F"} count _garrison, {_x == "B_G_Soldier_AR_F"} count _garrison,{_x == "B_G_medic_F"} count _garrison,{_x == "B_G_Soldier_GL_F"} count _garrison,{_x == "B_G_Soldier_M_F"} count _garrison,{_x == "B_G_Soldier_LAT_F"} count _garrison, {_x distance _posicion < _size} count staticsToSave];
-
-_texto
+_text = format ["Garrison size: %1" + _lineBreak, count _garrison] + format ["; Statics: %1", {_x distance _posicion < _size} count staticsToSave];
+{
+    private _type = _x;
+    private _count = {_x == _type} count _garrison;
+    if (_count > 0) then {
+        _text = _text + format [_lineBreak+"%1: %2", _type, _count];
+    };
+} forEach AS_allFIAUnitTypes;
+_text

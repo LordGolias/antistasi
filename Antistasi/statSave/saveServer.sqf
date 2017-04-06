@@ -56,7 +56,7 @@ if (_amigo getVariable ["BLUFORSpawn",false]) then
 			if (isPlayer (leader group _amigo)) then
 				{
 				if (!isMultiplayer) then {
-					_precio = AS_data_allCosts getVariable (typeOf _amigo);
+					_precio = AS_data_allCosts getVariable ([_amigo] call AS_fnc_getFIAUnitNameType);
 					if (!(isNil "_precio")) then {_resfondo = _resfondo + _precio};
 				};
 				_arsenal = [_amigo, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons

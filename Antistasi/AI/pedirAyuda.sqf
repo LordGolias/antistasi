@@ -12,7 +12,7 @@ _units = units group _unit;
 {
 if (!isPlayer _x) then
 	{
-	if (typeOf _x == "B_G_medic_F") then
+	if ([_x] call AS_fnc_getFIAUnitType == "Medic") then
 		{
 		if ((alive _x) and (_medItem in (items _x)) and (not (_x getVariable "inconsciente")) and (vehicle _x == _x) and (_x distance _unit < 81)) then
 			{
@@ -33,7 +33,7 @@ if ((!_haymedico) or (_unit getVariable "inconsciente")) then
 	{
 	if (!isPlayer _x) then
 		{
-		if (typeOf _x != "B_G_medic_F") then
+		if ([_x] call AS_fnc_getFIAUnitType != "Medic") then
 			{
 			if ((alive _x) and (_medItem in (items _x)) and (not (_x getVariable "inconsciente")) and (vehicle _x == _x) and (_x distance _unit < _distancia)) then
 				{

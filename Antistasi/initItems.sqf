@@ -267,6 +267,7 @@ AS_allWeaponsAttrs = [];
                 } else {
                     (AS_weapons select 15) pushBack _name;
                 };
+                // todo: GrenadeLauncher are still here. Move then like above
             };
 			case "BombLauncher": {(AS_weapons select 1) pushBack _name};
 			case "Cannon": {(AS_weapons select 2) pushBack _name};

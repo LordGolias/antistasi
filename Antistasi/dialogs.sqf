@@ -17,7 +17,7 @@ AS_UIfnc_change_var = {
     if (_amount > 0 and (!isNil "_bound")) then {
         _newValue = (_newValue min _bound);
     };
-    AS_Pset(_var, _newValue); 
+    AS_Pset(_var, _newValue);
 
     if (_var in ["minAISkill", "maxAISkill"]) then {
         hint format ["min AI skill between [%1,%2]", AS_P("minAISkill"), AS_P("maxAISkill")];
@@ -35,7 +35,7 @@ AS_UIfnc_change_var = {
 AS_UIfnc_toggle_bool = {
     params ["_var", "_onMessage", "_offMessage"];
     if (AS_P(_var)) then {
-        AS_Pset(_var,false); 
+        AS_Pset(_var,false);
         hint _offMessage;
     } else {
         AS_Pset(_var,true);
@@ -44,10 +44,15 @@ AS_UIfnc_toggle_bool = {
 };
 
 AS_UIfnc_fastTravel = {
-    closeDialog 0; 
+    closeDialog 0;
     if (AS_P("enableFTold")) then {
         createDialog "fasttravel_dialog"
     } else {
         [] execVM "altFastTravel.sqf";
     };
 };
+
+call compile preProcessFileLineNumbers "dialogs\recruitUnit.sqf";
+call compile preProcessFileLineNumbers "dialogs\recruitSquad.sqf";
+call compile preProcessFileLineNumbers "dialogs\recruitGarrison.sqf";
+call compile preProcessFileLineNumbers "dialogs\HQmenu.sqf";

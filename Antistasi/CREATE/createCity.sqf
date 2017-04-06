@@ -26,7 +26,7 @@ if (_marcador in mrkAAF) then {
 else {
 	_isAAF = false;
 	_num = round (_num * _prestigeBLUFOR/100);
-	_params = [_posicion, side_blue, (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> "IRG_InfSentry")];
+	_params = [_posicion, side_blue, ["Sentry Team"] call AS_fnc_getFIASquadConfig];
 };
 
 if (_num < 1) then {_num = 1};

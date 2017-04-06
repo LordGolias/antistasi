@@ -1,8 +1,7 @@
 private ["_tipo","_texto"];
 
-_tipo = typeOf player;
 _texto = "";
-switch (_tipo) do
+switch (typeOf player) do
 	{
 	case "B_G_officer_F": {player setUnitTrait ["camouflageCoef",0.8]; player setUnitTrait ["audibleCoef",0.8]; player setUnitTrait ["loadCoef",1.4]; _texto = "Officer role.\n\nOfficers have bonuses on both silent sneaking and camouflage, but cannot carry too much items"};
 	case "B_G_Soldier_F":  {player setUnitTrait ["audibleCoef",0.8]; player setUnitTrait ["loadCoef",1.2]; _texto = "Rifleman role.\n\nRiflemen are more suitable to silent sneak but have less carryng capacity"};

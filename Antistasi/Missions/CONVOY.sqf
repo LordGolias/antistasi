@@ -297,7 +297,7 @@ if (_tipoConvoy == "Prisoners") then
 	_grupos = _grupos + [_grpPOW];
 	for "_i" from 1 to (1+ round (random 11)) do
 		{
-		_unit = _grpPOW createUnit ["b_g_survivor_F", _posbase, [], 0, "NONE"];
+		_unit = _grpPOW createUnit [["Survivor"] call AS_fnc_getFIAUnitClass, _posbase, [], 0, "NONE"];
 		_unit setCaptive true;
 		_unit disableAI "MOVE";
 		_unit setBehaviour "CARELESS";

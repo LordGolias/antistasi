@@ -30,7 +30,7 @@ private _campBox = objNull;
 _campBox addaction [localize "STR_act_arsenal", {_this call accionArsenal;}, [], 6, true, false, "", "(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",5];
 _campBox addAction [localize "STR_act_unloadCargo", "[] call vaciar"];
 
-_grupo = [_posicion, side_blue, (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> "IRG_SniperTeam_M")] call BIS_Fnc_spawnGroup;
+_grupo = [_posicion, side_blue, ["Sniper Team"] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
 _grupo setBehaviour "STEALTH";
 _grupo setCombatMode "GREEN";
 

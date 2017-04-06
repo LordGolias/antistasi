@@ -1,73 +1,9 @@
 #include "macros.hpp"
 #include "statSave\dialogs.hpp"
-
-class HQ_menu
-{
-	idd=100;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(4, "FIA HQ", A_CLOSE);
-
-BTN_L(1,-1, "Grab 100 € from Pool", "", "if (isMultiPlayer) then {nul=call stavrosSteal} else {hint ""This function is MP only""};");
-BTN_L(2,-1, "Manage Garrisons", "", "closeDialog 0; nul=CreateDialog ""garrison_menu"";");
-BTN_L(3,-1, "Move HQ to another Zone", "", "closeDialog 0; nul = [] spawn moveHQ;");
-
-BTN_R(1,-1, "Ingame Member's List", "", "if (isMultiplayer) then {nul = [] execVM ""OrgPlayers\membersList.sqf""} else {hint ""This function is MP only""};");
-BTN_R(2,109, "Train FIA", "", "if (hayBE) then {[] remoteExec [""fnc_BE_buyUpgrade"", 2]} else {closeDialog 0; nul = [] call FIAskillAdd;}");
-BTN_R(3,-1, "Rebuild Assets", "Cost: 5.000 €", "closeDialog 0; nul = [] execVM ""rebuildAssets.sqf"";");
-
-BTN_M(4, -1, "Garage Access", "", "closeDialog 0; nul = [false] spawn garage;");
-	};
-};
-
-class unit_recruit
-{
-	idd=100;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(5, "Units Recruitment", A_CLOSE);
-
-BTN_L(1,104, "Recruit Militiaman", "", "nul = [""B_G_Soldier_F""] spawn recruitFIAinfantry");
-BTN_L(2,105, "Recruit Autorifleman", "", "nul = [""B_G_Soldier_AR_F""] spawn recruitFIAinfantry");
-BTN_L(3,106, "Recruit Medic", "", "nul = [""B_G_medic_F""] spawn recruitFIAinfantry");
-BTN_L(4,110, "Recruit Marksman", "", "nul = [""B_G_Soldier_M_F""] spawn recruitFIAinfantry");
-
-BTN_R(1,107, "Recruit Engineer", "", "nul = [""B_G_engineer_F""] spawn recruitFIAinfantry");
-BTN_R(2,109, "Recruit Grenadier", "", "nul = [""B_G_Soldier_GL_F""] spawn recruitFIAinfantry");
-BTN_R(3,108, "Recruit Bomb Specialist", "", "nul = [""B_G_Soldier_exp_F""] spawn recruitFIAinfantry")
-BTN_R(4,111, "Recruit AT", "", "nul = [""B_G_Soldier_LAT_F""] spawn recruitFIAinfantry");
-
-BTN_M(5, 112, "Recruit AA", "", "nul = [""Soldier_AA""] spawn recruitFIAinfantry");
-	};
-};
-
-class squad_recruit
-{
-	idd=100;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(5, "Squad Recruitment", "closeDialog 0; createDialog ""radio_comm_commander"";");
-
-BTN_L(1,104, "Recruit Inf. Squad", "", "closeDialog 0; nul = [""IRG_InfSquad""] spawn recruitFIAsquad");
-BTN_L(2,105, "Recruit Inf. Team", "", "closeDialog 0; nul = [""IRG_InfTeam""] spawn recruitFIAsquad");
-BTN_L(3,106, "Recruit AT Squad", "", "closeDialog 0; nul = [""IRG_InfTeam_AT""] spawn recruitFIAsquad");
-BTN_L(4,110, "Recruit AA Truck", "", "closeDialog 0; nul = [""B_static_AA_F""] spawn recruitFIAsquad");
-
-BTN_R(1,107, "Recruit Sniper Team", "", "closeDialog 0; nul = [""IRG_SniperTeam_M""] spawn recruitFIAsquad");
-BTN_R(2,109, "Recruit AT Truck", "", "closeDialog 0; nul = [""B_static_AT_F""] spawn recruitFIAsquad");
-BTN_R(3,108, "Recruit Sentry", "", "closeDialog 0; nul = [""IRG_InfSentry""] spawn recruitFIAsquad");
-BTN_R(4,111, "Recruit Mortar Team", "", "closeDialog 0; nul = [""B_G_Mortar_01_F""] spawn recruitFIAsquad");
-
-BTN_M(5, 112, "Recruit Engineers", "", "closeDialog 0; [""delete""] spawn mineDialog;");
-
-	};
-};
+#include "dialogs\recruitUnit.hpp"
+#include "dialogs\recruitSquad.hpp"
+#include "dialogs\recruitGarrison.hpp"
+#include "dialogs\HQmenu.hpp"
 
 class buy_vehicle
 {
@@ -160,43 +96,6 @@ BTN_R(3,-1,"CAS Support", "Cost: 10 points", "closeDialog 0; [""NATOCAS""] execV
 BTN_R(4,-1,"Bomb Run", "Cost: 10 points", "closeDialog 0; createDialog ""carpet_bombing"";");
 
 BTN_M(5, -1, "NATO QRF", "Cost: 10 points", "closeDialog 0; [""NATOQRF""] execVM ""NatoDialog.sqf"";");
-	};
-};
-
-class garrison_menu
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(1,"Garrison Menu", "closeDialog 0; createDialog ""HQ_menu"";");
-
-BTN_L(1,-1,"Recruit Garrison", "", "closeDialog 0; [""add""] spawn garrisonDialog");
-BTN_R(1,-1,"Remove Garrison", "", "closeDialog 0; [""rem""] spawn garrisonDialog");
-
-	};
-};
-
-class garrison_recruit
-{
-	idd=100;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(4,"Garrison Recruitment", "closeDialog 0; createDialog ""garrison_menu"";");
-
-BTN_L(1,104, "Recruit Militiaman", "", "nul = [""B_G_Soldier_F""] call recruitFIAgarrison");
-BTN_L(2,105, "Recruit Autorifleman", "", "nul = [""B_G_Soldier_AR_F""] call recruitFIAgarrison");
-BTN_L(3,106, "Recruit Medic", "", "nul = [""B_G_medic_F""] call recruitFIAgarrison");
-BTN_L(4,110, "Recruit Marksman", "", "nul = [""B_G_Soldier_M_F""] call recruitFIAgarrison");
-
-BTN_R(1,107, "Recruit Squad Leader", "", "nul = [""B_G_Soldier_SL_F""] call recruitFIAgarrison");
-BTN_R(2,109, "Recruit Grenadier", "", "nul = [""B_G_Soldier_GL_F""] call recruitFIAgarrison");
-BTN_R(3,108, "Recruit Mortar", "", "nul = [""b_g_soldier_unarmed_f""] call recruitFIAgarrison");
-BTN_R(4,111, "Recruit AT", "", "nul = [""B_G_Soldier_LAT_F""] call recruitFIAgarrison");
-
 	};
 };
 
@@ -764,7 +663,7 @@ BTN_L(3,-1, "Vehicle Manager", "", "closeDialog 0; nul = createDialog ""vehicle_
 BTN_L(4,-1, "AI Management", "", "if (player == leader group player) then {closeDialog 0; nul = createDialog ""AI_management""} else {hint ""Only group leaders may access to this option""};");
 
 BTN_R(1,-1, "NATO Options", "", "closeDialog 0; nul=CreateDialog ""NATO_Options"";");
-BTN_R(2,-1, "Recruit Squad", "", "closeDialog 0; nul= [] execVM ""Dialogs\squad_recruit.sqf"";");
+BTN_R(2,-1, "Recruit Squad", "", "closeDialog 0; call AS_fncUI_RecruitSquadMenu;");
 BTN_R(3,-1, "Building Options", "", "closeDialog 0; nul=CreateDialog ""build_menu"";");
 BTN_R(4,-1, "Player and Money", "", "closeDialog 0; if (isMultiPlayer) then {nul = createDialog ""player_money""} else {hint ""MP Only Menu""};");
 

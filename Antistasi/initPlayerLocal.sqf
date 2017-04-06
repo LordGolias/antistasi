@@ -175,7 +175,7 @@ if (_isJip) then {
 			[] remoteExec ["assignStavros",2];
 		};
 	};
-	
+
 	{
 	if (_x isKindOf "FlagCarrier") then {
 		_marcador = [marcadores,getPos _x] call BIS_fnc_nearestPosition;
@@ -184,16 +184,16 @@ if (_isJip) then {
 				_x addAction [localize "STR_act_takeFlag", {[[_this select 0, _this select 1],"mrkWIN"] call BIS_fnc_MP;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
 			}
 			else {
-				_x addAction [localize "STR_act_recruitUnit", {nul=[] execVM "Dialogs\unit_recruit.sqf";;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
+				_x addAction [localize "STR_act_recruitUnit", {call AS_fncUI_RecruitUnitMenu;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
 				_x addAction [localize "STR_act_buyVehicle", {nul = createDialog "vehicle_option";},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
 				_x addAction [localize "STR_act_persGarage", {nul = [true] spawn garage},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
 			};
 		};
 	};
 	} forEach vehicles - [bandera,fuego,caja,cajaVeh];
-	
+
 	{
-	if (typeOf _x == "b_g_survivor_F") then {
+	if ([_x] call AS_fnc_getFIAUnitType == "Survivor") then {
 		if (!isPlayer (leader group _x)) then {
 			_x addAction [localize "STR_act_orderRefugee", "AI\liberaterefugee.sqf",nil,0,false,true];
 		};

@@ -2,13 +2,13 @@ if (!isServer and hasInterface) exitWith {};
 
 private ["_coste","_grupo","_unit","_minas","_tam","_roads","_camion","_mina"];
 
-_coste = (AS_data_allCosts getVariable "B_G_Soldier_exp_F") + (["B_G_Offroad_01_repair_F"] call vehiclePrice);
+_coste = (AS_data_allCosts getVariable "Explosives Specialist") + (["B_G_Offroad_01_repair_F"] call vehiclePrice);
 
 [-1,-1*_coste] remoteExec ["resourcesFIA",2];
 
 _grupo = createGroup side_blue;
 
-_unit = _grupo createUnit ["B_G_Soldier_exp_F", getMarkerPos "respawn_west", [], 0, "NONE"];
+_unit = _grupo createUnit [["Explosives Specialist"] call AS_fnc_getFIAUnitClass, getMarkerPos "respawn_west", [], 0, "NONE"];
 _grupo setGroupId ["MineSw"];
 _minas = [];
 sleep 1;

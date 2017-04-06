@@ -114,7 +114,7 @@ class RscColors {
 
     colorText[] = {1,1,1,1};
     colorDisabled[] = {0.4,0.4,0.4,1};
-    
+
     font = "PuristaMedium";
 	sizeEx = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
     access = 0;
@@ -228,6 +228,14 @@ class RscEdit : RscColors {
   text = "";
 
   colorSelection[] = {1,1,1,1,0.5};
+};
+
+class RscStructuredText : RscColors
+{
+	type = CT_STRUCTURED_TEXT;
+	style = 0;
+    size = "(((((safezoneW / safezoneH) min 1.2) / 1.2) / 25) * 1)";
+    action = "";
 };
 
 // The height of a button
@@ -373,19 +381,15 @@ AS_FRAME(n,F_TEXT); \
 BTN_BACK(n,BACK_ACTION);
 
 // List of stuff
-class AS_RscListBox : RscListBox {
-    w = BTN_W;
-    
-};
-
-#define LIST_L(P, yP,IDC,nSize,ON_SELECTION) \
-class NAME##LIST_L##nPosition : AS_RscListBox { \
+#define LIST_L(P,yP,IDC,nSize,ON_SELECTION) \
+class NAME##LIST_L##P##yP##IDC : RscListBox { \
+  w = BTN_W; \
   x = LEFT_OR_RIGHT(P); \
   y = BTN_Y(yP); \
   h = LIST_H(nSize); \
   idc = IDC; \
-  onLBSelChanged  = ON_SELECTION; \
-};
+  onLBSelChanged = ON_SELECTION; \
+}; \
 
 class AS_RscEdit : RscEdit {
     w = BTN_W;
@@ -399,3 +403,13 @@ class NAME##WRITE##position##n : AS_RscEdit { \
   idc = BTN_IDC; \
   text = BTN_TEXT; \
 };\
+
+#define READ(P,n,IDC,nSize,TEXT) \
+class NAME##READ##P##n : RscStructuredText { \
+    w = BTN_W; \
+    x = LEFT_OR_RIGHT(P); \
+    y = BTN_Y(n); \
+    h = LIST_H(nSize); \
+    idc = IDC; \
+    text = TEXT; \
+};

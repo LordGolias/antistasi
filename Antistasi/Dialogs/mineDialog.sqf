@@ -7,11 +7,11 @@ if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventor
 
 _tipo = _this select 0;
 
-_coste = (2*(AS_data_allCosts getVariable "B_G_Soldier_exp_F")) + (["B_G_Van_01_transport_F"] call vehiclePrice);
+_coste = (2*(AS_data_allCosts getVariable "Explosives Specialist")) + (["B_G_Van_01_transport_F"] call vehiclePrice);
 _hr = 2;
 if (_tipo == "delete") then
 	{
-	_coste = _coste - (AS_data_allCosts getVariable "B_G_Soldier_exp_F");
+	_coste = _coste - (AS_data_allCosts getVariable "Explosives Specialist");
 	_hr = 1;
 	};
 if ((AS_P("resourcesFIA") < _coste) or (AS_P("hr") < _hr)) exitWith {hint format ["Not enought resources to recruit a mine deploying team (%1 € and %2 HR needed)",_coste,_hr]};

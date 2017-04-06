@@ -47,10 +47,10 @@ _hr = 0;
 if ((_tipo == "create") && (count campsFIA > _maxCamps)) exitWith {hint "You can only sustain a maximum of four camps."};
 
 if (_tipo == "create") then {
-	_tipogrupo = "IRG_SniperTeam_M";
-	_formato = (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> _tipogrupo);
-	_unidades = [_formato] call groupComposition;
-	{_coste = _coste + (AS_data_allCosts getVariable _x); _hr = _hr +1} forEach _unidades;
+	_tipogrupo = "Sniper Team";
+	([_tipogrupo] call AS_fnc_getFIASquadCost) params ["_cost", "_hr1"];
+	_coste = _coste + _cost;
+	_hr = _hr + _hr1;
 };
 
 _txt = "";
@@ -102,4 +102,3 @@ if (_tipo == "create") then {
 if (_tipo != "rename") then {
 	[[_tipo,_posicionTel],"establishCamp"] call BIS_fnc_MP;
 };
-

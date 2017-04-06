@@ -15,7 +15,7 @@ if ({isPlayer _x} count units group player == 1) then {
 
 {
 	if (!isPlayer _x) then {
-		if (typeOf _x != "b_g_survivor_F") then
+		if ([_x] call AS_fnc_getFIAUnitType != "Survivor") then
 			{
 			[_x] join _groupToDelete;
 			namesFIASoldiers = namesFIASoldiers + [name _x];
@@ -49,7 +49,7 @@ if (_ai) then {
 	{
 		private _unit = _x;
 		if ((alive _unit) and (not(_x getVariable "inconsciente"))) then {
-			_resourcesFIA = _resourcesFIA + (AS_data_allCosts getVariable (typeOf _unit));
+			_resourcesFIA = _resourcesFIA + (AS_data_allCosts getVariable ([_unit] call AS_fnc_getFIAUnitNameType));
 			_hr = _hr + 1;
 
 			private _arsenal = [_unit, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons

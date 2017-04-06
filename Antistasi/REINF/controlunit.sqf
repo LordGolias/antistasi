@@ -12,7 +12,7 @@ if (isPlayer _unit) exitWith {hint "You cannot control another player"};
 if (!alive _unit) exitWith {hint "You cannot control a dead unit"};
 if (_unit getVariable ["inconsciente",false]) exitWith {hint "You cannot control an unconscious unit"};
 if (captive _unit) exitWith {hint "You cannot control an Undercover unit"};
-if ((not(typeOf _unit in soldadosFIA)) and (typeOf _unit != "b_g_survivor_F")) exitWith {hint "You cannot control a unit which does not belong to FIA"};
+if ((not(typeOf _unit in AS_allFIASoldierClasses)) and ([_unit] call AS_fnc_getFIAUnitType != "Survivor")) exitWith {hint "You cannot control a unit which does not belong to FIA"};
 
 
 //if ({((side _x == EAST) or (side _x == independent)) and (not (captive _x)) and (_x distance player < 500)} count allUnits > 0) exitWith {hint "You cannot remote control with enemies nearby"};
@@ -42,4 +42,3 @@ selectPlayer (_unit getVariable ["owner",_unit]);
 {[_x] joinsilent group player} forEach units group player;
 group player selectLeader player;
 hint "";
-

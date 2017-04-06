@@ -115,7 +115,7 @@ _cuenta = 0;
 _grupo = createGroup side_blue;
 _gruposFIA = _gruposFIA + [_grupo];
 
-if (("b_g_soldier_unarmed_f" in _garrison) or ({typeOf _x == "B_G_Mortar_01_F"} count _estaticas > 0)) then
+if (("Crew" in _garrison) or ({typeOf _x == "B_G_Mortar_01_F"} count _estaticas > 0)) then
 	{
 	_grupoMort = createGroup side_blue;
 	};
@@ -134,9 +134,9 @@ while {true} do
 while {(spawner getVariable _marcador) and (_cuenta < _tam)} do
 	{
 	_tipo = _garrison select _cuenta;
-	if (_tipo == "b_g_soldier_unarmed_f") then
+	if (_tipo == "Crew") then
 		{
-		_unit = _grupoMort createUnit [_tipo, _posicion, [], 0, "NONE"];
+		_unit = _grupoMort createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _posicion, [], 0, "NONE"];
 		_pos = _posicion findEmptyPosition [1,30,"I_G_Mortar_01_F"];
 		_veh = "B_G_Mortar_01_F" createVehicle _pos;
 		_vehiculos = _vehiculos + [_veh];
@@ -146,7 +146,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _tam)} do
 		}
 	else
 		{
-		if ((_tipo == "B_G_Soldier_F") and (count _estaticas > 0)) then
+		if ((_tipo == "Rifleman") and (count _estaticas > 0)) then
 			{
 			_estatica = _estaticas select 0;
 			if (typeOf _estatica == "B_G_Mortar_01_F") then
@@ -165,7 +165,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _tam)} do
 		else
 			{
 			_unit = _grupo createUnit [_tipo, _posicion, [], 0, "NONE"];
-			if (_tipo == "B_G_Soldier_SL_F") then {_grupo selectLeader _unit};
+			if (_tipo == "Squad Leader") then {_grupo selectLeader _unit};
 			};
 		};
 	[_unit,false,_marcador] call AS_fnc_initUnitFIA;
@@ -190,7 +190,7 @@ for "_i" from 0 to (count _gruposFIA) - 1 do
 	[leader _grupo, _marcador, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 	};
 
-if ("b_g_soldier_unarmed_f" in _garrison) then
+if ("Crew" in _garrison) then
 	{
 	_gruposFIA = _gruposFIA + [_grupoMort];
 	};
@@ -227,5 +227,3 @@ if (!isNull _journalist) then {deleteVehicle _journalist};
 {deleteGroup _x} forEach _grupos;
 deleteGroup _grupoEst;
 {if (!(_x in staticsToSave)) then {deleteVehicle _x}} forEach _vehiculos;
-
-

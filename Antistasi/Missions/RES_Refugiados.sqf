@@ -31,7 +31,7 @@ if (_num > 8) then {_num = 8};
 
 for "_i" from 1 to (_num) - 1 do
 	{
-	_unit = _grupo createUnit ["b_g_survivor_F", _poscasa select _i, [], 0, "NONE"];
+	_unit = _grupo createUnit [["Survivor"] call AS_fnc_getFIAUnitClass, _poscasa select _i, [], 0, "NONE"];
 	_unit allowdamage false;
 	_unit disableAI "MOVE";
 	_unit disableAI "AUTOTARGET";

@@ -51,7 +51,7 @@ else
 _grpPOW = createGroup side_blue;
 for "_i" from 0 to _cuenta do
 	{
-	_unit = _grpPOW createUnit ["b_g_survivor_F", (_poscasa select _i), [], 0, "NONE"];
+	_unit = _grpPOW createUnit [["Survivor"] call AS_fnc_getFIAUnitClass, (_poscasa select _i), [], 0, "NONE"];
 	_unit allowDamage false;
 	_unit setCaptive true;
 	_unit disableAI "MOVE";
@@ -134,4 +134,3 @@ sleep 60;
 deleteGroup _grpPOW;
 
 [1200,_tsk] spawn borrarTask;
-

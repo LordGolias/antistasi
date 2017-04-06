@@ -26,6 +26,8 @@ call compile preProcessFileLineNumbers "templates\medicUnitBackpack.sqf";
 
 AS_fnc_initPlayer = compile preProcessFileLineNumbers "fnc_initPlayer.sqf";
 
+AS_fnc_dismissFIAgarrison = compile preProcessFileLineNumbers "REINF\dismissFIAgarrison.sqf";
+
 minefieldAAF = compile preProcessFileLineNumbers "CREATE\minefieldAAF.sqf";
 tempMoveMrk = compile preProcessFileLineNumbers "tempMoveMrk.sqf";
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";
@@ -78,12 +80,10 @@ returnMuzzle = compile preProcessFileLineNumbers "returnMuzzle.sqf";
 autoRearm = compile preProcessFileLineNumbers "AI\autoRearm.sqf";
 destroyCheck = compile preProcessFileLineNumbers "destroyCheck.sqf";
 garrisonInfo = compile preProcessFileLineNumbers "garrisonInfo.sqf";
-groupComposition = compile preProcessFileLineNumbers "REINF\groupComposition.sqf";
 vehiclePrice = compile preProcessFileLineNumbers "REINF\vehiclePrice.sqf";
 resourcesAAF = compile preProcessFileLineNumbers "resourcesAAF.sqf";
 VANTinfo = compile preProcessFileLineNumbers "AI\VANTinfo.sqf";
 recruitFIAgarrison = compile preProcessFileLineNumbers "REINF\recruitFIAgarrison.sqf";
-garrisonDialog = compile preProcessFileLineNumbers "REINF\garrisonDialog.sqf";
 isFrontline = compile preProcessFileLineNumbers "isFrontline.sqf";
 timingCA = compile preProcessFileLineNumbers "timingCA.sqf";
 destroyCity = compile preProcessFileLineNumbers "destroyCity.sqf";

@@ -59,7 +59,7 @@ else
 			_garrison = garrison getVariable [_analizado,[]];
 			if (_base != "") then
 				{
-				_scoreNeededLand = _scoreNeededLand + (2*({(_x == "B_G_Soldier_A_F")} count _garrison)) + (floor((count _garrison)/8));
+				_scoreNeededLand = _scoreNeededLand + (2*({(_x == "Ammo Bearer")} count _garrison)) + (floor((count _garrison)/8));
 				if ((_analizado in bases) or (_analizado in aeropuertos)) then {_scoreNeededLand = _scoreNeededLand + 3};
 				};
 			if (_aeropuerto != "") then

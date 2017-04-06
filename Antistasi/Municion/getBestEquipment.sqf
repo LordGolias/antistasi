@@ -1,27 +1,12 @@
-/*
-_soldiers = [
-    "B_G_Soldier_LAT_F", // AT rifleman
-    "B_G_Soldier_F", // rifleman
-    "B_G_Soldier_GL_F", // granadier
-    "B_G_Soldier_lite_F", // AA rifleman
-    "B_G_Soldier_SL_F", // squad leader
-    "B_G_Soldier_TL_F", // team leader
-    "B_G_Soldier_AR_F", // autorifleman
-    "B_G_medic_F",
-    "B_G_engineer_F",
-    "B_G_Soldier_exp_F", // exp. specialist
-    "B_G_Soldier_A_F", // ammo bearer
-    "B_G_Soldier_M_F", // sniper
-    "B_G_Survivor_F",
-];
-*/
 params ["_type"];
 
 private _vest = ([caja, "vest"] call AS_fnc_getBestItem);
 private _helmet = ([caja, "helmet"] call AS_fnc_getBestItem);
 
 // survivors have no weapons.
-if (_type == "B_G_Survivor_F") exitWith {};
+if (_type in ["Crew", "Survivor"]) exitWith {
+    ["", "", "", "", "", [], "", [], "", [], [], []]
+};
 
 // choose a list of weapons to choose from the unit type.
 // see initVar.sqf where AS_weapons is populated.
@@ -29,38 +14,38 @@ private _primaryWeapons = (AS_weapons select 0) + (AS_weapons select 13) + (AS_w
 private _secondaryWeapons = [];
 private _useBackpack = false;
 private _backpackItems = [];
-private _uniformItems = [] call AS_fnc_FIAUniformMedic; 
+private _uniformItems = [] call AS_fnc_FIAUniformMedic;
 private _scopeType = "rifleScope";  // "rifleScope" or "sniperScope" to choose betwene "low min zoom and high max zoom" or "very high max zoom".
 private _primaryMagCount = 6 + 1;  // +1 for the weapon.
-if (_type == "B_G_Soldier_GL_F") then {
+if (_type == "Grenadier") then {
     _primaryWeapons = AS_weapons select 3; // G. Launchers
     // todo: check that secondary magazines exist.
 };
-if (_type == "B_G_Soldier_AR_F") then {
+if (_type == "Autorifleman") then {
     _primaryWeapons = AS_weapons select 6; // Machine guns
     _useBackpack = true;
     _primaryMagCount = 2 + 1;  // because MG clips have more bullets.
 };
-if (_type == "B_G_Soldier_M_F") then {
+if (_type == "Sniper") then {
     _primaryWeapons = AS_weapons select 15;  // Snipers
     _scopeType = "sniperScope";
     _primaryMagCount = 8 + 1;  // because snipers clips have less bullets.
 };
-if (_type == "B_G_Soldier_LAT_F") then {
+if (_type == "AT Soldier") then {
     // todo: this list includes AT and AA. Fix it.
     _secondaryWeapons = (AS_weapons select 8); // missile launchers
     _useBackpack = true;
 };
-if (_type == "B_G_Soldier_lite_F") then {
+if (_type == "AA Soldier") then {
     // todo: this list includes AT and AA. Fix it.
     _secondaryWeapons = (AS_weapons select 8); // missile launchers
     _useBackpack = true;
 };
-if (_type == "B_G_medic_F") then {
+if (_type == "Medic") then {
     _useBackpack = true;
     _backpackItems = [] call AS_fnc_FIAMedicBackpack;
 };
-if (_type == "B_G_engineer_F") then {
+if (_type == "Engineer") then {
     _useBackpack = true;
     _backpackItems = [["ToolKit", 1]];
 };

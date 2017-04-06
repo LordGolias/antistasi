@@ -8,7 +8,7 @@ _unit = leader _grupo;
 
 if (_unit getVariable ["inconsciente",false]) exitWith {hint "You cannot control an unconscious unit"};
 if (!alive _unit) exitWith {hint "You cannot control a dead unit"};
-if ((not(typeOf _unit in soldadosFIA)) and (typeOf _unit != "b_g_survivor_F")) exitWith {hint "You cannot control a unit which does not belong to FIA"};
+if ((not(typeOf _unit in AS_allFIASoldierClasses)) and ([_unit] call AS_fnc_getFIAUnitType != "Survivor")) exitWith {hint "You cannot control a unit which does not belong to FIA"};
 
 while {(count (waypoints _grupo)) > 0} do
  {
@@ -43,4 +43,3 @@ if (!isPlayer (_unit getVariable ["owner",_unit])) then {selectPlayer (_unit get
 {[_x] joinsilent group AS_commander} forEach units group AS_commander;
 group AS_commander selectLeader AS_commander;
 hint "";
-

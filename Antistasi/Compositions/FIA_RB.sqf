@@ -142,7 +142,7 @@ fnc_RB_placeSingle = {
 	_vehicle setFuel 0;
 	0 = [_vehicle] spawn VEHinit;
 	_RBgroup = createGroup side_blue;
-	_gunner = _RBgroup createUnit ["B_G_Soldier_AR_F", [0,0,0], [], 0, "NONE"];
+	_gunner = _RBgroup createUnit [["Crew"] call AS_fnc_getFIAUnitClass, [0,0,0], [], 0, "NONE"];
 	_gunner moveInGunner _vehicle;
 	[_gunner, false] spawn AS_fnc_initUnitFIA;// these functions are only called by `createFIApuestos2`, which are responsible for undoing this call.
 

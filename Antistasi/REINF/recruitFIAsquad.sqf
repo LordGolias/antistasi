@@ -20,18 +20,19 @@ private _costHR = 0;
 private _hr = AS_P("hr");
 private _resourcesFIA = AS_P("resourcesFIA");
 
-if (_grouptype in ["IRG_InfSquad","IRG_InfTeam","IRG_InfTeam_AT","IRG_SniperTeam_M","IRG_InfSentry"]) then {
-	private _units = [(configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> _grouptype)] call groupComposition;
-	{_cost = _cost + (AS_data_allCosts getVariable _x); _costHR = _costHR + 1} forEach _units;
+if !(_grouptype in AS_allFIACustomSquadTypes) then {
+	([_tipogrupo] call AS_fnc_getFIASquadCost) params ["_cost1", "_hr1"];
+	_cost = _cost + _cost1;
+	_costHR = _costHR + _hr1;
 	_isInfantry = true;
 }
 else {
-	_cost = 2*(AS_data_allCosts getVariable "B_G_Soldier_lite_F");
+	_cost = 2*(AS_data_allCosts getVariable "Crew");
 	_costHR = 2;
-	_cost = _cost + ([_grouptype] call vehiclePrice) + (["B_G_Van_01_transport_F"] call vehiclePrice);
+	_cost = _cost + ([[_grouptype] call AS_fnc_FIAmobileToPiece] call vehiclePrice) + (["B_G_Van_01_transport_F"] call vehiclePrice);
 
-	if ((hayRHS) && (_grouptype == "B_static_AA_F")) then {
-		_cost = 3*(AS_data_allCosts getVariable "B_G_Soldier_lite_F");
+	if ((hayRHS) && (_grouptype == "Mobile AA")) then {
+		_cost = 3*(AS_data_allCosts getVariable "Crew");
 		_costHR = 3;
 		_cost = _cost + ([vehTruckAA] call vehiclePrice);
 	};
@@ -58,10 +59,10 @@ private ["_grupo","_camion","_vehicle","_mortero","_morty"];
 if (hayRHS) then {
 	if (_isInfantry) then {
 		_pos = [_pos, 30, random 360] call BIS_Fnc_relPos;
-		_grupo = [_pos, side_blue, (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> _grouptype)] call BIS_Fnc_spawnGroup;
+		_grupo = [_pos, side_blue, [_type] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
 	}
 	else {
-		if (_grouptype == "B_static_AA_F") then {
+		if (_grouptype == "Mobile AA") then {
 			_pos = position _road findEmptyPosition [1,30,vehTruckAA];
 			_vehicle=[_pos, 0, vehTruckAA, side_blue] call bis_fnc_spawnvehicle;
 			_veh = _vehicle select 0;
@@ -69,12 +70,12 @@ if (hayRHS) then {
 			{deleteVehicle _x} forEach crew _veh;
 			_grupo = _vehicle select 2;
 			[_veh] spawn VEHinit;
-			_driv = _grupo createUnit ["b_g_soldier_unarmed_f", _pos, [],0, "NONE"];
+			_driv = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _pos, [],0, "NONE"];
 			_driv moveInDriver _veh;
 			driver _veh action ["engineOn", vehicle driver _veh];
-			_gun = _grupo createUnit ["b_g_soldier_unarmed_f", _pos, [],0, "NONE"];
+			_gun = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _pos, [],0, "NONE"];
 			_gun moveInGunner _veh;
-			_com = _grupo createUnit ["b_g_soldier_unarmed_f", _pos, [],0, "NONE"];
+			_com = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _pos, [],0, "NONE"];
 			_com moveInCommander _veh;
 		}
 		else {
@@ -85,18 +86,19 @@ if (hayRHS) then {
 			_pos = _pos findEmptyPosition [1,30,"B_G_Mortar_01_F"];
 			_attachPos = [0,-1.5,0.2];
 
-			if (_grouptype == "B_static_AT_F") then {
+			if (_grouptype == "Mobile AT") then {
 				_mortero = "rhs_SPG9M_MSV" createVehicle _pos;
 				_attachPos = [0,-2.4,-0.6];
 			}
 			else {
-				_mortero = _grouptype createVehicle _pos;
+				diag_log "[AS] ERROR: RHS Mobile unit vehicle"
+				//_mortero = _grouptype createVehicle _pos;
 			};
 
 			[_mortero] spawn VEHinit;
-			_morty = _grupo createUnit ["b_g_soldier_unarmed_f", _pos, [],0, "NONE"];
+			_morty = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _pos, [],0, "NONE"];
 			_grupo setVariable ["staticAutoT",false,true];
-			if (_grouptype == "B_G_Mortar_01_F") then {
+			if (_grouptype == "Mobile Mortar") then {
 				_morty moveInGunner _mortero;
 				[_morty,_camion,_mortero] spawn mortyAI;
 			}
@@ -114,19 +116,20 @@ else {
 
 if (_isInfantry) then {
 	_pos = [(getMarkerPos "respawn_west"), 30, random 360] call BIS_Fnc_relPos;
-	_grupo = [_pos, side_blue, (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> _grouptype)] call BIS_Fnc_spawnGroup;
+	_grupo = [_pos, side_blue, [_grouptype] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
 }
 else {
 	_pos = position _road findEmptyPosition [1,30,"B_G_Van_01_transport_F"];
-	_vehicle=[_pos, 0,"B_G_Van_01_transport_F", side_blue] call bis_fnc_spawnvehicle;
-	_camion = _vehicle select 0;
-	_grupo = _vehicle select 2;
-	_pos = _pos findEmptyPosition [1,30,"B_G_Mortar_01_F"];
-	_mortero = _grouptype createVehicle _pos;
+    _veh = [_pos, 0,"B_G_Van_01_transport_F", side_blue] call bis_fnc_spawnvehicle;
+	_camion = _veh select 0;
+	_grupo = _veh select 2;
+	_pieceName = [_grouptype] call AS_fnc_FIAmobileToPiece;
+	_pos = _pos findEmptyPosition [1,30,_pieceName];
+	_mortero = _pieceName createVehicle _pos;
 	[_mortero] spawn VEHinit;
-	_morty = _grupo createUnit ["b_g_soldier_unarmed_f", _pos, [],0, "NONE"];
+	_morty = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _pos, [],0, "NONE"];
 	_grupo setVariable ["staticAutoT",false,true];
-	if (_grouptype == "B_G_Mortar_01_F") then {
+	if (_grouptype == "Mobile Mortar") then {
 		_morty moveInGunner _mortero;
 		[_morty,_camion,_mortero] spawn mortyAI;
 	}
@@ -143,14 +146,14 @@ else {
 
 // the name that appears in HC.
 private _groupID = "";
-if (_grouptype == "IRG_InfSquad") then {_groupID = "Squd-"};
-if (_grouptype == "IRG_InfTeam") then {_groupID = "Tm-"};
-if (_grouptype == "IRG_InfTeam_AT") then {_groupID = "AT-"};
-if (_grouptype == "IRG_SniperTeam_M") then {_groupID = "Snpr-"};
-if (_grouptype == "IRG_InfSentry") then {_groupID = "Stry-"};
-if (_grouptype == "B_G_Mortar_01_F") then {_groupID = "Mort-"};
-if (_grouptype == "B_static_AA_F") then {_groupID = "M.AA-"};
-if (_grouptype == "B_static_AT_F") then {_groupID = "M.AT-"};
+if (_grouptype == "Infantry Squad") then {_groupID = "Squd-"};
+if (_grouptype == "Infantry Team") then {_groupID = "Tm-"};
+if (_grouptype == "AT Team") then {_groupID = "AT-"};
+if (_grouptype == "Sniper Team") then {_groupID = "Snpr-"};
+if (_grouptype == "Sentry Team") then {_groupID = "Stry-"};
+if (_grouptype == "Mobile Mortar") then {_groupID = "Mort-"};
+if (_grouptype == "Mobile AA") then {_groupID = "M.AA-"};
+if (_grouptype == "Mobile AT") then {_groupID = "M.AT-"};
 _grupo setGroupId [format ["%1%2",_groupID,{side (leader _x) == side_blue} count allGroups]];
 
 {[_x] call AS_fnc_initUnitFIA} forEach units _grupo;
@@ -166,13 +169,13 @@ if (!_isInfantry) exitWith {};
 // Ask if vehicle is needed.
 private _vehType = "";
 
-if (_grouptype == "IRG_InfSquad") then
+if (_grouptype == "Infantry Squad") then
 	{
 	_vehType = "B_G_Van_01_transport_F";
 	}
 else
 	{
-	if ((_grouptype == "IRG_SniperTeam_M") or (_grouptype == "IRG_InfSentry")) then
+	if ((_grouptype == "Sniper Team") or (_grouptype == "Sentry Team")) then
 		{
 		_vehType = "B_G_Quadbike_01_F";
 		}

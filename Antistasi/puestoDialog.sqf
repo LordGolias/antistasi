@@ -45,19 +45,19 @@ if (_tipo != "delete") then
 
 	if !(_permission) exitWith {hint _text; openMap false;};
 	// BE module
-	
-	_tipogrupo = "IRG_SniperTeam_M";
+
+	_tipogrupo = "Sniper Squad";
 
 	if (_escarretera) then
 		{
-		_tipogrupo = "IRG_InfTeam_AT";
-		_coste = _coste + (["B_G_Offroad_01_armed_F"] call vehiclePrice) + (AS_data_allCosts getVariable "B_G_Soldier_F");
+		_tipogrupo = "AT Team";
+		_coste = _coste + (["B_G_Offroad_01_armed_F"] call vehiclePrice) + (AS_data_allCosts getVariable "Crew");
 		_hr = _hr + 1;
 		};
 
-	_formato = (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> _tipogrupo);
-	_unidades = [_formato] call groupComposition;
-	{_coste = _coste + (AS_data_allCosts getVariable _x); _hr = _hr +1} forEach _unidades;
+	([_tipogrupo] call AS_fnc_getFIASquadCost) params ["_cost1", "_hr1"];
+	_coste = _coste + _cost1;
+	_hr = _hr + _hr1;
 	}
 else
 	{

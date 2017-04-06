@@ -5,7 +5,7 @@ private ["_tipo","_cantidad","_tipoMuni","_grupo","_unit","_tam","_roads","_road
 _tipo = _this select 0;
 _posicionTel = _this select 1;
 _cantidad = _this select 2;
-_coste = (2*(AS_data_allCosts getVariable "B_G_Soldier_exp_F")) + (["B_G_Van_01_transport_F"] call vehiclePrice);
+_coste = (2*(AS_data_allCosts getVariable "Explosives Specialist")) + (["B_G_Van_01_transport_F"] call vehiclePrice);
 [-2,-1*_coste] remoteExecCall [resourcesFIA,2];
 
 if (_tipo == "ATMine") then
@@ -57,9 +57,9 @@ misiones pushBack _tsk; publicVariable "misiones";
 
 _grupo = createGroup side_blue;
 
-_unit = _grupo createUnit ["B_G_Soldier_exp_F", (getMarkerPos "respawn_west"), [], 0, "NONE"];
+_unit = _grupo createUnit [["Explosives Specialist"] call AS_fnc_getFIAUnitClass, (getMarkerPos "respawn_west"), [], 0, "NONE"];
 sleep 1;
-_unit = _grupo createUnit ["B_G_Soldier_exp_F", (getMarkerPos "respawn_west"), [], 0, "NONE"];
+_unit = _grupo createUnit [["Explosives Specialist"] call AS_fnc_getFIAUnitClass, (getMarkerPos "respawn_west"), [], 0, "NONE"];
 _grupo setGroupId ["MineF"];
 
 _tam = 10;

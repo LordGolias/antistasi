@@ -24,7 +24,7 @@ if (_escarretera) then {
 		sleep 1;
 
 		_infData = _data select 2;
-		_grupo = [(_infData select 0), side_blue, (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> "IRG_InfTeam_AT"), [], [], [], [], [], (_infData select 1)] call BIS_Fnc_spawnGroup;
+		_grupo = [(_infData select 0), side_blue, ["AT Team"] call AS_fnc_getFIASquadConfig, [], [], [], [], [], (_infData select 1)] call BIS_Fnc_spawnGroup;
 		(_data select 1) joinSilent _grupo;
 	} else {
 		_tam = 1;
@@ -47,14 +47,14 @@ if (_escarretera) then {
 		[_veh] spawn VEHinit;
 		sleep 1;
 
-		_grupo = [_posicion, side_blue, (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> "IRG_InfTeam_AT"), [], [], [], [], [], _dirveh] call BIS_Fnc_spawnGroup;
-		_unit = _grupo createUnit ["B_G_Soldier_F", _posicion, [], 0, "NONE"];
+		_grupo = [_posicion, side_blue, ["AT Team"] call AS_fnc_getFIASquadConfig, [], [], [], [], [], _dirveh] call BIS_Fnc_spawnGroup;
+		_unit = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _posicion, [], 0, "NONE"];
 		_unit moveInGunner _veh;
 	};
 }
 else
 	{
-	_grupo = [_posicion, side_blue, (configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> "IRG_SniperTeam_M")] call BIS_Fnc_spawnGroup;
+	_grupo = [_posicion, side_blue, ["Sniper Team"] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
 	_grupo setBehaviour "STEALTH";
 	_grupo setCombatMode "GREEN";
 };
