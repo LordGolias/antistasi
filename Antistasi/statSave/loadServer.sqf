@@ -6,17 +6,12 @@ petros allowdamage false;
 
 [_saveName] call AS_fnc_loadPersistents;
 [_saveName] call AS_fnc_loadArsenal;
+[_saveName] call AS_fnc_loadMarkers;
 [true] call fnc_MAINT_arsenal;
 
-[_saveName, "campList"] call fn_LoadStat; publicVariable "campList";
-[_saveName, "campsFIA"] call fn_LoadStat; publicVariable "campsFIA";
-[_saveName, "puestosFIA"] call fn_LoadStat; publicVariable "puestosFIA";
-[_saveName, "mrkFIA"] call fn_LoadStat; mrkFIA = mrkFIA + puestosFIA; publicVariable "mrkFIA";
-[_saveName, "mrkAAF"] call fn_LoadStat;
-[_saveName, "destroyedCities"] call fn_LoadStat;
+[_saveName, "destroyedCities"] call fn_LoadStat; publicVariable "destroyedCities";
 [_saveName, "minas"] call fn_LoadStat;
 [_saveName, "cuentaCA"] call fn_LoadStat;
-[_saveName, "antenas"] call fn_LoadStat;
 [_saveName, "planesAAFcurrent"] call fn_LoadStat;
 [_saveName, "helisAAFcurrent"] call fn_LoadStat;
 [_saveName, "APCAAFcurrent"] call fn_LoadStat;
@@ -26,8 +21,6 @@ petros allowdamage false;
 [_saveName, "smallCAmrk"] call fn_LoadStat;
 [_saveName, "miembros"] call fn_LoadStat;
 [_saveName, "vehInGarage"] call fn_LoadStat;
-[_saveName, "destroyedBuildings"] call fn_LoadStat;
-[_saveName, "idleBases"] call fn_LoadStat;
 
 _marcadores = mrkFIA + mrkAAF + campsFIA;
 
@@ -95,7 +88,7 @@ if (_x in mrkFIA) then
 	if ((_x in recursos) or (_x in fabricas)) then
 		{
 		if (_x in recursos) then {_mrkD setMarkerText format ["Resource: %1",count (garrison getVariable _x)]} else {_mrkD setMarkerText format ["Factory: %1",count (garrison getVariable _x)]};
-		
+
 		_power = [power, getMarkerPos _x] call BIS_fnc_nearestPosition;
 		if ((not (_power in mrkFIA))  or (_power in destroyedCities)) then
 			{
@@ -186,7 +179,7 @@ if (isMultiplayer) then {
 	player setPos _pos;
 };
 
-[_saveName, "BE_data"] call fn_LoadStat;
+[[_saveName, "BE_data"] call fn_LoadStat] call fnc_BE_load;
 
 diag_log format ['[AS] Server: game "%1" loaded', _saveName];
 petros allowdamage true;

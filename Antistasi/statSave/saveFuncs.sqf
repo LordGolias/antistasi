@@ -157,10 +157,124 @@ fn_LoadStat = AS_fnc_LoadStat;  // to be replaced in whole project.
 
 fn_SaveProfile = {saveProfileNamespace};
 
+AS_fnc_saveMarkers = {
+	params ["_saveName"];
+	[_saveName, "deadAntennas", antenasmuertas] call fn_SaveStat;
+	// controls change side depending on the markers, so no need to save them.
+	[_saveName, "mrkAAF", mrkAAF - controles] call fn_SaveStat;
+	// puestosFIA is saved afterwards.
+	[_saveName, "mrkFIA", mrkFIA - puestosFIA - controles] call fn_SaveStat;
+
+	private _FIAoutpostsPositions = [];
+	{
+		_FIAoutpostsPositions pushBack (getMarkerPos _x);
+	} forEach puestosFIA;
+	[_saveName, "FIAoutpostPositions", _FIAoutpostsPositions] call fn_SaveStat;
+
+	private _AAFbasesStatus = [];
+	{
+		_AAFbasesStatus pushBack [_x, server getVariable _x];
+	} forEach (aeropuertos + bases);
+	[_saveName, "AAFbasesStatus", _AAFbasesStatus] call fn_SaveStat;
+
+	// this indirectly saves puestosFIA
+	private _FIAcampsData = [];
+	{
+		_position = getMarkerPos (_x select 0);
+		_text = _x select 1;
+		_FIAcampsData pushBack [_position, _text];
+	} forEach campList;
+	[_saveName, "FIAcampsData", _FIAcampsData] call fn_SaveStat;
+
+	[_saveName, "destroyedBuildings", destroyedBuildings] call fn_SaveStat;
+};
+
+AS_fnc_loadMarkers = {
+	params ["_saveName"];
+	{
+		server setVariable [_x select 0,_x select 1,true];
+	} forEach ([_saveName, "AAFbasesStatus"] call AS_fnc_LoadStat);
+
+	FIA_RB_list = [];
+	FIA_WP_list = [];
+	{
+		_mrk = createMarker [format ["FIApost%1", random 1000], _x];
+		_mrk setMarkerShape "ICON";
+		_mrk setMarkerType "loc_bunker";
+		_mrk setMarkerColor "ColorYellow";
+		if (isOnRoad _x) then {
+			_mrk setMarkerText "FIA Roadblock";
+			FIA_RB_list pushBackUnique _mrk;
+		} else {
+			_mrk setMarkerText "FIA Watchpost";
+			FIA_WP_list pushBackUnique _mrk;
+		};
+		spawner setVariable [_mrk,false,true];
+		puestosFIA pushBack _mrk;
+	} forEach ([_saveName, "FIAoutpostPositions"] call AS_fnc_LoadStat);
+	publicVariable "FIA_RB_list";
+	publicVariable "FIA_WP_list";
+
+	// campList contains pairs [markerName, campPosition].
+	// campsFIA is a list of markerName.
+	// usedCN is the list of used names.
+	campsFIA = [];
+	campList = [];
+	usedCN = [];
+	{
+		private _position = (_x select 0);
+		private _name = (_x select 1);
+
+		private _mrk = createMarker [format ["FIACamp%1", random 1000], _position];
+		_mrk setMarkerShape "ICON";
+		_mrk setMarkerType "loc_bunker";
+		_mrk setMarkerColor "ColorOrange";
+		_mrk setMarkerText _txt;
+		usedCN pushBackUnique _txt;
+		spawner setVariable [_mrk,false,true];
+		campList pushBack [_mrk, _txt];
+		campsFIA pushBack _mrk;
+	} forEach ([_saveName, "FIAcampsData"] call fn_LoadStat);
+
+	publicVariable "campFIA";
+	publicVariable "campList";
+
+	antenasmuertas = [_saveName, "deadAntennas"] call fn_LoadStat;
+	// destroy dead antennas and remove respective marker.
+	// antenasmuertas is a list of positions, not markers.
+	{
+		_mrk = [mrkAntenas, _x] call BIS_fnc_nearestPosition;
+		_antena = [antenas, _mrk] call BIS_fnc_nearestPosition;
+		antenas = antenas - [_antena];
+		_antena removeAllEventHandlers "Killed";
+		_antena setDamage 1;
+		deleteMarker _mrk;
+	} forEach antenasmuertas;
+
+	// these are public, but will still be modified before exposing.
+	// See saveServer.sqf.
+	mrkAAF = [_saveName, "mrkAAF"] call fn_LoadStat;
+	mrkFIA = ([_saveName, "mrkFIA"] call fn_LoadStat) + puestosFIA;
+
+	// list of military building positions that were destroyed.
+	destroyedBuildings = [];
+	{
+		// destroy the building.
+		private _buildings = [];
+		private _dist = 5;
+		while {count _buildings == 0} do {
+			_buildings = nearestObjects [_x, listMilBld, _dist];
+			_dist = _dist + 5;
+		};
+		(_buildings select 0) setDamage 1;
+		destroyedBuildings pushBack _x;
+	} forEach ([_saveName, "destroyedBuildings"] call fn_LoadStat);
+};
+
 //===========================================================================
 // Variables that require scripting after loaded. See fn_SetStat.
 specialVarLoads =
-["puestosFIA","minas","mineFieldMrk","estaticas","cuentaCA","antenas","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","fecha","garrison","tasks","destroyedBuildings","idleBases","campsFIA","campList","BE_data"];
+["minas","mineFieldMrk","estaticas","cuentaCA","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","fecha","garrison","tasks"];
 
 // global variables that are set to be publicVariable on loading.
 AS_publicVariables = [
@@ -180,7 +294,6 @@ fn_SetStat = {
 			if(_varName == 'cuentaCA') exitWith {
 				if (_varValue < 2700) then {cuentaCA = 2700} else {cuentaCA = _varValue};
 			};
-			if(_varName == 'BE_data') exitWith {[_varValue] call fnc_BE_load};
 			if(_varName == 'planesAAFcurrent') exitWith {
 				planesAAFcurrent = _varValue;
 				if (planesAAFcurrent < 0) then {planesAAFcurrent = 0};
@@ -214,24 +327,6 @@ fn_SetStat = {
 				};
 			};
 			if(_varName == 'fecha') exitWith {setDate _varValue; forceWeatherChange};
-			if(_varName == 'destroyedBuildings') exitWith {
-				for "_i" from 0 to (count _varValue) - 1 do {
-					_posBuild = _varValue select _i;
-					if (typeName _posBuild == "ARRAY") then {
-						_buildings = [];
-						_dist = 5;
-						while {count _buildings == 0} do {
-							_buildings = nearestObjects [_posBuild, listMilBld, _dist];
-							_dist = _dist + 5;
-						};
-						if (count _buildings > 0) then {
-							_milBuild = _buildings select 0;
-							_milBuild setDamage 1;
-						};
-						destroyedBuildings = destroyedBuildings + [_posBuild];
-					};
-				};
-			};
 			if(_varName == 'minas') exitWith
 				{
 				for "_i" from 0 to (count _varvalue) - 1 do
@@ -265,86 +360,6 @@ fn_SetStat = {
 					{
 					garrison setVariable [_marcadores select _i,_garrison select _i,true];
 					};
-				};
-			if(_varName == 'puestosFIA') exitWith
-				{
-				{
-				_mrk = createMarker [format ["FIApost%1", random 1000], _x];
-				_mrk setMarkerShape "ICON";
-				_mrk setMarkerType "loc_bunker";
-				_mrk setMarkerColor "ColorYellow";
-				if (isOnRoad _x) then {
-					_mrk setMarkerText "FIA Roadblock";
-					FIA_RB_list pushBackUnique _mrk;
-					publicVariable "FIA_RB_list";
-				} else {
-					_mrk setMarkerText "FIA Watchpost";
-					FIA_WP_list pushBackUnique _mrk;
-					publicVariable "FIA_WP_list";
-				};
-				spawner setVariable [_mrk,false,true];
-				puestosFIA pushBack _mrk;
-				} forEach _varvalue;
-				//mrkFIA = mrkFIA + puestosFIA;
-				};
-			if ((_varName == 'campList') || (_varName == 'campsFIA')) exitWith {
-				if (_varName == 'campList') then {
-					if (count _varvalue != 0) then {
-						cList = true;
-
-						{
-							_mrk = createMarker [format ["FIACamp%1", random 1000], (_x select 0)];
-							_mrk setMarkerShape "ICON";
-							_mrk setMarkerType "loc_bunker";
-							_mrk setMarkerColor "ColorOrange";
-							_txt = _x select 1;
-							_mrk setMarkerText _txt;
-							usedCN pushBackUnique _txt;
-							spawner setVariable [_mrk,false,true];
-							campList pushBack [_mrk, _txt];
-							campsFIA pushBack _mrk;
-						} forEach _varvalue;
-					};
-				}
-				else {
-					if !(cList) then {
-						{
-							_mrk = createMarker [format ["FIACamp%1", random 1000], _x];
-							_mrk setMarkerShape "ICON";
-							_mrk setMarkerType "loc_bunker";
-							_mrk setMarkerColor "ColorOrange";
-							_nameOptions = campNames - usedCN;
-							_txt = selectRandom _nameOptions;
-							_mrk setMarkerText _txt;
-							usedCN pushBack _txt;
-							spawner setVariable [_mrk,false,true];
-							campsFIA pushBack _mrk;
-						} forEach _varvalue;
-					};
-				};
-			};
-
-			if(_varName == 'antenas') exitWith
-				{
-				antenasmuertas = _varvalue;
-				for "_i" from 0 to (count _varvalue - 1) do
-				    {
-				    _posAnt = _varvalue select _i;
-				    _mrk = [mrkAntenas, _posAnt] call BIS_fnc_nearestPosition;
-				    _antena = [antenas,_mrk] call BIS_fnc_nearestPosition;
-				    antenas = antenas - [_antena];
-				    _antena removeAllEventHandlers "Killed";
-				    sleep 1;
-				    _antena setDamage 1;
-				    deleteMarker _mrk;
-				    };
-				antenasmuertas = _varvalue;
-				};
-			if(_varname == 'idleBases') exitWith
-				{
-				{
-				server setVariable [(_x select 0),(_x select 1),true];
-				} forEach _varValue;
 				};
 			if(_varname == 'estaticas') exitWith
 				{
@@ -388,12 +403,11 @@ fn_SetStat = {
 	{
 		call compile format ["%1 = %2",_varName,_varValue];
 	};
-	
+
 	if (_varName in AS_publicVariables) then {
 		publicVariable _varName;
 	};
 };
-
 
 AS_fnc_saveServer = compile preProcessFileLineNumbers "statSave\saveServer.sqf";
 AS_fnc_loadServer = compile preProcessFileLineNumbers "statSave\loadServer.sqf";
