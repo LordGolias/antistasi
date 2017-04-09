@@ -6,14 +6,14 @@ _pos = getMarkerPos _sitio;
 
 _texto = "";
 
-if (_sitio in colinas) then {_texto = format ["Observation Post at Mount %1",[_sitio,false] call fn_location]}
+if (_sitio in colinas) then {_texto = format ["Observation Post at Mount %1",[_sitio,false] call AS_fnc_getLocationName]}
 else
 {
-if (_sitio in ciudades) then {_texto = format ["%1",[_sitio,false] call fn_location]}
+if (_sitio in ciudades) then {_texto = format ["%1",[_sitio,false] call AS_fnc_getLocationName]}
 else
 {
 _ciudad = [ciudades,_pos] call BIS_fnc_nearestPosition;
-_ciudad = [_ciudad,false] call fn_location;
+_ciudad = [_ciudad,false] call AS_fnc_getLocationName;
 if (_sitio in power) then {_texto = format ["Powerplant near %1",_ciudad]};
 if (_sitio in bases) then {_texto = format ["%1 Base",_ciudad]};
 if (_sitio in aeropuertos) then {_texto = format ["%1 Airport",_ciudad]};

@@ -77,7 +77,7 @@ while {true} do
 
 	// flip cities due to majority change.
 	if ((_prestigeAAF < _prestigeFIA) and (_city in mrkAAF)) then {
-		[["TaskSucceeded", ["", format ["%1 joined FIA",[_city, false] call fn_location]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
+		[["TaskSucceeded", ["", format ["%1 joined FIA",[_city, false] call AS_fnc_getLocationName]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 		mrkAAF = mrkAAF - [_city];
 		mrkFIA = mrkFIA + [_city];
 		if (hayBE) then {["con_cit"] remoteExec ["fnc_BE_XP", 2]};
@@ -98,7 +98,7 @@ while {true} do
 		};
 	};
 	if ((_prestigeAAF > _prestigeFIA) and (_city in mrkFIA)) then {
-		[["TaskFailed", ["", format ["%1 joined AAF",[_city, false] call fn_location]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
+		[["TaskFailed", ["", format ["%1 joined AAF",[_city, false] call AS_fnc_getLocationName]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 		mrkAAF = mrkAAF + [_city];
 		mrkFIA = mrkFIA - [_city];
 		publicVariable "mrkAAF";

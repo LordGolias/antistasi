@@ -44,7 +44,7 @@ while {visibleMap} do
 			_prestigeBLUFOR = _data select 1;
 			_prestigeOPFOR = _data select 2;
 			_power = [_sitio] call powerCheck;
-			_texto = format ["%1\n\nPop %2\nAAF Support: %3 %5\nFIA Support: %4 %5",[_sitio,false] call fn_location,_numCiv,_prestigeOPFOR,_prestigeBLUFOR,"%"];
+			_texto = format ["%1\n\nPop %2\nAAF Support: %3 %5\nFIA Support: %4 %5",[_sitio,false] call AS_fnc_getLocationName,_numCiv,_prestigeOPFOR,_prestigeBLUFOR,"%"];
 			if (_power) then {_texto = format ["%1\nPowered",_texto]} else {_texto = format ["%1\nNot Powered",_texto]};
 			if (_sitio in mrkAAF) then {if ([_sitio] call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
 			if (_sitio in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};

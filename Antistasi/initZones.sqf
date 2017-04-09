@@ -52,7 +52,7 @@ if (worldName == "Altis") then {
 
 {
 //_nombre = text _x;
-_nombre = [text _x, true] call fn_location;
+_nombre = [text _x, true] call AS_fnc_getLocationName;
 if ((_nombre != "") and (_nombre != "sagonisi") and (_nombre != "hill12")) then//sagonisi is blacklisted in Altis for some reason. If your island has a city in a small island you should blacklist it (road patrols will try to reach it)
     {
     _sizeX = getNumber (configFile >> "CfgWorlds" >> worldName >> "Names" >> (text _x) >> "radiusA");
