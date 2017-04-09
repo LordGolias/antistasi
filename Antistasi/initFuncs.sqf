@@ -76,7 +76,6 @@ initRevive = compile preProcessFileLineNumbers "Revive\initRevive.sqf";
 pedirAyuda = compile preProcessFileLineNumbers "AI\pedirAyuda.sqf";
 ayudar = compile preProcessFileLineNumbers "AI\ayudar.sqf";
 cubrirConHumo = compile preProcessFileLineNumbers "AI\cubrirConHumo.sqf";
-returnMuzzle = compile preProcessFileLineNumbers "returnMuzzle.sqf";
 autoRearm = compile preProcessFileLineNumbers "AI\autoRearm.sqf";
 destroyCheck = compile preProcessFileLineNumbers "destroyCheck.sqf";
 garrisonInfo = compile preProcessFileLineNumbers "garrisonInfo.sqf";
