@@ -53,7 +53,7 @@ for "_i" from 0 to _numCiv - 1 do {
 	};
 	_tipociv = arrayCivs call BIS_Fnc_selectRandom;
 	_civ = _grupo createUnit [_tipociv, _pos, [],0, "NONE"];
-	[_civ] spawn CIVinit;
+	[_civ] spawn AS_fnc_initUnitCIV;
 	_civs pushBack _civ;
 };
 
@@ -114,7 +114,7 @@ for "_i" from 1 to _andanadas do
 			// spawn driver
 			_tipociv = arrayCivs call BIS_Fnc_selectRandom;
 			_civ = _grupoP createUnit [_tipociv, _p1, [],0, "NONE"];
-			[_civ] spawn CIVinit;
+			[_civ] spawn AS_fnc_initUnitCIV;
 			_civsPatrol = _civsPatrol + [_civ];
 			_civ moveInDriver _veh;
 			_grupoP addVehicle _veh;

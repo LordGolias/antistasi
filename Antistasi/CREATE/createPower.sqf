@@ -42,7 +42,7 @@ while {(spawner getVariable _marcador) and (_cuenta < 2)} do
 		};
 	[leader _grupo, _mrk, "SAFE","SPAWNED", "NOVEH2"] execVM "scripts\UPSMON.sqf";
 	_grupos = _grupos + [_grupo];
-	{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados pushBack _x} forEach units _grupo;
+	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 	_cuenta = _cuenta +1;
 	};
 
@@ -61,7 +61,7 @@ if (not(_marcador in destroyedCities)) then
 			{
 			//_tipociv = arrayCivs call BIS_Fnc_selectRandom;
 			_civ = _grupo createUnit ["C_man_w_worker_F", _posicion, [],0, "NONE"];
-			[_civ] spawn CIVinit;
+			[_civ] spawn AS_fnc_initUnitCIV;
 			_civs = _civs + [_civ];
 			sleep 0.5;
 			};
@@ -98,7 +98,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _tam)} do
 			};
 		[leader _grupo, _marcador, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 		_grupos = _grupos + [_grupo];
-		{[_x,false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
+		{[_x,false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
 		};
 	_cuenta = _cuenta + 1;
 	};

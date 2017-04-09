@@ -108,7 +108,7 @@ for "_i" from 0 to _numCiv do
 		if (_rnd < 25) then {[_civ, "hgun_PDW2000_F", 5, 0] call BIS_fnc_addWeapon;} else {[_civ, "hgun_Pistol_heavy_02_F", 5, 0] call BIS_fnc_addWeapon;};
 		};
 	_civiles pushBack _civ;
-	[_civ] spawn civInit;
+	[_civ] spawn AS_fnc_initUnitCIV;
 	sleep 1;
 	};
 

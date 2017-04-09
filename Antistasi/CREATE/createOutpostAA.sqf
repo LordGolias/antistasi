@@ -42,7 +42,7 @@ if (_frontera) then {
 		_veh = statMortar createVehicle _pos;
 		[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 		_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
-		[_unit, false] spawn AS_fnc_initUnitOPFOR;
+		[_unit, false] spawn AS_fnc_initUnitAAF;
 		[_veh] spawn genVEHinit;
 		_unit moveInGunner _veh;
 		_soldados = _soldados + [_unit];
@@ -70,7 +70,7 @@ if (_frontera) then {
 		_veh setPos _pos;
 		_veh setDir _dirVeh + 180;
 		_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
-		[_unit, false] spawn AS_fnc_initUnitOPFOR;
+		[_unit, false] spawn AS_fnc_initUnitAAF;
 		[_veh] spawn genVEHinit;
 		_unit moveInGunner _veh;
 	};
@@ -95,7 +95,7 @@ sleep 1;
 _stance = "RANDOM";
 [leader _grupo, _marcador, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 _grupos = _grupos + [_grupo];
-{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
+{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
 
 if (_marcador in _pLarge) then {
 	while {(spawner getVariable _marcador) and (_cuenta < _tam)} do {
@@ -107,7 +107,7 @@ if (_marcador in _pLarge) then {
 			if (_cuenta == 0) then {_stance = "RANDOMUP"};
 			[leader _grupo, _marcador, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 			_grupos = _grupos + [_grupo];
-			{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
+			{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
 		};
 		_cuenta = _cuenta + 1;
 	};
@@ -119,7 +119,7 @@ else {
 	_stance = "RANDOM";
 	[leader _grupo, _marcador, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 	_grupos = _grupos + [_grupo];
-	{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
+	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
 
 	while {(spawner getVariable _marcador) and (_cuenta < _tam)} do {
 		if ((diag_fps > AS_P("minimumFPS")) or (_cuenta == 0)) then {
@@ -130,7 +130,7 @@ else {
 			if (_cuenta == 0) then {_stance = "RANDOMUP"};
 			[leader _grupo, _marcador, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 			_grupos = _grupos + [_grupo];
-			{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
+			{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
 		};
 		_cuenta = _cuenta + 2;
 	};

@@ -38,7 +38,7 @@ if ((spawner getVariable _marcador) and _frontera) then
 		_veh setPos _pos;
 		_veh setDir _dirVeh + 180;
 		_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
-		[_unit, false] spawn AS_fnc_initUnitOPFOR;
+		[_unit, false] spawn AS_fnc_initUnitAAF;
 		[_veh] spawn genVEHinit;
 		_unit moveInGunner _veh;
 		_soldados = _soldados + [_unit];
@@ -71,7 +71,7 @@ while {(spawner getVariable _marcador) and (_cuenta < 4)} do
 	};
 	[leader _grupo, _mrk, "SAFE","SPAWNED", "NOVEH2"] execVM "scripts\UPSMON.sqf";
 	_grupos = _grupos + [_grupo];
-	{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados pushBack _x} forEach units _grupo;
+	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 	_cuenta = _cuenta +1;
 	};
 
@@ -100,12 +100,12 @@ if (!_busy) then
 			[_veh] spawn genVEHinit;
 			_pos = [_pos, 20,_ang] call BIS_fnc_relPos;
 			_unit = ([_posicion, 0, infPilot, _grupo] call bis_fnc_spawnvehicle) select 0;
-			[_unit, false] spawn AS_fnc_initUnitOPFOR;
+			[_unit, false] spawn AS_fnc_initUnitAAF;
 			_cuenta = _cuenta + 1;
 			};
 
 		[leader _grupo, _marcador, "SAFE","SPAWNED","NOFOLLOW","NOVEH"] execVM "scripts\UPSMON.sqf";
-		{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
+		{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
 		};
 	};
 
@@ -142,7 +142,7 @@ sleep 1;
 if (hayRHS) then {_grupo = [_grupo, _posicion] call expandGroup};
 [leader _grupo, _marcador, "SAFE", "RANDOMUP","SPAWNED", "NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 _grupos = _grupos + [_grupo];
-{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
+{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
 _cuenta = 0;
 
 if (_frontera) then {_nveh = _nveh * 2};
@@ -167,7 +167,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _nveh)} do
 		sleep 1;
 		[leader _grupo, _marcador, "SAFE","SPAWNED", "RANDOM","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 		_grupos = _grupos + [_grupo];
-		{[_x,false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
+		{[_x,false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
 		};
 	_cuenta = _cuenta + 1;
 	sleep 1;

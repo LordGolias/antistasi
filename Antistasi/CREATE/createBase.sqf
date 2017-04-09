@@ -45,7 +45,7 @@ if ( _nVeh > 0 ) then
 		_veh = statMortar createVehicle _pos;
 		[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 		_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
-		[_unit, false] spawn AS_fnc_initUnitOPFOR;
+		[_unit, false] spawn AS_fnc_initUnitAAF;
 		_unit moveInGunner _veh;
 		_soldados = _soldados + [_unit];
 		_vehiculos = _vehiculos + [_veh];
@@ -78,7 +78,7 @@ if ((spawner getVariable _marcador) and _frontera) then
 		_veh setPos _pos;
 		_veh setDir _dirVeh + 180;
 		_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
-		[_unit, false] spawn AS_fnc_initUnitOPFOR;
+		[_unit, false] spawn AS_fnc_initUnitAAF;
 		[_veh] spawn genVEHinit;
 		_unit moveInGunner _veh;
 		_soldados = _soldados + [_unit];
@@ -135,7 +135,7 @@ while {(spawner getVariable _marcador) and (_cuenta < 4)} do
 	};
 	[leader _grupo, _mrk, "SAFE","SPAWNED", "NOVEH2"] execVM "scripts\UPSMON.sqf";
 	_grupos = _grupos + [_grupo];
-	{[_x, false] spawn AS_fnc_initUnitOPFOR; _spatrol = _spatrol + [_x]} forEach units _grupo;
+	{[_x, false] spawn AS_fnc_initUnitAAF; _spatrol = _spatrol + [_x]} forEach units _grupo;
 	_cuenta = _cuenta +1;
 	};
 
@@ -145,7 +145,7 @@ if (hayRHS) then {_grupo = [_grupo, _posicion] call expandGroup};
 sleep 1;
 [leader _grupo, _marcador, "SAFE", "RANDOMUP","SPAWNED", "NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 _grupos = _grupos + [_grupo];
-{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]; _x setUnitPos "MIDDLE";} forEach units _grupo;
+{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]; _x setUnitPos "MIDDLE";} forEach units _grupo;
 _cuenta = 0;
 if (_frontera) then {_nveh = _nveh * 2};
 while {(spawner getVariable _marcador) and (_cuenta < _nveh)} do
@@ -163,7 +163,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _nveh)} do
 		sleep 1;
 		[leader _grupo, _marcador, "SAFE","SPAWNED", "NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 		_grupos = _grupos + [_grupo];
-		{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
+		{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
 		};
 	sleep 1;
 	_cuenta = _cuenta + 1;

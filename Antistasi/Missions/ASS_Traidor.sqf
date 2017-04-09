@@ -98,7 +98,7 @@ if (random 10 < 2.5) then
 	[_perro] spawn guardDog;
 	};
 [leader _grupo, _mrk, "SAFE","SPAWNED", "NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
-{[_x, false] spawn AS_fnc_initUnitOPFOR} forEach units _grupo;
+{[_x, false] spawn AS_fnc_initUnitAAF} forEach units _grupo;
 
 waitUntil {sleep 1; (dateToNumber date > _fechalimnum) or (not alive _traidor) or ({_traidor knowsAbout _x > 1.4} count ([500,0,_traidor,"BLUFORSpawn"] call distanceUnits) > 0)};
 

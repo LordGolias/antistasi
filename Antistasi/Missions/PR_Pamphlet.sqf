@@ -115,7 +115,7 @@ for "_i" from 0 to 1 do {
 };
 
 {_grp = _x;
-{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grp;} forEach _grupos;
+{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grp;} forEach _grupos;
 
 // wait until the vehicle enters the target area
 waitUntil {sleep 1; (not alive PRTruck) or (dateToNumber date > _fechalimnum) or (PRTruck distance _targetPosition < 500)};

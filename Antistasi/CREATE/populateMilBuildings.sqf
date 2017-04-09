@@ -33,7 +33,7 @@ private _vehiculos = [];
 		_unit = _grupo createUnit [_gunnerCrew, _posicion, [], 0, "NONE"];
 		_unit moveInGunner _veh;
 		if (_side == side_green) then {
-			[_unit, false] spawn AS_fnc_initUnitOPFOR;
+			[_unit, false] spawn AS_fnc_initUnitAAF;
 		};
 		_soldadosMG pushback _unit;
 		_vehiculos pushback _veh;
@@ -48,7 +48,7 @@ private _vehiculos = [];
 		_unit = _grupo createUnit [_gunnerCrew, _posicion, [], 0, "NONE"];
 		_unit moveInGunner _veh;
 		if (_side == side_green) then {
-			[_unit, false] spawn AS_fnc_initUnitOPFOR;
+			[_unit, false] spawn AS_fnc_initUnitAAF;
 		};
 		_soldadosMG pushback _unit;
 		_vehiculos pushback _veh;
@@ -65,7 +65,7 @@ private _vehiculos = [];
 		_unit = _grupo createUnit [_gunnerCrew, _posicion, [], 0, "NONE"];
 		_unit moveInGunner _veh;
 		if (_side == side_green) then {
-			[_unit, false] spawn AS_fnc_initUnitOPFOR;
+			[_unit, false] spawn AS_fnc_initUnitAAF;
 		};
 		_soldadosMG pushback _unit;
 		_vehiculos pushback _veh;
@@ -75,7 +75,7 @@ private _vehiculos = [];
 		_unit = _grupo createUnit [_gunnerCrew, _posicion, [], 0, "NONE"];
 		_unit moveInGunner _veh;
 		if (_side == side_green) then {
-			[_unit, false] spawn AS_fnc_initUnitOPFOR;
+			[_unit, false] spawn AS_fnc_initUnitAAF;
 		};
 		_soldadosMG pushback _unit;
 		_vehiculos pushback _veh;

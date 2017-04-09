@@ -36,7 +36,7 @@ for "_i" from 0 to _num - 1 do {
 	if !(spawner getVariable _marcador) exitWith {};
 	_grupo = _params call BIS_Fnc_spawnGroup;
 	if (_isAAF) then {
-		{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
+		{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
 
 		// generate dog with some probability.
 		if (random 10 < 2.5) then {

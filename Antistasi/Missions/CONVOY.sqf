@@ -195,7 +195,7 @@ if (_tipoConvoy == "HVT") then {
 
 	if (_pv == 1) then {
 		_hvt = ([_posbase, 0, sol_OFF, _grupo] call bis_fnc_spawnvehicle) select 0;
-		[_hvt] spawn AS_fnc_initUnitOPFOR;
+		[_hvt] spawn AS_fnc_initUnitAAF;
 		_hvt assignAsCargo _vehObj2;
 		_hvt moveInCargo _vehObj2;
 		_grupos = _grupos + [_grupo];
@@ -239,7 +239,7 @@ else {
 				_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
 			};
 			_grupoEsc = [_posbase, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-			{[_x] spawn AS_fnc_initUnitOPFOR;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados = _soldados + [_x];[_x] join _grupo} forEach units _grupoEsc;
+			{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados = _soldados + [_x];[_x] join _grupo} forEach units _grupoEsc;
 			deleteGroup _grupoEsc;
 			if (_tipoVehEsc != enemyMotorpoolDef) then
 				{
@@ -264,7 +264,7 @@ _vehObj addEventHandler ["HandleDamage", {
 _driver = ([_posbase, 0, sol_DRV, _grupo] call bis_fnc_spawnvehicle) select 0;
 _driver assignAsDriver _vehObj;
 _driver moveInDriver _vehObj;
-[_driver] spawn AS_fnc_initUnitOPFOR;
+[_driver] spawn AS_fnc_initUnitAAF;
 _soldados pushBackUnique _driver;
 _driver addEventHandler ["killed", {
 	{
@@ -279,7 +279,7 @@ _driver addEventHandler ["killed", {
 
 if ((_tipoConvoy == "HVT") && (_pv == 0)) then {
 	_hvt = ([_posbase, 0, sol_OFF, _grupo] call bis_fnc_spawnvehicle) select 0;
-	[_hvt] spawn AS_fnc_initUnitOPFOR;
+	[_hvt] spawn AS_fnc_initUnitAAF;
 	_hvt assignAsCargo _vehObj;
 	_hvt moveInCargo _vehObj;
 	_grupos = _grupos + [_grupo];
@@ -343,7 +343,7 @@ if !(_tipoVehEsc in vehTank) then
 		_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
 	};
 	_grupoEsc = [_posbase, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-	{[_x] spawn AS_fnc_initUnitOPFOR;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados = _soldados + [_x];[_x] join _grupo} forEach units _grupoEsc;
+	{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados = _soldados + [_x];[_x] join _grupo} forEach units _grupoEsc;
 	deleteGroup _grupoEsc;
 	if (_tipoVehEsc != enemyMotorpoolDef) then
 		{

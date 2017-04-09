@@ -32,7 +32,7 @@ if (_marcador != "FIA_HQ") then
 				{
 				//_tipociv = arrayCivs call BIS_Fnc_selectRandom;
 				_civ = _grupo createUnit ["C_man_w_worker_F", _posicion, [],0, "NONE"];
-				[_civ] spawn CIVinit;
+				[_civ] spawn AS_fnc_initUnitCIV;
 				_civs = _civs + [_civ];
 				sleep 0.5;
 				};

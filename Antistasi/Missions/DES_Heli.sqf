@@ -76,7 +76,7 @@ _veh = _vehicle select 0;
 [_veh] spawn genVEHinit;
 [_veh,"AAF Escort"] spawn inmuneConvoy;
 _vehCrew = _vehicle select 1;
-{[_x] spawn AS_fnc_initUnitOPFOR} forEach _vehCrew;
+{[_x] spawn AS_fnc_initUnitAAF} forEach _vehCrew;
 _grupoVeh = _vehicle select 2;
 _soldados = _soldados + _vehCrew;
 _grupos = _grupos + [_grupoVeh];
@@ -87,7 +87,7 @@ sleep 1;
 _tipoGrupo = [infPatrol, side_green] call fnc_pickGroup;
 _grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 
-{_x assignAsCargo _veh; _x moveInCargo _veh; _soldados = _soldados + [_x]; [_x] join _grupoveh; [_x] spawn AS_fnc_initUnitOPFOR} forEach units _grupo;
+{_x assignAsCargo _veh; _x moveInCargo _veh; _soldados = _soldados + [_x]; [_x] join _grupoveh; [_x] spawn AS_fnc_initUnitAAF} forEach units _grupo;
 deleteGroup _grupo;
 [_veh] spawn smokeCover;
 
@@ -105,7 +105,7 @@ _vehT = _vehicleT select 0;
 [_vehT] spawn genVEHinit;
 [_vehT,"AAF Recover Truck"] spawn inmuneConvoy;
 _vehCrewT = _vehicle select 1;
-{[_x] spawn AS_fnc_initUnitOPFOR} forEach _vehCrewT;
+{[_x] spawn AS_fnc_initUnitAAF} forEach _vehCrewT;
 _grupoVehT = _vehicleT select 2;
 _soldados = _soldados + _vehCrewT;
 _grupos = _grupos + [_grupoVehT];

@@ -39,7 +39,7 @@ if (_marcador in puertos) then
 	_veh = _vehicle select 0;
 	[_veh] spawn genVEHinit;
 	_vehCrew = _vehicle select 1;
-	{[_x, false] spawn AS_fnc_initUnitOPFOR} forEach _vehCrew;
+	{[_x, false] spawn AS_fnc_initUnitAAF} forEach _vehCrew;
 	_grupoVeh = _vehicle select 2;
 	_soldados = _soldados + _vehCrew;
 	_grupos = _grupos + [_grupoVeh];
@@ -57,7 +57,7 @@ else
 			_veh = statMortar createVehicle _pos;
 			[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 			_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
-			[_unit, false] spawn AS_fnc_initUnitOPFOR;
+			[_unit, false] spawn AS_fnc_initUnitAAF;
 			[_veh] spawn genVEHinit;
 			_unit moveInGunner _veh;
 			_soldados = _soldados + [_unit];
@@ -84,7 +84,7 @@ else
 			_veh setPos _pos;
 			_veh setDir _dirVeh + 180;
 			_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
-			[_unit, false] spawn AS_fnc_initUnitOPFOR;
+			[_unit, false] spawn AS_fnc_initUnitAAF;
 			[_veh] spawn genVEHinit;
 			_unit moveInGunner _veh;
 			};
@@ -117,10 +117,10 @@ while {(spawner getVariable _marcador) and (_cuenta < _tam)} do
 		[leader _grupo, _marcador, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 		_grupos = _grupos + [_grupo];
 		if (_cuenta == 0) then {
-			{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]; _x setUnitPos "MIDDLE";} forEach units _grupo;
+			{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]; _x setUnitPos "MIDDLE";} forEach units _grupo;
 		}
 		else {
-			{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
+			{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
 		};
 	};
 	_cuenta = _cuenta + 1;

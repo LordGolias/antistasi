@@ -38,7 +38,7 @@ if (spawner getVariable _marcador) then
 	for "_i" from 1 to 3 do
 		{
 		_unit = ([_pos, 0, sol_CREW, _grupo] call bis_fnc_spawnvehicle) select 0;
-		[_unit] spawn AS_fnc_initUnitOPFOR;
+		[_unit] spawn AS_fnc_initUnitAAF;
 		sleep 2;
 		};
 

@@ -55,7 +55,7 @@ if (spawner getVariable _marcador) then
 	for "_i" from 1 to 3 do
 		{
 		_unit = ([_pos, 0, sol_CREW, _grupo] call bis_fnc_spawnvehicle) select 0;
-		[_unit] spawn AS_fnc_initUnitOPFOR;
+		[_unit] spawn AS_fnc_initUnitAAF;
 		sleep 2;
 		};
 	waitUntil {sleep 1;({leader _grupo knowsAbout _x > 1.4} count ([AS_P("spawnDistance"),0,leader _grupo,"BLUFORSpawn"] call distanceUnits) > 0) or (dateToNumber date > _fechalimnum) or (not alive _veh) or ({_x getVariable ["BLUFORSpawn",false]} count crew _veh > 0)};

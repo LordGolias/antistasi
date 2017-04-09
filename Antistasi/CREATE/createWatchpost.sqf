@@ -33,7 +33,7 @@ _pos = [_posicion] call mortarPos;
 _veh = statMortar createVehicle _pos;
 [_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 _unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
-[_unit, false] spawn AS_fnc_initUnitOPFOR;
+[_unit, false] spawn AS_fnc_initUnitAAF;
 _unit moveInGunner _veh;
 _soldados = _soldados + [_unit];
 _vehiculos = _vehiculos + [_veh];
@@ -47,7 +47,7 @@ _grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 sleep 1;
 [leader _grupo, _marcador, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
 _grupos = _grupos + [_grupo];
-{[_x, false] spawn AS_fnc_initUnitOPFOR; _soldados = _soldados + [_x]} forEach units _grupo;
+{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
 
 
 waitUntil {sleep 1; (not (spawner getVariable _marcador))  or ({alive _x} count _soldados == 0) or ({fleeing _x} count _soldados == {alive _x} count _soldados)};

@@ -12,7 +12,7 @@ if ((random 100 < ((AS_P("prestigeNATO") + AS_P("prestigeCSAT"))/10)) and (spawn
 		if (!surfaceIsWater _pos) exitWith {};
 	};
 	_journalist = _grupo createUnit ["C_journalist_F", _pos, [],0, "NONE"];
-	[_journalist] spawn CIVinit;
+	[_journalist] spawn AS_fnc_initUnitCIV;
 	_grupos pushBack _grupo;
 	[_journalist, _marcador, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";
 };
