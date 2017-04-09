@@ -17,6 +17,16 @@ This modified version has the same mechanics and the same features but improves 
 
 The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 line added, 2 lines were deleted, I have +4 years experience as professional software developer).
 
+# Debug tools
+
+In the debug window, run
+
+     [true] AS_DEBUG_init;
+
+to show in the map all units that are currently spawned (dead or alive).
+This helps tracking if CPU is being used unnecessarily. Use `false` to
+reverse it.
+
 # Code structure
 
 - Municion/ -> scripts related with weapons, arsenal and boxes.

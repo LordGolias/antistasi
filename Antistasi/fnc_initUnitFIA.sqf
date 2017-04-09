@@ -1,6 +1,8 @@
 #include "macros.hpp"
 params ["_unit", ["_spawned", true], ["_place", nil], ["_equipment", []]];
 
+[_unit] call AS_DEBUG_initUnit;
+
 if (_spawned) then {
 	_unit setVariable ["BLUFORSpawn",true,true];
 }

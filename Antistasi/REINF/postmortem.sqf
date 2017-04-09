@@ -1,6 +1,9 @@
 #include "../macros.hpp"
 private ["_killed", "_group"];
 _killed = _this select 0;
+
+[_killed] call AS_DEBUG_initDead;
+
 sleep AS_P("cleantime");
 _group = group _killed;
 deleteVehicle _killed;

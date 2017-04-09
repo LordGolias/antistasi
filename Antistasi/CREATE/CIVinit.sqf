@@ -2,6 +2,8 @@ private ["_unit","_enemigos"];
 
 _unit = _this select 0;
 
+[_unit] call AS_DEBUG_initUnit;
+
 _unit setSkill 0;
 
 _EHkilledIdx = _unit addEventHandler ["killed", {

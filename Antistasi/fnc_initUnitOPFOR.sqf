@@ -1,6 +1,8 @@
 #include "macros.hpp"
 params ["_unit", ["_spawned", true]];
 
+[_unit] call AS_DEBUG_initUnit;
+
 if (typeOf _unit == "Fin_random_F") exitWith {};  // dog
 
 if (_spawned) then {

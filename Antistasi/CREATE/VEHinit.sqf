@@ -2,6 +2,8 @@ private ["_veh","_tipo"];
 
 _veh = _this select 0;
 
+[_veh] call AS_DEBUG_initVehicle;
+
 if ((_veh isKindOf "FlagCarrier") or (_veh isKindOf "Building")) exitWith {};
 if (_veh isKindOf "ReammoBox_F") exitWith {[_veh] call AS_fnc_fillCrateAAF};
 if ((hayACE) && !(random 8 < 1)) then {_veh setVariable ["ace_cookoff_enable", false, true]};

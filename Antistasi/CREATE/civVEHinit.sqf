@@ -2,6 +2,8 @@ private ["_veh"];
 
 _veh = _this select 0;
 
+[_veh] call AS_DEBUG_initVehicle;
+
 if (_veh isKindOf "Car") then
 	{
 	_veh addEventHandler ["HandleDamage",{if (((_this select 1) find "wheel" != -1) and (_this select 4=="") and (!isPlayer driver (_this select 0))) then {0;} else {(_this select 2);};}];

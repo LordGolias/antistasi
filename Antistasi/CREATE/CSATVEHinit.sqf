@@ -2,6 +2,8 @@ private ["_veh"];
 
 _veh = _this select 0;
 
+[_veh] call AS_DEBUG_initVehicle;
+
 if (_veh isKindOf "Air") then
 	{
 	_veh addEventHandler ["GetIn",

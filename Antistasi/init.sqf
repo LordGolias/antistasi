@@ -1,6 +1,8 @@
 enableSaving [ false, false ];
 if (isServer and (isNil "serverInitDone")) then {skipTime random 24};
 
+call compile preprocessFileLineNumbers "debug\init.sqf";
+
 // it is a SP game, initialize the server.
 if (!isMultiPlayer) then {
     {if ((side _x == west) and (_x != comandante) and (_x != Petros) and (_x != server) and (_x!=garrison) and (_x != carreteras)) then {_grupete = group _x; deleteVehicle _x; deleteGroup _grupete}} forEach allUnits;
