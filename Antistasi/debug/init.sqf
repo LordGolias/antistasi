@@ -1,3 +1,4 @@
+#include "..\macros.hpp"
 if (!isServer) exitWith {};
 AS_DEBUG_markers = false;
 
@@ -24,6 +25,10 @@ AS_DEBUG_init = {
         {
             [_x] call AS_DEBUG_initDead;
         } forEach allDead;
+
+        {
+            [_x] call AS_DEBUG_initLocation;
+        } forEach marcadores;
     };
 
     // turn debug off
@@ -34,7 +39,6 @@ AS_DEBUG_init = {
         hint "AS debug mode disabled.";
     };
 };
-
 
 AS_DEBUG_initUnit = {
     params ["_unit"];
@@ -122,7 +126,6 @@ AS_DEBUG_initVehicle = {
     };
 };
 
-
 AS_DEBUG_initDead = {
     params ["_thing"];
     if (isNil "AS_DEBUG_markers_all") exitWith {};
@@ -137,6 +140,36 @@ AS_DEBUG_initDead = {
         params ["_thing", "_mrk"];
         private _sleep = 2 + 2*(random 100)/100;
         while {AS_DEBUG_markers and _thing != objNull} do {
+            sleep _sleep;
+        };
+        deleteMarker _mrk;
+    };
+};
+
+AS_DEBUG_initLocation = {
+    params ["_location"];
+    if (isNil "AS_DEBUG_markers_all") exitWith {};
+
+    private _mrk = createMarker [format ["AS_DEBUG_markers_%1", count AS_DEBUG_markers_all], getMarkerPos _location];
+    AS_DEBUG_markers_all pushBack _mrk;
+    _mrk setMarkerShape "ELLIPSE";
+    _mrk setMarkerSize [50, 50];
+    _mrk setMarkerColor "ColorBlue";
+    _mrk setMarkerAlpha 0.8;
+
+    [_location, _mrk] spawn {
+        params ["_location", "_mrk"];
+        private _sleep = 2 + 2*(random 100)/100;
+        while {AS_DEBUG_markers} do {
+            if (_location in forcedSpawn) then {
+                    _mrk setMarkerColor "ColorRed";
+                } else {
+                    if (spawner getVariable _location) then {
+                        _mrk setMarkerColor "ColorGreen";
+                    } else {
+                        _mrk setMarkerColor "ColorBlue";
+                    };
+                };
             sleep _sleep;
         };
         deleteMarker _mrk;

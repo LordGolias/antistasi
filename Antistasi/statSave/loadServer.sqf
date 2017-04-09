@@ -22,29 +22,19 @@ petros allowdamage false;
 [_saveName, "miembros"] call fn_LoadStat;
 [_saveName, "vehInGarage"] call fn_LoadStat;
 
-_marcadores = mrkFIA + mrkAAF + campsFIA;
+private _marcadores = mrkFIA + mrkAAF + campsFIA;
 
-// sets ownership of locations.
+// sets ownership of control points.
 {
-_posicion = getMarkerPos _x;
-_cercano = [_marcadores,_posicion] call BIS_fnc_nearestPosition;
-if (_cercano in mrkFIA) then
-	{
-	mrkAAF = mrkAAF - [_x];
-	mrkFIA = mrkFIA + [_x];
+	private _marker = [_marcadores,getMarkerPos _x] call BIS_fnc_nearestPosition;
+	if (_marker in mrkFIA) then {
+		mrkAAF = mrkAAF - [_x];
+		mrkFIA = mrkFIA + [_x];
 	}
-else
-	{
-	mrkAAF = mrkAAF + [_x];
+	else {
+		mrkAAF = mrkAAF + [_x];
 	};
 } forEach controles;
-
-// remaining markers is AAF.
-{
-	if ((not(_x in mrkAAF)) and (not(_x in mrkFIA)) and (_x != "FIA_HQ")) then {
-		mrkAAF pushBack _x
-	};
-} forEach marcadores;
 
 _marcadores = _marcadores + controles;
 

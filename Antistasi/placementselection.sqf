@@ -55,9 +55,9 @@ while {true} do {
 	_posicionTel = posicionTel;
 	posicionTel = nil;
 	_closestEnemyLocation = getMarkerPos ([_enemyLocations, _posicionTel] call BIS_fnc_nearestPosition);
-	
+
 	_validLocation = true;
-	
+
 	if (_closestEnemyLocation distance _posicionTel < _minDistanceToLocation) then {
 		_validLocation = false;
 		hint "That is too close from the enemy. Select another place.";

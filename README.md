@@ -23,7 +23,7 @@ In the debug window, run
 
      [true] AS_DEBUG_init;
 
-to show in the map all units that are currently spawned (dead or alive).
+to show in the map all units (dead or alive) and locations that are currently spawned.
 This helps tracking if CPU is being used unnecessarily. Use `false` to
 reverse it.
 
@@ -37,6 +37,9 @@ reverse it.
 ## Initialization
 
 The relevant scripts are `init.sqf`, `initServer.sqf`, and `initPlayerLocal.sqf`.
+
+`initPlayerLocal.sqf` is responsible for initializing the player. This includes
+Event Handling, available actions, etc.
 
 In SP, `init.sqf` is called and then `initPlayerLocal.sqf`.
 In MP, `initServer.sqf` is responsible for the server, and `initPlayerLocal.sqf` for the client.
