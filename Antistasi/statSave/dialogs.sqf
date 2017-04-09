@@ -10,11 +10,23 @@ AS_fncUI_LoadSaveMenu = {
 	disableSerialization;
 	createDialog "AS_SaveLoadMenu";
 
+    [] call AS_fncUI_updateSaveGameList;
+
     if (isNil "placementDone") then {
         private _backButton = ((findDisplay 1601) displayCtrl (72));
         _backButton ctrlSetText "New game";
+
+        // catch the
+        private _escapeKey = (findDisplay 1601) displayAddEventHandler ["KeyDown", {
+            hint str _this;
+            if ((_this select 1) == 1) then {  // escape pressed
+                [] spawn placementSelection;
+            };
+            false
+        }];
+        waitUntil {!isNil "placementDone"};
+        (findDisplay 1601) displayRemoveEventHandler ["KeyDown", _escapeKey];
     };
-    [] call AS_fncUI_updateSaveGameList;
 };
 
 AS_fncUI_selectSave = {
