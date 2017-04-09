@@ -57,6 +57,7 @@ for "_i" from 0 to _numCiv - 1 do {
 	_civs pushBack _civ;
 };
 
+// spawn parked cars
 _counter = 0;  // how many vehicles were already spawned.
 while {_counter < _numVeh} do {
 	if (diag_fps < AS_P("minimumFPS")) exitWith {};
@@ -88,7 +89,7 @@ _cuentaPatrol = 0;
 
 _andanadas = round (_numCiv / 30);
 if (_andanadas < 1) then {_andanadas = 1};
-
+// spawn moving cars
 for "_i" from 1 to _andanadas do
 	{
 	while {(spawner getVariable _marcador) and (_cuentaPatrol < (count _patrolCiudades - 1))} do
@@ -106,15 +107,19 @@ for "_i" from 1 to _andanadas do
 			_dirveh = [_p1,_p2] call BIS_fnc_DirTo;
 			_tipoveh = arrayCivVeh call BIS_Fnc_selectRandom;
 			_veh = _tipoveh createVehicle _p1;
+			[_veh] spawn civVEHinit;
 			_veh setDir _dirveh;
-			_veh addEventHandler ["HandleDamage",{if (((_this select 1) find "wheel" != -1) and (_this select 4=="") and (!isPlayer driver (_this select 0))) then {0;} else {(_this select 2);};}];
 			_vehPatrol = _vehPatrol + [_veh];
+
+			// spawn driver
 			_tipociv = arrayCivs call BIS_Fnc_selectRandom;
 			_civ = _grupoP createUnit [_tipociv, _p1, [],0, "NONE"];
 			[_civ] spawn CIVinit;
 			_civsPatrol = _civsPatrol + [_civ];
 			_civ moveInDriver _veh;
 			_grupoP addVehicle _veh;
+
+			// set waypoints
 			_grupoP setBehaviour "CARELESS";
 			_wp = _grupoP addWaypoint [getMarkerPos (_patrolCiudades select _cuentaPatrol),0];
 			_wp setWaypointType "MOVE";
