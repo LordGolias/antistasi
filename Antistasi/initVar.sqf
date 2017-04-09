@@ -150,7 +150,6 @@ call compile preprocessFileLineNumbers "templates\FIA.sqf";
 #include "Compositions\spawnPositions.sqf"
 #include "Functions\clientFunctions.sqf"
 #include "Functions\gearFunctions.sqf"
-call compile preprocessFileLineNumbers "Lists\gearList.sqf";
 call compile preprocessFileLineNumbers "Lists\basicLists.sqf";
 
 if (!isServer and hasInterface) exitWith {};
