@@ -4,25 +4,19 @@ waitUntil {player == player};
 [] execVM "briefing.sqf";
 #include "Scripts\SHK_Fastrope.sqf"
 
-// removes everything but map, GPS, etc.
-[player] call AS_fnc_emptyUnit;
-
 if (isMultiplayer and !isServer) then {
     call compile preprocessFileLineNumbers "initFuncs.sqf";
     call compile preprocessFileLineNumbers "initVar.sqf";
 };
 
-[] execVM "musica.sqf";
 
-_isJip = _this select 1;
-private ["_colorWest", "_colorEast"];
-_colorWest = west call BIS_fnc_sideColor;
-_colorEast = east call BIS_fnc_sideColor;
+private _colorWest = west call BIS_fnc_sideColor;
+private _colorEast = east call BIS_fnc_sideColor;
 {
 _x set [3, 0.33]
 } forEach [_colorWest, _colorEast];
 
-_introShot =
+private _introShot =
 	[
     position petros, // Target position
     "Altis Island", // SITREP text
@@ -42,9 +36,15 @@ if (isMultiplayer) then {
     diag_log "[AS] client: serverInitVarsDone";
 };
 
+[] execVM "musica.sqf";
+
+private _isJip = _this select 1;
+
 _titulo = ["A3 - Antistasi","by Barbolani",antistasiVersion] spawn BIS_fnc_infoText;
 
 if (isMultiplayer) then {
+    // removes everything but map, GPS, etc.
+    [player] call AS_fnc_emptyUnit;
 	player setVariable ["elegible",true,true];
 	musicON = false;
 	waitUntil {scriptdone _introshot};
@@ -57,6 +57,8 @@ if (isMultiplayer) then {
 	diag_log format ["[AS] client: isJIP: %1", _isJip];
 }
 else {
+    // removes everything but map, GPS, etc.
+    [player] call AS_fnc_emptyUnit;
 	AS_commander = player;
 	_group = group player;
 	_group setGroupId ["Stavros","GroupColor4"];
