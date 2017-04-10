@@ -12,10 +12,6 @@ petros allowdamage false;
 [_saveName, "destroyedCities"] call fn_LoadStat; publicVariable "destroyedCities";
 [_saveName, "minas"] call fn_LoadStat;
 [_saveName, "cuentaCA"] call fn_LoadStat;
-[_saveName, "planesAAFcurrent"] call fn_LoadStat;
-[_saveName, "helisAAFcurrent"] call fn_LoadStat;
-[_saveName, "APCAAFcurrent"] call fn_LoadStat;
-[_saveName, "tanksAAFcurrent"] call fn_LoadStat;
 [_saveName, "fecha"] call fn_LoadStat;
 [_saveName, "garrison"] call fn_LoadStat;
 [_saveName, "smallCAmrk"] call fn_LoadStat;
@@ -52,15 +48,11 @@ if (_x in mrkFIA) then
 		{
 		_mrkD setMarkerText format ["FIA Airport: %1",count (garrison getVariable _x)];
 		_mrkD setMarkerType "flag_FIA";
-		planesAAFmax = planesAAFmax - 1;
-	    helisAAFmax = helisAAFmax - 2;
 	    };
 	if (_x in bases) then
 		{
 		_mrkD setMarkerText format ["FIA Base: %1",count (garrison getVariable _x)];
 		_mrkD setMarkerType "flag_FIA";
-		APCAAFmax = APCAAFmax - 2;
-    	tanksAAFmax = tanksAAFmax - 1;
 		};
 	if (_x in puestos) then
 		{
@@ -140,10 +132,9 @@ publicVariable "marcadores";
 publicVariable "mrkAAF";
 publicVariable "mrkFIA";
 
+[_saveName] call AS_fnc_loadAAFarsenal;
 [_saveName] call AS_fnc_loadHQ;
 [_saveName, "estaticas"] call fn_LoadStat;//tiene que ser el último para que el sleep del borrado del contenido no haga que despawneen
-
-//call AAFassets;
 
 if (isMultiplayer) then {
 	{

@@ -78,7 +78,7 @@ _veh setDir _dirVeh;
 sleep 15;
 _veh allowDamage true;
 _traidor allowDamage true;
-[_veh] spawn genVEHinit;
+[_veh, "CSAT"] call AS_fnc_initVehicle;
 {_x disableAI "MOVE"; _x setUnitPos "UP"} forEach units _grptraidor;
 
 _mrk = createMarkerLocal [format ["%1patrolarea", floor random 100], getPos _casa];

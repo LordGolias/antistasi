@@ -17,7 +17,7 @@ misiones pushBack _tsk; publicVariable "misiones";
 _pos = (getMarkerPos "respawn_west") findEmptyPosition [1,50,"C_Van_01_box_F"];
 
 _camion = "C_Van_01_box_F" createVehicle _pos;
-[_camion] spawn VEHinit;
+[_camion, "FIA"] call AS_fnc_initVehicle;
 {_x reveal _camion} forEach (allPlayers - hcArray);
 _camion setVariable ["destino",_nombredest,true];
 _camion addEventHandler ["GetIn",
@@ -116,4 +116,3 @@ else
 waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,_camion,"BLUFORSpawn"] call distanceUnits)) or ((_camion distance (getMarkerPos "respawn_west") < 60) && (speed _camion < 1))};
 [_camion] call vaciar;
 deleteVehicle _camion;
-

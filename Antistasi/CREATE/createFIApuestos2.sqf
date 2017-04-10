@@ -44,7 +44,7 @@ if (_escarretera) then {
 		_vehicles pushBack _veh;
 		_veh setDir _dirveh + 90;
 		_veh lock 3;
-		[_veh] spawn VEHinit;
+		[_veh, "FIA"] call AS_fnc_initVehicle;
 		sleep 1;
 
 		_grupo = [_posicion, side_blue, ["AT Team"] call AS_fnc_getFIASquadConfig, [], [], [], [], [], _dirveh] call BIS_Fnc_spawnGroup;

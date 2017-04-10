@@ -84,7 +84,7 @@ if (_type == "air") then {
 	_heliCrew = _vehicle select 1;
 	_grpVeh1 = _vehicle select 2;
 	{[_x] spawn NATOinitCA} forEach _heliCrew;
-	[_heli1] spawn NATOVEHinit;
+	[_heli1, "NATO"] call AS_fnc_initVehicle;
 	_soldados = _soldados + _heliCrew;
 	_grupos = _grupos + [_grpVeh1];
 	_vehiculos = _vehiculos + [_heli1];
@@ -106,7 +106,7 @@ if (_type == "air") then {
 	_heliCrew2 = _vehicle2 select 1;
 	_grpVeh2 = _vehicle2 select 2;
 	{[_x] spawn NATOinitCA} forEach _heliCrew2;
-	[_heli2] spawn NATOVEHinit;
+	[_heli2, "NATO"] call AS_fnc_initVehicle;
 	_soldados = _soldados + _heliCrew2;
 	_grupos = _grupos + [_grpVeh2];
 	_vehiculos = _vehiculos + [_heli2];
@@ -140,7 +140,7 @@ else {
 	// first MRAP, escort
 	_vehicle1 = [position (_roads select 0), 0, bluMRAPHMG select 0, side_blue] call bis_fnc_spawnvehicle;
 	_veh1 = _vehicle1 select 0;
-	[_veh1] spawn NATOVEHinit;
+	[_veh1, "NATO"] call AS_fnc_initVehicle;
 	[_veh1,"NATO Armor"] spawn inmuneConvoy;
 	_vehCrew1 = _vehicle1 select 1;
 	_grpVeh1 = _vehicle1 select 2;
@@ -166,7 +166,7 @@ else {
 	// second MRAP
 	_vehicle2 = [position (_roads select 1), 0, selectRandom bluMRAP, side_blue] call bis_fnc_spawnvehicle;
 	_veh2 = _vehicle2 select 0;
-	[_veh2] spawn NATOVEHinit;
+	[_veh2, "NATO"] call AS_fnc_initVehicle;
 	[_veh2,"NATO Armor"] spawn inmuneConvoy;
 	_vehCrew2 = _vehicle2 select 1;
 	_grpVeh2 = _vehicle2 select 2;

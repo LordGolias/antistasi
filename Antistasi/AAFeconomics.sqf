@@ -8,12 +8,10 @@ _prestigeCSAT = AS_P("prestigeCSAT");
 waitUntil {!resourcesIsChanging};
 resourcesIsChanging = true;
 
-_multiplicador = 1;
+// This is needed only before AAF buys equipment.
+call AS_fnc_updateAAFarsenal;
 
-if (!isMultiplayer) then {_multiplicador = 2};
-
-_cuenta = count (mrkFIA - puestosFIA - ["FIA_HQ"] - ciudades);
-
+//////////////// try to restore cities ////////////////
 if (_resourcesAAF > 5000) then
 	{
 	_destroyedCities = destroyedCities - mrkFIA - ciudades;
@@ -45,7 +43,7 @@ if (_resourcesAAF > 5000) then
 				if ((_marcador in mrkAAF) and (not(spawner getVariable _marcador))) then
 					{
 					[_marcador,_x] remoteExec ["REP_Antena",HCattack];
-					_resourcesAAF = _resourcesAAF - (5000*_multiplicador);
+					_resourcesAAF = _resourcesAAF - 5000;
 					};
 				};
 			} forEach antenasMuertas;
@@ -53,66 +51,31 @@ if (_resourcesAAF > 5000) then
 		};
 	};
 
-if (_cuenta == 0) exitWith {resourcesIsChanging = false};
+//////////////// try to expand arsenal ////////////////
 
-if (((planesAAFcurrent < planesAAFmax) and (helisAAFcurrent > 3)) and (_cuenta > 6)) then
-	{
-	if (_resourcesAAF > (17500*_multiplicador)) then
-		{
-		if (count planesAAF < 2) then {
-			planesAAF = planesAAF + planes;
-			publicVariable "planesAAF"
-			};
-		planesAAFcurrent = planesAAFcurrent + 1;
-		publicVariable "planesAAFcurrent";
-		_resourcesAAF = _resourcesAAF - (17500*_multiplicador);
-		};
-	};
-if (((tanksAAFcurrent < tanksAAFmax) and (APCAAFcurrent > 3)) and (_cuenta > 5) and (planesAAFcurrent != 0)) then
-	{
-	if (_resourcesAAF > (10000*_multiplicador)) then
-		{
-		_length = count (vehAAFAT - vehTank);
-		if (_length == count vehAAFAT) then {
-			vehAAFAT = vehAAFAT + vehTank;
-			publicVariable "vehAAFAT";
-			};
-		tanksAAFcurrent = tanksAAFcurrent + 1; publicVariable "tanksAAFcurrent";
-	    _resourcesAAF = _resourcesAAF - (10000*_multiplicador);
-		};
-    };
-if (((helisAAFcurrent < helisAAFmax) and ((helisAAFcurrent < 4) or (planesAAFcurrent > 3))) and (_cuenta > 3)) then
-	{
-	if (_resourcesAAF > (10000*_multiplicador)) then
-		{
-		_length = count (planesAAF - heli_armed);
-		if (_length == count planesAAF) then {
-			planesAAF = planesAAF + heli_armed;
-			publicVariable "planesAAF"
-			};
-		helisAAFcurrent = helisAAFcurrent + 1; publicVariable "helisAAFcurrent";
-		_resourcesAAF = _resourcesAAF - (7000*_multiplicador);
-		};
-	};
-if ((APCAAFcurrent < APCAAFmax) and ((tanksAAFcurrent > 2) or (APCAAFcurrent < 4)) and (_cuenta > 2)) then
-	{
-	if (_resourcesAAF > (5000*_multiplicador)) then
-		{
-		_length = count (vehAAFAT - vehAPC);
-		if (_length == count vehAAFAT) then {
-	        vehAAFAT = vehAAFAT +  vehAPC;
-			publicVariable "vehAAFAT";
-	        };
-		_length = count (vehAAFAT - vehIFV);
-	    if (_length == count vehAAFAT) then {
-	        vehAAFAT = vehAAFAT +  vehIFV;
-			publicVariable "vehAAFAT";
-	        };
-	    APCAAFcurrent = APCAAFcurrent + 1; publicVariable "APCAAFcurrent";
-	    _resourcesAAF = _resourcesAAF - (5000*_multiplicador);
-		};
-	};
+// extra conditions to avoid AAF being too strong.
+// Categories without condition always buy if given enough money
+private _FIAcontrolledLocations = count (mrkFIA - puestosFIA - ["FIA_HQ"] - ciudades);
+private _FIAcontrolledBases = count (mrkFIA - (bases + aeropuertos));
 
+private _logicGroup = createGroup (createCenter sideLogic);
+private _extra_conditions = _logicGroup createUnit ["Logic", [0,0,0], [], 0, "NONE"];
+_extra_conditions setVariable ["transportHelis", _FIAcontrolledLocations >= 1];
+_extra_conditions setVariable ["tanks", _FIAcontrolledLocations >= 3];
+_extra_conditions setVariable ["armedHelis", _FIAcontrolledLocations >= 3];
+_extra_conditions setVariable ["planes", _FIAcontrolledBases >= 1];
+
+{
+	private _cost = [_x] call AS_fnc_AAFarsenal_cost;
+	private _extra_condition = _extra_conditions getvariable [_x,true];
+
+	while {_extra_condition and ([_x] call AS_fnc_AAFarsenal_canAdd) and  _resourcesAAF > _cost} do {
+		[_x] call AS_fnc_AAFarsenal_addVehicle;
+		_resourcesAAF = _resourcesAAF - _cost;
+	};
+} forEach AS_AAFarsenal_categories;
+
+//////////////// try to upgrade skills ////////////////
 _skillFIA = AS_P("skillFIA");
 _skillAAF = AS_P("skillAAF");
 if ((_skillAAF < (_skillFIA + 4)) && (_skillAAF < AS_maxSkill)) then {
@@ -124,6 +87,8 @@ if ((_skillAAF < (_skillFIA + 4)) && (_skillAAF < AS_maxSkill)) then {
 	};
 };
 
+//////////////// try to build minefields ////////////////
+// todo: code inside this condition is broken (two opposing conditions)
 if (_resourcesAAF > 2000) then
 	{
 	{
@@ -137,8 +102,6 @@ if (_resourcesAAF > 2000) then
 		};
 	} forEach (bases - mrkFIA);
 	};
-_resourcesAAF = round _resourcesAAF;
-
-AS_Pset("resourcesAAF",_resourcesAAF);
+AS_Pset("resourcesAAF",round _resourcesAAF);
 
 resourcesIsChanging = false;

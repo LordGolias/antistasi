@@ -37,7 +37,7 @@ if (count _buildings > 1) then
 		_veh setDir (_ang + 90);
 		sleep 1;
 		_vehiculos = _vehiculos + [_veh];
-		[_veh] spawn NATOVEHinit;
+		[_veh, "NATO"] call AS_fnc_initVehicle;
 		_pos = [_pos, 20,_ang] call BIS_fnc_relPos;
 		_unit = ([_posicion, 0, bluPilot, _grupo] call bis_fnc_spawnvehicle) select 0;
 		_cuenta = _cuenta + 1;
@@ -68,7 +68,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _nVeh)} do
 		_veh setDir random 360;
 		_veh lock 3;
 		_vehiculos = _vehiculos + [_veh];
-		[_veh] spawn NATOVEHinit;
+		[_veh, "NATO"] call AS_fnc_initVehicle;
 		sleep 1;
 		};
 	_cuenta = _cuenta + 1;
@@ -142,7 +142,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _tam)} do
 		_vehiculos = _vehiculos + [_veh];
 		[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 		_unit moveInGunner _veh;
-		[_veh] spawn VEHinit;
+		[_veh, "FIA"] call AS_fnc_initVehicle;
 		}
 	else
 		{

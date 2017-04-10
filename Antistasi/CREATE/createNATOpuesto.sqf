@@ -72,7 +72,7 @@ sleep 1;
 
 _veh lock 3;
 
-[_veh] spawn NATOVEHinit;
+[_veh, "NATO"] call AS_fnc_initVehicle;
 _veh allowCrewInImmobile true;
 sleep 1;
 

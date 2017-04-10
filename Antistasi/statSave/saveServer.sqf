@@ -19,14 +19,11 @@ private _savingPlayersHandle = ([_saveName] spawn {
 [_saveName, "cuentaCA", cuentaCA] call fn_SaveStat;
 [_saveName, "smallCAmrk", smallCAmrk] call fn_SaveStat;
 [_saveName, "miembros", miembros] call fn_SaveStat;
-[_saveName, "APCAAFcurrent", APCAAFcurrent] call fn_SaveStat;
-[_saveName, "tanksAAFcurrent",tanksAAFcurrent] call fn_SaveStat;
-[_saveName, "planesAAFcurrent", planesAAFcurrent] call fn_SaveStat;
-[_saveName, "helisAAFcurrent", helisAAFcurrent] call fn_SaveStat;
 [_saveName, "fecha", date] call fn_SaveStat;
 [_saveName, "vehInGarage", vehInGarage] call fn_SaveStat;
 [_saveName, "destroyedCities", destroyedCities] call fn_SaveStat;
 
+[_saveName] call AS_fnc_saveAAFarsenal;
 [_saveName] call AS_fnc_saveMarkers;
 [_saveName] call AS_fnc_saveHQ;
 

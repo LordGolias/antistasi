@@ -50,7 +50,7 @@ for "_i" from 1 to 3 do
 	_grupoheliTmp = _helifn select 2;
 	{[_x] spawn NATOinitCA; _soldados pushBack _x; [_x] join _grupoHeli} forEach _heliCrew;
 	deleteGroup _grupoheliTmp;
-	[_heli] spawn NATOVEHinit;
+	[_heli, "NATO"] call AS_fnc_initVehicle;
 	_heli setPosATL [getPosATL _heli select 0, getPosATL _heli select 1, 1000];
 	_heli flyInHeight 300;
 	//[_heli] spawn unlimitedAmmo;

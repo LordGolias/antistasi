@@ -77,7 +77,7 @@ _graf4 setDir (getDir propTruck + 270);
 _grafArray pushBack _graf4;
 
 // initialize mission vehicle
-[propTruck] spawn VEHinit;
+[propTruck, "FIA"] call AS_fnc_initVehicle;
 {_x reveal propTruck} forEach (allPlayers - hcArray);
 propTruck setVariable ["destino",_targetName,true];
 propTruck addEventHandler ["GetIn",

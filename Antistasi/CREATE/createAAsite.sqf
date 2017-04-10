@@ -25,7 +25,7 @@ _objs = [_posCmp, 0, _cmp] call BIS_fnc_ObjectsMapper;
 {
 	call {
 		if (typeOf _x == opSPAA) exitWith {_AAVeh = _x; _vehiculos = _vehiculos + [_x]; _av = true;};
-		if (typeOf _x == opTruck) exitWith {[_x] spawn genVEHinit; _truck = [_x]};
+		if (typeOf _x == opTruck) exitWith {[_x, "CSAT"] call AS_fnc_initVehicle; _truck = [_x]};
 		if (typeOf _x in [statMG, statAT, statAA, statAA2, statMGlow, statMGtower]) exitWith {_stcs pushBack _x;};
 		if (typeOf _x == statMortar) exitWith {_stcs pushBack _x; [_x] execVM "scripts\UPSMON\MON_artillery_add.sqf";};
 		if (typeOf _x == opCrate) exitWith {_crate = _x; _vehiculos = _vehiculos + [_x];};
@@ -69,7 +69,7 @@ createVehicleCrew _uav;
 _grupoUAV = group (crew _uav select 1);
 [leader _grupoUAV, _mrkfin, "SAFE", "SPAWNED","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 
-{[_x] spawn genVEHinit} forEach _vehiculos;
+{[_x,"CSAT"] call AS_fnc_initVehicle} forEach _vehiculos;
 
 {[_x] spawn CSATinit; _soldados = _soldados + [_x]} forEach units _grupoCSAT;
 _grupos = _grupos + [_grupoCSAT];

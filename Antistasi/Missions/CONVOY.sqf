@@ -106,15 +106,18 @@ if (_tipoConvoy == "Municion") then
 if (_tipoConvoy == "Armor") then
 	{
 	_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescArm,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleArm, A3_STR_INDEP],_destino],_posdestino,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-	_armor = "";
-	{if (_x in vehTank) exitWith {_armor = _x};} forEach vehAAFAT;
-	if (_armor != "") then {_tipoVehObj = selectRandom vehTank;} else { _tipoVehObj = selectRandom vehIFV;};
+	private _tanks = ["tanks"] call AS_fnc_AAFarsenal_all;
+	if (count _tanks > 0) then {
+		_tipoVehObj = selectRandom _tanks;
+	} else {
+		_tipoVehObj = selectRandom (["apcs"] call AS_fnc_AAFarsenal_valid);
+	}
 	};
 
 if (_tipoConvoy == "Prisoners") then
 	{
 	_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescPrs,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitlePrs, A3_STR_INDEP],_destino],_posdestino,"CREATED",5,true,true,"run"] call BIS_fnc_setTask;
-	_tipoVehObj = enemyMotorpoolDef;
+	_tipoVehObj = selectRandom (["trucks"] call AS_fnc_AAFarsenal_valid);
 	};
 
 if (_tipoConvoy == "Money") then
@@ -131,7 +134,7 @@ if (_tipoConvoy == "Supplies") then
 
 if (_tipoConvoy == "HVT") then {
 	_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescHVT,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleHVT, A3_STR_INDEP],_destino],_posdestino,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-	_tipoVehObj = selectRandom standardMRAP;
+	_tipoVehObj = selectRandom (["apcs"] call AS_fnc_AAFarsenal_valid);
 };
 
 misiones pushBack _tsk; publicVariable "misiones";
@@ -168,19 +171,6 @@ if ([_destino] call isFrontline) then {_cuenta = (round random 2) + 1};
 
 _pV = 0;
 
-_tempMP = [];
-if (hayRHS) then {
-	for "_j" from 1 to 4 do {
-		if (count (vehAAFAT - vehIFV) < count vehAAFAT) then {_tempMP pushBack selectRandom (vehIFV)};
-	};
-}
-else {
-	_tempMP = vehIFV;
-};
-
-_vehAAFAT = vehAAFAT;
-if (count (_vehAAFAT - vehIFV) < count _vehAAFAT) then {_vehAAFAT = _vehAAFAT - vehIFV; _vehAAFAT = _vehAAFAT + _tempMP};
-
 if (_tipoConvoy == "HVT") then {
 	sleep 20;
 	_pv = round random 1;
@@ -207,20 +197,16 @@ if (_tipoConvoy == "HVT") then {
 else {
 	for "_i" from 1 to _cuenta do {
 		sleep 20;
-		if (count _vehAAFAT > 1) then
-			{
-			_vehAAFAT = _vehAAFAT - [enemyMotorpoolDef];
-			_tipoVehEsc = _vehAAFAT call BIS_fnc_selectRandom;
-			}
-		else
-			{
-			_tipoVehEsc = enemyMotorpoolDef;
-			};
+		private _apcs = ["apcs"] call AS_fnc_AAFarsenal_all;
+		private _FIAstrength = count (mrkFIA arrayIntersect (bases + aeropuertos));
 
-		_b = bases + aeropuertos;
-		_c = mrkFIA arrayIntersect _b;
-		_t = _vehAAFAT arrayIntersect vehTank;
-		if ((count _c > 2) && (count _t > 0) && (_i == _cuenta)) then {_tipoVehEsc = selectRandom vehTank};
+		// the more bases, the stronger the escort
+		if ((_i == _cuenta - 1) and (_FIAstrength > 2) and (count _apcs > 0)) then {
+			_tipoVehEsc = selectRandom _apcs;
+		};
+		if ((_i == _cuenta) and (count _apcs > 0)) then {
+			_tipoVehEsc = selectRandom _apcs;
+		};
 
 		private _vehData = [[_posRoad, _tipoVehEsc]] call _initVehs;
 		_vehiculos = _vehData select 0;
@@ -230,22 +216,14 @@ else {
 		_veh = (_vehData select 3) select 0;
 		[_veh,"AAF Convoy Escort"] spawn inmuneConvoy;
 
-		if !(_tipoVehEsc in vehTank) then
-			{
-			if (_tipoVehEsc in vehIFV) then {
-				_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
-			}
-			else {
-				_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
-			};
-			_grupoEsc = [_posbase, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-			{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados = _soldados + [_x];[_x] join _grupo} forEach units _grupoEsc;
-			deleteGroup _grupoEsc;
-			if (_tipoVehEsc != enemyMotorpoolDef) then
-				{
-				[_veh] spawn smokeCover;
-				};
-			};
+		if (_tipoVehEsc in _apcs) then {
+			_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
+		} else { // is a truck
+			_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
+		};
+		_grupoEsc = [_posbase, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+		{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados = _soldados + [_x];[_x] join _grupo} forEach units _grupoEsc;
+		deleteGroup _grupoEsc;
 	};
 };
 
@@ -315,15 +293,11 @@ if ((_tipoConvoy == "Money") or (_tipoConvoy == "Supplies")) then {reportedVehs 
 
 sleep 20;
 
-if (count vehAAFAT > 1) then
-	{
-	_vehAAFAT = vehAAFAT - [enemyMotorpoolDef];
-	_tipoVehEsc = _vehAAFAT call BIS_fnc_selectRandom;
-	}
-else
-	{
-	_tipoVehEsc = enemyMotorpoolDef;
-	};
+private _apcs = ["apcs"] call AS_fnc_AAFarsenal_all;
+
+if (count _apcs > 0) then {
+	_tipoVehEsc = selectRandom _apcs;
+};
 
 private _vehData = [[_posRoad, _tipoVehEsc]] call _initVehs;
 _vehiculos = _vehData select 0;
@@ -333,23 +307,15 @@ _soldados = _vehData select 2;
 _veh = (_vehData select 3) select 0;
 [_veh,"AAF Convoy Escort"] spawn inmuneConvoy;
 
-
-if !(_tipoVehEsc in vehTank) then
-	{
-	if (_tipoVehEsc in vehIFV) then {
-		_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
-	}
-	else {
-		_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
-	};
-	_grupoEsc = [_posbase, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-	{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados = _soldados + [_x];[_x] join _grupo} forEach units _grupoEsc;
-	deleteGroup _grupoEsc;
-	if (_tipoVehEsc != enemyMotorpoolDef) then
-		{
-		[_veh] spawn smokeCover;
-		};
-	};
+if (_tipoVehEsc in _apcs) then {
+	_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
+}
+else {  // is a truck
+	_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
+};
+_grupoEsc = [_posbase, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados = _soldados + [_x];[_x] join _grupo} forEach units _grupoEsc;
+deleteGroup _grupoEsc;
 
 if (_tipoConvoy == "HVT") then {
 	waitUntil {sleep 1; (dateToNumber date > _fechafinNum) or (_hvt distance _posdestino < 100) or (not alive _hvt)};
@@ -409,7 +375,6 @@ if (_tipoConvoy == "Armor") then
 	if ((_vehObj distance _posdestino < 100) or (dateToNumber date > _fechafinNum)) then
 		{
 		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescArm,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleArm, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-		tanksAAFcurrent = tanksAAFcurrent + 1;
 		server setVariable [_destino,dateToNumber date,true];
 		[-1200] remoteExec ["timingCA",2];
 		[-10,AS_commander] call playerScoreAdd;

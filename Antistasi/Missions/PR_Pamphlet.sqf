@@ -47,7 +47,7 @@ _crate1 setDir (getDir PRTruck);
 _PRCrates pushBack _crate1;
 
 // initialize mission vehicle
-[PRTruck] spawn VEHinit;
+[PRTruck, "FIA"] call AS_fnc_initVehicle;
 {_x reveal PRTruck} forEach (allPlayers - hcArray);
 PRTruck setVariable ["destino",_targetName,true];
 PRTruck addEventHandler ["GetIn",

@@ -23,11 +23,15 @@ _vehiculos = _vehiculos + [_veh];
 _veh = createVehicle ["I_supplyCrate_F", _posicion, [],0, "NONE"];
 _vehiculos = _vehiculos + [_veh];
 [_veh] call AS_fnc_fillCrateAAF;
-_pos = _posicion findEmptyPosition [5,50,"I_Truck_02_covered_F"];
-_veh = createVehicle [selectRandom vehTrucks, _pos, [], 0, "NONE"];
-_veh setDir random 360;
-_vehiculos = _vehiculos + [_veh];
-sleep 1;
+
+if (["trucks"] call AS_fnc_AAFarsenal_count > 0) then {
+	private _type = selectRandom (["trucks"] call AS_fnc_AAFarsenal_all);
+	_pos = _posicion findEmptyPosition [5,_size,_type];
+	_veh = createVehicle [_type, _pos, [], 0, "NONE"];
+	_veh setDir random 360;
+	_vehiculos = _vehiculos + [_veh];
+	[_veh, "AAF"] call AS_fnc_initVehicle;
+};
 
 _pos = [_posicion] call mortarPos;
 _veh = statMortar createVehicle _pos;

@@ -43,7 +43,7 @@ for "_i" from 1 to _cuenta do
 	{
 	_vehicle=[position (_roads select (_i - 1)), 0, selectRandom bluMBT, _grupo] call bis_fnc_spawnvehicle;
 	_veh = _vehicle select 0;
-	[_veh] spawn NATOVEHinit;
+	[_veh, "NATO"] call AS_fnc_initVehicle;
 	[_veh,"NATO Armor"] spawn inmuneConvoy;
 	_vehCrew = _vehicle select 1;
 	{[_x] spawn NATOinitCA} forEach _vehCrew;

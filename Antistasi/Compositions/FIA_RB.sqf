@@ -140,7 +140,7 @@ fnc_RB_placeSingle = {
 
 	_vehicle allowDamage false;
 	_vehicle setFuel 0;
-	0 = [_vehicle] spawn VEHinit;
+	[_vehicle, "FIA"] call AS_fnc_initVehicle;
 	_RBgroup = createGroup side_blue;
 	_gunner = _RBgroup createUnit [["Crew"] call AS_fnc_getFIAUnitClass, [0,0,0], [], 0, "NONE"];
 	_gunner moveInGunner _vehicle;

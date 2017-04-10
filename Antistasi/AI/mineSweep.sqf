@@ -24,7 +24,7 @@ _pos = position _road findEmptyPosition [1,30,"B_G_Van_01_transport_F"];
 
 _camion = "B_G_Offroad_01_repair_F" createVehicle _pos;
 
-[_camion] spawn VEHinit;
+[_camion, "FIA"] call AS_fnc_initVehicle;
 [_unit] spawn AS_fnc_initUnitFIA;
 _grupo addVehicle _camion;
 _camion setVariable ["owner",_grupo,true];

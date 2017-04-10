@@ -83,16 +83,12 @@ if ((_marcador in bases) or (_marcador in aeropuertos)) then
 		{
 		[["TaskFailed", ["", "Base Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 		_mrk setMarkerText "AAF Base";
-		APCAAFmax = APCAAFmax + 2;
-        tanksAAFmax = tanksAAFmax + 1;
 		}
 	else
 		{
 		[["TaskFailed", ["", "Airport Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 		_mrk setMarkerText "AAF Airport";
 		server setVariable [_marcador,dateToNumber date,true];
-		planesAAFmax = planesAAFmax + 1;
-        helisAAFmax = helisAAFmax + 2;
         };
 	};
 

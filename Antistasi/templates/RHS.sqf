@@ -64,37 +64,37 @@ infList_regular = 	[sol_AMMO, sol_GL, sol_GL2, sol_LAT, sol_LAT2, sol_R_L, sol_R
 infList_crew = 		[sol_UN, sol_CREW, sol_CREW2, sol_CREW3, sol_CREW4, sol_DRV, sol_DRV2, sol_HCREW, sol_UAV, sol_SUP_AMG, sol_SUP_AMTR, sol_SUP_GMG, sol_SUP_MG, sol_SUP_MTR];
 infList_pilots = 	[sol_HPIL, sol_HPIL2, sol_PIL];
 
-// Vehicles
-vehTrucks = 		["rhs_kamaz5350_open_vdv","rhs_kamaz5350_vdv","RHS_Ural_Open_VDV_01","RHS_Ural_VDV_01"]; // trucks that spawn at outposts, etc
-vehPatrol =			["rhs_tigr_m_vdv","RHS_Mi8mt_vvsc"]; // vehicles used for road patrols;
-vehAPC = 			["rhs_btr80_vdv"]; // APCs
-vehIFV = 			["rhs_bmp2d_vdv","rhs_bmp1p_vdv","rhs_bmd2m","rhs_bmd2k"]; // IFVs
-vehTank = 			["rhs_t72bb_tv","rhs_t72bd_tv","rhs_t90a_tv"]; // MBTs
-vehSupply = 		["rhs_gaz66_ammo_vdv","RHS_Ural_Fuel_VDV_01","rhs_gaz66_repair_vdv","rhs_gaz66_ap2_vdv"]; // supply vehicles (ammo, fuel, med)
-vehAmmo = 			"rhs_gaz66_ammo_vdv"; // ammo truck, for special missions
-vehLead = 			["rhs_tigr_sts_3camo_vdv"]; // lead vehicle for convoys, preferably armed MRAP/car
-standardMRAP = 		["rhs_tigr_vdv","rhs_uaz_vdv"]; // default transport MRAP/car
-vehTruckBox = 		["rhs_gaz66_repair_vdv"]; // repair truck or at least a prop
+// AAF Vehicles
+AS_AAFarsenal setVariable ["valid_planes", ["rhs_Su25SM_vvsc"], true];
+AS_AAFarsenal setVariable ["valid_armedHelis", [
+	"rhs_Mi24V_FAB_vdv","rhs_Mi24V_UPK23_vdv"
+], true];
+AS_AAFarsenal setVariable ["valid_transportHelis", [
+	"rhs_Mi8mt_Cargo_vvsc","rhs_Mi8MTV3_FAB_vvsc","rhs_Mi8AMTSh_FAB_vvsc","rhs_ka60_c"
+], true];
+AS_AAFarsenal setVariable ["valid_tanks", [
+	"rhs_t72bb_tv","rhs_t72bd_tv","rhs_t90a_tv"
+], true];
+AS_AAFarsenal setVariable ["valid_apcs", [
+	"rhs_btr80_vdv", "rhs_bmp2d_vdv","rhs_bmp1p_vdv","rhs_bmd2m","rhs_bmd2k"
+], true];
+AS_AAFarsenal setVariable ["valid_trucks", [
+	"rhs_kamaz5350_open_vdv","rhs_kamaz5350_vdv","rhs_Ural_Open_VDV_01","rhs_Ural_VDV_01"
+], true];
+AS_AAFarsenal setVariable ["valid_supplies", [
+	"rhs_gaz66_ammo_vdv","rhs_Ural_Fuel_VDV_01","rhs_gaz66_repair_vdv","rhs_gaz66_ap2_vdv"
+], true];
 
-vehTruckAA = 		"rhs_gaz66_zu23_msv";
+AS_AAFarsenal_uav = "";
+
+vehPatrol = ["rhs_tigr_m_vdv","RHS_Mi8mt_vvsc"];
+vehAmmo = "I_Truck_02_ammo_F";
+vehLead = ["rhs_tigr_sts_3camo_vdv"];
+vehTruckBox = ["rhs_gaz66_repair_vdv"];
+
+// FIA Vehicles
+vehTruckAA = "rhs_gaz66_zu23_msv";
 vehFIA pushBackUnique vehTruckAA;
-
-var_AAF_groundForces = vehTrucks + vehPatrol + vehAPC + vehIFV + vehTank + vehLead + standardMRAP;
-var_AAF_groundForces = var_AAF_groundForces arrayIntersect var_AAF_groundForces;
-
-// Airforce
-heli_unarmed = 		["RHS_Mi8mt_Cargo_vvsc","RHS_Mi8MTV3_FAB_vvsc","RHS_Mi8AMTSh_FAB_vvsc","rhs_ka60_c"]; // (un-)armed transport helicopters
-heli_armed = 		["RHS_Mi24V_FAB_vdv","RHS_Mi24V_UPK23_vdv"]; // // armed helicopters
-heli_escort = 		"RHS_Mi8AMTSh_vvsc";
-planes = 			["RHS_Su25SM_vvsc"]; // attack planes
-heli_default = 		"RHS_Mi8mt_vvsc";
-heli_transport = 	"RHS_Mi8mt_vvsc";
-indUAV_large = 		"I_UAV_02_F"; // large UAV, unarmed
-
-// Initial motorpool/airforce
-enemyMotorpoolDef = "RHS_Ural_VDV_01"; // fallback vehicle in case of an empty motorpool -- NOT AN ARRAY!
-enemyMotorpool = 	["RHS_Ural_VDV_01"]; // starting/current motorpool
-indAirForce = 		["RHS_Mi8mt_vvsc"]; // starting/current airforce
 
 // Config paths for pre-defined groups -- required if group names are used
 cfgInf = (configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry");
@@ -384,7 +384,7 @@ These are the vehicles and statics that you can buy at HQ. Currently, the array 
 0-2: civilian vehicles
 3-12: military vehicles and statics
 */
-vfs = [
+vehFIA = [
 	"C_Offroad_01_F",
 	"C_Van_01_transport_F",
 	"RHS_Mi8amt_civilian",

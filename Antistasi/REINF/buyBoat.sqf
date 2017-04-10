@@ -33,7 +33,7 @@ while {true} do
 
 _veh = "B_G_Boat_Transport_01_F" createVehicle _pos;
 
-[_veh] spawn VEHinit;
+[_veh, "FIA"] call AS_fnc_initVehicle;
 player reveal _veh;
 [0,-200] remoteExec ["resourcesFIA",2];
 hint "Boat purchased";

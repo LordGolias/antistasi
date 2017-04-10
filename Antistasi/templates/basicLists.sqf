@@ -8,7 +8,17 @@ CIV_specialUnits = [
 ];
 
 //possible civ vehicles. Add any mod classnames you wish here
-arrayCivVeh =["C_Hatchback_01_F","C_Hatchback_01_sport_F","C_Offroad_01_F","C_SUV_01_F","C_Van_01_box_F","C_Van_01_fuel_F","C_Van_01_transport_F","C_Truck_02_transport_F","C_Truck_02_covered_F"];
+arrayCivVeh = [
+	"C_Hatchback_01_F",
+	"C_Hatchback_01_sport_F",
+	"C_Offroad_01_F",
+	"C_SUV_01_F",
+	"C_Van_01_box_F",
+	"C_Van_01_fuel_F",
+	"C_Van_01_transport_F",
+	"C_Truck_02_transport_F",
+	"C_Truck_02_covered_F"
+];
 
 // military buildings, intact and destroyed
 listMilBld = ["Land_Cargo_Tower_V1_F","Land_Cargo_Tower_V1_No1_F","Land_Cargo_Tower_V1_No2_F","Land_Cargo_Tower_V1_No3_F","Land_Cargo_Tower_V1_No4_F","Land_Cargo_Tower_V1_No5_F","Land_Cargo_Tower_V1_No6_F","Land_Cargo_Tower_V1_No7_F","Land_Cargo_Tower_V2_F", "Land_Cargo_Tower_V3_F","Land_Cargo_HQ_V1_F","Land_Cargo_HQ_V2_F","Land_Cargo_HQ_V3_F","Land_Cargo_Patrol_V1_F","Land_Cargo_Patrol_V2_F","Land_Cargo_Patrol_V3_F","Land_HelipadSquare_F","Land_Cargo_Tower_V1_ruins_F","Land_Cargo_Tower_V2_ruins_F","Land_Cargo_Tower_V3_ruins_F"];
@@ -21,9 +31,6 @@ lamptypes = ["Lamps_Base_F", "PowerLines_base_F","Land_LampDecor_F","Land_LampHa
 // names of FIA soldiers
 namesFIASoldiers = ["Anthis","Costa","Dimitirou","Elias","Gekas","Kouris","Leventis","Markos","Nikas","Nicolo","Panas","Rosi","Samaras","Thanos","Vega"];
 if (isMultiplayer) then {namesFIASoldiers = namesFIASoldiers + ["protagonista"]};
-
-// vehicles for sale
-vehFIA = vehFIA + ["B_G_Quadbike_01_F","B_G_Offroad_01_armed_F","B_HMG_01_high_F","B_G_Offroad_01_F","B_G_Van_01_transport_F","B_G_Boat_Transport_01_F","B_G_Mortar_01_F","B_static_AT_F","B_static_AA_F","B_G_Offroad_01_repair_F"];
 
 // civilian clothing, used by low-level FIA troops and to determine undercover status
 civUniforms = ["U_C_Poloshirt_blue","U_C_Poloshirt_burgundy","U_C_Poloshirt_stripped","U_C_Poloshirt_tricolour","U_C_Poloshirt_salmon","U_C_Poloshirt_redwhite","U_C_Commoner1_1","U_C_Commoner1_2","U_C_Commoner1_3","U_Rangemaster","U_NikosBody","U_C_Poor_1","U_C_Poor_2","U_C_WorkerCoveralls","U_C_Poor_shorts_1","U_C_Commoner_shorts","U_C_ShirtSurfer_shorts","U_C_TeeSurfer_shorts_1","U_C_TeeSurfer_shorts_2","Item_U_OrestesBody"];

@@ -57,3 +57,18 @@ Essentially, the following things are saved:
 - Variables in the Logic `AS_persistent` named in the array `statSave/saveFuncs.AS_serverVariables`.
 - Variables in the Logic `AS_persistent_cities` named in the array `statSave/cityAttrs.AS_cityVars`.
 - Various global variables
+
+## Vehicles
+
+Vehicles are bought by FIA or AAF, or are spawned by NATO/CSAT. Afterwards:
+
+- NATO vehicles are locked and can not be sold/stored by FIA.
+- AAF/CSAT vehicles are unlocked and can be sold/used by FIA.
+- FIA vehicles are unlocked can be sold/used by FIA.
+- FIA personal vehicles are locked to others.
+
+### AAF Arsenal
+
+The AAF has an arsenal of vehicles that it buys with AAF money.
+AAF has different categories of vehicles that are defined in `AAFarsenal\init.sqf`
+that can be modified in the template (e.g. for RHS).

@@ -274,12 +274,12 @@ AS_fnc_loadMarkers = {
 //===========================================================================
 // Variables that require scripting after loaded. See fn_SetStat.
 specialVarLoads =
-["minas","mineFieldMrk","estaticas","cuentaCA","planesAAFcurrent","helisAAFcurrent","APCAAFcurrent","tanksAAFcurrent","fecha","garrison","tasks"];
+["minas","mineFieldMrk","estaticas","cuentaCA","fecha","garrison","tasks"];
 
 // global variables that are set to be publicVariable on loading.
 AS_publicVariables = [
 	"cuentaCA", "miembros",
-	"planesAAFcurrent", "helisAAFcurrent", "APCAAFcurrent", "tanksAAFcurrent", "destroyedCities",
+	"destroyedCities",
 	"vehInGarage", "staticsToSave"
 ];
 
@@ -293,38 +293,6 @@ fn_SetStat = {
 		call {
 			if(_varName == 'cuentaCA') exitWith {
 				if (_varValue < 2700) then {cuentaCA = 2700} else {cuentaCA = _varValue};
-			};
-			if(_varName == 'planesAAFcurrent') exitWith {
-				planesAAFcurrent = _varValue;
-				if (planesAAFcurrent < 0) then {planesAAFcurrent = 0};
-				if ((planesAAFcurrent > 0) and (count planesAAF < 2)) then {planesAAF = planesAAF + planes; publicVariable "planesAAF"}
-			};
-			if(_varName == 'helisAAFcurrent') exitWith {
-				helisAAFcurrent = _varValue;
-				if (helisAAFcurrent < 0) then {helisAAFcurrent = 0};
-				if (helisAAFcurrent > 0) then {
-					planesAAF = planesAAF - heli_armed;
-					planesAAF = planesAAF + heli_armed;
-					publicVariable "planesAAF";
-				};
-			};
-			if(_varName == 'APCAAFcurrent') exitWith {
-				APCAAFcurrent = _varValue;
-				if (APCAAFcurrent < 0) then {APCAAFcurrent = 0};
-				if (APCAAFcurrent > 0) then {
-					vehAAFAT = vehAAFAT -  vehAPC - vehIFV;
-					vehAAFAT = vehAAFAT +  vehAPC + vehIFV;
-					publicVariable "vehAAFAT";
-				};
-			};
-			if(_varName == 'tanksAAFcurrent') exitWith {
-				tanksAAFcurrent = _varValue;
-				if (tanksAAFcurrent < 0) then {tanksAAFcurrent = 0};
-				if (tanksAAFcurrent > 0) then {
-					vehAAFAT = vehAAFAT - vehTank;
-					vehAAFAT = vehAAFAT +  vehTank;
-					publicVariable "vehAAFAT"
-				};
 			};
 			if(_varName == 'fecha') exitWith {setDate _varValue; forceWeatherChange};
 			if(_varName == 'minas') exitWith
@@ -374,7 +342,7 @@ fn_SetStat = {
 					if (_tipoVeh in (allStatMGs + allStatATs + allStatAAs + allStatMortars)) then {
 						staticsToSave pushBack _veh;
 					};
-					[_veh] spawn VEHinit;
+					[_veh, "FIA"] call AS_fnc_initVehicle;
 					};
 				};
 			if(_varname == 'tasks') exitWith

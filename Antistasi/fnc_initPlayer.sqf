@@ -36,7 +36,7 @@ player addEventHandler ["WeaponAssembled", {
 		if !(_EHunit in staticsToSave) then {
 			staticsToSave pushBack _EHunit;
 			publicVariable "staticsToSave";
-			[_EHunit] spawn VEHinit;
+			[_EHunit, "FIA"] call AS_fnc_initVehicle;
 		};
 	} else {
 		_EHobj addEventHandler ["Killed",{[_this select 0] remoteExec ["postmortem",2]}];
@@ -44,8 +44,8 @@ player addEventHandler ["WeaponAssembled", {
 }];
 
 player addEventHandler ["WeaponDisassembled", {
-    [_this select 1] spawn VEHinit;
-	[_this select 2] spawn VEHinit;
+    [_this select 1, "FIA"] call AS_fnc_initVehicle;
+	[_this select 2, "FIA"] call AS_fnc_initVehicle;
 }];
 
 if (isMultiplayer) then {

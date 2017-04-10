@@ -104,9 +104,9 @@ if (random 8 < 1) then {
 
 	_road = _roads select 0;
 
-	_vehicle= [position _road, 0,selectRandom vehTrucks, side_green] call bis_fnc_spawnvehicle;
+	_vehicle= [position _road, 0,selectRandom (["trucks"] call AS_fnc_AAFarsenal_valid), side_green] call bis_fnc_spawnvehicle;
 	_veh = _vehicle select 0;
-	[_veh] spawn genVEHinit;
+	[_veh, "AAF"] call AS_fnc_initVehicle;
 	[_veh,"AAF Escort"] spawn inmuneConvoy;
 	_vehCrew = _vehicle select 1;
 	{[_x] spawn AS_fnc_initUnitAAF} forEach _vehCrew;

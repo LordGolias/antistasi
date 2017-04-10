@@ -35,22 +35,17 @@ if (random 100 < _chance) then
 	_resourcesAAF = AS_P("resourcesAAF");
 	if (_resourcesAAF < 1000) then {_texto = format ["%1 AAF Funds: Poor<br/>",_texto]} else {_texto = format ["%1 AAF Funds: %2 €<br/>",_texto,_resourcesAAF]};
 	};
-if (random 100 < _chance) then
-	{
-	if (planesAAFcurrent < 1) then {_texto = format ["%1 AAF Planes: None<br/>",_texto]} else {_texto = format ["%1 AAF Planes: %2<br/>",_texto,planesAAFcurrent]};
+
+{
+	if (random 100 < _chance) then {
+		private _count = [_x] call AS_fnc_AAFarsenal_count;
+		if (_count < 1) then {
+			_count = "None";
+		};
+		_texto = format ["%1 AAF %2: %3<br/>",_texto, [_x] call AS_fnc_AAFarsenal_name, _count];
 	};
-if (random 100 < _chance) then
-	{
-	if (helisAAFcurrent < 1) then {_texto = format ["%1 AAF Attack Helis: None<br/>",_texto]} else {_texto = format ["%1 AAF Attack Helis: %2<br/>",_texto,helisAAFcurrent]};
-	};
-if (random 100 < _chance) then
-	{
-	if (APCAAFcurrent < 1) then {_texto = format ["%1 AAF APCs: None<br/>",_texto]} else {_texto = format ["%1 AAF APCs: %2<br/>",_texto,APCAAFcurrent]};
-	};
-if (random 100 < _chance) then
-	{
-	if (tanksAAFcurrent < 1) then {_texto = format ["%1 AAF Tanks: None<br/>",_texto]} else {_texto = format ["%1 AAF Tanks: %2<br/>",_texto,tanksAAFcurrent]};
-	};
+} forEach AS_AAFarsenal_categories;
+
 _minasAAF = allmines - (detectedMines side_blue);
 _revelaMina = false;
 if (count _minasAAF > 0) then

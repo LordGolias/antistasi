@@ -71,12 +71,14 @@ if (not(_marcador in destroyedCities)) then
 		};
 	};
 
-_pos = _posicion findEmptyPosition [10,_size*1.5,"I_Truck_02_covered_F"];
-_veh = createVehicle [selectRandom vehTrucks, _pos, [], 0, "NONE"];
-_veh setDir random 360;
-_vehiculos = _vehiculos + [_veh];
-[_veh] spawn genVEHinit;
-sleep 1;
+if (["trucks"] call AS_fnc_AAFarsenal_count > 0) then {
+	private _type = selectRandom (["trucks"] call AS_fnc_AAFarsenal_all);
+	_pos = _posicion findEmptyPosition [5,_size,_type];
+	_veh = createVehicle [_type, _pos, [], 0, "NONE"];
+	_veh setDir random 360;
+	_vehiculos = _vehiculos + [_veh];
+	[_veh, "AAF"] call AS_fnc_initVehicle;
+};
 
 _tam = round (_size/50);
 if (_tam == 0) then {_tam = 1};

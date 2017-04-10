@@ -69,7 +69,7 @@ if (hayRHS) then {
 			_vehCrew = _vehicle select 1;
 			{deleteVehicle _x} forEach crew _veh;
 			_grupo = _vehicle select 2;
-			[_veh] spawn VEHinit;
+			[_veh, "FIA"] call AS_fnc_initVehicle;
 			_driv = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _pos, [],0, "NONE"];
 			_driv moveInDriver _veh;
 			driver _veh action ["engineOn", vehicle driver _veh];
@@ -95,7 +95,7 @@ if (hayRHS) then {
 				//_mortero = _grouptype createVehicle _pos;
 			};
 
-			[_mortero] spawn VEHinit;
+			[_mortero, "FIA"] call AS_fnc_initVehicle;
 			_morty = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _pos, [],0, "NONE"];
 			_grupo setVariable ["staticAutoT",false,true];
 			if (_grouptype == "Mobile Mortar") then {
@@ -108,7 +108,7 @@ if (hayRHS) then {
 				_morty moveInGunner _mortero;
 			};
 		driver _camion action ["engineOn", vehicle driver _camion];
-		[_camion] spawn VEHinit;
+		[_camion, "FIA"] call AS_fnc_initVehicle;
 		};
 	};
 }
@@ -126,7 +126,7 @@ else {
 	_pieceName = [_grouptype] call AS_fnc_FIAmobileToPiece;
 	_pos = _pos findEmptyPosition [1,30,_pieceName];
 	_mortero = _pieceName createVehicle _pos;
-	[_mortero] spawn VEHinit;
+	[_mortero, "FIA"] call AS_fnc_initVehicle;
 	_morty = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _pos, [],0, "NONE"];
 	_grupo setVariable ["staticAutoT",false,true];
 	if (_grouptype == "Mobile Mortar") then {
@@ -139,7 +139,7 @@ else {
 		_morty moveInGunner _mortero;
 	};
 	driver _camion action ["engineOn", vehicle driver _camion];
-	[_camion] spawn VEHinit;
+	[_camion, "FIA"] call AS_fnc_initVehicle;
 	};
 
 };
@@ -210,7 +210,7 @@ if ((!dialog) and (isNil "vehQuery")) exitWith {};
 vehQuery = nil;
 _pos = position _road findEmptyPosition [1,30,"B_G_Van_01_transport_F"];
 _veh = _vehType createVehicle _pos;
-[_veh] spawn VEHinit;
+[_veh, "FIA"] call AS_fnc_initVehicle;
 _grupo addVehicle _veh;
 _veh setVariable ["owner",_grupo,true];
 [0, - _cost] remoteExec ["resourcesFIA",2];

@@ -32,7 +32,7 @@ _vehiculos = _vehiculos + [_bandera];
 _caja = "I_supplyCrate_F" createVehicle _posicion;
 _vehiculos = _vehiculos + [_caja];
 
-{[_x] spawn genVEHinit;} forEach _vehiculos;
+{[_x, "AAF"] call AS_fnc_initVehicle;} forEach _vehiculos;
 _frontera = [_marcador] call isFrontline;
 
 if (_frontera) then {
@@ -43,7 +43,7 @@ if (_frontera) then {
 		[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 		_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
 		[_unit, false] spawn AS_fnc_initUnitAAF;
-		[_veh] spawn genVEHinit;
+		[_veh, "AAF"] call AS_fnc_initVehicle;
 		_unit moveInGunner _veh;
 		_soldados = _soldados + [_unit];
 		_vehiculos = _vehiculos + [_veh];
@@ -71,18 +71,19 @@ if (_frontera) then {
 		_veh setDir _dirVeh + 180;
 		_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
 		[_unit, false] spawn AS_fnc_initUnitAAF;
-		[_veh] spawn genVEHinit;
+		[_veh, "AAF"] call AS_fnc_initVehicle;
 		_unit moveInGunner _veh;
 	};
 };
 
-
-_pos = _posicion findEmptyPosition [5,_size,"I_Truck_02_covered_F"];
-_veh = createVehicle [selectRandom vehTrucks, _pos, [], 0, "NONE"];
-_veh setDir random 360;
-_vehiculos = _vehiculos + [_veh];
-[_veh] spawn genVEHinit;
-sleep 1;
+if (["trucks"] call AS_fnc_AAFarsenal_count > 0) then {
+	private _type = selectRandom (["trucks"] call AS_fnc_AAFarsenal_all);
+	_pos = _posicion findEmptyPosition [5,_size,_type];
+	_veh = createVehicle [_type, _pos, [], 0, "NONE"];
+	_veh setDir random 360;
+	_vehiculos = _vehiculos + [_veh];
+	[_veh, "AAF"] call AS_fnc_initVehicle;
+};
 
 _tam = round (_size/50);
 if (_tam == 0) then {_tam = 1};

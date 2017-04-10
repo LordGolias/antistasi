@@ -7,6 +7,8 @@ call compile preProcessFileLineNumbers "statSave\dialogs.sqf";
 
 call compile preProcessFileLineNumbers "dialogs.sqf";
 
+call compile preProcessFileLineNumbers "AAFarsenal.sqf";
+
 AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "CREATE\setDefaultSkill.sqf";
 AS_fnc_getWeaponItemsCargo = compile preProcessFileLineNumbers "municion\getWeaponItemsCargo.sqf";
 AS_fnc_getBestEquipment = compile preProcessFileLineNumbers "municion\getBestEquipment.sqf";
@@ -28,6 +30,9 @@ AS_fnc_initPlayer = compile preProcessFileLineNumbers "fnc_initPlayer.sqf";
 
 AS_fnc_dismissFIAgarrison = compile preProcessFileLineNumbers "REINF\dismissFIAgarrison.sqf";
 
+AS_fnc_createAirAttack = compile preProcessFileLineNumbers "CREATE\fnc_createAirAttack.sqf";
+AS_fnc_initVehicle = compile preProcessFileLineNumbers "fnc_initVehicle.sqf";
+
 minefieldAAF = compile preProcessFileLineNumbers "CREATE\minefieldAAF.sqf";
 tempMoveMrk = compile preProcessFileLineNumbers "tempMoveMrk.sqf";
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";
@@ -35,8 +40,6 @@ accionArsenal = compile preProcessFileLineNumbers "Municion\accionArsenal.sqf";
 powerCheck = compile preProcessFileLineNumbers "powerCheck.sqf";
 AAFKilledEH = compile preProcessFileLineNumbers "AI\AAFKilledEH.sqf";
 handleDamageAAF = compile preProcessFileLineNumbers "Revive\handleDamageAAF.sqf";
-CSATVEHinit = compile preProcessFileLineNumbers "CREATE\CSATVEHinit.sqf";
-NATOVEHinit = compile preProcessFileLineNumbers "CREATE\NATOVEHinit.sqf";
 civVEHinit = compile preProcessFileLineNumbers "CREATE\civVEHinit.sqf";
 smokeCoverAuto = compile preProcessFileLineNumbers "AI\smokeCoverAuto.sqf";
 landThreatEval = compile preProcessFileLineNumbers "AI\landThreatEval.sqf";
@@ -148,12 +151,10 @@ FIAskillAdd = compile preProcessFileLineNumbers "REINF\FIAskillAdd.sqf";
 CSATinit = compile preProcessFileLineNumbers "CREATE\CSATinit.sqf";
 NATOinit = compile preProcessFileLineNumbers "CREATE\NATOinit.sqf";
 NATOinitCA = compile preProcessFileLineNumbers "CREATE\NATOinitCA.sqf";
-VEHinit = compile preProcessFileLineNumbers "CREATE\VEHinit.sqf";
 AS_fnc_createJournalist = compile preProcessFileLineNumbers "CREATE\createJournalist.sqf";
 patrolCA = compile preProcessFileLineNumbers "CREATE\patrolCA.sqf";
 combinedCA = compile preProcessFileLineNumbers "CREATE\combinedCA.sqf";
 NATOCA = compile preProcessFileLineNumbers "CREATE\NATOCA.sqf";
-AAFassets = compile preProcessFileLineNumbers "AAFassets.sqf";
 AAFeconomics = compile preProcessFileLineNumbers "AAFeconomics.sqf";
 findBasesForCA = compile preProcessFileLineNumbers "findBasesForCA.sqf";
 findBasesForConvoy = compile preProcessFileLineNumbers "findBasesForConvoy.sqf";
@@ -194,7 +195,6 @@ createRoadblock = compile preProcessFileLineNumbers "CREATE\createRoadblock.sqf"
 createWatchpost = compile preProcessFileLineNumbers "CREATE\createWatchpost.sqf";
 createAAsite = compile preProcessFileLineNumbers "CREATE\createAAsite.sqf";
 genRoadPatrol = compile preProcessFileLineNumbers "CREATE\genRoadPatrol.sqf";
-genVEHinit = compile preProcessFileLineNumbers "CREATE\genVEHinit.sqf";
 generateCrew = compile preProcessFileLineNumbers "CREATE\generateCrew.sqf";
 
 NATOUAV = compile preProcessFileLineNumbers "REINF\NATOUAV.sqf";

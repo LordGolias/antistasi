@@ -5,7 +5,7 @@ private ["_posorigen","_tipogrupo","_nombreorig","_markTsk","_wp1","_soldados","
 		"_grupo","_grupos","_tipoVeh","_vehicle","_heli","_heliCrew","_grupoheli","_pilotos","_rnd","_resourcesAAF","_nVeh",
 		"_tam","_roads","_Vwp1","_road","_veh","_vehCrew","_grupoVeh","_Vwp0","_size","_Hwp0","_grupo1","_uav","_grupouav","_uwp0",
 		"_tsk","_vehiculo","_soldado","_piloto","_mrkdestino","_posdestino","_prestigeCSAT","_base","_aeropuerto","_nombredest",
-		"_tiempo","_solMax","_coste","_tipo","_threatEvalAir","_threatEvalLand","_pos","_timeOut","_plane","_planesAAF"];
+		"_tiempo","_solMax","_coste","_tipo","_threatEvalAir","_threatEvalLand","_pos","_timeOut","_plane"];
 _mrkdestino = _this select 0;
 
 //forcedSpawn = forcedSpawn + [_mrkDestino]; publicVariable "forcedSpawn";
@@ -97,7 +97,7 @@ if (_CSAT) then
 		_pilotos = _pilotos + _heliCrew;
 		_grupos = _grupos + [_grupoheli];
 		_vehiculos = _vehiculos + [_heli];
-		[_heli] spawn CSATVEHinit;
+		[_heli, "CSAT"] call AS_fnc_initVehicle;
 		if (not(_tipoVeh in opHeliTrans)) then
 			{
 			{[_x] spawn CSATinit} forEach _heliCrew;
@@ -128,9 +128,9 @@ if (_CSAT) then
 					_landPos set [2, 0];
 					_pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
 					_vehiculos = _vehiculos + [_pad];
-					
+
 					[_grupoheli, _posorigen, _landpos, _mrkdestino, _grupo, 25*60, "air"] call fnc_QRF_dismountTroops;
-					
+
 					/* _wp0 = _grupoheli addWaypoint [_landpos, 0];
 					_wp0 setWaypointType "TR UNLOAD";
 					_wp0 setWaypointStatements ["true", "(vehicle this) land 'GET OUT';[vehicle this] call smokeCoverAuto"];
@@ -142,7 +142,7 @@ if (_CSAT) then
 					_wp4 setWaypointType "SAD";
 					_wp2 = _grupoheli addWaypoint [_posorigen, 1];
 					_wp2 setWaypointType "MOVE";
-					_wp2 setWaypointStatements ["true", "{deleteVehicle _x} forEach crew this; deleteVehicle this"]; 
+					_wp2 setWaypointStatements ["true", "{deleteVehicle _x} forEach crew this; deleteVehicle this"];
 					[_grupoheli,1] setWaypointBehaviour "AWARE"; */
 					}
 				else
@@ -177,292 +177,91 @@ if (_CSAT) then
 	};
 
 
-if (_base != "") then
-	{
+if (_base != "") then {
 	[_base,60] execVM "addTimeForIdle.sqf";
-	_posorigen = getMarkerPos _base;
-	_size = [_base] call sizeMarker;
-	_nVeh = round (_size/30);
+	private _posorigen = getMarkerPos _base;
+
+	// compute number of trucks based on the marker size
+	private _size = [_base] call sizeMarker;
+	private _nVeh = round (_size/30);
 	if (_nVeh < 1) then {_nVeh = 1};
-	_roads = [];
-	_tam = _size;
-	while {true} do
-		{
-		_roads = _posorigen nearRoads _tam;
-		if (count _roads < _nveh) then {_tam = _tam + 50};
-		if (count _roads >= _nveh) exitWith {};
+
+	// spawn them
+	for "_i" from 1 to _nveh do {
+		private _toUse = "trucks";
+		if (_threatEval > 3 and (["apcs"] call AS_fnc_AAFarsenal_count > 0)) then {
+			_toUse = "apcs";
 		};
-
-	_tempMP = [];
-	if (hayRHS) then {
-		for "_j" from 1 to 4 do {
-			if (count (vehAAFAT - vehIFV) < count vehAAFAT) then {_tempMP pushBack selectRandom (vehIFV)};
+		if (_threatEval > 5 and (["tanks"] call AS_fnc_AAFarsenal_count > 0)) then {
+			_toUse = "tanks";
 		};
-	}
-	else {
-		_tempMP = vehIFV;
-	};
-
-	for "_i" from 1 to _nveh do
-		{
-		_tipoVeh = "";
-		if (count vehAAFAT > 1) then
-			{
-			_vehAAFAT =+ vehAAFAT;
-			// experimental
-			_vehAAFAT = _vehAAFAT - vehIFV;
-			_vehAAFAT = _vehAAFAT + _tempMP + vehTrucks;
-
-			if (_i == _nveh) then
-				{
-					_b = bases + aeropuertos;
-					_c = mrkFIA arrayIntersect _b;
-					if (count _c < 1) then {
-						_vehAAFAT = vehAAFAT - vehTank - _tempMP;
-					}
-					else {
-						if (count _c < 3) then {
-							_vehAAFAT = vehAAFAT - vehTank;
-						}
-						else {
-							_vehAAFAT = vehTank + _tempMP;
-						};
-					};
-				}
-			else
-				{
-				if (_threatEvalLand > 3) then {_vehAAFAT = _vehAAFAT - [enemyMotorpoolDef] - vehTrucks};
-				if ((_threatEvalLand > 5) && (count (vehAAFAT - vehIFV - vehTank) < count vehAAFAT)) then {_vehAAFAT = _vehAAFAT - vehAPC - [enemyMotorpoolDef] - vehTrucks};
-				// /experimental
-				};
-			_tipoVeh = _vehAAFAT call BIS_fnc_selectRandom;
-			}
-		else
-			{
-			_tipoVeh = enemyMotorpoolDef;
-			};
-		_road = _roads select (_i -1);
-		_timeOut = 0;
-		_pos = (position _road) findEmptyPosition [0,100,_tipoVeh];
-		while {_timeOut < 60} do
-			{
-			if (count _pos > 0) exitWith {};
-			_timeOut = _timeOut + 1;
-			_pos = (position _road) findEmptyPosition [0,100,_tipoVeh];
-			sleep 1;
-			};
-		if (count _pos == 0) then {_pos = (position _road)};
-		if (isNil "_tipoVeh") then {_tipoVeh = enemyMotorpoolDef};
-		_vehicle=[_pos, random 360,_tipoVeh, side_green] call bis_fnc_spawnvehicle;
-		_veh = _vehicle select 0;
-		_vehCrew = _vehicle select 1;
-		{[_x] spawn AS_fnc_initUnitAAF} forEach _vehCrew;
-		[_veh] spawn genVEHinit;
-		_grupoVeh = _vehicle select 2;
-		_soldados = _soldados + _vehCrew;
-		_grupos = _grupos + [_grupoVeh];
-		_vehiculos = _vehiculos + [_veh];
-		_landPos = [];
-		_landPos = [_posdestino,position _road,_threatEvalLand] call findSafeRoadToUnload;
-		if !(_tipoVeh in vehTank) then {
-			if (_tipoVeh in vehIFV) then {
-				_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
-			} else {
-				_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
-			};
-			_grupo = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-
-			{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados pushBack _x;} forEach units _grupo;
-
-			_crewCount = [_tipoVeh,false] call BIS_fnc_crewCount;
-			_nrSeats = [_tipoVeh,true] call BIS_fnc_crewCount;
-			_eSeats = _nrSeats - _crewCount;
-
-			if !(_tipoVeh in vehTrucks) then
-				{
-				_grupos = _grupos + [_grupo];
-				_Vwp0 = _grupoVeh addWaypoint [_landPos, 0];
-				_Vwp0 setWaypointBehaviour "SAFE";
-				_Vwp0 setWaypointType "TR UNLOAD";
-				_Vwp0 setWayPointCompletionRadius (10*_i);
-				//_Vwp0 setWaypointStatements ["true", "[vehicle this] call smokeCoverAuto"];
-				_Vwp1 = _grupoVeh addWaypoint [_posdestino, 1];
-				_Vwp1 setWaypointType "SAD";
-				_Vwp1 setWaypointBehaviour "COMBAT";
-				_Vwp2 = _grupo addWaypoint [_landPos, 0];
-				_Vwp2 setWaypointType "GETOUT";
-				_Vwp0 synchronizeWaypoint [_Vwp2];
-				_Vwp3 = _grupo addWaypoint [_posdestino, 1];
-				_Vwp3 setWaypointType "SAD";
-				[_veh] spawn smokeCover;
-				_veh allowCrewInImmobile true;
-				[_veh,"APC"] spawn inmuneConvoy;
-				}
-			else
-				{
-				{[_x] join _grupoVeh} forEach units _grupo;
-				deleteGroup _grupo;
-
-				_tempInfo = [_veh, _grupoVeh, _soldados, _posorigen] call generateCrew;
-				_veh = _tempInfo select 0;
-				_grupoVeh = _tempInfo select 1;
-				_soldados = _tempInfo select 2;
-
-				_Vwp0 = _grupoVeh addWaypoint [_landPos, 0];
-				_Vwp0 setWaypointBehaviour "SAFE";
-				_Vwp0 setWaypointType "GETOUT";
-				_Vwp1 = _grupoVeh addWaypoint [_posdestino, 1];
-				if (count (garrison getVariable _mrkdestino) < 4) then
-					{
-					_Vwp1 setWaypointType "MOVE";
-					_Vwp1 setWaypointBehaviour "AWARE";
-					}
-				else
-					{
-					_Vwp1 setWaypointType "SAD";
-					_Vwp1 setWaypointBehaviour "COMBAT";
-					};
-				[_veh,"Inf Truck."] spawn inmuneConvoy;
-				};
-			}
-
-
-
-		else
-			{
-			_Vwp0 = _grupoVeh addWaypoint [_landPos, 0];
-			_Vwp0 setWaypointBehaviour "SAFE";
-			[_veh,"Tank"] spawn inmuneConvoy;
-			_veh allowCrewInImmobile true;
-			_Vwp0 setWaypointType "SAD";
-			};
+		([_toUse, _posorigen, _posdestino, _threatEval, _isMarker] call AS_fnc_createLandAttack) params ["_soldiers1", "_groups1", "_vehicles1"];
+		_soldados = _soldados + _soldiers1;
+		_grupos = _grupos + _groups1;
+		_vehiculos = _vehiculos + _vehicles1;
 		sleep 5;
-		};
 	};
+};
 
-if (_aeropuerto != "") then
-	{
+// check if we have capabilities to use air units
+// decide to not use airfield if not enough air units or AA treat too high
+if (_aeropuerto != "") then {
+	private _transportHelis = count (["transportHelis"] call AS_fnc_AAFarsenal_all);
+	private _armedHelis = count (["armedHelis"] call AS_fnc_AAFarsenal_all);
+	private _planes = count (["planes"] call AS_fnc_AAFarsenal_all);
+	// 1 transported + any other if _isMarker.
+	if (_transportHelis < 1 or (_transportHelis + _armedHelis + _planes < 3)) then {
+		_aeropuerto = "";
+	};
+};
+
+
+if (_aeropuerto != "") then {
 	[_aeropuerto,60] execVM "addTimeForIdle.sqf";
 	if (_base != "") then {sleep ((_posorigen distance _posdestino)/16)};
+
 	_posorigen = getMarkerPos _aeropuerto;
 	_posorigen set [2,300];
-	_uav = createVehicle [indUAV_large, _posorigen, [], 0, "FLY"];
-	_vehiculos = _vehiculos + [_uav];
-	[_uav] spawn genVEHinit;
-	[_uav,"UAV"] spawn inmuneConvoy;
-	[_uav,_mrkDestino] spawn VANTinfo;
-	createVehicleCrew _uav;
-	_soldados = _soldados + crew _uav;
-	_grupouav = group (crew _uav select 0);
-	_grupos = _grupos + [_grupouav];
-	{[_x] spawn AS_fnc_initUnitAAF} forEach units _grupoUav;
-	_uwp0 = _grupouav addWayPoint [_posdestino,0];
-	_uwp0 setWaypointBehaviour "AWARE";
-	_uwp0 setWaypointType "MOVE";
-	_uav removeMagazines "6Rnd_LG_scalpel";
-	sleep 5;
+
+	// spawn a UAV
+	if (AS_AAFarsenal_uav != "") then {
+		_uav = createVehicle [AS_AAFarsenal_uav, _posorigen, [], 0, "FLY"];
+		_uav removeMagazines "6Rnd_LG_scalpel";
+		_vehiculos = _vehiculos + [_uav];
+		[_uav, "AAF"] call AS_fnc_initVehicle;
+		[_uav,"UAV"] spawn inmuneConvoy;
+		[_uav,_mrkDestino] spawn VANTinfo;
+		createVehicleCrew _uav;
+		_soldados = _soldados + crew _uav;
+		_grupouav = group (crew _uav select 0);
+		_grupos = _grupos + [_grupouav];
+		{[_x] spawn AS_fnc_initUnitAAF} forEach units _grupoUav;
+		_uwp0 = _grupouav addWayPoint [_posdestino,0];
+		_uwp0 setWaypointBehaviour "AWARE";
+		_uwp0 setWaypointType "MOVE";
+		sleep 5;
+	};
 
 	_tipoVeh = "";
-	for "_i" from 1 to 3 do
-		{
-		if (_i == 3) then
-			{
-			_tipoVeh = heli_unarmed call BIS_fnc_selectRandom;
-			}
-		else
-			{
-			_planesAAF =+ planesAAF;
-			if ((_threatEvalAir > 7) && (count (_planesAAF - heli_unarmed) < count _planesAAF)) then {_planesAAF = _planesAAF - heli_unarmed};
-			if ((_threatEvalAir > 14) && (count (_planesAAF - planes) < count _planesAAF)) then {_planesAAF = planes};
+	for "_i" from 1 to 3 do {
+		private _toUse = "transportHelis";  // last attack is always a transport
 
-			if !(count _planesAAF > 0) then {
-				_planesAAF = heli_unarmed;
+		// first 2 rounds can be any unit, stronger the higher the treat
+		if (_i < 3) then {
+			if (["armedHelis"] call AS_fnc_AAFarsenal_count > 0) then {
+				_toUse = "armedHelis";
 			};
-			_tipoVeh = _planesAAF call BIS_fnc_selectRandom;
+			if (_threatEvalAir > 15 and (["planes"] call AS_fnc_AAFarsenal_count > 0)) then {
+				_toUse = "planes";
 			};
-		_timeOut = 0;
-		_pos = _posorigen findEmptyPosition [0,100,heli_transport];
-		while {_timeOut < 60} do
-			{
-			if (count _pos > 0) exitWith {};
-			_timeOut = _timeOut + 1;
-			_pos = _posorigen findEmptyPosition [0,100,heli_transport];
-			sleep 1;
-			};
-		if (count _pos == 0) then {_pos = _posorigen};
-		if (isNil "_tipoVeh") then {_tipoVeh = heli_default};
-		_vehicle=[_pos, random 360,_tipoVeh, side_green] call bis_fnc_spawnvehicle;
-		_veh = _vehicle select 0;
-		_vehCrew = _vehicle select 1;
-		_grupoVeh = _vehicle select 2;
-		_pilotos = _pilotos + _vehCrew;
-		_grupos = _grupos + [_grupoVeh];
-		_vehiculos = _vehiculos + [_veh];
-		{[_x] spawn AS_fnc_initUnitAAF} forEach units _grupoVeh;
-		[_veh] spawn genVEHinit;
-		if !((_tipoVeh in heli_unarmed) or (_tipoVeh == heli_default)) then
-			{
-			_Hwp0 = _grupoVeh addWaypoint [_posdestino, 0];
-			_Hwp0 setWaypointBehaviour "AWARE";
-			_Hwp0 setWaypointType "SAD";
-			_Hwp0 setWaypointLoiterType "CIRCLE";
-			[_veh,"Air Attack"] spawn inmuneConvoy;
-			};
-
-		if ((_tipoVeh in heli_unarmed) or (_tipoVeh == heli_default)) then
-			{
-			_seats = ([_tipoVeh,true] call BIS_fnc_crewCount) - ([_tipoVeh,false] call BIS_fnc_crewCount);
-			if (_seats <= 12) then {
-				if (_seats <= 7) then {
-					_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
-				}
-				else {
-					_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
-					};
-				_grupo = [_posorigen, side_green, _tipoGrupo] call BIS_Fnc_spawnGroup;
-				{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados = _soldados + [_x]} forEach units _grupo;
-				//[_mrkDestino,_grupo] spawn attackDrill;
-				_grupos = _grupos + [_grupo];
-				_landpos = [];
-				_landpos = [_posdestino, 300, 500, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
-				_landPos set [2, 0];
-				_pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
-				_vehiculos = _vehiculos + [_pad];
-				
-				[_grupoVeh, _posorigen, _landpos, _mrkdestino, _grupo, 25*60, "air"] call fnc_QRF_dismountTroops;
-				
-				/* _wp0 = _grupoVeh addWaypoint [_landpos, 0];
-				_wp0 setWaypointType "TR UNLOAD";
-				_wp0 setWaypointStatements ["true", "(vehicle this) land 'GET OUT'; [vehicle this] call smokeCoverAuto"];
-				_wp0 setWaypointBehaviour "CARELESS";
-				_wp3 = _grupo addWaypoint [_landpos, 0];
-				_wp3 setWaypointType "GETOUT";
-				_wp0 synchronizeWaypoint [_wp3];
-				_wp4 = _grupo addWaypoint [_posdestino, 1];
-				_wp4 setWaypointType "SAD";
-				_wp2 = _grupoVeh addWaypoint [_posorigen, 1];
-				_wp2 setWaypointType "MOVE";
-				_wp2 setWaypointStatements ["true", "{deleteVehicle _x} forEach crew this; deleteVehicle this"];
-				_wp2 setWaypointBehaviour "CARELESS"; */
-				[_veh,"Air Transport"] spawn inmuneConvoy;
-
-				}
-			else {
-				_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
-				_grupo = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-				{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados = _soldados + [_x]} forEach units _grupo;
-				//sleep 1;
-				_grupos = _grupos + [_grupo];
-				_grupo1 = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-				{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados = _soldados + [_x]} forEach units _grupo1;
-				_grupos = _grupos + [_grupo1];
-				//[_veh,_grupo,_grupo1,_posdestino,_posorigen,_grupoVeh] spawn fastropeAAF;
-				[_grupoVeh, _pos, _posdestino, _mrkdestino, [_grupo, _grupo1], 25*60] call fnc_QRF_fastrope;
-				};
-			};
-		sleep 15;
 		};
+		([_toUse, _posorigen, _posdestino] call AS_fnc_createAirAttack) params ["_soldiers1", "_groups1", "_vehicles1"];
+		_soldados = _soldados + _soldiers1;
+		_grupos = _grupos + _groups1;
+		_vehiculos = _vehiculos + _vehicles1;
+		sleep 15;
 	};
+};
 
 
 _solMax = round ((count _soldados)/3);
@@ -528,5 +327,3 @@ deleteVehicle _x;
 if (!([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x};
 } forEach _vehiculos;
 {deleteGroup _x} forEach _grupos;
-
-

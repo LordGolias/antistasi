@@ -76,7 +76,7 @@ _camion = "B_G_Van_01_transport_F" createVehicle _pos;
 
 _grupo addVehicle _camion;
 {[_x] spawn AS_fnc_initUnitFIA; [_x] orderGetIn true} forEach units _grupo;
-[_camion] spawn VEHinit;
+[_camion, "FIA"] call AS_fnc_initVehicle;
 leader _grupo setBehaviour "SAFE";
 AS_commander hcSetGroup [_grupo];
 _grupo setVariable ["isHCgroup", true, true];

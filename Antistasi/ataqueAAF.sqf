@@ -20,10 +20,9 @@ if ((random 100 > AS_P("prestigeCSAT")) or ({_x in bases} count mrkFIA == 0) || 
 
 if (count _marcadores == 0) exitWith {};
 
-_scoreLand = APCAAFcurrent + (5*tanksAAFcurrent);
-_scoreAir = helisAAFcurrent + (5*planesAAFcurrent);
+_scoreLand = ["apcs"] call AS_fnc_AAFarsenal_count + 5*(["tanks"] call AS_fnc_AAFarsenal_count);
+_scoreAir = ["armedHelis"] call AS_fnc_AAFarsenal_count + 5*(["planes"] call AS_fnc_AAFarsenal_count);
 if (_hayCSAT) then {_scoreLand = _scoreLand + 15; _scoreAir = _scoreAir + 15};
-//AS_commander sideChat format ["AAF Land forces: %1. AAF Air forces: %2",_scoreLand,_scoreAir];
 _scoreNeededLandBase = 0;
 _scoreNeededAirBase = 0;
 if (count (unlockedWeapons - genATLaunchers) != count unlockedWeapons) then {_scoreNeededLandBase = 3};

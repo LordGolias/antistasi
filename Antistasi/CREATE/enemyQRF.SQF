@@ -36,24 +36,24 @@ _dismountGroupEscort = [infTeam, side_green] call fnc_pickGroup;
 if !(_orig == "spawnCSAT") then {
 	_method = "land";
 	_side = side_green;
-	_lead = heli_escort;
+	_lead = selectRandom (["armedHelis"] call AS_fnc_AAFarsenal_valid);
 	if (_size == "small") then {
-		_transport = heli_default;
+		_transport = selectRandom (["transportHelis"] call AS_fnc_AAFarsenal_valid);
 		_dismountGroup = [infTeam, side_green] call fnc_pickGroup;
 		if (_orig in _bases) then {
 			_type = "land";
 			_lead = selectRandom vehLead;
-			_transport = enemyMotorpoolDef;
+			_transport = selectRandom (["trucks"] call AS_fnc_AAFarsenal_valid);
 			_dismountGroup = [infSquad, side_green] call fnc_pickGroup;
 		};
 	} else {
-		_transport = heli_transport;
+		_transport = selectRandom (["transportHelis"] call AS_fnc_AAFarsenal_valid);
 		_dismountGroup = [infSquad, side_green] call fnc_pickGroup;
 		_method = "rope";
 		if (_orig in _bases) then {
 			_type = "land";
-			_lead = selectRandom vehAPC;
-			_transport = enemyMotorpoolDef;
+			_lead = selectRandom (["apcs"] call AS_fnc_AAFarsenal_valid);
+			_transport = selectRandom (["trucks"] call AS_fnc_AAFarsenal_valid);
 			_dismountGroup = [infSquad, side_green] call fnc_pickGroup;
 		};
 	};

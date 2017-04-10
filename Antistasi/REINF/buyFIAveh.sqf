@@ -11,8 +11,8 @@ if (_chequeo) exitWith {Hint "You cannot buy vehicles with enemies nearby"};
 private ["_tipoVeh","_coste","_resourcesFIA","_marcador","_pos","_veh"];
 
 _tipoVeh = _this select 0;
-_milveh = vfs select [3,10];
-_milstatics = vfs select [7,4];
+_milveh = vehFIA select [3,10];
+_milstatics = vehFIA select [7,4];
 
 _coste = [_tipoVeh] call vehiclePrice;
 
@@ -56,7 +56,7 @@ else
 			};
 		};
 	};
-[_veh] spawn VEHinit;
+[_veh, "FIA"] call AS_fnc_initVehicle;
 if (_tipoVeh in _milstatics) then {staticsToSave pushBackUnique _veh; publicVariable "staticsToSave"; _veh addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == AS_commander)"];};
 hint "Vehicle Purchased";
 player reveal _veh;

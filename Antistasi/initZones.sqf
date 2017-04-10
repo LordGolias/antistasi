@@ -131,10 +131,6 @@ if ((_nombre != "") and (_nombre != "Magos")) then//Magos is blacklisted can't r
 
 marcadores = marcadores + colinas + ciudades;
 //esto de abajo hay que hacerlo con foreach particulares sin if, en lugar de un foreach general
-planesAAFmax = count aeropuertos;
-helisAAFmax = 2* (count aeropuertos);
-tanksAAFmax = count bases;
-APCAAFmax = 2* (count bases);
 
 _fnc_marker = {
     params ["_loc", "_type", "_text"];
@@ -205,12 +201,6 @@ publicVariable "puestosFIA";
 publicVariable "seaMarkers";
 publicVariable "campsFIA";
 publicVariable "puestosNATO";
-/*
-planesAAFcurrent = planesAAFmax;
-helisAAFcurrent = helisAAFmax;
-APCAAFcurrent = APCAAFmax;
-tanksAAFcurrent= tanksAAFmax;
-*/
 
 posAntenas = [[16085.1,16998,7.08781],[14451.5,16338,0.000358582],[15346.7,15894,-3.62396e-005],[9496.2,19318.5,0.601898],[20944.9,19280.9,0.201118],[17856.7,11734.1,0.863045],[20642.7,20107.7,0.236603],[9222.87,19249.1,0.0348206],[18709.3,10222.5,0.716034],[6840.97,16163.4,0.0137177],[19319.8,9717.04,0.215622],[19351.9,9693.04,0.639175],[10316.6,8703.94,0.0508728],[8268.76,10051.6,0.0100708],[4583.61,15401.1,0.262543],[4555.65,15383.2,0.0271606],[4263.82,20664.1,-0.0102234],[26274.6,22188.1,0.0139847],[26455.4,22166.3,0.0223694]];//those are predefined Radio Tower positions, to avoid a heavy search of the tower config types all around the island which may take a few minutes. You will have to build your own data base with RT positions.
 antenas = [];

@@ -4,6 +4,10 @@ _veh = _this select 0;
 if (!alive _veh) exitWith {};
 _puertas = [];
 
+// todo: fix the code below.
+/*
+// This depends on the vehicle, so it should be in the template.
+// As such, I am commenting it out.
 _tipo = typeOf _veh;
 _helis = heli_unarmed;
 _helis set [(count heli_unarmed - 1), nil];
@@ -14,6 +18,7 @@ call {
 	if (_tipo in bluHeliDis) exitWith {_puertas = ["Door_L","Door_R"]};
 	if (_tipo in bluHeliRope) exitWith {_puertas = ["Door_rear_source"]};
 };
+*/
 
 if (count _puertas == 0) exitWith {};
 

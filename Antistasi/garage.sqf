@@ -98,7 +98,7 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown",
 				}
 			else
 				{
-				[garageVeh] spawn VEHinit;
+				[garageVeh, "FIA"] call AS_fnc_initVehicle;
 				["<t size='0.6'>Vehicle retrieved from Garage",0,0,3,0,0,4] spawn bis_fnc_dynamicText;
 				_pool = false;
 				if (vehInGarageShow isEqualTo vehInGarage) then {_pool = true};
@@ -134,4 +134,3 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown",
 			};
 		_handled;
 		}];
-

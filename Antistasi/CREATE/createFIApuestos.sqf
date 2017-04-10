@@ -68,7 +68,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _tam)} do
 		_vehiculos = _vehiculos + [_veh];
 		[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 		_unit moveInGunner _veh;
-		[_veh] spawn VEHinit;
+		[_veh, "FIA"] call AS_fnc_initVehicle;
 		}
 	else
 		{

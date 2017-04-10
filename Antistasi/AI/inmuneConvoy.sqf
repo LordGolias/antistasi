@@ -14,27 +14,15 @@ _tipo = "hd_destroy";
 if ((_side == side_blue) or (_side == civilian)) then {_enemigo = false};
 
 if (_side == side_green) then {
-	if ((typeOf _veh) in arrayCivVeh) then {_tipo = "n_unknown"}
-	else {
-		if (((typeOf _veh) in vehPatrol) or ((typeOf _veh) in vehTrucks)) then {_tipo = "n_motor_inf"}
-		else {
-			if (((typeOf _veh) in vehAPC) or ((typeOf _veh) in vehIFV)) then {_tipo = "n_mech_inf"}
-			else {
-				if ((typeOf _veh) in vehTank) then {_tipo = "n_armor"}
-				else {
-					if (_veh isKindOf "Plane_Base_F") then {_tipo = "n_plane"}
-					else {
-						if (_veh isKindOf "UAV_02_base_F") then {_tipo = "n_uav"}
-						else {
-							if (_veh isKindOf "Helicopter") then {_tipo = "n_air"}
-							else {
-								if (_veh isKindOf "Boat_F") then {_tipo = "n_naval"}
-							};
-						};
-					};
-				};
-			};
-		};
+	private _category = [(typeOf _veh)] call AS_fnc_AAFarsenal_category;
+	call {
+		if (_category == "trucks") exitWith {_tipo = "n_motor_inf"};
+		if (_category == "apcs") exitWith {_tipo = "n_mech_inf"};
+		if (_category == "tanks") exitWith {_tipo = "n_armor"};
+		if (_category == "planes") exitWith {_tipo = "n_plane"};
+		if (_category in ["armedHelis", "transportHelis"]) exitWith {_tipo = "n_air"};
+		if (_veh isKindOf "UAV_02_base_F") exitWith {_tipo = "n_uav"};
+		if (_veh isKindOf "Boat_F") exitWith {_tipo = "n_naval"};
 	};
 };
 

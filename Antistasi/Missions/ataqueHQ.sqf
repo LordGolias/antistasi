@@ -26,7 +26,7 @@ _grupoheli = _vehicle select 2;
 _pilotos = _pilotos + _heliCrew;
 _grupos = _grupos + [_grupoheli];
 _vehiculos = _vehiculos + [_heli];
-[_heli] spawn CSATVEHinit;
+[_heli, "CSAT"] call AS_fnc_initVehicle;
 {[_x] spawn CSATinit} forEach _heliCrew;
 _wp1 = _grupoheli addWaypoint [_posicion, 0];
 _wp1 setWaypointType "SAD";

@@ -63,8 +63,6 @@ if (_marcador in aeropuertos) then
 	[0,10,_posicion] remoteExec ["citySupportChange",2];
 	[["TaskSucceeded", ["", "Airport Taken"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 	[20,10] remoteExec ["prestige",2];
-	planesAAFmax = planesAAFmax - 1;
-    helisAAFmax = helisAAFmax - 2;
    	if (hayBE) then {["con_bas"] remoteExec ["fnc_BE_XP", 2]};
     };
 if (_marcador in bases) then
@@ -72,8 +70,6 @@ if (_marcador in bases) then
 	[0,10,_posicion] remoteExec ["citySupportChange",2];
 	[["TaskSucceeded", ["", "Base Taken"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 	[20,10] remoteExec ["prestige",2];
-	APCAAFmax = APCAAFmax - 2;
-    tanksAAFmax = tanksAAFmax - 1;
 	_minasAAF = allmines - (detectedMines side_blue);
 	if (count _minasAAF > 0) then
 		{

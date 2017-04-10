@@ -55,10 +55,13 @@ private _vehiculos = [];
 		sleep 1;
 	};
 	if (_addChopper and (_tipoB == "Land_HelipadSquare_F")) then {
-		_veh = createVehicle [selectRandom heli_unarmed, position _building, [],0, "CAN_COLLIDE"];
-		_veh setDir (getDir _building);
-		_vehiculos pushback _veh;
-		sleep 1;
+		private _available = ["transportHelis"] call AS_fnc_AAFarsenal_all;
+		if (_available) then {
+			_veh = createVehicle [selectRandom _available, position _building, [],0, "CAN_COLLIDE"];
+			_veh setDir (getDir _building);
+			_vehiculos pushback _veh;
+			sleep 1;
+		};
 	};
 	if (_tipoB in listbld) then {
 		_veh = createVehicle [_staticMG, (_building buildingPos 13), [], 0, "CAN_COLLIDE"];

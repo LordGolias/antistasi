@@ -29,7 +29,7 @@ if (spawner getVariable _marcador) then
 	_veh = createVehicle [selectRandom vehTruckBox, _pos, [], 0, "NONE"];
 	_veh allowdamage false;
 	_veh setDir random 360;
-	[_veh] spawn genVEHinit;
+	[_veh, "AAF"] call AS_fnc_initVehicle;
 	_grupo = createGroup side_green;
 
 	sleep 5;

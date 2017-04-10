@@ -43,10 +43,7 @@ switchCom = false;  // Game will not auto assign Commander position to the highe
 autoHeal = false;
 allowPlayerRecruit = true;
 AAFpatrols = 0;//0
-planesAAFcurrent = 0;
-helisAAFcurrent = 0;
-APCAAFcurrent = 0;
-tanksAAFcurrent= 0;
+
 savingClient = false;
 incomeRep = false;
 
@@ -88,8 +85,8 @@ if ("rhs_weap_m4a1_d" in AS_allWeapons) then {
 
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 
-//------------------ unit module ------------------//
-
+///////////////////////// INITIALIZE UNITS /////////////////////////
+call AS_fnc_AAFarsenal_init;
 
 // all statics, used to calculate defensive strength when spawning attacks -- templates add OPFOR statics
 allStatMGs = 		["B_HMG_01_high_F"];
@@ -103,10 +100,7 @@ side_red = east;
 
 lrRadio = "";
 
-vfs = [];
-
 // Initialisation of units and gear
-vehFIA = [];
 if (hayRHS) then {
 	call compile preprocessFileLineNumbers "templates\RHS.sqf";
 	call compile preprocessFileLineNumbers "templates\VMF.sqf";
@@ -139,8 +133,6 @@ if (hayACE) then {
 };
 
 // deprecated variables, used to maintain compatibility
-vehAAFAT = enemyMotorpool;
-planesAAF = indAirForce;
 soldadosAAF = infList_sniper + infList_NCO + infList_special + infList_auto + infList_regular + infList_crew + infList_pilots;
 
 call compile preprocessFileLineNumbers "templates\FIA.sqf";
@@ -216,22 +208,22 @@ AS_data_allCosts setVariable ["B_G_Offroad_01_armed_F",700,true];//700
 {AS_data_allCosts setVariable [_x,400,true]} forEach ["B_HMG_01_high_F","B_G_Boat_Transport_01_F","B_G_Offroad_01_repair_F"];//400
 {AS_data_allCosts setVariable [_x,800,true]} forEach ["B_G_Mortar_01_F","B_static_AT_F","B_static_AA_F"];//800
 
-AS_data_allCosts setVariable [vfs select 0,300,true];
-AS_data_allCosts setVariable [vfs select 1,600,true];//600
-AS_data_allCosts setVariable [vfs select 2,6000,true];//12000
-AS_data_allCosts setVariable [vfs select 3,50,true];//50
-AS_data_allCosts setVariable [vfs select 4,200,true];//200
-AS_data_allCosts setVariable [vfs select 5,450,true];//300
-AS_data_allCosts setVariable [vfs select 6,700,true];//700
-AS_data_allCosts setVariable [vfs select 7,400,true];//700
-AS_data_allCosts setVariable [vfs select 8,800,true];
-AS_data_allCosts setVariable [vfs select 9,800,true];
-AS_data_allCosts setVariable [vfs select 10,800,true];
+AS_data_allCosts setVariable [vehFIA select 0,300,true];
+AS_data_allCosts setVariable [vehFIA select 1,600,true];//600
+AS_data_allCosts setVariable [vehFIA select 2,6000,true];//12000
+AS_data_allCosts setVariable [vehFIA select 3,50,true];//50
+AS_data_allCosts setVariable [vehFIA select 4,200,true];//200
+AS_data_allCosts setVariable [vehFIA select 5,450,true];//300
+AS_data_allCosts setVariable [vehFIA select 6,700,true];//700
+AS_data_allCosts setVariable [vehFIA select 7,400,true];//700
+AS_data_allCosts setVariable [vehFIA select 8,800,true];
+AS_data_allCosts setVariable [vehFIA select 9,800,true];
+AS_data_allCosts setVariable [vehFIA select 10,800,true];
 
 if (hayRHS) then {
-	AS_data_allCosts setVariable [vfs select 2,6000,true];
-	AS_data_allCosts setVariable [vfs select 11,5000,true];
-	AS_data_allCosts setVariable [vfs select 12,600,true];
+	AS_data_allCosts setVariable [vehFIA select 2,6000,true];
+	AS_data_allCosts setVariable [vehFIA select 11,5000,true];
+	AS_data_allCosts setVariable [vehFIA select 12,600,true];
 	AS_data_allCosts setVariable [vehTruckAA, 800, true];
 	AS_data_allCosts setVariable [vehTruckAA, 800, true];
 };
@@ -245,10 +237,6 @@ initialPrestigeOPFOR = 50; //Initial % support for AAF on each city
 if (not cadetMode) then {initialPrestigeOPFOR = 75}; //if you play on vet, this is the number
 initialPrestigeBLUFOR = 0; //Initial % FIA support on each city
 
-planesAAFmax = 0;
-helisAAFmax = 0;
-APCAAFmax = 0;
-tanksAAFmax = 0;
 cuentaCA = 600;//600
 prestigeIsChanging = false;
 cityIsSupportChanging = false;

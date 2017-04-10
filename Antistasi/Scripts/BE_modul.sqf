@@ -49,10 +49,10 @@ fnc_BE_initialize = {
 	BE_progressLock = false;
 	BE_current_vehicles = [];
 
-	BE_class_Heli = heli_unarmed + heli_armed + opAir - opCASFW;
-	BE_class_MBT = vehTank + ["DGC_FIAVEH_MBT_03_cannon_F"];
-	BE_class_APC = vehAPC + vehIFV + ["DGC_FIAVEH_APC_Wheeled_03_cannon_F", "DGC_FIAVEH_APC_Tracked_03_cannon_F"];
-	BE_class_MRAP = vehLead + standardMRAP + [opMRAPu] + ["DGC_FIAVEH_MRAP03_F", "DGC_FIAVEH_MRAP03_GMG_F", "DGC_FIAVEH_MRAP03_HMG_F"];
+	BE_class_Heli = (["armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all) + opAir - opCASFW;
+	BE_class_MBT = (["tanks"] call AS_fnc_AAFarsenal_all);
+	BE_class_APC = (["apcs"] call AS_fnc_AAFarsenal_all);
+	BE_class_MRAP = (["apcs"] call AS_fnc_AAFarsenal_all);
 
 	BE_mil_vehicles = BE_class_Heli + BE_class_MBT + BE_class_APC + BE_class_MRAP;
 

@@ -27,17 +27,14 @@ if (_unit == AS_commander) then
 						{
 						_recursos = _recursos + ([_tipoVeh] call vehiclePrice) + ([typeOf (vehicle leader _x)] call vehiclePrice);
 						}
-					else
-						{
-						if (_tipoVeh in vehFIA) then {_recursos = _recursos + ([_tipoVeh] call vehiclePrice);};
-						if (_tipoVeh in (vehTrucks + vehPatrol + vehSupply)) then {_recursos = _recursos + 300};
-						if (_tipoVeh in vehAAFAT) then {
-							call {
-								if (_tipoVeh in vehAPC) exitWith {_recursos = _recursos + 1000};
-								if (_tipoVeh in vehIFV) exitWith {_recursos = _recursos + 2000};
-								if (_tipoVeh in vehTank) exitWith {_recursos = _recursos + 5000};
-								};
+					else {
+						call {
+							if (_tipoVeh in vehFIA) exitWith {_recursos = _recursos + ([_tipoVeh] call vehiclePrice);};
+							private _category = [_tipoVeh] call AS_fnc_AAFarsenal_category;
+							if (_category != "") exitWith {
+								_recursos = _recursos  + ([_category] call AS_fnc_AAFarsenal_cost);
 							};
+						};
 						if (count attachedObjects _veh > 0) then
 							{
 							_subVeh = (attachedObjects _veh) select 0;

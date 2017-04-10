@@ -82,7 +82,7 @@ fnc_initialiseUnits = {
     		{[_x] spawn CSATinit} forEach units _soldiersToInit;
     	};
         if !(_vehicleToInit isEqualTo "none") then {
-        	[_vehicleToInit] spawn CSATVEHinit;
+			[_vehicleToInit, "CSAT"] call AS_fnc_initVehicle;
         };
     } else {
     	if (typeName _soldiersToInit == "ARRAY") then {
@@ -92,7 +92,7 @@ fnc_initialiseUnits = {
     		{[_x] spawn fnc_initialiseUnits} forEach units _soldiersToInit;
     	};
         if !(_vehicleToInit isEqualTo "none") then {
-        	[_vehicleToInit] spawn genVEHinit;
+			[_vehicleToInit, "AAF"] call AS_fnc_initVehicle;
         };
     };
 };

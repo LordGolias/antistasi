@@ -24,10 +24,14 @@ _nombredest = [_marcador] call localizar;
 _tipoVeh = "";
 _texto = "";
 
-//experimental
-if (count (vehAAFAT - vehTank) < count vehAAFAT) then {_tipoVeh = selectRandom vehTank; _texto = "Enemy Tank"} else {_tipoVeh = selectRandom vehIFV; _texto = "Enemy IFV"};
-
-// if ("I_MBT_03_cannon_F" in vehAAFAT) then {_tipoVeh = "I_MBT_03_cannon_F"; _texto = "AAF Tank"} else {_tipoVeh = opSPAA; _texto = "CSAT Artillery"};
+private _tanks = ["tanks"] call AS_fnc_AAFarsenal_all;
+if (count _tanks > 0) then {
+	_tipoVeh = selectRandom _tanks;
+	_texto = "Enemy Tank";
+} else {
+	_tipoVeh = selectRandom (["apcs"] call AS_fnc_AAFarsenal_valid);
+	_texto = "Enemy IFV";
+};
 
 _tsk = ["DES",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_texto],_tskTitle,_marcador],_posicion,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";
@@ -44,8 +48,7 @@ if (spawner getVariable _marcador) then
 	_veh = createVehicle [_tipoVeh, _pos, [], 0, "NONE"];
 	_veh allowdamage false;
 	_veh setDir random 360;
-	//if (_tipoVeh == "I_MBT_03_cannon_F") then {[_veh] spawn genVEHinit} else {[_veh] spawn CSATVEHinit};
-	[_veh] spawn genVEHinit;
+	[_veh, "AAF"] call AS_fnc_initVehicle;
 
 	_grupo = createGroup side_green;
 

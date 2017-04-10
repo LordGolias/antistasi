@@ -62,40 +62,41 @@ infList_regular = 	[sol_AMMO, sol_GL, sol_GL2, sol_LAT, sol_LAT2, sol_R_L, sol_R
 infList_crew = 		[sol_UN, sol_CREW, sol_CREW2, sol_CREW3, sol_CREW4, sol_DRV, sol_DRV2, sol_HCREW, sol_UAV, sol_SUP_AMG, sol_SUP_AMTR, sol_SUP_GMG, sol_SUP_MG, sol_SUP_MTR];
 infList_pilots = 	[sol_HPIL, sol_HPIL2, sol_PIL];
 
-// Vehicles
-vehTrucks = 		["I_Truck_02_covered_F","I_Truck_02_transport_F"]; // trucks that spawn at outposts, etc
-vehPatrol =			["I_MRAP_03_F","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F","I_Heli_light_03_unarmed_F"]; // vehicles used for road patrols;
-vehAPC = 			["I_APC_Wheeled_03_cannon_F"]; // APCs
-vehIFV = 			["I_APC_tracked_03_cannon_F"]; // IFVs
-vehTank = 			["I_MBT_03_cannon_F"]; // MBTs
-vehSupply = 		["I_Truck_02_fuel_F","I_Truck_02_medical_F","I_Truck_02_ammo_F"]; // supply vehicles (ammo, fuel, med)
-vehAmmo = 			"I_Truck_02_ammo_F"; // ammo truck, for special missions
-vehLead = 			["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"]; // lead vehicle for convoys, preferably armed MRAP/car
-standardMRAP = 		["I_MRAP_03_F"]; // default transport MRAP/car
-vehTruckBox = 		["I_Truck_02_box_F"]; // repair truck or at least a prop
+// 	To modders: overwrite this in the template to change the AAF arsenal.
+// 	Rules:
+// 		1. vehicle must exist.
+// 		2. each vehicle must belong to only one category.
+AS_AAFarsenal setVariable ["valid_planes", ["I_Plane_Fighter_03_CAS_F","I_Plane_Fighter_03_AA_F"], true];
+AS_AAFarsenal setVariable ["valid_armedHelis", ["I_Heli_light_03_F"], true];
+AS_AAFarsenal setVariable ["valid_transportHelis", ["I_Heli_Transport_02_F"], true];
+AS_AAFarsenal setVariable ["valid_tanks", ["I_MBT_03_cannon_F"], true];
+AS_AAFarsenal setVariable ["valid_apcs", [
+	"I_APC_Wheeled_03_cannon_F", "I_APC_tracked_03_cannon_F",
+	"I_MRAP_03_F","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"], true];
+AS_AAFarsenal setVariable ["valid_trucks", ["I_Truck_02_covered_F","I_Truck_02_transport_F"], true];
+AS_AAFarsenal setVariable ["valid_supplies", ["I_Truck_02_fuel_F","I_Truck_02_medical_F","I_Truck_02_ammo_F"], true];
 
-/*
-Not in use with AAF
-vehTruckAA = 		"";
-vehFIA pushBackUnique vehTruckAA;
-*/
+// Initial setup: AAF starts without vehicles.
+// 	To modders: change these in the template to set an initial arsenal.
+{
+	AS_AAFarsenal setVariable [_x, [], true];
+} forEach AS_AAFarsenal_categories;
 
-var_AAF_groundForces = vehTrucks + vehPatrol + vehAPC + vehIFV + vehTank + vehLead + standardMRAP;
-var_AAF_groundForces = var_AAF_groundForces arrayIntersect var_AAF_groundForces;
+// 	To modders (optional): use a "cost_" to set cost for the AAF
+// 	to buy vehicles of CATEGORY. E.g.
+// 		AS_AAFarsenal setVariable ["cost_planes, 20000, true];
 
-// Airforce
-heli_unarmed = 		["I_Heli_Transport_02_F","I_Heli_light_03_unarmed_F"]; // (un-)armed transport helicopters
-heli_armed = 		["I_Heli_light_03_F"]; // armed helicopters
-heli_escort = 		"I_Heli_light_03_F";
-planes = 			["I_Plane_Fighter_03_CAS_F","I_Plane_Fighter_03_AA_F"];; // attack planes
-heli_default = 		"I_Heli_light_03_unarmed_F"; // default helicopter -- NOT AN ARRAY!
-heli_transport = 	"I_Heli_Transport_02_F";
-indUAV_large = 		"I_UAV_02_F"; // large UAV, unarmed
+// 	To modders (optional): use a "value_" to set value the FIA gets to sell AAF vehicles of CATEGORY.
+// 		AS_AAFarsenal setVariable ["value_planes, 10000, true];
 
-// Initial motorpool/airforce
-enemyMotorpoolDef = "I_Truck_02_covered_F"; // fallback vehicle in case of an empty motorpool
-enemyMotorpool = 	["I_Truck_02_covered_F"]; // starting/current motorpool
-indAirForce = 		["I_Heli_Transport_02_F","I_Heli_light_03_unarmed_F"]; // starting/current airforce
+// List of special vehicles used in custom events
+//	moders: all vehicles defined in these lists must also belong to the AAFarsenal.
+vehPatrol = ["I_MRAP_03_F","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F","I_Heli_light_03_unarmed_F"];
+vehAmmo = "I_Truck_02_ammo_F";
+vehLead = ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"];  // lead of convoy
+vehTruckBox = ["I_Truck_02_box_F"];
+
+AS_AAFarsenal_uav = "I_UAV_02_F";  // Set to `""` to FIA not use UAVs.
 
 // Config paths for pre-defined groups -- required if group names are used
 cfgInf = 				(configfile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Infantry");
@@ -371,7 +372,7 @@ These are the vehicles and statics that you can buy at HQ. Currently, the array 
 0-2: civilian vehicles
 3-10: military vehicles and statics
 */
-vfs = [
+vehFIA = [
 	"C_Offroad_01_F",
 	"C_Van_01_transport_F",
 	"C_Heli_Light_01_civil_F",

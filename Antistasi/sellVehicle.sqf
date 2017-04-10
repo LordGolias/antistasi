@@ -27,34 +27,11 @@ call {
 	if (_tipoVeh in vehFIA) exitWith {_coste = round (([_tipoVeh] call vehiclePrice)/2)};
 	if (_tipoveh == "C_Van_01_fuel_F") exitWith {_coste = 50};
 	if (_tipoVeh in arrayCivVeh) exitWith {_coste = 25};
-	if (_tipoVeh in (vehTrucks + vehPatrol + vehSupply)) exitWith {_coste = 300};
-	if (_tipoVeh in vehAAFAT) then {
-		if (_tipoVeh in vehTank) exitWith {
-			[_veh] call AAFassets;
-			_coste = 5000;
-		};
-		if (_tipoVeh in vehIFV) exitWith {
-			[_veh] call AAFassets;
-			_coste = 2000;
-		};
-		if (_tipoVeh in vehAPC) exitWith {
-			[_veh] call AAFassets;
-			_coste = 1000;
-		};
-	};
-	if (_tipoVeh in planesAAF) then {
-		if (_tipoVeh in heli_unarmed) exitWith {
-			[_veh] call AAFassets;
-			_coste = 1000;
-		};
-		if (_tipoVeh in heli_armed) exitWith {
-			[_veh] call AAFassets;
-			_coste = 5000;
-		};
-		if (_tipoVeh in planes) exitWith {
-			[_veh] call AAFassets;
-			_coste = 10000;
-		};
+
+	private _category = [_tipoVeh] call AS_fnc_AAFarsenal_category;
+	if (_category in AS_AAFarsenal_categories) then {
+		[typeOf _veh] call AS_fnc_AAFarsenal_deleteVehicle;
+		_coste = [_category] call AS_fnc_AAFarsenal_value;
 	};
 };
 
@@ -73,7 +50,3 @@ deleteVehicle _veh;
 if (_veh isKindOf "StaticWeapon") then {deleteVehicle _veh};
 
 hint "Vehicle Sold";
-
-
-
-

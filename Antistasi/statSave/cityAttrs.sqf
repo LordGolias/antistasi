@@ -7,9 +7,9 @@ AS_cityVars = ["population", "vehicles", "prestigeOPFOR", "prestigeBLUFOR"];
 AS_fnc_getCityAttrs = {
 	private ["_values", "_data"];
 	params ["_city", "_varNames"];
-	
+
 	_data = AS_persistent_cities getVariable _city;
-	
+
 	_values = [];
 	{
 		_index = AS_cityVars find _x;
@@ -23,13 +23,13 @@ AS_fnc_getCityAttrs = {
 AS_fnc_setCityAttrs = {
 	private ["_data"];
 	params ["_city", "_varNames", "_varValues"];
-	
+
 	_data = AS_persistent_cities getVariable _city;
-	
+
 	for "_i" from 0 to (count _varNames - 1) do {
 		_varName = _varNames select _i;
 		_varValue = _varValues select _i;
-		
+
 		_index = AS_cityVars find _varName;
 		if (_index == -1) throw ("AS_fnc_setCityAttrs: property " + _varName + " does not exist");
 		_data set [_index, _varValue];

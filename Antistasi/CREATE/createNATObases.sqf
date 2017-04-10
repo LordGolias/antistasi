@@ -55,7 +55,7 @@ if ( _nVeh > 0 ) then
 	};
 
 {[_x] spawn NATOinit} forEach _soldados;
-{[_x] spawn NATOVEHinit} forEach _vehiculos;
+{[_x, "NATO"] call AS_fnc_initVehicle} forEach _vehiculos;
 
 _tipoVeh = "";
 _nVeh = round ((_size/30)*_prestigio);
@@ -72,7 +72,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _nveh)} do
 		_veh setDir random 360;
 		_veh lock 3;
 		_vehiculos = _vehiculos + [_veh];
-		[_veh] spawn NATOVEHinit;
+		[_veh, "NATO"] call AS_fnc_initVehicle;
 		sleep 1;
 		};
 	_cuenta = _cuenta + 1;
@@ -146,7 +146,7 @@ if (_tam > 0) then {
 		_vehiculos = _vehiculos + [_veh];
 		[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 		_unit moveInGunner _veh;
-		[_veh] spawn VEHinit;
+		[_veh, "NATO"] call AS_fnc_initVehicle;
 		}
 	else
 		{

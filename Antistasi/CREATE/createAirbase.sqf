@@ -39,7 +39,7 @@ if ((spawner getVariable _marcador) and _frontera) then
 		_veh setDir _dirVeh + 180;
 		_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
 		[_unit, false] spawn AS_fnc_initUnitAAF;
-		[_veh] spawn genVEHinit;
+		[_veh, "AAF"] call AS_fnc_initVehicle;
 		_unit moveInGunner _veh;
 		_soldados = _soldados + [_unit];
 		};
@@ -92,12 +92,12 @@ if (!_busy) then
 		_cuenta = 0;
 		while {(spawner getVariable _marcador) and (_cuenta < 5)} do
 			{
-			_tipoveh = planesAAF call BIS_fnc_selectRandom;
+			_tipoveh = (["planes", "armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all) call BIS_fnc_selectRandom;
 			_veh = createVehicle [_tipoveh, _pos, [],3, "NONE"];
 			_veh setDir (_ang + 90);
 			sleep 1;
 			_vehiculos = _vehiculos + [_veh];
-			[_veh] spawn genVEHinit;
+			[_veh, "AAF"] call AS_fnc_initVehicle;
 			_pos = [_pos, 20,_ang] call BIS_fnc_relPos;
 			_unit = ([_posicion, 0, infPilot, _grupo] call bis_fnc_spawnvehicle) select 0;
 			[_unit, false] spawn AS_fnc_initUnitAAF;
@@ -117,7 +117,7 @@ _veh = "I_supplyCrate_F" createVehicle _posicion;
 [_veh] call AS_fnc_fillCrateAAF;
 _vehiculos = _vehiculos + [_veh];
 
-_arrayVeh = vehPatrol + vehSupply + vehAAFAT - [heli_default];
+_arrayVeh = ["trucks", "apcs"] call AS_fnc_AAFarsenal_all;
 _tipoVeh = "";
 _nVeh = round (_size/60);
 _cuenta = 0;
@@ -130,7 +130,7 @@ while {(spawner getVariable _marcador) and (_cuenta < _nVeh)} do
 		_veh = createVehicle [_tipoVeh, _pos, [], 0, "NONE"];
 		_veh setDir random 360;
 		_vehiculos = _vehiculos + [_veh];
-		[_veh] spawn genVEHinit;
+		[_veh, "AAF"] call AS_fnc_initVehicle;
 		};
 	sleep 1;
 	_cuenta = _cuenta + 1;
@@ -195,5 +195,3 @@ deleteMarker _mrk;
 if (!isNull _journalist) then {deleteVehicle _journalist};
 {deleteGroup _x} forEach _grupos;
 {if (!([AS_P("spawnDistance")-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x}} forEach _vehiculos;
-
-

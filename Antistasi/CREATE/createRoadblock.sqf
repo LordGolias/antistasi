@@ -60,7 +60,7 @@ _veh = createVehicle [cFlag, _pos, [],0, "CAN_COLLIDE"];
 _vehiculos = _vehiculos + [_veh];
 
 
-{[_x] spawn genVEHinit} forEach _vehiculos;
+{[_x, "AAF"] call AS_fnc_initVehicle} forEach _vehiculos;
 
 _tipoGrupo = [infAT, side_green] call fnc_pickGroup;
 _grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
@@ -118,4 +118,3 @@ if (_conquistado) then
 		publicVariable "mrkFIA";
 		};
 	};
-

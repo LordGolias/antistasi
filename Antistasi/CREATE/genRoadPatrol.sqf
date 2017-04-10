@@ -1,79 +1,64 @@
 #include "../macros.hpp"
-private ["_soldados","_vehiculos","_grupos","_base","_posbase","_roads","_tipoCoche","_arrayBases","_arrayDestinos","_tam","_road","_veh","_vehCrew","_grupoVeh","_grupo","_grupoP","_distancia"];
+private ["_tam","_road","_veh","_vehCrew","_grupoVeh","_grupo","_grupoP"];
 
-_soldados = [];
-_vehiculos = [];
-_grupos = [];
-_base = "";
-_roads = [];
+private _soldados = [];
+private _vehiculos = [];
+private _grupos = [];
+private _roads = [];
 
-_tipos = vehPatrol + ["I_Boat_Armed_01_minigun_F"];
+private _validTypes = vehPatrol + ["I_Boat_Armed_01_minigun_F"];
 
-while {true} do
-	{
-	_tipoCoche = selectRandom _tipos;
-	if (_tipoCoche in heli_unarmed) then
-		{
+private _base = "";
+private _type = "";
+while {count _validTypes != 0} do {
+	_type = selectRandom _validTypes;
+	private _arrayBases = bases - mrkFIA;
+	if (_type in (["armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all)) then {
 		_arrayBases = aeropuertos - mrkFIA;
-		}
-	else
-		{
-		if (_tipoCoche == "I_Boat_Armed_01_minigun_F") then
-			{
-			_arrayBases = puertos - mrkFIA;
-			}
-		else
-			{
-			_arrayBases = bases - mrkFIA;
-			};
-		};
-	if (count _arraybases == 0) then
-		{
-		_tipos = _tipos - [_tipoCoche];
-		}
-	else
-		{
-		while {true} do
-			{
-			_base = [_arraybases,getMarkerPos "respawn_west"] call BIS_fnc_nearestPosition;
-			if (not (spawner getVariable _base)) exitWith {};
-			if (spawner getVariable _base) then {_arraybases = _arraybases - [_base]};
-			if (count _arraybases == 0) exitWith {};
-			};
-		if (count _arraybases == 0) then {_tipos = _tipos - [_tipoCoche]};
-		};
-	if (count _tipos == 0) exitWith {};
-	if (not (spawner getVariable _base)) exitWith {};
+	};
+	if (_type == "I_Boat_Armed_01_minigun_F") then {
+		_arrayBases = puertos - mrkFIA;
 	};
 
-if (count _tipos == 0) exitWith {};
+	// get a valid starting base
+	while {count _arraybases != 0} do {
+		private _potential_base = [_arraybases, getMarkerPos "respawn_west"] call BIS_fnc_nearestPosition;
+		if !(spawner getVariable _potential_base) exitWith {
+			_base = _potential_base;  // suitable base gound.
+		};
+		_arraybases = _arraybases - [_potential_base];
+	};
+	// if no suitable base was found, the type is not suitable
+	if (count _arraybases == 0) then {
+		_validTypes = _validTypes - [_type]
+	};
+};
 
-_posbase = getMarkerPos _base;
+if (count _validTypes == 0) exitWith {};
 
-if (_tipoCoche in heli_unarmed) then
-	{
+private _posbase = getMarkerPos _base;
+private _category = [_type] call AS_fnc_AAFarsenal_category;
+
+private _arraydestinos = [mrkAAF] call patrolDestinos;
+private _distancia = 50;
+
+private _isFlying = _category in ["armedHelis","transportHelis", "planes"];
+if (_isFlying) then {
 	_arrayDestinos = mrkAAF;
 	_distancia = 200;
-	}
-else
-	{
-	if (_tipoCoche == "I_Boat_Armed_01_minigun_F") then
-		{
-		_arraydestinos = seaMarkers select {(getMarkerPos _x) distance _posbase < 2500};
-		_distancia = 100;
-		}
-	else
-		{
-		_arraydestinos = [mrkAAF] call patrolDestinos;
-		_distancia = 50;
-		};
-	};
+};
+if (_type == "I_Boat_Armed_01_minigun_F") then {
+	_arraydestinos = seaMarkers select {(getMarkerPos _x) distance _posbase < 2500};
+	_distancia = 100;
+};
 
 if (count _arraydestinos < 1) exitWith {};
 
+///////////// CHECKS COMPLETED -> CREATE PATROL /////////////
+
 AAFpatrols = AAFpatrols + 1; publicVariableServer "AAFpatrols";
 
-if !(_tipoCoche in heli_unarmed) then
+if (!_isFlying) then
 	{
 	if (_tipoCoche == "I_Boat_Armed_01_minigun_F") then
 		{
@@ -95,7 +80,7 @@ if !(_tipoCoche in heli_unarmed) then
 
 _vehicle=[_posbase, 0,_tipoCoche, side_green] call bis_fnc_spawnvehicle;
 _veh = _vehicle select 0;
-[_veh] spawn genVEHinit;
+[_veh, "AAF"] call AS_fnc_initVehicle;
 [_veh,"Patrol"] spawn inmuneConvoy;
 _vehCrew = _vehicle select 1;
 {[_x] spawn AS_fnc_initUnitAAF} forEach _vehCrew;
@@ -146,7 +131,7 @@ while {alive _veh} do
 		};
 
 	if (({alive _x} count _soldados == 0) or ({fleeing _x} count _soldados == {alive _x} count _soldados) or (!canMove _veh)) exitWith {};
-	if (_tipoCoche in heli_unarmed) then
+	if (_isFlying) then
 		{
 		_arrayDestinos = mrkAAF;
 		}

@@ -29,7 +29,7 @@ _heli = _helifn select 0;
 _heliCrew = _helifn select 1;
 _grupoHeli = _helifn select 2;
 {[_x] spawn NATOinitCA} forEach _heliCrew;
-[_heli] spawn NATOVEHinit;
+[_heli, "NATO"] call AS_fnc_initVehicle;
 _vehiculos = _vehiculos + [_heli];
 _heli setPosATL [getPosATL _heli select 0, getPosATL _heli select 1, 1000];
 _heli disableAI "TARGET";

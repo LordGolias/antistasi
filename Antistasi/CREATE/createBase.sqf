@@ -54,7 +54,7 @@ if ( _nVeh > 0 ) then
 		};
 	};
 
-{[_x] spawn genVEHinit} forEach _vehiculos;
+{[_x, "AAF"] call AS_fnc_initVehicle} forEach _vehiculos;
 
 if ((spawner getVariable _marcador) and _frontera) then
 	{
@@ -79,7 +79,7 @@ if ((spawner getVariable _marcador) and _frontera) then
 		_veh setDir _dirVeh + 180;
 		_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
 		[_unit, false] spawn AS_fnc_initUnitAAF;
-		[_veh] spawn genVEHinit;
+		[_veh, "AAF"] call AS_fnc_initVehicle;
 		_unit moveInGunner _veh;
 		_soldados = _soldados + [_unit];
 		};
@@ -87,7 +87,7 @@ if ((spawner getVariable _marcador) and _frontera) then
 
 if (!_busy) then
 	{
-	_arrayVehAAF = vehAPC + vehPatrol + vehAAFAT - [heli_default];
+	_arrayVehAAF = ["trucks", "apcs"] call AS_fnc_AAFarsenal_all;
 	_tipoVeh = "";
 	_nVeh = round (_size/30);
 	if (_nVeh < 1) then {_nVeh = 1};
@@ -102,7 +102,7 @@ if (!_busy) then
 			_veh = createVehicle [_tipoVeh, _pos, [], 0, "NONE"];
 			_veh setDir random 360;
 			_vehiculos = _vehiculos + [_veh];
-			[_veh] spawn genVEHinit;
+			[_veh, "AAF"] call AS_fnc_initVehicle;
 			};
 		sleep 1;
 		_cuenta = _cuenta + 1;
@@ -193,8 +193,3 @@ if (not(_x in staticsToSave)) then
 	};
 } forEach _vehiculos;
 deleteMarker _mrk;
-
-
-
-
-

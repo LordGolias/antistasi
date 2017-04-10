@@ -50,7 +50,7 @@ for "_i" from 1 to _cuenta do
 	_heliCrew = _vehicle select 1;
 	_grupoheli = _vehicle select 2;
 	{[_x] spawn NATOinitCA} forEach _heliCrew;
-	[_heli] spawn NATOVEHinit;
+	[_heli, "NATO"] call AS_fnc_initVehicle;
 	_soldados = _soldados + _heliCrew;
 	_grupos = _grupos + [_grupoheli];
 	_vehiculos = _vehiculos + [_heli];
@@ -198,4 +198,3 @@ deleteVehicle _soldado;
 _vehiculo = _x;
 waitUntil {sleep 1; {_x distance _vehiculo < AS_P("spawnDistance")/2} count (allPlayers - hcArray) == 0};
 deleteVehicle _x} forEach _vehiculos;
-

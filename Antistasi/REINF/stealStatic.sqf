@@ -57,8 +57,8 @@ if (_tipoB1 == "") exitWith {};
 _bag1 = _tipoB1 createVehicle _posicion1;
 _bag2 = _tipoB2 createVehicle _posicion2;
 
-[_bag1] spawn VEHinit;
-[_bag2] spawn VEHinit;
+[_bag1, "FIA"] call AS_fnc_initVehicle;
+[_bag2, "FIA"] call AS_fnc_initVehicle;
 
 // hint "Weapon Stolen. It won't despawn when you assemble it again";
 

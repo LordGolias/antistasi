@@ -29,7 +29,7 @@ while {true} do
 	if ((!surfaceIsWater _poscrash) and (_poscrash distance _posHQ < 4000)) exitWith {};
 	};
 
-_tipoVeh = planesAAF call BIS_fnc_selectRandom;
+_tipoVeh = (["planes", "armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all) call BIS_fnc_selectRandom;
 
 _posCrashMrk = [_poscrash,random 500,random 360] call BIS_fnc_relPos;
 _posCrash = _posCrash findEmptyPosition [0,100,_tipoVeh];
@@ -71,9 +71,10 @@ while {true} do
 
 _road = _roads select 0;
 
-_vehicle=[position _road, 0,selectRandom standardMRAP, side_green] call bis_fnc_spawnvehicle;
+private _vehType = selectRandom (["apcs"] call AS_fnc_AAFarsenal_valid);
+_vehicle=[position _road, 0,_vehType, side_green] call bis_fnc_spawnvehicle;
 _veh = _vehicle select 0;
-[_veh] spawn genVEHinit;
+[_veh, "AAF"] call AS_fnc_initVehicle;
 [_veh,"AAF Escort"] spawn inmuneConvoy;
 _vehCrew = _vehicle select 1;
 {[_x] spawn AS_fnc_initUnitAAF} forEach _vehCrew;
@@ -102,7 +103,7 @@ sleep 15;
 
 _vehicleT=[position _road, 0, selectRandom vehTruckBox, side_green] call bis_fnc_spawnvehicle;
 _vehT = _vehicleT select 0;
-[_vehT] spawn genVEHinit;
+[_vehT, "AAF"] call AS_fnc_initVehicle;
 [_vehT,"AAF Recover Truck"] spawn inmuneConvoy;
 _vehCrewT = _vehicle select 1;
 {[_x] spawn AS_fnc_initUnitAAF} forEach _vehCrewT;
@@ -194,7 +195,3 @@ deleteVehicle _x} forEach _vehiculos;
 //sleep (600 + random 1200);
 
 //[_tsk,true] call BIS_fnc_deleteTask;
-
-
-
-
