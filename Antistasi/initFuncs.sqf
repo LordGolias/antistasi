@@ -26,6 +26,7 @@ AS_fnc_emptyUnit = compile preProcessFileLineNumbers "municion\emptyUnit.sqf";
 
 call compile preProcessFileLineNumbers "templates\medicUnitBackpack.sqf";
 
+AS_fnc_updateAll = compile preProcessFileLineNumbers "fnc_updateAll.sqf";
 AS_fnc_initPlayer = compile preProcessFileLineNumbers "fnc_initPlayer.sqf";
 
 AS_fnc_dismissFIAgarrison = compile preProcessFileLineNumbers "REINF\dismissFIAgarrison.sqf";

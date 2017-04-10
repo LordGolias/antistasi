@@ -67,7 +67,7 @@ while {true} do {
 			};
 		};
 	} else { // not mkrAAF
-		// not clear what this is doing. owner is about who controls it, not something else. 
+		// not clear what this is doing. owner is about who controls it, not something else.
 		_playerIsClose = (_marcador in forcedSpawn) or
 						 ({((_x getVariable ["owner", objNull]) == _x) and
 						   (_x distance _posicionMRK < AS_P("spawnDistance"))} count _amigos > 0);
