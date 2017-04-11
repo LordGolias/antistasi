@@ -132,9 +132,6 @@ if (hayACE) then {
     AAFItems append ["FirstAidKit","Medikit"];
 };
 
-// deprecated variables, used to maintain compatibility
-soldadosAAF = infList_sniper + infList_NCO + infList_special + infList_auto + infList_regular + infList_crew + infList_pilots;
-
 call compile preprocessFileLineNumbers "templates\FIA.sqf";
 
 //------------------ /unit module ------------------//
@@ -165,7 +162,6 @@ campNames = ["Camp Spaulding","Camp Wagstaff","Camp Firefly","Camp Loophole","Ca
 			"Camp Fieramosca","Camp Bulldozer","Camp Bambino","Camp Pedersoli"];
 usedCN = [];
 cName = "";
-cList = false;
 
 // roadblocks and watchposts
 FIA_RB_list = [];
@@ -279,18 +275,6 @@ for "_i" from 0 to (count _allVehicles - 1) do {
 #include "Scripts\BE_modul.sqf"
 [] call fnc_BE_initialize;
 if !(isNil "BE_INIT") then {hayBE = true; publicVariable "hayBE"};
-
-// texture mod detection
-FIA_texturedVehicles = [];
-FIA_texturedVehicleConfigs = [];
-_allVehicles = configFile >> "CfgVehicles";
-for "_i" from 0 to (count _allVehicles - 1) do {
-    _vehicle = _allVehicles select _i;
-    if (toUpper (configName _vehicle) find "DGC_FIAVEH" >= 0) then {
-    	FIA_texturedVehicles pushBackUnique (configName _vehicle);
-    	FIA_texturedVehicleConfigs pushBackUnique _vehicle;
-    };
-};
 
 call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
 
