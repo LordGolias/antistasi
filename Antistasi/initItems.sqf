@@ -1,6 +1,6 @@
 /*
     Script that initializes global variables related with items:
-    
+
     AS_allItems
     AS_allNVGs
     AS_allBinoculars
@@ -51,22 +51,22 @@ _allAccessories = "
 " configClasses ( configFile >> "cfgWeapons" );
 
 _allBackpacks = "(
-getNumber ( _x >> ""scope"" ) == 2  
+getNumber ( _x >> ""scope"" ) == 2
 && {
-getNumber ( _x >> ""isbackpack"" ) isEqualTo 1  
+getNumber ( _x >> ""isbackpack"" ) isEqualTo 1
 && {
-getNumber ( _x >> ""maximumLoad"" ) != 0 
+getNumber ( _x >> ""maximumLoad"" ) != 0
 }})" configClasses ( configFile >> "cfgVehicles");
 
-_itemFilter = " 
-    ( getNumber ( _x >> ""scope"" ) isEqualTo 2 
-    && 
-    { getText ( _x >> ""simulation"" ) isEqualTo ""Weapon"" 
-    && 
-    { getNumber ( _x >> ""type"" ) isEqualTo 131072 
-    && 
-    { getNumber ( _x >> ""ItemInfo"" >> ""type"" ) isEqualTo %1 
-    } } }) 
+_itemFilter = "
+    ( getNumber ( _x >> ""scope"" ) isEqualTo 2
+    &&
+    { getText ( _x >> ""simulation"" ) isEqualTo ""Weapon""
+    &&
+    { getNumber ( _x >> ""type"" ) isEqualTo 131072
+    &&
+    { getNumber ( _x >> ""ItemInfo"" >> ""type"" ) isEqualTo %1
+    } } })
 ";
 
 _allItems = "(
@@ -261,13 +261,24 @@ AS_allWeaponsAttrs = [];
 
 		switch (_weaponType) do {
             case "AssaultRifle": {
-                // a sub-optimal fix to not put snipers in this bucket.
-                if (_name select [0, 6] != "srifle") then {
+
+                call {
+                    // a sub-optimal fix to not put snipers in this bucket.
+                    if (_name find "srifle" != -1) exitWith {
+                        (AS_weapons select 15) pushBack _name;
+                    };
+                    private _is_GL = false;
+                    {
+                        private _class = (configFile >> "CfgWeapons" >> _name >> _x);
+                        if (!isNull _class and "GrenadeLauncher" in ([_class,true] call BIS_fnc_returnParents)) exitWith {
+                            _is_GL = true;
+                        };
+                    } forEach getArray (configFile >> "CfgWeapons" >> _name >> "muzzles");
+                    if (_is_GL) exitWith {
+                        (AS_weapons select 3) pushBack _name;
+                    };
                     (AS_weapons select 0) pushBack _name;
-                } else {
-                    (AS_weapons select 15) pushBack _name;
                 };
-                // todo: GrenadeLauncher are still here. Move then like above
             };
 			case "BombLauncher": {(AS_weapons select 1) pushBack _name};
 			case "Cannon": {(AS_weapons select 2) pushBack _name};
