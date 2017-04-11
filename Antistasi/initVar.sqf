@@ -54,8 +54,6 @@ call compile preprocessFileLineNumbers "initUnlocked.sqf";
 
 /////////////////////// Mods detection ///////////////////////
 hayRHS = false;
-hayUSAF = false;
-hayGREF = false;
 hayACE = false;
 hayBE = false;
 
@@ -79,9 +77,6 @@ if (!isNil "ace_common_settingFeedbackIcons") then {
 if ("rhs_weap_akms" in AS_allWeapons) then {
 	hayRHS = true;
 };
-if ("rhs_weap_m4a1_d" in AS_allWeapons) then {
-	hayUSAF = true;
-};
 
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 
@@ -104,16 +99,11 @@ lrRadio = "";
 if (hayRHS) then {
 	call compile preprocessFileLineNumbers "templates\RHS.sqf";
 	call compile preprocessFileLineNumbers "templates\VMF.sqf";
+	call compile preprocessFileLineNumbers "templates\USAF.sqf";
 }
 else {
 	call compile preprocessFileLineNumbers "templates\AAF.sqf";
 	call compile preprocessFileLineNumbers "templates\CSAT.sqf";
-};
-
-if (hayUSAF) then {
-	call compile preprocessFileLineNumbers "templates\USAF.sqf";
-}
-else {
 	call compile preprocessFileLineNumbers "templates\NATO.sqf";
 };
 

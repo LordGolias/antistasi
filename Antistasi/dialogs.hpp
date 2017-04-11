@@ -305,10 +305,10 @@ class mbt_type
 	{
 AS_DIALOG(2,"Select type ammo for the strike",A_CLOSE);
 
-BTN_L(1,-1, "HE", "", "closeDialog 0; if (hayUSAF) then {tipoMuni = ""RHS_mag_m1_he_12"";} else {tipoMuni = ""32Rnd_155mm_Mo_shells"";}");
+BTN_L(1,-1, "HE", "", "closeDialog 0; if (hayRHS) then {tipoMuni = ""RHS_mag_m1_he_12"";} else {tipoMuni = ""32Rnd_155mm_Mo_shells"";}");
 BTN_R(1,-1, "Laser Guided", "", "closeDialog 0; tipoMuni = ""2Rnd_155mm_Mo_LG"";");
 
-BTN_M(2, -1, "Smoke", "", "closeDialog 0; if (hayUSAF) then {tipoMuni = ""rhs_mag_m60a2_smoke_4"";} else {tipoMuni = ""6Rnd_155mm_Mo_smoke"";}");
+BTN_M(2, -1, "Smoke", "", "closeDialog 0; if (hayRHS) then {tipoMuni = ""rhs_mag_m60a2_smoke_4"";} else {tipoMuni = ""6Rnd_155mm_Mo_smoke"";}");
 
 	};
 };

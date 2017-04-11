@@ -94,7 +94,6 @@ vehTruckBox = ["rhs_gaz66_repair_vdv"];
 
 // FIA Vehicles
 vehTruckAA = "rhs_gaz66_zu23_msv";
-vehFIA pushBackUnique vehTruckAA;
 
 // Config paths for pre-defined groups -- required if group names are used
 cfgInf = (configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry");

@@ -238,26 +238,11 @@ if (hayACE) then {
     };
 };
 if (hayRHS) then {
-	_texto = _texto + "RHS-AFRF Detected\n\nAntistasi detects RHS - AFRF in the server config.\nAAF will be replaced with VDV, VMF will take the place of CSAT.\n\nRecruited AI will use AFRF gear.";
+	_texto = _texto + "RHS Detected\n\nAntistasi detects RHS gear.";
 };
 
-if (hayUSAF) then {
-	_texto = _texto + "RHS-USAF Detected\n\nAntistasi detects RHS - USAF in the server config.\nNATO will be replaced with USAF.";
-};
-
-if (hayTFAR or hayACE or hayRHS or hayUSAF) then {
+if (hayTFAR or hayACE or hayRHS) then {
 	hint format ["%1",_texto];
-	// [_texto] spawn {
-		// sleep 0.5;
-		// _texto = _this select 0;
-		// "Integrated Mods Detected" hintC _texto;
-		// hintC_arr_EH = findDisplay 72 displayAddEventHandler ["unload", {
-			// 0 = _this spawn {
-				// _this select 0 displayRemoveEventHandler ["unload", hintC_arr_EH];
-				// hintSilent "";
-			// };
-			// }];
-		// };
 };
 
 removeAllActions caja;
