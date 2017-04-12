@@ -40,30 +40,21 @@ _cantidad = 0;
 
 if (_tipo == "ATMine") then {
 	_cantidadMax = 20;
-	if (("ATMine_Range_Mag" in unlockedMagazines) || ("rhs_mine_tm62m_mag" in unlockedMagazines)) then {
+
+	if (atMine in unlockedMagazines) then {
 		_cantidad = 20;
 	}
 	else {
-		if !(hayRHS) then {
-		_cantidad = {_x == "ATMine_Range_Mag"} count (magazineCargo caja);
-		}
-		else {
-			_cantidad = {_x == "rhs_mine_tm62m_mag"} count (magazineCargo caja);
-		};
+		_cantidad = {_x == atMine} count (magazineCargo caja);
 	};
 };
 
 if (_tipo == "APERSMine") then {
-	if (("APERSMine_Range_Mag" in unlockedMagazines) || ("rhs_mine_pmn2_mag" in unlockedMagazines)) then {
+	if (apMine in unlockedMagazines) then {
 		_cantidad = 40;
 	}
 	else {
-		if !(hayRHS) then {
-			_cantidad = {_x == "APERSMine_Range_Mag"} count (magazineCargo caja);
-		}
-		else {
-			_cantidad = {_x == "rhs_mine_pmn2_mag"} count (magazineCargo caja);
-		};
+		_cantidad = {_x == apMine} count (magazineCargo caja);
 	};
 };
 

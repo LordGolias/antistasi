@@ -114,7 +114,7 @@ _bandera allowDamage false;
 [[_bandera,"take"],"flagaction"] call BIS_fnc_MP;
 _vehiculos = _vehiculos + [_bandera];
 _veh = "I_supplyCrate_F" createVehicle _posicion;
-[_veh] call AS_fnc_fillCrateAAF;
+[_veh, "Airbase"] call AS_fnc_fillCrateAAF;
 _vehiculos = _vehiculos + [_veh];
 
 _arrayVeh = ["trucks", "apcs"] call AS_fnc_AAFarsenal_all;

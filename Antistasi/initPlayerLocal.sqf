@@ -77,8 +77,6 @@ else {
 	[] execVM "playerMarkers.sqf";
 };
 
-if (hayRHS) then {[player] execVM "Municion\RHSdress.sqf"};
-
 disableUserInput false;
 MIASquadUnits = creategroup WEST;  // units that are not in the squad because they lost communication with the player (no radio).
 player setvariable ["compromised", 0];  // Used by undercover mechanics
@@ -238,7 +236,7 @@ if (hayACE) then {
     };
 };
 if (hayRHS) then {
-	_texto = _texto + "RHS Detected\n\nAntistasi detects RHS gear.";
+	_texto = _texto + "\n\nRHS Detected:\n\nAAF -> VDV\nCSAT -> VMF\nNATO -> USMC";
 };
 
 if (hayTFAR or hayACE or hayRHS) then {

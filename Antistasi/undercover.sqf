@@ -10,14 +10,14 @@ _arrayCivVeh = arrayCivVeh + [civHeli];
 _compromised = player getVariable "compromised";
 _reason = "";
 
-_isMilitaryDressed = (primaryWeapon player != "") or 
-				 (secondaryWeapon player != "") or 
-				 (handgunWeapon player != "") or 
-				 (vest player != "") or 
-				 (headgear player in genHelmets) or 
-				 (hmd player != "") or 
-				 (not(uniform player in civUniforms));
-_detectedCondition = {((side _x == side_red) or (side _x == side_green)) and 
+_isMilitaryDressed = (primaryWeapon player != "") or
+				 (secondaryWeapon player != "") or
+				 (handgunWeapon player != "") or
+				 (!(vest player in AS_FIAvests_undercover)) or
+				 (!(headgear player in AS_FIAhelmets_undercover)) or
+				 (hmd player != "") or
+				 (!(uniform player in AS_FIAuniforms_undercover));
+_detectedCondition = {((side _x == side_red) or (side _x == side_green)) and
 					  (
 						((_x knowsAbout player > 1.4) and (_x distance player < 500)) or
 						(_x distance player < 350)

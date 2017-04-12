@@ -13,7 +13,7 @@ if (random 10 < 5) then {
 else {
 	if (_ran == 1) then {
 		for [{_i=1},{_i<=(1 + round random 2)},{_i=_i+1}] do {
-			_cosa = (AAFOptics - unlockedIems) call BIS_Fnc_selectRandom;
+			_cosa = ((AAFItems arrayIntersect AS_allOptics) - unlockedIems) call BIS_Fnc_selectRandom;
 			_num = 1 + (floor random 5);
 			_crate addItemCargoGlobal [_cosa, _num];
 		};

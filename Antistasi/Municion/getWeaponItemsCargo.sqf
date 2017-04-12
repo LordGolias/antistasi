@@ -9,13 +9,7 @@ _items = [];
 	_weapon = [(_x select 0)] call BIS_fnc_baseWeapon;
 	_weapons pushBack ([(_x select 0)] call BIS_fnc_baseWeapon);
 
-	if ((hayRHS) && (isNumber (configFile >> "CfgWeapons" >> (_x select 0) >> "rhs_disposable"))) then {
-		_ammo = (getArray (configFile >> "CfgWeapons" >> (_x select 0) >> "magazines")) select 0;
-		_magazines pushBack _ammo;
-	}
-	else {
-		_magazines pushBack ((_x select 4) select 0);
-	};
+	_magazines pushBack ((_x select 4) select 0);
 
 	for "_i" from 1 to (count _x) - 1 do {
 		_cosa = _x select _i;

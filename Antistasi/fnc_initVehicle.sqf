@@ -4,7 +4,7 @@ params ["_veh", "_side"];
 // does not uniquely define the necessary initialization.
 
 if ((_veh isKindOf "FlagCarrier") or (_veh isKindOf "Building")) exitWith {};
-if (_veh isKindOf "ReammoBox_F" and _side == "AAF") exitWith {[_veh] call AS_fnc_fillCrateAAF};
+if (_veh isKindOf "ReammoBox_F" and _side == "AAF") exitWith {[_veh,"Watchpost"] call AS_fnc_fillCrateAAF};
 
 // So the vehicle appears in debug mode. Does nothing otherwise.
 [_veh] call AS_DEBUG_initVehicle;
@@ -14,7 +14,8 @@ private _type = [_tipo] call AS_fnc_AAFarsenal_category;
 
 // Equipment-related initialisation
 [_veh] call emptyCrate;
-if (_tipo == vehAmmo and _side == "AAF") then {[_veh] call AS_fnc_fillCrateAAF};
+if (_tipo == vehAmmo and _side == "AAF") then {[_veh, "Convoy"] call AS_fnc_fillCrateAAF};
+if (_tipo == opCrate and _side == "AAF") then {[_veh, "AA"] call AS_fnc_fillCrateAAF};
 // todo: add more equipment depending on spawing side / vehicle
 
 if ((hayACE) && !(random 8 < 1)) then {_veh setVariable ["ace_cookoff_enable", false, true]};

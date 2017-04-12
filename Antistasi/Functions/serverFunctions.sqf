@@ -97,21 +97,6 @@ fnc_initialiseUnits = {
     };
 };
 
-// replace scope 1 weapons
-fnc_weaponReplacement = {
-	params ["_weapon"];
-	private _return = "";
-	switch (_weapon) do {
-		case "rhs_weap_svd": {
-			_return = "rhs_weap_svds";
-		};
-		default {
-			_return = "hgun_PDW2000_F";
-		};
-	};
-	_return
-};
-
 fnc_infoScreen = {
 	params ["_type"];
 
@@ -173,11 +158,7 @@ fnc_rearmPetros = {
 	private _mag = currentMagazine petros;
 	petros removeMagazines _mag;
 	petros removeWeaponGlobal (primaryWeapon petros);
-	if (hayRHS) then {
-	    [petros, "rhs_weap_ak74m", 5, 0] call BIS_fnc_addWeapon;
-	} else {
-	    [petros, "arifle_TRG21_F", 5, 0] call BIS_fnc_addWeapon;
-	};
+	[petros, selectRandom (AAFWeapons arrayIntersect (AS_weapons select 0)), 5, 0] call BIS_fnc_addWeapon;
 	petros selectweapon primaryWeapon petros;
 };
 

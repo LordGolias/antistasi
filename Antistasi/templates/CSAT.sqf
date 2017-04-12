@@ -29,38 +29,22 @@ opTruck = 			"O_Truck_02_transport_F";
 
 opMRAPu = 			"O_MRAP_02_F";
 
-// infantry classes, to allow for class-specific pricing
+// infantry classes used in missions
 opI_OFF = 	"O_officer_F"; // officer/official
 opI_PIL = 	"O_helipilot_F"; // pilot
 opI_OFF2 = 	"O_G_officer_F"; // officer/traitor
 opI_SL = 	"O_SoldierU_SL_F"; // squad leader, urban camo
 opI_RFL1 = 	"O_soldierU_F"; // rifleman, urban camo
 opI_CREW = 	"O_crew_F"; // crew
-opI_MK = 	"O_sniper_F";
-opI_MED =	"O_recon_medic_F";
-opI_RFL2 = 	"O_recon_F";
-opI_AR = 	"O_Soldier_AR_F";
-opI_AR2 = 	"";
-opI_MK2 = 	"O_recon_M_F";
-opI_AAR = 	"";
-opI_SP = 	"O_spotter_F";
-opI_GL =	"O_Soldier_GL_F";
-opI_LAT = 	"O_Soldier_LAT_F";
-
-// config path for infantry groups
-opCfgInf = 			(configfile >> "CfgGroups" >> "east" >> "OPF_F" >> "Infantry");
 
 // standard group arrays, used for spawning groups
-opGroup_Sniper = 		(configfile >> "CfgGroups" >> "east" >> "OPF_F" >> "Infantry" >> "OI_SniperTeam"); // sniper team
-opGroup_SpecOps = 		(configfile >> "CfgGroups" >> "east" >> "OPF_F" >> "Infantry" >> "OI_reconTeam"); // spec opcs
-opGroup_Squad = 		(configfile >> "CfgGroups" >> "east" >> "OPF_F" >> "Infantry" >> "OIA_InfSquad"); // squad
-opGroup_Recon_Team = 	(configfile >> "CfgGroups" >> "east" >> "OPF_F" >> "Infantry" >> "OI_reconPatrol");
-opGroup_Security = 		[opI_SL, opI_RFL1];
+CSATConfigGroupInf = (configfile >> "CfgGroups" >> "east" >> "OPF_F" >> "Infantry");
+opGroup_SpecOps = ["OI_reconTeam"]; // spec opcs
+opGroup_Squad = ["OIA_InfSquad"]; // squad
+opGroup_Recon_Team = ["OI_reconPatrol"];
 
 // the affiliation
-side_red = 			east;
-
-opFlag = 			"Flag_CSAT_F";
+opFlag = "Flag_CSAT_F";
 
 opIR = "acc_pointer_IR";
 

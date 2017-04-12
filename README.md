@@ -17,6 +17,22 @@ This modified version has the same mechanics and the same features but improves 
 
 The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 line added, 2 lines were deleted, I have +4 years experience as professional software developer).
 
+# Replacing Factions
+
+This version supports easy replacement of modded factions. Use the following steps:
+
+1. Duplicate the file `templates/AAF.sqf` (for independents), `templates/NATO.sqf` (for NATO)
+or `templates/CSAT.sqf` (for CSAT)
+2. Modify the existing fields with your units, vehicles and groups.
+3. In the `initVar.sqf`, when the files are compiled and called, add a condition to run your files when a condition is met.
+4. Load the game with the mod of that faction
+
+Essentially, our code will detect every unit from that faction, and populates
+the correct lists with the equipment (weapons, items, vests, etc.) that the units use.
+This way, you only need to focus on adding vehicles, groups and units; the rest is automatic.
+
+In the vanilla version, everything related to AAF is only defined in `templates/AAF.sqf`.
+
 # Debug tools
 
 In the debug window, run

@@ -5,8 +5,6 @@ _threat = 0;
 
 {if (_x in unlockedWeapons) then {_threat = 3};} forEach genATLaunchers;
 
-if (hayRHS) then {{if (_x in unlockedWeapons) then {_threat = 2};} forEach genATLaunchers;};
-
 _marcador = _this select 0;
 
 if (_marcador isEqualType []) then {_posicion = _marcador} else {_posicion = getMarkerPos _marcador};

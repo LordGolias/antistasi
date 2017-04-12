@@ -1,6 +1,16 @@
 params ["_box", "_type"];
 
-private _availableItems = getItemCargo _box;
+private _availableItems = [[],[]];
+if (typename _box != "ARRAY") then {
+	_availableItems = getItemCargo _box;
+} else {
+	// it is a list of items.
+	_availableItems set [0, _box];
+	{
+		// equal number so the best of them is picked regardless of availability
+		(_availableItems select 1) pushBack 100;
+	} forEach _box;
+};
 
 // best item based on "log(_amount)*(_armor + 1)/(_weight + 1)"
 private _sortingFunction = {

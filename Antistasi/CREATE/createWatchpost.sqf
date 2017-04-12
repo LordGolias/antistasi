@@ -22,7 +22,7 @@ _veh = createVehicle [cFlag, _posicion, [],0, "NONE"];
 _vehiculos = _vehiculos + [_veh];
 _veh = createVehicle ["I_supplyCrate_F", _posicion, [],0, "NONE"];
 _vehiculos = _vehiculos + [_veh];
-[_veh] call AS_fnc_fillCrateAAF;
+[_veh, "Watchpost"] call AS_fnc_fillCrateAAF;
 
 if (["trucks"] call AS_fnc_AAFarsenal_count > 0) then {
 	private _type = selectRandom (["trucks"] call AS_fnc_AAFarsenal_all);

@@ -95,15 +95,14 @@ vehTruckBox = ["rhs_gaz66_repair_vdv"];
 // FIA Vehicles
 vehTruckAA = "rhs_gaz66_zu23_msv";
 
-// Config paths for pre-defined groups -- required if group names are used
-cfgInf = (configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry");
 
 // Standard group arrays, used for spawning groups -- can use full config paths, config group names, arrays of individual soldiers
+AAFConfigGroupInf = (configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry");
 infPatrol = 		["rhs_group_rus_vdv_infantry_fireteam","rhs_group_rus_vdv_infantry_MANEUVER"]; // 2-3 guys, incl sniper teams
 infGarrisonSmall = 	["rhs_group_rus_vdv_infantry_fireteam","rhs_group_rus_vdv_infantry_MANEUVER","rhs_group_rus_vdv_infantry_MANEUVER"]; // 2-3 guys, to guard towns
 infTeamATAA =		["rhs_group_rus_vdv_infantry_section_AT","rhs_group_rus_vdv_infantry_section_AA"]; // missile teams, 4+ guys, for roadblocks and watchposts
 infTeam = 			["rhs_group_rus_vdv_infantry_section_mg","rhs_group_rus_vdv_infantry_section_marksman","rhs_group_rus_vdv_infantry_section_AT","rhs_group_rus_vdv_infantry_section_AA",
-					"rhs_group_rus_vdv_infantry_section_mg","rhs_group_rus_vdv_infantry_section_marksman"]; // teams, 4+ guys
+					 "rhs_group_rus_vdv_infantry_section_mg","rhs_group_rus_vdv_infantry_section_marksman"]; // teams, 4+ guys
 infSquad = 			["rhs_group_rus_vdv_infantry_squad","rhs_group_rus_vdv_infantry_squad_2mg","rhs_group_rus_vdv_infantry_squad_sniper","rhs_group_rus_vdv_infantry_squad_mg_sniper"]; // squads, 8+ guys, for outposts, etc
 infAA =				["rhs_group_rus_vdv_infantry_section_AA"];
 infAT =				["rhs_group_rus_vdv_infantry_section_AT"];
@@ -136,199 +135,10 @@ statMGtowerBackpacks = 	["RHS_Kord_Gun_Bag","RHS_Kord_Tripod_Bag"];
 ================ Gear ================
 Weapons, ammo, launchers, missiles, mines, items and optics will spawn in ammo crates, the rest will not. These lists, together with the corresponding lists in the NATO/USAF template, determine what can be unlocked. Weapons of all kinds and ammo are the exception: they can all be unlocked.
 */
-AAFWeapons = [
-	"rhs_weap_ak74m",
-	"rhs_weap_ak74m_gp25",
-	"rhs_weap_asval_grip",
-	"rhs_weap_vss",
-	"rhs_weap_svds",
-	"rhs_weap_svdp_wd",
-	"rhs_weap_akm",
-	"rhs_weap_pkm",
-	"rhs_weap_pkp",
-	"rhs_weap_ak74mr"
-];
-
-private _getWeaponMags = {
-    params ["_weapon"];
-    private _index = AS_allWeapons find _weapon;
-    if (_index == -1) exitWith {[]};
-
-    // all magazines of this weapon.
-    (AS_allWeaponsAttrs select _index) select 2
-};
-
-AAFMagazines = [];
-{
-    AAFMagazines append ([_x] call _getWeaponMags);
-} forEach AAFWeapons;
-
-AAFLaunchers = [
-	"rhs_weap_rpg26",
-	"rhs_weap_rshg2",
-	"rhs_weap_rpg7",
-	"rhs_weap_igla"
-];
 
 AAFMines = [
 	"rhs_mine_tm62m_mag",
 	"rhs_mine_pmn2_mag"
-];
-
-AAFItems = [
-	"MineDetector",
-	"rhs_acc_pgs64",
-	"rhs_acc_dtk",
-	"rhs_acc_dtk4short",
-	"rhs_acc_2dpZenit",
-	"rhs_acc_perst1ik",
-	"rhs_acc_pbs1",
-	"rhs_acc_pbs4",
-	"rhs_acc_tgpa",
-	"rhs_1PN138",
-	"ItemGPS",
-	"rhs_scarf",
-	"rhs_pdu4"
-];
-
-AAFOptics = [
-	"rhs_acc_ekp1",
-	"rhs_acc_pso1m2",
-	"rhs_acc_1p29",
-	"rhs_acc_pkas",
-	"rhs_acc_npz",
-	"rhs_acc_pgo7v"
-];
-
-genBackpacks = [
-	"rhs_assault_umbts",
-	"rhs_assault_umbts_engineer",
-	"rhs_assault_umbts_engineer_empty",
-	"rhs_assault_umbts_medic",
-	"rhs_rpg",
-	"rhs_rpg_empty",
-	"rhs_sidor",
-	"rhs_sidorMG",
-	"RHS_NSV_Gun_Bag",
-	"RHS_NSV_Tripod_Bag",
-	"RHS_DShkM_Gun_Bag",
-	"RHS_DShkM_TripodHigh_Bag",
-	"RHS_DShkM_TripodLow_Bag",
-	"RHS_Kord_Gun_Bag",
-	"RHS_Kord_Tripod_Bag",
-	"RHS_Metis_Gun_Bag",
-	"RHS_Metis_Tripod_Bag",
-	"RHS_Kornet_Gun_Bag",
-	"RHS_Kornet_Tripod_Bag",
-	"RHS_AGS30_Gun_Bag",
-	"RHS_AGS30_Tripod_Bag",
-	"RHS_SPG9_Gun_Bag",
-	"RHS_SPG9_Tripod_Bag",
-	"RHS_Podnos_Gun_Bag",
-	"RHS_Podnos_Bipod_Bag",
-	"tf_mr3000_rhs",
-	"B_Carryall_oli"
-];
-
-genVests = [
-	"rhs_6b13",
-	"rhs_6b13_flora",
-	"rhs_6b13_emr",
-	"rhs_6b13_6sh92",
-
-	"rhs_6b23",
-	"rhs_6b23_crew",
-	"rhs_6b23_crewofficer",
-	"rhs_vest_commander",
-	"rhs_6b23_engineer",
-	"rhs_6b23_medic",
-	"rhs_6b23_rifleman",
-	"rhs_6b23_sniper",
-	"rhs_6b23_6sh92",
-	"rhs_6b23_6sh92_vog",
-	"rhs_6b23_6sh92_vog_headset",
-	"rhs_6b23_6sh92_headset",
-	"rhs_6b23_6sh92_headset_mapcase",
-	"rhs_6b23_6sh92_radio",
-
-	"rhs_6b23_digi",
-	"rhs_6b23_digi_crew",
-	"rhs_6b23_digi_crewofficer",
-	"rhs_6b23_digi_engineer",
-	"rhs_6b23_digi_medic",
-	"rhs_6b23_digi_rifleman",
-	"rhs_6b23_digi_sniper",
-	"rhs_6b23_digi_6sh92",
-	"rhs_6b23_digi_6sh92_vog",
-	"rhs_6b23_digi_6sh92_vog_headset",
-	"rhs_6b23_digi_6sh92_headset",
-	"rhs_6b23_digi_6sh92_headset_mapcase",
-	"rhs_6b23_digi_6sh92_radio",
-
-	"rhs_6b23_ML",
-	"rhs_6b23_ML_crew",
-	"rhs_6b23_ML_crewofficer",
-	"rhs_6b23_ML_engineer",
-	"rhs_6b23_ML_medic",
-	"rhs_6b23_ML_rifleman",
-	"rhs_6b23_ML_sniper",
-	"rhs_6b23_ML_6sh92",
-	"rhs_6b23_ML_6sh92_vog",
-	"rhs_6b23_ML_6sh92_vog_headset",
-	"rhs_6b23_ML_6sh92_headset",
-	"rhs_6b23_ML_6sh92_headset_mapcase",
-	"rhs_6b23_ML_6sh92_radio",
-
-	"rhs_6sh92",
-	"rhs_6sh92_vog",
-	"rhs_6sh92_vog_headset",
-	"rhs_6sh92_headset",
-	"rhs_6sh92_radio",
-	"rhs_6sh92_digi",
-	"rhs_6sh92_digi_vog",
-	"rhs_6sh92_digi_vog_headset",
-	"rhs_6sh92_digi_headset",
-	"rhs_6sh92_digi_radio"
-];
-
-genHelmets = [
-	"rhs_6b26",
-	"rhs_6b26_ess",
-	"rhs_6b26_bala",
-	"rhs_6b26_ess_bala",
-	"rhs_6b26_green",
-	"rhs_6b26_ess_green",
-	"rhs_6b26_bala_green",
-	"rhs_6b26_ess_bala_green",
-	"rhs_6b27m",
-	"rhs_6b27m_ess",
-	"rhs_6b27m_bala",
-	"rhs_6b27m_ess_bala",
-	"rhs_6b27m_digi",
-	"rhs_6b27m_digi_ess",
-	"rhs_6b27m_digi_bala",
-	"rhs_6b27m_digi_ess_bala",
-	"rhs_6b27m_ml",
-	"rhs_6b27m_ml_ess",
-	"rhs_6b27m_ml_bala",
-	"rhs_6b27m_ml_ess_bala",
-	"rhs_6b27m_green",
-	"rhs_6b27m_green_ess",
-	"rhs_6b27m_green_bala",
-	"rhs_6b27m_green_ess_bala",
-	"rhs_6b28",
-	"rhs_6b28_ess",
-	"rhs_6b28_bala",
-	"rhs_6b28_ess_bala",
-	"rhs_6b28_flora",
-	"rhs_6b28_flora_ess",
-	"rhs_6b28_flora_ess_bala",
-	"rhs_6b28_flora_bala",
-	"rhs_6b28_green",
-	"rhs_6b28_green_ess",
-	"rhs_6b28_green_bala",
-	"rhs_6b28_green_ess_bala",
-	"rhs_beret_vdv1"
 ];
 
 // Equipment unlocked by default
@@ -344,8 +154,6 @@ unlockedMagazines = [
 ];
 
 unlockedItems = unlockedItems + [
-	"rhs_acc_pgs64_74u", // << AKS-74UN muzzle attachment
-	"rhs_acc_dtk", // << default AK74 muzzle attachment
 	"rhs_vest_pistol_holster",
 	"rhs_scarf"
 ];
@@ -353,9 +161,6 @@ unlockedItems = unlockedItems + [
 unlockedBackpacks = [
 	"rhs_assault_umbts"
 ];
-
-// Default rifle types, required to unlock specific unit types. Unfortunatly, not all mods classify their weapons the same way, so automatic detection doesn't work reliably enough.
-genGL = ["rhs_weap_akm_gp25","rhs_weap_akms_gp25","rhs_weap_ak103_gp25","rhs_weap_ak74m_gp25"];
 
 // Default launchers
 genAALaunchers = ["rhs_weap_igla"];
@@ -371,9 +176,6 @@ apMine = 		"rhs_mine_pmn2_mag";
 
 // The flag
 cFlag = "rhs_Flag_vdv_F";
-
-// Affiliation
-side_green = 	independent;
 
 // Long-range radio
 lrRadio = "tf_mr3000_rhs";

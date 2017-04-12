@@ -7,16 +7,19 @@ if (AS_P("resourcesFIA") < _money) exitWith {
     [[_l1],"DIRECT",0.15] execVM "createConv.sqf";
 };
 
+private _buyableWeapons = CSATweapons + NATOweapons;
+private _buyableItems = CSATItems + NATOItems;
+
 switch (_type) do {
-	case "ASRifles": {_weapons = (AS_weapons select 0); _amount = 10;};  // assault + G. launchers
-	case "Machineguns": {_weapons = (AS_weapons select 6); _amount = 5;};
-	case "Sniper Rifles": {_weapons = (AS_weapons select 15); _amount = 2;};
-	case "Launchers": {_weapons = (AS_weapons select 8) + (AS_weapons select 10) + (AS_weapons select 5); _amount = 2;};
-	case "Pistols": {_weapons = (AS_weapons select 4); _amount = 20;};
-	case "GLaunchers": {_weapons = (AS_weapons select 3); _amount = 5;};
+	case "ASRifles": {_weapons = _buyableWeapons arrayIntersect (AS_weapons select 0); _amount = 10;};  // assault + G. launchers
+	case "Machineguns": {_weapons = _buyableWeapons arrayIntersect (AS_weapons select 6); _amount = 5;};
+	case "Sniper Rifles": {_weapons = _buyableWeapons arrayIntersect (AS_weapons select 15); _amount = 2;};
+	case "Launchers": {_weapons = _buyableWeapons arrayIntersect ((AS_weapons select 8) + (AS_weapons select 10) + (AS_weapons select 5)); _amount = 2;};
+	case "Pistols": {_weapons = _buyableWeapons arrayIntersect (AS_weapons select 4); _amount = 20;};
+	case "GLaunchers": {_weapons = _buyableWeapons arrayIntersect (AS_weapons select 3); _amount = 5;};
 
 	case "assessories": {
-        _accessories = AS_allAssessories - unlockedItems;
+        _accessories = _buyableItems arrayIntersect (AS_allOptics + AS_allBipods + AS_allMuzzles + AS_allMounts + AS_allUAVs) - unlockedItems;
         for "_i" from 1 to 4 do {
 			expCrate addItemCargoGlobal [selectRandom _accessories, 1];
 		};
@@ -30,13 +33,8 @@ switch (_type) do {
 	case "mines": {
         expCrate addMagazineCargoGlobal [apMine, 2];
         expCrate addMagazineCargoGlobal [atMine, 2];
-        expCrate addMagazineCargoGlobal ["ClaymoreDirectionalMine_Remote_Mag", 1];
-        expCrate addMagazineCargoGlobal ["SLAMDirectionalMine_Wire_Mag", 1];
-        expCrate addMagazineCargoGlobal ["APERSBoundingMine_Range_Mag", 1];
-        expCrate addMagazineCargoGlobal ["APERSTripMine_Wire_Mag", 1];
 	};
 };
-
 
 if (_type in ["ASRifles", "Machineguns", "Sniper Rifles", "Launchers", "Pistols", "GLaunchers"]) then {
 	_weapons = _weapons - unlockedWeapons;

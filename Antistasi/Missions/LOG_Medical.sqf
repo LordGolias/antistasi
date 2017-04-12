@@ -258,7 +258,7 @@ else {
 					}
 					else {
 						for [{_i=1},{_i<=(1 + round random 2)},{_i=_i+1}] do {
-							_cosa = (AAFOptics - unlockedItems) call BIS_Fnc_selectRandom;
+							_cosa = ((AAFItems arrayIntersect AS_allOptics) - unlockedItems) call BIS_Fnc_selectRandom;
 							_num = 1 + (floor random 5);
 							cajaVeh addItemCargoGlobal [_cosa, _num];
 						};

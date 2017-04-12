@@ -8,13 +8,13 @@ fnc_pickGroup = {
 
 	switch (_affiliation) do {
 		case side_green: {
-			_cfgPath = cfgInf;
+			_cfgPath = AAFConfigGroupInf;
 		};
 		case side_red: {
 			_cfgPath = opCfgInf;
 		};
 		case side_blue: {
-			_cfgPath = bluCfgInf;
+			_cfgPath = NATOConfigGroupInf;
 		};
 		default {
 			_failureText = format ["incorrect affiliation. Group type: %1; affiliation: %2", _groupType, _affiliation];

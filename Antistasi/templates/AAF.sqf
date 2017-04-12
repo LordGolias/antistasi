@@ -52,15 +52,28 @@ infGunner =	sol_SUP_MG;
 infCrew = 	sol_CREW;
 infPilot = 	sol_HPIL;
 
-// All classes sorted by role, used for pricing, etc
+// All classes sorted by role.
+// 	To modders: The union of these lists define all equipment of AAF.
+// 	I.e. AAF crates will only contain equipment that units in these lists carry.
 infList_officers = 	[sol_OFF, sol_OFF2];
 infList_sniper = 	[sol_MK, sol_SN, sol_SP];
 infList_NCO = 		[sol_SL, sol_TL, sol_TL2];
 infList_special = 	[sol_A_AA, sol_A_AT, sol_AA, sol_AT, sol_EXP, sol_REP, sol_ENG, sol_MED];
-infList_auto = 		[sol_A_AR, sol_MG];
-infList_regular = 	[sol_AMMO, sol_GL, sol_GL2, sol_LAT, sol_LAT2, sol_R_L, sol_RFL];
+infList_auto = 		[sol_AR, sol_MG];
+infList_regular = 	[sol_A_AR, sol_AMMO, sol_GL, sol_GL2, sol_LAT, sol_LAT2, sol_R_L, sol_RFL];
 infList_crew = 		[sol_UN, sol_CREW, sol_CREW2, sol_CREW3, sol_CREW4, sol_DRV, sol_DRV2, sol_HCREW, sol_UAV, sol_SUP_AMG, sol_SUP_AMTR, sol_SUP_GMG, sol_SUP_MG, sol_SUP_MTR];
 infList_pilots = 	[sol_HPIL, sol_HPIL2, sol_PIL];
+
+// Grups used for spawning groups.
+// 	To modders: equipment of units in these groups is also part of the AAF equipment.
+AAFConfigGroupInf = (configfile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Infantry");
+infPatrol = 		["HAF_InfSentry","HAF_InfSentry","HAF_InfSentry","HAF_SniperTeam"];
+infGarrisonSmall = 	["HAF_InfSentry"];
+infTeamATAA =		["HAF_InfTeam_AA","HAF_InfTeam_AT"];
+infTeam = 			["HAF_InfTeam_AA","HAF_InfTeam_AT","HAF_InfTeam","HAF_InfTeam","HAF_InfTeam"];
+infSquad = 			["HAF_InfSquad","HAF_InfSquad_Weapons"];
+infAA =				["HAF_InfTeam_AA"];
+infAT =				["HAF_InfTeam_AT"];
 
 // 	To modders: overwrite this in the template to change the AAF arsenal.
 // 	Rules:
@@ -96,19 +109,7 @@ vehAmmo = "I_Truck_02_ammo_F";
 vehLead = ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"];  // lead of convoy
 vehTruckBox = ["I_Truck_02_box_F"];
 
-AS_AAFarsenal_uav = "I_UAV_02_F";  // Set to `""` to FIA not use UAVs.
-
-// Config paths for pre-defined groups -- required if group names are used
-cfgInf = 				(configfile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Infantry");
-
-// Standard group arrays, used for spawning groups -- can use full config paths, config group names, arrays of individual soldiers
-infPatrol = 		["HAF_InfSentry","HAF_InfSentry","HAF_InfSentry","HAF_SniperTeam"];
-infGarrisonSmall = 	["HAF_InfSentry"];
-infTeamATAA =		["HAF_InfTeam_AA","HAF_InfTeam_AT"];
-infTeam = 			["HAF_InfTeam_AA","HAF_InfTeam_AT","HAF_InfTeam","HAF_InfTeam","HAF_InfTeam"];
-infSquad = 			["HAF_InfSquad","HAF_InfSquad_Weapons"];
-infAA =				["HAF_InfTeam_AA"];
-infAT =				["HAF_InfTeam_AT"];
+AS_AAFarsenal_uav = "I_UAV_02_F";  // Set to `""` to AAF not use UAVs.
 
 // Statics to be used
 statMG = 			"I_HMG_01_high_F";
@@ -134,46 +135,6 @@ statMortarBackpacks = 	["I_Mortar_01_weapon_F","I_Mortar_01_support_F"];
 statMGlowBackpacks = 	["I_HMG_01_F","I_HMG_01_support_F"];
 statMGtowerBackpacks = 	["I_HMG_01_high_weapon_F","I_HMG_01_support_high_F"];
 
-/*
-================ Gear ================
-Weapons, ammo, launchers, missiles, mines, items and optics will spawn in ammo crates, the rest will not. These lists, together with the corresponding lists in the NATO/USAF template, determine what can be unlocked. Weapons of all kinds and ammo are the exception: they can all be unlocked.
-*/
-AAFWeapons = [
-	"arifle_TRG21_F",
-	"arifle_TRG21_GL_F",
-    "LMG_Mk200_F",
-	"srifle_GM6_F",
-	"srifle_DMR_06_olive_F",
-	"srifle_EBR_F"
-];
-
-private _getWeaponMags = {
-    params ["_weapon"];
-    private _index = AS_allWeapons find _weapon;
-    if (_index == -1) exitWith {[]};
-
-    // all magazines of this weapon.
-    (AS_allWeaponsAttrs select _index) select 2
-};
-
-AAFMagazines = [];
-{
-    AAFMagazines append ([_x] call _getWeaponMags);
-} forEach AAFWeapons;
-
-AAFGrenades = [
-	"HandGrenade",
-    "MiniGrenade",
-	"SmokeShell",
-    "SmokeShellGreen"
-];
-
-AAFLaunchers = [
-	"launch_I_Titan_F",
-	"launch_I_Titan_short_F",
-    "launch_NLAW_F"
-];
-
 // Default launchers
 genAALaunchers = ["launch_I_Titan_F"];
 genATLaunchers = ["launch_I_Titan_short_F","launch_NLAW_F"];
@@ -186,150 +147,6 @@ AAFMines = [
 	"APERSTripMine_Wire_Mag",
 	"APERSMine_Range_Mag",
 	"APERSBoundingMine_Range_Mag"
-];
-
-AAFItems = [
-	"Binocular",
-	"MineDetector",
-	"NVGoggles",
-	"ToolKit",
-	"muzzle_snds_H",
-	"muzzle_snds_L",
-	"muzzle_snds_M",
-	"muzzle_snds_B",
-	"muzzle_snds_H_MG",
-	"muzzle_snds_acp",
-	"bipod_03_F_oli",
-	"muzzle_snds_338_green",
-	"muzzle_snds_93mmg_tan",
-	"acc_flashlight",
-	"Rangefinder",
-	"Laserdesignator",
-	"ItemGPS",
-	"ItemRadio",
-	"acc_pointer_IR"
-];
-
-AAFOptics = AS_allOptics;
-
-genBackpacks = [
-	"B_AssaultPack_khk",
-	"B_AssaultPack_dgtl",
-	"B_AssaultPack_rgr",
-	"B_AssaultPack_sgg",
-	"B_AssaultPack_blk",
-	"B_AssaultPack_cbr",
-	"B_AssaultPack_mcamo",
-	"B_Kitbag_mcamo",
-	"B_Kitbag_sgg",
-	"B_Kitbag_cbr",
-	"B_Bergen_sgg",
-	"B_Bergen_mcamo",
-	"B_Bergen_rgr",
-	"B_Bergen_blk",
-	"B_FieldPack_oli",
-	"B_FieldPack_blk",
-	"B_FieldPack_ocamo",
-	"B_FieldPack_oucamo",
-	"B_FieldPack_cbr",
-	"B_Carryall_ocamo",
-	"B_Carryall_mcamo",
-	"B_Carryall_oli",
-	"B_Carryall_khk",
-	"B_Carryall_cbr",
-	"B_OutdoorPack_blk",
-	"B_OutdoorPack_tan",
-	"B_OutdoorPack_blu",
-	"B_HuntingBackpack",
-	"B_Static_Designator_01_weapon_F",
-	"B_UAV_01_backpack_F",
-	"I_AA_01_weapon_F",
-	"B_AA_01_weapon_F",
-	"B_AT_01_weapon_F",
-	"I_HMG_01_high_weapon_F",
-	"I_Mortar_01_support_F",
-	"B_Mortar_01_support_F",
-	"I_HMG_01_support_high_F",
-	"B_HMG_01_support_high_F",
-	"I_Mortar_01_weapon_F",
-	"B_Mortar_01_weapon_F",
-	"B_HMG_01_support_F",
-	"I_HMG_01_support_F",
-	"tf_rt1523g_green"
-];
-
-genVests = [
-	"V_HarnessO_brn",
-	"V_HarnessO_gry",
-	"V_HarnessOGL_brn",
-	"V_HarnessOGL_gry",
-	"V_HarnessOSpec_brn",
-	"V_HarnessOSpec_gry",
-	"V_PlateCarrier1_blk",
-	"V_PlateCarrier1_rgr",
-	"V_PlateCarrier2_rgr",
-	"V_PlateCarrier3_rgr",
-	"V_PlateCarrier3_rgr",
-	"V_PlateCarrierIA1_dgtl",
-	"V_TacVest_brn",
-	"V_PlateCarrierIA2_dgtl",
-	"V_PlateCarrierIAGL_dgtl",
-	"V_PlateCarrierSpec_rgr",
-	"V_TacVest_blk",
-	"V_TacVest_camo",
-	"V_TacVest_khk",
-	"V_TacVest_oli",
-	"V_TacVestCamo_khk",
-	"V_TacVestIR_blk",
-	"V_RebreatherIA",
-	"G_I_Diving",
-	"V_PlateCarrierIAGL_oli",
-	"V_Chestrig_oli"
-];
-
-genHelmets = [
-	"H_HelmetB",
-	"H_HelmetB_camo",
-	"H_HelmetB_paint",
-	"H_HelmetB_light",
-	"H_HelmetB_plain_mcamo",
-	"H_HelmetB_plain_blk",
-	"H_HelmetSpecB",
-	"H_HelmetSpecB_paint1",
-	"H_HelmetSpecB_paint2",
-	"H_HelmetSpecB_blk",
-	"H_HelmetIA",
-	"H_HelmetIA_net",
-	"H_HelmetIA_camo",
-	"H_HelmetB_grass",
-	"H_HelmetB_snakeskin",
-	"H_HelmetB_desert",
-	"H_HelmetB_black",
-	"H_HelmetB_sand",
-	"H_HelmetB_sand",
-	"H_HelmetCrew_O",
-	"H_HelmetCrew_I",
-	"H_PilotHelmetFighter_B",
-	"H_PilotHelmetFighter_O",
-	"H_PilotHelmetFighter_I",
-	"H_PilotHelmetHeli_B",
-	"H_PilotHelmetHeli_O",
-	"H_PilotHelmetHeli_I",
-	"H_CrewHelmetHeli_B",
-	"H_CrewHelmetHeli_O",
-	"H_CrewHelmetHeli_I",
-	"H_HelmetO_ocamo",
-	"H_HelmetLeaderO_ocamo",
-	"H_HelmetB_light_grass",
-	"H_HelmetB_light_snakeskin",
-	"H_HelmetB_light_desert",
-	"H_HelmetB_light_black",
-	"H_HelmetB_light_sand",
-	"H_HelmetO_oucamo",
-	"H_HelmetLeaderO_oucamo",
-	"H_HelmetSpecO_ocamo",
-	"H_HelmetSpecO_blk",
-	"H_HelmetSpecO_blk"
 ];
 
 // Equipment unlocked by default
@@ -347,9 +164,6 @@ unlockedBackpacks = [
 	"B_TacticalPack_blk"
 ];
 
-// Default rifle types, required to unlock specific unit types. Unfortunatly, not all mods classify their weapons the same way, so automatic detection doesn't work reliably enough.
-genGL = ["arifle_Katiba_GL_F","arifle_MX_GL_F","arifle_Mk20_GL_F","arifle_TRG21_GL_F"];
-
 // NVG, flashlight, laser, mine types
 indNVG = 		"NVGoggles_INDEP";
 indRF = 		"Rangefinder";
@@ -360,9 +174,6 @@ apMine = 		"APERSMine_Range_Mag";
 
 // The flag
 cFlag = "Flag_AAF_F";
-
-// Affiliation
-side_green = independent;
 
 // Long range radio
 lrRadio = "tf_rt1523g_green";
@@ -390,6 +201,6 @@ vehFIA = [
 civHeli = "C_Heli_Light_01_civil_F";
 
 // Define the ammo crate to be spawned at camps
-campCrate = 		"Box_NATO_Equip_F";
+campCrate = "Box_NATO_Equip_F";
 
 A3_STR_INDEP = localize "STR_genIdent_AFRF";

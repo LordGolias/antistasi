@@ -49,8 +49,18 @@ incomeRep = false;
 
 call compile preprocessFileLineNumbers "initItems.sqf";
 
-// default unlocked items.
-call compile preprocessFileLineNumbers "initUnlocked.sqf";
+// Initializes unlocked stuff. This is modified by templates and ACE.
+unlockedWeapons = [];
+unlockedMagazines = [];
+unlockedBackpacks = [];
+unlockedItems = [
+	"Binocular",
+	"ItemMap",
+	"ItemWatch",
+	"ItemCompass",
+	"ToolKit"
+];
+
 
 /////////////////////// Mods detection ///////////////////////
 hayRHS = false;
@@ -78,6 +88,7 @@ if ("rhs_weap_akms" in AS_allWeapons) then {
 	hayRHS = true;
 };
 
+// Needed to load dog's barking.
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 
 ///////////////////////// INITIALIZE UNITS /////////////////////////
@@ -93,44 +104,33 @@ side_blue = west; // <<<<<< player side, always, at all times, no exceptions
 side_green = independent;
 side_red = east;
 
+// todo: re-add support for TFAR. This is probably needed by it.
 lrRadio = "";
 
-// Initialisation of units and gear
-if (hayRHS) then {
-	call compile preprocessFileLineNumbers "templates\RHS.sqf";
-	call compile preprocessFileLineNumbers "templates\VMF.sqf";
-	call compile preprocessFileLineNumbers "templates\USAF.sqf";
-}
-else {
+call {
+	if (hayRHS) exitWith {
+		call compile preprocessFileLineNumbers "templates\RHS_VDV.sqf";
+		call compile preprocessFileLineNumbers "templates\RHS_VMF.sqf";
+		call compile preprocessFileLineNumbers "templates\RHS_USAF.sqf";
+	};
+	// fallback to the default template
 	call compile preprocessFileLineNumbers "templates\AAF.sqf";
 	call compile preprocessFileLineNumbers "templates\CSAT.sqf";
 	call compile preprocessFileLineNumbers "templates\NATO.sqf";
 };
 
-// populate AAF items with relevant meds.
-if (hayACE) then {
-    if (ace_medical_level == 0) then {
-        AAFItems append ["FirstAidKit","Medikit"];
-    };
-    if (ace_medical_level >= 1) then {
-        AAFItems append AS_aceBasicMedical;
-    };
-    if (ace_medical_level == 2) then {
-        AAFItems append AS_aceAdvMedical;
-    };
-} else {
-    AAFItems append ["FirstAidKit","Medikit"];
-};
-
 call compile preprocessFileLineNumbers "templates\FIA.sqf";
 
-//------------------ /unit module ------------------//
+// This initializes all AAF/NATO/CSAT equipment using info in the templates.
+call compile preprocessFileLineNumbers "initItemsSides.sqf";
 
 #include "Compositions\spawnPositions.sqf"
 #include "Functions\clientFunctions.sqf"
-#include "Functions\gearFunctions.sqf"
 call compile preprocessFileLineNumbers "templates\basicLists.sqf";
 
+/////////////////////////////////////////////////////////////////////////
+/////////////////////// CLIENT INIT FINISHES HERE ///////////////////////
+/////////////////////////////////////////////////////////////////////////
 if (!isServer and hasInterface) exitWith {};
 
 // Compositions used to spawn camps, etc.

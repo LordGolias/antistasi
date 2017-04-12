@@ -35,17 +35,16 @@ bluStatAT = 	["B_static_AT_F"];
 bluStatHMG = 	["B_HMG_01_high_F"];
 bluStatMortar = ["B_G_Mortar_01_F"];
 
-
+// Soldiers
 bluPilot = 	"B_Pilot_F";
 bluCrew = 	"B_crew_F";
 bluGunner = "B_support_MG_F";
-
 bluMRAPHMGgroup = 	["B_recon_LAT_F","B_Recon_Sharpshooter_F"];
 bluMRAPgroup = 		["B_recon_medic_F","B_recon_F","B_recon_JTAC_F"];
-
 bluAirCav = 	["B_recon_TL_F","B_recon_LAT_F","B_Recon_Sharpshooter_F","B_recon_medic_F","B_recon_F","B_recon_JTAC_F"];
 
-
+// groups that are spawned
+NATOConfigGroupInf = (configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry");
 bluSquad = 			["BUS_InfSquad"];
 bluSquadWeapons = 	["BUS_InfSquad_Weapons"];
 bluTeam = 			["BUS_InfTeam"];
@@ -55,46 +54,6 @@ bluIR = 	"acc_pointer_IR";
 
 bluFlag = 	"Flag_NATO_F";
 
-bluCfgInf = (configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry");
-
-
-bluRifle = [
-	"arifle_MXC_F",
-    "arifle_MX_F"
-];
-
-bluGL = [
-	"arifle_MX_GL_F"
-];
-
-bluSNPR = [
-	"srifle_LRR_F",
-	"srifle_DMR_02_F",
-	"srifle_EBR_F",
-	"srifle_DMR_03_F"
-];
-
-bluLMG = [
-	"MMG_02_sand_F",
-	"arifle_MX_SW_F"
-];
-
-bluSmallWpn = [
-	"SMG_02_F",
-	"hgun_ACPC2_F"
-];
-
-// first needs to be the dammage one.
-blu40mm = [
-	"1Rnd_HE_Grenade_shell",
-	"1Rnd_Smoke_Grenade_shell"
-];
-
-bluGrenades = [
-	"HandGrenade",
-    "MiniGrenade"
-];
-
 bluAT = [
 	"launch_B_Titan_short_F",
 	"launch_NLAW_F"
@@ -103,27 +62,3 @@ bluAT = [
 bluAA = [
 	"launch_B_Titan_F"
 ];
-
-bluVest = [
-    "V_PlateCarrier1_rgr",
-    "V_PlateCarrier2_rgr",
-	"V_PlateCarrierGL_rgr",
-    "V_PlateCarrierSpec_rgr"
-];
-
-bluHelmets = [
-    "H_HelmetB",
-    "H_HelmetB_light",
-    "H_HelmetSpecB"
-];
-
-bluScopes = AS_allOptics;
-
-bluAttachments = [
-	"muzzle_snds_338_sand",
-	"bipod_01_F_snd",
-	"muzzle_snds_H_khk_F",
-	"muzzle_snds_B_snd_F"
-];
-
-genGL = genGL + bluGL;

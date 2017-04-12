@@ -122,8 +122,8 @@ _allOptics = (format [_itemFilter, 201]) configClasses ( configFile >> "cfgWeapo
     _zoomMin = 10000;
     _zoomMax = 0;
     {
-        _o_zoomMin = getNumber (_x >> "opticsZoomMin");
-        _o_zoomMax = getNumber (_x >> "opticsZoomMax");
+        private _o_zoomMax = 1/getNumber (_x >> "opticsZoomMin");  // opticsZoom{Min,Max} is the FOV, inverse of Zoom
+        private _o_zoomMin = 1/getNumber (_x >> "opticsZoomMax");
         if (_zoomMin > _o_zoomMin) then {_zoomMin = _o_zoomMin;};
         if (_zoomMax < _o_zoomMax) then {_zoomMax = _o_zoomMax;};
     } forEach ("true" configClasses (_x >> "ItemInfo" >> "OpticsModes"));
@@ -188,31 +188,20 @@ AS_allBackpacksAttrs = [];
 	AS_allBackpacksAttrs pushBack [_weight, _load];
 } forEach _allBackpacks;
 
-// All relevant assessories
-AS_allAssessories = AS_allBipods + AS_allOptics + AS_allMuzzles + AS_allMounts + AS_allUAVs + AS_allNVGs + AS_allBinoculars + (AS_allItems - AS_allNVGs - AS_allBinoculars);
-
 private _allUniforms = [];
 {
 	_allUniforms pushBack (configName _x);
 } forEach ((format [_itemFilter, 801]) configClasses ( configFile >> "cfgWeapons" ));
+// AS_allItems does not contain Helmets and so one, which are added via addItem*
+// so we add them here:
+AS_allItems = AS_allItems + AS_allOptics + AS_allBipods + AS_allMuzzles + AS_allMounts + AS_allUAVs +  AS_allVests + AS_allHelmets + _allUniforms;
 
 // Assessories that are not reachable in the game.
 AS_allOtherAssessories = [];
 {
     AS_allOtherAssessories pushBack (configName _x);
 } forEach _allAccessories;
-AS_allOtherAssessories = AS_allOtherAssessories - (AS_allAssessories + _allUniforms + AS_allVests + AS_allHelmets + AS_allBackpacks);
-
-AS_allThrowGrenades = [];
-{
-    AS_allThrowGrenades append getArray(configFile >> "CfgWeapons" >> "Throw" >> _x >> "magazines");
-} forEach getArray(configFile >> "CfgWeapons" >> "Throw" >> "muzzles");
-
-AS_allMagazines = [];
-{
-	AS_allMagazines pushBackUnique configName _x;
-} forEach _allMagazines;
-
+AS_allOtherAssessories = AS_allOtherAssessories - AS_allItems;
 
 /*
 AssaultRifle
@@ -236,6 +225,7 @@ AS_weapons = [
 	[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]
 ];
 
+AS_allGrenades = [];  // fired grenades, not throwable
 AS_allWeapons = [];
 AS_allWeaponsAttrs = [];
 {
@@ -263,14 +253,18 @@ AS_allWeaponsAttrs = [];
             case "AssaultRifle": {
 
                 call {
-                    // a sub-optimal fix to not put snipers in this bucket.
-                    if (_name find "srifle" != -1) exitWith {
+                    // todo: this is a sub-optimal fix to send snipers to the right bucket.
+                    private _firemodes = getArray (configFile >> "CfgWeapons" >> _name >> "modes");
+                    // single shot weapons are snipers (formally wrong, but well...)
+                    if (count (_firemodes arrayIntersect ["Burst", "FullAuto"]) == 0) exitWith {
                         (AS_weapons select 15) pushBack _name;
                     };
+
                     private _is_GL = false;
                     {
                         private _class = (configFile >> "CfgWeapons" >> _name >> _x);
                         if (!isNull _class and "GrenadeLauncher" in ([_class,true] call BIS_fnc_returnParents)) exitWith {
+                            AS_allGrenades append (getArray (_class >> "magazines"));
                             _is_GL = true;
                         };
                     } forEach getArray (configFile >> "CfgWeapons" >> _name >> "muzzles");
@@ -298,3 +292,15 @@ AS_allWeaponsAttrs = [];
 		};
 	};
 } forEach _allPrimaryWeapons + _allHandGuns + _allLaunchers;
+
+AS_allGrenades = AS_allGrenades arrayIntersect AS_allGrenades - [""];
+
+AS_allThrowGrenades = [];
+{
+    AS_allThrowGrenades append getArray(configFile >> "CfgWeapons" >> "Throw" >> _x >> "magazines");
+} forEach getArray(configFile >> "CfgWeapons" >> "Throw" >> "muzzles");
+
+AS_allMagazines = [];
+{
+	AS_allMagazines pushBackUnique configName _x;
+} forEach _allMagazines;

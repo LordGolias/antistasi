@@ -1,6 +1,6 @@
 if (!isServer and hasInterface) exitWith {};
 
-params ["_crate"];
+params ["_crate", "_type"];
 private ["_item", "_mag"];
 
 [_crate] call emptyCrate;
@@ -21,8 +21,11 @@ _fnc_gear = {
 	private _classInt = _classRan;
 
 	if (_cat == "weapon") exitWith {
+        // rifles + GL + MG + Snipers
+        private _items = (AAFWeapons arrayIntersect ((AS_weapons select 0) + (AS_weapons select 3) + (AS_weapons select 6) + (AS_weapons select 15))) - unlockedWeapons;
+
 		for "_i" from 0 to _typeInt do {
-			_item = selectRandom (AAFWeapons - unlockedWeapons);
+            _item = selectRandom _items;
 			_crate addWeaponCargoGlobal [_item, _classInt];
 
             _mag = selectRandom ([_item] call _getWeaponMags);
@@ -31,8 +34,9 @@ _fnc_gear = {
 	};
 
 	if (_cat == "magazine") exitWith {
+        private _items = AAFMagazines - unlockedMagazines;
 		for "_i" from 0 to _typeInt do {
-			_item = selectRandom (AAFMagazines - unlockedMagazines);
+			_item = selectRandom _items;
 			_crate addMagazineCargoGlobal [_item, _classInt];
 		};
 	};
@@ -45,15 +49,17 @@ _fnc_gear = {
 	};
 
 	if (_cat == "optic") exitWith {
+        private _items = (AAFItems arrayIntersect AS_allOptics) - unlockedItems;
 		for "_i" from 0 to _typeInt do {
-			_item = selectRandom (AAFOptics - unlockedItems);
+			_item = selectRandom _items;
 			_crate addItemCargoGlobal [_item, _classInt];
 		};
 	};
 
 	if (_cat == "launcher") exitWith {
+        private _items = (AAFWeapons arrayIntersect ((AS_weapons select 8) + (AS_weapons select 10))) - unlockedWeapons;
 		for "_i" from 0 to _typeInt do {
-			_item = selectRandom (AAFLaunchers - unlockedWeapons);
+			_item = selectRandom _items;
 			_crate addWeaponCargoGlobal [_item, _classInt];
 
             _mag = selectRandom ([_item] call _getWeaponMags);
@@ -70,14 +76,14 @@ _fnc_gear = {
 
     if (_cat == "grenades") exitWith {
 		for "_i" from 0 to _typeInt do {
-			_item = selectRandom (AAFGrenades - unlockedMagazines);
+			_item = selectRandom (AAFThrowGrenades - unlockedMagazines);
 			_crate addMagazineCargoGlobal [_item, _classInt];
 		};
     };
 };
 
 call {
-	if (typeOf _crate in ["I_supplyCrate_F", vehAmmo]) exitWith {
+	if (_type in ["Airfield", "Watchpost", "Convoy"]) exitWith {
 		["weapon", 3, 2, 5] call _fnc_gear;
 		["magazine", 5, 5] call _fnc_gear;
 		["item", 5, 5] call _fnc_gear;
@@ -87,7 +93,7 @@ call {
 		["launcher", 2, 2, 3] call _fnc_gear;
 	};
 
-	if (typeOf _crate == opCrate) exitWith {
+	if (_type == "AA") exitWith {
 		_item = genAALaunchers call BIS_Fnc_selectRandom;
 		_crate addWeaponCargoGlobal [_item, 5];
 		_crate addMagazineCargoGlobal [([_item] call _getWeaponMags) select 0, 10];
@@ -96,16 +102,14 @@ call {
 
 _items = ([] call AS_fnc_CrateMeds);
 
-if (typeOf _crate != campCrate) then {
-	_items pushBack [indNVG, 2];
-	_items pushBack ["ItemGPS", 5];
+_items pushBack [indNVG, 2];
+_items pushBack ["ItemGPS", 5];
 
-	if (!hayTFAR) then {
-		_items pushBack ["ItemRadio", 5];
-	} else {
-		if (4 < random 5) then {
-			_items pushBack [lrRadio,1];
-		};
+if (!hayTFAR) then {
+	_items pushBack ["ItemRadio", 5];
+} else {
+	if (4 < random 5) then {
+		_items pushBack [lrRadio,1];
 	};
 };
 
@@ -115,5 +119,3 @@ for "_i" from 0 to count _items - 1 do {
 
     _crate addItemCargoGlobal [_name, _amount];
 };
-
-_crate addBackpackCargoGlobal ["B_Carryall_oli", 1];
