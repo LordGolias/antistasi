@@ -8,7 +8,7 @@ class EditorData
 	toggles=129;
 	class ItemIDProvider
 	{
-		nextID=466;
+		nextID=467;
 	};
 	class MarkerIDProvider
 	{
@@ -57,7 +57,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=193;
+		items=194;
 		class Item0
 		{
 			dataType="Marker";
@@ -1315,7 +1315,7 @@ class Mission
 			class Attributes
 			{
 				skill=0.2;
-				init="this allowDamage false; " \n "this addAction [localize ""str_act_hqOptions"",{call AS_fncUI_openHQmenu;},nil,0,false,true,"""",""(isPlayer _this) and (player == AS_commander) and (_this == _this getVariable ['owner',objNull]) and (petros == leader group petros)""]; " \n "this addAction [localize ""str_act_recruitUnit"", {call AS_fncUI_RecruitUnitMenu;},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]; " \n "this addAction [localize ""str_act_buyVehicle"", {nul = createDialog ""vehicle_option""},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]; " \n "if (isMultiplayer) then {this addAction [localize ""str_act_persGarage"", {nul = [true] spawn garage},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]}; " \n "this addAction [localize ""str_act_moveAsset"", ""moveObject.sqf"",nil,0,false,true,"""",""(_this == AS_commander)"", 5];";
+				init="this allowDamage false; " \n "this addAction [localize ""str_act_hqOptions"",{call AS_fncUI_openHQmenu;},nil,0,false,true,"""",""(isPlayer _this) and (player == AS_commander) and (_this == _this getVariable ['owner',objNull]) and (petros == leader group petros)""]; " \n "this addAction [localize ""str_act_recruitUnit"", {call AS_fncUI_RecruitUnitMenu;},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]; " \n "this addAction [localize ""str_act_buyVehicle"", {call AS_fncUI_buyVehicleMenu},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]; " \n "if (isMultiplayer) then {this addAction [localize ""str_act_persGarage"", {nul = [true] spawn garage},nil,0,false,true,"""",""(isPlayer _this) and (_this == _this getVariable ['owner',objNull])""]}; " \n "this addAction [localize ""str_act_moveAsset"", ""moveObject.sqf"",nil,0,false,true,"""",""(_this == AS_commander)"", 5];";
 				name="bandera";
 			};
 			id=96;
@@ -3518,6 +3518,18 @@ class Mission
 			};
 			name="AS_AAFarsenal";
 			id=465;
+			type="Logic";
+			atlOffset=-1.3813496;
+		};
+		class Item193
+		{
+			dataType="Logic";
+			class PositionInfo
+			{
+				position[]={3598,17,10303};
+			};
+			name="AS_FIArecruitment";
+			id=466;
 			type="Logic";
 			atlOffset=-1.3813496;
 		};

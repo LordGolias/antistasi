@@ -178,28 +178,6 @@ cFlag = "Flag_AAF_F";
 // Long range radio
 lrRadio = "tf_rt1523g_green";
 
-/*
-These are the vehicles and statics that you can buy at HQ. Currently, the array requires a strict(!) order.
-0-2: civilian vehicles
-3-10: military vehicles and statics
-*/
-vehFIA = [
-	"C_Offroad_01_F",
-	"C_Van_01_transport_F",
-	"C_Heli_Light_01_civil_F",
-	"B_G_Quadbike_01_F",
-	"B_G_Offroad_01_F",
-	"B_G_Van_01_transport_F",
-	"B_G_Offroad_01_armed_F",
-	"B_HMG_01_high_F",
-	"B_G_Mortar_01_F",
-	"B_static_AT_F",
-	"B_static_AA_F"
-];
-
-// Define the civilian helicopter that allows you to go undercover
-civHeli = "C_Heli_Light_01_civil_F";
-
 // Define the ammo crate to be spawned at camps
 campCrate = "Box_NATO_Equip_F";
 

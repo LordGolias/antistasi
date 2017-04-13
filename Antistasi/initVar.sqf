@@ -107,11 +107,15 @@ side_red = east;
 // todo: re-add support for TFAR. This is probably needed by it.
 lrRadio = "";
 
+// This adds default stuff that is modified by mods below
+call compile preprocessFileLineNumbers "templates\FIA.sqf";
+
 call {
 	if (hayRHS) exitWith {
 		call compile preprocessFileLineNumbers "templates\RHS_VDV.sqf";
 		call compile preprocessFileLineNumbers "templates\RHS_VMF.sqf";
 		call compile preprocessFileLineNumbers "templates\RHS_USAF.sqf";
+		call compile preprocessFileLineNumbers "templates\RHS_FIA.sqf";
 	};
 	// fallback to the default template
 	call compile preprocessFileLineNumbers "templates\AAF.sqf";
@@ -119,7 +123,8 @@ call {
 	call compile preprocessFileLineNumbers "templates\NATO.sqf";
 };
 
-call compile preprocessFileLineNumbers "templates\FIA.sqf";
+// Picks the stuff defined for FIA above and merges it in a single interface
+call compile preprocessFileLineNumbers "initFIA.sqf";
 
 // This initializes all AAF/NATO/CSAT equipment using info in the templates.
 call compile preprocessFileLineNumbers "initItemsSides.sqf";
@@ -183,36 +188,6 @@ server setVariable ["lockTransfer", false, true];
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_special;
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_NCO;
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_sniper;
-
-AS_data_allCosts setVariable ["C_Offroad_01_F",300,true];//200
-AS_data_allCosts setVariable ["C_Van_01_transport_F",600,true];//600
-AS_data_allCosts setVariable ["C_Heli_Light_01_civil_F",12000,true];//12000
-AS_data_allCosts setVariable ["B_G_Quadbike_01_F",50,true];//50
-AS_data_allCosts setVariable ["B_G_Offroad_01_F",200,true];//200
-AS_data_allCosts setVariable ["B_G_Van_01_transport_F",450,true];//300
-AS_data_allCosts setVariable ["B_G_Offroad_01_armed_F",700,true];//700
-{AS_data_allCosts setVariable [_x,400,true]} forEach ["B_HMG_01_high_F","B_G_Boat_Transport_01_F","B_G_Offroad_01_repair_F"];//400
-{AS_data_allCosts setVariable [_x,800,true]} forEach ["B_G_Mortar_01_F","B_static_AT_F","B_static_AA_F"];//800
-
-AS_data_allCosts setVariable [vehFIA select 0,300,true];
-AS_data_allCosts setVariable [vehFIA select 1,600,true];//600
-AS_data_allCosts setVariable [vehFIA select 2,6000,true];//12000
-AS_data_allCosts setVariable [vehFIA select 3,50,true];//50
-AS_data_allCosts setVariable [vehFIA select 4,200,true];//200
-AS_data_allCosts setVariable [vehFIA select 5,450,true];//300
-AS_data_allCosts setVariable [vehFIA select 6,700,true];//700
-AS_data_allCosts setVariable [vehFIA select 7,400,true];//700
-AS_data_allCosts setVariable [vehFIA select 8,800,true];
-AS_data_allCosts setVariable [vehFIA select 9,800,true];
-AS_data_allCosts setVariable [vehFIA select 10,800,true];
-
-if (hayRHS) then {
-	AS_data_allCosts setVariable [vehFIA select 2,6000,true];
-	AS_data_allCosts setVariable [vehFIA select 11,5000,true];
-	AS_data_allCosts setVariable [vehFIA select 12,600,true];
-	AS_data_allCosts setVariable [vehTruckAA, 800, true];
-	AS_data_allCosts setVariable [vehTruckAA, 800, true];
-};
 
 // todo: this option is not being saved, so it is irrelevant. Consider removing.
 server setVariable ["enableWpnProf",false,true]; // class-based weapon proficiences, MP only

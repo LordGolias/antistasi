@@ -24,7 +24,8 @@ _coste = 0;
 
 call {
 	if (_tipoVeh in vehNATO) exitWith {hint "You cannot sell NATO vehicles"};
-	if (_tipoVeh in vehFIA) exitWith {_coste = round (([_tipoVeh] call vehiclePrice)/2)};
+	if (_tipoVeh in AS_FIArecruitment_all) exitWith {
+		_coste = [_tipoVeh, true] call FIAvehiclePrice};
 	if (_tipoveh == "C_Van_01_fuel_F") exitWith {_coste = 50};
 	if (_tipoVeh in arrayCivVeh) exitWith {_coste = 25};
 

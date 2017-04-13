@@ -25,11 +25,15 @@ if (_unit == AS_commander) then
 					_tipoVeh = typeOf _veh;
 					if ((_veh isKindOf "StaticWeapon") and (not(_veh in staticsToSave))) then
 						{
-						_recursos = _recursos + ([_tipoVeh] call vehiclePrice) + ([typeOf (vehicle leader _x)] call vehiclePrice);
+						_recursos = _recursos + ([_tipoVeh] call FIAvehiclePrice) + ([typeOf (vehicle leader _x)] call FIAvehiclePrice);
 						}
 					else {
 						call {
-							if (_tipoVeh in vehFIA) exitWith {_recursos = _recursos + ([_tipoVeh] call vehiclePrice);};
+							if (_tipoVeh in AS_FIArecruitment_all) exitWith {
+								// this is the buying price because it
+								// is assumed it is not the player's fault
+								_recursos = _recursos + ([_tipoVeh] call FIAvehiclePrice);
+							};
 							private _category = [_tipoVeh] call AS_fnc_AAFarsenal_category;
 							if (_category != "") exitWith {
 								_recursos = _recursos  + ([_category] call AS_fnc_AAFarsenal_cost);
@@ -38,7 +42,7 @@ if (_unit == AS_commander) then
 						if (count attachedObjects _veh > 0) then
 							{
 							_subVeh = (attachedObjects _veh) select 0;
-							_recursos = _recursos + ([(typeOf _subVeh)] call vehiclePrice);
+							_recursos = _recursos + ([(typeOf _subVeh)] call FIAvehiclePrice);
 							deleteVehicle _subVeh;
 							};
 						};

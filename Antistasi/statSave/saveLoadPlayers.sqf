@@ -28,8 +28,8 @@ AS_fnc_serializeLocalPlayer = {
 				_tipoVeh = typeOf _veh;
 				if (not(_veh in staticsToSave)) then {
 					if ((_veh isKindOf "StaticWeapon") or (driver _veh == _hired)) then {
-						_money = _money + ([_tipoVeh] call vehiclePrice);
-						if (count attachedObjects _veh != 0) then {{_money = _money + ([typeOf _x] call vehiclePrice)} forEach attachedObjects _veh};
+						_money = _money + ([_tipoVeh] call FIAvehiclePrice);
+						if (count attachedObjects _veh != 0) then {{_money = _money + ([typeOf _x] call FIAvehiclePrice)} forEach attachedObjects _veh};
 					};
 				};
 			};

@@ -15,7 +15,7 @@ if (_tipo == "delete") exitWith {
 	if (markerText _mrk != "FIA Observation Post") then
 		{
 		_tipogrupo = "AT Team";
-		_coste = _coste + (["B_G_Offroad_01_armed_F"] call vehiclePrice) + (AS_data_allCosts getVariable "Crew");
+		_coste = _coste + (["B_G_Offroad_01_armed_F"] call FIAvehiclePrice) + (AS_data_allCosts getVariable "Crew");
 		_hr = _hr + 1;
 		};
 	([_tipogrupo] call AS_fnc_getFIASquadCost) params ["_cost1", "_hr1"];

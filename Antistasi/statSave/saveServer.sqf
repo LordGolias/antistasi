@@ -68,8 +68,8 @@ if (_amigo getVariable ["BLUFORSpawn",false]) then
 						{
 						if ((group _amigo in (hcAllGroups AS_commander)) or (!isMultiplayer)) then
 							{
-							_resfondo = _resfondo + ([_tipoVeh] call vehiclePrice);
-							if (count attachedObjects _veh != 0) then {{_resfondo = _resfondo + ([typeOf _x] call vehiclePrice)} forEach attachedObjects _veh};
+							_resfondo = _resfondo + ([_tipoVeh] call FIAvehiclePrice);
+							if (count attachedObjects _veh != 0) then {{_resfondo = _resfondo + ([typeOf _x] call FIAvehiclePrice)} forEach attachedObjects _veh};
 							};
 						};
 					};

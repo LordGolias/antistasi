@@ -2,7 +2,7 @@ if (!isServer and hasInterface) exitWith {};
 
 private ["_coste","_grupo","_unit","_minas","_tam","_roads","_camion","_mina"];
 
-_coste = (AS_data_allCosts getVariable "Explosives Specialist") + (["B_G_Offroad_01_repair_F"] call vehiclePrice);
+_coste = (AS_data_allCosts getVariable "Explosives Specialist") + (["B_G_Offroad_01_repair_F"] call FIAvehiclePrice);
 
 [-1,-1*_coste] remoteExec ["resourcesFIA",2];
 

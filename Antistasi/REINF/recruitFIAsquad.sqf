@@ -29,12 +29,12 @@ if !(_grouptype in AS_allFIACustomSquadTypes) then {
 else {
 	_cost = 2*(AS_data_allCosts getVariable "Crew");
 	_costHR = 2;
-	_cost = _cost + ([[_grouptype] call AS_fnc_FIAmobileToPiece] call vehiclePrice) + (["B_G_Van_01_transport_F"] call vehiclePrice);
+	_cost = _cost + ([[_grouptype] call AS_fnc_FIAmobileToPiece] call FIAvehiclePrice) + (["B_G_Van_01_transport_F"] call FIAvehiclePrice);
 
 	if ((hayRHS) && (_grouptype == "Mobile AA")) then {
 		_cost = 3*(AS_data_allCosts getVariable "Crew");
 		_costHR = 3;
-		_cost = _cost + ([vehTruckAA] call vehiclePrice);
+		_cost = _cost + ([vehTruckAA] call FIAvehiclePrice);
 	};
 };
 
@@ -185,7 +185,7 @@ else
 		};
 	};
 
-_cost = [_vehType] call vehiclePrice;
+_cost = [_vehType] call FIAvehiclePrice;
 private ["_display","_childControl"];
 if (_cost > AS_P("resourcesFIA")) exitWith {};
 

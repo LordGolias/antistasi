@@ -5,7 +5,7 @@ private ["_tipo","_cantidad","_tipoMuni","_grupo","_unit","_tam","_roads","_road
 _tipo = _this select 0;
 _posicionTel = _this select 1;
 _cantidad = _this select 2;
-_coste = (2*(AS_data_allCosts getVariable "Explosives Specialist")) + (["B_G_Van_01_transport_F"] call vehiclePrice);
+_coste = (2*(AS_data_allCosts getVariable "Explosives Specialist")) + (["B_G_Van_01_transport_F"] call FIAvehiclePrice);
 [-2,-1*_coste] remoteExecCall [resourcesFIA,2];
 
 if (_tipo == "ATMine") then

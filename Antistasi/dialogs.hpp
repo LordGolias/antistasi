@@ -3,30 +3,8 @@
 #include "dialogs\recruitUnit.hpp"
 #include "dialogs\recruitSquad.hpp"
 #include "dialogs\recruitGarrison.hpp"
+#include "dialogs\buyVehicle.hpp"
 #include "dialogs\HQmenu.hpp"
-
-class buy_vehicle
-{
-	idd=100;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(5,  "Purchase Military Vehicle", "closeDialog 0; nul = createDialog ""vehicle_option"";");
-BTN_L(1,104, "Buy Quadbike", "", "closedialog 0; nul = [vehFIA select 3] call buyFIAveh");
-BTN_L(2,105, "Buy Offroad/UAZ", "", "closedialog 0; nul = [vehFIA select 4] call buyFIAveh");
-BTN_L(3,106, "Buy Truck", "", "closedialog 0; nul = [vehFIA select 5] call buyFIAveh");
-BTN_L(4,110, "Buy Static AT", "", "closedialog 0; nul = [vehFIA select 9] call buyFIAveh");
-
-BTN_R(1,107, "Buy Armed Offroad", "", "closedialog 0; nul = [vehFIA select 6] call buyFIAveh");
-BTN_R(2,109, "Buy Mortar", "", "closedialog 0; nul = [vehFIA select 8] call buyFIAveh");
-BTN_R(3,108, "Buy MG", "", "closedialog 0; nul = [vehFIA select 7] call buyFIAveh");
-BTN_R(4,111, "Buy Static AA", "", "closedialog 0; nul = [vehFIA select 10] call buyFIAveh");
-
-BTN_M(5, 112, "Buy APC", "", "if (hayRHS) then {if (player == AS_commander) then {closeDialog 0; nul = [vehFIA select 11] call buyFIAveh;} else {hint ""Only Player Commander has access to this function""};}else {hint ""RHS exclusive for now""};");
-
-	};
-};
 
 class build_menu
 {
@@ -191,36 +169,6 @@ AS_DIALOG(1,"Personal or FIA Garage?", "closeDialog 0; createDialog ""garage_sel
 
 BTN_L(1,-1, "Personal Garage", "", "closeDialog 0; nul = [false] call garageVehicle;");
 BTN_R(1,-1, "FIA Garage", "", "closeDialog 0; nul = [true] call garageVehicle;");
-
-	};
-};
-class vehicle_option
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(1,"Buy Vehicle",A_CLOSE);
-
-BTN_L(1,-1, "Civilian Vehicle", "", "closeDialog 0; nul=[] execVM ""Dialogs\buy_vehicle_civ.sqf"";");
-BTN_R(1,-1, "Military Vehicle", "", "closeDialog 0; nul=[] execVM ""Dialogs\buy_vehicle.sqf"";");
-
-	};
-};
-class civ_vehicle
-{
-	idd=100;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(2,"Buy Civilian Vehicle","closeDialog 0; nul = createDialog ""vehicle_option"";");
-
-BTN_L(1,104, "Offroad", "", "closeDialog 0; nul = [vehFIA select 0] call buyFIAveh;");
-BTN_R(1,105, "Truck", "", "closeDialog 0; nul = [vehFIA select 1] call buyFIAveh;");
-
-BTN_M(2, 106, "Helicopter", "", "closeDialog 0; nul = [vehFIA select 2] call buyFIAveh;");
 
 	};
 };

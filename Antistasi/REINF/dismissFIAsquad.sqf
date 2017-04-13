@@ -39,11 +39,12 @@ sleep 100;
 				_veh = assignedVehicle _x;
 				if !((typeOf _veh) in _vs) then {
 					_vs pushBack (typeOf _veh);
-					if ((typeOf _veh) in vehFIA) then {
-						_resourcesFIA = _resourcesFIA + ([(typeOf _veh)] call vehiclePrice);
+					if ((typeOf _veh) in AS_FIArecruitment_all) then {
+						// Recover the full price of the vehicle
+						_resourcesFIA = _resourcesFIA + ([typeOf _veh] call FIAvehiclePrice);
 						if (count attachedObjects _veh > 0) then {
 							_subVeh = (attachedObjects _veh) select 0;
-							_resourcesFIA = _resourcesFIA + ([(typeOf _subVeh)] call vehiclePrice);
+							_resourcesFIA = _resourcesFIA + ([(typeOf _subVeh)] call FIAvehiclePrice);
 							deleteVehicle _subVeh;
 						};
 						deleteVehicle _veh;

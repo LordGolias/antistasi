@@ -51,7 +51,7 @@ if (_tipo != "delete") then
 	if (_escarretera) then
 		{
 		_tipogrupo = "AT Team";
-		_coste = _coste + (["B_G_Offroad_01_armed_F"] call vehiclePrice) + (AS_data_allCosts getVariable "Crew");
+		_coste = _coste + (["B_G_Offroad_01_armed_F"] call FIAvehiclePrice) + (AS_data_allCosts getVariable "Crew");
 		_hr = _hr + 1;
 		};
 

@@ -7,7 +7,7 @@ if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventor
 
 _tipo = _this select 0;
 
-_coste = (2*(AS_data_allCosts getVariable "Explosives Specialist")) + (["B_G_Van_01_transport_F"] call vehiclePrice);
+_coste = (2*(AS_data_allCosts getVariable "Explosives Specialist")) + (["B_G_Van_01_transport_F"] call FIAvehiclePrice);
 _hr = 2;
 if (_tipo == "delete") then
 	{

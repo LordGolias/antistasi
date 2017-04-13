@@ -8,7 +8,7 @@ _tipo = _this select 1;
 switch _tipo do {
 	case "take": {removeAllActions _flag; _flag addAction [localize "STR_act_takeFlag", {[[_this select 0, _this select 1],"mrkWIN"] call BIS_fnc_MP;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"]};
 	case "unit": {_flag addAction [localize "STR_act_recruitUnit", {call AS_fncUI_RecruitUnitMenu},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
-	case "vehicle": {_flag addAction [localize "STR_act_buyVehicle", {nul = createDialog "vehicle_option";},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
+	case "vehicle": {_flag addAction [localize "STR_act_buyVehicle", {call AS_fncUI_buyVehicleMenu},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
 	case "mission": {petros addAction [localize "STR_act_missionRequest", {nul=CreateDialog "mission_menu";},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
 	case "misCiv": {_flag addAction [localize "STR_act_missionRequest", {nul=CreateDialog "misCiv_menu";},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
 	case "misMil": {_flag addAction [localize "STR_act_missionRequest", {nul=CreateDialog "misMil_menu";},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};

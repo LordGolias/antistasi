@@ -58,7 +58,7 @@ if (count _garrison > 0) then
 				{
 				if (typeOf _x in AS_allFIASoldierClasses) then
 					{
-					if (typeOf _x == "Crew") then {_coste = _coste - (["B_G_Mortar_01_F"] call vehiclePrice)};
+					if (typeOf _x == "Crew") then {_coste = _coste - (["B_G_Mortar_01_F"] call FIAvehiclePrice)};
 					_hr = _hr - 1;
 					_coste = _coste - (AS_data_allCosts getVariable ([_x] call AS_fnc_getFIAUnitNameType));
 					};
@@ -69,7 +69,7 @@ if (count _garrison > 0) then
 		} forEach allUnits;
 		};
 	{
-	if (_x == "Crew") then {_coste = _coste + (["B_G_Mortar_01_F"] call vehiclePrice)};
+	if (_x == "Crew") then {_coste = _coste + (["B_G_Mortar_01_F"] call FIAvehiclePrice)};
 	_hr = _hr + 1;
 	_coste = _coste + (AS_data_allCosts getVariable _x);
 	} forEach _garrison;

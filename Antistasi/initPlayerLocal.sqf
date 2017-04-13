@@ -185,7 +185,7 @@ if (_isJip) then {
 			}
 			else {
 				_x addAction [localize "STR_act_recruitUnit", {call AS_fncUI_RecruitUnitMenu;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
-				_x addAction [localize "STR_act_buyVehicle", {nul = createDialog "vehicle_option";},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
+				_x addAction [localize "STR_act_buyVehicle", {call AS_fncUI_buyVehicleMenu;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
 				_x addAction [localize "STR_act_persGarage", {nul = [true] spawn garage},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
 			};
 		};

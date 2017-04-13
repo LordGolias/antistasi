@@ -61,8 +61,12 @@ unlockedItems = unlockedItems + AS_FIAuniforms +
 	AS_FIAuniforms_undercover + AS_FIAhelmets_undercover +
 	AS_FIAvests_undercover + AS_FIAgoogles_undercover;
 
-// maps standard classes to unit types.
-// See functions below to see how it is used.
+// maps unit classes to AS unit types.
+// The different AS types are used to equip from the arsenal.
+// For example, "Sniper" favours high-zoom scopes, "Rifleman" favours broad zoom (high zoom AND low zoom)
+// Anther example: "Medic" takes a bag full of meds from the arsenal
+// 	To modders: this needs to be a list of pairs (i,i+1) where the first item
+// 	is the unit class, and the second item is the AS type.
 AS_FIAsoldiersMapping = [
     "B_G_Soldier_F", "Rifleman",
     "B_G_Soldier_GL_F", "Grenadier",
@@ -81,7 +85,8 @@ AS_FIAsoldiersMapping = [
     "B_G_Survivor_F", "Survivor"
 ];
 
-// maps standard classes to squad names.
+// maps standard classes to AS squad types.
+// 	To modders: squad types are 1) recruitable and 2) spawned in cities, etc.
 AS_FIAsquadsMapping = [
     "IRG_InfSquad", "Infantry Squad",
     "IRG_InfTeam", "Infantry Team",
@@ -90,7 +95,7 @@ AS_FIAsquadsMapping = [
     "IRG_InfSentry", "Sentry Team"
 ];
 
-// The cost of each unit type.
+// The cost of each AS unit type. Squad cost also depends on this
 AS_data_allCosts setVariable ["Crew", 50, true];
 AS_data_allCosts setVariable ["Ammo Bearer", 50, true];
 AS_data_allCosts setVariable ["Rifleman", 50, true];
@@ -104,114 +109,34 @@ AS_data_allCosts setVariable ["AT Specialist", 200, true];
 AS_data_allCosts setVariable ["AA Specialist", 300, true];
 AS_data_allCosts setVariable ["Sniper", 100, true];
 
-// unit class -> unit type
-AS_fnc_getFIAUnitNameType = {
-    params ["_name"];
-
-    private _index = AS_FIAsoldiersMapping find _name;
-    private _class = "Rifleman";
-    if (_index == -1) then {
-        diag_log format ["[AS] ERROR: unit class '%1' is not in the templates/FIA.sqf. Using type '%2'.",_name,_class];
-    } else {
-        _class = AS_FIAsoldiersMapping select (_index + 1);
-    };
-    _class
-};
-
-// unit -> unit type
-AS_fnc_getFIAUnitType = {
-    params ["_unit"];
-    [typeOf _unit] call AS_fnc_getFIAUnitNameType
-};
-
-// unit type -> unit class
-AS_fnc_getFIAUnitClass = {
-    params ["_type"];
-    private _index = AS_FIAsoldiersMapping find _type;
-    private _class = "B_G_Soldier_F";
-    if (_index == -1) then {
-        diag_log format ["[AS] ERROR: unit type '%1' is not in the templates/FIA.sqf. Using unit class '%2'.",_type,_class];
-    } else {
-        _class = AS_FIAsoldiersMapping select (_index - 1);
-    };
-    _class
-};
-
-// squad class -> squad type
-AS_fnc_getFIASquadNameType = {
-    params ["_name"];
-
-    private _index = AS_FIAsquadsMapping find _name;
-    private _class = "Infantry Squad";
-    if (_index == -1) then {
-        diag_log format ["[AS] ERROR: squad class '%1' is not in the templates/FIA.sqf. Using type '%2'.",_name,_class];
-    } else {
-        _class = AS_FIAsquadsMapping select (_index + 1);
-    };
-    _class
-};
-
-// squad type -> squad class
-AS_fnc_getFIASquadClass = {
-    params ["_type"];
-    private _index = AS_FIAsquadsMapping find _type;
-    private _class = "IRG_InfSquad";
-    if (_index == -1) then {
-        diag_log format ["[AS] ERROR: squad type '%1' is not in the templates/FIA.sqf. Using class '%2'.",_type,_class];
-    } else {
-        _class = AS_FIAsquadsMapping select (_index - 1);
-    };
-    _class
-};
-
-// squad type -> squad config (needed for BIS_Fnc_spawnGroup)
-AS_fnc_getFIASquadConfig = {
-    params ["_type"];
-    configfile >> "CfgGroups" >> "West" >> "Guerilla" >> "Infantry" >> ([_type] call AS_fnc_getFIASquadClass)
-};
-
-// Returns [cost,HR] of the squad type.
-AS_fnc_getFIASquadCost = {
-    params ["_type"];
-    private _config = [_type] call AS_fnc_getFIASquadConfig;
-
-    private _cost = 0;
-    private _hr = 0;
-    for "_i" from 0 to (count _config) - 1 do {
-    	_item = _config select _i;
-    	if (isClass _item) then {
-            private _unitName = [getText(_item >> "vehicle")] call AS_fnc_getFIAUnitNameType;
-            _coste = _coste + (AS_data_allCosts getVariable _unitName);
-            _hr = _hr + 1;
-    	};
-    };
-    [_cost, _hr]
-};
-
-// Contains "Rifleman", "Grenadier", etc.
-AS_allFIAUnitTypes = [];
-AS_allFIASoldierClasses = [];
-for "_i" from 0 to (count AS_FIAsoldiersMapping) - 1 step 2 do {
-    AS_allFIAUnitTypes pushBackUnique (AS_FIAsoldiersMapping select (_i + 1));
-    AS_allFIASoldierClasses pushBackUnique (AS_FIAsoldiersMapping select _i);
-};
-AS_allFIARecruitableSoldiers = AS_allFIAUnitTypes - ["Crew", "Survivor"];
-
-
-// Contains "Infantry Squad", "Infantry Team", etc.
-AS_allFIASquadTypes = [];
-for "_i" from 0 to (count AS_FIAsquadsMapping) - 1 step 2 do {
-    AS_allFIASquadTypes pushBackUnique (AS_FIAsquadsMapping select (_i + 1));
-};
 // squads that require custom initialization
 AS_allFIACustomSquadTypes = ["Mobile AA","Mobile AT","Mobile Mortar"];
 
-AS_fnc_FIAmobileToPiece = {
-    params ["_squad"];
-    if (_squad == "Mobile AA") exitWith {"B_static_AA_F"};
-    if (_squad == "Mobile AT") exitWith {"B_static_AT_F"};
-    if (_squad == "Mobile Mortar") exitWith {"B_G_Mortar_01_F"};
-    ""
-};
+///////////////////// Vehicles /////////////////////
 
-AS_allFIASquadTypes = AS_allFIASquadTypes + AS_allFIACustomSquadTypes;
+AS_FIArecruitment setVariable ["land_vehicles", [
+	"C_Offroad_01_F","C_Van_01_transport_F","B_G_Quadbike_01_F","B_G_Offroad_01_armed_F",
+	"B_HMG_01_high_F","B_G_Mortar_01_F","B_static_AT_F","B_static_AA_F"
+], true];
+AS_FIArecruitment setVariable ["water_vehicles", [
+	"B_G_Boat_Transport_01_F"
+], true];
+// First helicopter of this list is undercover
+AS_FIArecruitment setVariable ["air_vehicles", [
+	"C_Heli_Light_01_civil_F"
+], true];
+
+// All elements in the lists above must be priced, or their price is 300
+AS_FIArecruitment setVariable ["C_Offroad_01_F", 300, true];
+AS_FIArecruitment setVariable ["C_Van_01_transport_F", 600, true];
+AS_FIArecruitment setVariable ["C_Heli_Light_01_civil_F", 6000, true];
+AS_FIArecruitment setVariable ["B_G_Quadbike_01_F", 50, true];
+AS_FIArecruitment setVariable ["B_G_Offroad_01_armed_F", 700, true];
+AS_FIArecruitment setVariable ["B_HMG_01_high_F", 800, true];
+AS_FIArecruitment setVariable ["B_G_Mortar_01_F", 800, true];
+AS_FIArecruitment setVariable ["B_static_AT_F", 800, true];
+AS_FIArecruitment setVariable ["B_static_AA_F", 800, true];
+AS_FIArecruitment setVariable ["B_G_Boat_Transport_01_F", 400, true];
+
+// Define the civilian helicopter that allows you to go undercover
+civHeli = "C_Heli_Light_01_civil_F";

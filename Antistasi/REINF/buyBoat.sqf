@@ -8,7 +8,7 @@ _chequeo = false;
 
 if (_chequeo) exitWith {Hint "You cannot buy vehicles with enemies nearby"};
 
-_coste = AS_data_allCosts getVariable "B_G_Boat_Transport_01_F";
+_coste = boatFIAcost;
 
 if (AS_P("resourcesFIA") < _coste) exitWith {hint format ["You need %1 € to buy a boat",_coste]};
 
@@ -31,7 +31,7 @@ while {true} do
 	_ang = _ang + 31;
 	};
 
-_veh = "B_G_Boat_Transport_01_F" createVehicle _pos;
+_veh = boatFIA createVehicle _pos;
 
 [_veh, "FIA"] call AS_fnc_initVehicle;
 player reveal _veh;
