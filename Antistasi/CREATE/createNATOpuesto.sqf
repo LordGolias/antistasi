@@ -1,40 +1,33 @@
 #include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
+params ["_marcador"];
+private ["_escarretera","_tam","_road","_veh","_grupo","_unit","_roadcon"];
 
-private ["_marcador","_posicion","_escarretera","_tam","_road","_veh","_grupo","_unit","_roadcon"];
+private _posicion = getMarkerPos _marcador;
+private _grupo = createGroup side_blue;
 
-_marcador = _this select 0;
-_posicion = getMarkerPos _marcador;
-
-_NATOSupp = AS_P("prestigeNATO");
-
-_grupo = createGroup side_blue;
-
-
-_tam = 1;
-
+// find road
+private _tam = 1;
+private _roads = [];
 while {true} do {
 	_road = _posicion nearRoads _tam;
 	if (count _road > 0) exitWith {};
 	_tam = _tam + 5;
 };
+private _road = (_roads select 0);
 
-_roadcon = roadsConnectedto (_road select 0);
-_dirveh = [_road select 0, _roadcon select 0] call BIS_fnc_DirTo;
+private _dirveh = [_road, (roadsConnectedto _road) select 0] call BIS_fnc_DirTo;
 
-_objs = [];
-
+// spawn the structures
+private _composition = "Compositions\cmpNATO_RB.sqf";
 if (hayRHS) then {
-	_objs = [getpos (_road select 0), _dirveh, call (compile (preprocessFileLineNumbers "Compositions\cmpUSAF_RB.sqf"))] call BIS_fnc_ObjectsMapper;
-}
-else {
-	_objs = [getpos (_road select 0), _dirveh, call (compile (preprocessFileLineNumbers "Compositions\cmpNATO_RB.sqf"))] call BIS_fnc_ObjectsMapper;
+	_composition = "Compositions\cmpUSAF_RB.sqf";
 };
+private _objs = [getpos _road, _dirveh, call compile preprocessFileLineNumbers _composition] call BIS_fnc_ObjectsMapper;
 
-
-_vehArray = [];
-_turretArray = [];
-_tempPos = [];
+private _vehArray = [];
+private _turretArray = [];
+private _tempPos = [];
 {
 	call {
 		if (typeOf _x in bluAPC) exitWith {_vehArray pushBack _x;};
@@ -44,59 +37,59 @@ _tempPos = [];
 	};
 } forEach _objs;
 
-_veh = _vehArray select 0;
-_HMG = _turretArray select 0;
-_AA1 = _turretArray select 1;
-_AA2 = _turretArray select 2;
-
-if (_NATOSupp < 50) then {
-	_AA1 enableSimulation false;
-    _AA1 hideObjectGlobal true;
-
-	if !(hayRHS) then {
-   		_AA2 enableSimulation false;
-    	_AA2 hideObjectGlobal true;
-	};
-}
-else {
-	_unit = ([_posicion, 0, bluCrew, _grupo] call bis_fnc_spawnvehicle) select 0;
-	_unit moveInGunner _AA1;
-
-	if !(hayRHS) then {
+// spawn crew for statics
+{
+	// AAs are not spawned below 50
+	if (AS_P("prestigeNATO") < 50 and (typeOf _x in bluStatAA)) then {
+		_x enableSimulation false;
+	    _x hideObjectGlobal true;
+	} else {
 		_unit = ([_posicion, 0, bluCrew, _grupo] call bis_fnc_spawnvehicle) select 0;
-		_unit moveInGunner _AA2;
+		_unit moveInGunner _x;
+		[_x, "NATO"] call AS_fnc_initVehicle;
 	};
-};
+} forEach _turretArray;
 
-sleep 1;
+// spawn crew for vehicles
+{
+	[_x, "NATO"] call AS_fnc_initVehicle;
+	_x allowCrewInImmobile true;
+	_unit = ([_posicion, 0, bluCrew, _grupo] call bis_fnc_spawnvehicle) select 0;
+	_unit moveInGunner _x;
+	_unit = ([_posicion, 0, bluCrew, _grupo] call bis_fnc_spawnvehicle) select 0;
+	_unit moveInCommander _x;
+} forEach _vehArray;
 
-_veh lock 3;
+// init units
+{[_x] spawn NATOinitCA} forEach units _grupo;
 
-[_veh, "NATO"] call AS_fnc_initVehicle;
-_veh allowCrewInImmobile true;
-sleep 1;
-
-_tipoGrupo = [bluATTeam, side_blue] call fnc_pickGroup;
-_grupoInf = [getpos _tempPos, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
+// spawn infantry group
+private _grupoInf = [getpos _tempPos, side_blue,
+	[bluATTeam, side_blue] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 
 _infdir = _dirveh + 180;
 if (_infdir >= 360) then {_infdir = _infdir - 360};
 _grupoInf setFormDir _infdir;
 
-_unit = ([_posicion, 0, bluCrew, _grupo] call bis_fnc_spawnvehicle) select 0;
-_unit moveInGunner _HMG;
-_unit = ([_posicion, 0, bluCrew, _grupo] call bis_fnc_spawnvehicle) select 0;
-_unit moveInGunner _veh;
-_unit = ([_posicion, 0, bluCrew, _grupo] call bis_fnc_spawnvehicle) select 0;
-_unit moveInCommander _veh;
-
-{[_x] spawn NATOinitCA} forEach units _grupo;
 {[_x] spawn NATOinitCA} forEach units _grupoInf;
 
+//////////////////////////////////////////////////////////////////
+////////////////////////// END SPAWNING //////////////////////////
+//////////////////////////////////////////////////////////////////
 
-waitUntil {sleep 1; (not(spawner getVariable _marcador)) or (({alive _x} count units _grupo == 0) && ({alive _x} count units _grupoInf == 0)) or (not(_marcador in puestosNATO))};
+private _fnc_isDestroyed = {
+	({alive _x} count units _grupo == 0) and
+	({alive _x} count units _grupoInf == 0)
+};
 
-if ({alive _x} count units _grupo == 0) then {
+waitUntil {sleep 1;
+	(not(spawner getVariable _marcador)) or
+	(not(_marcador in puestosNATO)) or
+	(call _fnc_isDestroyed)
+};
+
+// Lost the outpost
+if (call _fnc_isDestroyed) then {
 	puestosNATO = puestosNATO - [_marcador]; publicVariable "puestosNATO";
 	marcadores = marcadores - [_marcador]; publicVariable "marcadores";
 	[5,-5,_posicion] remoteExec ["citySupportChange",2];
@@ -104,13 +97,14 @@ if ({alive _x} count units _grupo == 0) then {
 	[["TaskFailed", ["", "Roadblock Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 };
 
-waitUntil {sleep 1; (not(spawner getVariable _marcador)) or (not(_marcador in puestosNATO))};
+waitUntil {sleep 1;
+	(not(spawner getVariable _marcador)) or
+	(not(_marcador in puestosNATO))
+};
 
-{deleteVehicle _x} forEach _vehArray + _turretArray;
+{deleteVehicle _x} forEach _objs;
 {deleteVehicle _x} forEach units _grupo;
 deleteGroup _grupo;
 
 {deleteVehicle _x} forEach units _grupoInf;
 deleteGroup _grupoInf;
-
-{deleteVehicle _x} forEach _objs;
