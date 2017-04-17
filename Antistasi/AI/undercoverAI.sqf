@@ -1,4 +1,4 @@
-private ["_unit","_behaviour","_primaryWeapon","_secondaryWeapon","_handGunWeapon","_headgear","_hmd","_list","_primaryWeaponItems","_secondaryWeaponItems","_handgunItems","_bases"];
+private ["_unit","_behaviour","_primaryWeapon","_secondaryWeapon","_handGunWeapon","_headgear","_hmd","_list","_primaryWeaponItems","_secondaryWeaponItems","_handgunItems"];
 
 _unit = _this select 0;
 _unit setCaptive true;
@@ -26,17 +26,17 @@ _unit removeWeaponGlobal _handGunWeapon;
 removeHeadGear _unit;
 _unit unlinkItem _hmd;
 
-_bases = bases + puestos + controles;
+private _detectingLocations = [["base","roadblock","outpost","outpostAA"], "AAF"] call AS_fnc_location_TS;
 while {(captive player) and (captive _unit)} do {
 	sleep 1;
 	_type = typeOf vehicle _unit;
 	// vehicle reported.
 	if ((vehicle _unit != _unit) and (not(_type in arrayCivVeh) || vehicle _unit in reportedVehs)) exitWith {};
-	
-	_base = [_bases, _unit] call BIS_fnc_nearestPosition;
-	_size = [_base] call sizeMarker;
-	if ((_base in mrkAAF) and (_unit distance getMarkerPos _base < _size*2)) exitWith {_unit setCaptive false};
-	//if ((primaryWeapon _unit != "") or (secondaryWeapon _unit != "") or (handgunWeapon _unit != "")) exitWith {};
+
+	private _location = [_detectingLocations, _unit] call BIS_fnc_nearestPosition;
+	private _position = _location call AS_fnc_location_position;
+	private _size = _location call AS_fnc_location_size;
+	if (_unit distance _position < _size*2) exitWith {_unit setCaptive false};
 };
 
 if (!captive _unit) then {_unit groupChat "Shit, they have spotted me!"} else {_unit setCaptive false};

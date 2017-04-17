@@ -291,7 +291,7 @@ fnc_BE_save = {
 	private _current_vehicles = [];
 
 	{
-		if ((_x distance (getMarkerPos "respawn_west") < 50) && (_x getVariable ["BE_mil_veh", false])) then {
+		if ((_x distance (getMarkerPos "FIA_HQ") < 50) && (_x getVariable ["BE_mil_veh", false])) then {
 			_current_vehicles pushBack (typeOf _x);
 		};
 
@@ -316,7 +316,7 @@ fnc_BE_load = {
     BE_progressLock = _save select 3;
 
 	{
-		if ((_x distance (getMarkerPos "respawn_west") < 50) && (typeOf _x in BE_current_vehicles)) then {
+		if ((_x distance (getMarkerPos "FIA_HQ") < 50) && (typeOf _x in BE_current_vehicles)) then {
 			_x setVariable ["BE_mil_veh", true, true];
 			diag_log format ["VEHICLE: %1; TYPE: %2", _x, typeOf _x];
 			for "_i" from 0 to (count BE_current_vehicles - 1) do {
@@ -327,16 +327,6 @@ fnc_BE_load = {
 		};
 
 	} forEach vehicles - [caja,bandera,fuego,cajaveh,mapa];
-
-	if (BE_current_FIA_WP_Style > 0) then {
-		private ["_posDes", "_remDes", "_normalPos"];
-		{
-			_posDes = [getMarkerPos _x, 5, round (random 359)] call BIS_Fnc_relPos;
-			_remDes = ([_posDes, 0,"B_Static_Designator_01_F", side_blue] call bis_fnc_spawnvehicle) select 0;
-			_normalPos = surfaceNormal (position _remDes);
-			_remDes setVectorUp _normalPos;
-		} forEach FIA_WP_list;
-	};
 
 	[] call fnc_BE_refresh;
 
@@ -393,17 +383,17 @@ fnc_BE_permission = {
 			};
 		};
 		case "camp": {
-			if (BE_current_FIA_Camp_Cap > (count campsFIA)) then {
+			if (BE_current_FIA_Camp_Cap > (count (["camp", "FIA"] call AS_fnc_location_TS))) then {
 				_result = true;
 			};
 		};
 		case "RB": {
-			if (BE_current_FIA_RB_Cap > (count FIA_RB_list)) then {
+			if (BE_current_FIA_RB_Cap > (count (["roadblock", "FIA"] call AS_fnc_location_TS))) then {
 				_result = true;
 			};
 		};
 		case "WP": {
-			if (BE_current_FIA_WP_Cap > (count FIA_WP_list)) then {
+			if (BE_current_FIA_WP_Cap > (count (["watchpost", "FIA"] call AS_fnc_location_TS))) then {
 				_result = true;
 			};
 		};
@@ -524,20 +514,20 @@ fnc_BE_broadcast = {
 #define BE_STR_CTER2 "At least 1 base/airport under your control"
 #define BE_STR_CTER3 "At least 1 airport under your control"
 fnc_BE_C_TER = {
-	private _base = aeropuertos;
+	private _types = ['airfield'];
 	BE_STR_CTER = BE_STR_CTER3;
 	call {
 		if (BE_currentStage == 1) exitWith {
-			_base = _base + bases;
+			_types pushBack "base";
 			BE_STR_CTER = BE_STR_CTER2;
 		};
 		if (BE_currentStage == 0) exitWith {
-			_base = _base + puestos + puestosAA;
+			_types append ["outpost", "outpostAA"];
 			BE_STR_CTER = BE_STR_CTER1;
 		};
 	};
 
-	[(count (mrkFIA arrayIntersect _base) > 0), BE_STR_CTER]
+	[(count ([_types, "FIA"] call AS_fnc_location_TS) > 0), BE_STR_CTER]
 };
 
 #define BE_STR_CMTN1 ""
@@ -545,7 +535,7 @@ fnc_BE_C_TER = {
 #define BE_STR_CMTN3 ""
 fnc_BE_C_MTN = {
 	BE_STR_CMTN = BE_STR_CMTN2;
-	[(count (colinasAA arrayIntersect mrkFIA) > 0), BE_STR_CMTN]
+	[(count (["hillAA", "FIA"] call AS_fnc_location_TS) > 0), BE_STR_CMTN]
 };
 
 #define BE_STR_CHR1 "Have at least 20 HR"

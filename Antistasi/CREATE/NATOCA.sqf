@@ -1,21 +1,24 @@
 #include "../macros.hpp"
-if (!isServer and hasInterface) exitWith{};
-params ["_marcador"];
+params ["_location"];
+if (!isServer and hasInterface) exitWith {};
 
-private _posicion = getMarkerPos (_marcador);
-private _name = [_marcador] call localizar;
-private _threatEval = [_marcador] call AAthreatEval;
+private _posicion = _location call AS_fnc_location_position;
+private _name = [_location] call localizar;
 
-private _aeropuertos = aeropuertos - mrkAAF + ["spawnNATO"];
-private _origen = [_aeropuertos,_posicion] call BIS_fnc_nearestPosition;
-private _origpos = getMarkerPos _origen;
+private _aeropuertos = ["airfield", "FIA"] call AS_fnc_location_TS;
+_aeropuertos pushBack "spawnNATO";
+
+private _origin = [_aeropuertos,_posicion] call BIS_fnc_nearestPosition;
+private _origpos = _origin call AS_fnc_location_position;
 private _origname = "the NATO Carrier";
-if (_origen != "spawnNATO") then {_origname = [_origen] call localizar};
+if (_origin != "spawnNATO") then {_origname = [_origin] call localizar};
+
+private _threatEval = [_posicion] call AAthreatEval;
 
 _tsk = ["NATOCA",
 	[side_blue,civilian],
 	[format ["Our Commander asked NATO for an attack on %1. Help them in order to have success in this operation. Their attack will depart from %2",_name,_origname],
-	"NATO Attack",_marcador],_posicion,"CREATED",5,true,true,"Attack"] call BIS_fnc_setTask;
+	"NATO Attack",_location],_posicion,"CREATED",5,true,true,"Attack"] call BIS_fnc_setTask;
 misiones pushBackUnique _tsk; publicVariable "misiones";
 private _soldados = [];
 private _grupos = [];
@@ -25,8 +28,8 @@ private _cuenta = round (AS_P("prestigeNATO")/10);
 
 [-20,0] remoteExec ["prestige",2];
 
-if ((_marcador in bases) or (_marcador in aeropuertos)) then {
-	[_marcador] spawn artilleriaNATO;
+if ((_origin call AS_location_type) in ["base", "airfield"]) then {
+	[_location] spawn artilleriaNATO;
 };
 
 for "_i" from 1 to _cuenta do {
@@ -46,16 +49,14 @@ for "_i" from 1 to _cuenta do {
 
 	if (_tipoveh in bluHeliDis) then {
 		_tipoGrupo = [bluSquadWeapons, side_blue] call fnc_pickGroup;
-		_grupo = [_origpos, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
+		_grupo = [_orig, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 		{_x assignAsCargo _heli; _x moveInCargo _heli; _soldados pushBack _x; [_x] spawn NATOinitCA} forEach units _grupo;
 		_grupos pushBack _grupo;
-		if ((_marcador in aeropuertos) or (random 10 < _threatEval)) then {
-			[_heli,_grupo,_marcador,_threatEval] spawn airdrop;
+		if ((_origin call AS_location_type == "airfield") or (random 10 < _threatEval)) then {
+			[_heli,_grupo,_posicion,_threatEval] spawn airdrop;
 		} else {
-			if ((_marcador in bases) or (_marcador in puestos)) then {
-				[_heli,_grupo,_posicion,_origpos,_grupoheli] spawn fastropeNATO;
-			};
-			if ((_marcador in recursos) or (_marcador in power) or (_marcador in fabricas)) then {
+			if ((_location call AS_location_type) in ["base","watchpost"]) then {[_heli,_grupo,_posicion,_orig,_grupoheli] spawn fastropeNATO;};
+			if ((_location call AS_location_type) in ["resource","factory", "powerplant"]) then {
 				{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _grupoheli;
 				_landpos = [];
 				_landpos = [_posicion, 0, 500, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
@@ -108,11 +109,11 @@ for "_i" from 1 to _cuenta do {
 	if (_tipoveh in bluHeliRope) then {
 		{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _grupoheli;
 		_tipoGrupo = [bluSquad, side_blue] call fnc_pickGroup;
-		_grupo = [_origpos, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
+		_grupo = [_orig, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 		{_x assignAsCargo _heli; _x moveInCargo _heli; _soldados pushBack _x; [_x] spawn NATOinitCA} forEach units _grupo;
 		_grupos pushBack _grupo;
-		if ((_marcador in aeropuertos) or (_marcador in bases) or (_marcador in puestos) or (random 10 < _threatEval)) then {
-			[_heli,_grupo,_marcador,_threatEval] spawn airdrop
+		if ((_location call AS_location_type) in ["airfield","base", "watchpost"] or (random 10 < _threatEval)) then {
+			[_heli,_grupo,_posicion,_threatEval] spawn airdrop;
 		} else {
 			_landpos = [];
 			_landpos = [_posicion, 0, 300, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
@@ -140,10 +141,11 @@ for "_i" from 1 to _cuenta do {
 
 private _solMax = round ((count _soldados) / 4);
 
-waitUntil {sleep 1; (_marcador in mrkFIA) or ({alive _x} count _soldados < _solMax)};
+waitUntil {sleep 1; (_location call AS_fnc_location_side == "FIA") or ({alive _x} count _soldados < _solMax)};
 
 if ({alive _x} count _soldados < _solMax) then {
-	_tsk = ["NATOCA",[side_blue,civilian],[format ["Our Commander asked NATO for an attack on %1. Help them in order to have success in this operation. Their attack will depart from %2",_name,_origname],"NATO Attack",_marcador],_posicion,"FAILED",5,true,true,"Attack"] call BIS_fnc_setTask;
+	_tsk = ["NATOCA",[side_blue,civilian],[format ["Our Commander asked NATO for an attack on %1. Help them in order to have success in this operation. Their attack will depart from %2",_nombredest,_nombreorig],
+		"NATO Attack",_location],_posicion,"FAILED",5,true,true,"Attack"] call BIS_fnc_setTask;
 	[-10,0] remoteExec ["prestige",2];
 };
 

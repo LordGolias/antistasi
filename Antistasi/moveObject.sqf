@@ -9,7 +9,8 @@ _location = position petros;
 _distance = 30;
 _attachPoint = [0,2,1];
 if (count _this > 3) then {
-	_location = getMarkerPos ([mrkFIA, _jugador] call BIS_fnc_nearestPosition);
+	private _nearest = (["FIA" call AS_fnc_location_S, _jugador] call BIS_fnc_nearestPosition);
+	_location = _nearest call AS_fnc_location_position;
 	_distance = 50;
 	_bbr = boundingBoxReal _cosa;
 	_p1 = _bbr select 0;

@@ -79,7 +79,7 @@ fnc_QRF_groundAssault = {
 		_wp300 = _infGroup addWaypoint [_dest, 0];
 		_wp300 setWaypointType "GETOUT";
 		_wp300 synchronizeWaypoint [_wp200];
-		_wp301 = _infGroup addWaypoint [getMarkerPos _mrk, 0];
+		_wp301 = _infGroup addWaypoint [_mrk, 0];
 		_wp301 setWaypointType "SAD";
 		_wp301 setWaypointBehaviour "COMBAT";
 		_infGroup setCombatMode "RED";
@@ -129,14 +129,14 @@ fnc_QRF_dismountTroops = {
 		_wp501 synchronizeWaypoint [_wp400];
 	};
 
-	_wp402 = _infGroup1 addWaypoint [getMarkerPos _mrk, 0];
+	_wp402 = _infGroup1 addWaypoint [_mrk call AS_fnc_location_position, 0];
 	_wp402 setWaypointType "SAD";
 	_wp402 setWaypointBehaviour "AWARE";
 	_infGroup1 setCombatMode "RED";
 
 	_wp502 = "";
 	if (typeName _infGroups == "ARRAY") then {
-		_wp502 = _infGroup2 addWaypoint [getMarkerPos _mrk, 0];
+		_wp502 = _infGroup2 addWaypoint [_mrk call AS_fnc_location_position, 0];
 		_wp502 setWaypointType "SAD";
 		_wp502 setWaypointBehaviour "AWARE";
 		_infGroup2 setCombatMode "RED";
@@ -184,14 +184,14 @@ fnc_QRF_fastrope = {
 		(_infGroups select 1) call SHK_Fastrope_fnc_AIs;
 	};
 
-	_wp601 = _infGroup1 addWaypoint [getMarkerPos _mrk, 0];
+	_wp601 = _infGroup1 addWaypoint [_mrk call AS_fnc_location_position, 0];
 	_wp601 setWaypointType "SAD";
 	_wp601 setWaypointBehaviour "AWARE";
 	_infGroup1 setCombatMode "RED";
 
 	if (typeName _infGroups == "ARRAY") then {
 		//0 = [leader _infGroup2, _mrk, "AWARE", "SPAWNED","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
-		_wp602 = _infGroup2 addWaypoint [getMarkerPos _mrk, 0];
+		_wp602 = _infGroup2 addWaypoint [_mrk call AS_fnc_location_position, 0];
 		_wp602 setWaypointType "SAD";
 		_wp602 setWaypointBehaviour "AWARE";
 		_infGroup2 setCombatMode "RED";

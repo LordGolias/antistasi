@@ -31,12 +31,12 @@ if (_type == "Sniper") then {
     _scopeType = "sniperScope";
     _primaryMagCount = 8 + 1;  // because snipers clips have less bullets.
 };
-if (_type == "AT Soldier") then {
+if (_type == "AT Specialist") then {
     // todo: this list includes AT and AA. Fix it.
     _secondaryWeapons = (AS_weapons select 8); // missile launchers
     _useBackpack = true;
 };
-if (_type == "AA Soldier") then {
+if (_type == "AA Specialist") then {
     // todo: this list includes AT and AA. Fix it.
     _secondaryWeapons = (AS_weapons select 8); // missile launchers
     _useBackpack = true;
@@ -45,7 +45,7 @@ if (_type == "Medic") then {
     _useBackpack = true;
     _backpackItems = [] call AS_fnc_FIAMedicBackpack;
 };
-if (_type == "Engineer") then {
+if (_type == "Repair Specialist") then {
     _useBackpack = true;
     _backpackItems = [["ToolKit", 1]];
 };

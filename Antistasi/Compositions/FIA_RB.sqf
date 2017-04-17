@@ -101,10 +101,6 @@ fnc_RB_placeSingle = {
 
 	private _range = 20;
 
-	if !(typeName _position == "ARRAY") then {
-		_position = getMarkerPos _position;
-	};
-
 	while {true} do {
 		_roads = _position nearRoads _range;
 		if (count _roads > 1) exitWith {};

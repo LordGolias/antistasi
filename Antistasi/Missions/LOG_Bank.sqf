@@ -1,25 +1,23 @@
 #include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
+params ["_banco"];
 
 _tskTitle = localize "STR_tsk_logBank";
 _tskDesc = localize "STR_tskDesc_logBank";
 
-_banco = _this select 0;
-
-_posicion = getPos _banco;
-_marcador = [ciudades,_posicion] call BIS_fnc_nearestPosition;
-_posbase = getMarkerPos "respawn_west";
+private _posicion = getPos _banco;
+private _posbase = getMarkerPos "FIA_HQ";
 
 _tiempolim = 120;
 _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 _fechalimnum = dateToNumber _fechalim;
 
-_ciudad = [ciudades, _posicion] call BIS_fnc_nearestPosition;
+_ciudad = [call AS_fnc_location_cities, _posicion] call BIS_fnc_nearestPosition;
 _mrkfin = createMarker [format ["LOG%1", random 100], _posicion];
 _nombredest = [_ciudad] call localizar;
 _mrkfin setMarkerShape "ICON";
 
-_pos = (getMarkerPos "respawn_west") findEmptyPosition [1,50,"C_Van_01_box_F"];
+_pos = (getMarkerPos "FIA_HQ") findEmptyPosition [1,50,"C_Van_01_box_F"];
 
 _camion = "C_Van_01_box_F" createVehicle _pos;
 {_x reveal _camion} forEach (allPlayers - hcArray);
@@ -69,7 +67,6 @@ else
 	{
 	_cuenta = 120;//120
 	[_posicion] remoteExec ["patrolCA",HCattack];
-	[10,-20,_marcador] remoteExec ["citySupportChange",2];
 	{_amigo = _x;
 	if (_amigo distance _camion < 300) then
 		{
@@ -109,7 +106,7 @@ if ((_camion distance _posbase < 50) and (dateToNumber date < _fechalimnum)) the
 	{
 	_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],_tskTitle,_mrkfin],_posicion,"SUCCEEDED",5,true,true,"Interact"] call BIS_fnc_setTask;
 	[0,5000] remoteExec ["resourcesFIA",2];
-	[-20,0] remoteExec ["prestige",2];
+	[-2,0] remoteExec ["prestige",2];
 	[1800] remoteExec ["timingCA",2];
 	{if (_x distance _camion < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 	[5,AS_commander] call playerScoreAdd;
@@ -140,5 +137,3 @@ deleteGroup _grupo;
 
 deleteMarker _mrk;
 deleteMarker _mrkfin;
-
-

@@ -36,25 +36,26 @@ AS_FIAgoogles_undercover = [
 ];
 
 AS_FIAuniforms = [
+	"U_IG_Guerilla1_1",
+	"U_IG_Guerilla2_1",
+	"U_IG_Guerilla2_2",
+	"U_IG_Guerilla2_3",
+	"U_IG_Guerilla3_1",
+	"U_IG_Guerilla3_2",
+	"U_IG_leader",
 	"U_BG_Guerilla1_1",
-	"U_BG_Guerilla2_1",
 	"U_BG_Guerilla2_2",
 	"U_BG_Guerilla2_3",
 	"U_BG_Guerilla3_1",
 	"U_BG_Guerilla3_2",
-	"U_BG_Guerrilla_6_1",
-	"U_B_survival_uniform",
 	"U_BG_leader",
-
-	"U_IG_Guerilla3_2",
+	"U_OG_Guerilla1_1",
 	"U_OG_Guerilla2_1",
-	"U_IG_Guerilla1_1",
-
-	"U_IG_Guerilla3_2",
-	"U_OG_Guerilla2_1",
-	"U_IG_Guerilla1_1",
-	"U_I_G_Story_Protagonist_F",
-	"U_I_G_resistanceLeader_F"
+	"U_OG_Guerilla2_2",
+	"U_OG_Guerilla2_3",
+	"U_OG_Guerilla3_1",
+	"U_OG_Guerilla3_2",
+	"U_OG_leader"
 ];
 
 unlockedItems = unlockedItems + AS_FIAuniforms +
@@ -64,7 +65,7 @@ unlockedItems = unlockedItems + AS_FIAuniforms +
 // maps unit classes to AS unit types.
 // The different AS types are used to equip from the arsenal.
 // For example, "Sniper" favours high-zoom scopes, "Rifleman" favours broad zoom (high zoom AND low zoom)
-// Anther example: "Medic" takes a bag full of meds from the arsenal
+// Another example: "Medic" takes a bag full of meds from the arsenal
 // 	To modders: this needs to be a list of pairs (i,i+1) where the first item
 // 	is the unit class, and the second item is the AS type.
 AS_FIAsoldiersMapping = [
@@ -77,9 +78,10 @@ AS_FIAsoldiersMapping = [
     "B_G_Soldier_TL_F", "Rifleman",
     "B_G_Soldier_LAT_F", "AT Specialist",
     "B_G_Soldier_M_F", "Sniper",
+	"B_G_Sharpshooter_F", "Sniper",
     "B_G_engineer_F", "Repair Specialist",
     "B_G_Soldier_LAT_F", "AA Specialist",  // AA specialist is spawned as B_G_Soldier_LAT_F
-    "B_G_Soldier_exp_F", "Explosives Specialist",
+    "B_G_Soldier_exp_F", "Repair Specialist",
     "B_G_Soldier_A_F", "Ammo Bearer",
     "B_G_Soldier_lite_F", "Crew",
     "B_G_Survivor_F", "Survivor"
@@ -104,7 +106,6 @@ AS_data_allCosts setVariable ["Autorifleman", 100, true];
 AS_data_allCosts setVariable ["Medic", 300, true];
 AS_data_allCosts setVariable ["Squad Leader", 100, true];
 AS_data_allCosts setVariable ["Repair Specialist", 200, true];
-AS_data_allCosts setVariable ["Explosives Specialist", 300, true];
 AS_data_allCosts setVariable ["AT Specialist", 200, true];
 AS_data_allCosts setVariable ["AA Specialist", 300, true];
 AS_data_allCosts setVariable ["Sniper", 100, true];

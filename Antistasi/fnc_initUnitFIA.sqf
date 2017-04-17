@@ -43,14 +43,14 @@ if (player == leader _unit) then {
 			sleep 10;
 			if (("ItemRadio" in assignedItems _unit) and ([player] call hasRadio)) exitWith {_unit groupChat format ["This is %1, radiocheck OK",name _unit]};
 			if (unitReady _unit) then {
-				if ((alive _unit) and (_unit distance (getMarkerPos "respawn_west") > 50) and (_unit distance leader group _unit > 500) and ((vehicle _unit == _unit) or ((typeOf (vehicle _unit)) in arrayCivVeh))) then {
+				if ((alive _unit) and (_unit distance (getMarkerPos "FIA_HQ") > 50) and (_unit distance leader group _unit > 500) and ((vehicle _unit == _unit) or ((typeOf (vehicle _unit)) in arrayCivVeh))) then {
 					hint format ["%1 lost communication, he will come back with you if possible", name _unit];
 					[_unit] join MIASquadUnits;
 					if ((vehicle _unit isKindOf "StaticWeapon") or (isNull (driver (vehicle _unit)))) then {unassignVehicle _unit; [_unit] orderGetIn false};
 					_unit doMove position player;
 					_tiempo = time + 900;
 					waitUntil {sleep 1;(!alive _unit) or (_unit distance player < 500) or (time > _tiempo)};
-					if ((_unit distance player >= 500) and (alive _unit)) then {_unit setPos (getMarkerPos "respawn_west")};
+					if ((_unit distance player >= 500) and (alive _unit)) then {_unit setPos (getMarkerPos "FIA_HQ")};
 					[_unit] join group player;
 				};
 			};
@@ -88,15 +88,15 @@ else {
 			_muerto setVariable ["BLUFORSpawn",nil,true];
 		};
 
-		_marcador = _muerto getVariable "marcador";
-		if (!isNil "_marcador") then {
-			if (_marcador in mrkFIA) then {
-				_garrison = garrison getVariable [_marcador,[]];
+		private _location = _muerto getVariable "marcador";
+		if (!isNil "_location") then {
+			if (_location call AS_fnc_location_side == "FIA") then {
+				private _garrison = _location call AS_fnc_location_garrison;
 				for "_i" from 0 to (count _garrison -1) do {
 					if (typeOf _muerto == (_garrison select _i)) exitWith {_garrison deleteAt _i};
 				};
-				garrison setVariable [_marcador,_garrison,true];
-				[_marcador] call mrkUpdate;
+				[_location, "garrison", _garrison] call AS_fnc_location_set;
+				_location call AS_fnc_location_updateMarker;
 			};
 		};
 	}];

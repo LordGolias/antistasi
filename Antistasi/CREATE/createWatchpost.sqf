@@ -1,18 +1,17 @@
 #include "../macros.hpp"
-params ["_marcador"];
+params ["_location"];
 if (!isServer and hasInterface) exitWith{};
 
 private _soldados = [];
 private _grupos = [];
 private _vehiculos = [];
 
-private _posicion = getMarkerPos _marcador;
+private _posicion = _location call AS_fnc_location_position;
 
 // create bunker
 private _veh = createVehicle ["Land_BagBunker_Tower_F", _posicion, [],0, "NONE"];
 _veh setVectorUp (surfacenormal (getPosATL _veh));
 _vehiculos pushBack _veh;
-_veh setDir (markerDir _marcador);
 
 // create flag
 _veh = createVehicle [cFlag, _posicion, [],0, "NONE"];
@@ -24,7 +23,7 @@ _vehiculos pushBack _veh;
 [_veh, "Watchpost"] call AS_fnc_fillCrateAAF;
 
 // create truck
-([_marcador] call AS_fnc_spawnAAF_truck) params ["_vehicles1"];
+([_location] call AS_fnc_spawnAAF_truck) params ["_vehicles1"];
 _vehiculos append _vehicles1;
 
 // create a mortar
@@ -43,7 +42,7 @@ sleep 1;
 
 // create the AT group
 private _grupo = [_posicion, side_green, [infTeamATAA, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
-[leader _grupo, _marcador, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
+[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
 {[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 _grupos pushBack _grupo;
 sleep 1;
@@ -53,23 +52,19 @@ private _fnc_isDestroyed = {
 };
 
 waitUntil {sleep 1;
-	!(spawner getVariable _marcador) or (call _fnc_isDestroyed)
+	!(_location call AS_fnc_location_spawned) or (call _fnc_isDestroyed)
 };
 
 if (call _fnc_isDestroyed) then {
 	[-5,0,_posicion] remoteExec ["citySupportChange",2];
 	[["TaskSucceeded", ["", "Outpost Cleansed"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-	_mrk = format ["Dum%1",_marcador];
-	deleteMarker _mrk;
-	mrkAAF = mrkAAF - [_marcador];
-	mrkFIA = mrkFIA + [_marcador];
-	publicVariable "mrkAAF";
-	publicVariable "mrkFIA";
+	[_location,"side","FIA"] call AS_fnc_location_set;
+	_location call AS_fnc_location_updateMarker;
 	[_posicion] remoteExec ["patrolCA",HCattack];
 	if (hayBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
 };
 
-waitUntil {sleep 1; not (spawner getVariable _marcador)};
+waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 
 {if (alive _x) then {deleteVehicle _x}} forEach _soldados;
 {deleteGroup _x} forEach _grupos;

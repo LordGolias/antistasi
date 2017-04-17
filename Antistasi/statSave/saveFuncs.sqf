@@ -21,8 +21,6 @@ AS_fnc_savePersistents = {
 		};
 		[_saveName, _x, _varValue] call AS_fnc_SaveStat;
 	} forEach AS_serverVariables;
-
-	[_saveName] call AS_fnc_saveCities;
 };
 
 
@@ -32,24 +30,6 @@ AS_fnc_loadPersistents = {
 	{
         AS_Pset(_x, [_saveName, _x] call AS_fnc_LoadStat);
 	} forEach AS_serverVariables;
-
-	[_saveName] call AS_fnc_loadCities;
-};
-
-// function that persistently saves cities.
-AS_fnc_saveCities = {
-    params ["_saveName"];
-	{
-		_data = AS_persistent_cities getVariable _x;
-		[_saveName, "CITY" + _x, _data] call AS_fnc_SaveStat;
-	} forEach ciudades;
-};
-
-AS_fnc_loadCities = {
-    params ["_saveName"];
-	{
-		AS_persistent_cities setVariable [_x, [_saveName, "CITY" + _x] call AS_fnc_LoadStat, true];
-	} forEach ciudades;
 };
 
 AS_fnc_saveArsenal = {
@@ -104,30 +84,18 @@ AS_fnc_saveHQ = {
 		{
 			// save stuff only close to the HQ.
 			_pos = getPos _x;
-			if (_pos distance (getMarkerPos "respawn_west") < 50) then {
+			if (_pos distance (getMarkerPos "FIA_HQ") < 50) then {
 				_array pushback [_pos, getDir _x, typeOf _x];
 			};
 		} forEach AS_HQ_placements;
 	};
 	[_saveName, "HQPlacements", _array] call fn_SaveStat;
 
-	[_saveName, "HQpos", getMarkerPos "respawn_west"] call fn_Savestat;
 	[_saveName, "HQinflamed", inflamed fuego] call fn_Savestat;
 };
 
 AS_fnc_loadHQ = {
-	private _posHQ = [_saveName, "HQpos"] call AS_fnc_LoadStat;
-	{
-		if (getMarkerPos _x distance _posHQ < 1000) exitWith {
-			mrkAAF = mrkAAF - [_x];
-			mrkFIA = mrkFIA + [_x];
-		};
-	} forEach controles;
-
-	"FIA_HQ" setMarkerPos _posHQ;
-	"respawn_west" setMarkerPos _posHQ;
-	"respawn_west" setMarkerAlpha 1;
-	petros setPos _posHQ;
+	petros setPos ("FIA_HQ" call AS_fnc_location_position);
 
 	_array = [_saveName, "HQPermanents"] call AS_fnc_LoadStat;
 	for "_i" from 0 to count AS_permanent_HQplacements - 1 do {
@@ -160,84 +128,12 @@ fn_SaveProfile = {saveProfileNamespace};
 AS_fnc_saveMarkers = {
 	params ["_saveName"];
 	[_saveName, "deadAntennas", antenasmuertas] call fn_SaveStat;
-	// controls change side depending on the markers, so no need to save them.
-	[_saveName, "mrkAAF", mrkAAF - controles] call fn_SaveStat;
-	// puestosFIA is saved afterwards.
-	[_saveName, "mrkFIA", mrkFIA - puestosFIA - controles] call fn_SaveStat;
-
-	private _FIAoutpostsPositions = [];
-	{
-		_FIAoutpostsPositions pushBack (getMarkerPos _x);
-	} forEach puestosFIA;
-	[_saveName, "FIAoutpostPositions", _FIAoutpostsPositions] call fn_SaveStat;
-
-	private _AAFbasesStatus = [];
-	{
-		_AAFbasesStatus pushBack [_x, server getVariable _x];
-	} forEach (aeropuertos + bases);
-	[_saveName, "AAFbasesStatus", _AAFbasesStatus] call fn_SaveStat;
-
-	// this indirectly saves puestosFIA
-	private _FIAcampsData = [];
-	{
-		_position = getMarkerPos (_x select 0);
-		_text = _x select 1;
-		_FIAcampsData pushBack [_position, _text];
-	} forEach campList;
-	[_saveName, "FIAcampsData", _FIAcampsData] call fn_SaveStat;
 
 	[_saveName, "destroyedBuildings", destroyedBuildings] call fn_SaveStat;
 };
 
 AS_fnc_loadMarkers = {
 	params ["_saveName"];
-	{
-		server setVariable [_x select 0,_x select 1,true];
-	} forEach ([_saveName, "AAFbasesStatus"] call AS_fnc_LoadStat);
-
-	FIA_RB_list = [];
-	FIA_WP_list = [];
-	{
-		_mrk = createMarker [format ["FIApost%1", random 1000], _x];
-		_mrk setMarkerShape "ICON";
-		_mrk setMarkerType "loc_bunker";
-		_mrk setMarkerColor "ColorYellow";
-		if (isOnRoad _x) then {
-			_mrk setMarkerText "FIA Roadblock";
-			FIA_RB_list pushBackUnique _mrk;
-		} else {
-			_mrk setMarkerText "FIA Watchpost";
-			FIA_WP_list pushBackUnique _mrk;
-		};
-		spawner setVariable [_mrk,false,true];
-		puestosFIA pushBack _mrk;
-	} forEach ([_saveName, "FIAoutpostPositions"] call AS_fnc_LoadStat);
-	publicVariable "FIA_RB_list";
-	publicVariable "FIA_WP_list";
-
-	// campList contains pairs [markerName, campPosition].
-	// campsFIA is a list of markerName.
-	// usedCN is the list of used names.
-	campsFIA = [];
-	campList = [];
-	usedCN = [];
-	{
-		private _position = (_x select 0);
-		private _name = (_x select 1);
-
-		private _mrk = createMarker [format ["FIACamp%1", random 1000], _position];
-		_mrk setMarkerShape "ICON";
-		_mrk setMarkerType "loc_bunker";
-		_mrk setMarkerColor "ColorOrange";
-		_mrk setMarkerText _txt;
-		usedCN pushBackUnique _txt;
-		spawner setVariable [_mrk,false,true];
-		campList pushBack [_mrk, _txt];
-		campsFIA pushBack _mrk;
-	} forEach ([_saveName, "FIAcampsData"] call fn_LoadStat);
-
-	publicVariable "campFIA";
-	publicVariable "campList";
 
 	antenasmuertas = [_saveName, "deadAntennas"] call fn_LoadStat;
 	// destroy dead antennas and remove respective marker.
@@ -250,11 +146,6 @@ AS_fnc_loadMarkers = {
 		_antena setDamage 1;
 		deleteMarker _mrk;
 	} forEach antenasmuertas;
-
-	// these are public, but will still be modified before exposing.
-	// See saveServer.sqf.
-	mrkAAF = [_saveName, "mrkAAF"] call fn_LoadStat;
-	mrkFIA = ([_saveName, "mrkFIA"] call fn_LoadStat) + puestosFIA;
 
 	// list of military building positions that were destroyed.
 	destroyedBuildings = [];
@@ -274,7 +165,7 @@ AS_fnc_loadMarkers = {
 //===========================================================================
 // Variables that require scripting after loaded. See fn_SetStat.
 specialVarLoads =
-["minas","mineFieldMrk","estaticas","cuentaCA","fecha","garrison","tasks"];
+["minas","mineFieldMrk","estaticas","cuentaCA","fecha","tasks"];
 
 // global variables that are set to be publicVariable on loading.
 AS_publicVariables = [
@@ -318,15 +209,6 @@ fn_SetStat = {
 						_dirMina = _varvalue select _i select 3;
 						_mina setDir _dirMina;
 						};
-					};
-				};
-			if(_varName == 'garrison') exitWith
-				{
-				_marcadores = mrkFIA - puestosFIA - controles - ciudades;
-				_garrison = _varvalue;
-				for "_i" from 0 to (count _marcadores - 1) do
-					{
-					garrison setVariable [_marcadores select _i,_garrison select _i,true];
 					};
 				};
 			if(_varname == 'estaticas') exitWith
@@ -379,7 +261,5 @@ fn_SetStat = {
 
 AS_fnc_saveServer = compile preProcessFileLineNumbers "statSave\saveServer.sqf";
 AS_fnc_loadServer = compile preProcessFileLineNumbers "statSave\loadServer.sqf";
-
-call compile preprocessFileLineNumbers "statSave\cityAttrs.sqf";
 
 saveFuncsLoaded = true;

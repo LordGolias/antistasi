@@ -2,7 +2,7 @@
 if (!isServer and hasInterface) exitWith {};
 params ["_mrkdestino"];
 
-private _posdestino = getMarkerPos _mrkDestino;
+private _posdestino = _mrkdestino call AS_fnc_location_position;
 
 private _grupos = [];
 private _soldados = [];
@@ -11,8 +11,8 @@ private _vehiculos = [];
 
 private _prestigeCSAT = AS_P("prestigeCSAT");
 
-private _base = [_mrkdestino] call findBasesForCA;
-private _aeropuerto = [_mrkdestino] call findAirportsForCA;
+private _base = [_posdestino] call findBasesForCA;
+private _aeropuerto = [_posdestino] call findAirportsForCA;
 
 if ((_base=="") and (_aeropuerto=="")) exitWith {};
 
@@ -21,19 +21,23 @@ if ((random 100 < _prestigeCSAT) and (_prestigeCSAT >= 20) && !(server getVariab
 	_CSAT = true;
 };
 
-if ((_aeropuerto != "") or _CSAT) then {_threatEvalAir = [_mrkDestino] call AAthreatEval};
+if ((_aeropuerto != "") or _CSAT) then {_threatEvalAir = [_posdestino] call AAthreatEval};
 
-if (_base != "") then {_threatEvalLand = [_mrkDestino] call landThreatEval};
+if (_base != "") then {_threatEvalLand = [_posdestino] call landThreatEval};
 
 private _nombredest = [_mrkDestino] call localizar;
 private _nombreorig = [_aeropuerto] call localizar;
 private _markTsk = _aeropuerto;
-if (_base !="") then {
+if (_base != "") then {
 	_nombreorig = [_base] call localizar;
 	_markTsk = _base;
 };
 
-_tsk = ["AtaqueAAF",[side_blue,civilian],[format ["AAF Is attacking from the %1. Intercept them or we may loose a sector",_nombreorig],"AAF Attack",_markTsk],getMarkerPos _markTsk,"CREATED",10,true,true,"Defend"] call BIS_fnc_setTask;
+_tsk = ["AtaqueAAF",
+	[side_blue,civilian],
+	[format ["AAF Is attacking from the %1. Intercept them or we may loose a sector",_nombreorig], "AAF Attack", _mrkdestino],
+	_posdestino,
+	"CREATED",10,true,true,"Defend"] call BIS_fnc_setTask;
 misiones pushbackUnique "AtaqueAAF"; publicVariable "misiones";
 private _tiempo = time + 3600;
 
@@ -88,8 +92,8 @@ if (_CSAT) then {
 			{_x assignAsCargo _heli; _x moveInCargo _heli; _soldados pushBack _x; [_x] spawn CSATinit} forEach units _grupo;
 			_grupos pushBack _grupo;
 			[_heli,"CSAT Air Transport"] spawn inmuneConvoy;
-			if ((_mrkdestino in bases) or (_mrkdestino in aeropuertos) or (random 10 < _threatEvalAir)) then {
-				[_heli,_grupo,_mrkdestino,_threatEvalAir] spawn airdrop;
+			if (((_posdestino call AS_location_type) in ["base","airfield"]) or (random 10 < _threatEvalAir)) then {
+				[_heli,_grupo,_posdestino,_threatEvalAir] spawn airdrop;
 			} else {
 				if ((random 100 < 50) or (_tipoVeh == opHeliDismount)) then {
 					{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _grupoheli;
@@ -108,7 +112,11 @@ if (_CSAT) then {
 		sleep 15;
 	};
 
-	_tsk = ["AtaqueAAF",[side_blue,civilian],[format ["AAF and CSAT are attacking %2 from the %1. Intercept them or we may loose a sector",_nombreorig,_nombredest],"AAF Attack",_mrkDestino],getMarkerPos _mrkDestino,"CREATED",10,true,true,"Defend"] call BIS_fnc_setTask;
+	_tsk = ["AtaqueAAF",
+		[side_blue,civilian],
+		[format ["AAF and CSAT are attacking %2 from the %1. Intercept them or we may loose a sector",_nombreorig,_nombredest],
+		"AAF Attack", _mrkdestino],
+		_posdestino,"CREATED",10,true,true,"Defend"] call BIS_fnc_setTask;
 	[["TaskSucceeded", ["", format ["%1 under fire",_nombredest]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 	//bombardeo aereo!!!
 	[_mrkDestino] spawn {
@@ -117,7 +125,7 @@ if (_CSAT) then {
 			[_mrkdestino, selectRandom opCASFW] spawn airstrike;
 			sleep 30;
 		};
-		if ((_mrkDestino in bases) or (_mrkDestino in aeropuertos)) then {
+		if ((_mrkdestino call AS_fnc_location_type) in ["base","airfield"]) then {
 			[_mrkdestino] spawn artilleria;
 		};
 	};
@@ -125,11 +133,11 @@ if (_CSAT) then {
 
 
 if (_base != "") then {
-	[_base,60] execVM "addTimeForIdle.sqf";
-	private _posorigen = getMarkerPos _base;
+	[_base,60] call AS_fnc_location_increaseBusy;
+	private _posorigen = _base call AS_fnc_location_position;
+	private _size = _base call AS_fnc_location_size;
 
 	// compute number of trucks based on the marker size
-	private _size = [_base] call sizeMarker;
 	private _nVeh = round (_size/30);
 	if (_nVeh < 1) then {_nVeh = 1};
 
@@ -164,10 +172,10 @@ if (_aeropuerto != "") then {
 
 
 if (_aeropuerto != "") then {
-	[_aeropuerto,60] execVM "addTimeForIdle.sqf";
+	[_aeropuerto,60] call AS_fnc_location_increaseBusy;
 	if (_base != "") then {sleep ((_posorigen distance _posdestino)/16)};
 
-	private _posorigen = getMarkerPos _aeropuerto;
+	private _posorigen = _aeropuerto call AS_fnc_location_position;
 	_posorigen set [2,300];
 
 	// spawn a UAV
@@ -177,7 +185,7 @@ if (_aeropuerto != "") then {
 		_vehiculos pushBack _uav;
 		[_uav, "AAF"] call AS_fnc_initVehicle;
 		[_uav,"UAV"] spawn inmuneConvoy;
-		[_uav,_mrkDestino] spawn VANTinfo;
+		[_uav,_posdestino] spawn VANTinfo;
 		createVehicleCrew _uav;
 		_soldados append crew _uav;
 		_grupouav = group (crew _uav select 0);
@@ -213,21 +221,32 @@ if (_aeropuerto != "") then {
 private _solMax = round ((count _soldados)/3);
 
 
-waitUntil {sleep 5; (({not (captive _x)} count _soldados) < ({captive _x} count _soldados)) or ({alive _x} count _soldados < _solMax) or (time > _tiempo) or (_mrkDestino in mrkAAF)};
+waitUntil {sleep 5;
+	(({not (captive _x)} count _soldados) < ({captive _x} count _soldados)) or
+	({alive _x} count _soldados < _solMax) or
+	(time > _tiempo) or
+	(_mrkdestino call AS_fnc_location_side == "FIA")
+};
 
-//forcedSpawn = forcedSpawn - [_mrkDestino]; publicVariable "forcedSpawn";
-
-if (not(_mrkDestino in mrkAAF)) then
+if (_mrkdestino call AS_fnc_location_side == "FIA") then
 	{
 	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_posdestino,"BLUFORSpawn"] call distanceUnits);
 	[5,AS_commander] call playerScoreAdd;
 	if (!_CSAT) then
 		{
-		_tsk = ["AtaqueAAF",[side_blue,civilian],[format ["AAF Is attacking from %1. Intercept them or we may loose a sector",_nombreorig],"AAF Attack",_markTsk],getMarkerPos _markTsk,"SUCCEEDED",10,true,true,"Defend"] call BIS_fnc_setTask;
+		_tsk = ["AtaqueAAF",
+			[side_blue,civilian],
+			[format ["AAF Is attacking from %1. Intercept them or we may loose a sector",_nombreorig],
+			"AAF Attack",_mrkdestino], _posdestino,
+			"SUCCEEDED",10,true,true,"Defend"] call BIS_fnc_setTask;
 		}
 	else
 		{
-		_tsk = ["AtaqueAAF",[side_blue,civilian],[format ["AAF and CSAT are attacking %2 from %1. Intercept them or we may loose a sector",_nombreorig,_nombredest],"AAF Attack",_mrkDestino],getMarkerPos _mrkDestino,"SUCCEEDED",10,true,true,"Defend"] call BIS_fnc_setTask;
+		_tsk = ["AtaqueAAF",
+			[side_blue,civilian],
+			[format ["AAF and CSAT are attacking %2 from %1. Intercept them or we may loose a sector",_nombreorig,_nombredest],
+			"AAF Attack",_mrkdestino], _posdestino,
+			"SUCCEEDED",10,true,true,"Defend"] call BIS_fnc_setTask;
 		};
 	{_x doMove _posorigen} forEach _soldados;
 	{_wpRTB = _x addWaypoint [_posorigen, 0]; _x setCurrentWaypoint _wpRTB} forEach _grupos;
@@ -237,13 +256,21 @@ else
 	[-10,AS_commander] call playerScoreAdd;
 	if (!_CSAT) then
 		{
-		_tsk = ["AtaqueAAF",[side_blue,civilian],[format ["AAF Is attacking from %1. Intercept them or we may loose a sector",_nombreorig],"AAF Attack",_markTsk],getMarkerPos _markTsk,"FAILED",10,true,true,"Defend"] call BIS_fnc_setTask;
+		_tsk = ["AtaqueAAF",
+			[side_blue,civilian],
+			[format ["AAF Is attacking from %1. Intercept them or we may loose a sector",_nombreorig],
+			"AAF Attack",_mrkdestino], _posdestino,
+			"FAILED",10,true,true,"Defend"] call BIS_fnc_setTask;
 		}
 	else
 		{
-		_tsk = ["AtaqueAAF",[side_blue,civilian],[format ["AAF and CSAT are attacking %2 from %1. Intercept them or we may loose a sector",_nombreorig,_nombredest],"AAF Attack",_mrkDestino],getMarkerPos _mrkDestino,"FAILED",10,true,true,"Defend"] call BIS_fnc_setTask;
+		_tsk = ["AtaqueAAF",
+			[side_blue,civilian],
+			[format ["AAF and CSAT are attacking %2 from %1. Intercept them or we may loose a sector",_nombreorig,_nombredest],
+			"AAF Attack",_mrkdestino], _posdestino,
+			"FAILED",10,true,true,"Defend"] call BIS_fnc_setTask;
 		};
-	waitUntil {sleep 1; !(spawner getVariable _mrkDestino)};
+	waitUntil {sleep 1; !(_mrkdestino call AS_fnc_location_spawned)};
 	};
 
 if (cuentaCA < 0) then {

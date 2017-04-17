@@ -10,12 +10,9 @@ If origin is an airport/carrier, the QRF will consist of air cavalry. Otherwise 
 
 Example: 0 = ["Paros", 15, [2, 3, 10], ["QRF_air_transport_small", "QRF_land_mixed_large", "Attack"]] spawn attackWaves;
 */
-_targetMarker = _this select 0;
-_duration = _this select 1;
-_waveIntervals = _this select 2;
-_waveSpecs = _this select 3;
+params ["_targetMarker", "_duration", "_waveIntervals", "_waveSpecs"];
 
-_targetLocation = getMarkerPos _targetMarker;
+private _targetLocation = _targetMarker call AS_fnc_location_position;
 
 // break if timing and specs of waves don't match
 if !(count _waveIntervals == count _waveSpecs) exitWith {diag_log format ["Script failure: number and type of waves do not match -- intervals: %1; types: %2", _waveIntervals, _waveSpecs]};
@@ -38,29 +35,40 @@ if (count _this > 4) then {
 };
 
 // find closest base
-_basesAAF = bases - mrkFIA;
-_bases = [];
+private _bases = [];
+{
+	_posBase = _x call AS_fnc_location_position;
+	if ((_targetLocation distance _posBase < 7500) and
+		(_targetLocation distance _posBase > 1500) and
+		!(_x call AS_fnc_location_spawned)) then {
+			_bases pushBack _base
+		};
+} forEach (["base", "AAF"] call AS_fnc_location_TS);
+
 _base = "";
 _posBase = [];
-{
-	_base = _x;
-	_posBase = getMarkerPos _base;
-	if ((_targetLocation distance _posBase < 7500) and (_targetLocation distance _posBase > 1500) and (not (spawner getVariable _base))) then {_bases = _bases + [_base]}
-} forEach _basesAAF;
-if (count _bases > 0) then {_base = [_bases, _targetLocation] call BIS_fnc_nearestPosition; _posBase = getMarkerPos _base;} else {_base = ""};
-
+if (count _bases > 0) then {
+	_base = [_bases, _targetLocation] call BIS_fnc_nearestPosition;
+	_posBase = _base call AS_fnc_location_position;
+};
 
 // find closest airport
-_airportsAAF = aeropuertos - mrkFIA;
-_airports = [];
+private _airports = [];
+{
+	_posAirport = _x call AS_fnc_location_position;
+	if ((_targetLocation distance _posAirport < 7500) and
+		(_targetLocation distance _posAirport > 1500) and
+		!(_airport call AS_fnc_location_spawned)) then {
+			_airports pushBack _airport
+		};
+} forEach (["airfield", "AAF"] call AS_fnc_location_TS);
+
 _airport = "";
 _posAirport = [];
-{
-	_airport = _x;
-	_posAirport = getMarkerPos _airport;
-	if ((_targetLocation distance _posAirport < 7500) and (_targetLocation distance _posAirport > 1500) and (not (spawner getVariable _airport))) then {_airports = _airports + [_airport]}
-} forEach _airportsAAF;
-if (count _airports > 0) then {_airport = [_airports, _targetLocation] call BIS_fnc_nearestPosition; _posAirport = getMarkerPos _airport;} else {_airport = ""};
+if (count _airports > 0) then {
+	_airport = [_airports, _targetLocation] call BIS_fnc_nearestPosition;
+	_posAirport = _airport call AS_fnc_location_position;
+};
 
 // create marker at target location
 _mrk = createMarkerLocal [format ["Attack-%1", random 100],_targetLocation];

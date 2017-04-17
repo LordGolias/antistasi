@@ -1,13 +1,12 @@
-_marcador = _this select 0;
-_posMarcador = getMarkerPos _marcador;
+private _position = _this call AS_fnc_location_position;
 
-_arrayCiudades = [];
+private _cities = [];
 
-for "_i" from 0 to (count ciudades - 1) do
-	{
-	if ((getMarkerPos (ciudades select _i)) distance _posMarcador < 3000) then {_arrayCiudades set [count _arrayCiudades,ciudades select _i]};
+{
+	private _positionOther = _x call AS_fnc_location_position;
+	if (_positionOther distance _position < 3000 and _x != _this) then {
+		_cities pushBack _x;
 	};
+} forEach (call AS_fnc_location_cities);
 
-_arrayCiudades = _arrayCiudades - [_marcador];
-
-_arrayCiudades
+_cities

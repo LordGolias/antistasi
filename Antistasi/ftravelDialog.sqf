@@ -4,8 +4,9 @@ private ["_tipo","_coste","_grupo","_unit","_tam","_roads","_road","_pos","_cami
 if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
 
 _tipo = _this select 0;
-_marcadores = mrkAAF;
 _maxCamps = 3;
+
+private _currentCamps = ["camp", "FIA"] call AS_fnc_location_TS;
 
 // BE module
 _permission = true;
@@ -30,21 +31,21 @@ onMapSingleClick "posicionTel = _pos;";
 waitUntil {sleep 1; (count posicionTel > 0) or (not visiblemap)};
 onMapSingleClick "";
 
-if (!visibleMap) exitWith {};
+if (count posicionTel == 0) exitWith {};
 
-if (getMarkerPos "respawn_west" distance posicionTel < 100) exitWith {hint "Location is too close to base"; openMap false;};
+if (getMarkerPos "FIA_HQ" distance posicionTel < 100) exitWith {hint "Location is too close to base"; openMap false;};
 
 openMap false;
 _posicionTel = posicionTel;
 _pos = [];
 
-if ((_tipo == "delete") and (count campsFIA < 1)) exitWith {hint "No camps to abandon."};
+if ((_tipo == "delete") and (count _currentCamps < 1)) exitWith {hint "No camps to abandon."};
 if ((_tipo == "delete") and ({(alive _x) and (!captive _x) and ((side _x == side_green) or (side _x == side_red)) and (_x distance _posicionTel < 500)} count allUnits > 0)) exitWith {hint "You cannot delete a camp while enemies are near it."};
 
 _coste = 500;
 _hr = 0;
 
-if ((_tipo == "create") && (count campsFIA > _maxCamps)) exitWith {hint "You can only sustain a maximum of four camps."};
+if ((_tipo == "create") && (count _currentCamps > _maxCamps)) exitWith {hint "You can only sustain a maximum of four camps."};
 
 if (_tipo == "create") then {
 	_tipogrupo = "Sniper Team";
@@ -55,37 +56,33 @@ if (_tipo == "create") then {
 
 _txt = "";
 _break = false;
-while {(_tipo == "delete") && !(_break)} do {
-	scopeName "loop1";
-	_mrk = [campsFIA,_posicionTel] call BIS_fnc_nearestPosition;
-	_pos = getMarkerPos _mrk;
-	if (_posicionTel distance _pos > 50) exitWith {_break = true; _txt = "No camp nearby.";};
-	breakOut "loop1";
+if (_tipo == "delete") then {
+	private _camp = [_currentCamps,_posicionTel] call BIS_fnc_nearestPosition;
+	private _position = _camp call AS_fnc_location_position;
+	if (_posicionTel distance _position > 50) exitWith {_break = true; _txt = "No camp nearby.";};
 };
 
-while {(_tipo == "rename")} do {
-	scopeName "loop2";
-	_mrk = [campsFIA,_posicionTel] call BIS_fnc_nearestPosition;
-	_pos = getMarkerPos _mrk;
-	if (_posicionTel distance _pos > 50) exitWith {_break = true; _txt = "No camp nearby.";};
+if (_tipo == "rename") then {
+	private _camp = [_currentCamps,_posicionTel] call BIS_fnc_nearestPosition;
+	private _position = _camp call AS_fnc_location_position;
+
+	if (_posicionTel distance _position > 50) exitWith {_break = true; _txt = "No camp nearby.";};
 
 	createDialog "rCamp_Dialog";
 
-	((uiNamespace getVariable "rCamp") displayCtrl 1400) ctrlSetText cName;
+	private _oldName = [_camp,"name"] call AS_fnc_location_get;
+	((uiNamespace getVariable "rCamp") displayCtrl 1400) ctrlSetText _oldName;
 
 	waitUntil {dialog};
 	waitUntil {!dialog};
-	if (cName == "") exitWith {_break = true; _txt = "No name entered...";};
-	_mrk setMarkerText cName;
-	for "_i" from 0 to (count campList - 1) do {
-		if ((campList select _i) select 0 == _mrk) then {
-			(campList select _i) set [1, cName];
-		};
+
+	private _newName = ctrlText ((uiNamespace getVariable "rCamp") displayCtrl 1400);
+
+	if (_newName == "") exitWith {_break = true; _txt = "No name entered...";};
+	if (_newName != _oldName) then {
+		[_camp, "name", _newName] call AS_fnc_location_set;
+		hint "Camp renamed";
 	};
-	publicVariable "campList";
-	cName = "";
-	hint "Camp renamed";
-	breakOut "loop2";
 };
 
 if (_break) exitWith {openMap false; hint _txt;};

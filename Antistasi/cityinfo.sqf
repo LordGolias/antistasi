@@ -1,23 +1,23 @@
 
-private ["_texto","_datos","_numCiv","_prestigeOPFOR","_prestigeBLUFOR","_power","_busy","_sitio","_posicionTel","_garrison"];
+private ["_texto","_datos","_power","_busy","_garrison"];
 posicionTel = [];
 
-_popFIA = 0;
-_popAAF = 0;
-_pop = 0;
+private _popFIA = 0;
+private _popAAF = 0;
+private _pop = 0;
 {
-	_data = [_x, ["population", "prestigeBLUFOR", "prestigeOPFOR"]] call AS_fnc_getCityAttrs;
-	_numCiv = _data select 0;
-	_prestigeBLUFOR = _data select 1;
-	_prestigeOPFOR = _data select 2;
+	private _population = [_x, "population"] call AS_fnc_location_get;
+	private _AAFsupport = [_x, "AAFsupport"] call AS_fnc_location_get;
+	private _FIAsupport = [_x, "FIAsupport"] call AS_fnc_location_get;
 
-	_popFIA = _popFIA + (_numCiv * (_prestigeBLUFOR / 100));
-	_popAAF = _popAAF + (_numCiv * (_prestigeOPFOR / 100));
-	_pop = _pop + _numCiv;
-} forEach ciudades;
+	_popFIA = _popFIA + (_population * (_FIAsupport / 100));
+	_popAAF = _popAAF + (_population * (_AAFsupport / 100));
+	_pop = _pop + _population;
+} forEach call AS_fnc_location_cities;
 _popFIA = round _popFIA;
 _popAAF = round _popAAF;
-hint format ["Altis\n\nTotal pop: %1\nFIA Support: %2\nAAF SUpport: %3 \n\nDestroyed Cities: %4\n\nClick on the zone",_pop, _popFIA, _popAAF, {_x in destroyedCities} count ciudades];
+hint format ["Altis\n\nTotal pop: %1\nFIA Support: %2\nAAF SUpport: %3 \n\nDestroyed Cities: %4\n\nClick on the zone",
+	_pop, _popFIA, _popAAF, {_x in destroyedCities} count (call AS_fnc_location_cities)];
 
 openMap true;
 
@@ -27,138 +27,95 @@ onMapSingleClick "posicionTel = _pos;";
 //waitUntil {sleep 1; (count posicionTel > 0) or (not visiblemap)};
 while {visibleMap} do
 	{
-	sleep 1;
-	if (count posicionTel > 0) then
-		{
-		_posicionTel = posicionTel;
-		_sitio = [marcadores, _posicionTel] call BIS_Fnc_nearestPosition;
-		private _position = getMarkerPos _sitio;
-		_texto = "Click on the zone";
-		if (_sitio == "FIA_HQ") then
-			{
-			_texto = format ["FIA HQ%1",[_sitio] call garrisonInfo];
-			};
-		if (_sitio in ciudades) then
-			{
-			_data = [_sitio, ["population", "prestigeBLUFOR", "prestigeOPFOR"]] call AS_fnc_getCityAttrs;
-			_numCiv = _data select 0;
-			_prestigeBLUFOR = _data select 1;
-			_prestigeOPFOR = _data select 2;
-			_power = [_sitio] call powerCheck;
-			_texto = format ["%1\n\nPop %2\nAAF Support: %3 %5\nFIA Support: %4 %5",[_sitio,false] call AS_fnc_getLocationName,_numCiv,_prestigeOPFOR,_prestigeBLUFOR,"%"];
-			if (_power) then {_texto = format ["%1\nPowered",_texto]} else {_texto = format ["%1\nNot Powered",_texto]};
-			if (_sitio in mrkAAF) then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
-			if (_sitio in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
-			};
-		/*
-		if ((_sitio in colinas) and (_sitio in mrkAAF)) then
-			{
-			_texto = "AAF Small Outpost";
-			};
-		*/
-		if (_sitio in aeropuertos) then
-			{
-			if (_sitio in mrkAAF) then
-				{
+	if (count posicionTel > 0) then {
+		private _location = posicionTel call AS_fnc_location_nearest;
+		private _position = _location call AS_fnc_location_position;
+		private _type = _location call AS_fnc_location_type;
+		private _side = _location call AS_fnc_location_side;
+		private _texto = "Click on a location";
+		if (_location == "FIA_HQ") then {
+			_texto = format ["FIA HQ%1",[_location] call garrisonInfo];
+		};
+		if (_type == "city") then {
+			_texto = format ["%1\n\nPop %2\nAAF Support: %3 %5\nFIA Support: %4 %5",
+				[_location,false] call AS_fnc_getLocationName,
+				[_location, "population"] call AS_fnc_location_get,
+				[_location, "AAFsupport"] call AS_fnc_location_get,
+				[_location, "FIAsupport"] call AS_fnc_location_get,
+				"%"
+			];
+			if ([_location] call powerCheck) then {_texto = format ["%1\nPowered",_texto]} else {_texto = format ["%1\nNot Powered",_texto]};
+			if (_side == "AAF") then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
+			if (_location in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
+		};
+		if (_type == "airfield") then {
+			if (_side == "AAF") then {
 				_texto = "AAF Airport";
-				_busy = if (dateToNumber date > server getVariable _sitio) then {false} else {true};
+				private _busy = _location call AS_fnc_location_busy;
 				if (_position call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
 				if (!_busy) then {_texto = format ["%1\nStatus: Idle",_texto]} else {_texto = format ["%1\nStatus: Busy",_texto]};
-				}
-			else
-				{
-				_texto = format ["FIA Airport%1",[_sitio] call garrisonInfo];
-				};
+			} else {
+				_texto = format ["FIA Airport%1",[_location] call garrisonInfo];
 			};
-		if (_sitio in power) then
-			{
-			if (_sitio in mrkAAF) then
-				{
+		};
+		if (_type == "base") then {
+			if (_side == "AAF") then {
+				_texto = "AAF Base";
+				private _busy = _location call AS_fnc_location_busy;
+				if (_position call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
+				if (!_busy) then {_texto = format ["%1\nStatus: Idle",_texto]} else {_texto = format ["%1\nStatus: Busy",_texto]};
+			} else {
+				_texto = format ["FIA Base%1",[_location] call garrisonInfo];
+			};
+		};
+		if (_type == "powerplant") then {
+			if (_side == "AAF") then {
 				_texto = "AAF Powerplant";
 				if (_position call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
-				}
-			else
-				{
-				_texto = format ["FIA Powerplant%1",[_sitio] call garrisonInfo];
-				};
-			if (_sitio in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
+			} else {
+				_texto = format ["FIA Powerplant%1",[_location] call garrisonInfo];
 			};
-		if (_sitio in recursos) then
-			{
-			if (_sitio in mrkAAF) then
-				{
+			if (_location in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
+		};
+		if (_type == "resource") then {
+			if (_side == "AAF") then {
 				_texto = "AAF Resources";
-				}
-			else
-				{
-				_texto = format ["FIA Resources%1",[_sitio] call garrisonInfo];
-				};
-			_power = [_sitio] call powerCheck;
-			if (!_power) then {_texto = format ["%1\n\nNo Powered",_texto]} else {_texto = format ["%1\n\nPowered",_texto]};
-			if (_sitio in mrkAAF) then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
-			if (_sitio in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
+			} else {
+				_texto = format ["FIA Resources%1",[_location] call garrisonInfo];
 			};
-		if (_sitio in fabricas) then
-			{
-			if (_sitio in mrkAAF) then
-				{
+			if ([_location] call powerCheck) then {_texto = format ["%1\n\nPowered",_texto]} else {_texto = format ["%1\n\nNo Powered",_texto]};
+			if (_side == "AAF") then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
+			if (_location in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
+		};
+		if (_type == "factory") then {
+			if (_side == "AAF") then {
 				_texto = "AAF Factory";
-				}
-			else
-				{
-				_texto = format ["FIA Factory%1",[_sitio] call garrisonInfo];
-				};
-			_power = [_sitio] call powerCheck;
-			if (!_power) then {_texto = format ["%1\n\nNo Powered",_texto]} else {_texto = format ["%1\n\nPowered",_texto]};
-			if (_sitio in mrkAAF) then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
-			if (_sitio in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
+			} else {
+				_texto = format ["FIA Factory%1",[_location] call garrisonInfo];
 			};
-		if (_sitio in puestos) then
-			{
-			if (_sitio in mrkAAF) then
-				{
-				_texto = "AAF Grand Outpost";
+			if ([_location] call powerCheck) then {_texto = format ["%1\n\nPowered",_texto]} else {_texto = format ["%1\n\nNo Powered",_texto]};
+			if (_side == "AAF") then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
+			if (_location in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
+			};
+		if (_type == "outpost") then {
+			if (_side == "AAF") then {
+				_texto = "AAF Outpost";
 				if (_position call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
-				}
-			else
-				{
-				_texto = format ["FIA Grand Outpost%1",[_sitio] call garrisonInfo];
-				};
+			} else {
+				_texto = format ["FIA Outpost%1",[_location] call garrisonInfo];
 			};
-		/*
-		if ((_sitio in controles) and (_sitio in mrkAAF)) then
-			{
-			_texto = "AAF Roadblock";
-			};
-		*/
-		if (_sitio in puertos) then
-			{
-			if (_sitio in mrkAAF) then
-				{
+		};
+		if (_type == "seaport") then {
+			if (_side == "AAF") then {
 				_texto = "AAF Seaport";
 				if (_position call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
-				}
-			else
-				{
-				_texto = format ["FIA Seaport%1",[_sitio] call garrisonInfo];
-				};
+			} else {
+				_texto = format ["FIA Seaport%1",[_location] call garrisonInfo];
 			};
-		if (_sitio in bases) then
-			{
-			if (_sitio in mrkAAF) then
-				{
-				_texto = "AAF Base";
-				_busy = if (dateToNumber date > server getVariable _sitio) then {false} else {true};
-				if (_position call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
-				if (!_busy) then {_texto = format ["%1\nStatus: Idle",_texto]} else {_texto = format ["%1\nStatus: Busy",_texto]};
-				}
-			else
-				{
-				_texto = format ["FIA Base%1",[_sitio] call garrisonInfo];
-				};
-			};
+		};
 		hint format ["%1",_texto];
 		};
 	posicionTel = [];
+	sleep 1;
 	};
 onMapSingleClick "";

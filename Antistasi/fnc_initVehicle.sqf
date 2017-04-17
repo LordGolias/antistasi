@@ -56,7 +56,7 @@ private _aaf_veh_EHkilled = {
 				_xpEffect = "des_veh";
 			};
 			default {
-				diag_log format ["[AS] ERROR in AS_AAF_VE_EHkilled: '$1' is invalid type", typeOf _veh];
+				diag_log format ["[AS] ERROR in AS_AAF_VE_EHkilled: '%1' is invalid type", typeOf _veh];
 			};
 		};
 		if (_citySupportEffect != 0) then {
@@ -93,7 +93,7 @@ if (_tipo in allStatMortars) then {
 
 		if (_side == side_blue) then {
 			if (random 8 < 1) then {
-				if (_mortar distance (getMarkerPos "respawn_west") < 200) then {
+				if (_mortar distance (getMarkerPos "FIA_HQ") < 200) then {
 					if !("DEF_HQ" in misiones) then {
 						private _lider = leader (gunner _mortar);
 						if (!isPlayer _lider) then {

@@ -17,7 +17,7 @@ if (_x getVariable ["esNATO",false]) then {_salir = true};
 
 if (_salir) exitWith {hint "You cannot dismiss NATO groups"};
 
-_pos = getMarkerPos "respawn_west";
+_pos = getMarkerPos "FIA_HQ";
 
 {
 AS_commander sideChat format ["Petros, I'm sending %1 back to base", _x];

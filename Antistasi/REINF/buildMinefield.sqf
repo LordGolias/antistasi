@@ -57,15 +57,15 @@ misiones pushBack _tsk; publicVariable "misiones";
 
 _grupo = createGroup side_blue;
 
-_unit = _grupo createUnit [["Explosives Specialist"] call AS_fnc_getFIAUnitClass, (getMarkerPos "respawn_west"), [], 0, "NONE"];
+_unit = _grupo createUnit [["Explosives Specialist"] call AS_fnc_getFIAUnitClass, (getMarkerPos "FIA_HQ"), [], 0, "NONE"];
 sleep 1;
-_unit = _grupo createUnit [["Explosives Specialist"] call AS_fnc_getFIAUnitClass, (getMarkerPos "respawn_west"), [], 0, "NONE"];
+_unit = _grupo createUnit [["Explosives Specialist"] call AS_fnc_getFIAUnitClass, (getMarkerPos "FIA_HQ"), [], 0, "NONE"];
 _grupo setGroupId ["MineF"];
 
 _tam = 10;
 while {true} do
 	{
-	_roads = getMarkerPos "respawn_west" nearRoads _tam;
+	_roads = getMarkerPos "FIA_HQ" nearRoads _tam;
 	if (count _roads < 1) then {_tam = _tam + 10};
 	if (count _roads > 0) exitWith {};
 	};

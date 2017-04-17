@@ -1,6 +1,6 @@
 private ["_roads","_pos","_posicion","_grupo"];
 
-_marcadores = marcadores + ["respawn_west"] - campsFIA;
+private _validLocations = [["fia_hq","FIAcamp", "city"], "FIA"] call AS_fnc_location_TS;
 
 _esHC = false;
 
@@ -45,27 +45,31 @@ _posicionTel = posicionTel;
 
 if (count _posicionTel > 0) then
 	{
-	_base = [_marcadores, _posicionTel] call BIS_Fnc_nearestPosition;
+	private _location = _posicionTel call AS_fnc_location_nearest;
+	private _position = _location call AS_fnc_location_nearest;
 
-	if (_base in mrkAAF) exitWith {hint "You cannot Fast Travel to an enemy controlled zone"; openMap [false,false]};
-
-	//experimental
-	if (_base in campsFIA) exitWith {hint "You cannot Fast Travel to camps."; openMap [false,false]};
-	//if (_base in puestosFIA) exitWith {hint "You cannot Fast Travel to roadblocks and watchposts"; openMap [false,false]};
+	if !(_location in _validLocations) exitWith {hint "You cannot Fast Travel to that zone"; openMap [false,false]};
 
 	{
-		if (((side _x == side_red) or (side _x == side_green)) and (_x distance (getMarkerPos _base) < 500) and (not(captive _x))) then {_chequeo = true};
+		if (((side _x == side_red) or
+			(side _x == side_green)) and
+			(_x distance _position < 500) and
+			(not(captive _x))) then {_chequeo = true};
 	} forEach allUnits;
 
 	if (_chequeo) exitWith {Hint "You cannot Fast Travel to an area under attack or with enemies in the surrounding"; openMap [false,false]};
 
-	if (_posicionTel distance getMarkerPos _base < 50) then
+	if (_posicionTel distance _position < 50) then
 		{
-		_posicion = [getMarkerPos _base, 10, random 360] call BIS_Fnc_relPos;
+		_posicion = [_position, 10, random 360] call BIS_Fnc_relPos;
 		_distancia = round (((position _jefe) distance _posicion)/200);
 		if (!_esHC) then {disableUserInput true; cutText ["Fast traveling, please wait","BLACK",2]; sleep 2;} else {hcShowBar false;hcShowBar true;hint format ["Moving group %1 to destination",groupID _grupo]; sleep _distancia;};
-		_forzado = false;
-		if (!isMultiplayer) then {if (not(_base in forcedSpawn)) then {_forzado = true; forcedSpawn = forcedSpawn + [_base]}};
+
+		private _forcedSpawn = false;
+		if (not(_location call AS_fnc_location_forced_spawned)) then {
+			_forcedSpawn = true;
+			[_location,true] call AS_fnc_location_spawn;
+		};
 		if (!_esHC) then {sleep _distancia};
 		{
 		_unit = _x;
@@ -116,7 +120,9 @@ if (count _posicionTel > 0) then
 		//_unit hideObject false;
 		} forEach units _grupo;
 		if (!_esHC) then {disableUserInput false;cutText ["You arrived to destination","BLACK IN",3]} else {hint format ["Group %1 arrived to destination",groupID _grupo]};
-		if (_forzado) then {forcedSpawn = forcedSpawn - [_base]};
+		if (_forcedSpawn) then {
+			[_location,true] call AS_fnc_location_despawn;
+		};
 		sleep 5;
 		{_x allowDamage true} forEach units _grupo;
 		}

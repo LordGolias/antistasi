@@ -55,7 +55,7 @@ if (_airType in ["planes","armedHelis"]) then {
 		_pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
 		_vehicles pushBack _pad;
 
-		[_grupoVeh, _posorigen, _landpos, _marcador, _grupo, 25*60, "air"] call fnc_QRF_dismountTroops;
+		[_grupoVeh, _posorigen, _landpos, _location, _grupo, 25*60, "air"] call fnc_QRF_dismountTroops;
 
 		/* _wp0 = _grupoVeh addWaypoint [_landpos, 0];
 		_wp0 setWaypointType "TR UNLOAD";
@@ -81,7 +81,7 @@ if (_airType in ["planes","armedHelis"]) then {
 		{[_x] spawn AS_fnc_initUnitOPFOR;_x assignAsCargo _veh;_x moveInCargo _veh; _soldiers = _soldiers + [_x]} forEach units _grupo1;
 		_groups pushBack _grupo;
 		//[_veh,_grupo,_grupo1,_posdestino,_posorigen,_grupoVeh] spawn fastropeAAF;
-		[_grupoVeh, _pos, _posdestino, _marcador, [_grupo, _grupo1], 25*60] call fnc_QRF_fastrope;
+		[_grupoVeh, _pos, _posdestino, _location, [_grupo, _grupo1], 25*60] call fnc_QRF_fastrope;
 	};
 };
 _soldiers, _groups,  _vehicles

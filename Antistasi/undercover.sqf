@@ -3,8 +3,11 @@ if (captive player) exitWith {hint "You are in Undercover already"};
 
 private ["_compromised","_reason","_bases","_arrayCivVeh","_player","_size","_base","_isMilitaryDressed", "_detectedCondition", "_setPlayerCompromised"];
 
-_bases = bases + puestos + controles;
-_locs = (bases + aeropuertos + puestos + colinas) arrayIntersect mrkAAF;
+// bases spots non-heli
+_bases = [["base","outpost","roadblock"], "AAF"] call AS_fnc_location_TS;
+// locs spots everything
+_locs = [["base","outpost","roadblock","hillAA","hill"], "AAF"] call AS_fnc_location_TS;
+
 _arrayCivVeh = arrayCivVeh + [civHeli];
 
 _compromised = player getVariable "compromised";
@@ -58,9 +61,11 @@ if (_detectedCondition count allUnits > 0) exitWith {
 	};
 };
 
+
 _base = [_bases, player] call BIS_fnc_nearestPosition;
-_size = [_base] call sizeMarker;
-if ((_base in mrkAAF) and (player distance getMarkerPos _base < _size*2)) exitWith {hint "You cannot become Undercover near Bases, Outposts or Roadblocks"};
+private _position = _base call AS_fnc_location_position;
+private _size = _base call AS_fnc_location_size;
+if (player distance _position < 1.5*_size) exitWith {hint "You cannot become Undercover near Bases, Outposts or Roadblocks"};
 
 ["<t color='#1DA81D'>Incognito</t>",0,0,4,0,0,4] spawn bis_fnc_dynamicText;
 
@@ -125,16 +130,17 @@ while {_reason == ""} do {
 		if (_reason == "") then {
 			if (_type != civHeli) then {
 				_base = [_bases, _player] call BIS_fnc_nearestPosition;
-				_size = [_base] call sizeMarker;
-				// distance to an AA site.
-				if ((_base in mrkAAF) and (_player distance getMarkerPos _base < _size*2)) then {
+				private _position = _base call AS_fnc_location_position;
+				private _size = _base call AS_fnc_location_size;
+				private _side = _base call AS_fnc_location_side;
+				if ((_side  == "AAF") and (_player distance _position < _size*2)) then {
 					_reason = "distanceToLocation";
 				};
-			}
-			else {
+			} else {
 				// distance to a location.
 				_loc = [_locs, _player] call BIS_fnc_nearestPosition;
-				if (_player distance2d getMarkerPos _loc < 300) then {
+				private _position = _loc call AS_fnc_location_position;
+				if (_player distance2d _position < 300) then {
 					_reason = "distanceToLocation";
 				};
 			};

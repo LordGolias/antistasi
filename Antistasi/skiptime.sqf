@@ -12,7 +12,7 @@ if ("AtaqueAAF" in misiones) exitWith {hint "You cannot rest while AAF or CSAT i
 if ("DEF_HQ" in misiones) exitWith {hint "You cannot rest while your HQ is under attack"};
 
 _chequeo = false;
-_posHQ = getMarkerPos "respawn_west";
+_posHQ = getMarkerPos "FIA_HQ";
 {
 if (_x distance _posHQ > 100) then {_chequeo = true};
 } forEach (allPlayers - hcArray);

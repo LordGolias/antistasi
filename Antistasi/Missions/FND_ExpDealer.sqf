@@ -13,9 +13,9 @@ _vehiculos = [];
 _soldados = [];
 
 _nombredest = [_site] call localizar;
-_posSite = getMarkerPos _site;
+_posSite = _site call AS_fnc_location_position;
 
-_roads = carreteras getVariable _site;
+_roads = [_site, "roads"] call AS_fnc_location_get;
 _break = false;
 _maxRoads = count (_roads);
 
@@ -81,17 +81,19 @@ Devin setunitpos "up";
 _qrf = false;
 if (random 8 < 1) then {
 	_qrf = true;
-	_basesAAF = bases - mrkFIA;
 	_bases = [];
-	_base = "";
 	{
-		_base = _x;
-		_posbase = getMarkerPos _base;
-		if ((_posCmp distance _posbase < 7500) and (_posCmp distance _posbase > 1500) and (not (spawner getVariable _base))) then {_bases = _bases + [_base]}
-	} forEach _basesAAF;
-	if (count _bases > 0) then {_base = [_bases,_posCmp] call BIS_fnc_nearestPosition;} else {_base = ""};
-
-	_posbase = getMarkerPos _base;
+		_posbase = _x call AS_fnc_location_position;
+		if ((_posCmp distance _posbase < 7500) and
+		    (_posCmp distance _posbase > 1500) and
+			(not (_x call AS_fnc_location_spawned))) then {_bases pushBack _x}
+	} forEach (["base", "AAF"] call AS_fnc_location_TS);
+	_base = "";
+	_posbase = [];
+	if (count _bases > 0) then {
+		_base = [_bases,_posCmp] call BIS_fnc_nearestPosition;
+		_posbase = _base call AS_fnc_location_position;
+	};
 
 	_tam = 100;
 

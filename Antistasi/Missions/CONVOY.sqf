@@ -29,8 +29,10 @@ parameters
 params ["_destino", "_base", ["_source", "auto"], "_convoyTypes"];
 private ["_posbase","_posdestino","_soldados","_grupos","_vehiculos","_POWS","_tiempofin","_fechafin","_fechafinNum","_veh","_unit","_hvt", "_tsk", "_grpPOW"];
 
-_posbase = getMarkerPos _base;
-_posdestino = getMarkerPos _destino;
+_posbase = _base call AS_fnc_location_position;
+_posdestino = _destino call AS_fnc_location_position;
+private _typedestino = _destino call AS_fnc_location_type;
+private _sidedestino = _destino call AS_fnc_location_side;
 
 _soldados = [];
 _grupos = [];
@@ -45,20 +47,19 @@ _tipoVehEsc = "";
 _tipoVehObj = "";
 _tipogrupo = "";
 _tiposConvoy = [];
-_posHQ = getMarkerPos "respawn_west";
+_posHQ = getMarkerPos "FIA_HQ";
 
 _tiempofin = 120;
 _fechafin = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempofin];
 _fechafinNum = dateToNumber _fechafin;
 
-if ((_destino in bases) or (_destino in aeropuertos)) then {_tiposConvoy = ["Municion","Armor","Prisoners","HVT"];};
-if (_destino in ciudades) then
-	{
-	if (_destino in mrkAAF) then {_tiposConvoy = ["Money","Supplies","HVT"]} else {_tiposConvoy = ["Supplies"]}
-	};
+if (_typedestino in ["base", "airfield"]) then {_tiposConvoy = ["Municion","Armor","Prisoners","HVT"];};
+if (_typedestino == "city") then {
+	if (_sidedestino == "AAF") then {_tiposConvoy = ["Money","Supplies","HVT"]} else {_tiposConvoy = ["Supplies"]}
+};
 
 if (_source == "civ") then {
-	if (_destino in bases) then {
+	if (_typedestino == "base") then {
 		_tiposConvoy = ["Prisoners","HVT"];
 	}
 	else {
@@ -89,14 +90,14 @@ if (_source == "city") then {
 };
 
 // add a delay, depending on the number of places you control
-_tiempolim = (round (5 - (count mrkFIA)/10)) + (round random 10);
+_tiempolim = (round (5 - (count ("FIA" call AS_fnc_location_S))/10)) + (round random 10);
 
 _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 _fechalimnum = dateToNumber _fechalim;
 
 _nombredest = [_destino] call localizar;
 _nombreOrig = [_base] call localizar;
-[_base,30] execVM "addTimeForIdle.sqf";
+[_base,30] call AS_fnc_location_increaseBusy;
 if (_tipoConvoy == "Municion") then
 	{
 	_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMun,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMun, A3_STR_INDEP],_destino],_posdestino,"CREATED",5,true,true,"rearm"] call BIS_fnc_setTask;
@@ -198,7 +199,7 @@ else {
 	for "_i" from 1 to _cuenta do {
 		sleep 20;
 		private _apcs = ["apcs"] call AS_fnc_AAFarsenal_all;
-		private _FIAstrength = count (mrkFIA arrayIntersect (bases + aeropuertos));
+		private _FIAstrength = count ([["base","airfield"], "FIA"] call AS_fnc_location_TS);
 
 		// the more bases, the stronger the escort
 		if ((_i == _cuenta - 1) and (_FIAstrength > 2) and (count _apcs > 0)) then {

@@ -1,15 +1,16 @@
 if (!isServer and hasInterface) exitWith{};
+params ["_location"];
+
+private _posicion = _location call AS_fnc_location_position;
+private _nombredest = [_location] call localizar;
+private _size = _location call AS_fnc_location_size;
 
 _tskTitle = localize "STR_tsk_resRefugees";
 _tskDesc = localize "STR_tskDesc_resRefugees";
 
-_marcador = _this select 0;
-_posicion = getMarkerPos _marcador;
-
 _POWs = [];
 
-_tam = [_marcador] call sizeMarker;
-_casas = nearestObjects [_posicion, ["house"], _tam];
+_casas = nearestObjects [_posicion, ["house"], _size];
 _poscasa = [];
 _casa = _casas select 0;
 while {count _poscasa < 5} do
@@ -19,9 +20,8 @@ while {count _poscasa < 5} do
 	if (count _poscasa < 5) then {_casas = _casas - [_casa]};
 	};
 
-_nombredest = [_marcador] call localizar;
-
-_tsk = ["RES",[side_blue,civilian],[format [_tskDesc,_nombredest, A3_STR_INDEP],_tskTitle,_marcador],getPos _casa,"CREATED",5,true,true,"run"] call BIS_fnc_setTask;
+_tsk = ["RES",[side_blue,civilian],[format [_tskDesc,_nombredest, A3_STR_INDEP],
+	_tskTitle,_location],getPos _casa,"CREATED",5,true,true,"run"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";
 
 _grupo = createGroup side_blue;
@@ -57,11 +57,11 @@ sleep 30;
 	if ("RES" in misiones) then {[position _casa] remoteExec ["patrolCA",HCattack]};
 	};
 
-waitUntil {sleep 1; ({alive _x} count _POWs == 0) or ({(alive _x) and (_x distance getMarkerPos "respawn_west" < 50)} count _POWs > 0)};
+waitUntil {sleep 1; ({alive _x} count _POWs == 0) or ({(alive _x) and (_x distance getMarkerPos "FIA_HQ" < 50)} count _POWs > 0)};
 
 if ({alive _x} count _POWs == 0) then
 	{
-	_tsk = ["RES",[side_blue,civilian],[format [_tskDesc,_marcador, A3_STR_INDEP],_tskTitle,_nombredest],getPos _casa,"FAILED",5,true,true,"run"] call BIS_fnc_setTask;
+	_tsk = ["RES",[side_blue,civilian],[format [_tskDesc,_location, A3_STR_INDEP],_tskTitle,_nombredest],getPos _casa,"FAILED",5,true,true,"run"] call BIS_fnc_setTask;
 	_cuenta = count _POWs;
 	[_cuenta,0] remoteExec ["prestige",2];
 	[0,-15,_posicion] remoteExec ["citySupportChange",2];
@@ -69,14 +69,14 @@ if ({alive _x} count _POWs == 0) then
 	}
 else
 	{
-	_tsk = ["RES",[side_blue,civilian],[format [_tskDesc,_marcador, A3_STR_INDEP],_tskTitle,_nombredest],getPos _casa,"SUCCEEDED",5,true,true,"run"] call BIS_fnc_setTask;
-	_cuenta = {(alive _x) and (_x distance getMarkerPos "respawn_west" < 150)} count _POWs;
+	_tsk = ["RES",[side_blue,civilian],[format [_tskDesc,_location, A3_STR_INDEP],_tskTitle,_nombredest],getPos _casa,"SUCCEEDED",5,true,true,"run"] call BIS_fnc_setTask;
+	_cuenta = {(alive _x) and (_x distance getMarkerPos "FIA_HQ" < 150)} count _POWs;
 	_hr = _cuenta;
 	_resourcesFIA = 100 * _cuenta;
 	[_hr,_resourcesFIA] remoteExec ["resourcesFIA",2];
-	[0,_cuenta,_marcador] remoteExec ["citySupportChange",2];
+	[0,_cuenta,_location] remoteExec ["citySupportChange",2];
 	[_cuenta,0] remoteExec ["prestige",2];
-	{if (_x distance getMarkerPos "respawn_west" < 500) then {[_cuenta,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
+	{if (_x distance getMarkerPos "FIA_HQ" < 500) then {[_cuenta,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 	[round (_cuenta/2),AS_commander] call playerScoreAdd;
 	{[_x] join _grupo; [_x] orderGetin false} forEach _POWs;
 	// BE module

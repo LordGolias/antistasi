@@ -23,7 +23,7 @@ AS_fncUI_updateRecruitGarrisonList = {
 
 	// Fill dismiss list
 	private _location = ctrlText ((findDisplay DISPLAYIDD) displayCtrl 2);
-	private _garrison = garrison getVariable _location;
+	private _garrison = [_location, "garrison"] call AS_fnc_location_get;
 
 	_cbo = ((findDisplay DISPLAYIDD) displayCtrl 3);
 	lbCLear _cbo;
@@ -40,7 +40,7 @@ AS_fncUI_recruitGarrison = {
     private _name = lbData [1, lbCurSel 1];
 	private _location = ctrlText ((findDisplay DISPLAYIDD) displayCtrl 2);
 
-    if (_name != "" and _location in mrkFIA) then {
+    if (_name != "" and (_location call AS_fnc_location_side == "FIA")) then {
         [_name, _location] call recruitFIAgarrison;
 		call AS_fncUI_updateRecruitGarrisonList;
     } else {
@@ -53,7 +53,7 @@ AS_fncUI_dismissGarrison = {
     private _name = lbData [3, lbCurSel 3];
 	private _location = ctrlText ((findDisplay DISPLAYIDD) displayCtrl 2);
 
-    if (_name != "" and _location in mrkFIA) then {
+    if (_name != "" and (_location call AS_fnc_location_side == "FIA")) then {
         [_name, _location] call AS_fnc_dismissFIAgarrison;
 		call AS_fncUI_updateRecruitGarrisonList;
     } else {
@@ -65,24 +65,24 @@ AS_fncUI_initMapSelection = {
 	disableSerialization;
 	closeDialog 0;
 	openMap true;
-	map_marker = "";
-	onMapSingleClick "[_pos] call AS_fncUI_selectMapPosition;";
-	waitUntil {sleep 0.5; (map_marker != "") or !visibleMap};
+	map_location = "";
+	onMapSingleClick "_pos call AS_fncUI_selectMapPosition;";
+	waitUntil {sleep 0.5; (map_location != "") or !visibleMap};
 	openMap false;
 
 	call AS_fncUI_RecruitGarrisonMenu;
-	if (map_marker != "") then {
-		((findDisplay DISPLAYIDD) displayCtrl 2) ctrlSetText map_marker;
+	if (map_location != "") then {
+		((findDisplay DISPLAYIDD) displayCtrl 2) ctrlSetText (map_location);
 		call AS_fncUI_updateRecruitGarrisonList;
 	};
-	map_position = nil;
+	map_location = nil;
 };
 
 AS_fncUI_selectMapPosition = {
-	disableSerialization;
-	_marker = [marcadores, _pos] call BIS_fnc_nearestPosition;
-	if !(_marker in mrkFIA) exitWith {hint "That zone does not belong to FIA";};
-	if (getMarkerPos _marker distance _pos > 200) exitWith {hint "You must click near a marked zone";};
-	if (_marker in (puestosFIA + ciudades)) exitWith {hint "You cannot manage garrisons in this kind of zone";};
-	map_marker = _marker;
+	private _location = _this call AS_fnc_location_nearest;
+	private _side = _location call AS_fnc_location_side;
+	private _position = _location call AS_fnc_location_position;
+	if (_side != "FIA") exitWith {hint "This zone does not belong to FIA";};
+	if (_position distance _this > 200) exitWith {hint "You must click near a marked zone";};
+	map_location = _location;
 };

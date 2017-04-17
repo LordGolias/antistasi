@@ -2,10 +2,10 @@
 if (!isServer and hasInterface) exitWith {};
 
 _prestigio = AS_P("prestigeNATO");
-_aeropuertos = aeropuertos - mrkAAF + ["spawnNATO"];
+_aeropuertos = (["airfield", "FIA"] call AS_fnc_location_TS) + ["spawnNATO"];
 
 _origen = [_aeropuertos,AS_commander] call BIS_fnc_nearestPosition;
-_orig = getMarkerPos _origen;
+_orig = _origen call AS_fnc_location_position;
 
 [-10,0] remoteExec ["prestige",2];
 

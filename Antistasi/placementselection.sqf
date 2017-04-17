@@ -1,5 +1,5 @@
 #include "macros.hpp"
-private ["_hqDestroyed", "_hqInitialPlacement", "_posicionTel","_marcador","_closestEnemyLocation"];
+private ["_hqDestroyed", "_hqInitialPlacement", "_posicionTel","_closestEnemyLocation"];
 
 _hqInitialPlacement = isNil "placementDone";
 _hqDestroyed = !_hqInitialPlacement;
@@ -16,12 +16,12 @@ else {
           \nYou can move your HQ later.";
 };
 
-_enemyLocations = mrkAAF;
+_enemyLocations = "AAF" call AS_fnc_location_S;
 if (_hqDestroyed) then {
 	openMap [true,true];
 }
 else {
-	_enemyLocations = _enemyLocations - controles;  // first-time location can be close to controllers.
+	_enemyLocations = _enemyLocations - ("roadblock" call AS_fnc_location_T);  // first-time location can be close to controllers.
 	openMap true;
 };
 
@@ -34,15 +34,14 @@ private _minDistanceToEnemy = 500;
 
 // Add markers to simplify the selection
 private _tempMarkers = [];
-for "_i" from 0 to count _enemyLocations - 1 do {
-    private _loc = _enemyLocations select _i;
-    _mrk = createMarker [format ["initialHelper%1",_i], getMarkerPos _loc];
+{
+    private _mrk = createMarker [format ["initialHelper%1",_x], _x call AS_fnc_location_position];
     _mrk setMarkerShape "ELLIPSE";
     _mrk setMarkerSize [_minDistanceToLocation, _minDistanceToLocation];
     _mrk setMarkerColor "ColorGreen";
     _mrk setMarkerAlpha 0.1;
     _tempMarkers pushBack _mrk;
-};
+} forEach _enemyLocations;
 
 // wait until a valid position (or cancelled positioning for hqmoving)
 while {true} do {
@@ -52,9 +51,10 @@ while {true} do {
 	waitUntil {sleep 1; (count posicionTel > 0) or (not visiblemap)};
 	onMapSingleClick "";
 	if (not visiblemap) exitWith {};
-	_posicionTel = posicionTel;
+	_posicionTel = +posicionTel;
 	posicionTel = nil;
-	_closestEnemyLocation = getMarkerPos ([_enemyLocations, _posicionTel] call BIS_fnc_nearestPosition);
+	private _closest = ([_enemyLocations, _posicionTel] call BIS_fnc_nearestPosition);
+	private _closestEnemyLocation = _closest call AS_fnc_location_position;
 
 	_validLocation = true;
 
@@ -104,18 +104,15 @@ if (visiblemap) then {
 	else {
 		// update controllers' ownership close to chosen location
 		{
-			if (getMarkerPos _x distance _posicionTel < 1000) then {
-				mrkAAF = mrkAAF - [_x];
-				mrkFIA = mrkFIA + [_x];
+			if ((_x call AS_fnc_location_position) distance _posicionTel < 1000) then {
+				[_x,"side","FIA"] call AS_fnc_location_set;
 			};
-		} forEach controles;
-		publicVariable "mrkAAF";
-		publicVariable "mrkFIA";
+		} forEach (["roadblock", "AAF"] call AS_fnc_location_TS);
 		petros setPos _posicionTel;
 	};
 
-	"respawn_west" setMarkerPos _posicionTel;
-	"respawn_west" setMarkerAlpha 1;
+	["FIA_HQ", "position", getPos petros] call AS_fnc_location_set;
+	"FIA_HQ" call AS_fnc_location_updateMarker;
 
 	// delete vehiclePad
 	if !(isNil "vehiclePad") then {
@@ -145,7 +142,7 @@ if (visiblemap) then {
 		if (isMultiplayer) then {
 			{_x setPos getPos petros} forEach playableUnits;
 		} else {
-			AS_commander setPos (getMarkerPos "respawn_west");
+			AS_commander setPos (getPos petros);
 		}
 	}
 	else {
@@ -167,7 +164,6 @@ if (visiblemap) then {
 	};
 	openmap [false,false];
 };
-"FIA_HQ" setMarkerPos (getMarkerPos "respawn_west");
 
 {
     deleteMarker _x;

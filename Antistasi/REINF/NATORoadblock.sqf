@@ -1,18 +1,13 @@
 #include "../macros.hpp"
+params ["_position"];
 if (!isServer and hasInterface) exitWith {};
 
-private ["_roads"];
-
-_posicionTel = _this select 0;
-
 _prestigio = AS_P("prestigeNATO");
-_base = bases - mrkAAF + ["spawnNATO"];
 
-_origen = [_base,AS_commander] call BIS_fnc_nearestPosition;
-_orig = getMarkerPos _origen;
+_origen = [("FIA" call AS_fnc_location_S) - ["spawnNATO"], AS_commander] call BIS_Fnc_nearestPosition;
+_orig = _origen call AS_fnc_location_position;
 
 [-10,0] remoteExec ["prestige",2];
-
 
 _tiempolim = 30 max _prestigio;
 _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
@@ -20,22 +15,22 @@ _fechalimnum = dateToNumber _fechalim;
 
 _nombreorig = [_origen] call localizar;
 
-
-_texto = "NATO Roadblock";
 _tipoGrupo = [bluATTeam, side_blue] call fnc_pickGroup;
 _tipoVeh = bluAPC select 0;
 
+// this is a hidden marker used by the task and for location
+private _mrk = createMarker [format ["NATOroadblock%1", random 1000], _posicionTel];
+_mrk setMarkerShape "ELLIPSE";
+_mrk setMarkerSize [50,50];
+_mrk setMarkerAlpha 0;
 
-_mrk = createMarker [format ["NATOPost%1", random 1000], _posicionTel];
-_mrk setMarkerShape "ICON";
-
-
-_tsk = ["NATORoadblock",[side_blue,civilian],["NATO is dispatching a team to establish a Roadblock. Send and cover the team until reaches its destination.","NATO Roadblock Deployment",_mrk],_posicionTel,"CREATED",5,true,true,"Move"] call BIS_fnc_setTask;
+_tsk = ["NATORoadblock",[side_blue,civilian],["NATO is dispatching a team to establish a Roadblock. Send and cover the team until reaches its destination.","NATO Roadblock Deployment",_mrk],_position,"CREATED",5,true,true,"Move"] call BIS_fnc_setTask;
 misiones pushBackUnique _tsk; publicVariable "misiones";
 _grupo = [_orig, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 _grupo setGroupId ["Watch"];
 
-_tam = 10;
+private _tam = 10;
+private _roads = [];
 while {true} do
 	{
 	_roads = _orig nearRoads _tam;
@@ -58,9 +53,9 @@ leader _grupo setBehaviour "SAFE";
 AS_commander hcSetGroup [_grupo];
 _grupo setVariable ["isHCgroup", true, true];
 
-waitUntil {sleep 1; ({alive _x} count units _grupo == 0) or ({(alive _x) and (_x distance _posicionTel < 10)} count units _grupo > 0) or (dateToNumber date > _fechalimnum)};
+waitUntil {sleep 1; ({alive _x} count units _grupo == 0) or ({(alive _x) and (_x distance _position < 10)} count units _grupo > 0) or (dateToNumber date > _fechalimnum)};
 
-if ({(alive _x) and (_x distance _posicionTel < 10)} count units _grupo > 0) then {
+if ({(alive _x) and (_x distance _position < 10)} count units _grupo > 0) then {
 	if (isPlayer leader _grupo) then {
 		_owner = (leader _grupo) getVariable ["owner",leader _grupo];
 		(leader _grupo) remoteExec ["removeAllActions",leader _grupo];
@@ -78,29 +73,23 @@ if ({(alive _x) and (_x distance _posicionTel < 10)} count units _grupo > 0) the
 	deleteGroup _grupo;
 	sleep 1;
 
-	puestosNATO = puestosNATO + [_mrk]; publicVariable "puestosNATO";
-	marcadores = marcadores + [_mrk]; publicVariable "marcadores";
-	spawner setVariable [_mrk,false,true];
-	_tsk = ["NATORoadblock",[side_blue,civilian],[format ["NATO successfully deployed a roadblock, They will hold their position until %1:%2.",numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],"NATO Roadblock Deployment",_mrk],_posicionTel,"SUCCEEDED",5,true,true,"Move"] call BIS_fnc_setTask;
+	private _location = format ["NATOPost%1", random 10000];
 
-	_mrk setMarkerType "flag_Spain";
-	//_mrk setMarkerColor "ColorBlue";
-	_mrk setMarkerText _texto;
+	[_mrk,"roadblock"] call AS_fnc_location_add;
+	[_mrk,"side","NATO"] call AS_fnc_location_set;
+	_mrk call AS_fnc_location_updateMarker; // creates the visible marker
 
+	_tsk = ["NATORoadblock",[side_blue,civilian],[format ["NATO successfully deployed a roadblock, They will hold their position until %1:%2.",numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],"NATO Roadblock Deployment",_mrk],_position,"SUCCEEDED",5,true,true,"Move"] call BIS_fnc_setTask;
 
 	waitUntil {sleep 60; (dateToNumber date > _fechalimnum)};
 
-	puestosNATO = puestosNATO - [_mrk]; publicVariable "puestosNATO";
-	marcadores = marcadores - [_mrk]; publicVariable "marcadores";
-	deleteMarker _mrk;
+	[_location] call AS_fnc_location_delete;
 	sleep 15;
 	[0,_tsk] spawn borrarTask;
-}
-else {
-	_tsk = ["NATORoadblock",[side_blue,civilian],["NATO is dispatching a team to establish an Observation Post or Roadblock. Send and cover the team until reaches it's destination.","NATO Roadblock Deployment",_mrk],_posicionTel,"FAILED",5,true,true,"Move"] call BIS_fnc_setTask;
-	sleep 3;
+} else {
+	_tsk = ["NATORoadblock",[side_blue,civilian],["NATO is dispatching a team to establish an Observation Post or Roadblock. Send and cover the team until reaches it's destination.","NATO Roadblock Deployment",_mrk],_position,"FAILED",5,true,true,"Move"] call BIS_fnc_setTask;
 	deleteMarker _mrk;
-
+	sleep 3;
 	AS_commander hcRemoveGroup _grupo;
 	{deleteVehicle _x} forEach units _grupo;
 	deleteVehicle _camion;

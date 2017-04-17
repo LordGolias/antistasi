@@ -2,7 +2,7 @@ waitUntil {!isNull player};
 
 player createDiarySubject ["Tutorial","Begin Tutorial"];
 player createDiaryRecord ["Tutorial",["Menus",
-	"The different items in <marker name='respawn_west'>your HQ</marker> allow you to access different menus. The Y key accesses others."
+	"The different items in <marker name='FIA_HQ'>your HQ</marker> allow you to access different menus. The Y key accesses others."
 ]];
 player createDiaryRecord ["Tutorial",["Undercover",
 	"In the early stages, especially when accomplishing certain missions, being undercover can be extremely helpful.

@@ -33,5 +33,5 @@ while {_cuenta > 0} do
 	};
 hint "Enough then";
 disableUserInput false;
-player setpos getMarkerPos "respawn_west";
+player setpos getMarkerPos "FIA_HQ";
 player setVariable ["punish",_punish,true];

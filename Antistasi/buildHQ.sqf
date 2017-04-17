@@ -7,8 +7,9 @@ if (group petros != grupoPetros) then
 	};
 [[petros,"remove"],"flagaction"] call BIS_fnc_MP;
 petros forceSpeed 0;
-"respawn_west" setMarkerPos getPos petros;
-"FIA_HQ" setMarkerPos getPos petros;
+
+["FIA_HQ","position",getPos petros] call AS_fnc_location_set;
+"FIA_HQ" call AS_fnc_location_updateMarker;
 
 if (isMultiplayer) then
 	{
@@ -29,7 +30,6 @@ else
 	bandera hideObject false;
 	};
 fuego inflame true;
-"respawn_west" setMarkerAlpha 1;
 _pos = [getPos petros, 3, getDir petros] call BIS_Fnc_relPos;
 fuego setPos _pos;
 _rnd = getdir Petros;

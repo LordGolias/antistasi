@@ -25,7 +25,7 @@ if (_rnd < _chance) then
 	_unit enableAI "MOVE";
 	_unit stop false;
 	_unit switchMove "";
-	_unit doMove getMarkerPos "respawn_west";
+	_unit doMove getMarkerPos "FIA_HQ";
 	if (_unit getVariable ["OPFORSpawn",false]) then {_unit setVariable ["OPFORSpawn",nil,true]};
 	sleep 100;
 	if (alive _unit) then

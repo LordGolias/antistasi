@@ -1,9 +1,10 @@
 #include "../macros.hpp"
+params ["_location"];
 if (!isServer and hasInterface) exitWith {};
-params ["_marcador"];
+
 private ["_escarretera","_tam","_road","_veh","_grupo","_unit","_roadcon"];
 
-private _posicion = getMarkerPos _marcador;
+private _posicion = _location call AS_fnc_location_position;
 private _grupo = createGroup side_blue;
 
 // find road
@@ -83,23 +84,21 @@ private _fnc_isDestroyed = {
 };
 
 waitUntil {sleep 1;
-	(not(spawner getVariable _marcador)) or
-	(not(_marcador in puestosNATO)) or
+	!(_location call AS_fnc_location_spawned) or
+	!(_location call AS_fnc_location_exists) or
 	(call _fnc_isDestroyed)
 };
 
 // Lost the outpost
 if (call _fnc_isDestroyed) then {
-	puestosNATO = puestosNATO - [_marcador]; publicVariable "puestosNATO";
-	marcadores = marcadores - [_marcador]; publicVariable "marcadores";
+	_location call AS_fnc_location_delete;
 	[5,-5,_posicion] remoteExec ["citySupportChange",2];
-	deleteMarker _marcador;
 	[["TaskFailed", ["", "Roadblock Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 };
 
 waitUntil {sleep 1;
-	(not(spawner getVariable _marcador)) or
-	(not(_marcador in puestosNATO))
+	!(_location call AS_fnc_location_spawned) or
+	!(_location call AS_fnc_location_exists)
 };
 
 {deleteVehicle _x} forEach _objs;

@@ -1,6 +1,6 @@
 if (count hcSelected player != 1) exitWith {hint "You must select an artillery group"};
 
-private ["_grupo","_artyArray","_artyRoundsArr","_hayMuni","_estanListos","_hayArty","_estanVivos","_soldado","_veh","_tipoMuni","_tipoArty","_posicionTel","_artyArrayDef1","_artyRoundsArr1","_pieza","_isInRange","_posicionTel2","_rounds","_roundsMax","_marcador","_size","_forzado","_texto","_mrkfin","_mrkfin2","_tiempo","_eta","_cuenta","_pos","_ang"];
+private ["_grupo","_artyArray","_artyRoundsArr","_hayMuni","_estanListos","_hayArty","_estanVivos","_soldado","_veh","_tipoMuni","_tipoArty","_posicionTel","_artyArrayDef1","_artyRoundsArr1","_pieza","_isInRange","_posicionTel2","_rounds","_roundsMax","_texto","_mrkfin","_mrkfin2","_tiempo","_eta","_cuenta","_pos","_ang"];
 
 _grupo = hcSelected player select 0;
 
@@ -184,16 +184,13 @@ else
 	_roundsMax = _rounds;
 	};
 
-_marcador = [marcadores,_posicionTel] call BIS_fnc_nearestPosition;
-_size = [_marcador] call sizeMarker;
-_forzado = false;
+private _location = [call AS_fnc_location_all,_posicionTel] call BIS_fnc_nearestPosition;
 
-if ((not(_marcador in forcedSpawn)) and (_posicionTel distance (getMarkerPos _marcador) < _size) and (not(spawner getVariable _marcador))) then
-	{
-	_forzado = true;
-	forcedSpawn pushBack _marcador;
-	publicVariable "forcedSpawn";
-	};
+private _forcedSpawned = false;
+if !(_location call AS_fnc_location_forced_spawned) then {
+	_forcedSpawned = true;
+	[_location,true] call AS_fnc_location_spawn;
+};
 
 _texto = format ["Requesting fire support on Grid %1. %2 Rounds", mapGridPosition _posicionTel, round _rounds];
 [[AS_commander,"sideChat",_texto],"commsMP"] call BIS_fnc_MP;
@@ -285,12 +282,8 @@ sleep 10;
 deleteMarker _mrkfin;
 if (_tipoArty == "BARRAGE") then {deleteMarker _mrkfin2};
 
-if (_forzado) then
-	{
-	sleep 20;
-	if (_marcador in forcedSpawn) then
-		{
-		forcedSpawn = forcedSpawn - [_marcador];
-		publicVariable "forcedSpawn";
-		};
-	};
+if (_forcedSpawned) then {
+	// wait some time until despawn
+	sleep 60;
+	[_location, true] call AS_fnc_location_despawn;
+};

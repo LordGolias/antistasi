@@ -1,10 +1,6 @@
 #include "../macros.hpp"
-private ["_veh","_marcador","_posicion","_grupos","_conocidos","_grupo","_lider"];
-
-_veh = _this select 0;
-_marcador = _this select 1;
-
-_posicion = getMarkerPos _marcador;
+params ["_veh","_posicion"];
+private ["_grupos","_conocidos","_grupo","_lider"];
 
 while {alive _veh} do
 	{

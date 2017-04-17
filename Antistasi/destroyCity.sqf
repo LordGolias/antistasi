@@ -1,11 +1,9 @@
-private ["_marcador","_posicion","_size","_buildings"];
+params ["_location"];
 
-_marcador = _this select 0;
+private _posicion = _location call AS_fnc_location_position;
+private _size = _location call AS_fnc_location_size;
 
-_posicion = getMarkerPos _marcador;
-_size = [_marcador] call sizeMarker;
-
-_buildings = _posicion nearobjects ["house",_size];
+private _buildings = _posicion nearobjects ["house",_size];
 
 {
 if (random 100 < 70) then
@@ -21,4 +19,3 @@ else
 	_x setDamage 1;
 	};
 } forEach _buildings;
-

@@ -36,10 +36,9 @@ if !(isNil "vehiclePad") then {
 	server setVariable ["AS_vehicleOrientation", 0, true];
 };
 
-//"respawn_west" setMarkerPos [0,0,0];
-"respawn_west" setMarkerAlpha 0;
-_garrison = garrison getVariable ["FIA_HQ", []];
-_posicion = getMarkerPos "FIA_HQ";
+private _garrison = ["FIA_HQ", "garrison"] call AS_fnc_location_get;
+private _posicion = "FIA_HQ" call AS_fnc_location_position;
+private _size = "FIA_HQ" call AS_fnc_location_size;
 if (count _garrison > 0) then
 	{
 	_coste = 0;
@@ -48,9 +47,7 @@ if (count _garrison > 0) then
 		{
 		hint "HQ Garrison will stay here and hold the enemy";
 		}
-	else
-		{
-		_size = ["FIA_HQ"] call sizeMarker;
+	else {
 		{
 		if ((side _x == side_blue) and (not(_x getVariable ["BLUFORSpawn",false])) and (_x distance _posicion < _size) and (_x != petros)) then
 			{
@@ -74,7 +71,6 @@ if (count _garrison > 0) then
 	_coste = _coste + (AS_data_allCosts getVariable _x);
 	} forEach _garrison;
 	[_hr,_coste] remoteExec ["resourcesFIA",2];
-	garrison setVariable ["FIA_HQ",[],true];
 	hint format ["Garrison removed\n\nRecovered Money: %1 €\nRecovered HR: %2",_coste,_hr];
 	};
 

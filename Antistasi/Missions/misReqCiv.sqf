@@ -4,7 +4,7 @@ private ["_tipo","_posbase","_posibles","_sitios","_exists","_sitio","_pos","_ci
 
 _tipo = _this select 0;
 
-_posbase = getMarkerPos "respawn_west";
+_posbase = getMarkerPos "FIA_HQ";
 _posibles = [];
 _sitios = [];
 _exists = false;
@@ -34,34 +34,30 @@ if ((server getVariable "civActive") > 1) exitWith {
 };
 
 if (_tipo == "ASS") then {
-	_sitios = ciudades - mrkFIA - _excl;
-	if (count _sitios > 0) then {
-		for "_i" from 0 to ((count _sitios) - 1) do {
-			_sitio = _sitios select _i;
-			_pos = getMarkerPos _sitio;
-			if ((_pos distance _posbase < 4000) and (not(spawner getVariable _sitio))) then {_posibles = _posibles + [_sitio]};
-		};
-	};
+	private _locations = (["city", "AAF"] call AS_fnc_location_TS) - _excl;
+	{
+		private _position = _x call AS_fnc_location_position;
+		if ((_position distance _posbase < 4000) and !(_x call AS_fnc_location_spawned)) then {
+			_posibles pushBack _x;
+	} forEach _locations;
 	if (count _posibles == 0) then {
 		if (!_silencio) then {
 			["I have no assassination missions for you. Move our HQ closer to the enemy or finish some other assasination missions in order to have better intel.", "Assassination Missions require AAF cities, Observation Posts or bases closer than 4Km from your HQ."] call _fnc_info;
 		};
-	}
-	else {
+	} else {
 		_sitio = _posibles call BIS_fnc_selectRandom;
 		[_sitio, "civ"] remoteExec ["ASS_Traidor",HCgarrisons];
 	};
 };
 
 if (_tipo == "CON") then {
-	_sitios = power - mrkFIA - _excl;
-	if (count _sitios > 0) then {
-		for "_i" from 0 to ((count _sitios) - 1) do {
-			_sitio = _sitios select _i;
-			_pos = getMarkerPos _sitio;
-			if ((_pos distance _posbase < 4000) and (_sitio in mrkAAF)) then {_posibles = _posibles + [_sitio]};
-		};
-	};
+	private _locations = (["powerplant", "AAF"] call AS_fnc_location_TS) - _excl;
+	{
+		private _position = _x call AS_fnc_location_position;
+		if ((_position distance _posbase < 4000) and !(_x call AS_fnc_location_spawned)) then {
+			_posibles pushBack _x;
+	} forEach _locations;
+
 	if (count _posibles == 0) then {
 		if (!_silencio) then {
 			["I have no Conquest missions for you. Move our HQ closer to the enemy or finish some other conquest missions in order to have better intel.", "Conquest Missions require AAF power plants closer than 4Km from your HQ."] call _fnc_info;
@@ -75,18 +71,14 @@ if (_tipo == "CON") then {
 
 
 if (_tipo == "CONVOY") then {
-	_tempSit = ciudades + bases;
-	_sitios = _tempSit - mrkFIA - _excl;
-	if (count _sitios > 0) then {
-		for "_i" from 0 to ((count _sitios) - 1) do {
-			_sitio = _sitios select _i;
-			_pos = getMarkerPos _sitio;
-			_base = [_sitio] call findBasesForConvoy;
-			if ((_pos distance _posbase < 4000) and (_base !="")) then {
-				_posibles = _posibles + [_sitio];
-			};
-		};
-	};
+	_sitios = ([["powerplant","base"], "AAF"] call AS_fnc_location_TS) - _excl;
+	{
+		private _position = _x call AS_fnc_location_position;
+		_base = [_position] call findBasesForConvoy;
+		if ((_position distance _posbase < 4000) and (_base != "")) then {
+			_posibles pushBack _x;
+
+	} forEach _locations;
 	if (count _posibles == 0) then {
 		if (!_silencio) then {
 			["I have no Convoy missions for you. Move our HQ closer to the enemy or finish some other convoy missions in order to have better intel.", "Convoy Missions require AAF Airports, Bases or Cities closer than 4Km from your HQ, and they must have an idle friendly base in their surroundings."] call _fnc_info;
@@ -94,7 +86,7 @@ if (_tipo == "CONVOY") then {
 	}
 	else {
 		_sitio = _posibles call BIS_fnc_selectRandom;
-		_base = [_sitio] call findBasesForConvoy;
+		_base = [_sitio call AS_fnc_location_position] call findBasesForConvoy;
 		[_sitio,_base,"civ"] remoteExec ["CONVOY",HCgarrisons];
 	};
 };

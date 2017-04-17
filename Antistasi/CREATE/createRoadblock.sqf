@@ -1,13 +1,10 @@
 if (!isServer and hasInterface) exitWith{};
-params ["_marcador"];
+params ["_location"];
 
 private _vehiculos = [];
 private _soldados = [];
 
-private _posicion = getMarkerPos _marcador;
-
-private _tam = 20;
-private _roads = [];
+private _posicion = _location call AS_fnc_location_position;
 
 (_posicion call AS_fnc_roadAndDir) params ["_road", "_dirveh"];
 
@@ -64,30 +61,28 @@ if (random 10 < 2.5) then {
 	[_grupo createUnit ["Fin_random_F",_posicion,[],0,"FORM"]] spawn guardDog;
 };
 
-[leader _grupo, _marcador, "SAFE","SPAWNED","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+[leader _grupo, _location, "SAFE","SPAWNED","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 
 {[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 
 waitUntil {sleep 1;
-	(not (spawner getVariable _marcador)) or
-	({alive _x or !(fleeing _x)} count _soldados == 0)
+	!(_location call AS_fnc_location_spawned) or
+	{alive _x and !(fleeing _x)} count _soldados == 0
 };
 
 private _conquistado = false;
-if !(spawner getVariable _marcador) then {
+if !(_location call AS_fnc_location_spawned) then {
 	_conquistado = true;
 	[-5,0,_posicion] remoteExec ["citySupportChange",2];
-	[["TaskSucceeded", ["", "Roadblock Cleansed"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
+	[["TaskSucceeded", ["", "Roadblock Cleared"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 	[_posicion] remoteExec ["patrolCA", HCattack];
 
-	mrkAAF = mrkAAF - [_marcador];
-	mrkFIA = mrkFIA + [_marcador];
-	publicVariable "mrkAAF";
-	publicVariable "mrkFIA";
+	[_location,"side","FIA"] call AS_fnc_location_set;
+	_location call AS_fnc_location_updateMarker;
 	if (hayBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
 };
 
-waitUntil {sleep 1;not (spawner getVariable _marcador)};
+waitUntil {sleep 1;not (_location call AS_fnc_location_spawned)};
 
 {
 	if (not(_x in staticsToSave)) then {
@@ -102,11 +97,8 @@ if (_conquistado) then {
 	private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 	_fechalimnum = dateToNumber _fechalim;
 	waitUntil {sleep 60; (dateToNumber date > _fechalimnum)};
-	private _base = [marcadores,_posicion] call BIS_fnc_nearestPosition;
-	if (_base in mrkAAF) then {
-		mrkAAF = mrkAAF + [_marcador];
-		mrkFIA = mrkFIA - [_marcador];
-		publicVariable "mrkAAF";
-		publicVariable "mrkFIA";
+	if (_location call AS_fnc_location_side == "AAF") then {
+		// todo: delete this marker
+		_location call AS_fnc_location_updateMarker;
 	};
 };

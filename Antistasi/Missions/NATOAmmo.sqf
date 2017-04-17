@@ -18,10 +18,10 @@ _tsk = ["NATOAmmo",[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posicion,"
 misiones pushBack _tsk; publicVariable "misiones";
 [-5,0] remoteExec ["prestige",2];
 
-_aeropuertos = aeropuertos - mrkAAF + ["spawnNATO"];
+_aeropuertos = (["airfield","FIA"] call AS_fnc_location_TS) + ["spawnNATO"];
 
 _origen = [_aeropuertos,_posicion] call BIS_fnc_nearestPosition;
-_orig = getMarkerPos _origen;
+_orig = _origen call AS_fnc_location_position;
 _vehiculos = [];
 
 _helifn = [_orig, 0, selectRandom bluHeliDis, side_blue] call bis_fnc_spawnvehicle;

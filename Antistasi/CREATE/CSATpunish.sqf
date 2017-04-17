@@ -2,9 +2,12 @@
 if (!isServer and hasInterface) exitWith {};
 params ["_mrkDestino"];
 
-forcedSpawn = forcedSpawn + [_mrkDestino]; publicVariable "forcedSpawn";
+[_mrkDestino,true] call AS_fnc_location_spawn;
 
-private _posdestino = getMarkerPos _mrkDestino;
+private _posdestino = _mrkDestino call AS_fnc_location_position;
+private _nombredest = [_mrkDestino] call localizar;
+private _size = _mrkDestino call AS_fnc_location_size;
+private _population = [_mrkDestino, "population"] call AS_fnc_location_get;
 
 private _grupos = [];
 private _soldados = [];
@@ -12,8 +15,7 @@ private _pilotos = [];
 private _vehiculos = [];
 private _civiles = [];
 
-private _nombredest = [_mrkDestino] call localizar;
-private _tsk = ["AtaqueAAF",[side_blue,civilian],[format ["CSAT is making a punishment expedition to %1. They will kill everybody there. Defend the city at all costs",_nombredest],"CSAT Punishment",_mrkDestino],getMarkerPos _mrkDestino,"CREATED",10,true,true,"Defend"] call BIS_fnc_setTask;
+private _tsk = ["AtaqueAAF",[side_blue,civilian],[format ["CSAT is making a punishment expedition to %1. They will kill everybody there. Defend the city at all costs",_nombredest],"CSAT Punishment",_mrkDestino],_posdestino,"CREATED",10,true,true,"Defend"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";
 //Ataque de artillería
 [_mrkdestino] spawn artilleria;
@@ -83,13 +85,9 @@ for "_i" from 1 to 3 do {
 	sleep 20;
 	};
 
-private _data = [_mrkDestino, ["population"]] call AS_fnc_getCityAttrs;
-private _numCiv = _data select 0;
-_numCiv = round ((_numCiv * AS_P("civPerc"))/2);
-
+private _numCiv = round ((_population * AS_P("civPerc"))/2);
 if (_numCiv < 8) then {_numCiv = 8};
 
-private _size = [_mrkDestino] call sizeMarker;
 private _grupoCivil = createGroup side_blue;
 _grupos pushBack _grupoCivil;
 
@@ -125,17 +123,17 @@ waitUntil {sleep 5; (({not (captive _x)} count _soldados) < ({captive _x} count 
 
 if ((({not (captive _x)} count _soldados) < ({captive _x} count _soldados)) or ({alive _x} count _soldados < round (_solMax / 3)) or (time > _tiempo)) then {
 	{_x doMove [0,0,0]} forEach _soldados;
-	_tsk = ["AtaqueAAF",[side_blue,civilian],[format ["CSAT is making a punishment expedition to %1. They will kill everybody there. Defend the city at all costs",_nombredest],"CSAT Punishment",_mrkDestino],getMarkerPos _mrkDestino,"SUCCEEDED",10,true,true,"Defend"] call BIS_fnc_setTask;
+	_tsk = ["AtaqueAAF",[side_blue,civilian],[format ["CSAT is making a punishment expedition to %1. They will kill everybody there. Defend the city at all costs",_nombredest],"CSAT Punishment",_mrkDestino],_posdestino,"SUCCEEDED",10,true,true,"Defend"] call BIS_fnc_setTask;
 	[-5,20,_posdestino] remoteExec ["citySupportChange",2];
 	[10,0] remoteExec ["prestige",2];
-	{[-5,0,_x] remoteExec ["citySupportChange",2]} forEach ciudades;
+	{[-5,0,_x] remoteExec ["citySupportChange",2]} forEach (call AS_fnc_location_cities);
 	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_posdestino,"BLUFORSpawn"] call distanceUnits);
 	[10,AS_commander] call playerScoreAdd;
 }
 else {
-	_tsk = ["AtaqueAAF",[side_blue,civilian],[format ["CSAT is making a punishment expedition to %1. They will kill everybody there. Defend the city at all costs",_nombredest],"CSAT Punishment",_mrkDestino],getMarkerPos _mrkDestino,"FAILED",10,true,true,"Defend"] call BIS_fnc_setTask;
+	_tsk = ["AtaqueAAF",[side_blue,civilian],[format ["CSAT is making a punishment expedition to %1. They will kill everybody there. Defend the city at all costs",_nombredest],"CSAT Punishment",_mrkDestino],_posdestino,"FAILED",10,true,true,"Defend"] call BIS_fnc_setTask;
 	[-5,-20,_posdestino] remoteExec ["citySupportChange",2];
-	{[0,-5,_x] remoteExec ["citySupportChange",2]} forEach ciudades;
+	{[0,-5,_x] remoteExec ["citySupportChange",2]} forEach (call AS_fnc_location_cities);
 	destroyedCities = destroyedCities + [_mrkDestino];
 	if (count destroyedCities > 7) then {
 		 ["destroyedCities",false,true] remoteExec ["BIS_fnc_endMission",0];
@@ -146,7 +144,7 @@ else {
 	};
 };
 
-forcedSpawn = forcedSpawn - [_mrkDestino]; publicVariable "forcedSpawn";
+[_mrkDestino,true] call AS_fnc_location_despawn;
 sleep 15;
 
 [0,_tsk] spawn borrarTask;
@@ -164,7 +162,7 @@ if (!([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits)) then {dele
 } forEach _vehiculos;
 {deleteGroup _x} forEach _grupos;
 
-waitUntil {sleep 1; not (spawner getVariable _mrkDestino)};
+waitUntil {sleep 1; not (_mrkDestino call AS_fnc_location_spawned)};
 
 {deleteVehicle _x} forEach _civiles;
 deleteGroup _grupoCivil;

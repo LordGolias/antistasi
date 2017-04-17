@@ -1,12 +1,11 @@
 #include "../macros.hpp"
+private ["_location", "_base"];
 if (!isServer and hasInterface) exitWith {false};
-params ["_marcador", "_base"];
-private ["_posbase","_posmarcador","_angOrig","_ang","_intentos","_distancia","_pos","_fallo","_mina"];
 
-if (spawner getVariable _base) exitWith {false};
+if (_base call AS_fnc_location_spawned) exitWith {false};
 
-private _posbase = getMarkerPos _base;
-private _posmarcador = getMarkerPos _marcador;
+private _posbase = _base call AS_fnc_location_position;
+private _posmarcador = _location call AS_fnc_location_position;
 private _angOrig = [_posbase,_posmarcador] call BIS_fnc_dirTo;
 
 private _distancia = 300;
@@ -25,10 +24,11 @@ for "_i" from 1 to (_searchAmplitude/_searchAng) do {
 	_pos = [_posbase, _distancia, _ang] call BIS_Fnc_relPos;
 
 	if (!surfaceIsWater _pos) then {
-		_cercano = [marcadores,_pos] call BIS_fnc_nearestPosition;
-		if (not(spawner getVariable _cercano)) then {
-			private _size = [_cercano] call sizeMarker;
-			if ((_pos distance (getMarkerPos _cercano)) > (_size + 100)) then {
+		private _location = _pos call AS_fnc_location_nearest;
+		if (not(_location call AS_fnc_location_spawned)) then {
+			private _size = _location call AS_fnc_location_size;
+			private _position = _location call AS_fnc_location_position;
+			if ((_pos distance _position) > (_size + 100)) then {
 				private _road = [_pos,101] call BIS_fnc_nearestRoad;
 				if (isNull _road) then {
 					if ({_x distance _pos < 100} count allMines == 0) then {

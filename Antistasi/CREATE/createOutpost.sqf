@@ -1,21 +1,21 @@
 #include "../macros.hpp"
-params ["_marcador"];
+params ["_location"];
 if (!isServer and hasInterface) exitWith{};
 
 private _soldados = [];
 private _grupos = [];
 private _vehiculos = [];
 
-private _posicion = getMarkerPos (_marcador);
-private _size = [_marcador] call sizeMarker;
+private _posicion = _location call AS_fnc_location_position;
+private _size = _location call AS_fnc_location_size;
+private _frontera = _location call isFrontline;
 
 private _buildings = nearestObjects [_posicion, listMilBld, _size*1.5];
-private _frontera = [_marcador] call isFrontline;
 
 private _grupo = createGroup side_green;
 _grupos pushBack _grupo;
 
-([_marcador, side_green, _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
+([_location, side_green, _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
 _soldados append _gunners;
 _vehiculos append _vehicles;
 
@@ -28,7 +28,7 @@ _caja = "I_supplyCrate_F" createVehicle _posicion;
 _vehiculos pushBack _caja;
 {[_x, "AAF"] call AS_fnc_initVehicle;} forEach _vehiculos;
 
-if (_marcador in puertos) then {
+if (_location call AS_fnc_location_type == "seaport") then {
 	private _pos = [_posicion,_size,_size*3,10,2,0,0] call BIS_Fnc_findSafePos;
 	([_pos, 0,"I_Boat_Armed_01_minigun_F", side_green] call bis_fnc_spawnvehicle) params ["_veh", "_vehCrew", "_grupoVeh"];
 	[_veh, "AAF"] call AS_fnc_initVehicle;
@@ -39,8 +39,10 @@ if (_marcador in puertos) then {
 	sleep 1;
 } else {
 	if (_frontera) then {
-		_base = [bases,_posicion] call BIS_fnc_nearestPosition;
-		if ((_base in mrkFIA) or ((getMarkerPos _base) distance _posicion > 1000)) then {
+		private _validBases = [["base"], "FIA"] call AS_fnc_location_TS;
+		private _base = [_validBases,_posicion] call BIS_fnc_nearestPosition;
+		private _position = _base call AS_fnc_location_position;
+		if (_position distance _posicion > 1000) then {
 			private _pos = [_posicion] call mortarPos;
 			private _veh = statMortar createVehicle _pos;
 			[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
@@ -54,7 +56,7 @@ if (_marcador in puertos) then {
 		};
 	};
 
-	if ((spawner getVariable _marcador) and _frontera) then {
+	if ((_location call AS_fnc_location_spawned) and _frontera) then {
 		([_posicion, _grupo] call AS_fnc_spawnAAF_roadAT) params ["_units1", "_vehicles1"];
 		_soldados append _units1;
 		_vehiculos append _vehicles1;
@@ -62,7 +64,7 @@ if (_marcador in puertos) then {
 };
 
 // spawn truck
-([_marcador] call AS_fnc_spawnAAF_truck) params ["_vehicles1"];
+([_location] call AS_fnc_spawnAAF_truck) params ["_vehicles1"];
 _vehiculos append _vehicles1;
 
 private _groupCount = round (_size/50);
@@ -70,11 +72,11 @@ if (_frontera) then {_groupCount = _groupCount * 2};
 _groupCount = _groupCount max 1;
 
 // spawn guarding squads
-([_marcador, _groupCount] call AS_fnc_spawnAAF_patrolSquad) params ["_units1", "_groups1"];
+([_location, _groupCount] call AS_fnc_spawnAAF_patrolSquad) params ["_units1", "_groups1"];
 _soldados append _units1;
 _grupos append _groups1;
 
-private _journalist = [_marcador, _grupos] call AS_fnc_createJournalist;
+private _journalist = [_location, _grupos] call AS_fnc_createJournalist;
 
 //////////////////////////////////////////////////////////////////
 ////////////////////////// END SPAWNING //////////////////////////
@@ -82,17 +84,17 @@ private _journalist = [_marcador, _grupos] call AS_fnc_createJournalist;
 
 // AAF units (alive, not far and not captive) are not 3 times more than FIA units
 waitUntil {sleep 1;
-	!(spawner getVariable _marcador) or
+	!(_location call AS_fnc_location_spawned) or
 	(({(!(vehicle _x isKindOf "Air"))} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)) >
 	 3*({(alive _x) and !(captive _x) and (_x distance _posicion < _size)} count _soldados))
 };
 
 // all other conditions were fulfilled => captured
-if ((spawner getVariable _marcador) and (not(_marcador in mrkFIA))) then {
+if ((_location call AS_fnc_location_spawned) and (_location call AS_fnc_location_side == "AAF")) then {
 	[_bandera] remoteExec ["mrkWIN",2];
 };
 
-waitUntil {sleep 1; !(spawner getVariable _marcador)};
+waitUntil {sleep 1; !(_location call AS_fnc_location_spawned)};
 
 {
 	if (!(alive _x) and (!(_x in destroyedBuildings))) then {

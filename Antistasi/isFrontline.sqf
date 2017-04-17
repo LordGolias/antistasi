@@ -1,15 +1,15 @@
 #include "macros.hpp"
-private ["_marcador","_isfrontier","_posicion"];
 
-_marcador = _this select 0;
-_isfrontier = false;
+private _position = _this call AS_fnc_location_position;
 
-_mrkFIA = aeropuertos + bases + puestos - mrkAAF;
+private _locations = [["airfield", "base", "watchpost"], "AAF"]call AS_fnc_location_TS;
 
-if (count _mrkFIA > 0) then
-	{
-	_posicion = getMarkerPos _marcador;
-	{if (_posicion distance (getMarkerPos _x) < AS_P("spawnDistance")) exitWith {_isFrontier = true}} forEach _mrkFIA;
+private _isfrontier = false;
+{
+	private _otherPosition = _x call AS_fnc_location_position;
+	if (_posicion distance _otherPosition < AS_P("spawnDistance")) exitWith {
+		_isFrontier = true;
 	};
+} forEach _locations;
 
 _isfrontier

@@ -1,27 +1,17 @@
-private ["_pos","_sitio","_ciudad","_texto"];
+params ["_location"];
 
-_sitio = _this select 0;
+private _type = _location call AS_fnc_location_type;
+private _pos = _location call AS_fnc_location_position;
 
-_pos = getMarkerPos _sitio;
-
-_texto = "";
-
-if (_sitio in colinas) then {_texto = format ["Observation Post at Mount %1",[_sitio,false] call AS_fnc_getLocationName]}
-else
-{
-if (_sitio in ciudades) then {_texto = format ["%1",[_sitio,false] call AS_fnc_getLocationName]}
-else
-{
-_ciudad = [ciudades,_pos] call BIS_fnc_nearestPosition;
-_ciudad = [_ciudad,false] call AS_fnc_getLocationName;
-if (_sitio in power) then {_texto = format ["Powerplant near %1",_ciudad]};
-if (_sitio in bases) then {_texto = format ["%1 Base",_ciudad]};
-if (_sitio in aeropuertos) then {_texto = format ["%1 Airport",_ciudad]};
-if (_sitio in recursos) then {_texto = format ["Resource near %1",_ciudad]};
-if (_sitio in fabricas) then {_texto = format ["Factory near %1",_ciudad]};
-if ((_sitio in puestos) or (_sitio in colinas))then {_texto = format ["Outpost near %1",_ciudad]};
-if (_sitio in puertos) then {_texto = format ["Seaport near %1",_ciudad]};
-if (_sitio in controles) then {_texto = format ["Roadblock near %1",_ciudad]};
-};
-};
-_texto
+if (_type == "hill") exitWith {format ["Observation Post at Mount %1",[_location,false] call AS_fnc_getLocationName]};
+if (_type == "city") exitWith {format ["%1",[_location,false] call AS_fnc_getLocationName]};
+private _cities = [call AS_fnc_location_cities, _pos] call BIS_fnc_nearestPosition;
+private _cityname = [_cities,false] call AS_fnc_getLocationName;
+if (_type == "powerplant") exitWith {format ["Powerplant near %1",_cityname]};
+if (_type == "base")       exitWith {format ["%1 Base",_cityname]};
+if (_type == "airfield")   exitWith {format ["%1 Airport",_cityname]};
+if (_type == "resource")   exitWith {format ["Resource near %1",_cityname]};
+if (_type == "factory")    exitWith {format ["Factory near %1",_cityname]};
+if (_type == "outpost")    exitWith {format ["Outpost near %1",_cityname]};
+if (_type == "seaport")    exitWith {format ["Seaport near %1",_cityname]};
+if (_type == "roadblock")  exitWith {format ["Roadblock near %1",_cityname]};

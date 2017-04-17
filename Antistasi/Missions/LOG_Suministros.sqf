@@ -1,20 +1,21 @@
 #include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
+params ["_location"];
+
+private _posicion = _location call AS_fnc_location_position;
+private _nombredest = [_location] call localizar;
 
 _tskTitle = localize "STR_tsk_logSupply";
 _tskDesc = localize "STR_tskDesc_logSupply";
 
-_marcador = _this select 0;
-_posicion = getMarkerPos _marcador;
-
 _tiempolim = 60;
 _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 _fechalimnum = dateToNumber _fechalim;
-_nombredest = [_marcador] call localizar;
 
-_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_marcador],_posicion,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
+_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
+	_tskTitle,_location],_posicion,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";
-_pos = (getMarkerPos "respawn_west") findEmptyPosition [1,50,"C_Van_01_box_F"];
+_pos = (getMarkerPos "FIA_HQ") findEmptyPosition [1,50,"C_Van_01_box_F"];
 
 _camion = "C_Van_01_box_F" createVehicle _pos;
 [_camion, "FIA"] call AS_fnc_initVehicle;
@@ -35,7 +36,8 @@ waitUntil {sleep 1; (not alive _camion) or (dateToNumber date > _fechalimnum) or
 
 if ((not alive _camion) or (dateToNumber date > _fechalimnum)) then
 	{
-	_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_marcador],_posicion,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
+	_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
+		_tskTitle,_location],_posicion,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
 	[5,-5,_posicion] remoteExec ["citySupportChange",2];
 	[-10,AS_commander] call playerScoreAdd;
 	}
@@ -90,8 +92,9 @@ else
 	};
 	if ((alive _camion) and (dateToNumber date < _fechalimnum)) then {
 		[[petros,"hint","Supplies Delivered"],"commsMP"] call BIS_fnc_MP;
-		_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_marcador],_posicion,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
-		[0,15,_marcador] remoteExec ["citySupportChange",2];
+		_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
+			_tskTitle,_location],_posicion,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
+		[0,15,_location] remoteExec ["citySupportChange",2];
 		[5,0] remoteExec ["prestige",2];
 		{if (_x distance _posicion < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 		[5,AS_commander] call playerScoreAdd;
@@ -102,7 +105,8 @@ else
 		// BE module
 	}
 	else {
-		_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_marcador],_posicion,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
+		_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
+			_tskTitle,_location],_posicion,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
 		[5,-5,_posicion] remoteExec ["citySupportChange",2];
 		[-10,AS_commander] call playerScoreAdd;
 	};
@@ -113,6 +117,6 @@ else
 
 //[_tsk,true] call BIS_fnc_deleteTask;
 [1200,_tsk] spawn borrarTask;
-waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,_camion,"BLUFORSpawn"] call distanceUnits)) or ((_camion distance (getMarkerPos "respawn_west") < 60) && (speed _camion < 1))};
+waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,_camion,"BLUFORSpawn"] call distanceUnits)) or ((_camion distance (getMarkerPos "FIA_HQ") < 60) && (speed _camion < 1))};
 [_camion] call vaciar;
 deleteVehicle _camion;

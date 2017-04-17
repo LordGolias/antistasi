@@ -1,25 +1,22 @@
 #include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
+params ["_location", "_source"];
+
+private _posicion = _location call AS_fnc_location_position;
+private _size = _location call AS_fnc_location_size;
+private _nombredest = [_location] call localizar;
 
 _tskTitle = localize "STR_tsk_DesVehicle";
 _tskDesc = localize "STR_tskDesc_DesVehicle";
-
-private ["_marcador","_posicion","_fechalim","_fechalimnum","_nombredest","_tipoVeh","_texto","_camionCreado","_size","_pos","_veh","_grupo","_unit"];
-
-_marcador = _this select 0;
-_source = _this select 1;
 
 if (_source == "mil") then {
 	_val = server getVariable "milActive";
 	server setVariable ["milActive", _val + 1, true];
 };
 
-_posicion = getMarkerPos _marcador;
-
 _tiempolim = 120;
 _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 _fechalimnum = dateToNumber _fechalim;
-_nombredest = [_marcador] call localizar;
 
 _tipoVeh = "";
 _texto = "";
@@ -33,16 +30,16 @@ if (count _tanks > 0) then {
 	_texto = "Enemy IFV";
 };
 
-_tsk = ["DES",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_texto],_tskTitle,_marcador],_posicion,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+_tsk = ["DES",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_texto],
+	_tskTitle,_location],_posicion,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";
 _camionCreado = false;
 
-waitUntil {sleep 1;(dateToNumber date > _fechalimnum) or (spawner getVariable _marcador)};
+waitUntil {sleep 1;(dateToNumber date > _fechalimnum) or (_location call AS_fnc_location_spawned)};
 
-if (spawner getVariable _marcador) then
+if (_location call AS_fnc_location_spawned) then
 	{
 	_camionCreado = true;
-	_size = [_marcador] call sizeMarker;
 	_pos = [];
 	if (_size > 40) then {_pos = [_posicion, 10, _size, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos} else {_pos = _posicion findEmptyPosition [10,60,_tipoVeh]};
 	_veh = createVehicle [_tipoVeh, _pos, [], 0, "NONE"];
@@ -69,7 +66,8 @@ if (spawner getVariable _marcador) then
 
 	if ((not alive _veh) or ({_x getVariable ["BLUFORSpawn",false]} count crew _veh > 0)) then
 		{
-		_tsk = ["DES",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_texto],_tskTitle,_marcador],_posicion,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+		_tsk = ["DES",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_texto],
+			_tskTitle,_location],_posicion,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 		[0,300] remoteExec ["resourcesFIA",2];
 		[2,0] remoteExec ["prestige",2];
 		if (_tipoVeh == opSPAA) then {[3,3] remoteExec ["prestige",2]; [0,10,_posicion] remoteExec ["citySupportChange",2]} else {[0,5,_posicion] remoteExec ["citySupportChange",2]};
@@ -85,7 +83,8 @@ if (spawner getVariable _marcador) then
 	};
 if (dateToNumber date > _fechalimnum) then
 	{
-	_tsk = ["DES",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_texto],_tskTitle,_marcador],_posicion,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+	_tsk = ["DES",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_texto],
+		_tskTitle,_location],_posicion,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 	[-5,-100] remoteExec ["resourcesFIA",2];
 	[5,0,_posicion] remoteExec ["citySupportChange",2];
 	if (_tipoVeh == opSPAA) then {[0,-3] remoteExec ["prestige",2]};
@@ -100,7 +99,7 @@ if (_source == "mil") then {
 	server setVariable ["milActive", _val - 1, true];
 };
 
-waitUntil {sleep 1; not (spawner getVariable _marcador)};
+waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 
 if (_camionCreado) then
 	{

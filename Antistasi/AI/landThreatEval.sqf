@@ -1,26 +1,25 @@
 #include "../macros.hpp"
-private ["_marcador","_threat","_posicion","_analizado","_size"];
+params ["_position"];
 
-_threat = 0;
-
+private _threat = 0;
 {if (_x in unlockedWeapons) then {_threat = 3};} forEach genATLaunchers;
 
-_marcador = _this select 0;
+// roadblocks
+_threat = _threat + 2 * (
+	{(_x call AS_fnc_location_position) distance _position < AS_P("spawnDistance")} count (["roadblock", "FIA"] call AS_fnc_location_TS));
 
-if (_marcador isEqualType []) then {_posicion = _marcador} else {_posicion = getMarkerPos _marcador};
-_threat = _threat + 2 * ({(isOnRoad getMarkerPos _x) and (getMarkerPos _x distance _posicion < AS_P("spawnDistance"))} count puestosFIA);
-
+// bases
 {
-if (getMarkerPos _x distance _posicion < AS_P("spawnDistance")) then {
-	_analizado = _x;
-	_garrison = garrison getVariable [_analizado,[]];
-	_threat = _threat + (2*({(_x == "Ammo Bearer")} count _garrison)) + (floor((count _garrison)/8));
-	_size = [_analizado] call sizeMarker;
-	_estaticas = staticsToSave select {_x distance (getMarkerPos _analizado) < _size};
-	if (count _estaticas > 0) then {
-		_threat = _threat + ({typeOf _x in allStatMortars} count _estaticas) + (2*({typeOf _x in allStatATs} count _estaticas));
+	private _otherPosition = _x call AS_fnc_location_position;
+	private _size = _x call AS_fnc_location_size;
+	private _garrison = _x call AS_fnc_location_garrison;
+	if (_otherPosition distance _position < AS_P("spawnDistance")) then {
+		_threat = _threat + (2*({(_x == "Ammo Bearer")} count _garrison)) + (floor((count _garrison)/8));
+		private _estaticas = staticsToSave select {_x distance _otherPosition < _size};
+		if (count _estaticas > 0) then {
+			_threat = _threat + ({typeOf _x in allStatMortars} count _estaticas) + (2*({typeOf _x in allStatATs} count _estaticas));
+		};
 	};
-};
-} forEach (mrkFIA - ciudades - controles - colinas - puestosFIA);
+} forEach ([["base", "airfield", "watchpost"], "FIA"] call AS_fnc_location_TS);
 
 _threat

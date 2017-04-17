@@ -14,7 +14,7 @@ if (hayACE) then {
 if ((side _killer == side_blue) || (captive _killer)) then {
 	if (hayBE) then {["kill"] remoteExec ["fnc_BE_XP", 2]};
 	_group = group _killed;
-	
+
 	// scoring and captive.
 	if (isPlayer _killer) then {
 		[2,_killer,false] call playerScoreAdd;

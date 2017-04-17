@@ -35,7 +35,7 @@ while {true} do {
 			_awActive = (server getVariable "waves_active");
 		};
 		[1200] remoteExec ["timingCA",2];
-		if ((count mrkFIA > 0) and (not("AtaqueAAF" in misiones)) and !(_awActive)) then {
+		if ((count ("FIA" call AS_fnc_location_S) > 0) and (not("AtaqueAAF" in misiones)) and !(_awActive)) then {
 			private _script = [] spawn ataqueAAF;
 			waitUntil {sleep 5; scriptDone _script};
 		};

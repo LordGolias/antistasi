@@ -13,7 +13,7 @@ parameters
 0: target marker (marker)
 */
 _targetMarker = _this select 0;
-_targetPosition = getMarkerPos _targetMarker;
+_targetPosition = _targetMarker call AS_fnc_location_position;
 _targetName = [_targetMarker] call localizar;
 
 // mission timer
@@ -26,32 +26,42 @@ misiones pushBack _tsk; publicVariable "misiones";
 
 
 // find bases and airports to serve as spawnpoints for reinforcements
-_basesAAF = bases - mrkFIA;
-_bases = [];
-_base = "";
+private _bases = [];
 {
 	_base = _x;
-	_posbase = getMarkerPos _base;
-	if ((_targetPosition distance _posbase < 7500) and (_targetPosition distance _posbase > 1500) and (not (spawner getVariable _base))) then {_bases = _bases + [_base]}
-} forEach _basesAAF;
-if (count _bases > 0) then {_base = [_bases,_targetPosition] call BIS_fnc_nearestPosition;} else {_base = ""};
+	private _posbase = _x call AS_fnc_location_position;
+	if ((_targetPosition distance _posbase < 7500) and
+	    (_targetPosition distance _posbase > 1500) and !(_x call AS_fnc_location_spawned)) then {
+		_bases pushBack _x;
+	}
+} forEach (["base", "AAF"] call AS_fnc_location_TS);
 
-_posbase = getMarkerPos _base;
+private _base = "";
+private _posbase = [];
+if (count _bases > 0) then {
+	_base = [_bases,_targetPosition] call BIS_fnc_nearestPosition;
+	_base call AS_fnc_location_position;
+};
 
-_airportsAAF = aeropuertos - mrkFIA;
-_airports = [];
-_airport = "";
-_posAirport = [];
+private _airports = [];
 {
-	_airport = _x;
-	_posAirport = getMarkerPos _airport;
-	if ((_targetPosition distance _posAirport < 7500) and (_targetPosition distance _posAirport > 1500) and (not (spawner getVariable _airport))) then {_airports = _airports + [_airport]}
-} forEach _airportsAAF;
-if (count _airports > 0) then {_airport = [_airports, _targetPosition] call BIS_fnc_nearestPosition; _posAirport = getMarkerPos _airport;} else {_airport = ""};
+	private _posAirport = _x call AS_fnc_location_position;
+	if ((_targetPosition distance _posAirport < 7500) and
+	    (_targetPosition distance _posAirport > 1500) and
+		!(_x call AS_fnc_location_spawned)) then {
+		_airports pushBack _x;
+	};
+} forEach (["airfield", "AAF"] call AS_fnc_location_TS);
+private _airport = "";
+private _posAirport = [];
+if (count _airports > 0) then {
+	_airport = [_airports, _targetPosition] call BIS_fnc_nearestPosition;
+	_posAirport = call AS_fnc_location_position;
+};
 
 // spawn mission vehicle
 propTruck = "";
-_pos = (getMarkerPos "respawn_west") findEmptyPosition [10,50,"C_Truck_02_box_F"];
+_pos = (getMarkerPos "FIA_HQ") findEmptyPosition [10,50,"C_Truck_02_box_F"];
 propTruck = "C_Truck_02_box_F" createVehicle _pos;
 
 // spawn eye candy
@@ -220,7 +230,7 @@ if (isMultiplayer) then {
 	};
 };
 
-0 = [_targetMarker, 30, _timing, _comp] spawn attackWaves;
+[_targetMarker, 30, _timing, _comp] spawn attackWaves;
 
 _tsk = ["PR",[side_blue,civilian],[format [_tskDesc_hold,_targetName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_targetMarker],propTruck,"ASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
 

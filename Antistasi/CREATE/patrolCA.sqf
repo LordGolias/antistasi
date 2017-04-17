@@ -3,7 +3,7 @@ if (!isServer and hasInterface) exitWith {};
 
 if (server getVariable "blockCSAT") exitWith {};
 
-params ["_marcador", ["_fromBase", ""]];
+params ["_location", ["_fromBase", ""]];
 
 private _isDirectAttack = false;
 private _base = "";
@@ -11,7 +11,7 @@ private _aeropuerto = "";
 
 if (_fromBase != "") then {
 	private _isDirectAttack = true;
-	if (_fromBase in aeropuertos) then {
+	if (_fromBase call AS_fnc_location_type == "airfield") then {
 		_aeropuerto = _base;
 		_base = "";
 	} else {
@@ -21,20 +21,20 @@ if (_fromBase != "") then {
 
 if ((!_isDirectAttack) and (diag_fps < AS_P("minimumFPS"))) exitWith {};
 
-private _isMarker = false;
+private _isLocation = false;
 private _exit = false;
 private _position = "";
-if (typeName _marcador == typeName "") then {
-	_isMarker = true;
-	_position = getMarkerPos _marcador;
+if (typeName _location == typeName "") then {
+	_isLocation = true;
+	_position = _location call AS_fnc_location_position;
 } else {
-	_position = _marcador;
+	_position = _location;
 };
 
-if (_isMarker and !_isDirectAttack and (_marcador in smallCAmrk)) exitWith {}; // marker already being patrolled.
+if (_isLocation and !_isDirectAttack and (_location in smallCAmrk)) exitWith {}; // location already being patrolled.
 
 private _exit = false;
-if (!_isMarker) then {
+if (!_isLocation) then {
 	// do not patrol closeby patrol locations.
 	_closestPatrolPosition = [smallCApos, _position] call BIS_fnc_nearestPosition;
 	if (_closestPatrolPosition distance _position < (AS_P("spawnDistance")/2)) exitWith {_exit = true;};
@@ -42,7 +42,7 @@ if (!_isMarker) then {
 	// do not patrol closeby to patrolled markers.
 	if (count smallCAmrk > 0) then {
 		_closestPatrolMarker = [smallCAmrk, _position] call BIS_fnc_nearestPosition;
-		if ((getMarkerPos _closestPatrolMarker) distance _position < (AS_P("spawnDistance")/2)) then {_exit = true;};
+		if ((_closestPatrolMarker call AS_fnc_location_position) distance _position < (AS_P("spawnDistance")/2)) then {_exit = true;};
 	};
 };
 
@@ -53,8 +53,8 @@ if (!_isDirectAttack and !(_position call radioCheck)) exitWith {};
 
 // select base to attack from.
 if (!_isDirectAttack) then {
-	_base = [_marcador] call findBasesForCA;
-	if (_base == "") then {_aeropuerto = [_marcador] call findAirportsForCA};
+	_base = [_position] call findBasesForCA;
+	if (_base == "") then {_aeropuerto = [_position] call findAirportsForCA};
 };
 
 // check if CSAT will help.
@@ -70,8 +70,8 @@ if (_aeropuerto != "") then {
 	private _transportHelis = count (["transportHelis"] call AS_fnc_AAFarsenal_all);
 	private _armedHelis = count (["armedHelis"] call AS_fnc_AAFarsenal_all);
 	private _planes = count (["planes"] call AS_fnc_AAFarsenal_all);
-	// 1 transported + any other if _isMarker.
-	if (_transportHelis < 1 or _isMarker and (_transportHelis + _armedHelis + _planes < 2)) then {
+	// 1 transported + any other if _isLocation.
+	if (_transportHelis < 1 or _isLocation and (_transportHelis + _armedHelis + _planes < 2)) then {
 		_aeropuerto = "";
 	};
 
@@ -103,10 +103,10 @@ if ((_base == "") and (_aeropuerto == "") and (!_hayCSAT)) exitWith {};
 ////////////////////// All checks passed. Build the patrol.
 
 // save the marker or position
-if (_isMarker) then {
-	smallCAmrk pushBackUnique _marcador; publicVariable "smallCAmrk";
+if (_isLocation) then {
+	smallCAmrk pushBackUnique _location; publicVariable "smallCAmrk";
 } else {
-	smallCApos pushBack _marcador;
+	smallCApos pushBack _position;
 };
 
 // lists of spawned stuff to delete in the end.
@@ -115,10 +115,10 @@ private _vehiculos = [];
 private _grupos = [];
 
 if (_base != "") then {
-	private _posorigen = getMarkerPos _base;
+	private _posorigen = _base call AS_fnc_location_position;
 	_aeropuerto = "";
 	_hayCSAT = false;
-	if (!_isDirectAttack) then {[_base,20] execVM "addTimeForIdle.sqf"};
+	if (!_isDirectAttack) then {[_base,20] call AS_fnc_location_increaseBusy;};
 
 	private _toUse = "trucks";
 	if (_threatEval > 3 and (["apcs"] call AS_fnc_AAFarsenal_count > 0)) then {
@@ -128,17 +128,17 @@ if (_base != "") then {
 		_toUse = "tanks";
 	};
 
-	([_toUse, _posorigen, _posdestino, _threatEval, _isMarker] call AS_fnc_createLandAttack) params ["_soldiers1", "_groups1", "_vehicles1"];
+	([_toUse, _posorigen, _posdestino, _threatEval, _isLocation] call AS_fnc_createLandAttack) params ["_soldiers1", "_groups1", "_vehicles1"];
 	_soldados = _soldados + _soldiers1;
 	_grupos = _grupos + _groups1;
 	_vehiculos = _vehiculos + _vehicles1;
 };
 
 if (_aeropuerto != "") then {
-	if (!_isDirectAttack) then {[_aeropuerto,20] execVM "addTimeForIdle.sqf"};
-	_posorigen = getMarkerPos _aeropuerto;
+	if (!_isDirectAttack) then {[_aeropuerto,20] call AS_fnc_location_increaseBusy;};
+	_posorigen = _aeropuerto call AS_fnc_location_position;
 	_cuenta = 1;
-	if (_isMarker) then {_cuenta = 2};
+	if (_isLocation) then {_cuenta = 2};
 	for "_i" from 1 to _cuenta do {  // the attack has 2 units for a non-marker
 		private _toUse = "transportHelis";  // last attack is always a transport
 
@@ -190,8 +190,9 @@ if (_hayCSAT) then {
 			_grupos = _grupos + [_grupo];
 			[_heli,"CSAT Air Transport"] spawn inmuneConvoy;
 
-			if ((_marcador in bases) or (_marcador in aeropuertos) or (random 10 < _threatEval)) then {
-				[_heli,_grupo,_marcador,_threatEval] spawn airdrop;
+			if (((_location call AS_fnc_location_type) in ["base", "airfield"]) or
+			    (random 10 < _threatEval)) then {
+				[_heli,_grupo,_position,_threatEval] spawn airdrop;
 			} else {
 				if ((random 100 < 50) or (_tipoVeh == opHeliDismount)) then {
 					{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _grupoheli;
@@ -201,7 +202,7 @@ if (_hayCSAT) then {
 					private _pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
 					_vehiculos = _vehiculos + [_pad];
 
-					[_grupoheli, _posorigen, _landpos, _marcador, _grupo, 25*60, "air"] call fnc_QRF_dismountTroops;
+					[_grupoheli, _posorigen, _landpos, _location, _grupo, 25*60, "air"] call fnc_QRF_dismountTroops;
 
 					/* _wp0 = _grupoheli addWaypoint [_landpos, 0];
 					_wp0 setWaypointType "TR UNLOAD";
@@ -228,19 +229,24 @@ if (_hayCSAT) then {
 
 //// All units sent. Cleanup below.
 
-if (_isMarker) then {
+if (_isLocation) then {
 	_solMax = round ((count _soldados)/3);
 	_tiempo = time + 3600;
 
-	waitUntil {sleep 5; (({not (captive _x)} count _soldados) < ({captive _x} count _soldados)) or ({alive _x} count _soldados < _solMax) or (_marcador in mrkAAF) or (time > _tiempo)};
+	waitUntil {sleep 5;
+		(({not (captive _x)} count _soldados) < ({captive _x} count _soldados)) or
+		({alive _x} count _soldados < _solMax) or
+		(_location call AS_fnc_location_side == "AAF") or
+		(time > _tiempo)
+	};
 
-	smallCAmrk = smallCAmrk - [_marcador]; publicVariable "smallCAmrk";
+	smallCAmrk = smallCAmrk - [_location]; publicVariable "smallCAmrk";
 
-	waitUntil {sleep 1; not (spawner getVariable _marcador)};
+	waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 }
 else {
 	waitUntil {sleep 1; !([AS_P("spawnDistance"),1,_position,"BLUFORSpawn"] call distanceUnits)};
-	smallCApos = smallCApos - [_marcador];
+	smallCApos = smallCApos - [_position];
 };
 
 if !(isNil {_soldados}) then {

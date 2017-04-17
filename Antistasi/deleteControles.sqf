@@ -1,17 +1,14 @@
-private ["_marcador","_control","_cercano","_pos"];
+private _deleteControl = {
+	params ["_control", "_location"];
+	private _pos = _control call AS_fnc_location_position;
+	private _closest = [call AS_fnc_location_all,_pos] call BIS_fnc_nearestPosition;
 
-_marcador = _this select 0;
-_control = _this select 1;
-
-_pos = getMarkerPos _control;
-
-_cercano = [marcadores,_pos] call BIS_fnc_nearestPosition;
-
-if (_cercano == _marcador) then
-	{
-	waitUntil {sleep 1;not (spawner getVariable _control)};
-	mrkAAF = mrkAAF - [_control];
-	mrkFIA = mrkFIA + [_control];
-	publicVariable "mrkAAF";
-	publicVariable "mrkFIA";
+	if (_closest == _location) then {
+		waitUntil {sleep 1; !(_control call AS_fnc_location_spawned)};
+		[_control,"side","FIA"] call AS_fnc_location_set;
 	};
+};
+
+{
+	[_x, _this] spawn _deleteSingle;
+} forEach control_points;

@@ -8,14 +8,14 @@ _coste = (AS_data_allCosts getVariable "Explosives Specialist") + (["B_G_Offroad
 
 _grupo = createGroup side_blue;
 
-_unit = _grupo createUnit [["Explosives Specialist"] call AS_fnc_getFIAUnitClass, getMarkerPos "respawn_west", [], 0, "NONE"];
+_unit = _grupo createUnit [["Explosives Specialist"] call AS_fnc_getFIAUnitClass, getMarkerPos "FIA_HQ", [], 0, "NONE"];
 _grupo setGroupId ["MineSw"];
 _minas = [];
 sleep 1;
 _tam = 10;
 while {true} do
 	{
-	_roads = getMarkerPos "respawn_west" nearRoads _tam;
+	_roads = getMarkerPos "FIA_HQ" nearRoads _tam;
 	if (count _roads < 1) then {_tam = _tam + 10};
 	if (count _roads > 0) exitWith {};
 	};
@@ -41,7 +41,7 @@ while {alive _unit} do
 		{
 		if (alive _camion) then
 			{
-			if ((count magazineCargo _camion > 0) and (_unit distance (getMarkerPos "respawn_west") < 50)) then
+			if ((count magazineCargo _camion > 0) and (_unit distance (getMarkerPos "FIA_HQ") < 50)) then
 				{
 				[_camion,caja] remoteExec ["munitionTransfer",2];
 				sleep 30;

@@ -1,117 +1,88 @@
 if (!isServer) exitWith {};
+params ["_location"];
 
-private ["_marcador","_posicion","_mrk","_powerpl","_bandera"];
+if (_location call AS_fnc_location_side == "AAF") exitWith {
+	diag_log format ["[AS] Error: mrkLOOSE called for AAF location '%1'", _location];
+};
 
-_marcador = _this select 0;
-if (_marcador in mrkAAF) exitWith {};
-_posicion = getMarkerPos _marcador;
+private _posicion = _location call AS_fnc_location_position;
+private _type = _location call AS_fnc_location_type;
+private _size = _location call AS_fnc_location_size;
 
-mrkAAF = mrkAAF + [_marcador];
-mrkFIA = mrkFIA - [_marcador];
-publicVariable "mrkAAF";
-publicVariable "mrkFIA";
+[_location,"side","AAF"] call AS_fnc_location_set;
+_location call AS_fnc_location_updateMarker;
 
-// BE module
 if (hayBE) then {
 	["territory", -1] remoteExec ["fnc_BE_update", 2];
 };
-// BE module
 
-garrison setVariable [_marcador,[],true];
+// todo: transfer alive garrison to FIA_HQ
+[_location, "garrison", []] call AS_fnc_location_set;
 
-_bandera = objNull;
-_dist = 10;
-while {isNull _bandera} do
-	{
+// update flag
+private _flag = objNull;
+private _dist = 10;
+while {isNull _flag} do {
 	_dist = _dist + 10;
-	_banderas = nearestObjects [_posicion, ["FlagCarrier"], _dist];
-	_bandera = _banderas select 0;
-	};
+	_flag = (nearestObjects [_posicion, ["FlagCarrier"], _dist]) select 0;
+};
+[[_flag,"take"],"flagaction"] call BIS_fnc_MP;
 
-///[[_bandera,"remove"],"flagaction"] call BIS_fnc_MP;
-///sleep 5;
-[[_bandera,"take"],"flagaction"] call BIS_fnc_MP;
-
-_mrk = format ["Dum%1",_marcador];
-_mrk setMarkerColor "ColorGUER";
-
-if ((not (_marcador in bases)) and (not (_marcador in aeropuertos))) then
-	{
+if (_type in ["outpost", "seaport"]) then {
 	[10,-10,_posicion] remoteExec ["citySupportChange",2];
-	if (_marcador in puestos) then
-		{
-		_mrk setMarkerText "AAF Outpost";
+	if (_type == "outpost") then {
 		[["TaskFailed", ["", "Outpost Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		};
-	if (_marcador in puertos) then
-		{
-		_mrk setMarkerText "Sea Port";
+	} else {
 		[["TaskFailed", ["", "Sea Port Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		};
 	};
-if (_marcador in power) then
-	{
+};
+if (_type == "powerplant") then {
 	[0,-5] remoteExec ["prestige",2];
-	_mrk setMarkerText "Power Plant";
 	[["TaskFailed", ["", "Powerplant Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-	[_marcador] spawn powerReorg;
-	};
-if ((_marcador in recursos) or (_marcador in fabricas)) then
-	{
+	[_location] remoteExec ["powerReorg",2];
+};
+if (_type in ["resource", "factory"]) then {
 	[10,-10,_posicion] remoteExec ["citySupportChange",2];
-	[0,-10] remoteExec ["prestige",2];
+	[0,-5] remoteExec ["prestige",2];
 
-	if (_marcador in recursos) then
-		{
-		_mrk setMarkerText "Resource";
+	if (_type == "resource") then {
 		[["TaskFailed", ["", "Resource Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		}
-	else
-		{_mrk setMarkerText "Factory";
+	} else {
 		[["TaskFailed", ["", "Factory Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		};
 	};
-
-if ((_marcador in bases) or (_marcador in aeropuertos)) then
-	{
+};
+if (_type in ["base", "airfield"]) then {
 	[20,-20,_posicion] remoteExec ["citySupportChange",2];
-	_mrk setMarkerType "flag_AAF";
 	[0,-10] remoteExec ["prestige",2];
-	server setVariable [_marcador,dateToNumber date,true];
-	[_marcador,60] execVM "addTimeForIdle.sqf";
-	if (_marcador in bases) then
-		{
+	server setVariable [_location,dateToNumber date,true];
+	[_location,60] call AS_fnc_location_increaseBusy;
+
+	if (_type == "base") then {
 		[["TaskFailed", ["", "Base Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		_mrk setMarkerText "AAF Base";
-		}
-	else
-		{
+	} else {
 		[["TaskFailed", ["", "Airport Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		_mrk setMarkerText "AAF Airport";
-		server setVariable [_marcador,dateToNumber date,true];
-        };
-	};
+    };
+};
 
-_size = [_marcador] call sizeMarker;
-
-_staticsToSave = staticsToSave;
+private _staticsToSave = staticsToSave;
 {
-if ((position _x) distance _posicion < _size) then
-	{
-	_staticsToSave = _staticsToSave - [_x];
-	deleteVehicle _x;
+	if ((position _x) distance _posicion < _size) then {
+		_staticsToSave = _staticsToSave - [_x];
+		deleteVehicle _x;
 	};
 } forEach staticsToSave;
 
-if (not(_staticsToSave isEqualTo staticsToSave)) then
-	{
+if (not(_staticsToSave isEqualTo staticsToSave)) then {
 	staticsToSave = _staticsToSave;
 	publicVariable "staticsToSave";
-	};
+};
 
-waitUntil {sleep 1; (not (spawner getVariable _marcador)) or (({(not(vehicle _x isKindOf "Air")) and (alive _x)} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)) > 3*({(alive _x) and (!fleeing _x)} count ([_size,0,_posicion,"OPFORSpawn"] call distanceUnits)))};
+waitUntil {sleep 1;
+	(not (_location call AS_fnc_location_spawned)) or
+	(({(not(vehicle _x isKindOf "Air")) and (alive _x)} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)) >
+	3*({(alive _x) and (!fleeing _x)} count ([_size,0,_posicion,"OPFORSpawn"] call distanceUnits)))
+};
 
-if (spawner getVariable _marcador) then
-	{
-	[_bandera] spawn mrkWIN;
-	};
+if (_location call AS_fnc_location_spawned) then {
+	[_flag] spawn mrkWIN;
+};

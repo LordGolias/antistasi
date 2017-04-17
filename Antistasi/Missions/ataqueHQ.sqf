@@ -4,7 +4,7 @@ if (!isServer and hasInterface) exitWith{};
 _tskTitle = localize "STR_tsk_HQAttack";
 _tskDesc = localize "STR_tskDesc_HQAttack";
 
-_posicion = getMarkerPos "respawn_west";
+_posicion = getMarkerPos "FIA_HQ";
 
 _pilotos = [];
 _vehiculos = [];
@@ -15,7 +15,7 @@ if (server getVariable "blockCSAT") exitWith {};
 
 if ({(_x distance _posicion < 500) and ((typeOf _x == "B_static_AA_F") or (typeOf _x == statAA))} count staticsToSave > 4) exitWith {};
 
-_tsk = ["DEF_HQ",[side_blue,civilian],[_tskDesc,_tskTitle,"respawn_west"],_posicion,"CREATED",5,true,true,"Defend"] call BIS_fnc_setTask;
+_tsk = ["DEF_HQ",[side_blue,civilian],[_tskDesc,_tskTitle,"FIA_HQ"],_posicion,"CREATED",5,true,true,"Defend"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";
 
 _pos = [_posicion, AS_P("spawnDistance") * 3, random 360] call BIS_Fnc_relPos;
@@ -54,15 +54,15 @@ for "_i" from 0 to (round random 2) do
 	sleep 10;
 	};
 
-waitUntil {sleep 1;({not (captive _x)} count _soldados < {captive _x} count _soldados) or ({alive _x} count _soldados < {fleeing _x} count _soldados) or ({alive _x} count _soldados == 0) or (_posicion distance getMarkerPos "respawn_west" > 999)};
+waitUntil {sleep 1;({not (captive _x)} count _soldados < {captive _x} count _soldados) or ({alive _x} count _soldados < {fleeing _x} count _soldados) or ({alive _x} count _soldados == 0) or (_posicion distance getMarkerPos "FIA_HQ" > 999)};
 
-if (_posicion distance getMarkerPos "respawn_west" > 999) then
+if (_posicion distance getMarkerPos "FIA_HQ" > 999) then
 	{
-	_tsk = ["DEF_HQ",[side_blue,civilian],[_tskDesc,_tskTitle,"respawn_west"],_posicion,"SUCCEEDED",5,true,true,"Defend"] call BIS_fnc_setTask;
+	_tsk = ["DEF_HQ",[side_blue,civilian],[_tskDesc,_tskTitle,"FIA_HQ"],_posicion,"SUCCEEDED",5,true,true,"Defend"] call BIS_fnc_setTask;
 	}
 else
 	{
-	_tsk = ["DEF_HQ",[side_blue,civilian],[_tskDesc,_tskTitle,"respawn_west"],_posicion,"SUCCEEDED",5,true,true,"Defend"] call BIS_fnc_setTask;
+	_tsk = ["DEF_HQ",[side_blue,civilian],[_tskDesc,_tskTitle,"FIA_HQ"],_posicion,"SUCCEEDED",5,true,true,"Defend"] call BIS_fnc_setTask;
 	[0,3] remoteExec ["prestige",2];
 	[0,300] remoteExec ["resourcesFIA",2];
 	//[-5,5,_posicion] remoteExec ["citySupportChange",2];

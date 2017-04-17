@@ -1,6 +1,6 @@
 
 private ["_posHQ"];
-_posHQ = getMarkerPos "respawn_west";
+_posHQ = getMarkerPos "FIA_HQ";
 
 {
 	if ((side _x == side_blue) and (_x distance _posHQ < 100)) then {

@@ -1,16 +1,7 @@
-private ["_marcador","_result","_power"];
-_marcador = _this select 0;
+params ["_location"];
 
-_result = false;
+private _power = [call AS_fnc_location_all, _location call AS_fnc_location_position] call BIS_fnc_nearestPosition;
 
-_power = [power,getMarkerPos _marcador] call BIS_fnc_nearestPosition;
+if (_power in destroyedCities) exitWith {false};
 
-if (_power in destroyedCities) then
-	{
-	_result = false;
-	}
-else
-	{
-	if ((_marcador in mrkAAF) and (_power in mrkAAF)) then {_result = true} else {if ((_marcador in mrkFIA) and (_power in mrkFIA)) then {_result = true}};
-	};
-_result
+(_location call AS_fnc_location_side) == (_power call AS_fnc_location_side)

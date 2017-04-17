@@ -162,8 +162,8 @@ AS_fnc_updateAAFarsenal = {
 		AS_AAFarsenal setVariable ["max_" + _category, _newValue, true];
 	};
 
-	private _AAFairfields = count (mrkAAF arrayIntersect aeropuertos);
-	private _AAFbases = count (mrkAAF arrayIntersect bases);
+	private _AAFairfields = count (["airfield","AAF"] call AS_fnc_location_TS);
+	private _AAFbases = count (["base","AAF"] call AS_fnc_location_TS);
 	["planes", _AAFairfields] call _AS_fnc_AAFarsenal_setMax;
 	["armedHelis", 2*_AAFairfields] call _AS_fnc_AAFarsenal_setMax;
 	["transportHelis", 2*_AAFairfields] call _AS_fnc_AAFarsenal_setMax;

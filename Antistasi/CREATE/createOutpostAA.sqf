@@ -1,5 +1,5 @@
 #include "../macros.hpp"
-params ["_marcador"];
+params ["_location"];
 if (!isServer and hasInterface) exitWith{};
 
 private _pLarge = ["puesto_2","puesto_6","puesto_11","puesto_17","puesto_23"];
@@ -8,15 +8,16 @@ private _soldados = [];
 private _grupos = [];
 private _vehiculos = [];
 
-private _posicion = getMarkerPos _marcador;
-private _size = [_marcador] call sizeMarker;
+private _posicion = _location call AS_fnc_location_position;
+private _size = _location call AS_fnc_location_size;
+private _frontera = _location call isFrontline;
 
 private _buildings = nearestObjects [_posicion, listMilBld, _size*1.5];
 
 private _grupo = createGroup side_green;
 _grupos pushBack _grupo;
 
-([_marcador, side_green, _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
+([_location, side_green, _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
 _soldados append _gunners;
 _vehiculos append _vehicles;
 
@@ -30,11 +31,13 @@ _vehiculos pushBack _caja;
 
 {[_x, "AAF"] call AS_fnc_initVehicle;} forEach _vehiculos;
 
-private _frontera = [_marcador] call isFrontline;
+
 
 if (_frontera) then {
-	private _base = [bases,_posicion] call BIS_fnc_nearestPosition;
-	if ((_base in mrkFIA) or ((getMarkerPos _base) distance _posicion > 1000)) then {
+	private _validBases = [["base"], "FIA"] call AS_fnc_location_TS;
+	private _base = [_validBases,_posicion] call BIS_fnc_nearestPosition;
+	private _position = _base call AS_fnc_location_position;
+	if (_position distance _posicion > 1000) then {
 		_pos = [_posicion] call mortarPos;
 		_veh = statMortar createVehicle _pos;
 		[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
@@ -53,54 +56,54 @@ if (_frontera) then {
 };
 
 // spawn truck
-([_marcador] call AS_fnc_spawnAAF_truck) params ["_vehicles1"];
+([_location] call AS_fnc_spawnAAF_truck) params ["_vehicles1"];
 _vehiculos append _vehicles1;
 
 // Create an AA team
 _grupo = [_posicion, side_green, [infAA, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 _grupos pushBack _grupo;
 {[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x;} forEach units _grupo;
-[leader _grupo, _marcador, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+[leader _grupo, _location, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 
 private _groupsCount = (round (_size/50)) max 1;
 if (_frontera) then {_groupsCount = _groupsCount * 2};
 
-if !(_marcador in _pLarge) then {
+if !(_location in _pLarge) then {
 	_groupsCount = (round _groupsCount/2) max 1;
 
 	_grupo = [_posicion, side_green, [infAA, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 	_grupos pushBack _grupo;
 	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x;} forEach units _grupo;
-	[leader _grupo, _marcador, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+	[leader _grupo, _location, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 };
 
 for "_i" from 1 to _groupsCount do {
-	if (!(spawner getVariable _marcador) or
+	if (!(_location call AS_fnc_location_spawned) or
 		(diag_fps < AS_P("minimumFPS") and _i != 1)) exitWith {};
 	_grupo = [_posicion, side_green, [infTeam, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 	_stance = "RANDOM";
 	if (_i == 1) then {_stance = "RANDOMUP"};
-	[leader _grupo, _marcador, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+	[leader _grupo, _location, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 	_grupos pushBack _grupo;
 	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 };
 
-private _journalist = [_marcador, _grupos] call AS_fnc_createJournalist;
+private _journalist = [_location, _grupos] call AS_fnc_createJournalist;
 
 //////////////////////////////////////////////////////////////////
 ////////////////////////// END SPAWNING //////////////////////////
 //////////////////////////////////////////////////////////////////
 
 waitUntil {sleep 1;
-	(not (spawner getVariable _marcador)) or
+	(not (_location call AS_fnc_location_spawned)) or
 	(({(!(vehicle _x isKindOf "Air"))} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)) >
 	 3*({(alive _x) and !(captive _x) and (_x distance _posicion < _size)} count _soldados))
 
-if ((spawner getVariable _marcador) and (not(_marcador in mrkFIA))) then {
+if ((_location call AS_fnc_location_spawned) and (_location call AS_fnc_location_side == "AAF")) then {
 	[_bandera] remoteExec ["mrkWIN",2];
 };
 
-waitUntil {sleep 1; (not (spawner getVariable _marcador))};
+waitUntil {sleep 1; (not (_location call AS_fnc_location_spawned))};
 
 {
 	if ((!alive _x) and (not(_x in destroyedBuildings))) then {

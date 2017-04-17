@@ -28,7 +28,7 @@ AS_DEBUG_init = {
 
         {
             [_x] call AS_DEBUG_initLocation;
-        } forEach marcadores;
+        } forEach (call AS_fnc_location_all);
     };
 
     // turn debug off
@@ -150,7 +150,7 @@ AS_DEBUG_initLocation = {
     params ["_location"];
     if (isNil "AS_DEBUG_markers_all") exitWith {};
 
-    private _mrk = createMarker [format ["AS_DEBUG_markers_%1", count AS_DEBUG_markers_all], getMarkerPos _location];
+    private _mrk = createMarker [format ["AS_DEBUG_markers_%1", count AS_DEBUG_markers_all], _location call AS_fnc_location_position];
     AS_DEBUG_markers_all pushBack _mrk;
     _mrk setMarkerShape "ELLIPSE";
     _mrk setMarkerSize [50, 50];
@@ -161,10 +161,10 @@ AS_DEBUG_initLocation = {
         params ["_location", "_mrk"];
         private _sleep = 2 + 2*(random 100)/100;
         while {AS_DEBUG_markers} do {
-            if (_location in forcedSpawn) then {
+            if (_location call AS_fnc_location_forced_spawned) then {
                     _mrk setMarkerColor "ColorRed";
                 } else {
-                    if (spawner getVariable _location) then {
+                    if (_location call AS_fnc_location_spawned) then {
                         _mrk setMarkerColor "ColorGreen";
                     } else {
                         _mrk setMarkerColor "ColorBlue";

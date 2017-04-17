@@ -7,10 +7,10 @@ if (!(isNil "serverInitDone")) exitWith {};
 diag_log "[AS] Server MP: starting";
 call compile preprocessFileLineNumbers "initFuncs.sqf";
 diag_log "[AS] Server MP: initFuncs done";
+call compile preprocessFileLineNumbers "initLocations.sqf";
+diag_log "[AS] Server MP: initLocations done";
 call compile preprocessFileLineNumbers "initVar.sqf";
 diag_log "[AS] Server MP: initVar done";
-call compile preprocessFileLineNumbers "initZones.sqf";
-diag_log "[AS] Server MP: initZones done";
 
 call compile preprocessFileLineNumbers "initPetros.sqf";
 

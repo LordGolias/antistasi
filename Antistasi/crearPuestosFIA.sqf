@@ -1,66 +1,57 @@
 if (!isServer) exitWith {};
 
-private ["_tipo","_coste","_grupo","_unit","_tam","_roads","_road","_pos","_camion","_texto","_mrk","_hr","_unidades","_formato"];
+private ["_tipo","_coste","_grupo","_unit","_tam","_roads","_road","_pos","_camion","_hr","_unidades","_formato"];
 
 _tipo = _this select 0;
 _posicionTel = _this select 1;
 
 if (_tipo == "delete") exitWith {
-	_mrk = [puestosFIA,_posicionTel] call BIS_fnc_nearestPosition;
-	_pos = getMarkerPos _mrk;
-	hint format ["Deleting %1",markerText _mrk];
+	private _location = [[["roadblock","watchpost"],"FIA"] call AS_fnc_location_TS,_posicionTel] call BIS_fnc_nearestPosition;
+	private _type = _location call AS_fnc_location_type;
 	_coste = 0;
 	_hr = 0;
 	_tipogrupo = "Sniper Team";
-	if (markerText _mrk != "FIA Observation Post") then
-		{
+	if (_type == "roadblock") then {
 		_tipogrupo = "AT Team";
-		_coste = _coste + (["B_G_Offroad_01_armed_F"] call FIAvehiclePrice) + (AS_data_allCosts getVariable "Crew");
-		_hr = _hr + 1;
-		};
+	};
 	([_tipogrupo] call AS_fnc_getFIASquadCost) params ["_cost1", "_hr1"];
 	_coste = _coste + _cost1;
 	_hr = _hr + _hr1;
 	[_hr,_coste] remoteExec ["resourcesFIA",2];
-	deleteMarker _mrk;
-	puestosFIA = puestosFIA - [_mrk]; publicVariable "puestosFIA";
-	mrkFIA = mrkFIA - [_mrk]; publicVariable "mrkFIA";
-	marcadores = marcadores - [_mrk]; publicVariable "marcadores";
-	if (_mrk in FIA_RB_list) then {
-		FIA_RB_list = FIA_RB_list - [_mrk]; publicVariable "FIA_RB_list";
-	} else {
-		FIA_WP_list = FIA_WP_list - [_mrk]; publicVariable "FIA_WP_list";
-	};
+
+	[_location] call AS_fnc_location_delete;
 };
 
 _escarretera = isOnRoad _posicionTel;
 
-_texto = "FIA Observation Post";
+private _locationType = "watchpost";
 _tipogrupo = "Sniper Team";
 _tipoVeh = "B_G_Quadbike_01_F";
 
-if (_escarretera) then
-	{
-	_texto = "FIA Roadblock";
+if (_escarretera) then {
+	_locationType = "roadblock";
 	_tipogrupo = "AT Team";
 	_tipoVeh = "B_G_Offroad_01_F";
-	};
-
-_mrk = createMarker [format ["FIAPost%1", random 1000], _posicionTel];
-_mrk setMarkerShape "ICON";
+};
 
 _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + 60];
 _fechalimnum = dateToNumber _fechalim;
 
-_tsk = ["PuestosFIA",[side_blue,civilian],["We are sending a team to establish an Observation Post or Roadblock. Send and cover the team until reaches it's destination.","Post \ Roadblock Deploy",_mrk],_posicionTel,"CREATED",5,true,true,"Move"] call BIS_fnc_setTask;
+// this is a hidden marker used by the task and for location
+private _mrk = createMarker [format ["FIAroadblock%1", random 1000], _posicionTel];
+_mrk setMarkerShape "ELLIPSE";
+_mrk setMarkerSize [50,50];
+_mrk setMarkerAlpha 0;
+
+_tsk = ["PuestosFIA",[side_blue,civilian],["The team to establish an Observation Post or Roadblock is ready. Send it to the destination.","Post \ Roadblock Deploy",_mrk],_posicionTel,"CREATED",5,true,true,"Move"] call BIS_fnc_setTask;
 misiones pushBackUnique _tsk; publicVariable "misiones";
-_grupo = [getMarkerPos "respawn_west", side_blue, [_tipogrupo] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
+_grupo = [getMarkerPos "FIA_HQ", side_blue, [_tipogrupo] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
 _grupo setGroupId ["Watch"];
 
 _tam = 10;
 while {true} do
 	{
-	_roads = getMarkerPos "respawn_west" nearRoads _tam;
+	_roads = getMarkerPos "FIA_HQ" nearRoads _tam;
 	if (count _roads < 1) then {_tam = _tam + 10};
 	if (count _roads > 0) exitWith {};
 	};
@@ -89,41 +80,19 @@ if ({(alive _x) and (_x distance _posicionTel < 10)} count units _grupo > 0) the
 		"" remoteExec ["hint",_owner];
 		waitUntil {!(isPlayer leader _grupo)};
 		};
-	puestosFIA = puestosFIA + [_mrk]; publicVariable "puestosFIA";
-	mrkFIA = mrkFIA + [_mrk]; publicVariable "mrkFIA";
-	marcadores = marcadores + [_mrk]; publicVariable "marcadores";
-	if (_escarretera) then {
-		FIA_RB_list pushBackUnique _mrk;
-		publicVariable "FIA_RB_list";
-	} else {
-		FIA_WP_list pushBackUnique _mrk;
-		publicVariable "FIA_WP_list";
-		// BE module
-		_advanced = false;
-		if (hayBE) then {
-			if (BE_current_FIA_RB_Style == 1) then {_advanced = true};
-		};
-		if (_advanced) then {
-			_posDes = [_posicionTel, 5, round (random 359)] call BIS_Fnc_relPos;
-			_remDes = ([_posDes, 0,"B_Static_Designator_01_F", side_blue] call bis_fnc_spawnvehicle) select 0;
-			_normalPos = surfaceNormal (position _remDes);
-			_remDes setVectorUp _normalPos;
-		};
-		// BE module
-	};
-	spawner setVariable [_mrk,false,true];
-	_tsk = ["PuestosFIA",[side_blue,civilian],["We are sending a team to establish an Observation Post or Roadblock. Send and cover the team until reaches it's destination.","Post \ Roadblock Deploy",_mrk],_posicionTel,"SUCCEEDED",5,true,true,"Move"] call BIS_fnc_setTask;
+
+	[_mrk,_locationType] call AS_fnc_location_add;
+	[_mrk,"side","FIA"] call AS_fnc_location_set;
+	_mrk call AS_fnc_location_updateMarker; // creates the visible marker
+
+	_tsk = ["PuestosFIA",[side_blue,civilian],["The team to establish an Observation Post or Roadblock is ready. Send it to the destination.","Post \ Roadblock Deploy",_mrk],_posicionTel,"SUCCEEDED",5,true,true,"Move"] call BIS_fnc_setTask;
 	[-5,5,_posiciontel] remoteExec ["citySupportChange",2];
-	_mrk setMarkerType "loc_bunker";
-	_mrk setMarkerColor "ColorYellow";
-	_mrk setMarkerText _texto;
 	}
-else
-	{
-	_tsk = ["PuestosFIA",[side_blue,civilian],["We are sending a team to establish an Observation Post or Roadblock. Send and cover the team until reaches it's destination.","Post \ Roadblock Deploy",_mrk],_posicionTel,"FAILED",5,true,true,"Move"] call BIS_fnc_setTask;
+else {
+	_tsk = ["PuestosFIA",[side_blue,civilian],["The team to establish an Observation Post or Roadblock is ready. Send it to the destination.","Post \ Roadblock Deploy",_mrk],_posicionTel,"FAILED",5,true,true,"Move"] call BIS_fnc_setTask;
 	sleep 3;
 	deleteMarker _mrk;
-	};
+};
 
 AS_commander hcRemoveGroup _grupo;
 {

@@ -2,7 +2,6 @@
 
 if (player != AS_commander) exitWith {hint "Only the commander has access to this function"};
 if (!allowPlayerRecruit) exitWith {hint "Server is very loaded. \nWait one minute or change FPS settings in order to fulfill this request"};
-if (markerAlpha "respawn_west" == 0) exitWith {hint "You cant recruit a new squad while you are moving your HQ"};
 if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
 
 private _enemiesClose = false;
@@ -45,7 +44,7 @@ if (_exit) exitWith {};
 
 [- _costHR, - _cost] remoteExec ["resourcesFIA",2];
 
-private _pos = getMarkerPos "respawn_west";
+private _pos = getMarkerPos "FIA_HQ";
 private _tam = 10;
 private ["_roads", "_road"];
 while {true} do {
@@ -115,7 +114,7 @@ if (hayRHS) then {
 else {
 
 if (_isInfantry) then {
-	_pos = [(getMarkerPos "respawn_west"), 30, random 360] call BIS_Fnc_relPos;
+	_pos = [(getMarkerPos "FIA_HQ"), 30, random 360] call BIS_Fnc_relPos;
 	_grupo = [_pos, side_blue, [_grouptype] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
 }
 else {

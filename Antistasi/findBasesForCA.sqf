@@ -1,21 +1,19 @@
-private ["_marcador","_pos","_basesAAF","_bases","_base","_posbase","_busy","_radio"];
+params ["_position", ["_ignoreRadio", false]];
 
-_marcador = _this select 0;
-_pos = _this select 0;
-if (typeName _marcador == typeName "") then {_pos = getMarkerPos _marcador};
-_basesAAF = bases - mrkFIA;
-_bases = [];
-_base = "";
+// get closest airfield within some conditions
+private _base = "";
+private _closestDistance = 5000;
 {
-_base = _x;
-_posbase = getMarkerPos _base;
-_busy = if (dateToNumber date > server getVariable _base) then {false} else {true};
-if (count _this > 1) then {_radio = true} else {_radio = _posbase call radioCheck};
+    private _busy = _x call AS_fnc_location_busy;
+    private _pos = _x call AS_fnc_location_position;
+    private _radio = true;
+    if (!_ignoreRadio) then {_radio = _pos call radioCheck};
+    if ((_radio and _position distance _pos < _closestDistance or
+		_position distance _pos < 2000) and
+        !(_x call AS_fnc_location_spawned) and !_busy) then {
+        _base = _x;
+        _closestDistance = _position distance _pos;
+    };
+} forEach (["base", "AAF"] call AS_fnc_location_TS);
 
-if ((!_busy) and (not (spawner getVariable _base))) then
-	{
-	if (((_pos distance _posbase < 5000) and (_radio)) or (_pos distance _posbase < 2000)) then {_bases = _bases + [_base]};
-	};
-} forEach _basesAAF;
-if (count _bases > 0) then {_base = [_bases,_pos] call BIS_fnc_nearestPosition;} else {_base = ""};
 _base

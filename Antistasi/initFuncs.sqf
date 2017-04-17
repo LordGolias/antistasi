@@ -9,6 +9,8 @@ call compile preProcessFileLineNumbers "dialogs.sqf";
 
 call compile preProcessFileLineNumbers "AAFarsenal.sqf";
 
+call compile preProcessFileLineNumbers "location.sqf";
+
 AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "CREATE\setDefaultSkill.sqf";
 AS_fnc_getWeaponItemsCargo = compile preProcessFileLineNumbers "municion\getWeaponItemsCargo.sqf";
 AS_fnc_getBestEquipment = compile preProcessFileLineNumbers "municion\getBestEquipment.sqf";
@@ -35,7 +37,6 @@ AS_fnc_createAirAttack = compile preProcessFileLineNumbers "CREATE\fnc_createAir
 AS_fnc_initVehicle = compile preProcessFileLineNumbers "fnc_initVehicle.sqf";
 
 minefieldAAF = compile preProcessFileLineNumbers "CREATE\minefieldAAF.sqf";
-tempMoveMrk = compile preProcessFileLineNumbers "tempMoveMrk.sqf";
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";
 accionArsenal = compile preProcessFileLineNumbers "Municion\accionArsenal.sqf";
 powerCheck = compile preProcessFileLineNumbers "powerCheck.sqf";
@@ -94,7 +95,6 @@ CSATpunish = compile preProcessFileLineNumbers "CREATE\CSATpunish.sqf";
 FIAradio = compile preProcessFileLineNumbers "FIAradio.sqf";
 deleteControles = compile preProcessFileLineNumbers "deleteControles.sqf";
 cleanserVeh = compile preProcessFileLineNumbers "CREATE\cleanserVeh.sqf";
-crearControles = compile preProcessFileLineNumbers "crearControles.sqf";
 citiesToCivPatrol = compile preProcessFileLineNumbers "citiesToCivPatrol.sqf";
 NATOCAS = compile preProcessFileLineNumbers "REINF\NATOCAS.sqf";
 NATOArty = compile preProcessFileLineNumbers "REINF\NATOArty.sqf";
@@ -176,10 +176,8 @@ artilleriaNATO = compile preProcessFileLineNumbers "AI\artilleriaNATO.sqf";
 dismountFIA = compile preProcessFileLineNumbers "AI\dismountFIA.sqf";
 powerReorg = compile preProcessFileLineNumbers "powerReorg.sqf";
 apagon = compile preProcessFileLineNumbers "apagon.sqf";
-sizeMarker = compile preProcessFileLineNumbers "sizeMarker.sqf";
 mrkWIN = compile preProcessFileLineNumbers "mrkWIN.sqf";
 mrkLOOSE = compile preProcessFileLineNumbers "mrkLOOSE.sqf";
-mrkUpdate = compile preProcessFileLineNumbers "mrkUpdate.sqf";
 moveHQ = compile preProcessFileLineNumbers "moveHQ.sqf";
 buildHQ = compile preProcessFileLineNumbers "buildHQ.sqf";
 /*

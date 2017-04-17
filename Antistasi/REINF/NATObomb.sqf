@@ -40,8 +40,9 @@ posicionTel = [];
 _ang = [_pos1,_pos2] call BIS_fnc_dirTo;
 
 _central = [_pos1, 100, _ang] call BIS_fnc_relPos;
-_ciudad = [ciudades,_central] call BIS_fnc_nearestPosition;
-if (_central distance getMarkerPos _ciudad < ([_ciudad] call sizeMarker) * 1.5) exitWith {hint format ["That path is very close to %1.\n\nNATO won't perform any bomb run that may cause civilian casualties",_ciudad]; deleteMarker _mrkOrig; openMap false};
+_ciudad = [call AS_fnc_location_cities,_central] call BIS_fnc_nearestPosition;
+
+if (_central distance (_ciudad call AS_fnc_location_position) < (_ciudad call AS_fnc_location_size) * 1.5) exitWith {hint format ["That path is very close to %1.\n\nNATO won't perform any bomb run that may cause civilian casualties",_ciudad]; deleteMarker _mrkOrig; openMap false};
 
 [-10,0] remoteExec ["prestige",2];
 

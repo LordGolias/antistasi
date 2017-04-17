@@ -1,15 +1,21 @@
+// Used to spawn "city","fia_hq","factory","resource","powerplant"
 if (!isServer and hasInterface) exitWith{};
-params ["_marcador"];
+params ["_location"];
 
+// Spawned stuff
 private _soldados = [];
 private _grupos = [];
 private _vehiculos = [];
 private _civs = [];
+// buildings that can be destroyed
+private _buildings = [];
 
-private _posicion = getMarkerPos (_marcador);
-private _size = [_marcador] call sizeMarker;
+private _posicion = _location call AS_fnc_location_position;
+private _type = _location call AS_fnc_location_type;
+private _size = _location call AS_fnc_location_size;
+private _isDestroyed = _location in destroyedCities;
 
-if (_marcador != "FIA_HQ") then {
+if (_type != "fia_hq") then {
 	// The flag
 	private _veh = createVehicle ["Flag_FIA_F", _posicion, [],0, "CAN_COLLIDE"];
 	_veh allowDamage false;
@@ -17,12 +23,12 @@ if (_marcador != "FIA_HQ") then {
 	[[_veh,"unit"],"flagaction"] call BIS_fnc_MP;
 	[[_veh,"vehicle"],"flagaction"] call BIS_fnc_MP;
 	[[_veh,"garage"],"flagaction"] call BIS_fnc_MP;
-	if (_marcador in puertos) then {
+	if (_type == "seaport") then {
 		[[_veh,"seaport"],"flagaction"] call BIS_fnc_MP;
 	};
 
 	// worker civilians in non-military non-destroyed markers
-	if (!(_marcador in puestos) and !(_marcador in destroyedCities)) then {
+	if ((_type in ["powerplant","resource","factory"]) and !_isDestroyed) then {
 		if ((daytime > 8) and (daytime < 18)) then {
 			private _grupo = createGroup civilian;
 			_grupos pushBack _grupo;
@@ -32,16 +38,15 @@ if (_marcador != "FIA_HQ") then {
 				_civs pushBack _civ;
 				sleep 0.5;
 			};
-			[_marcador,_civs] spawn destroyCheck;  // power shuts if everyone is killed
-			[leader _grupo, _marcador, "SAFE", "SPAWNED","NOFOLLOW", "NOSHARE","DORELAX","NOVEH2"] execVM "scripts\UPSMON.sqf";
+			[_location,_civs] spawn destroyCheck;  // power shuts if everyone is killed
+			[leader _grupo, _location, "SAFE", "SPAWNED","NOFOLLOW", "NOSHARE","DORELAX","NOVEH2"] execVM "scripts\UPSMON.sqf";
 		};
 	};
 };
 
-private _buildings = [];
-if (_marcador in puestos) then {
+if (_type == "watchpost") then {
 	// populate military buildings
-	_buildings = nearestObjects [_posicion, listMilBld, _size*1.5];
+	_buildings append (nearestObjects [_posicion, listMilBld, _size*1.5]);
 
 	// if close to an antenna, add jam option
 	private _ant = [antenas,_posicion] call BIS_fnc_nearestPosition;
@@ -51,27 +56,40 @@ if (_marcador in puestos) then {
 };
 
 // Create the garrison
-(_marcador call AS_fnc_createFIAgarrison) params ["_soldados1", "_grupos1", "_vehiculos1"];
+(_location call AS_fnc_createFIAgarrison) params ["_soldados1", "_grupos1", "_vehiculos1"];
 _soldados append _soldados1;
 _grupos append _grupos1;
 _vehiculos append _vehiculos1;
 
-private _journalist = [_marcador, _grupos] call AS_fnc_createJournalist;
+// no journalist in the HQ
+if (_type != "fia_hq") then {
+	_civs pushBack ([_location, _grupos] call AS_fnc_createJournalist);
+};
 
-// wait for despawn due to despawn or successful attack
-waitUntil {sleep 1;
-	(!(spawner getVariable _marcador)) or
-	(({not(vehicle _x isKindOf "Air")} count ([_size,0,_posicion,"OPFORSpawn"] call distanceUnits)) > 3*(({alive _x} count _soldados) + count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)))};
+if !(_type in ["fia_hq","city"]) then {
+	// wait for successful attack to lose the marker
+	private _wasCaptured = false;
+	waitUntil {sleep 1;
+		private _AAFcount = ({not(vehicle _x isKindOf "Air")} count ([_size,0,_posicion,"OPFORSpawn"] call distanceUnits));
+		private _FIAcount = (({alive _x} count _soldados) + count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits));
 
-if (_marcador != "FIA_HQ") then {
+		_wasCaptured = (_AAFcount > 3*_FIAcount);
+
+		!(_location call AS_fnc_location_spawned) or _wasCaptured
+	};
+
 	// successful attack => lose marker
-	if (spawner getVariable _marcador) then {
-		[_marcador] remoteExec ["mrkLOOSE",2];
+	if (_wasCaptured) then {
+		[_location] remoteExec ["mrkLOOSE",2];
 	};
 };
 
-// wait to despawn
-waitUntil {sleep 1; !(spawner getVariable _marcador)};
+// wait for despawn
+waitUntil {sleep 1; !(_location call AS_fnc_location_spawned)};
+
+/////////////////////////////////////////////////////////////////
+////////////////////// clean everything /////////////////////////
+/////////////////////////////////////////////////////////////////
 
 {
 	if ((!alive _x) and !(_x in destroyedBuildings)) then {
@@ -81,7 +99,7 @@ waitUntil {sleep 1; !(spawner getVariable _marcador)};
 } forEach _buildings;
 
 {
-	if (_marcador in mrkFIA) then {
+	if (_location call AS_fnc_location_side == "FIA") then {
 		([_x, true] call AS_fnc_getUnitArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 		[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true] call AS_fnc_populateBox;
 	};
@@ -89,8 +107,7 @@ waitUntil {sleep 1; !(spawner getVariable _marcador)};
 		deleteVehicle _x;
 	};
 } forEach _soldados;
-
 {deleteGroup _x} forEach _grupos;
-{deleteVehicle _x} forEach _civs;
-if (!isNull _journalist) then {deleteVehicle _journalist};
 {if (!(_x in staticsToSave)) then {deleteVehicle _x}} forEach _vehiculos;
+
+{deleteVehicle _x} forEach _civs;

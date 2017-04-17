@@ -96,7 +96,7 @@ if (isMultiplayer) then {
     personalGarage = [];
 };
 
-_pos = (getMarkerPos "respawn_west") findEmptyPosition [2, 10, typeOf (vehicle player)];
+_pos = (getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)];
 player setPos _pos;
 
 call AS_fnc_loadLocalPlayer;
@@ -178,9 +178,9 @@ if (_isJip) then {
 
 	{
 	if (_x isKindOf "FlagCarrier") then {
-		_marcador = [marcadores,getPos _x] call BIS_fnc_nearestPosition;
-		if ((not(_marcador in colinas)) and (not(_marcador in controles))) then {
-			if (_marcador in mrkAAF) then {
+		private _location = [call AS_fnc_location_all, getPos _x] call BIS_fnc_nearestPosition;
+		if !((_location call AS_fnc_location_type) in ["hill", "roadblock"]) then {
+			if (_location call AS_fnc_location_side == "AAF") then {
 				_x addAction [localize "STR_act_takeFlag", {[[_this select 0, _this select 1],"mrkWIN"] call BIS_fnc_MP;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
 			}
 			else {

@@ -3,15 +3,15 @@ if (!isServer and hasInterface) exitWith{};
 _tskTitle = localize "Str_tsk_fndCiv";
 _tskDesc = localize "Str_tskDesc_fndCiv";
 
-_site = _this select 0;
-_position = getMarkerPos _site;
+private _site = _this select 0;
+private _position = _site call AS_fnc_location_position;
+private _size = _site call AS_fnc_location_size;
 
 _tiempolim = 60;
 _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 _fechalimnum = dateToNumber _fechalim;
 
-_range = [_site] call sizeMarker;
-_bldgs = nearestObjects [_position, ["house"], _range];
+_bldgs = nearestObjects [_position, ["house"], _size];
 _posbldg = [];
 _bldg = _bldgs select 0;
 while {count _posbldg < 3} do

@@ -1,7 +1,7 @@
 if (!isServer and hasInterface) exitWith {};
-params ["_marcador"];
+params ["_location"];
 
-private _posicion = getMarkerPos _marcador;
+private _posicion = _location call AS_fnc_location_position;
 
 private _vehicles = [];
 
@@ -50,45 +50,47 @@ if (_escarretera) then {
 		_unit moveInGunner _veh;
 	};
 }
-else
-	{
+else {
 	_grupo = [_posicion, side_blue, ["Sniper Team"] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
 	_grupo setBehaviour "STEALTH";
 	_grupo setCombatMode "GREEN";
+	if (_advanced) then {
+		private _posDes = [_posicion, 5, round (random 359)] call BIS_Fnc_relPos;
+		private _remDes = ([_posDes, 0,"B_Static_Designator_01_F", side_blue] call bis_fnc_spawnvehicle) select 0;
+		_remDes setVectorUp (surfaceNormal (position _remDes));
+		_vehicles pushBack _remDes;
+	};
 };
 
 {[_x,false] spawn AS_fnc_initUnitFIA;} forEach units _grupo;
 
-waitUntil {sleep 1; (not(spawner getVariable _marcador)) or ({alive _x} count units _grupo == 0) or (not(_marcador in puestosFIA))};
+waitUntil {sleep 5;
+	!(_location call AS_fnc_location_spawned) or
+	({alive _x} count units _grupo == 0) or
+	!(_location call AS_fnc_location_exists)
+};
 
-if ({alive _x} count units _grupo == 0) then
-	{
-	puestosFIA = puestosFIA - [_marcador]; publicVariable "puestosFIA";
-	mrkFIA = mrkFIA - [_marcador]; publicVariable "mrkFIA";
-	marcadores = marcadores - [_marcador]; publicVariable "marcadores";
+if ({alive _x} count units _grupo == 0) then {
+	_location call AS_fnc_location_delete;
 	[5,-5,_posicion] remoteExec ["citySupportChange",2];
-	deleteMarker _marcador;
-	if (_escarretera) then
-		{
-		FIA_RB_list = FIA_RB_list - [_marcador]; publicVariable "FIA_RB_list";
+	if (_escarretera) then {
 		[["TaskFailed", ["", "Roadblock Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		}
-	else
-		{
-		FIA_WP_list = FIA_WP_list - [_marcador]; publicVariable "FIA_WP_list";
+	} else {
 		[["TaskFailed", ["", "Watchpost Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		deleteVehicle (nearestObjects [getMarkerPos _marcador, ["B_Static_Designator_01_F"], 50] select 0);
-		};
 	};
+};
 
-waitUntil {sleep 1; (not(spawner getVariable _marcador)) or (not(_marcador in puestosFIA))};
+waitUntil {sleep 1;
+	!(_location call AS_fnc_location_spawned) or
+	!(_location call AS_fnc_location_exists)
+};
 
 if ((_advanced) || (_escarretera)) then {
 	{deleteVehicle _x;} forEach _vehicles;
 };
 
 {
-	if (_marcador in mrkFIA) then {
+	if (_location call AS_fnc_location_exists) then {
 		([_x, true] call AS_fnc_getUnitArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 		[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true] call AS_fnc_populateBox;
 	};

@@ -11,9 +11,11 @@ _tskDesc_success = localize "STR_tskDesc_PRPamphlet_success";
 parameters
 0: target marker (marker)
 */
-_targetMarker = _this select 0;
-_targetPosition = getMarkerPos _targetMarker;
-_targetName = [_targetMarker] call localizar;
+private _targetMarker = _this select 0;
+private _targetPosition = _targetMarker call AS_fnc_location_position;
+private _targetName = [_targetMarker] call localizar;
+private _size = _targetMarker call AS_fnc_location_size;
+
 
 // mission timer
 _tiempolim = 60;
@@ -24,7 +26,7 @@ _tsk = ["PR",[side_blue,civilian],[format [_tskDesc,_targetName,numberToDate [20
 misiones pushBack _tsk; publicVariable "misiones";
 
 // spawn mission vehicle
-_pos = (getMarkerPos "respawn_west") findEmptyPosition [5,50,"C_Van_01_transport_F"];
+_pos = (getMarkerPos "FIA_HQ") findEmptyPosition [5,50,"C_Van_01_transport_F"];
 PRTruck = "C_Van_01_transport_F" createVehicle _pos;
 
 // eye candy
@@ -65,9 +67,8 @@ PRTruck addEventHandler ["GetIn",
 // _countBuildings: number of positions
 _countBuildings = 3;
 _targetBuildings = [];
-_range = [_targetMarker] call sizeMarker;
 
-_allBuildings = nearestObjects [_targetPosition, ["Building"], _range];
+_allBuildings = nearestObjects [_targetPosition, ["Building"], _size];
 _usableBuildings = +_allBuildings;
 
 _index = round (3* ((count _allBuildings) /4));
@@ -128,8 +129,8 @@ if !(PRTruck distance _targetPosition < 550) exitWith {
 	[-10,AS_commander] call playerScoreAdd;
 
     [1200,_tsk] spawn borrarTask;
-	waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,PRTruck,"BLUFORSpawn"] call distanceUnits)) or ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1))};
-	if ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1)) then {
+	waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,PRTruck,"BLUFORSpawn"] call distanceUnits)) or ((PRTruck distance (getMarkerPos "FIA_HQ") < 60) && (speed PRTruck < 1))};
+	if ((PRTruck distance (getMarkerPos "FIA_HQ") < 60) && (speed PRTruck < 1)) then {
 		[PRTruck] call vaciar;
 		deleteVehicle PRTruck;
 	};
@@ -302,8 +303,8 @@ else {
 };
 
 [1200,_tsk] spawn borrarTask;
-waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,PRTruck,"BLUFORSpawn"] call distanceUnits)) or ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1))};
-if ((PRTruck distance (getMarkerPos "respawn_west") < 60) && (speed PRTruck < 1)) then {
+waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,PRTruck,"BLUFORSpawn"] call distanceUnits)) or ((PRTruck distance (getMarkerPos "FIA_HQ") < 60) && (speed PRTruck < 1))};
+if ((PRTruck distance (getMarkerPos "FIA_HQ") < 60) && (speed PRTruck < 1)) then {
 	[PRTruck] call vaciar;
 	deleteVehicle PRTruck;
 };

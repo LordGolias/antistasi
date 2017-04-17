@@ -1,29 +1,29 @@
 #include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
+params ["_location", "_posicion"];
+
+private _nombredest = [_location] call localizar;
+private _size = _location call AS_fnc_location_size;
 
 _tskTitle = localize "STR_tsk_repAntenna";
 _tskDesc = localize "STR_tskDesc_repAntenna";
 
-private ["_marcador","_posicion","_fechalim","_fechalimnum","_nombredest","_camionCreado","_size","_pos","_veh","_grupo","_unit"];
-
-_marcador = _this select 0;
-_posicion = _this select 1;
+private ["_fechalim","_fechalimnum","_camionCreado","_pos","_veh","_grupo","_unit"];
 
 _tiempolim = 60;
 _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 _fechalimnum = dateToNumber _fechalim;
-_nombredest = [_marcador] call localizar;
 
-_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_marcador],_posicion,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
+	_tskTitle,_location],_posicion,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";
 _camionCreado = false;
 
-waitUntil {sleep 1;(dateToNumber date > _fechalimnum) or (spawner getVariable _marcador)};
+waitUntil {sleep 1;(dateToNumber date > _fechalimnum) or (_location call AS_fnc_location_spawned)};
 
-if (spawner getVariable _marcador) then
+if (_location call AS_fnc_location_spawned) then
 	{
 	_camionCreado = true;
-	_size = [_marcador] call sizeMarker;
 	_pos = [];
 	_pos = _posicion findEmptyPosition [10,60,selectRandom vehTruckBox];
 	_veh = createVehicle [selectRandom vehTruckBox, _pos, [], 0, "NONE"];
@@ -46,7 +46,8 @@ if (spawner getVariable _marcador) then
 
 	if (not alive _veh) then
 		{
-		_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],_tskTitle,_marcador],_posicion,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+		_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],
+			_tskTitle,_location],_posicion,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 		[2,0] remoteExec ["prestige",2];
 		[1200] remoteExec ["timingCA",2];
 		{if (_x distance _veh < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
@@ -55,9 +56,10 @@ if (spawner getVariable _marcador) then
 	};
 if (dateToNumber date > _fechalimnum) then
 	{
-	if (_marcador in mrkFIA) then
+	if (_location call AS_fnc_location_side == "FIA") then
 		{
-		_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],_tskTitle,_marcador],_posicion,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+		_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],
+			_tskTitle,_location],_posicion,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 		[2,0] remoteExec ["prestige",2];
 		[1200] remoteExec ["timingCA",2];
 		{if (_x distance _veh < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
@@ -70,7 +72,8 @@ if (dateToNumber date > _fechalimnum) then
 		}
 	else
 		{
-		_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],_tskTitle,_marcador],_posicion,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+		_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],
+			_tskTitle,_location],_posicion,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 		//[5,0,_posicion] remoteExec ["citySupportChange",2];
 		[-600] remoteExec ["timingCA",2];
 		[-10,AS_commander] call playerScoreAdd;
@@ -97,12 +100,10 @@ if (dateToNumber date > _fechalimnum) then
 		];
 	};
 
-_resourcesAAF = AS_P("resourcesAAF");
-_resourcesAAF = _resourcesAAF - 10000;
-AS_Pset("resourcesAAF",_resourcesAAF);
+AS_Pset("resourcesAAF", AS_P("resourcesAAF") - 10000);
 [60,_tsk] spawn borrarTask;
 
-waitUntil {sleep 1; not (spawner getVariable _marcador)};
+waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 
 if (_camionCreado) then
 	{

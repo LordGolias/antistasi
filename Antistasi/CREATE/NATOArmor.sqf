@@ -2,8 +2,8 @@
 if (!isServer and hasInterface) exitWith {};
 params ["_origen", "_destino"];
 
-private _posOrigen = getMarkerPos _origen;
-private _posDestino = getMarkerPos _destino;
+private _posOrigen = _origen call AS_fnc_location_position;
+private _posDestino = _destino call AS_fnc_location_position;
 
 private _nombredest = [_destino] call localizar;
 private _nombreorig = [_origen] call localizar;

@@ -1,13 +1,13 @@
-private _marcador = _this;
+private _location = _this;
 
 private _soldados = [];
 private _grupos = [];
 private _vehiculos = [];
 
-private _posicion = getMarkerPos (_marcador);
-private _size = [_marcador] call sizeMarker;
+private _posicion = _location call AS_fnc_location_position;
+private _size = _location call AS_fnc_location_size;
 private _estaticas = staticsToSave select {_x distance _posicion < _size};
-private _garrison = garrison getVariable [_marcador,[]];
+private _garrison = _location call AS_fnc_location_garrison;
 
 private _grupoMort = grpNull;
 private _grupoEst = grpNull;
@@ -15,7 +15,7 @@ private _grupoEst = grpNull;
 private _grupo = createGroup side_blue;
 _grupos = _grupos + [_grupo];
 {
-	if !(spawner getVariable _marcador) exitWith {};
+	if !(_location call AS_fnc_location_spawned) exitWith {};
 	private _unit = objNull;
 	call {
 		if (_x == "Crew") exitWith {
@@ -49,10 +49,10 @@ _grupos = _grupos + [_grupo];
 			_estaticas = _estaticas - [_estatica];
 		};
 
-		_unit = _grupo createUnit [_x, _posicion, [], 0, "NONE"];
+		_unit = _grupo createUnit [[_x] call AS_fnc_getFIAUnitClass, _posicion, [], 0, "NONE"];
 		if (_x == "Squad Leader") then {_grupo selectLeader _unit};
 	};
-	[_unit,false,_marcador] call AS_fnc_initUnitFIA;
+	[_unit,false,_location] call AS_fnc_initUnitFIA;
 	_soldados pushBack _unit;
 	sleep 0.5;
 
@@ -65,7 +65,7 @@ _grupos = _grupos + [_grupo];
 
 // give orders to the groups
 {
-	[leader _x, _marcador, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+	[leader _x, _location, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 } forEach _grupos;
 
 if !(isNull _grupoMort) then {

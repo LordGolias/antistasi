@@ -1,17 +1,13 @@
-private ["_marcador","_civs","_nombre"];
+params ["_location", "_civilians"];
 
-_marcador = _this select 0;
-_civs = _this select 1;
-
-while {spawner getVariable _marcador} do
-	{
-	if ({(alive _x) and (not(isNull _x))} count _civs == 0) exitWith
-		{
-		_nombre = [_marcador] call localizar;
-		destroyedCities pushBack _marcador;
+while {_location call AS_fnc_location_spawned} do {
+	if ({(alive _x) and (not(isNull _x))} count _civilians == 0) exitWith {
+		destroyedCities pushBack _location;
 		publicVariable "destroyedCities";
-		[["TaskFailed", ["", format ["%1 Destroyed",_nombre]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		if (_marcador in power) then {/*[_marcador] call powerReorg*/[_marcador] remoteExec ["powerReorg",2]};
+		[["TaskFailed", ["", format ["%1 Destroyed",[_location] call localizar]]], "BIS_fnc_showNotification"] call BIS_fnc_MP;
+		if (_location call AS_fnc_location_type == "powerplant") then {
+			[_location] remoteExec ["powerReorg",2];
 		};
-	sleep 1;
 	};
+	sleep 5;
+};

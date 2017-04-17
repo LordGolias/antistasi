@@ -35,9 +35,6 @@ musicON = true;
 // todo: have a menu to switch this behaviour
 switchCom = false;  // Game will not auto assign Commander position to the highest ranked player
 
-// we set the maker on petros so the HQ position is correct in new games.
-"respawn_west" setMarkerPos (position petros);
-"FIA_HQ" setMarkerPos (position petros);
 //minefieldMrk = [];
 //destroyedCities = [];
 autoHeal = false;
@@ -129,7 +126,6 @@ call compile preprocessFileLineNumbers "initFIA.sqf";
 // This initializes all AAF/NATO/CSAT equipment using info in the templates.
 call compile preprocessFileLineNumbers "initItemsSides.sqf";
 
-#include "Compositions\spawnPositions.sqf"
 #include "Functions\clientFunctions.sqf"
 call compile preprocessFileLineNumbers "templates\basicLists.sqf";
 
@@ -151,12 +147,8 @@ smallCAmrk = [];
 smallCApos = [];
 
 // camps
-campsFIA = [];
-campList = [];
-campNames = ["Camp Spaulding","Camp Wagstaff","Camp Firefly","Camp Loophole","Camp Quale","Camp Driftwood","Camp Flywheel","Camp Grunion","Camp Kornblow","Camp Chicolini","Camp Pinky",
-			"Camp Fieramosca","Camp Bulldozer","Camp Bambino","Camp Pedersoli"];
-usedCN = [];
-cName = "";
+campNames = ["Spaulding","Wagstaff","Firefly","Loophole","Quale","Driftwood","Flywheel","Grunion","Kornblow","Chicolini","Pinky",
+			"Fieramosca","Bulldozer","Bambino","Pedersoli"];
 
 // roadblocks and watchposts
 FIA_RB_list = [];

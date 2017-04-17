@@ -48,7 +48,7 @@ AS_fnc_spawnAAF_roadAT = {
 AS_fnc_spawnAAF_patrol = {
 	params ["_location", "_amount"];
 
-	private _position = getMarkerPos _location;
+	private _position = _location call AS_fnc_location_position;
 
 	private _units = [];
 	private _groups = [];
@@ -60,12 +60,12 @@ AS_fnc_spawnAAF_patrol = {
 	_mrk setMarkerTypeLocal "hd_warning";
 	_mrk setMarkerColorLocal "ColorRed";
 	_mrk setMarkerBrushLocal "DiagGrid";
-	_mrk setMarkerDirLocal (markerDir _location);
+	_mrk setMarkerDirLocal (markerDir _location);  // ERROR
 	_mrk setMarkerAlphaLocal 0;
 
 	// spawn patrols
 	for "_i" from 1 to _amount do {
-		if !(spawner getVariable _location) exitWith {};
+		if !(_location call AS_fnc_location_spawned) exitWith {};
 
 		private _pos = [0,0,0];
 		while {true} do {
@@ -88,14 +88,14 @@ AS_fnc_spawnAAF_patrol = {
 AS_fnc_spawnAAF_patrolSquad = {
 	params ["_location", "_amount"];
 
-	private _position = getMarkerPos _location;
-	private _size = [_location] call sizeMarker;
+	private _position = _location call AS_fnc_location_position;
+	private _size = _location call AS_fnc_location_size;
 
 	private _units = [];
 	private _groups = [];
 
 	for "_i" from 1 to _amount do {
-		if (!(spawner getVariable _location) or (_i != 1 and diag_fps < AS_P("minimumFPS"))) exitWith {};
+		if (!(_location call AS_fnc_location_spawned) or (_i != 1 and diag_fps < AS_P("minimumFPS"))) exitWith {};
 		private _pos = [];
 		while {true} do {
 			_pos = [_position, random _size,random 360] call BIS_fnc_relPos;
@@ -118,8 +118,8 @@ AS_fnc_spawnAAF_patrolSquad = {
 AS_fnc_spawnAAF_truck = {
 	params ["_location"];
 
-	private _position = getMarkerPos _location;
-	private _size = [_location] call sizeMarker;
+	private _position = _location call AS_fnc_location_position;
+	private _size = _location call AS_fnc_location_size;
 
 	private _vehicles = [];
 
@@ -136,26 +136,12 @@ AS_fnc_spawnAAF_truck = {
 
 // find road spots to spawn vehicles on, provide initial heading
 fnc_findSpawnSpots = {
-	params ["_origin", ["_dest", "base_4"], ["_spot", false]];
+	params ["_origin", ["_dest", [0,0,0]], ["_spot", false]];
 	private ["_roads", "_startRoad"];
 	_startRoad = _origin;
 	_roads = [];
 
-	if (_spot) exitWith {
-		[_origin, "none"] call fnc_getpresetSpawnPos;
-	};
-
 	private _tam = 10;
-
-	if !(typeName _origin == "ARRAY") then {
-		_startRoad = getMarkerPos _origin;
-	};
-	if (worldName == "Altis") then {
-		_startRoad = [_origin, "road"] call fnc_getpresetSpawnPos;
-	};
-	if !(typeName _dest == "ARRAY") then {
-		_dest = getMarkerPos _dest;
-	};
 
 	while {true} do {
 		_roads = _startRoad nearRoads _tam;

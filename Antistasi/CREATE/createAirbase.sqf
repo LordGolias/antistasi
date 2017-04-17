@@ -1,15 +1,16 @@
 #include "../macros.hpp"
-params ["_marcador"];
+params ["_location"];
 if (!isServer and hasInterface) exitWith{};
 
 private _soldados = [];
 private _grupos = [];
 private _vehiculos = [];
 
-private _posicion = getMarkerPos (_marcador);
-private _size = [_marcador] call sizeMarker;
-private _frontera = [_marcador] call isFrontline;
-private _busy = if (dateToNumber date > server getVariable _marcador) then {false} else {true};
+private _posicion = _location call AS_fnc_location_position;
+private _size = _location call AS_fnc_location_size;
+private _frontera = _location call isFrontline;
+private _busy = _location call AS_fnc_location_busy;
+
 
 // spawn flag
 private _flag = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
@@ -23,7 +24,7 @@ private _veh = "I_supplyCrate_F" createVehicle _posicion;
 _vehiculos pushBack _veh;
 
 // spawn AT road block
-if ((spawner getVariable _marcador) and _frontera) then {
+if ((_location call AS_fnc_location_spawned) and _frontera) then {
 	([_posicion, _grupo] call AS_fnc_spawnAAF_roadAT) params ["_units1", "_vehicles1"];
 	_soldados append _units1;
 	_vehiculos append _vehicles1;
@@ -31,7 +32,7 @@ if ((spawner getVariable _marcador) and _frontera) then {
 
 // spawn 4 patrols
 // _mrk => to be deleted at the end
-([_marcador, 4] call AS_fnc_spawnAAF_patrol) params ["_units1", "_groups1", "_mrk"];
+([_location, 4] call AS_fnc_spawnAAF_patrol) params ["_units1", "_groups1", "_mrk"];
 _spatrol append _units1;
 _grupos append _groups1;
 
@@ -48,7 +49,7 @@ if (!_busy) then {
 		_grupos pushBack _grupo;
 
 		for "_i" from 1 to 5 do {
-			if !(spawner getVariable _location) exitWith {};
+			if !(_location call AS_fnc_location_spawned) exitWith {};
 
 			_tipoveh = (["planes", "armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all) call BIS_fnc_selectRandom;
 			private _veh = createVehicle [_tipoveh, _pos, [],3, "NONE"];
@@ -61,7 +62,7 @@ if (!_busy) then {
 			[_unit, false] spawn AS_fnc_initUnitAAF;
 			_soldados pushBack _unit;
 		};
-		[leader _grupo, _marcador, "SAFE","SPAWNED","NOFOLLOW","NOVEH"] execVM "scripts\UPSMON.sqf";
+		[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH"] execVM "scripts\UPSMON.sqf";
 		sleep 1;
 	};
 };
@@ -69,7 +70,7 @@ if (!_busy) then {
 // spawn parked land vehicles
 private _groupCount = round (_size/60);
 for "_i" from 1 to _groupCount do {
-	if (!(spawner getVariable _marcador) or diag_fps < AS_P("minimumFPS")) exitWith {};
+	if (!(_location call AS_fnc_location_spawned) or diag_fps < AS_P("minimumFPS")) exitWith {};
 	private _tipoVeh = (["trucks", "apcs"] call AS_fnc_AAFarsenal_all) call BIS_fnc_selectRandom;
 	_pos = [_posicion, 10, _size/2, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
 	_veh = createVehicle [_tipoVeh, _pos, [], 0, "NONE"];
@@ -81,26 +82,26 @@ for "_i" from 1 to _groupCount do {
 
 // spawn guarding squads
 if (_frontera) then {_groupCount = _groupCount * 2};
-([_marcador, 1 + _groupCount] call AS_fnc_spawnAAF_patrolSquad) params ["_units1", "_groups1"];
+([_location, 1 + _groupCount] call AS_fnc_spawnAAF_patrolSquad) params ["_units1", "_groups1"];
 _soldados append _units1;
 _grupos append _groups1;
 
-private _journalist = [_marcador, _grupos] call AS_fnc_createJournalist;
+private _journalist = [_location, _grupos] call AS_fnc_createJournalist;
 
 //////////////////////////////////////////////////////////////////
 ////////////////////////// END SPAWNING //////////////////////////
 //////////////////////////////////////////////////////////////////
 
 waitUntil {sleep 1;
-	(not (spawner getVariable _marcador)) or
+	(not (_location call AS_fnc_location_spawned)) or
 	(({(not(vehicle _x isKindOf "Air"))} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)) >
 	 3*({(alive _x) and (!(captive _x)) and (_x distance _posicion < _size)} count _soldados))};
 
-if ((spawner getVariable _marcador) and (not(_marcador in mrkFIA))) then {
+if ((_location call AS_fnc_location_spawned) and (_location call AS_fnc_location_side == "AAF")) then {
 	[_flag] remoteExec ["mrkWIN",2];
 };
 
-waitUntil {sleep 1; not (spawner getVariable _marcador)};
+waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 
 deleteMarker _mrk;
 {if (alive _x) then {deleteVehicle _x}} forEach _soldados;

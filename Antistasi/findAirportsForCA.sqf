@@ -1,18 +1,19 @@
-private ["_marcador","_pos","_aeropuertosAAF","_aeropuertos","_aeropuerto","_posaeropuerto","_radio"];
+params ["_position", ["_ignoreRadio", false]];
 
-_marcador = _this select 0;
-_pos = _this select 0;
-if (typeName _marcador == typeName "") then {_pos = getMarkerPos _marcador};
-_aeropuertosAAF = aeropuertos - mrkFIA;
-_aeropuertos = [];
-_aeropuerto = "";
+// get closest airfield within some conditions
+private _airfield = "";
+private _closestDistance = 10000;
 {
-_aeropuerto = _x;
-_busy = if (dateToNumber date > server getVariable _aeropuerto) then {false} else {true};;
-_posaeropuerto = getMarkerPos _aeropuerto;
-if (count _this > 1) then {_radio = true} else {_radio = _posaeropuerto call radioCheck};
-if ((_pos distance _posaeropuerto < 10000) and (_pos distance _posaeropuerto > 2000) and (not (spawner getVariable _aeropuerto)) and (!_busy) and (_radio)) then {_aeropuertos = _aeropuertos + [_aeropuerto]}
-} forEach _aeropuertosAAF;
+    private _busy = _x call AS_fnc_location_busy;
+    private _pos = _x call AS_fnc_location_position;
+    private _radio = true;
+    if (!_ignoreRadio) then {_radio = _pos call radioCheck};
+    if (_position distance _pos < _closestDistance and
+        _position distance _pos > 2000 and
+        !(_x call AS_fnc_location_spawned) and !_busy and _radio) then {
+            _airfield = _x;
+            _closestDistance = _position distance _pos;
+    };
+} forEach (["airfield", "AAF"] call AS_fnc_location_TS);
 
-if (count _aeropuertos > 0) then {_aeropuerto = [_aeropuertos,_pos] call BIS_fnc_nearestPosition;} else {_aeropuerto = ""};
-_aeropuerto
+_airfield

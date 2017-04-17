@@ -14,14 +14,13 @@ player addEventHandler ["HandleHeal", {
 		if ({((side _x== side_red) or (side _x== side_green)) and (_x knowsAbout player > 1.4)} count allUnits > 0) then {
 			_player setCaptive false;
 		} else {
-			_ciudad = [ciudades,_player] call BIS_fnc_nearestPosition;
-			_size = [_ciudad] call sizeMarker;
+			private _ciudad = [call AS_fnc_location_cities,_player] call BIS_fnc_nearestPosition;
+			private _size = _ciudad call AS_fnc_location_size;
+            private _position = _ciudad call AS_fnc_location_position;
+            private _AAFsupport = [_ciudad, "AAFsupport"] call AS_fnc_location_get;
 
-			_data = [_ciudad, ["prestigeOPFOR"]] call AS_fnc_getCityAttrs;
-			_prestigeOPFOR = _data select 0;
-
-			if (random 100 <_prestigeOPFOR) then {
-				if (_player distance getMarkerPos _ciudad < _size * 1.5) then {
+			if (random 100 < _AAFsupport) then {
+				if (_player distance _position < _size * 1.5) then {
 					_player setCaptive false;
 				};
 			};

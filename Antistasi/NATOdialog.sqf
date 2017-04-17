@@ -6,30 +6,8 @@ if (!allowPlayerRecruit) exitWith {hint "Server is very loaded. \nWait one minut
 if (_tipo in misiones) exitWith {hint "NATO is already busy with this kind of mission"};
 if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
 
-// check if FIA controls a radio tower
-// /begin
-/*
-_s = antenas - mrkAAF;
-_c = 0;
-
-if (count _s > 0) then {
-	for "_i" from 0 to (count _s - 1) do {
-		_antenna = _s select _i;
-		_cercano = [marcadores, getPos _antenna] call BIS_fnc_nearestPosition;
-		if (_cercano in mrkFIA) then {_c = _c + 1};
-	};
-};
-
-
-if (_c < 1) exitWith {
-	_l1 = ["Radio Operator", "I cannot get NATO on the horn. I might have more luck if I were able to jerry-rig this radio to a proper radio tower..."];
-	[[_l1],"SIDE",0.15] execVM "createConv.sqf";
-};
-*/
-// /end
-
-_bases = bases - mrkAAF;
-_aeropuertos = aeropuertos - mrkAAF;
+_bases = [["base"], "FIA"] call AS_fnc_location_TS;
+_aeropuertos = [["airfield"], "FIA"] call AS_fnc_location_TS;
 
 if (((_tipo == "NATOArty") or (_tipo == "NATOArmor") or (_tipo == "NATORoadblock")) and (count _bases == 0)) exitWith {hint "You need to conquer at least one base to perform this action"};
 
@@ -105,13 +83,16 @@ if (_tipo == "NATORoadblock") exitWith {
 
 if (_tipo == "NATOAmmo") exitWith {[_posiciontel,_NATOSupp] remoteExec [_tipo, HCattack]};
 
-_sitio = [marcadores, _posicionTel] call BIS_Fnc_nearestPosition;
+private _location = _posicionTel call AS_fnc_location_nearest;
+private _position = _location call AS_fnc_location_position;
+private _type = _location call AS_fnc_location_type;
+private _side = _location call AS_fnc_location_side;
 
 if (_tipo == "NATOQRF") exitWith {
 	_sitioName = "the NATO carrier";
-	if ((_sitio in _bases) || (_sitio in _aeropuertos)) then {
-		_loc = _sitio;
-		_sitioName = [_sitio] call localizar;
+	if (_type in ["base", "arfield"]) then {
+		_loc = _location;
+		_sitioName = [_location] call localizar;
 	};
 
 	posicionTel = [];
@@ -133,15 +114,15 @@ if (_tipo == "NATOQRF") exitWith {
 	[_loc,_destino] remoteExec ["NATOQRF",HCattack];
 };
 
-if (_posicionTel distance getMarkerPos _sitio > 50) exitWith {hint "You must click near a map marker"};
+if (_posicionTel distance _position > 50) exitWith {hint "You must click near a map marker"};
 
 if (_tipo == "NATOArty") exitWith {
-	if (not(_sitio in _bases)) exitWith {hint "Artillery support can only be obtained from bases."};
-	[_sitio] remoteExec ["NATOArty", HCattack];
+	if (_type != "base") exitWith {hint "Artillery support can only be obtained from bases."};
+	[_location] remoteExec ["NATOArty", HCattack];
 };
 
 if (_tipo == "NATOArmor") then {
-	if (not(_sitio in _bases)) then {
+	if (_type != "base") then {
 		_salir = true;
 		hint "You must click near a friendly base";
 	}
@@ -159,24 +140,24 @@ if (_tipo == "NATOArmor") then {
 
 		_posicionTel =+ posicionTel;
 		openMap false;
-		_destino = [marcadores, _posicionTel] call BIS_Fnc_nearestPosition;
-		if (_posicionTel distance getMarkerPos _destino > 50) then {
+		_destino = _posicionTel call AS_fnc_location_nearest;
+		if (_posicionTel distance (_destino call AS_fnc_location_position) > 50) then {
 			hint "You must click near a map marker";
 			_salir = true
 		}
 		else {
-			[[_sitio,_destino], "CREATE\NATOArmor.sqf"] remoteExec ["execVM",HCattack];
+			[[_location,_destino], "CREATE\NATOArmor.sqf"] remoteExec ["execVM",HCattack];
 		};
 	};
 };
 
 if (_tipo == "NATOCA") then {
-	if ((_sitio in ciudades) or (_sitio in controles) or (_sitio in colinas)) then {_salir = true; hint "NATO won't attack this kind of zone."};
-	if (_sitio in mrkFIA) then {_salir = true; hint "NATO Attacks may be only ordered on AAF controlled zones"};
+	if !(_type in ["base", "outpost", "airfield", "outpostAA"]) then {_salir = true; hint "NATO won't attack this kind of zone."};
+	if (_side == "FIA") then {_salir = true; hint "NATO Attacks may be only ordered on AAF controlled zones"};
 };
 
 if (_salir) exitWith {};
 
 if (_tipo == "NATOCA") then {
-	[_sitio] remoteExec [_tipo,HCattack];
+	[_location] remoteExec [_tipo,HCattack];
 };

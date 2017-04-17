@@ -12,18 +12,18 @@ private _base = "";
 private _type = "";
 while {count _validTypes != 0} do {
 	_type = selectRandom _validTypes;
-	private _arrayBases = bases - mrkFIA;
+	private _arrayBases = [["base"], "AAF"] call AS_fnc_location_TS;
 	if (_type in (["armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all)) then {
-		_arrayBases = aeropuertos - mrkFIA;
+		_arrayBases = [["airfield"], "AAF"] call AS_fnc_location_TS;
 	};
 	if (_type == "I_Boat_Armed_01_minigun_F") then {
-		_arrayBases = puertos - mrkFIA;
+		_arrayBases = [["searport"], "AAF"] call AS_fnc_location_TS;
 	};
 
 	// get a valid starting base
 	while {count _arraybases != 0} do {
-		private _potential_base = [_arraybases, getMarkerPos "respawn_west"] call BIS_fnc_nearestPosition;
-		if !(spawner getVariable _potential_base) exitWith {
+		private _potential_base = [_arraybases, getMarkerPos "FIA_HQ"] call BIS_fnc_nearestPosition;
+		if !(_potential_base call AS_fnc_location_spawned) exitWith {
 			_base = _potential_base;  // suitable base gound.
 		};
 		_arraybases = _arraybases - [_potential_base];
@@ -36,19 +36,19 @@ while {count _validTypes != 0} do {
 
 if (count _validTypes == 0) exitWith {};
 
-private _posbase = getMarkerPos _base;
+private _posbase = _base call AS_fnc_location_position;
 private _category = [_type] call AS_fnc_AAFarsenal_category;
 
-private _arraydestinos = [mrkAAF] call patrolDestinos;
+private _arraydestinos = ["AAF" call AS_fnc_location_S] call patrolDestinos;
 private _distancia = 50;
 
 private _isFlying = _category in ["armedHelis","transportHelis", "planes"];
 if (_isFlying) then {
-	_arrayDestinos = mrkAAF;
+	_arrayDestinos = "AAF" call AS_fnc_location_S;
 	_distancia = 200;
 };
 if (_type == "I_Boat_Armed_01_minigun_F") then {
-	_arraydestinos = seaMarkers select {(getMarkerPos _x) distance _posbase < 2500};
+	_arraydestinos = ([["searport"], "AAF"] call AS_fnc_location_TS) select {(_x call AS_fnc_location_position) distance _posbase < 2500};
 	_distancia = 100;
 };
 
@@ -103,7 +103,7 @@ if (_tipoCoche isKindOf "Car") then
 while {alive _veh} do
 	{
 	_destino = _arraydestinos call bis_Fnc_selectRandom;
-	_posdestino = getMarkerPos _destino;
+	_posdestino = _destino call AS_fnc_location_position;
 	_Vwp0 = _grupoVeh addWaypoint [_posdestino, 0];
 	_Vwp0 setWaypointType "MOVE";
 	_Vwp0 setWaypointBehaviour "SAFE";
@@ -133,17 +133,17 @@ while {alive _veh} do
 	if (({alive _x} count _soldados == 0) or ({fleeing _x} count _soldados == {alive _x} count _soldados) or (!canMove _veh)) exitWith {};
 	if (_isFlying) then
 		{
-		_arrayDestinos = mrkAAF;
+		_arrayDestinos = "AAF" call AS_fnc_location_S;
 		}
 	else
 		{
 		if (_tipoCoche == "I_Boat_Armed_01_minigun_F") then
 			{
-			_arraydestinos = seaMarkers select {(getMarkerPos _x) distance position _veh < 2500};
+			_arraydestinos = ([["searport"], "AAF"] call AS_fnc_location_TS) select {(_x call AS_fnc_location_position) distance (position _veh) < 2500};
 			}
 		else
 			{
-			_arraydestinos = [mrkAAF] call patrolDestinos;
+			_arraydestinos = ["AAF" call AS_fnc_location_S] call patrolDestinos;
 			};
 		};
 	};

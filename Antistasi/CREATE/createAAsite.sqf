@@ -1,6 +1,6 @@
 #include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
-params ["_marcador"];
+params ["_location"];
 
 private ["_unit","_AAVeh","_crate","_vehiculos","_grupos","_soldados","_stcs"];
 
@@ -12,9 +12,9 @@ private _vehiculos = [];
 private _grupos = [];
 private _soldados = [];
 
-private _posicion = getMarkerPos (_marcador);
+private _posicion = _location call AS_fnc_location_position;
 
-([_marcador] call fnc_selectCMPData) params ["_posCmp", "_cmp"];
+([_location] call fnc_selectCMPData) params ["_posCmp", "_cmp"];
 private _objs = [_posCmp, 0, _cmp] call BIS_fnc_ObjectsMapper;
 
 private _truck = objNull;
@@ -85,7 +85,7 @@ _grupos pushBack _grupoCSAT;
 	_grupo = [_posicion, side_green, _x] call BIS_Fnc_spawnGroup;
 	_grupos pushBack _grupo;
 	{[_x, false] call AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
-	[leader _grupo, _marcador, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
+	[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
 	sleep 1;
 } forEach [
 	[infTeamATAA, side_green] call fnc_pickGroup,
@@ -111,24 +111,22 @@ if (!isNull _AAVeh) then {
 };
 
 waitUntil {sleep 1;
-	!(spawner getVariable _marcador) or
+	!(_location call AS_fnc_location_spawned) or
 	(call _fnc_isAADestroyed) and (call _fnc_isCleaned)};
 
 if ((call _fnc_isAADestroyed) and (call _fnc_isCleaned)) then {
 	[-5,0,_posicion] remoteExec ["citySupportChange",2];
 	[0,-10] remoteExec ["prestige",2];
 	[["TaskSucceeded", ["", "Outpost Cleansed"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-	_mrk = format ["Dum%1",_marcador];
-	deleteMarker _mrk;
-	mrkAAF = mrkAAF - [_marcador];
-	mrkFIA = mrkFIA + [_marcador];
-	publicVariable "mrkAAF";
-	publicVariable "mrkFIA";
+
+	[_location,"side","FIA"] call AS_fnc_location_set;
+	_location call AS_fnc_location_updateMarker;
+
 	[_posicion] remoteExec ["patrolCA",HCattack];
 	if (hayBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
 };
 
-waitUntil {sleep 1; !(spawner getVariable _marcador)};
+waitUntil {sleep 1; !(_location call AS_fnc_location_spawned)};
 
 {if (alive _x) then {deleteVehicle _x}} forEach _soldados;
 {deleteGroup _x} forEach _grupos;

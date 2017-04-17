@@ -14,13 +14,13 @@ private _dest = _this select 1;
 
 // names of locations for the task description
 private _origName = "the NATO carrier";
-private _destName = [([ciudades, _dest] call BIS_fnc_nearestPosition)] call localizar;
+private _destName = [[call AS_fnc_location_cities, _dest] call BIS_fnc_nearestPosition] call localizar;
 
 // kind of QRF: air/land
 private _type = "air";
 
 // FIA bases
-private _bases = bases arrayIntersect mrkFIA;
+private _bases = [["base"], "FIA"] call AS_fnc_location_TS;
 
 // define type of QRF by type of origin
 if (_orig != "spawnNATO") then {
@@ -30,7 +30,7 @@ if (_orig != "spawnNATO") then {
 	};
 };
 
-private _posOrig = getMarkerPos _orig;
+private _posOrig = _orig call AS_fnc_location_position;
 
 // marker on the map, required for the UPS script
 private _mrk = createMarker ["NATOQRF", _dest];

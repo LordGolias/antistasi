@@ -25,6 +25,7 @@ private _savingPlayersHandle = ([_saveName] spawn {
 
 [_saveName] call AS_fnc_saveAAFarsenal;
 [_saveName] call AS_fnc_saveMarkers;
+[_saveName] call AS_fnc_location_save;
 [_saveName] call AS_fnc_saveHQ;
 
 private ["_hrfondo","_resfondo","_veh","_tipoVeh","_contenedores","_arrayEst","_posVeh","_dierVeh","_prestigeOPFOR","_prestigeBLUFOR","_ciudad","_datos","_marcadores","_garrison","_arrayMrkMF","_arrayPuestosFIA","_pospuesto","_tipoMina","_posMina","_detectada","_tipos","_exists","_amigo","_arrayCampsFIA","_enableFTold","_enableMemAcc","_campList"];
@@ -101,7 +102,9 @@ else {
 
 // list of locations where static weapons are saved.
 _statMrks = [];
-{if ((_x in puestos) || (_x in power) || (_x in recursos) || (_x in fabricas) || (_x in puertos) ||  (_x == "FIA_HQ")) then {_statMrks pushBack _x;};} forEach mrkFIA;
+{
+    _statMrks pushBack _x;
+} forEach ("FIA" call AS_fnc_location_S);
 
 // store in "_arrayEst" the list of vehicles.
 _arrayEst = [];
@@ -120,7 +123,7 @@ if ((_veh isKindOf "StaticWeapon") and (_testDist < 50)) then {
 };
 
 // saves vehicles close to the HQ.
-if (_veh distance getMarkerPos "respawn_west" < 50) then
+if (_veh distance getMarkerPos "FIA_HQ" < 50) then
 	{
 	if ((not (_veh isKindOf "StaticWeapon")) and
 		!(_veh isKindOf "ReammoBox") and
@@ -149,14 +152,6 @@ if (_veh distance getMarkerPos "respawn_west" < 50) then
 [_saveName, "estaticas", _arrayEst] call fn_SaveStat;
 
 [_saveName, _cargo_w, _cargo_m, _cargo_i, _cargo_b] call AS_fnc_saveArsenal;
-
-_marcadores = mrkFIA - puestosFIA - controles - ciudades;
-_garrison = [];
-{
-_garrison = _garrison + [garrison getVariable [_x,[]]];
-} forEach _marcadores;
-
-[_saveName, "garrison",_garrison] call fn_SaveStat;
 
 _arrayMinas = [];
 {

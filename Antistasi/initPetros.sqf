@@ -48,7 +48,7 @@ petros addMPEventHandler ["mpkilled",
         if ((side _killer == side_red) or (side _killer == side_green)) then {
             [] spawn
                 {
-                garrison setVariable ["FIA_HQ",[],true];
+                ["FIA_HQ", "garrison", []] call AS_fnc_location_set;
 
 				// remove 1/2 of every item.
 				([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
@@ -59,7 +59,7 @@ petros addMPEventHandler ["mpkilled",
 						_values set [_i, _new_value];
 					};
 				} forEach [_cargo_w, _cargo_m, _cargo_i, _cargo_b];
-				
+
 				[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true, true] call AS_fnc_populateBox;
 
                 [] remoteExec ["fnc_MAINT_arsenal", 2];

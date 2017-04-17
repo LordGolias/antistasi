@@ -448,7 +448,7 @@ class rCamp_Dialog // 420
             y = 0.51 * safezoneH + safezoneY;
             w = 0.04 * safezoneW;
             h = 0.02 * safezoneH;
-            action = "closeDialog 0; cName = ctrlText ((uiNamespace getVariable ""rCamp"") displayCtrl 1400);";
+            action = "closeDialog 0;";
         };
     };
 };

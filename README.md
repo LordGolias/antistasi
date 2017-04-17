@@ -6,7 +6,7 @@ Antistasi is a scenario where you fight as a guerrilla liberator to flip the isl
 This modified version has the same mechanics and the same features but improves some aspects of it.
 
 * The arsenal works as expected: weapons that are in the HQ ammo box are available to use.
-* Multiple saved games: server/SP can now chose the saved game to load, save, or delete.
+* Multiple saved games: server/SP can now choose the saved game to load, save, or delete.
 * Clients stats are saved in the server and saved when the server is saved.
 * The HQ is now fully saved: both items positions (e.g. flag) and new constructions (e.g. sandbags).
 * There is no unlocking mechanism: everything is always finite. You lose half of every item if the HQ is destroyed.
@@ -14,8 +14,9 @@ This modified version has the same mechanics and the same features but improves 
 * All game and performance options, including AI skill and cleanup time, are now modifiable by the commander.
 * There is no "petros cavalary": this is the commander's responsibility.
 * Menus were remade from scratch to better accommodate more buttons and other layouts.
+* Locations backend was rewritten from scratch.
 
-The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 line added, 2 lines were deleted, I have +4 years experience as professional software developer).
+The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 line added, 2 lines were deleted, I have +4 years experience as professional programer).
 
 # Replacing Factions
 
@@ -25,9 +26,9 @@ This version supports easy replacement of modded factions. Use the following ste
 or `templates/CSAT.sqf` (for CSAT)
 2. Modify the existing fields with your units, vehicles and groups.
 3. In the `initVar.sqf`, when the files are compiled and called, add a condition to run your files when a condition is met.
-4. Load the game with the mod of that faction
+4. Load the game with the mod of that faction.
 
-Essentially, our code will detect every unit from that faction, and populates
+Essentially, our code detects every unit from that faction, and populates
 the correct lists with the equipment (weapons, items, vests, etc.) that the units use.
 This way, you only need to focus on adding vehicles, groups and units; the rest is automatic.
 
@@ -35,9 +36,11 @@ In the vanilla version, everything related to AAF is only defined in `templates/
 
 # Debug tools
 
-In the debug window, run
+Run
 
-     [true] AS_DEBUG_init;
+```
+[true] AS_DEBUG_init;
+```
 
 to show in the map all units (dead or alive) and locations that are currently spawned.
 This helps tracking if CPU is being used unnecessarily. Use `false` to
@@ -45,10 +48,10 @@ reverse it.
 
 # Code structure
 
-- Municion/ -> scripts related with weapons, arsenal and boxes.
-- CREATE/ -> scripts related with spawing places, units and convoys.
-- statSave/ -> scripts related with loading and saving the game.
-- ...
+- `Municion/` -> scripts related with weapons, arsenal and boxes.
+- `CREATE/` -> scripts related with spawing places, units and convoys.
+- `statSave/` -> scripts related with loading and saving the game.
+- `location.sqf`: contains all the code for interacting with locations
 
 ## Initialization
 
@@ -71,8 +74,82 @@ The code in `statSave/saveFuncs.sqf` is responsible for saving stuff.
 Essentially, the following things are saved:
 
 - Variables in the Logic `AS_persistent` named in the array `statSave/saveFuncs.AS_serverVariables`.
-- Variables in the Logic `AS_persistent_cities` named in the array `statSave/cityAttrs.AS_cityVars`.
+- Locations properties, defined in `AS_fnc_location_saved_properties`.
 - Various global variables
+
+## Locations
+
+A location is a place in the map that is spawned/despawned under certain conditions.
+Each location is represented by a string (e.g. `_location = "FIA_HQ";`)
+and it has a type (e.g. `"base"`, `"resource"`). Each location "owns" a hidden marker
+that is used to represent its position.
+
+`location.sqf` contains all the functions that you use to interact with locations.
+It contains functions to:
+
+* get properties:
+
+```
+_side = _location call AS_fnc_location_side;
+_position = _location call AS_fnc_location_position;
+_size = [_location,"size"] call AS_fnc_location_get;
+```
+
+* set properties:
+
+```
+_side = [_location,"side","AAF"] call AS_fnc_location_set;
+```
+
+* add and delete locations
+
+```
+[_marker,"roadblock"] call AS_fnc_location_add;
+[_marker,"side","FIA"] call AS_fnc_location_set;
+// ...
+_marker call AS_fnc_location_delete;
+```
+
+* list locations of a certain type or side:
+
+```
+call AS_fnc_location_all
+// [T]ype and [S]ide
+_bases = "base" call AS_fnc_location_T;
+_FIAlocations = "FIA" call AS_fnc_location_S;
+_FIAbases = ["base","AAF"] call AS_fnc_location_TS;
+[["base","airfield"],"FIA"] call AS_fnc_location_TS;
+```
+
+To get all properties of a given location, use,
+
+```
+_type = _location call AS_fnc_location_type;
+hint str (_type call AS_fnc_location_properties);
+```
+
+Internally, all information about the locations is stored in the logic
+`AS_location`, but you should not access its data directly: use `AS_fnc_location_*`.
+The functions in `location.sqf` are documented, so you can learn which they are
+and what they do.
+
+`spawnLoop.sqf` is the loop that controls which locations are spawned.
+When opposing forces reach (or other conditions), this loop spawns the location.
+Each location is spawned differently depending on its side and type,
+the scripts responsible for creating units, etc. are in `CREATE/`.
+
+### Initialization
+
+When the game is loaded, locations are loaded from the markers in
+the `mission.sqm`. Specifically, markers starting with a given string
+are converted to locations using the following convention
+
+* `"AS_powerplant"`: `"powerplant"`
+* `"AS_base"`: `"base"`
+* etc.
+
+Cities (`"city"`) and hills (`"hill","hillAA"`) are initialized differently,
+see `templates/world_altis.sqf` to learn how.
 
 ## Vehicles
 
@@ -86,5 +163,5 @@ Vehicles are bought by FIA or AAF, or are spawned by NATO/CSAT. Afterwards:
 ### AAF Arsenal
 
 The AAF has an arsenal of vehicles that it buys with AAF money.
-AAF has different categories of vehicles that are defined in `AAFarsenal\init.sqf`
-that can be modified in the template (e.g. for RHS).
+AAF has different categories of vehicles that are defined in `AAFarsenal.sqf`
+that can be modified in the `templates/` (e.g. for RHS).

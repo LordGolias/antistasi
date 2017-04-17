@@ -1,5 +1,10 @@
 #include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
+params ["_location"];
+
+private _posicion = _location call AS_fnc_location_position;
+private _nombredest = [_location] call localizar;
+private _size = _location call AS_fnc_location_size;
 
 _tskTitle = localize "STR_tsk_logMedical";
 _tskDesc = localize "STR_tskDesc_logMedical";
@@ -13,30 +18,28 @@ _posCrashMrk -> marker for the vehicle
 _posBase -> location of the base sending reinforcements
 */
 
-_marcador = _this select 0;
-_posicion = getMarkerPos _marcador;
-_nombredest = [_marcador] call localizar;
-
-_posHQ = getMarkerPos "respawn_west";
+_posHQ = getMarkerPos "FIA_HQ";
 
 _tiempolim = 60;
 _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 _fechalimnum = dateToNumber _fechalim;
 
-_fMarkers = mrkFIA + campsFIA;
-_hMarkers = bases + aeropuertos + puestos - mrkFIA;
+_fMarkers = "FIA" call AS_fnc_location_S;
+_hMarkers = [["base","airfield","outpost","outpostAA"], "AAF"] call AS_fnc_location_TS;
 
-_basesAAF = bases - mrkFIA;
-_bases = [];
-_base = "";
+private _bases = [];
 {
-	_base = _x;
-	_posbase = getMarkerPos _base;
-	if ((_posicion distance _posbase < 7500) and (_posicion distance _posbase > 1500) and (not (spawner getVariable _base))) then {_bases = _bases + [_base]}
-} forEach _basesAAF;
-if (count _bases > 0) then {_base = [_bases,_posicion] call BIS_fnc_nearestPosition;} else {_base = ""};
-
-_posbase = getMarkerPos _base;
+	_posbase = _x call AS_fnc_location_position;
+	if ((_posicion distance _posbase < 7500) and
+		(_posicion distance _posbase > 1500) and
+		(not (_x call AS_fnc_location_spawned))) then {_bases pushBack _x}
+} forEach (["base", "AAF"] call AS_fnc_location_TS);
+_base = "";
+_posbase = [];
+if (count _bases > 0) then {
+	_base = [_bases,_posicion] call BIS_fnc_nearestPosition;
+	_posbase = _base call AS_fnc_location_position;
+};
 
 _nombreOrig = [_base] call localizar;
 
@@ -44,8 +47,13 @@ while {true} do {
 	sleep 0.1;
 	_poscrash = [_posicion,2000,random 360] call BIS_fnc_relPos;
 	_nfMarker = [_fMarkers,_poscrash] call BIS_fnc_nearestPosition;
+	private _fposition = _nfMarker call AS_fnc_location_position;
 	_nhMarker = [_hMarkers,_poscrash] call BIS_fnc_nearestPosition;
-	if ((!surfaceIsWater _poscrash) && (_poscrash distance _posHQ < 4000) && (getMarkerPos _nfMarker distance _poscrash > 500) && (getMarkerPos _nhMarker distance _poscrash > 800)) exitWith {};
+	private _hposition = _nfMarker call AS_fnc_location_position;
+	if ((!surfaceIsWater _poscrash) &&
+	    (_poscrash distance _posHQ < 4000) &&
+		(_fposition distance _poscrash > 500) &&
+		(_hposition distance _poscrash > 800)) exitWith {};
 };
 
 _tipoVeh = "C_Van_01_transport_F";
@@ -237,8 +245,9 @@ else {
 
 			if (alive _sTruck) then {
 				[[petros,"hint","Supplies Delivered"],"commsMP"] call BIS_fnc_MP;
-				_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, _nombreOrig, A3_STR_INDEP],_tskTitle,_mrkfin],_posCrashMrk,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
-				[0,15,_marcador] remoteExec ["citySupportChange",2];
+				_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, _nombreOrig, A3_STR_INDEP],_tskTitle,_mrkfin],
+					_posCrashMrk,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
+				[0,15,_location] remoteExec ["citySupportChange",2];
 				[5,0] remoteExec ["prestige",2];
 				{if (_x distance _posicion < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 				[5,AS_commander] call playerScoreAdd;

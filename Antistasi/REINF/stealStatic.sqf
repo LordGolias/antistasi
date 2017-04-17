@@ -9,9 +9,9 @@ if (alive gunner _estatica) exitWith {hint "You cannot steal a static weapon whe
 
 if ((alive assignedGunner _estatica) and (!isPlayer (assignedGunner _estatica))) exitWith {hint "The gunner of this static weapon is still alive"};
 
-_cercano = [marcadores,_estatica] call BIS_fnc_nearestPosition;
+_cercano = _estatica call AS_fnc_location_nearest;
 
-if (_cercano in mrkAAF) exitWith {hint "You have to conquer this zone in order to be able to steal this Static Weapon"};
+if (_cercano call AS_fnc_location_side == "AAF") exitWith {hint "You have to conquer this zone in order to be able to steal this Static Weapon"};
 
 _estatica setOwner (owner _jugador);
 
@@ -59,36 +59,3 @@ _bag2 = _tipoB2 createVehicle _posicion2;
 
 [_bag1, "FIA"] call AS_fnc_initVehicle;
 [_bag2, "FIA"] call AS_fnc_initVehicle;
-
-// hint "Weapon Stolen. It won't despawn when you assemble it again";
-
-/*
-if (_cercano in controles) then
-	{
-
-
-	_jugador addEventHandler ["WeaponDisassembled",
-		{
-		_jugador = _this select 0;
-		_bag1 = objectParent (_this select 1);
-		_bag2 = objectParent (_this select 2);
-
-		_posicion1 set [2, 0];
-		_posicion2 set [2, 0];
-		_bag1 setVehiclePosition [_posicion1, [], 2, "NONE"];
-		_bag2 setVehiclePosition [_posicion2, [], 2, "NONE"];
-		//_bag1 setPos _posicion1;
-		//_bag2 setPos _posicion2;
-		_jugador removeEventHandler ["WeaponDisassembled", 0];
-		}
-	];
-	};
-
-hint "Static Weapon stolen, it won't despawn when you move it or leave the area";
-
-
-[[_estatica,"remove"],"flagaction"] call BIS_fnc_MP;
-
-staticsToSave = staticsToSave + [_estatica];
-publicVariable "staticsToSave";
-_jugador action ["Disassemble", _estatica];

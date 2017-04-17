@@ -29,14 +29,14 @@ if ({isPlayer _x} count units group player == 1) then {
 
 if (_ai) then {
 	// order units to return to the HQ.
-	{_x domove getMarkerPos "respawn_west"} forEach units _groupToDelete;
+	{_x domove getMarkerPos "FIA_HQ"} forEach units _groupToDelete;
 
 	private _time = time + 120;
 
 	// wait until all units are in the HQ.
 	waitUntil {
 		sleep 1;
-		(time > _time) or (({(_x distance getMarkerPos "respawn_west" < 50) and (alive _x)} count units _groupToDelete) == ({alive _x} count units _groupToDelete))
+		(time > _time) or (({(_x distance getMarkerPos "FIA_HQ" < 50) and (alive _x)} count units _groupToDelete) == ({alive _x} count units _groupToDelete))
 	};
 
 	private _hr = 0;

@@ -14,20 +14,22 @@ call AS_fnc_updateAAFarsenal;
 //////////////// try to restore cities ////////////////
 if (_resourcesAAF > 5000) then
 	{
-	_destroyedCities = destroyedCities - mrkFIA - ciudades;
+	_destroyedCities = destroyedCities arrayIntersect (call AS_fnc_location_cities);
 	if (count _destroyedCities > 0) then
 		{
 		{
 		_destroyed = _x;
-		if ((_resourcesAAF > 5000) and (not(spawner getVariable _destroyed))) then
+		if ((_resourcesAAF > 5000) and (not(_destroyed call AS_fnc_location_spawned))) then
 			{
 			_resourcesAAF = _resourcesAAF - 5000;
 			destroyedCities = destroyedCities - [_destroyed];
+			private _type = _destroyed call AS_fnc_location_type;
+			private _position = _destroyed call AS_fnc_location_position;
+			private _nombre = [_destroyed] call localizar;
 			publicVariable "destroyedCities";
-			[10,0,getMarkerPos _destroyed] remoteExec ["citySupportChange",2];
+			[10,0,_position] remoteExec ["citySupportChange",2];
 			[-5,0] remoteExec ["prestige",2];
-			if (_destroyed in power) then {[_destroyed] call powerReorg};
-			_nombre = [_destroyed] call localizar;
+			if (_type == "powerplant") then {[_destroyed] call powerReorg};
 			[["TaskFailed", ["", format ["%1 rebuilt by AAF",_nombre]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 			};
 		} forEach _destroyedCities;
@@ -37,15 +39,13 @@ if (_resourcesAAF > 5000) then
 		if ((count antenasMuertas > 0) and (not("REP" in misiones))) then
 			{
 			{
-			if ((_resourcesAAF > 5000) and (not("REP" in misiones))) then
-				{
-				_marcador = [marcadores, _x] call BIS_fnc_nearestPosition;
-				if ((_marcador in mrkAAF) and (not(spawner getVariable _marcador))) then
-					{
-					[_marcador,_x] remoteExec ["REP_Antena",HCattack];
+			if ((_resourcesAAF > 5000) and (not("REP" in misiones))) then {
+				private _location = [call AS__fnc_location_all, _x] call BIS_fnc_nearestPosition;
+				if ((_location call AS_fnc_location_side == "AAF") and !(_location call AS_fnc_location_spawned)) then {
+					[_location,_x] remoteExec ["REP_Antena",HCattack];
 					_resourcesAAF = _resourcesAAF - 5000;
-					};
 				};
+			};
 			} forEach antenasMuertas;
 			};
 		};
@@ -55,8 +55,10 @@ if (_resourcesAAF > 5000) then
 
 // extra conditions to avoid AAF being too strong.
 // Categories without condition always buy if given enough money
-private _FIAcontrolledLocations = count (mrkFIA - puestosFIA - ["FIA_HQ"] - ciudades);
-private _FIAcontrolledBases = count (mrkFIA - (bases + aeropuertos));
+private _FIAcontrolledLocations = count (
+	[["watchpost", "factory", "powerplant", "resource"], "FIA"] call AS_fnc_location_TS);
+private _FIAcontrolledBases = count (
+	[["airfield", "base"], "FIA"] call AS_fnc_location_TS);
 
 private _logicGroup = createGroup (createCenter sideLogic);
 private _extra_conditions = _logicGroup createUnit ["Logic", [0,0,0], [], 0, "NONE"];
@@ -93,14 +95,13 @@ if (_resourcesAAF > 2000) then
 	{
 	{
 	if (_resourcesAAF < 2000) exitWith {};
-	if ([_x] call isFrontline) then
-		{
-		_cercano = [mrkFIA,getMarkerPos _x] call BIS_fnc_nearestPosition;
+	if ([_x] call isFrontline) then {
+		_cercano = ["FIA" call AS_fnc_location_S, _x call AS_fnc_location_position] call BIS_fnc_nearestPosition;
 		_minefieldDone = false;
 		_minefieldDone = [_cercano,_x] call minefieldAAF;
 		if (_minefieldDone) then {_resourcesAAF = _resourcesAAF - 2000};
-		};
-	} forEach (bases - mrkFIA);
+	};
+	} forEach (["base", "AAF"] call AS_fnc_location_TS);
 	};
 AS_Pset("resourcesAAF",round _resourcesAAF);
 

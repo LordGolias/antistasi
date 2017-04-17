@@ -1,48 +1,45 @@
 #include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
+params ["_location", "_source"];
 
-_tskTitle = localize "STR_tsk_DesHeli";
-_tskDesc = localize "STR_tskDesc_DesHeli";
+private _posicion = _location call AS_fnc_location_position;
+private _size = _location call AS_fnc_location_size;
+private _nombredest = [_location] call localizar;
 
-private ["_poscrash","_marcador","_posicion","_mrkfin","_tipoveh","_efecto","_heli","_vehiculos","_soldados","_grupos","_unit","_roads","_road","_vehicle","_veh","_tipogrupo","_tsk","_humo","_emitterArray"];
-
-_marcador = _this select 0;
-_source = _this select 1;
+private _tskTitle = localize "STR_tsk_DesHeli";
+private _tskDesc = localize "STR_tskDesc_DesHeli";
 
 if (_source == "mil") then {
 	_val = server getVariable "milActive";
 	server setVariable ["milActive", _val + 1, true];
 };
 
-_posicion = getMarkerPos _marcador;
-
-_posHQ = getMarkerPos "respawn_west";
+private _posHQ = getMarkerPos "FIA_HQ";
 
 _tiempolim = 120;
 _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 _fechalimnum = dateToNumber _fechalim;
 
-while {true} do
-	{
+while {true} do {
 	sleep 0.1;
 	_poscrash = [_posicion,5000,random 360] call BIS_fnc_relPos;
 	if ((!surfaceIsWater _poscrash) and (_poscrash distance _posHQ < 4000)) exitWith {};
-	};
+};
 
-_tipoVeh = (["planes", "armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all) call BIS_fnc_selectRandom;
+private _tipoVeh = (["planes", "armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all) call BIS_fnc_selectRandom;
 
-_posCrashMrk = [_poscrash,random 500,random 360] call BIS_fnc_relPos;
-_posCrash = _posCrash findEmptyPosition [0,100,_tipoVeh];
-_mrkfin = createMarker [format ["DES%1", random 100], _posCrashMrk];
-_mrkfin setMarkerShape "ICON";
+private _posCrashMrk = [_poscrash,random 500,random 360] call BIS_fnc_relPos;
+private _posCrash = _posCrash findEmptyPosition [0,100,_tipoVeh];
+private _mrkfin = createMarker [format ["DES%1", random 100], _posCrashMrk];
+private _mrkfin setMarkerShape "ICON";
 
-_nombrebase = [_marcador] call localizar;
-
-_tsk = ["DES",[side_blue,civilian],[format [_tskDesc,_nombrebase],_tskTitle,_mrkfin],_posCrashMrk,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+_tsk = ["DES",[side_blue,civilian],[format [_tskDesc,_nombrebase],
+	_tskTitle,_mrkfin],_posCrashMrk,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";
-_vehiculos = [];
-_soldados = [];
-_grupos = [];
+
+private _vehiculos = [];
+private _soldados = [];
+private _grupos = [];
 
 _efecto = createVehicle ["CraterLong", _poscrash, [], 0, "CAN_COLLIDE"];
 _heli = createVehicle [_tipoVeh, _poscrash, [], 0, "CAN_COLLIDE"];

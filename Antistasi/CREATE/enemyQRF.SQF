@@ -16,8 +16,7 @@ If origin is an airport/carrier, the QRF will consist of air cavalry. Otherwise 
 params ["_orig", "_dest", "_mrk", "_duration", "_composition", "_size", ["_source", ""]];
 
 // FIA bases/airports
-_bases = bases arrayIntersect mrkAAF;
-_airports = aeropuertos arrayIntersect mrkAAF;
+private _bases = ["base", "AAF"] call AS_fnc_location_TS;
 
 _posComp = ["transport", "destroy", "mixed"];
 if !(_composition in _posComp) exitWith {};
@@ -61,12 +60,12 @@ if !(_orig == "spawnCSAT") then {
 
 private _origMarker = _orig;
 if (typeName _orig == "ARRAY") then {
-	_origMarker = [marcadores, _orig] call BIS_Fnc_nearestPosition;
+	_origMarker = _orig call AS_fnc_location_nearest;
 };
 
 // get the position of the target marker
 if !(typeName _orig == "ARRAY") then {
-	_orig = getMarkerPos _orig;
+	_orig = _orig call AS_fnc_location_location;
 };
 
 // create a patrol marker if none provided

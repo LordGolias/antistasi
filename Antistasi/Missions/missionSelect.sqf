@@ -41,7 +41,7 @@ onMapSingleClick "";
 if (!visibleMap) exitWith {openMap false; hint "No mission for you, mate!";};
 
 _posicionTel =+ posicionTel;
-_sitio = [ciudades, _posicionTel] call BIS_Fnc_nearestPosition;
+_sitio = [call AS_fnc_location_all, _posicionTel] call BIS_Fnc_nearestPosition;
 
 if !((_sitio in _posiblesA) || (_sitio in _posiblesB)) exitWith {openMap false; hint "No mission for you, mate!";};
 

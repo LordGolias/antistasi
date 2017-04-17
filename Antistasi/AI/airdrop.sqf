@@ -1,12 +1,6 @@
-private ["_veh","_grupo","_marcador","_posicion","_heli","_engagepos","_orig","_landpos","_exitpos","_wp","_wp1","_wp2","_wp3","_wp4"];
+params ["_veh", "_grupo","_posicion", "_threat"];
+private ["_heli","_engagepos","_orig","_landpos","_exitpos","_wp","_wp1","_wp2","_wp3","_wp4"];
 
-_veh = _this select 0;
-_grupo = _this select 1;
-_marcador = _this select 2;
-_threat = _this select 3;
-
-_posicion = _marcador;
-if (typeName _marcador == typeName "") then {_posicion = getMarkerPos _marcador};
 _heli = group driver _veh;
 {_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _heli;
 _dist = 400 + (10*_threat);

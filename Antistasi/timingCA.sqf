@@ -1,9 +1,9 @@
 #include "macros.hpp"
 if (!isServer) exitWith{};
 
-_tiempo = _this select 0;
+private _tiempo = _this select 0;
 
-_fb = bases - mrkAAF;
+private _fb = ["base", "FIA"] call AS_fnc_location_TS;
 
 if (count _fb > 0) then {
 	if (count _fb == 1) then {

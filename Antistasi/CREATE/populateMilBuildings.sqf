@@ -1,8 +1,9 @@
-params ["_marcador", "_side", "_grupo"];
+params ["_location", "_side", "_grupo"];
 
-private _posicion = getMarkerPos _marcador;
-private _buildings = nearestObjects [_posicion, listMilBld, ([_marcador] call sizeMarker)*1.5];
-private _addChopper = (_side == side_green) and !([_marcador] call isFrontline);
+private _posicion = _location call AS_fnc_location_position;
+private _size = _location call AS_fnc_location_size;
+private _buildings = nearestObjects [_posicion, listMilBld, _size*1.5];
+private _addChopper = (_side == side_green) and !([_location] call isFrontline);
 
 // FIA
 private _staticAA = "B_static_AA_F";

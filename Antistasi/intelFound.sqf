@@ -5,17 +5,17 @@ _chance = 8;
 
 if (count _this == 1) then
 	{
-	_marcador = _this select 0;
-	if (_marcador isEqualType "") then
+	private _location = _this select 0;
+	if (_location isEqualType "") then
 		{
-		if ((_marcador in bases) or (_marcador in aeropuertos)) then {_chance = 30} else {_chance = 15};
+		if ((_location call AS_fnc_location_type) in ["base","airfield"]) then {_chance = 30} else {_chance = 15};
 		}
 	else
 		{
-		if (typeOf _marcador in infList_officers) then {_chance = 50}
+		if (typeOf _location in infList_officers) then {_chance = 50}
 		else
 			{
-			if ((typeOf _marcador in infList_NCO) or (typeOf _marcador in infList_pilots)) then {_chance = 15}
+			if ((typeOf _location in infList_NCO) or (typeOf _location in infList_pilots)) then {_chance = 15}
 			};
 		};
 	};
