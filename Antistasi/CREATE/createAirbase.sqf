@@ -1,192 +1,104 @@
 #include "../macros.hpp"
+params ["_marcador"];
 if (!isServer and hasInterface) exitWith{};
 
-private ["_pos","_marcador","_vehiculos","_grupos","_soldados","_posicion","_busy","_buildings","_pos1","_pos2","_grupo","_cuenta","_tipoVeh","_veh","_unit","_arrayVehAAF","_nVeh","_frontera","_size","_ang","_mrk","_tipogrupo","_bandera","_perro"];
-_marcador = _this select 0;
+private _soldados = [];
+private _grupos = [];
+private _vehiculos = [];
 
-_vehiculos = [];
-_grupos = [];
-_soldados = [];
+private _posicion = getMarkerPos (_marcador);
+private _size = [_marcador] call sizeMarker;
+private _frontera = [_marcador] call isFrontline;
+private _busy = if (dateToNumber date > server getVariable _marcador) then {false} else {true};
 
-_posicion = getMarkerPos (_marcador);
-_pos = [];
+// spawn flag
+private _flag = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
+_flag allowDamage false;
+[[_flag,"take"],"flagaction"] call BIS_fnc_MP;
+_vehiculos pushBack _flag;
 
-_size = [_marcador] call sizeMarker;
+// spawn crate
+private _veh = "I_supplyCrate_F" createVehicle _posicion;
+[_veh, "Airbase"] call AS_fnc_fillCrateAAF;
+_vehiculos pushBack _veh;
 
-_frontera = [_marcador] call isFrontline;
-if ((spawner getVariable _marcador) and _frontera) then
-	{
-	_roads = _posicion nearRoads _size;
-	if (count _roads != 0) then
-		{
-		_grupo = createGroup side_green;
-		_grupos = _grupos + [_grupo];
-		_dist = 0;
-		_road = objNull;
-		{if ((position _x) distance _posicion > _dist) then {_road = _x;_dist = position _x distance _posicion}} forEach _roads;
-		_roadscon = roadsConnectedto _road;
-		_roadcon = objNull;
-		{if ((position _x) distance _posicion > _dist) then {_roadcon = _x}} forEach _roadscon;
-		_dirveh = [_roadcon, _road] call BIS_fnc_DirTo;
-		_pos = [getPos _road, 7, _dirveh + 270] call BIS_Fnc_relPos;
-		_bunker = "Land_BagBunker_Small_F" createVehicle _pos;
-		_vehiculos = _vehiculos + [_bunker];
-		_bunker setDir _dirveh;
-		_pos = getPosATL _bunker;
-		_veh = statAT createVehicle _posicion;
-		_vehiculos = _vehiculos + [_veh];
-		_veh setPos _pos;
-		_veh setDir _dirVeh + 180;
-		_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
-		[_unit, false] spawn AS_fnc_initUnitAAF;
-		[_veh, "AAF"] call AS_fnc_initVehicle;
-		_unit moveInGunner _veh;
-		_soldados = _soldados + [_unit];
-		};
-	};
+// spawn AT road block
+if ((spawner getVariable _marcador) and _frontera) then {
+	([_posicion, _grupo] call AS_fnc_spawnAAF_roadAT) params ["_units1", "_vehicles1"];
+	_soldados append _units1;
+	_vehiculos append _vehicles1;
+};
 
-_mrk = createMarkerLocal [format ["%1patrolarea", random 100], _posicion];
-_mrk setMarkerShapeLocal "RECTANGLE";
-_mrk setMarkerSizeLocal [(AS_P("spawnDistance")/2),(AS_P("spawnDistance")/2)];
-_mrk setMarkerTypeLocal "hd_warning";
-_mrk setMarkerColorLocal "ColorRed";
-_mrk setMarkerBrushLocal "DiagGrid";
-_ang = markerDir _marcador;
-_mrk setMarkerDirLocal _ang;
-_mrk setMarkerAlphaLocal 0;
-_cuenta = 0;
-while {(spawner getVariable _marcador) and (_cuenta < 4)} do
-	{
-	while {true} do
-		{
-		_pos = [_posicion, 150 + (random 350) ,random 360] call BIS_fnc_relPos;
-		if (!surfaceIsWater _pos) exitWith {};
-		};
-	_tipoGrupo = [infPatrol, side_green] call fnc_pickGroup;
-	_grupo = [_pos, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-	sleep 1;
-	if (random 10 < 2.5) then {
-		_perro = _grupo createUnit ["Fin_random_F",_pos,[],0,"FORM"];
-		[_perro] spawn guardDog;
-	};
-	[leader _grupo, _mrk, "SAFE","SPAWNED", "NOVEH2"] execVM "scripts\UPSMON.sqf";
-	_grupos = _grupos + [_grupo];
-	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
-	_cuenta = _cuenta +1;
-	};
+// spawn 4 patrols
+// _mrk => to be deleted at the end
+([_marcador, 4] call AS_fnc_spawnAAF_patrol) params ["_units1", "_groups1", "_mrk"];
+_spatrol append _units1;
+_grupos append _groups1;
 
-_busy = if (dateToNumber date > server getVariable _marcador) then {false} else {true};
+// spawn parked air vehicles
+if (!_busy) then {
+	private _buildings = nearestObjects [_posicion, ["Land_LandMark_F"], _size / 2];
+	if (count _buildings > 1) then {
+		private _pos1 = getPos (_buildings select 0);
+		private _pos2 = getPos (_buildings select 1);
+		private _ang = [_pos1, _pos2] call BIS_fnc_DirTo;
 
-if (!_busy) then
-	{
-	_buildings = nearestObjects [_posicion, ["Land_LandMark_F"], _size / 2];
-	if (count _buildings > 1) then
-		{
-		_pos1 = getPos (_buildings select 0);
-		_pos2 = getPos (_buildings select 1);
-		_ang = [_pos1, _pos2] call BIS_fnc_DirTo;
+		private _pos = [_pos1, 5,_ang] call BIS_fnc_relPos;
+		private _grupo = createGroup side_green;
+		_grupos pushBack _grupo;
 
-		_pos = [_pos1, 5,_ang] call BIS_fnc_relPos;
-		_grupo = createGroup side_green;
-		_grupos = _grupos + [_grupo];
-		_cuenta = 0;
-		while {(spawner getVariable _marcador) and (_cuenta < 5)} do
-			{
+		for "_i" from 1 to 5 do {
+			if !(spawner getVariable _location) exitWith {};
+
 			_tipoveh = (["planes", "armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all) call BIS_fnc_selectRandom;
-			_veh = createVehicle [_tipoveh, _pos, [],3, "NONE"];
+			private _veh = createVehicle [_tipoveh, _pos, [],3, "NONE"];
 			_veh setDir (_ang + 90);
 			sleep 1;
-			_vehiculos = _vehiculos + [_veh];
+			_vehiculos pushBack _veh;
 			[_veh, "AAF"] call AS_fnc_initVehicle;
-			_pos = [_pos, 20,_ang] call BIS_fnc_relPos;
-			_unit = ([_posicion, 0, infPilot, _grupo] call bis_fnc_spawnvehicle) select 0;
+			private _pos = [_pos, 20,_ang] call BIS_fnc_relPos;
+			private _unit = ([_posicion, 0, infPilot, _grupo] call bis_fnc_spawnvehicle) select 0;
 			[_unit, false] spawn AS_fnc_initUnitAAF;
-			_cuenta = _cuenta + 1;
-			};
-
+			_soldados pushBack _unit;
+		};
 		[leader _grupo, _marcador, "SAFE","SPAWNED","NOFOLLOW","NOVEH"] execVM "scripts\UPSMON.sqf";
-		{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
-		};
-	};
-
-_bandera = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
-_bandera allowDamage false;
-[[_bandera,"take"],"flagaction"] call BIS_fnc_MP;
-_vehiculos = _vehiculos + [_bandera];
-_veh = "I_supplyCrate_F" createVehicle _posicion;
-[_veh, "Airbase"] call AS_fnc_fillCrateAAF;
-_vehiculos = _vehiculos + [_veh];
-
-_arrayVeh = ["trucks", "apcs"] call AS_fnc_AAFarsenal_all;
-_tipoVeh = "";
-_nVeh = round (_size/60);
-_cuenta = 0;
-while {(spawner getVariable _marcador) and (_cuenta < _nVeh)} do
-	{
-	if (diag_fps > AS_P("minimumFPS")) then
-		{
-		_tipoVeh = _arrayVeh call BIS_fnc_selectRandom;
-		_pos = [_posicion, 10, _size/2, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
-		_veh = createVehicle [_tipoVeh, _pos, [], 0, "NONE"];
-		_veh setDir random 360;
-		_vehiculos = _vehiculos + [_veh];
-		[_veh, "AAF"] call AS_fnc_initVehicle;
-		};
-	sleep 1;
-	_cuenta = _cuenta + 1;
-	};
-
-_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
-_grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-sleep 1;
-if (hayRHS) then {_grupo = [_grupo, _posicion] call expandGroup};
-[leader _grupo, _marcador, "SAFE", "RANDOMUP","SPAWNED", "NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
-_grupos = _grupos + [_grupo];
-{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
-_cuenta = 0;
-
-if (_frontera) then {_nveh = _nveh * 2};
-
-while {(spawner getVariable _marcador) and (_cuenta < _nveh)} do
-	{
-	if (diag_fps > AS_P("minimumFPS")) then
-		{
-		while {true} do
-			{
-			_pos = [_posicion, random _size,random 360] call BIS_fnc_relPos;
-			if (!surfaceIsWater _pos) exitWith {};
-			};
-		_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
-		_grupo = [_pos, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-		if (hayRHS) then {_grupo = [_grupo, _posicion] call expandGroup};
-		if (random 10 < 2.5) then
-			{
-			_perro = _grupo createUnit ["Fin_random_F",_pos,[],0,"FORM"];
-			[_perro] spawn guardDog;
-			};
 		sleep 1;
-		[leader _grupo, _marcador, "SAFE","SPAWNED", "RANDOM","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
-		_grupos = _grupos + [_grupo];
-		{[_x,false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
-		};
-	_cuenta = _cuenta + 1;
-	sleep 1;
 	};
+};
 
-_grupo = createGroup civilian;
-_grupos pushBack _grupo;
-_perro = _grupo createUnit ["Fin_random_F",_posicion,[],0,"FORM"];
-[_perro] spawn guardDog;
-_soldados pushBack _perro;
+// spawn parked land vehicles
+private _groupCount = round (_size/60);
+for "_i" from 1 to _groupCount do {
+	if (!(spawner getVariable _marcador) or diag_fps < AS_P("minimumFPS")) exitWith {};
+	private _tipoVeh = (["trucks", "apcs"] call AS_fnc_AAFarsenal_all) call BIS_fnc_selectRandom;
+	_pos = [_posicion, 10, _size/2, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
+	_veh = createVehicle [_tipoVeh, _pos, [], 0, "NONE"];
+	_veh setDir random 360;
+	_vehiculos pushBack _veh;
+	[_veh, "AAF"] call AS_fnc_initVehicle;
+	sleep 1;
+};
+
+// spawn guarding squads
+if (_frontera) then {_groupCount = _groupCount * 2};
+([_marcador, 1 + _groupCount] call AS_fnc_spawnAAF_patrolSquad) params ["_units1", "_groups1"];
+_soldados append _units1;
+_grupos append _groups1;
 
 private _journalist = [_marcador, _grupos] call AS_fnc_createJournalist;
 
-waitUntil {sleep 1; (not (spawner getVariable _marcador)) or (({(not(vehicle _x isKindOf "Air"))} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)) > 3*({(alive _x) and (!(captive _x)) and (_x distance _posicion < _size)} count _soldados))};
+//////////////////////////////////////////////////////////////////
+////////////////////////// END SPAWNING //////////////////////////
+//////////////////////////////////////////////////////////////////
 
-if ((spawner getVariable _marcador) and (not(_marcador in mrkFIA))) then
-	{
-	[_bandera] remoteExec ["mrkWIN",2];
-	};
+waitUntil {sleep 1;
+	(not (spawner getVariable _marcador)) or
+	(({(not(vehicle _x isKindOf "Air"))} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)) >
+	 3*({(alive _x) and (!(captive _x)) and (_x distance _posicion < _size)} count _soldados))};
+
+if ((spawner getVariable _marcador) and (not(_marcador in mrkFIA))) then {
+	[_flag] remoteExec ["mrkWIN",2];
+};
 
 waitUntil {sleep 1; not (spawner getVariable _marcador)};
 

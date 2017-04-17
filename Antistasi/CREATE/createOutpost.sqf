@@ -1,157 +1,113 @@
 #include "../macros.hpp"
+params ["_marcador"];
 if (!isServer and hasInterface) exitWith{};
 
-_marcador = _this select 0;
+private _soldados = [];
+private _grupos = [];
+private _vehiculos = [];
 
-_vehiculos = [];
-_grupos = [];
-_soldados = [];
+private _posicion = getMarkerPos (_marcador);
+private _size = [_marcador] call sizeMarker;
 
-_posicion = getMarkerPos (_marcador);
-_pos = [];
+private _buildings = nearestObjects [_posicion, listMilBld, _size*1.5];
+private _frontera = [_marcador] call isFrontline;
 
-_size = [_marcador] call sizeMarker;
-
-
-_buildings = nearestObjects [_posicion, listMilBld, _size*1.5];
-
-_grupo = createGroup side_green;
-_grupos = _grupos + [_grupo];
+private _grupo = createGroup side_green;
+_grupos pushBack _grupo;
 
 ([_marcador, side_green, _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
-_soldados = _soldados + _gunners;
-_vehiculos = _vehiculos + _vehicles;
+_soldados append _gunners;
+_vehiculos append _vehicles;
 
+// create flag
 _bandera = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
 _bandera allowDamage false;
 [[_bandera,"take"],"flagaction"] call BIS_fnc_MP;
-_vehiculos = _vehiculos + [_bandera];
+_vehiculos pushBack _bandera;
 _caja = "I_supplyCrate_F" createVehicle _posicion;
-_vehiculos = _vehiculos + [_caja];
-
+_vehiculos pushBack _caja;
 {[_x, "AAF"] call AS_fnc_initVehicle;} forEach _vehiculos;
-_frontera = [_marcador] call isFrontline;
 
-if (_marcador in puertos) then
-	{
-	_pos = [_posicion,_size,_size*3,10,2,0,0] call BIS_Fnc_findSafePos;
-	_vehicle=[_pos, 0,"I_Boat_Armed_01_minigun_F", side_green] call bis_fnc_spawnvehicle;
-	_veh = _vehicle select 0;
+if (_marcador in puertos) then {
+	private _pos = [_posicion,_size,_size*3,10,2,0,0] call BIS_Fnc_findSafePos;
+	([_pos, 0,"I_Boat_Armed_01_minigun_F", side_green] call bis_fnc_spawnvehicle) params ["_veh", "_vehCrew", "_grupoVeh"];
 	[_veh, "AAF"] call AS_fnc_initVehicle;
-	_vehCrew = _vehicle select 1;
 	{[_x, false] spawn AS_fnc_initUnitAAF} forEach _vehCrew;
-	_grupoVeh = _vehicle select 2;
-	_soldados = _soldados + _vehCrew;
-	_grupos = _grupos + [_grupoVeh];
-	_vehiculos = _vehiculos + [_veh];
+	_soldados append _vehCrew;
+	_grupos pushBack _grupoVeh;
+	_vehiculos pushBack _veh;
 	sleep 1;
-	}
-else
-	{
-	if (_frontera) then
-		{
+} else {
+	if (_frontera) then {
 		_base = [bases,_posicion] call BIS_fnc_nearestPosition;
-		if ((_base in mrkFIA) or ((getMarkerPos _base) distance _posicion > 1000)) then
-			{
-			_pos = [_posicion] call mortarPos;
-			_veh = statMortar createVehicle _pos;
+		if ((_base in mrkFIA) or ((getMarkerPos _base) distance _posicion > 1000)) then {
+			private _pos = [_posicion] call mortarPos;
+			private _veh = statMortar createVehicle _pos;
 			[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
-			_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
+			private _unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
 			[_unit, false] spawn AS_fnc_initUnitAAF;
 			[_veh, "AAF"] call AS_fnc_initVehicle;
 			_unit moveInGunner _veh;
-			_soldados = _soldados + [_unit];
-			_vehiculos = _vehiculos + [_veh];
+			_soldados pushBack _unit;
+			_vehiculos pushBack _veh;
 			sleep 1;
-			};
-		_roads = _posicion nearRoads _size;
-		if (count _roads != 0) then
-			{
-			_dist = 0;
-			_road = objNull;
-			{if ((position _x) distance _posicion > _dist) then {_road = _x;_dist = position _x distance _posicion}} forEach _roads;
-			_roadscon = roadsConnectedto _road;
-			_roadcon = objNull;
-			{if ((position _x) distance _posicion > _dist) then {_roadcon = _x}} forEach _roadscon;
-			_dirveh = [_roadcon, _road] call BIS_fnc_DirTo;
-			_pos = [getPos _road, 7, _dirveh + 270] call BIS_Fnc_relPos;
-			_bunker = "Land_BagBunker_Small_F" createVehicle _pos;
-			_vehiculos = _vehiculos + [_bunker];
-			_bunker setDir _dirveh;
-			_pos = getPosATL _bunker;
-			_veh = statAT createVehicle _posicion;
-			_vehiculos = _vehiculos + [_veh];
-			_veh setPos _pos;
-			_veh setDir _dirVeh + 180;
-			_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
-			[_unit, false] spawn AS_fnc_initUnitAAF;
-			[_veh, "AAF"] call AS_fnc_initVehicle;
-			_unit moveInGunner _veh;
-			};
 		};
 	};
 
-if (["trucks"] call AS_fnc_AAFarsenal_count > 0) then {
-	private _type = selectRandom (["trucks"] call AS_fnc_AAFarsenal_all);
-	_pos = _posicion findEmptyPosition [5,_size,_type];
-	_veh = createVehicle [_type, _pos, [], 0, "NONE"];
-	_veh setDir random 360;
-	_vehiculos = _vehiculos + [_veh];
-	[_veh, "AAF"] call AS_fnc_initVehicle;
+	if ((spawner getVariable _marcador) and _frontera) then {
+		([_posicion, _grupo] call AS_fnc_spawnAAF_roadAT) params ["_units1", "_vehicles1"];
+		_soldados append _units1;
+		_vehiculos append _vehicles1;
+	};
 };
 
-_tam = round (_size/50);
+// spawn truck
+([_marcador] call AS_fnc_spawnAAF_truck) params ["_vehicles1"];
+_vehiculos append _vehicles1;
 
-if (_tam == 0) then {_tam = 1};
+private _groupCount = round (_size/50);
+if (_frontera) then {_groupCount = _groupCount * 2};
+_groupCount = _groupCount max 1;
 
-_cuenta = 0;
-
-if (_frontera) then {_tam = _tam * 2};
-while {(spawner getVariable _marcador) and (_cuenta < _tam)} do
-	{
-	if ((diag_fps > AS_P("minimumFPS")) or (_cuenta == 0)) then {
-		_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
-		_grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-		if (hayRHS) then {_grupo = [_grupo, _posicion] call expandGroup};
-		sleep 1;
-		_stance = "RANDOM";
-		if (_cuenta == 0) then {_stance = "RANDOMUP"};
-		[leader _grupo, _marcador, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
-		_grupos = _grupos + [_grupo];
-		if (_cuenta == 0) then {
-			{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]; _x setUnitPos "MIDDLE";} forEach units _grupo;
-		}
-		else {
-			{[_x, false] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
-		};
-	};
-	_cuenta = _cuenta + 1;
-	};
-
-if (_marcador in puertos) then
-	{
-	_caja addItemCargo ["V_RebreatherIA",round random 5];
-	_caja addItemCargo ["G_I_Diving",round random 5];
-	};
+// spawn guarding squads
+([_marcador, _groupCount] call AS_fnc_spawnAAF_patrolSquad) params ["_units1", "_groups1"];
+_soldados append _units1;
+_grupos append _groups1;
 
 private _journalist = [_marcador, _grupos] call AS_fnc_createJournalist;
 
-waitUntil {sleep 1; (not (spawner getVariable _marcador)) or (({(not(vehicle _x isKindOf "Air"))} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)) > 3*({(alive _x) and (!(captive _x)) and (_x distance _posicion < _size)} count _soldados))};
-if ((spawner getVariable _marcador) and (not(_marcador in mrkFIA))) then
-	{
-	//[_bandera] spawn mrkWIN;
+//////////////////////////////////////////////////////////////////
+////////////////////////// END SPAWNING //////////////////////////
+//////////////////////////////////////////////////////////////////
+
+// AAF units (alive, not far and not captive) are not 3 times more than FIA units
+waitUntil {sleep 1;
+	!(spawner getVariable _marcador) or
+	(({(!(vehicle _x isKindOf "Air"))} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)) >
+	 3*({(alive _x) and !(captive _x) and (_x distance _posicion < _size)} count _soldados))
+};
+
+// all other conditions were fulfilled => captured
+if ((spawner getVariable _marcador) and (not(_marcador in mrkFIA))) then {
 	[_bandera] remoteExec ["mrkWIN",2];
+};
+
+waitUntil {sleep 1; !(spawner getVariable _marcador)};
+
+{
+	if (!(alive _x) and (!(_x in destroyedBuildings))) then {
+		destroyedBuildings pushBack (position _x);
+		publicVariableServer "destroyedBuildings";
 	};
+} forEach _buildings;
 
-waitUntil {sleep 1; (not (spawner getVariable _marcador))};
-
-{if ((!alive _x) and (not(_x in destroyedBuildings))) then {destroyedBuildings = destroyedBuildings + [position _x]; publicVariableServer "destroyedBuildings"}} forEach _buildings;
 {if (alive _x) then {deleteVehicle _x}} forEach _soldados;
 if (!isNull _journalist) then {deleteVehicle _journalist};
 {deleteGroup _x} forEach _grupos;
 {
-if (not(_x in staticsToSave)) then
-	{
-	if (!([AS_P("spawnDistance")-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x};
+	if !(_x in staticsToSave) then {
+		if !([AS_P("spawnDistance")-_size,1,_x,"BLUFORSpawn"] call distanceUnits) then {
+			deleteVehicle _x;
+		};
 	};
 } forEach _vehiculos;

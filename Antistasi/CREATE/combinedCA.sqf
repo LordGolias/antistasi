@@ -1,180 +1,127 @@
 #include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
+params ["_mrkdestino"];
 
-private ["_posorigen","_tipogrupo","_nombreorig","_markTsk","_wp1","_soldados","_landpos","_pad","_vehiculos","_wp0","_wp3","_wp4","_wp2",
-		"_grupo","_grupos","_tipoVeh","_vehicle","_heli","_heliCrew","_grupoheli","_pilotos","_rnd","_resourcesAAF","_nVeh",
-		"_tam","_roads","_Vwp1","_road","_veh","_vehCrew","_grupoVeh","_Vwp0","_size","_Hwp0","_grupo1","_uav","_grupouav","_uwp0",
-		"_tsk","_vehiculo","_soldado","_piloto","_mrkdestino","_posdestino","_prestigeCSAT","_base","_aeropuerto","_nombredest",
-		"_tiempo","_solMax","_coste","_tipo","_threatEvalAir","_threatEvalLand","_pos","_timeOut","_plane"];
-_mrkdestino = _this select 0;
+private _posdestino = getMarkerPos _mrkDestino;
 
-//forcedSpawn = forcedSpawn + [_mrkDestino]; publicVariable "forcedSpawn";
+private _grupos = [];
+private _soldados = [];
+private _pilotos = [];
+private _vehiculos = [];
 
-_posdestino = getMarkerPos _mrkDestino;
+private _prestigeCSAT = AS_P("prestigeCSAT");
 
-_grupos = [];
-_soldados = [];
-_pilotos = [];
-_vehiculos = [];
-
-_prestigeCSAT = AS_P("prestigeCSAT");
-//[-8100] remoteExec ["resourcesAAF",2];
-
-_base = "";
-_base = [_mrkdestino] call findBasesForCA;
-_aeropuerto = "";
-_aeropuerto = [_mrkdestino] call findAirportsForCA;
-
-//if (_mrkdestino == "puesto_13") then {_base = ""};
+private _base = [_mrkdestino] call findBasesForCA;
+private _aeropuerto = [_mrkdestino] call findAirportsForCA;
 
 if ((_base=="") and (_aeropuerto=="")) exitWith {};
 
-_CSAT = false;
-if ((random 100 < _prestigeCSAT) and (_prestigeCSAT > 19) && !(server getVariable "blockCSAT")) then
-	{
+private _CSAT = false;
+if ((random 100 < _prestigeCSAT) and (_prestigeCSAT >= 20) && !(server getVariable "blockCSAT")) then {
 	_CSAT = true;
-	};
+};
 
 if ((_aeropuerto != "") or _CSAT) then {_threatEvalAir = [_mrkDestino] call AAthreatEval};
 
 if (_base != "") then {_threatEvalLand = [_mrkDestino] call landThreatEval};
 
-_nombredest = [_mrkDestino] call localizar;
-_nombreorig = [_aeropuerto] call localizar;
-_markTsk = _aeropuerto;
-
-if (_base !="") then
-	{
+private _nombredest = [_mrkDestino] call localizar;
+private _nombreorig = [_aeropuerto] call localizar;
+private _markTsk = _aeropuerto;
+if (_base !="") then {
 	_nombreorig = [_base] call localizar;
 	_markTsk = _base;
-	};
+};
 
 _tsk = ["AtaqueAAF",[side_blue,civilian],[format ["AAF Is attacking from the %1. Intercept them or we may loose a sector",_nombreorig],"AAF Attack",_markTsk],getMarkerPos _markTsk,"CREATED",10,true,true,"Defend"] call BIS_fnc_setTask;
 misiones pushbackUnique "AtaqueAAF"; publicVariable "misiones";
-_tiempo = time + 3600;
+private _tiempo = time + 3600;
 
-if (_CSAT) then
-	{
-	_resourcesAAF = AS_P("resourcesAAF");
-	if (_resourcesAAF > 20000) then
-		{
-        AS_Pset("resourcesAAF",_resourcesAAF - 20000);
+if (_CSAT) then {
+	if (AS_P("resourcesAAF") > 20000) then {
+        AS_Pset("resourcesAAF",AS_P("resourcesAAF") - 20000);
 		[5,0] remoteExec ["prestige",2];
-		}
-	else
-		{
+	} else {
 		[5,-20] remoteExec ["prestige",2]
-		};
-	_posorigen = getMarkerPos "spawnCSAT";
+	};
+	private _posorigen = getMarkerPos "spawnCSAT";
 	_posorigen set [2,300];
-	_cuenta = 3;
+
+	private _cuenta = 3;
 	if ((_base == "") or (_aeropuerto == "")) then {_cuenta = 6};
-	for "_i" from 1 to _cuenta do
-		{
-		_tipoVeh = "";
-		if (_i == _cuenta) then
-			{
+	for "_i" from 1 to _cuenta do {
+		private _tipoVeh = "";
+		if (_i == _cuenta) then {
 			_tipoVeh = selectRandom opHeliTrans;
-			}
-		else
-			{
+		} else {
 			_tipoVeh = selectRandom opAir;
-			};
-		_timeOut = 0;
-		_pos = _posorigen findEmptyPosition [0,100,_tipoVeh];
-		while {_timeOut < 60} do
-			{
+		};
+		private _timeOut = 0;
+		private _pos = _posorigen findEmptyPosition [0,100,_tipoVeh];
+		while {_timeOut < 60} do {
 			if (count _pos > 0) exitWith {};
 			_timeOut = _timeOut + 1;
 			_pos = _posorigen findEmptyPosition [0,100,_tipoVeh];
 			sleep 1;
-			};
+		};
 		if (count _pos == 0) then {_pos = _posorigen};
-		_vehicle=[_posorigen, 0, _tipoVeh, side_red] call bis_fnc_spawnvehicle;
-		_heli = _vehicle select 0;
-		_heliCrew = _vehicle select 1;
-		_grupoheli = _vehicle select 2;
-		_pilotos = _pilotos + _heliCrew;
-		_grupos = _grupos + [_grupoheli];
-		_vehiculos = _vehiculos + [_heli];
+
+		private _vehicle = [_posorigen, 0, _tipoVeh, side_red] call bis_fnc_spawnvehicle;
+		private _heli = _vehicle select 0;
+		private _heliCrew = _vehicle select 1;
+		private _grupoheli = _vehicle select 2;
+		{[_x] spawn CSATinit; _pilotos pushBack _x} forEach _heliCrew;
+		_grupos pushBack _grupoheli;
+		_vehiculos pushBack _heli;
 		[_heli, "CSAT"] call AS_fnc_initVehicle;
-		if (not(_tipoVeh in opHeliTrans)) then
-			{
-			{[_x] spawn CSATinit} forEach _heliCrew;
+
+		if (not(_tipoVeh in opHeliTrans)) then {
 			_wp1 = _grupoheli addWaypoint [_posdestino, 0];
 			_wp1 setWaypointType "SAD";
 			[_heli,"CSAT Air Attack"] spawn inmuneConvoy;
-			}
-		else
-			{
-			{_x setBehaviour "CARELESS";} forEach units _grupoheli;
-			_tipogrupo = [opGroup_Squad, side_red] call fnc_pickGroup;
-			_grupo = [_posorigen, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
-			{_x assignAsCargo _heli; _x moveInCargo _heli; _soldados = _soldados + [_x]; [_x] spawn CSATinit} forEach units _grupo;
-			//[_mrkDestino,_grupo] spawn attackDrill;
-			_grupos = _grupos + [_grupo];
+		}
+		else {
+			{_x setBehaviour "CARELESS"} forEach units _grupoheli;
+
+			private _tipogrupo = [opGroup_Squad, side_red] call fnc_pickGroup;
+			private _grupo = [_posorigen, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
+			{_x assignAsCargo _heli; _x moveInCargo _heli; _soldados pushBack _x; [_x] spawn CSATinit} forEach units _grupo;
+			_grupos pushBack _grupo;
 			[_heli,"CSAT Air Transport"] spawn inmuneConvoy;
-			if ((_mrkdestino in bases) or (_mrkdestino in aeropuertos) or (random 10 < _threatEvalAir)) then
-				{
+			if ((_mrkdestino in bases) or (_mrkdestino in aeropuertos) or (random 10 < _threatEvalAir)) then {
 				[_heli,_grupo,_mrkdestino,_threatEvalAir] spawn airdrop;
-				}
-			else
-				{
-				if ((random 100 < 50) or (_tipoVeh == opHeliDismount)) then
-					{
+			} else {
+				if ((random 100 < 50) or (_tipoVeh == opHeliDismount)) then {
 					{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _grupoheli;
-					_landpos = [];
+					private _landpos = [];
 					_landpos = [_posdestino, 300, 500, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
 					_landPos set [2, 0];
-					_pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
-					_vehiculos = _vehiculos + [_pad];
+					private _pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
+					_vehiculos pushBack _pad;
 
 					[_grupoheli, _posorigen, _landpos, _mrkdestino, _grupo, 25*60, "air"] call fnc_QRF_dismountTroops;
-
-					/* _wp0 = _grupoheli addWaypoint [_landpos, 0];
-					_wp0 setWaypointType "TR UNLOAD";
-					_wp0 setWaypointStatements ["true", "(vehicle this) land 'GET OUT';[vehicle this] call smokeCoverAuto"];
-					[_grupoheli,0] setWaypointBehaviour "CARELESS";
-					_wp3 = _grupo addWaypoint [_landpos, 0];
-					_wp3 setWaypointType "GETOUT";
-					_wp0 synchronizeWaypoint [_wp3];
-					_wp4 = _grupo addWaypoint [_posdestino, 1];
-					_wp4 setWaypointType "SAD";
-					_wp2 = _grupoheli addWaypoint [_posorigen, 1];
-					_wp2 setWaypointType "MOVE";
-					_wp2 setWaypointStatements ["true", "{deleteVehicle _x} forEach crew this; deleteVehicle this"];
-					[_grupoheli,1] setWaypointBehaviour "AWARE"; */
-					}
-				else
-					{
+				} else {
 					[_grupoheli, _posorigen, _posdestino, _mrkdestino, _grupo, 25*60] call fnc_QRF_fastrope;
-					//[_heli,_grupo,_posdestino,_posorigen,_grupoheli] spawn fastropeCSAT;
-					};
 				};
 			};
-		sleep 15;
 		};
+		sleep 15;
+	};
 
 	_tsk = ["AtaqueAAF",[side_blue,civilian],[format ["AAF and CSAT are attacking %2 from the %1. Intercept them or we may loose a sector",_nombreorig,_nombredest],"AAF Attack",_mrkDestino],getMarkerPos _mrkDestino,"CREATED",10,true,true,"Defend"] call BIS_fnc_setTask;
 	[["TaskSucceeded", ["", format ["%1 under fire",_nombredest]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 	//bombardeo aereo!!!
-	[_mrkDestino] spawn
-		{
-		private ["_mrkDestino"];
-		_mrkDestino = _this select 0;
-		for "_i" from 0 to round (random 2) do
-			{
+	[_mrkDestino] spawn {
+		params ["_mrkDestino"];
+		for "_i" from 0 to round (random 2) do {
 			[_mrkdestino, selectRandom opCASFW] spawn airstrike;
 			sleep 30;
-			};
-		if ((_mrkDestino in bases) or (_mrkDestino in aeropuertos)) then
-			{
-			//Ataque de artillería
-			[_mrkdestino] spawn artilleria;
-			};
 		};
-	{if ((surfaceIsWater position _x) and (vehicle _x == _x)) then {_x setDamage 1}} forEach _soldados;
+		if ((_mrkDestino in bases) or (_mrkDestino in aeropuertos)) then {
+			[_mrkdestino] spawn artilleria;
+		};
 	};
+};
 
 
 if (_base != "") then {
@@ -196,9 +143,9 @@ if (_base != "") then {
 			_toUse = "tanks";
 		};
 		([_toUse, _posorigen, _posdestino, _threatEval, _isMarker] call AS_fnc_createLandAttack) params ["_soldiers1", "_groups1", "_vehicles1"];
-		_soldados = _soldados + _soldiers1;
-		_grupos = _grupos + _groups1;
-		_vehiculos = _vehiculos + _vehicles1;
+		_soldados append _soldiers1;
+		_grupos append _groups1;
+		_vehiculos append _vehicles1;
 		sleep 5;
 	};
 };
@@ -220,29 +167,28 @@ if (_aeropuerto != "") then {
 	[_aeropuerto,60] execVM "addTimeForIdle.sqf";
 	if (_base != "") then {sleep ((_posorigen distance _posdestino)/16)};
 
-	_posorigen = getMarkerPos _aeropuerto;
+	private _posorigen = getMarkerPos _aeropuerto;
 	_posorigen set [2,300];
 
 	// spawn a UAV
 	if (AS_AAFarsenal_uav != "") then {
-		_uav = createVehicle [AS_AAFarsenal_uav, _posorigen, [], 0, "FLY"];
+		private _uav = createVehicle [AS_AAFarsenal_uav, _posorigen, [], 0, "FLY"];
 		_uav removeMagazines "6Rnd_LG_scalpel";
-		_vehiculos = _vehiculos + [_uav];
+		_vehiculos pushBack _uav;
 		[_uav, "AAF"] call AS_fnc_initVehicle;
 		[_uav,"UAV"] spawn inmuneConvoy;
 		[_uav,_mrkDestino] spawn VANTinfo;
 		createVehicleCrew _uav;
-		_soldados = _soldados + crew _uav;
+		_soldados append crew _uav;
 		_grupouav = group (crew _uav select 0);
-		_grupos = _grupos + [_grupouav];
+		_grupos pushBack _grupouav;
 		{[_x] spawn AS_fnc_initUnitAAF} forEach units _grupoUav;
-		_uwp0 = _grupouav addWayPoint [_posdestino,0];
+		private _uwp0 = _grupouav addWayPoint [_posdestino,0];
 		_uwp0 setWaypointBehaviour "AWARE";
 		_uwp0 setWaypointType "MOVE";
 		sleep 5;
 	};
 
-	_tipoVeh = "";
 	for "_i" from 1 to 3 do {
 		private _toUse = "transportHelis";  // last attack is always a transport
 
@@ -256,15 +202,15 @@ if (_aeropuerto != "") then {
 			};
 		};
 		([_toUse, _posorigen, _posdestino] call AS_fnc_createAirAttack) params ["_soldiers1", "_groups1", "_vehicles1"];
-		_soldados = _soldados + _soldiers1;
-		_grupos = _grupos + _groups1;
-		_vehiculos = _vehiculos + _vehicles1;
+		_soldados append _soldiers1;
+		_grupos append _groups1;
+		_vehiculos append _vehicles1;
 		sleep 15;
 	};
 };
 
 
-_solMax = round ((count _soldados)/3);
+private _solMax = round ((count _soldados)/3);
 
 
 waitUntil {sleep 5; (({not (captive _x)} count _soldados) < ({captive _x} count _soldados)) or ({alive _x} count _soldados < _solMax) or (time > _tiempo) or (_mrkDestino in mrkAAF)};

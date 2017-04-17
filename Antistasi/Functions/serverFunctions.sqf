@@ -1,5 +1,139 @@
 if (!isServer and hasInterface) exitWith {};
 
+AS_fnc_roadAndDir = {
+	private _position = _this;
+	private _road = objNull;
+	private _dist = 50;
+	{
+	    if ((position _x) distance _position < _dist) then {
+	        _road = _x;
+	        _dist = (position _x) distance _position;
+	    };
+	} forEach (_position nearRoads 50);
+	if (isNull _road) exitWith {[objNull, []]};
+	if (count (roadsConnectedto _road) == 0) exitWith {[objNull, []]};
+	private _roadcon = (roadsConnectedto _road) select 0;
+	private _dirveh = [_roadcon, _road] call BIS_fnc_DirTo;
+	[_road, _dirveh]
+};
+
+AS_fnc_spawnAAF_roadAT = {
+	params ["_position", "_group"];
+
+	private _vehicles = [];
+	private _units = [];
+
+	(_position call AS_fnc_roadAndDir) params ["_road", "_dir"];
+	if (!isNull _road) then {
+		private _pos = [getPos _road, 7, _dir + 270] call BIS_Fnc_relPos;
+		private _bunker = "Land_BagBunker_Small_F" createVehicle _pos;
+		_bunker setDir _dir;
+		_pos = getPosATL _bunker;
+		_vehicles pushBack _bunker;
+
+		private _veh = statAT createVehicle _position;
+		_veh setPos _pos;
+		_veh setDir _dir + 180;
+		[_veh, "AAF"] call AS_fnc_initVehicle;
+		_vehicles pushBack _veh;
+
+		_unit = ([_position, 0, infGunner, _group] call bis_fnc_spawnvehicle) select 0;
+		_unit moveInGunner _veh;
+		[_unit, false] spawn AS_fnc_initUnitAAF;
+		_units pushBack _unit;
+	};
+	[_units, _vehicles]
+};
+
+AS_fnc_spawnAAF_patrol = {
+	params ["_location", "_amount"];
+
+	private _position = getMarkerPos _location;
+
+	private _units = [];
+	private _groups = [];
+
+	// marker used to set the patrol area
+	private _mrk = createMarkerLocal [format ["%1patrolarea", random 100], _position];
+	_mrk setMarkerShapeLocal "RECTANGLE";
+	_mrk setMarkerSizeLocal [(AS_P("spawnDistance")/2),(AS_P("spawnDistance")/2)];
+	_mrk setMarkerTypeLocal "hd_warning";
+	_mrk setMarkerColorLocal "ColorRed";
+	_mrk setMarkerBrushLocal "DiagGrid";
+	_mrk setMarkerDirLocal (markerDir _location);
+	_mrk setMarkerAlphaLocal 0;
+
+	// spawn patrols
+	for "_i" from 1 to _amount do {
+		if !(spawner getVariable _location) exitWith {};
+
+		private _pos = [0,0,0];
+		while {true} do {
+			_pos = [_position, 150 + (random 350) ,random 360] call BIS_fnc_relPos;
+			if (!surfaceIsWater _pos) exitWith {};
+		};
+		private _group = [_pos, side_green, [infPatrol, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+
+		if (random 10 < 2.5) then {
+			[_group createUnit ["Fin_random_F",_pos,[],0,"FORM"]] spawn guardDog;
+		};
+		[leader _group, _mrk, "SAFE","SPAWNED", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+
+		_groups pushBack _group;
+		{[_x, false] spawn AS_fnc_initUnitAAF; _units pushBack _x} forEach units _group;
+	};
+	[_units, _groups, _mrk]
+};
+
+AS_fnc_spawnAAF_patrolSquad = {
+	params ["_location", "_amount"];
+
+	private _position = getMarkerPos _location;
+	private _size = [_location] call sizeMarker;
+
+	private _units = [];
+	private _groups = [];
+
+	for "_i" from 1 to _amount do {
+		if (!(spawner getVariable _location) or (_i != 1 and diag_fps < AS_P("minimumFPS"))) exitWith {};
+		private _pos = [];
+		while {true} do {
+			_pos = [_position, random _size,random 360] call BIS_fnc_relPos;
+			if (!surfaceIsWater _pos) exitWith {};
+		};
+		private _group = [_pos, side_green, [infSquad, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+		if (hayRHS) then {_group = [_group, _position] call expandGroup};
+
+		private _stance = "RANDOM";
+		if (_i == 1) then {_stance = "RANDOMUP"};
+
+		[leader _group,_location,"SAFE","SPAWNED",_stance,"NOVEH","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+		_groups pushBack _group;
+		{[_x, false] spawn AS_fnc_initUnitAAF; _units pushBack _x} forEach units _group;
+		sleep 1;
+	};
+	[_units, _groups]
+};
+
+AS_fnc_spawnAAF_truck = {
+	params ["_location"];
+
+	private _position = getMarkerPos _location;
+	private _size = [_location] call sizeMarker;
+
+	private _vehicles = [];
+
+	if (["trucks"] call AS_fnc_AAFarsenal_count > 0) then {
+		private _type = selectRandom (["trucks"] call AS_fnc_AAFarsenal_all);
+		private _pos = _position findEmptyPosition [5,_size, _type];
+		private _veh = createVehicle [_type, _pos, [], 0, "NONE"];
+		_veh setDir random 360;
+		_vehicles pushBack _veh;
+		[_veh, "AAF"] call AS_fnc_initVehicle;
+	};
+	[_vehicles]
+};
+
 // find road spots to spawn vehicles on, provide initial heading
 fnc_findSpawnSpots = {
 	params ["_origin", ["_dest", "base_4"], ["_spot", false]];
