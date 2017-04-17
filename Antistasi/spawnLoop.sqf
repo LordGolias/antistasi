@@ -84,13 +84,11 @@ while {true} do {
 					[_marcador] remoteExec ["createCity",HCGarrisons];
 				} else {
 					call {
-						if ((_marcador in recursos) or (_marcador in fabricas)) exitWith {[_marcador] remoteExec ["createFIArecursos",HCGarrisons]};
-						if ((_marcador in power) or (_marcador == "FIA_HQ")) exitWith {[_marcador] remoteExec ["createFIApower",HCGarrisons]};
+						if (_marcador in (recursos + fabricas + power + puestos + ["FIA_HQ"])) exitWith {[_marcador] remoteExec ["AS_fnc_createFIAgeneric",HCGarrisons]};
 						if (_marcador in aeropuertos) exitWith {[_marcador] remoteExec ["createNATOaerop",HCGarrisons]};
 						if (_marcador in bases) exitWith {[_marcador] remoteExec ["createNATObases",HCGarrisons]};
-						if (_marcador in puestosFIA) exitWith {[_marcador] remoteExec ["createFIApuestos2",HCGarrisons]};
-						if ((_marcador in puestos) or (_marcador in puertos)) exitWith {[_marcador] remoteExec ["createFIApuestos",HCGarrisons]};
-						if (_marcador in campsFIA) exitWith {[_marcador] remoteExec ["createCampFIA",HCGarrisons]};
+						if (_marcador in puestosFIA) exitWith {[_marcador] remoteExec ["AS_fnc_createFIAroadblock",HCGarrisons]};
+						if (_marcador in campsFIA) exitWith {[_marcador] remoteExec ["AS_fnc_createFIACamp",HCGarrisons]};
 						if (_marcador in puestosNATO) exitWith {[_marcador] remoteExec ["createNATOpuesto",HCGarrisons]};
 					};
 				};

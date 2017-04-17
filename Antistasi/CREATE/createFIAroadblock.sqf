@@ -1,16 +1,14 @@
 if (!isServer and hasInterface) exitWith {};
+params ["_marcador"];
 
-private ["_marcador","_posicion","_escarretera","_tam","_road","_veh","_grupo","_unit","_roadcon","_vehicles", "_advanced", "_posDes"];
+private _posicion = getMarkerPos _marcador;
 
-_marcador = _this select 0;
-_posicion = getMarkerPos _marcador;
+private _vehicles = [];
 
-_advanced = false;
-_vehicles = [];
-
-_escarretera = false;
+private _escarretera = false;
 if (isOnRoad _posicion) then {_escarretera = true};
 
+private _advanced = false;
 // BE module
 if (hayBE) then {
 	if (BE_current_FIA_RB_Style == 1) exitWith {_advanced = true};

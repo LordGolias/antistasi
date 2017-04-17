@@ -1,15 +1,10 @@
 if (!isServer and hasInterface) exitWith {};
+params ["_marcador"];
 
-private ["_marcador","_posicion","_grupo","_campGroup","_fire"];
+private _posicion = (getMarkerPos _marcador) findEmptyPosition [5,50,"I_Heli_Transport_02_F"];
 
-_objs = [];
-
-_marcador = _this select 0;
-_posicion = getMarkerPos _marcador;
-
-_camp = selectRandom AS_campList;
-_posicion = _posicion findEmptyPosition [5,50,"I_Heli_Transport_02_F"];
-_objs = [_posicion, floor(random 361), _camp] call BIS_fnc_ObjectsMapper;
+private _camp = selectRandom AS_campList;
+private _objs = [_posicion, floor(random 361), _camp] call BIS_fnc_ObjectsMapper;
 
 sleep 2;
 
