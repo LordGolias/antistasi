@@ -10,7 +10,7 @@ _aeropuerto = "";
 _aeropuerto = _x;
 _busy = if (dateToNumber date > server getVariable _aeropuerto) then {false} else {true};;
 _posaeropuerto = getMarkerPos _aeropuerto;
-if (count _this > 1) then {_radio = true} else {_radio = [_aeropuerto] call radioCheck};
+if (count _this > 1) then {_radio = true} else {_radio = _posaeropuerto call radioCheck};
 if ((_pos distance _posaeropuerto < 10000) and (_pos distance _posaeropuerto > 2000) and (not (spawner getVariable _aeropuerto)) and (!_busy) and (_radio)) then {_aeropuertos = _aeropuertos + [_aeropuerto]}
 } forEach _aeropuertosAAF;
 

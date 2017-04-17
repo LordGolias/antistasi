@@ -10,7 +10,7 @@ _base = "";
 _base = _x;
 _posbase = getMarkerPos _base;
 _busy = if (dateToNumber date > server getVariable _base) then {false} else {true};
-if (count _this > 1) then {_radio = true} else {_radio = [_base] call radioCheck};
+if (count _this > 1) then {_radio = true} else {_radio = _posbase call radioCheck};
 
 if ((!_busy) and (not (spawner getVariable _base))) then
 	{

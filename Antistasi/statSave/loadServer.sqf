@@ -176,8 +176,9 @@ petros allowdamage true;
 
     {
     _base = [_x] call findBasesForCA;
+	private _position = getMarkerPos _x;
     //if (_x == "puesto_13") then {_base = ""};
-    _radio = [_x] call radioCheck;
+    _radio = _position call radioCheck;
     if ((_base != "") and (_radio) and (_x in mrkFIA) and (not(_x in smallCAmrk))) then
         {
         [_x] remoteExec ["patrolCA",HCattack];

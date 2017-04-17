@@ -1,19 +1,13 @@
-private ["_marcador","_ok","_posicion","_antena","_cercano"];
+private _position = _this;
 
-_marcador = _this select 0;
-_posicion = _this select 0;
-if (typeName _marcador == typeName "") then {_posicion = getMarkerPos _marcador};
-_ok = false;
-if (count antenas > 0) then
-	{
-	for "_i" from 0 to (count antenas) - 1 do
-		{
-		_antena = antenas select _i;
-		if ((alive _antena) and (_posicion distance _antena < 3500)) then
-			{
-			_cercano = [marcadores,_antena] call BIS_fnc_nearestPosition;
-			if (not(_cercano in mrkFIA)) then {_ok = true};
-			};
+private _ok = false;
+{
+	if ((alive _x) and (_this distance _x < 3500)) then {
+		private _base = [marcadores,_x] call BIS_fnc_nearestPosition;
+		if (_base in mrkAAF) then {
+			_ok = true;
 		};
 	};
+	if (_ok) exitWith {};  // shortcircuit loop
+} forEach antenas;
 _ok

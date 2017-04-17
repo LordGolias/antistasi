@@ -32,6 +32,7 @@ while {visibleMap} do
 		{
 		_posicionTel = posicionTel;
 		_sitio = [marcadores, _posicionTel] call BIS_Fnc_nearestPosition;
+		private _position = getMarkerPos _sitio;
 		_texto = "Click on the zone";
 		if (_sitio == "FIA_HQ") then
 			{
@@ -46,7 +47,7 @@ while {visibleMap} do
 			_power = [_sitio] call powerCheck;
 			_texto = format ["%1\n\nPop %2\nAAF Support: %3 %5\nFIA Support: %4 %5",[_sitio,false] call AS_fnc_getLocationName,_numCiv,_prestigeOPFOR,_prestigeBLUFOR,"%"];
 			if (_power) then {_texto = format ["%1\nPowered",_texto]} else {_texto = format ["%1\nNot Powered",_texto]};
-			if (_sitio in mrkAAF) then {if ([_sitio] call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
+			if (_sitio in mrkAAF) then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
 			if (_sitio in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
 			};
 		/*
@@ -61,7 +62,7 @@ while {visibleMap} do
 				{
 				_texto = "AAF Airport";
 				_busy = if (dateToNumber date > server getVariable _sitio) then {false} else {true};
-				if ([_sitio] call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
+				if (_position call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
 				if (!_busy) then {_texto = format ["%1\nStatus: Idle",_texto]} else {_texto = format ["%1\nStatus: Busy",_texto]};
 				}
 			else
@@ -74,7 +75,7 @@ while {visibleMap} do
 			if (_sitio in mrkAAF) then
 				{
 				_texto = "AAF Powerplant";
-				if ([_sitio] call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
+				if (_position call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
 				}
 			else
 				{
@@ -94,7 +95,7 @@ while {visibleMap} do
 				};
 			_power = [_sitio] call powerCheck;
 			if (!_power) then {_texto = format ["%1\n\nNo Powered",_texto]} else {_texto = format ["%1\n\nPowered",_texto]};
-			if (_sitio in mrkAAF) then {if ([_sitio] call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
+			if (_sitio in mrkAAF) then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
 			if (_sitio in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
 			};
 		if (_sitio in fabricas) then
@@ -109,7 +110,7 @@ while {visibleMap} do
 				};
 			_power = [_sitio] call powerCheck;
 			if (!_power) then {_texto = format ["%1\n\nNo Powered",_texto]} else {_texto = format ["%1\n\nPowered",_texto]};
-			if (_sitio in mrkAAF) then {if ([_sitio] call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
+			if (_sitio in mrkAAF) then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
 			if (_sitio in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
 			};
 		if (_sitio in puestos) then
@@ -117,7 +118,7 @@ while {visibleMap} do
 			if (_sitio in mrkAAF) then
 				{
 				_texto = "AAF Grand Outpost";
-				if ([_sitio] call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
+				if (_position call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
 				}
 			else
 				{
@@ -135,7 +136,7 @@ while {visibleMap} do
 			if (_sitio in mrkAAF) then
 				{
 				_texto = "AAF Seaport";
-				if ([_sitio] call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
+				if (_position call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
 				}
 			else
 				{
@@ -148,7 +149,7 @@ while {visibleMap} do
 				{
 				_texto = "AAF Base";
 				_busy = if (dateToNumber date > server getVariable _sitio) then {false} else {true};
-				if ([_sitio] call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
+				if (_position call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
 				if (!_busy) then {_texto = format ["%1\nStatus: Idle",_texto]} else {_texto = format ["%1\nStatus: Busy",_texto]};
 				}
 			else
@@ -161,11 +162,3 @@ while {visibleMap} do
 	posicionTel = [];
 	};
 onMapSingleClick "";
-
-
-
-
-
-
-
-

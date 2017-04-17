@@ -49,7 +49,7 @@ if (!_isMarker) then {
 if (_exit) exitWith {};
 
 // if marker has no radio, do not send patrol.
-if (!_isDirectAttack and !([_marcador] call radioCheck)) exitWith {};
+if (!_isDirectAttack and !(_position call radioCheck)) exitWith {};
 
 // select base to attack from.
 if (!_isDirectAttack) then {
