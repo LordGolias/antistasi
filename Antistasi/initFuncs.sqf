@@ -40,6 +40,8 @@ AS_fnc_establishFIALocation = compile preProcessFileLineNumbers "fnc_establishFI
 AS_fnc_abandonFIALocation = compile preProcessFileLineNumbers "fnc_abandonFIALocation.sqf";
 AS_fnc_renameFIAcamp = compile preProcessFileLineNumbers "fnc_renameFIAcamp.sqf";
 
+AS_fnc_placeHQdefault = compile preProcessFileLineNumbers "fnc_placeHQdefault.sqf";
+
 minefieldAAF = compile preProcessFileLineNumbers "CREATE\minefieldAAF.sqf";
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";
 accionArsenal = compile preProcessFileLineNumbers "Municion\accionArsenal.sqf";

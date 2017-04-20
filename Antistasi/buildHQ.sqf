@@ -1,10 +1,9 @@
 private ["_pos","_rnd"];
 _movido = false;
-if (group petros != grupoPetros) then
-	{
+if (group petros != grupoPetros) then {
 	_movido = true;
 	[petros] join grupoPetros;
-	};
+};
 [[petros,"remove"],"flagaction"] call BIS_fnc_MP;
 petros forceSpeed 0;
 
@@ -30,22 +29,7 @@ else
 	bandera hideObject false;
 	};
 fuego inflame true;
-_pos = [getPos petros, 3, getDir petros] call BIS_Fnc_relPos;
-fuego setPos _pos;
-_rnd = getdir Petros;
-if (isMultiplayer) then {sleep 5};
-_pos = [getPos fuego, 3, _rnd] call BIS_Fnc_relPos;
-caja setPos _pos;
-_rnd = _rnd + 45;
-_pos = [getPos fuego, 3, _rnd] call BIS_Fnc_relPos;
-mapa setPos _pos;
-mapa setDir ([fuego, mapa] call BIS_fnc_dirTo);
-_rnd = _rnd + 45;
-_pos = [getPos fuego, 3, _rnd] call BIS_Fnc_relPos;
-bandera setPos _pos;
-_rnd = _rnd + 45;
-_pos = [getPos fuego, 3, _rnd] call BIS_Fnc_relPos;
-cajaVeh setPos _pos;
+call AS_fnc_placeHQdefault;
 if (_movido) then {[] call vaciar};
 placementDone = true; publicVariable "placementDone";
 sleep 5;

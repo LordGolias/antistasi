@@ -5,7 +5,7 @@ call compile preprocessFileLineNumbers "debug\init.sqf";
 
 // it is a SP game, initialize the server.
 if (!isMultiPlayer) then {
-    {if ((side _x == west) and (_x != comandante) and (_x != Petros) and (_x != server)) then {_grupete = group _x; deleteVehicle _x; deleteGroup _grupete}} forEach allUnits;
+    {if ((side _x == west) and (_x != comandante) and (_x != server)) then {_grupete = group _x; deleteVehicle _x; deleteGroup _grupete}} forEach allUnits;
     diag_log "[AS] Server: start SP";
     call compile preprocessFileLineNumbers "initFuncs.sqf";
     diag_log "[AS] Server SP: initFuncs finished";
@@ -69,8 +69,8 @@ if(isServer) then {
         };
     publicVariable "miembros";
     fpsCheck = [] execVM "fpsCheck.sqf";
-    [caja, 10] call AS_fnc_fillCrateNATO;
     waitUntil {!(isNil "placementDone")};
+    [caja, 10] call AS_fnc_fillCrateNATO;
     [] spawn AS_fnc_spawnLoop;
     resourcecheck = [] execVM "resourcecheck.sqf";
     if (serverName in servidoresOficiales) then {

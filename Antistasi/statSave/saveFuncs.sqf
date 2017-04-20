@@ -69,8 +69,6 @@ AS_fnc_loadArsenal = {
 	publicVariable "unlockedBackpacks";
 };
 
-AS_permanent_HQplacements = [caja, cajaVeh, mapa, fuego, bandera];
-
 AS_fnc_saveHQ = {
     params ["_saveName"];
 	_array = [];

@@ -16,6 +16,8 @@ private _colorEast = east call BIS_fnc_sideColor;
 _x set [3, 0.33]
 } forEach [_colorWest, _colorEast];
 
+waitUntil {!isNil "petros"};
+
 private _introShot =
 	[
     position petros, // Target position

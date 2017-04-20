@@ -97,10 +97,6 @@ allStatATs = 		["B_static_AT_F"];
 allStatAAs = 		["B_static_AA_F"];
 allStatMortars = 	["B_G_Mortar_01_F"];
 
-side_blue = west; // <<<<<< player side, always, at all times, no exceptions
-side_green = independent;
-side_red = east;
-
 // todo: re-add support for TFAR. This is probably needed by it.
 lrRadio = "";
 
