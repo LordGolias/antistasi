@@ -76,8 +76,6 @@ fnc_BE_refresh = {
 	BE_current_FIA_Camp_Cap = BE_FIA_CAMP_CAP select BE_currentStage;
 	BE_current_FIA_RB_Cap = BE_FIA_RB_CAP select BE_currentStage;
 	BE_current_FIA_WP_Cap = BE_FIA_WP_CAP select BE_currentStage;
-	BE_current_FIA_RB_Style = BE_FIA_RB_STYLE select BE_currentStage;
-	BE_current_FIA_WP_Style = BE_FIA_WP_STYLE select BE_currentStage;
 
 	[] call fnc_BE_pushVariables;
 	[] call fnc_BE_updateProgressBar;
@@ -92,9 +90,8 @@ fnc_BE_refresh = {
 		BE_current_FIA_HR_Cap,
 		BE_current_FIA_Camp_Cap,
 		BE_current_FIA_RB_Cap,
-		BE_current_FIA_WP_Cap,
-		BE_current_FIA_RB_Style,
-		BE_current_FIA_WP_Style];
+		BE_current_FIA_WP_Cap
+	];
 };
 
 fnc_BE_pushVariables = {
@@ -107,8 +104,6 @@ fnc_BE_pushVariables = {
 	publicVariable "BE_current_FIA_Camp_Cap";
 	publicVariable "BE_current_FIA_RB_Cap";
 	publicVariable "BE_current_FIA_WP_Cap";
-	publicVariable "BE_current_FIA_RB_Style";
-	publicVariable "BE_current_FIA_WP_Style";
 
 	publicVariable "BE_class_Heli";
 	publicVariable "BE_class_MBT";
@@ -421,12 +416,6 @@ fnc_BE_getCurrentValue = {
 		case "outfit": {
 			_result = BE_current_FIA_Outfit;
 		};
-		case "RB_type": {
-			_result = BE_current_FIA_RB_Style;
-		};
-		case "WP_type": {
-			_result = BE_current_FIA_WP_Style;
-		};
 
 		default {
 			diag_log format ["Error in BE module permission - param 1:%1; param 2: %2", _category, _delta];
@@ -503,8 +492,6 @@ fnc_BE_broadcast = {
 		_pI pushBackUnique (format ["Current FIA camp cap: %1", BE_current_FIA_Camp_Cap]);
 		_pI pushBackUnique (format ["Current FIA roadblock cap: %1", BE_current_FIA_RB_Cap]);
 		_pI pushBackUnique (format ["Current FIA watchpost cap: %1", BE_current_FIA_WP_Cap]);
-		_pI pushBackUnique (format ["Current FIA roadblock type: %1", ["simple", "advanced"] select (BE_current_FIA_RB_Style > 0)]);
-		_pI pushBackUnique (format ["Current FIA watchpost type: %1", ["simple", "advanced"] select (BE_current_FIA_WP_Style > 0)]);
 	};
 
 	[petros,"BE",_pI] remoteExec ["commsMP",AS_commander];

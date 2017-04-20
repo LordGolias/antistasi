@@ -83,8 +83,9 @@ while {true} do {
 					};
 					case (_type == "airfield"): {[_x] remoteExec ["createNATOaerop",HCGarrisons]};
 					case (_type == "base"): {[_x] remoteExec ["createNATObases",HCGarrisons]};
-					case (_type == "roadblock"): {[_x] remoteExec ["AS_fnc_createFIAroadblock",HCGarrisons]};
-					case (_type == "camp"): {[_x] remoteExec ["AS_fnc_createFIACamp",HCGarrisons]};
+					case (_type in ["roadblock","watchpost","camp"]): {
+						[_x] remoteExec ["AS_fnc_createFIA_built_location",HCGarrisons];
+					};
 					case (_type == "NATOwatchpost"): {[_x] remoteExec ["createNATOpuesto",HCGarrisons]};
 				};
 			};

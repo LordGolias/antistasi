@@ -61,12 +61,12 @@ AS_fncUI_dismissGarrison = {
     };
 };
 
-AS_fncUI_initMapSelection = {
+AS_fncUI_initMapSelectionGarrison = {
 	disableSerialization;
 	closeDialog 0;
 	openMap true;
 	map_location = "";
-	onMapSingleClick "_pos call AS_fncUI_selectMapPosition;";
+	onMapSingleClick "_pos call AS_fncUI_selectMapPositionGarrison;";
 	waitUntil {sleep 0.5; (map_location != "") or !visibleMap};
 	openMap false;
 
@@ -78,7 +78,7 @@ AS_fncUI_initMapSelection = {
 	map_location = nil;
 };
 
-AS_fncUI_selectMapPosition = {
+AS_fncUI_selectMapPositionGarrison = {
 	private _location = _this call AS_fnc_location_nearest;
 	private _side = _location call AS_fnc_location_side;
 	private _position = _location call AS_fnc_location_position;

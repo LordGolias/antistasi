@@ -1,7 +1,6 @@
 #include "macros.hpp"
 private ["_tipo","_coste","_grupo","_unit","_tam","_roads","_road","_pos","_camion","_texto","_mrk","_hr","_exists","_posicionTel","_isRoadblock","_tipogrupo"];
 
-if ("PuestosFIA" in misiones) exitWith {hint "We can only deploy / delete one Post or Roadblock at a time."};
 if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
 
 _tipo = _this select 0;

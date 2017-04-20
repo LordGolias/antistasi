@@ -56,4 +56,5 @@ call compile preProcessFileLineNumbers "dialogs\recruitUnit.sqf";
 call compile preProcessFileLineNumbers "dialogs\recruitSquad.sqf";
 call compile preProcessFileLineNumbers "dialogs\recruitGarrison.sqf";
 call compile preProcessFileLineNumbers "dialogs\buyVehicle.sqf";
+call compile preProcessFileLineNumbers "dialogs\manageLocations.sqf";
 call compile preProcessFileLineNumbers "dialogs\HQmenu.sqf";

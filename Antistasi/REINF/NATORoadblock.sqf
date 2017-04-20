@@ -83,7 +83,7 @@ if ({(alive _x) and (_x distance _position < 10)} count units _grupo > 0) then {
 
 	waitUntil {sleep 60; (dateToNumber date > _fechalimnum)};
 
-	[_location] call AS_fnc_location_delete;
+	_location call AS_fnc_location_delete;
 	sleep 15;
 	[0,_tsk] spawn borrarTask;
 } else {

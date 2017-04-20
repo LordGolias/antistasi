@@ -3,6 +3,7 @@
 #include "dialogs\recruitUnit.hpp"
 #include "dialogs\recruitSquad.hpp"
 #include "dialogs\recruitGarrison.hpp"
+#include "dialogs\manageLocations.hpp"
 #include "dialogs\buyVehicle.hpp"
 #include "dialogs\HQmenu.hpp"
 
@@ -15,12 +16,8 @@ class build_menu
 	{
 AS_DIALOG(3,"Building Options", "closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
 
-BTN_L(1,-1,"O.Post - Roadblock", "", "closeDialog 0; [""create""] spawn puestoDialog");
-BTN_L(2,-1,"Build Minefield", "", "closeDialog 0; createDialog ""minebuild_menu"";");
-
-BTN_R(1,-1,"O.Post-Roadblock Delete", "", "closeDialog 0; [""delete""] spawn puestoDialog");
-BTN_R(2,-1,"Manage Camps", "Establish/Abandon Camps", "closeDialog 0; nul= createDialog ""camp_dialog"";");
-
+BTN_M(1,-1,"Manage Locations", "", "closeDialog 0; [] spawn AS_fncUI_ManageLocationsMenu;");
+BTN_M(2,-1,"Build Minefield", "", "closeDialog 0; createDialog ""minebuild_menu"";");
 BTN_M(3, -1, "HQ Fortifications", "", "closeDialog 0; nul= createDialog ""HQ_fort_dialog"";");
 	};
 };
@@ -305,23 +302,6 @@ class fasttravel_dialog // 340
 	};
 };
 
-class camp_dialog // 350
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-    AS_DIALOG(2,"Camp Management","closeDialog 0; createDialog ""build_menu"";");
-
-	BTN_L(1,-1, "Establish Camp", "Price: 800 Euros", "closeDialog 0; [""create""] spawn ftravelDialog");
-	BTN_R(1,-1, "Delete Camp", "", "closeDialog 0; [""delete""] spawn ftravelDialog");
-
-	BTN_M(2, -1, "Rename Camp", "", "closeDialog 0; [""rename""] spawn ftravelDialog");
-
-	};
-};
-
 class commander_menu // 360
 {
 	idd=-1;
@@ -402,55 +382,6 @@ class misMil_menu // 410
 	BTN_R(2,-1, "Destroy Missions", "", STR_MIL_DES);
 
 	};
-};
-
-class rCamp_Dialog // 420
-{
-    idd = 1;
-    movingEnable = 1;
-    enableSimulation = 1;
-    enableDisplay = 1;
-    onLoad = "uiNamespace setVariable ['rCamp', _this select 0];";
-    duration = 25;
-    fadein = 0;
-    fadeout = 0;
-
-    class controlsBackground {
-        class RscPicture_1200: RscPicture
-        {
-            idc = 1200;
-            text = "";
-            x = 0.425 * safezoneW + safezoneX;
-            y = 0.46 * safezoneH + safezoneY;
-            w = 0.15 * safezoneW;
-            h = 0.08 * safezoneH;
-        };
-    };
-
-    class controls
-    {
-        class RscEdit_1400: RscEdit
-        {
-            idc = 1400;
-            x = 0.435 * safezoneW + safezoneX;
-            y = 0.47 * safezoneH + safezoneY;
-            w = 0.13 * safezoneW;
-            h = 0.03 * safezoneH;
-            text = "";
-            colorText[] =   {0,0,0,1};
-            sizeEx = 0.05;
-        };
-        class SaveButton: RscButton
-        {
-            idc = 1600;
-            text = "Save";
-            x = 0.52 * safezoneW + safezoneX;
-            y = 0.51 * safezoneH + safezoneY;
-            w = 0.04 * safezoneW;
-            h = 0.02 * safezoneH;
-            action = "closeDialog 0;";
-        };
-    };
 };
 
 class exp_menu // 430
