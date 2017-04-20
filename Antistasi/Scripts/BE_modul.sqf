@@ -47,7 +47,6 @@ fnc_BE_initialize = {
 	BE_currentXP = 0;
 	BE_currentPrice = 0;
 	BE_progressLock = false;
-	BE_current_vehicles = [];
 
 	BE_class_Heli = (["armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all) + opAir - opCASFW;
 	BE_class_MBT = (["tanks"] call AS_fnc_AAFarsenal_all);
@@ -283,18 +282,9 @@ fnc_BE_upgrade = {
 
 fnc_BE_save = {
 	private _result = [];
-	private _current_vehicles = [];
-
-	{
-		if ((_x distance (getMarkerPos "FIA_HQ") < 50) && (_x getVariable ["BE_mil_veh", false])) then {
-			_current_vehicles pushBack (typeOf _x);
-		};
-
-	} forEach vehicles - [caja,bandera,fuego,cajaveh,mapa];
 
 	_result pushBack BE_currentStage;
 	_result pushBack BE_currentXP;
-	_result pushBack _current_vehicles;
 	_result pushBack BE_progressLock;
 
 	diag_log format ["BE - module save -- save: %1", _result];
@@ -307,21 +297,7 @@ fnc_BE_load = {
 
 	BE_currentStage = _save select 0;
 	BE_currentXP = _save select 1;
-	BE_current_vehicles = _save select 2;
-    BE_progressLock = _save select 3;
-
-	{
-		if ((_x distance (getMarkerPos "FIA_HQ") < 50) && (typeOf _x in BE_current_vehicles)) then {
-			_x setVariable ["BE_mil_veh", true, true];
-			diag_log format ["VEHICLE: %1; TYPE: %2", _x, typeOf _x];
-			for "_i" from 0 to (count BE_current_vehicles - 1) do {
-				if ((BE_current_vehicles select _i) == typeOf _x) exitWith {
-					BE_current_vehicles set [_i, -1];
-				}
-			};
-		};
-
-	} forEach vehicles - [caja,bandera,fuego,cajaveh,mapa];
+    BE_progressLock = _save select 2;
 
 	[] call fnc_BE_refresh;
 
