@@ -6,7 +6,7 @@ _jugador = _this select 1;
 
 if (!alive _unit) exitWith {};
 
-_jugador globalChat "You have one chance, join us and help us liberate Altis from tiranny!";
+_jugador globalChat "You have one chance, join us and help us liberate the island from tiranny!";
 
 _chance = AS_P("prestigeNATO") - AS_P("prestigeCSAT");
 

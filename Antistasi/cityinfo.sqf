@@ -16,7 +16,7 @@ private _pop = 0;
 } forEach call AS_fnc_location_cities;
 _popFIA = round _popFIA;
 _popAAF = round _popAAF;
-hint format ["Altis\n\nTotal pop: %1\nFIA Support: %2\nAAF SUpport: %3 \n\nDestroyed Cities: %4\n\nClick on the zone",
+hint format ["Total pop: %1\nFIA Support: %2\nAAF SUpport: %3 \n\nDestroyed Cities: %4\n\nClick on the zone",
 	_pop, _popFIA, _popAAF, {_x in destroyedCities} count (call AS_fnc_location_cities)];
 
 openMap true;
