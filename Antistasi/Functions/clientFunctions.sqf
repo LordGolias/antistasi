@@ -237,3 +237,18 @@ fnc_saveTFARsettings = {
 
 	hint _text;
 };
+
+AS_fnc_callServerAndWait = {
+	params ["_functionName", "_params"];
+	AS_sharedvariable = nil;
+	// ask the server to run a function and store the result in "AS_sharedvariable".
+	[[_functionName, _params], {
+		params ["_functionName", "_params"];
+		AS_sharedvariable = _params call _functionName;
+		publicVariable "AS_sharedvariable";
+	}] remoteExec ["call", 2];
+	waitUntil {!isNil "AS_savedGames"};  // wait for server to populate
+	private _result = +AS_sharedvariable;
+	AS_sharedvariable = nil;  // delete in the end
+	_result
+};
