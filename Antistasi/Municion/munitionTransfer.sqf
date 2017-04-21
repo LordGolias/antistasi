@@ -1,4 +1,5 @@
-if (!isServer) exitWith {};
+#include "../macros.hpp"
+AS_SERVER_ONLY("municionTransfer.sqf");
 private ["_subCosa","_municion"];
 _origin = _this select 0;
 _destiny = _this select 1;

@@ -58,10 +58,6 @@ AS_FIAuniforms = [
 	"U_OG_leader"
 ];
 
-unlockedItems = unlockedItems + AS_FIAuniforms +
-	AS_FIAuniforms_undercover + AS_FIAhelmets_undercover +
-	AS_FIAvests_undercover + AS_FIAgoogles_undercover;
-
 // maps unit classes to AS unit types.
 // The different AS types are used to equip from the arsenal.
 // For example, "Sniper" favours high-zoom scopes, "Rifleman" favours broad zoom (high zoom AND low zoom)
@@ -97,47 +93,44 @@ AS_FIAsquadsMapping = [
     "IRG_InfSentry", "Sentry Team"
 ];
 
-// The cost of each AS unit type. Squad cost also depends on this
-AS_data_allCosts setVariable ["Crew", 50, true];
-AS_data_allCosts setVariable ["Ammo Bearer", 50, true];
-AS_data_allCosts setVariable ["Rifleman", 50, true];
-AS_data_allCosts setVariable ["Grenadier", 100, true];
-AS_data_allCosts setVariable ["Autorifleman", 100, true];
-AS_data_allCosts setVariable ["Medic", 300, true];
-AS_data_allCosts setVariable ["Squad Leader", 100, true];
-AS_data_allCosts setVariable ["Repair Specialist", 200, true];
-AS_data_allCosts setVariable ["AT Specialist", 200, true];
-AS_data_allCosts setVariable ["AA Specialist", 300, true];
-AS_data_allCosts setVariable ["Sniper", 100, true];
-
 // squads that require custom initialization
 AS_allFIACustomSquadTypes = ["Mobile AA","Mobile AT","Mobile Mortar"];
 
-///////////////////// Vehicles /////////////////////
+if (isServer) then {
+	// The cost of each AS unit type. Squad cost also depends on this
+	AS_data_allCosts setVariable ["Crew", 50, true];
+	AS_data_allCosts setVariable ["Ammo Bearer", 50, true];
+	AS_data_allCosts setVariable ["Rifleman", 50, true];
+	AS_data_allCosts setVariable ["Grenadier", 100, true];
+	AS_data_allCosts setVariable ["Autorifleman", 100, true];
+	AS_data_allCosts setVariable ["Medic", 300, true];
+	AS_data_allCosts setVariable ["Squad Leader", 100, true];
+	AS_data_allCosts setVariable ["Repair Specialist", 200, true];
+	AS_data_allCosts setVariable ["AT Specialist", 200, true];
+	AS_data_allCosts setVariable ["AA Specialist", 300, true];
+	AS_data_allCosts setVariable ["Sniper", 100, true];
 
-AS_FIArecruitment setVariable ["land_vehicles", [
-	"C_Offroad_01_F","C_Van_01_transport_F","B_G_Quadbike_01_F","B_G_Offroad_01_armed_F",
-	"B_HMG_01_high_F","B_G_Mortar_01_F","B_static_AT_F","B_static_AA_F"
-], true];
-AS_FIArecruitment setVariable ["water_vehicles", [
-	"B_G_Boat_Transport_01_F"
-], true];
-// First helicopter of this list is undercover
-AS_FIArecruitment setVariable ["air_vehicles", [
-	"C_Heli_Light_01_civil_F"
-], true];
+	AS_FIArecruitment setVariable ["land_vehicles", [
+		"C_Offroad_01_F","C_Van_01_transport_F","B_G_Quadbike_01_F","B_G_Offroad_01_armed_F",
+		"B_HMG_01_high_F","B_G_Mortar_01_F","B_static_AT_F","B_static_AA_F"
+	], true];
+	AS_FIArecruitment setVariable ["water_vehicles", [
+		"B_G_Boat_Transport_01_F"
+	], true];
+	// First helicopter of this list is undercover
+	AS_FIArecruitment setVariable ["air_vehicles", [
+		"C_Heli_Light_01_civil_F"
+	], true];
 
-// All elements in the lists above must be priced, or their price is 300
-AS_FIArecruitment setVariable ["C_Offroad_01_F", 300, true];
-AS_FIArecruitment setVariable ["C_Van_01_transport_F", 600, true];
-AS_FIArecruitment setVariable ["C_Heli_Light_01_civil_F", 6000, true];
-AS_FIArecruitment setVariable ["B_G_Quadbike_01_F", 50, true];
-AS_FIArecruitment setVariable ["B_G_Offroad_01_armed_F", 700, true];
-AS_FIArecruitment setVariable ["B_HMG_01_high_F", 800, true];
-AS_FIArecruitment setVariable ["B_G_Mortar_01_F", 800, true];
-AS_FIArecruitment setVariable ["B_static_AT_F", 800, true];
-AS_FIArecruitment setVariable ["B_static_AA_F", 800, true];
-AS_FIArecruitment setVariable ["B_G_Boat_Transport_01_F", 400, true];
-
-// Define the civilian helicopter that allows you to go undercover
-civHeli = "C_Heli_Light_01_civil_F";
+	// All elements in the lists above must be priced, or their price is 300
+	AS_FIArecruitment setVariable ["C_Offroad_01_F", 300, true];
+	AS_FIArecruitment setVariable ["C_Van_01_transport_F", 600, true];
+	AS_FIArecruitment setVariable ["C_Heli_Light_01_civil_F", 6000, true];
+	AS_FIArecruitment setVariable ["B_G_Quadbike_01_F", 50, true];
+	AS_FIArecruitment setVariable ["B_G_Offroad_01_armed_F", 700, true];
+	AS_FIArecruitment setVariable ["B_HMG_01_high_F", 800, true];
+	AS_FIArecruitment setVariable ["B_G_Mortar_01_F", 800, true];
+	AS_FIArecruitment setVariable ["B_static_AT_F", 800, true];
+	AS_FIArecruitment setVariable ["B_static_AA_F", 800, true];
+	AS_FIArecruitment setVariable ["B_G_Boat_Transport_01_F", 400, true];
+};

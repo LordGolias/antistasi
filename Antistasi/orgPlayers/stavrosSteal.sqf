@@ -1,8 +1,8 @@
 #include "../macros.hpp"
-_resourcesFIA = AS_P("resourcesFIA");
+private _resourcesFIA = AS_P("resourcesFIA");
 if (_resourcesFIA < 100) exitWith {hint "FIA has not enough resources to grab"};
 [100] call resourcesPlayer;
-AS_Pset("resourcesFIA",_resourcesFIA - 100);
+[0,-100] remoteExec ["resourcesFIA",2];
 //[-2,AS_commander] call playerScoreAdd;
 ["scorePlayer", player getVariable "score"] call fn_SaveStat;
 

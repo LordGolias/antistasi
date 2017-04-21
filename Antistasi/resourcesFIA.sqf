@@ -1,4 +1,5 @@
 #include "macros.hpp"
+AS_SERVER_ONLY("resourcesFIA.sqf");
 private ["_hr","_resourcesFIA","_hrT","_resourcesFIAT"];
 waitUntil {!resourcesIsChanging};
 resourcesIsChanging = true;

@@ -1,5 +1,3 @@
-if (!isServer and hasInterface) exitWith {};
-
 AS_MTN_Agela = [[9210.11, 8376.76]];
 AS_MTN_Agela pushBack [
 	[opTruck,[4.3418,-1.6709,0.155876],176.582,1,0,[],"","",true,false],

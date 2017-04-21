@@ -1,5 +1,3 @@
-if (!isServer and hasInterface) exitWith {};
-
 AS_OP_2 = [[19364.8,9710.89,4.57764e-005]];
 AS_OP_2 pushBack [
 	["Land_HBarrier_3_F",[3.62695,6.89648,0.0782318],94.4314,1,0,[],"","",true,false],

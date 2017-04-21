@@ -14,7 +14,7 @@ AS_fnc_variableName = {
 AS_fnc_saveGame = {
     params ["_saveName"];
     private _savedGames = profileNameSpace getVariable ["AS_savedGames", []];
-    
+
     // if the game already exists, first delete it.
     // todo: ask before delete.
     if (_savedGames find _saveName != -1) then {

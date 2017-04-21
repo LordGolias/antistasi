@@ -1,4 +1,5 @@
-if (!isServer) exitWith {};
+#include "macros.hpp"
+AS_SERVER_ONLY("mrkLOOSE.sqf");
 params ["_location"];
 
 if (_location call AS_fnc_location_side == "AAF") exitWith {

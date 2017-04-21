@@ -1,4 +1,5 @@
-if (!isServer) exitWith {};
+#include "../macros.hpp"
+AS_SERVER_ONLY("maintenance.sqf");
 
 fnc_MAINT_main = {
 	0 = [true] call fnc_MAINT_arsenal;

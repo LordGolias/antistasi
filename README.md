@@ -34,6 +34,22 @@ This way, you only need to focus on adding vehicles, groups and units; the rest 
 
 In the vanilla version, everything related to AAF is only defined in `templates/AAF.sqf`.
 
+# Replacing Worlds
+
+This version supports easy replacement of worlds. Use the following steps:
+
+1. Create an empty mission in the EDEN editor for the world of your choice.
+2. Create a marker named "FIA_HQ" (where the HQ is placed in the beginning).
+3. Create markers on different points of interest. These can be airfields, bases, etc.
+The markers names must start with "AS_airfield", "AS_base", etc.
+2. Add markers to it.
+
+Essentially, our code detects every unit from that faction, and populates
+the correct lists with the equipment (weapons, items, vests, etc.) that the units use.
+This way, you only need to focus on adding vehicles, groups and units; the rest is automatic.
+
+In the vanilla version, everything related to AAF is only defined in `templates/AAF.sqf`.
+
 # Debug tools
 
 Run

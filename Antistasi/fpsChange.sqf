@@ -1,5 +1,5 @@
 #include "macros.hpp"
-if (!isServer) exitWith {};
+AS_SERVER_ONLY("fpsChange.sqf");
 
 _cambio = _this select 0;
 

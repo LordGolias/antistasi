@@ -1,4 +1,5 @@
-if (!isServer and hasInterface) exitWith {};
+#include "macros.hpp"
+AS_SERVER_ONLY("powerReorg.sqf");
 params ["_location"];
 
 if (_location call AS_fnc_location_type != "powerplant") exitWith {

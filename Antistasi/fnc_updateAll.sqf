@@ -1,4 +1,5 @@
 #include "macros.hpp"
+AS_SERVER_ONLY("fnc_updateAll.sqf");
 private _AAFnewMoney = 0;
 private _FIAnewMoney = 25;
 private _FIAnewHR = 0;

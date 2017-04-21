@@ -116,6 +116,7 @@ fnc_BE_pushVariables = {
 };
 
 fnc_BE_XP = {
+	AS_SERVER_ONLY("BE_modul.sqf/fnc_BE_XP");
 	params ["_category", ["_amount", 1]];
 	private _delta = 0;
 

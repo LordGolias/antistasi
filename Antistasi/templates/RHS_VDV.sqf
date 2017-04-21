@@ -65,25 +65,27 @@ infList_crew = 		[sol_UN, sol_CREW, sol_CREW2, sol_CREW3, sol_CREW4, sol_DRV, so
 infList_pilots = 	[sol_HPIL, sol_HPIL2, sol_PIL];
 
 // AAF Vehicles
-AS_AAFarsenal setVariable ["valid_planes", ["rhs_Su25SM_vvsc"], true];
-AS_AAFarsenal setVariable ["valid_armedHelis", [
-	"rhs_Mi24V_FAB_vdv","rhs_Mi24V_UPK23_vdv"
-], true];
-AS_AAFarsenal setVariable ["valid_transportHelis", [
-	"rhs_Mi8mt_Cargo_vvsc","rhs_Mi8MTV3_FAB_vvsc","rhs_Mi8AMTSh_FAB_vvsc","rhs_ka60_c"
-], true];
-AS_AAFarsenal setVariable ["valid_tanks", [
-	"rhs_t72bb_tv","rhs_t72bd_tv","rhs_t90a_tv"
-], true];
-AS_AAFarsenal setVariable ["valid_apcs", [
-	"rhs_btr80_vdv", "rhs_bmp2d_vdv","rhs_bmp1p_vdv","rhs_bmd2m","rhs_bmd2k"
-], true];
-AS_AAFarsenal setVariable ["valid_trucks", [
-	"rhs_kamaz5350_open_vdv","rhs_kamaz5350_vdv","rhs_Ural_Open_VDV_01","rhs_Ural_VDV_01"
-], true];
-AS_AAFarsenal setVariable ["valid_supplies", [
-	"rhs_gaz66_ammo_vdv","rhs_Ural_Fuel_VDV_01","rhs_gaz66_repair_vdv","rhs_gaz66_ap2_vdv"
-], true];
+if (isServer) then {
+	AS_AAFarsenal setVariable ["valid_planes", ["rhs_Su25SM_vvsc"], true];
+	AS_AAFarsenal setVariable ["valid_armedHelis", [
+		"rhs_Mi24V_FAB_vdv","rhs_Mi24V_UPK23_vdv"
+	], true];
+	AS_AAFarsenal setVariable ["valid_transportHelis", [
+		"rhs_Mi8mt_Cargo_vvsc","rhs_Mi8MTV3_FAB_vvsc","rhs_Mi8AMTSh_FAB_vvsc","rhs_ka60_c"
+	], true];
+	AS_AAFarsenal setVariable ["valid_tanks", [
+		"rhs_t72bb_tv","rhs_t72bd_tv","rhs_t90a_tv"
+	], true];
+	AS_AAFarsenal setVariable ["valid_apcs", [
+		"rhs_btr80_vdv", "rhs_bmp2d_vdv","rhs_bmp1p_vdv","rhs_bmd2m","rhs_bmd2k"
+	], true];
+	AS_AAFarsenal setVariable ["valid_trucks", [
+		"rhs_kamaz5350_open_vdv","rhs_kamaz5350_vdv","rhs_Ural_Open_VDV_01","rhs_Ural_VDV_01"
+	], true];
+	AS_AAFarsenal setVariable ["valid_supplies", [
+		"rhs_gaz66_ammo_vdv","rhs_Ural_Fuel_VDV_01","rhs_gaz66_repair_vdv","rhs_gaz66_ap2_vdv"
+	], true];
+};
 
 AS_AAFarsenal_uav = "";
 
@@ -141,26 +143,30 @@ AAFMines = [
 	"rhs_mine_pmn2_mag"
 ];
 
-// Equipment unlocked by default
-unlockedWeapons = [
-	"rhs_weap_makarov_pm",
-	"rhs_weap_aks74u"
-];
+// Unlocked equipment can only be set in the server or the clients will not be
+// synced with the server.
+if (isServer) then {
+	// Equipment unlocked by default
+	unlockedWeapons = [
+		"rhs_weap_makarov_pm",
+		"rhs_weap_aks74u"
+	];
 
-unlockedMagazines = [
-	"rhs_mag_9x18_8_57N181S",
-	"rhs_30Rnd_545x39_AK",
-	"rhs_mag_rdg2_white"
-];
+	unlockedMagazines = [
+		"rhs_mag_9x18_8_57N181S",
+		"rhs_30Rnd_545x39_AK",
+		"rhs_mag_rdg2_white"
+	];
 
-unlockedItems = unlockedItems + [
-	"rhs_vest_pistol_holster",
-	"rhs_scarf"
-];
+	unlockedItems = unlockedItems + [
+		"rhs_vest_pistol_holster",
+		"rhs_scarf"
+	];
 
-unlockedBackpacks = [
-	"rhs_assault_umbts"
-];
+	unlockedBackpacks = [
+		"rhs_assault_umbts"
+	];
+};
 
 // Default launchers
 genAALaunchers = ["rhs_weap_igla"];

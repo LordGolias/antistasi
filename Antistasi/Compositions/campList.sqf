@@ -1,5 +1,3 @@
-if (!isServer and hasInterface) exitWith {};
-
 AS_Camp_1 =
 	[
 		["Land_TinContainer_F",[-1.04654,0.82373,0.00126648],97.4277,1,0,[],"","",true,false],

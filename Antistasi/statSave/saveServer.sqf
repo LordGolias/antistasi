@@ -1,5 +1,5 @@
 #include "../macros.hpp"
-if (!isServer) exitWith {};
+AS_SERVER_ONLY("statSave/saveServer.sqf");
 params ["_saveName"];
 
 if (savingServer) exitWith {"Server data save is still in process" remoteExecCall ["hint",AS_commander]};

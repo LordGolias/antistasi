@@ -1,3 +1,5 @@
+#include "../macros.hpp"
+AS_SERVER_ONLY("Compositions\HQ_adds.sqf");
 params ["_t", ["_position", "none"]];
 private ["_item","_pos"];
 

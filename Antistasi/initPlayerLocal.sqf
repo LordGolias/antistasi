@@ -21,7 +21,7 @@ waitUntil {!isNil "petros"};
 private _introShot =
 	[
     position petros, // Target position
-    "Altis Island", // SITREP text
+    worldName + " Island", // SITREP text
     50, //  altitude
     50, //  radius
     90, //  degrees viewing angle
@@ -38,6 +38,7 @@ if (isMultiplayer) then {
     diag_log "[AS] client: serverInitVarsDone";
 };
 
+musicON = true;
 [] execVM "musica.sqf";
 
 private _isJip = _this select 1;
@@ -98,8 +99,7 @@ if (isMultiplayer) then {
     personalGarage = [];
 };
 
-_pos = (getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)];
-player setPos _pos;
+player setPos (getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)];
 
 call AS_fnc_loadLocalPlayer;
 
@@ -249,4 +249,22 @@ removeAllActions caja;
 caja addaction [localize "STR_act_arsenal", {_this call accionArsenal;}, [], 6, true, false, "", "(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",5];
 caja addAction [localize "STR_act_unloadCargo", "[] call vaciar"];
 caja addAction [localize "STR_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == AS_commander)"];
+
+mapa addAction [localize "str_act_gameOptions", {CreateDialog "game_options_commander";},nil,0,false,true,"","(isPlayer _this) and (_this == AS_commander) and (_this == _this getVariable ['owner',objNull])"];
+mapa addAction [localize "str_act_gameOptions", {CreateDialog "game_options_player";},nil,0,false,true,"","(isPlayer _this) and !(_this == AS_commander) and (_this == _this getVariable ['owner',objNull])"];
+mapa addAction [localize "str_act_mapInfo", {nul = [] execVM "cityinfo.sqf";},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
+mapa addAction [localize "str_act_tfar", {nul=CreateDialog "tfar_menu";},nil,0,false,true,"","(isClass (configFile >> ""CfgPatches"" >> ""task_force_radio""))", 5];
+mapa addAction [localize "str_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == AS_commander)", 5];
+
+[[bandera,"unit"],"flagaction"] call BIS_fnc_MP;
+[[bandera,"vehicle"],"flagaction"] call BIS_fnc_MP;
+[[bandera,"garage"],"flagaction"] call BIS_fnc_MP;
+
+bandera addAction [localize "str_act_hqOptions",{call AS_fncUI_openHQmenu;},nil,0,false,true,"","(isPlayer _this) and (player == AS_commander) and (_this == _this getVariable ['owner',objNull]) and (petros == leader group petros)"];
+
+cajaVeh addAction [localize "str_act_healRepair", "healandrepair.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
+cajaVeh addAction [localize "str_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == AS_commander)",5];
+
+fuego addAction [localize "str_act_rest", "skiptime.sqf",nil,0,false,true,"","isPlayer _this"];
+
 diag_log "[AS] client: ready";

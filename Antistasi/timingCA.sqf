@@ -1,5 +1,5 @@
 #include "macros.hpp"
-if (!isServer) exitWith{};
+AS_SERVER_ONLY("timingCA.sqf");
 
 private _tiempo = _this select 0;
 

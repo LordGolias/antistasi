@@ -6,6 +6,7 @@ if (!isNil "petros") then {
 grupoPetros = createGroup side_blue;
 publicVariable "grupoPetros";
 petros = grupoPetros createUnit ["B_G_officer_F", getMarkerPos "FIA_HQ", [], 0, "NONE"];
+[[petros,"mission"],"flagaction"] call BIS_fnc_MP;
 publicVariable "petros";
 grupoPetros setGroupId ["Petros","GroupColor4"];
 petros setIdentity "amiguete";

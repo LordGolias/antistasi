@@ -1,5 +1,4 @@
 #include "../macros.hpp"
-if (!isServer and hasInterface) exitWith {};
 params ["_mrkdestino"];
 
 private _posdestino = _mrkdestino call AS_fnc_location_position;
@@ -43,7 +42,7 @@ private _tiempo = time + 3600;
 
 if (_CSAT) then {
 	if (AS_P("resourcesAAF") > 20000) then {
-        AS_Pset("resourcesAAF",AS_P("resourcesAAF") - 20000);
+		[-20000] remoteExec ["resourcesAAF",2];
 		[5,0] remoteExec ["prestige",2];
 	} else {
 		[5,-20] remoteExec ["prestige",2]

@@ -1,4 +1,5 @@
-if (!isServer) exitWith {};
+#include "../macros.hpp"
+AS_SERVER_ONLY("Municion/rewardCrate.sqf");
 
 _crate = _this select 0;
 

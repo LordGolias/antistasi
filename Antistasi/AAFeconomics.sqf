@@ -1,4 +1,5 @@
 #include "macros.hpp"
+AS_SERVER_ONLY("AAFeconomics.sqf");
 private ["_resourcesAAF","_prestigeCSAT","_coste","_destroyedCities","_destroyed","_nombre"];
 
 _resourcesAAF = AS_P("resourcesAAF");

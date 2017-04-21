@@ -1,4 +1,5 @@
-if (!isServer) exitWith {};
+#include "../macros.hpp"
+AS_SERVER_ONLY("Missions/missionrequest.sqf");
 
 private ["_tipo","_posbase","_posibles","_sitios","_exists","_sitio","_pos","_ciudad"];
 

@@ -100,7 +100,7 @@ if (dateToNumber date > _fechalimnum) then
 		];
 	};
 
-AS_Pset("resourcesAAF", AS_P("resourcesAAF") - 10000);
+[-10000] remoteExec ["resourcesAAF",2];
 [60,_tsk] spawn borrarTask;
 
 waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};

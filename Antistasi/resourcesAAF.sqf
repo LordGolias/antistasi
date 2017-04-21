@@ -1,4 +1,5 @@
 #include "macros.hpp"
+AS_SERVER_ONLY("resourcesAAF.sqf");
 if (!isPlayer AS_commander) exitWith {};
 
 private ["_resourcesAAF","_coste"];

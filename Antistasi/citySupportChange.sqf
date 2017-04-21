@@ -1,3 +1,5 @@
+#include "macros.hpp"
+AS_SERVER_ONLY("citySupportChange.sqf");
 private ["_opfor","_blufor","_pos","_city","_datos","_numCiv","_numVeh","_roads"];
 
 waitUntil {!cityIsSupportChanging};

@@ -57,9 +57,7 @@ waitUntil {sleep 1; (dateToNumber date > _fechalimnum) or (!alive _camion) or (_
 if ((dateToNumber date > _fechalimnum) or (!alive _camion)) then
 	{
 	_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],_tskTitle,_mrkfin],_posicion,"FAILED",5,true,true,"Interact"] call BIS_fnc_setTask;
-	_resourcesAAF = AS_P("resourcesAAF");
-	_resourcesAAF = _resourcesAAF + 5000;
-	AS_Pset("resourcesAAF",_resourcesAAF);
+	[5000] remoteExec ["resourcesAAF",2];
 	[-1800] remoteExec ["timingCA",2];
 	[-10,AS_commander] call playerScoreAdd;
 	}

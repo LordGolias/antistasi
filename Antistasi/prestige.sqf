@@ -1,4 +1,5 @@
 #include "macros.hpp"
+AS_SERVER_ONLY("citySupportChange.sqf");
 private ["_nato","_csat"];
 
 waitUntil {!prestigeIsChanging};

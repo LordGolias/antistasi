@@ -54,6 +54,7 @@ AS_fncUI_saveGame = {
     private _saveName = ctrlText (((findDisplay 1601) displayCtrl (2)));
 
     if (_saveName != "") then {
+        hint "Saving game...";
         [_saveName] call AS_fnc_saveGame;
         [] call AS_fncUI_updateSaveGameList;
         hint "Game saved.";

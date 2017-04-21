@@ -79,21 +79,23 @@ infAT =				["HAF_InfTeam_AT"];
 // 	Rules:
 // 		1. vehicle must exist.
 // 		2. each vehicle must belong to only one category.
-AS_AAFarsenal setVariable ["valid_planes", ["I_Plane_Fighter_03_CAS_F","I_Plane_Fighter_03_AA_F"], true];
-AS_AAFarsenal setVariable ["valid_armedHelis", ["I_Heli_light_03_F"], true];
-AS_AAFarsenal setVariable ["valid_transportHelis", ["I_Heli_Transport_02_F"], true];
-AS_AAFarsenal setVariable ["valid_tanks", ["I_MBT_03_cannon_F"], true];
-AS_AAFarsenal setVariable ["valid_apcs", [
-	"I_APC_Wheeled_03_cannon_F", "I_APC_tracked_03_cannon_F",
-	"I_MRAP_03_F","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"], true];
-AS_AAFarsenal setVariable ["valid_trucks", ["I_Truck_02_covered_F","I_Truck_02_transport_F"], true];
-AS_AAFarsenal setVariable ["valid_supplies", ["I_Truck_02_fuel_F","I_Truck_02_medical_F","I_Truck_02_ammo_F"], true];
+if (isServer) then {
+	AS_AAFarsenal setVariable ["valid_planes", ["I_Plane_Fighter_03_CAS_F","I_Plane_Fighter_03_AA_F"], true];
+	AS_AAFarsenal setVariable ["valid_armedHelis", ["I_Heli_light_03_F"], true];
+	AS_AAFarsenal setVariable ["valid_transportHelis", ["I_Heli_Transport_02_F"], true];
+	AS_AAFarsenal setVariable ["valid_tanks", ["I_MBT_03_cannon_F"], true];
+	AS_AAFarsenal setVariable ["valid_apcs", [
+		"I_APC_Wheeled_03_cannon_F", "I_APC_tracked_03_cannon_F",
+		"I_MRAP_03_F","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"], true];
+	AS_AAFarsenal setVariable ["valid_trucks", ["I_Truck_02_covered_F","I_Truck_02_transport_F"], true];
+	AS_AAFarsenal setVariable ["valid_supplies", ["I_Truck_02_fuel_F","I_Truck_02_medical_F","I_Truck_02_ammo_F"], true];
 
-// Initial setup: AAF starts without vehicles.
-// 	To modders: change these in the template to set an initial arsenal.
-{
-	AS_AAFarsenal setVariable [_x, [], true];
-} forEach AS_AAFarsenal_categories;
+	// Initial setup: AAF starts without vehicles.
+	// 	To modders: change these in the template to set an initial arsenal.
+	{
+		AS_AAFarsenal setVariable [_x, [], true];
+	} forEach AS_AAFarsenal_categories;
+};
 
 // 	To modders (optional): use a "cost_" to set cost for the AAF
 // 	to buy vehicles of CATEGORY. E.g.
@@ -150,19 +152,21 @@ AAFMines = [
 ];
 
 // Equipment unlocked by default
-unlockedWeapons = [
-	"hgun_PDW2000_F",
-	"hgun_ACPC2_F"
-];
+if (isServer) then {
+	unlockedWeapons = [
+		"hgun_PDW2000_F",
+		"hgun_ACPC2_F"
+	];
 
-unlockedMagazines = [
-	"9Rnd_45ACP_Mag",
-	"30Rnd_9x21_Mag"
-];
+	unlockedMagazines = [
+		"9Rnd_45ACP_Mag",
+		"30Rnd_9x21_Mag"
+	];
 
-unlockedBackpacks = [
-	"B_TacticalPack_blk"
-];
+	unlockedBackpacks = [
+		"B_TacticalPack_blk"
+	];
+};
 
 // NVG, flashlight, laser, mine types
 indNVG = 		"NVGoggles_INDEP";

@@ -1,5 +1,5 @@
 #include "../macros.hpp"
-if (!isServer) exitWith {};
+AS_SERVER_ONLY("statSave/loadServer.sqf");
 params ["_saveName"];
 
 petros allowdamage false;

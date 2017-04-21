@@ -1,4 +1,5 @@
-if (!isServer) exitWith {};
+#include "macros.hpp"
+AS_SERVER_ONLY("serverAutosave.sqf");
 
 while {true} do
 	{

@@ -1,5 +1,5 @@
 #include "macros.hpp"
-if (!isServer) exitWith {};
+AS_SERVER_ONLY("fpsCheck.sqf");
 
 private ["_cuentaFail","_texto"];
 

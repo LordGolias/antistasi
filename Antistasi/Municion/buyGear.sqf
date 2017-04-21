@@ -1,4 +1,5 @@
 #include "../macros.hpp"
+AS_SERVER_ONLY("Municion\buyGear.sqf");
 params ["_type", "_money"];
 private ["_weapons", "_accessories", "_amount"];
 

@@ -1,5 +1,5 @@
 #include "..\macros.hpp"
-if (!isServer) exitWith {};
+AS_SERVER_ONLY("debug/init.sqf");
 AS_DEBUG_markers = false;
 
 AS_DEBUG_init = {

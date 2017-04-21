@@ -1,4 +1,5 @@
-if (!isServer) exitWith {};
+#include "macros.hpp"
+AS_SERVER_ONLY("fnc_establishFIAlocation.sqf");
 params ["_type","_position"];
 
 if !(_type in ["watchpost","roadblock","camp"]) exitwith {

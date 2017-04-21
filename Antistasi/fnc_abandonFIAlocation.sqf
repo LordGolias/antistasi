@@ -1,3 +1,5 @@
+#include "macros.hpp"
+AS_SERVER_ONLY("fnc_abandonFIAlocation.sqf");
 private _type = _this call AS_fnc_location_type;
 
 if (_type == "camp") then {

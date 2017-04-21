@@ -1,5 +1,4 @@
 #include "../macros.hpp"
-if (!isServer and hasInterface) exitWith {};
 
 if (server getVariable "blockCSAT") exitWith {};
 
@@ -10,7 +9,7 @@ private _base = "";
 private _aeropuerto = "";
 
 if (_fromBase != "") then {
-	private _isDirectAttack = true;
+	_isDirectAttack = true;
 	if (_fromBase call AS_fnc_location_type == "airfield") then {
 		_aeropuerto = _base;
 		_base = "";

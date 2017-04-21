@@ -1,3 +1,5 @@
+#include "macros.hpp"
+AS_SERVER_ONLY("mrkWIN.sqf");
 params ["_bandera", ["_player", objnull]];
 
 if ((!isNull _player) and (captive _player)) exitWith {hint "You cannot Capture the Flag while in Undercover Mode"};

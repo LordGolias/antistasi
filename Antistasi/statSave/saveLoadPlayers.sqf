@@ -1,14 +1,15 @@
 /*
 Relevant functions of this module:
-	Server side:
+	"Server" side:
 		- AS_fnc_savePlayers: saves all players.
 
-	Client side:
+	"Client" side:
 		- AS_fnc_loadLocalPlayer: loads player data.
 		- AS_fnc_saveLocalPlayer: saves player on the server.
 */
 
-// The ids and data of the players.
+// The ids and data of the players. Everyone has this list locally because
+// games can be saved by anyone (as anyone can be a commander).
 AS_profileIDs = [];
 AS_profileID_data = [];
 
@@ -40,17 +41,20 @@ AS_fnc_serializeLocalPlayer = {
 	_result
 };
 
-// client function. Sends the data to the server to be stored (and later saved).
+// client function. Sends the data to the requester (or server).
 AS_fnc_saveLocalPlayerData = {
-	[AS_profileID, [] call AS_fnc_serializeLocalPlayer] remoteExec ["AS_fnc_receivePlayerData", 2];
+	if (_this isEqualTo []) then {
+		_this = 2;
+	};
+	[AS_profileID, [] call AS_fnc_serializeLocalPlayer] remoteExec ["AS_fnc_receivePlayerData", _this];
 };
 
-// server function. Triggers all clients to send own data to server.
+// Triggers everyone to send data to itself.
 AS_fnc_getPlayersData = {
-	remoteExec ["AS_fnc_saveLocalPlayerData", 0];  // to every client.
+	(owner player) remoteExec ["AS_fnc_saveLocalPlayerData", 0];  // to every client.
 };
 
-// server function. Stores profile data.
+// Stores profile data received from a client.
 AS_fnc_receivePlayerData = {
 	params ["_profileID", "_data"];
     _index = AS_profileIDs find _profileID;
@@ -62,7 +66,7 @@ AS_fnc_receivePlayerData = {
     };
 };
 
-// server function. Saves all profiles.
+// Saves all profiles.
 AS_fnc_savePlayers = {
     params ["_saveName"];
     for "_i" from 0 to count AS_profileIDs - 1 do {
@@ -70,19 +74,23 @@ AS_fnc_savePlayers = {
     };
 };
 
-// server function. Asks all clients to load profiles.
+// Asks all clients to load profiles.
 AS_fnc_loadPlayers = {
-    remoteExec ["AS_fnc_loadLocalPlayer", 0];  // to every client (including server-client
+    (owner player) remoteExec ["AS_fnc_loadLocalPlayer", 0];  // to every client (including server-client)
     diag_log '[AS] Server: asked clients to load profiles.';
 };
 
-// client function. Sends request to get saved data from server.
+// Sends request to get saved data from the client that asked for it, or the server.
 AS_fnc_loadLocalPlayer = {
-    diag_log format ['[AS] Client "%1": asking for saved data.', AS_profileID];
-	[AS_profileID, owner player] remoteExec ["AS_fnc_sendPlayerData", 2];
+	params ["_server"];
+	if (isNil "_server") then {
+		_server = 2;
+	};
+    diag_log format ['[AS] Client "%1": asking for saved data from client "%2".', owner player, _server];
+	[AS_profileID, owner player] remoteExec ["AS_fnc_sendPlayerData", _server];
 };
 
-// server function. Loads data from profile id and sends it back for loading, if it exists.
+// Loads data from profile id and sends it back for loading, if it exists.
 AS_fnc_sendPlayerData = {
 	params ["_profileID", "_clientID"];
 

@@ -1,3 +1,5 @@
+#include "../macros.hpp"
+AS_SERVER_ONLY("orgPlayers/assignStravros.sqf");
 private ["_puntMax","_texto","_multiplicador","_newRank","_selectable","_disconnected","_owner","_puntos","_datos"];
 _puntMax = 0;
 _texto = "";
@@ -11,7 +13,7 @@ _elegibles = [];
 
 _lider = objNull;
 
-[] remoteExec ["fnc_BE_pushVariables", 2];
+call fnc_BE_pushVariables;
 
 {
 _jugadores pushBack (_x getVariable ["owner",_x]);
