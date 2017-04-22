@@ -3,7 +3,7 @@ AS_AAFarsenal_categories = ["supplies", "trucks", "apcs", "transportHelis", "tan
 
 // checks if the _category is valid.
 #define CHECK_CATEGORY(_category) (if !(_category in AS_AAFarsenal_categories) then { \
-	diag_log format ["[AS] AAFarsenal: category %1 does not exist.", _category];} \
+	diag_log format ["[AS] AS_AAFarsenal: category %1 does not exist.", _category];} \
 );
 
 // Has to have the same order as above

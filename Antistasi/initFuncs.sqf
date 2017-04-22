@@ -35,6 +35,7 @@ AS_fnc_initPlayer = compile preProcessFileLineNumbers "fnc_initPlayer.sqf";
 AS_fnc_dismissFIAgarrison = compile preProcessFileLineNumbers "REINF\dismissFIAgarrison.sqf";
 
 AS_fnc_createAirAttack = compile preProcessFileLineNumbers "CREATE\fnc_createAirAttack.sqf";
+as_fnc_createlandattack = compile preProcessFileLineNumbers "CREATE\fnc_createLandAttack.sqf";
 AS_fnc_initVehicle = compile preProcessFileLineNumbers "fnc_initVehicle.sqf";
 
 AS_fnc_establishFIALocation = compile preProcessFileLineNumbers "fnc_establishFIALocation.sqf";
@@ -198,7 +199,6 @@ createRoadblock = compile preProcessFileLineNumbers "CREATE\createRoadblock.sqf"
 createWatchpost = compile preProcessFileLineNumbers "CREATE\createWatchpost.sqf";
 createAAsite = compile preProcessFileLineNumbers "CREATE\createAAsite.sqf";
 genRoadPatrol = compile preProcessFileLineNumbers "CREATE\genRoadPatrol.sqf";
-generateCrew = compile preProcessFileLineNumbers "CREATE\generateCrew.sqf";
 
 NATOUAV = compile preProcessFileLineNumbers "REINF\NATOUAV.sqf";
 NATORoadblock = compile preProcessFileLineNumbers "REINF\NATORoadblock.sqf";

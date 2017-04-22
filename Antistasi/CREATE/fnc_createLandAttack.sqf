@@ -7,8 +7,9 @@ private _vehicles = [];
 // This is expected to return a unit by a check done, but we are extra safe.
 private _tipoVeh = selectRandom ([_toUse] call AS_fnc_AAFarsenal_all);
 if (isNil "_tipoVeh") then {
-	dial_log ["[AS] ERROR: AAF has not enough units of '%1' but is spawning one.", _toUse];
-	_tipoVeh = selectRandom (AAFarsenal getVariable "valid_trucks");
+	diag_log format ["[AS] ERROR: AAF has not enough units of '%1' but is spawning one.", _toUse];
+	_toUse = "trucks";
+	_tipoVeh = selectRandom (AS_AAFarsenal getVariable "valid_trucks");
 };
 
 // find a road to spawn the vehicle.
@@ -24,13 +25,13 @@ private _pos = (position _road) findEmptyPosition [0,100,_tipoVeh];
 if (count _pos == 0) then {_pos = (position _road)};
 
 ([_pos, random 360,_tipoVeh, side_green] call bis_fnc_spawnvehicle) params ["_veh", "_vehCrew", "_grupoVeh"];
-_soldiers = _soldiers + _vehCrew;
+_soldiers append _vehCrew;
 _groups pushBack _grupoVeh;
 _vehicles pushBack _veh;
 {[_x] call AS_fnc_initUnitAAF} forEach _vehCrew;
 [_veh,"AAF"] call AS_fnc_initVehicle;
 
-if (_toUse in ["tanks"]) then {
+if (_toUse == "tanks") then {
 	_Vwp0 = _grupoVeh addWaypoint [_landPos, 0];
 	_Vwp0 setWaypointBehaviour "SAFE";
 	[_veh,"Tank"] call inmuneConvoy;
@@ -46,36 +47,37 @@ if (_toUse in ["tanks"]) then {
 		_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
 	};
 
-	_grupo = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-
-	{[_x] spawn AS_fnc_initUnitOPFOR; _x assignAsCargo _veh; _x moveInCargo _veh; _soldados = _soldados + [_x]} forEach units _grupo;
-
-	if (_toUse in ["apcs"]) then {
-		_grupos = _grupos + [_grupo];
+	if (_toUse == "apcs") then {
+		private _group = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+		{[_x] spawn AS_fnc_initUnitAAF; _x assignAsCargo _veh; _x moveInCargo _veh; _soldiers pushBack _x} forEach units _group;
+		_groups pushBack _group;
 		_Vwp0 = _grupoVeh addWaypoint [_landPos, 0];
 		_Vwp0 setWaypointBehaviour "SAFE";
 		_Vwp0 setWaypointType "TR UNLOAD";
-		//_Vwp0 setWaypointStatements ["true", "[vehicle this] call smokeCoverAuto"];
 		_Vwp1 = _grupoVeh addWaypoint [_posdestino, 1];
 		_Vwp1 setWaypointType "SAD";
 		_Vwp1 setWaypointBehaviour "COMBAT";
-		_Vwp2 = _grupo addWaypoint [_landPos, 0];
+		_Vwp2 = _group addWaypoint [_landPos, 0];
 		_Vwp2 setWaypointType "GETOUT";
 		_Vwp0 synchronizeWaypoint [_Vwp2];
-		_Vwp3 = _grupo addWaypoint [_posdestino, 1];
+		_Vwp3 = _group addWaypoint [_posdestino, 1];
 		_Vwp3 setWaypointType "SAD";
 		[_veh] spawn smokeCover;
 		[_veh,"APC"] spawn inmuneConvoy;
 		_veh allowCrewInImmobile true;
 	}
 	else {  // is truck
-		{[_x] join _grupoVeh} forEach units _grupo;
-		deleteGroup _grupo;
+		private _group = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 
-		private _tempInfo = [_veh, _grupoVeh, _soldados, _posorigen] call generateCrew;
-		_veh = _tempInfo select 0;
-		_grupoVeh = _tempInfo select 1;
-		_soldados = _tempInfo select 2;
+		// extend group to fill truck
+		private _gSize = (_veh emptyPositions "cargo") - (count units _group);
+		for "_i" from 1 to _gSize do {
+			private _unitType = (infList_sniper + infList_special + infList_auto + infList_regular + infList_regular) call BIS_fnc_selectRandom;
+			_group createUnit [_unitType, getPos _veh, [], 0, "NONE"];
+		};
+		{[_x] spawn AS_fnc_initUnitAAF; _x assignAsCargo _veh; _x moveInCargo _veh; _soldiers pushBack _x} forEach units _group;
+		(units _group) join _grupoVeh;
+		deleteGroup _group;
 
 		_Vwp0 = _grupoVeh addWaypoint [_landPos, 0];
 		_Vwp0 setWaypointBehaviour "SAFE";
@@ -86,4 +88,4 @@ if (_toUse in ["tanks"]) then {
 		[_veh,"Inf Truck."] spawn inmuneConvoy;
 	};
 };
-_soldiers, _groups,  _vehicles
+[_soldiers, _groups, _vehicles]

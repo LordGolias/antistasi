@@ -1,16 +1,18 @@
 #include "..\macros.hpp"
 AS_SERVER_ONLY("debug/init.sqf");
-AS_DEBUG_markers = false;
+AS_DEBUG_flag = false;
+publicVariable "AS_DEBUG_flag"; // clients may spawn things, and this flag will affect spawning scripts.
 
 AS_DEBUG_init = {
     params [["_on", false]];
 
     // turn debug on
-    if (!AS_DEBUG_markers and _on) then {
-        AS_DEBUG_markers = _on;
+    if (!AS_DEBUG_flag and _on) then {
+        AS_DEBUG_flag = _on;
+        publicVariable "AS_DEBUG_flag";
         diag_log "[AS] Server: debug mode enabled.";
         hint "AS debug mode enabled.";
-        AS_DEBUG_markers_all = [];
+        AS_DEBUG_flag_all = [];
 
         {
             [_x] call AS_DEBUG_initVehicle;
@@ -32,9 +34,10 @@ AS_DEBUG_init = {
     };
 
     // turn debug off
-    if (AS_DEBUG_markers and !_on) then {
-        AS_DEBUG_markers = _on;  // this kills all markers
-        AS_DEBUG_markers_all = nil;
+    if (AS_DEBUG_flag and !_on) then {
+        AS_DEBUG_flag = _on;  // this kills all markers
+        AS_DEBUG_flag_all = nil;
+        publicVariable "AS_DEBUG_flag";
         diag_log "[AS] Server: debug mode disabled.";
         hint "AS debug mode disabled.";
     };
@@ -42,10 +45,10 @@ AS_DEBUG_init = {
 
 AS_DEBUG_initUnit = {
     params ["_unit"];
-    if (isNil "AS_DEBUG_markers_all") exitWith {};
+    if (isNil "AS_DEBUG_flag_all") exitWith {};
 
-    private _mrk = createMarker [format ["AS_DEBUG_markers_%1", count AS_DEBUG_markers_all], position _unit];
-    AS_DEBUG_markers_all pushBack _mrk;
+    private _mrk = createMarker [format ["AS_DEBUG_flag_%1", count AS_DEBUG_flag_all], position _unit];
+    AS_DEBUG_flag_all pushBack _mrk;
 
     private _color = "ColorUNKNOWN";
     private _type = "c_unknown";
@@ -75,7 +78,7 @@ AS_DEBUG_initUnit = {
     [_unit, _mrk] spawn {
         params ["_unit", "_mrk"];
         private _sleep = 2 + 2*(random 100)/100; // so it is not called at the same time to a whole group
-        while {AS_DEBUG_markers and alive _unit} do {
+        while {AS_DEBUG_flag and alive _unit} do {
             _mrk setMarkerPos position _unit;
             sleep _sleep;
         };
@@ -85,10 +88,10 @@ AS_DEBUG_initUnit = {
 
 AS_DEBUG_initVehicle = {
     params ["_veh"];
-    if (isNil "AS_DEBUG_markers_all") exitWith {};
+    if (isNil "AS_DEBUG_flag_all") exitWith {};
 
-    private _mrk = createMarker [format ["AS_DEBUG_markers_%1", count AS_DEBUG_markers_all], position _veh];
-    AS_DEBUG_markers_all pushBack _mrk;
+    private _mrk = createMarker [format ["AS_DEBUG_flag_%1", count AS_DEBUG_flag_all], position _veh];
+    AS_DEBUG_flag_all pushBack _mrk;
 
     private _color = "ColorUNKNOWN";
     private _type = "c_unknown";
@@ -118,7 +121,7 @@ AS_DEBUG_initVehicle = {
     [_veh, _mrk] spawn {
         params ["_veh", "_mrk"];
         private _sleep = 2 + 2*(random 100)/100; // so it is not called at the same time to a whole group
-        while {AS_DEBUG_markers and alive _veh} do {
+        while {AS_DEBUG_flag and alive _veh} do {
             _mrk setMarkerPos position _veh;
             sleep _sleep;
         };
@@ -128,10 +131,10 @@ AS_DEBUG_initVehicle = {
 
 AS_DEBUG_initDead = {
     params ["_thing"];
-    if (isNil "AS_DEBUG_markers_all") exitWith {};
+    if (isNil "AS_DEBUG_flag_all") exitWith {};
 
-    private _mrk = createMarker [format ["AS_DEBUG_markers_%1", count AS_DEBUG_markers_all], position _thing];
-    AS_DEBUG_markers_all pushBack _mrk;
+    private _mrk = createMarker [format ["AS_DEBUG_flag_%1", count AS_DEBUG_flag_all], position _thing];
+    AS_DEBUG_flag_all pushBack _mrk;
     _mrk setMarkerShape "ICON";
     _mrk setMarkerType "KIA";
     _mrk setMarkerColor "ColorRed";
@@ -139,7 +142,7 @@ AS_DEBUG_initDead = {
     [_thing, _mrk] spawn {
         params ["_thing", "_mrk"];
         private _sleep = 2 + 2*(random 100)/100;
-        while {AS_DEBUG_markers and _thing != objNull} do {
+        while {AS_DEBUG_flag and _thing != objNull} do {
             sleep _sleep;
         };
         deleteMarker _mrk;
@@ -148,10 +151,10 @@ AS_DEBUG_initDead = {
 
 AS_DEBUG_initLocation = {
     params ["_location"];
-    if (isNil "AS_DEBUG_markers_all") exitWith {};
+    if (isNil "AS_DEBUG_flag_all") exitWith {};
 
-    private _mrk = createMarker [format ["AS_DEBUG_markers_%1", count AS_DEBUG_markers_all], _location call AS_fnc_location_position];
-    AS_DEBUG_markers_all pushBack _mrk;
+    private _mrk = createMarker [format ["AS_DEBUG_flag_%1", count AS_DEBUG_flag_all], _location call AS_fnc_location_position];
+    AS_DEBUG_flag_all pushBack _mrk;
     _mrk setMarkerShape "ELLIPSE";
     _mrk setMarkerSize [50, 50];
     _mrk setMarkerColor "ColorBlue";
@@ -160,7 +163,7 @@ AS_DEBUG_initLocation = {
     [_location, _mrk] spawn {
         params ["_location", "_mrk"];
         private _sleep = 2 + 2*(random 100)/100;
-        while {AS_DEBUG_markers} do {
+        while {AS_DEBUG_flag} do {
             if (_location call AS_fnc_location_forced_spawned) then {
                     _mrk setMarkerColor "ColorRed";
                 } else {

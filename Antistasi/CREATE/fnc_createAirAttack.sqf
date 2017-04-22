@@ -8,7 +8,7 @@ private _vehicles = [];
 private _tipoVeh = selectRandom ([_toUse] call AS_fnc_AAFarsenal_all);
 if (isNil "_tipoVeh") then {
 	diag_log format ["[AS] ERROR: AAF has not enough units of '%1' but is spawning one.", _toUse];
-	_tipoVeh = selectRandom (AAFarsenal getVariable "valid_transportHelis");
+	_tipoVeh = selectRandom (AS_AAFarsenal getVariable "valid_transportHelis");
 };
 
 // get a valid position to spawn vehicle.
@@ -27,7 +27,7 @@ if (count _pos == 0) then {_pos = _posorigen};
 _soldiers = _soldiers + _vehCrew;
 _groups pushBack _grupoVeh;
 _vehicles pushBack _veh;
-{[_x] call AS_fnc_initUnitOPFOR} forEach units _grupoVeh;
+{[_x] call AS_fnc_initUnitAAF} forEach units _grupoVeh;
 [_veh] call genVEHinit;
 
 // create waypoints and cargo depending on the type
@@ -46,7 +46,7 @@ if (_airType in ["planes","armedHelis"]) then {
 			_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
 		};
 		_grupo = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-		{[_x] spawn AS_fnc_initUnitOPFOR;_x assignAsCargo _veh;_x moveInCargo _veh; _soldiers = _soldiers + [_x]} forEach units _grupo;
+		{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldiers = _soldiers + [_x]} forEach units _grupo;
 		//[_mrkDestino,_grupo] spawn attackDrill;
 		_groups pushBack _grupo;
 		_landpos = [];
@@ -75,13 +75,13 @@ if (_airType in ["planes","armedHelis"]) then {
 	} else {
 		_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
 		_grupo = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-		{[_x] spawn AS_fnc_initUnitOPFOR;_x assignAsCargo _veh;_x moveInCargo _veh; _soldiers = _soldiers + [_x]} forEach units _grupo;
+		{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldiers = _soldiers + [_x]} forEach units _grupo;
 		_groups pushBack _grupo;
 		_grupo1 = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-		{[_x] spawn AS_fnc_initUnitOPFOR;_x assignAsCargo _veh;_x moveInCargo _veh; _soldiers = _soldiers + [_x]} forEach units _grupo1;
+		{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldiers = _soldiers + [_x]} forEach units _grupo1;
 		_groups pushBack _grupo;
 		//[_veh,_grupo,_grupo1,_posdestino,_posorigen,_grupoVeh] spawn fastropeAAF;
 		[_grupoVeh, _pos, _posdestino, _location, [_grupo, _grupo1], 25*60] call fnc_QRF_fastrope;
 	};
 };
-_soldiers, _groups,  _vehicles
+[_soldiers, _groups,  _vehicles]
