@@ -28,7 +28,7 @@ private _vehiculos = [];
 	_building = _x;
 	_tipoB = typeOf _building;
 	if ((_tipoB == "Land_Cargo_HQ_V1_F") or (_tipoB == "Land_Cargo_HQ_V2_F") or (_tipoB == "Land_Cargo_HQ_V3_F")) then {
-		_veh = createVehicle [_statAA, (_building buildingPos 8), [],0, "CAN_COLLIDE"];
+		_veh = createVehicle [_staticAA, (_building buildingPos 8), [],0, "CAN_COLLIDE"];
 		_veh setPosATL [(getPos _building select 0),(getPos _building select 1),(getPosATL _veh select 2)];
 		_veh setDir (getDir _building);
 		_unit = _grupo createUnit [_gunnerCrew, _posicion, [], 0, "NONE"];

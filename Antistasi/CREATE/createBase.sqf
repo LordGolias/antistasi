@@ -18,8 +18,8 @@ private _grupo = createGroup side_green;
 _grupos pushBack _grupo;
 
 ([_location, side_green, _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
-_soldados pushBack _gunners;
-_vehiculos pushBack _vehicles;
+_soldados append _gunners;
+_vehiculos append _vehicles;
 
 // spawn flag and crate
 private _bandera = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
@@ -55,12 +55,14 @@ if ((_location call AS_fnc_location_spawned) and _frontera) then {
 private _groupCount = (round (_size/30)) max 1;
 
 if (!_busy) then {
-	_arrayVehAAF = ["trucks", "apcs"] call AS_fnc_AAFarsenal_all;
+	private _possible_vehicles = ["trucks", "apcs"] call AS_fnc_AAFarsenal_all;
 	private _pos = _posicion;
 
 	for "_i" from 1 to _groupCount do {
 		if (!(_location call AS_fnc_location_spawned) or diag_fps < AS_P("minimumFPS")) exitWith {};
-		private _tipoVeh = _arrayVehAAF call BIS_fnc_selectRandom;
+		if (count _possible_vehicles == 0) exitWith {};
+		private _tipoVeh = selectRandom _possible_vehicles;
+		_possible_vehicles deleteAt (_possible_vehicles find _tipoVeh);
 		private _pos = [];
 		if (_size > 40) then {
 			_pos = [_posicion, 10, _size/2, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
@@ -96,7 +98,7 @@ private _journalist = [_location, _grupos] call AS_fnc_createJournalist;
 waitUntil {sleep 1;
 	(not (_location call AS_fnc_location_spawned)) or
 	(({(not(vehicle _x isKindOf "Air"))} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)) >
-	 3*({(alive _x) and (!(captive _x)) and (_x distance _posicion < _size)} count _soldados))
+	 3*({(alive _x) and !(captive _x) and (_x distance _posicion < _size)} count _soldados))
 };
 
 if ((_location call AS_fnc_location_spawned) and (_location call AS_fnc_location_side == "AAF")) then {

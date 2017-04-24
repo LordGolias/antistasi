@@ -60,7 +60,7 @@ AAFpatrols = AAFpatrols + 1; publicVariableServer "AAFpatrols";
 
 if (!_isFlying) then
 	{
-	if (_tipoCoche == "I_Boat_Armed_01_minigun_F") then
+	if (_type == "I_Boat_Armed_01_minigun_F") then
 		{
 		_posbase = [_posbase,50,150,10,2,0,0] call BIS_Fnc_findSafePos;
 		}
@@ -78,7 +78,7 @@ if (!_isFlying) then
 		};
 	};
 
-_vehicle=[_posbase, 0,_tipoCoche, side_green] call bis_fnc_spawnvehicle;
+_vehicle=[_posbase, 0,_type, side_green] call bis_fnc_spawnvehicle;
 _veh = _vehicle select 0;
 [_veh, "AAF"] call AS_fnc_initVehicle;
 [_veh,"Patrol"] spawn inmuneConvoy;
@@ -90,7 +90,7 @@ _grupos = _grupos + [_grupoVeh];
 _vehiculos = _vehiculos + [_veh];
 
 
-if (_tipoCoche isKindOf "Car") then
+if (_type isKindOf "Car") then
 	{
 	sleep 1;
 	_tipoGrupo = [infGarrisonSmall, side_green] call fnc_pickGroup;
@@ -137,7 +137,7 @@ while {alive _veh} do
 		}
 	else
 		{
-		if (_tipoCoche == "I_Boat_Armed_01_minigun_F") then
+		if (_type == "I_Boat_Armed_01_minigun_F") then
 			{
 			_arraydestinos = ([["searport"], "AAF"] call AS_fnc_location_TS) select {(_x call AS_fnc_location_position) distance (position _veh) < 2500};
 			}

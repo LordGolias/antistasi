@@ -48,10 +48,13 @@ if (!_busy) then {
 		private _grupo = createGroup side_green;
 		_grupos pushBack _grupo;
 
+		private _possible_vehicles = (["planes", "armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all);
 		for "_i" from 1 to 5 do {
 			if !(_location call AS_fnc_location_spawned) exitWith {};
+			if (count _possible_vehicles == 0) exitWith {};
 
-			_tipoveh = (["planes", "armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all) call BIS_fnc_selectRandom;
+			_tipoveh = selectRandom _vehicles;
+			_possible_vehicles deleteAt (_possible_vehicles find _tipoveh);
 			private _veh = createVehicle [_tipoveh, _pos, [],3, "NONE"];
 			_veh setDir (_ang + 90);
 			sleep 1;
@@ -69,9 +72,13 @@ if (!_busy) then {
 
 // spawn parked land vehicles
 private _groupCount = round (_size/60);
+private _possible_vehicles = (["trucks", "apcs"] call AS_fnc_AAFarsenal_all);
 for "_i" from 1 to _groupCount do {
 	if (!(_location call AS_fnc_location_spawned) or diag_fps < AS_P("minimumFPS")) exitWith {};
-	private _tipoVeh = (["trucks", "apcs"] call AS_fnc_AAFarsenal_all) call BIS_fnc_selectRandom;
+	if (count _possible_vehicles == 0) exitWith {};
+
+	_tipoveh = selectRandom _vehicles;
+	_possible_vehicles deleteAt (_possible_vehicles find _tipoveh);
 	_pos = [_posicion, 10, _size/2, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
 	_veh = createVehicle [_tipoVeh, _pos, [], 0, "NONE"];
 	_veh setDir random 360;
