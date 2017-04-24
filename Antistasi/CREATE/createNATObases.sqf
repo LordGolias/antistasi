@@ -11,7 +11,7 @@ private _gruposFIA = [];
 private _posicion = _location call AS_fnc_location_position;
 private _size = _location call AS_fnc_location_size;
 private _prestigio = AS_P("prestigeNATO")/100;
-private _estaticas = staticsToSave select {_x distance _posicion < _size};
+private _estaticas = AS_P("vehicles") select {_x distance _posicion < _size};
 
 private _buildings = nearestObjects [_posicion, listMilBld, _size*1.5];
 
@@ -107,7 +107,7 @@ if (_location call AS_fnc_location_spawned) then {
 
 waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 
-{if ((!alive _x) and (not(_x in destroyedBuildings))) then {destroyedBuildings = destroyedBuildings + [position _x]; publicVariableServer "destroyedBuildings"}} forEach _buildings;
+[_buildings] remoteExec ["AS_fnc_updateDestroyedBuildings", 2];
 
 {
 	if (_location call AS_fnc_location_side == "FIA") then {
@@ -121,6 +121,6 @@ waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 
 if (!isNull _journalist) then {deleteVehicle _journalist};
 {deleteGroup _x} forEach _gruposFIA;
-{if (not(_x in staticsToSave)) then {deleteVehicle _x}} forEach _vehiculos;
+{if (not(_x in AS_P("vehicles"))) then {deleteVehicle _x}} forEach _vehiculos;
 {if (alive _x) then {deleteVehicle _x}} forEach _soldados;
 {deleteGroup _x} forEach _grupos;

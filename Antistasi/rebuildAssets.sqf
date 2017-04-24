@@ -2,7 +2,7 @@
 
 if (AS_P("resourcesFIA") < 5000) exitWith {hint "You do not have enough money to rebuild any Asset. You need 5.000 €"};
 
-private _validLocations = ([["powerplant","factory","resource"], "FIA"] call AS_fnc_location_TS) arrayIntersect destroyedCities;
+private _validLocations = ([["powerplant","factory","resource"], "FIA"] call AS_fnc_location_TS) arrayIntersect AS_P("destroyedLocations");
 
 openMap true;
 posicionTel = [];
@@ -31,7 +31,6 @@ hint format ["%1 Rebuilt"];
 
 [0,10,_posicionTel] remoteExec ["citySupportChange",2];
 [5,0] remoteExec ["prestige",2];
-destroyedCities = destroyedCities - [_location];
-publicVariable "destroyedCities";
+AS_Pset("destroyedLocations", AS_P("destroyedLocations") - [_location]);
 if (_type == "powerplant") then {[_location] call powerReorg};
 [0,-5000] remoteExec ["resourcesFIA",2];

@@ -194,7 +194,8 @@ publicVariable "AS_persistent";
 server = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
 publicVariable "server";
 
-// AS_Pset(a,b) is a macro to `(AS_persistent setVariable (a,b,true))`. It is just easier to write.
+// AS_Pset(a,b) is a macro to `(AS_persistent setVariable (a,b,true))`.
+// P from persistent as these variables are saved persistently.
 
 // These are default values for the start.
 AS_Pset("hr",8); //initial HR value
@@ -206,6 +207,21 @@ AS_Pset("skillAAF",0); //Initial skill level of AAF
 AS_Pset("prestigeNATO",5); //Initial Prestige NATO
 AS_Pset("prestigeCSAT",5); //Initial Prestige CSAT
 
+AS_Pset("secondsForAAFattack",600);  // The time for the attack script to be run
+AS_Pset("destroyedLocations", []); // Locations that are destroyed (can be repaired)
+AS_Pset("vehicles", []);  // list of vehicles that are saved in the map
+
+// list of positions where closest building is destroyed.
+// The buildings that belong to this are in `listMilBld`.
+AS_Pset("destroyedBuildings", []);
+
+// todo: make this random
+private _vehs = [
+	"C_Van_01_transport_F","C_Offroad_01_F","C_Offroad_01_F",
+	"B_G_Quadbike_01_F","B_G_Quadbike_01_F","B_G_Quadbike_01_F"
+];
+AS_Pset("vehiclesInGarage", _vehs);
+
 // These are game options that are saved.
 AS_Pset("civPerc",0.05); //initial % civ spawn rate
 AS_Pset("enableFTold",false); // extended fast travel mode
@@ -215,15 +231,22 @@ AS_Pset("cleantime",20*60); // time to delete dead bodies and vehicles.
 AS_Pset("minAISkill",0.6); // The minimum skill of the AAF/FIA AI (at lowest skill level)
 AS_Pset("maxAISkill",0.9); // The maximum skill of the AAF/FIA AI (at highest skill level)
 
-AS_spawnLoopTime = 0.5; // seconds between each check of spawn/despawn locations (expensive loop).
+// AS_Sset(a,b) is a macro to `(server setVariable (a,b,true))`.
+// S of [s]hared. These variables are not saved persistently.
+AS_Sset("revealFromRadio",false);
 
 // todo: document these variables...
-server setVariable ["milActive", 0, true];
-server setVariable ["civActive", 0, true];
-server setVariable ["expActive", false, true];
-server setVariable ["blockCSAT", false, true];
-server setVariable ["jTime", 0, true];
-server setVariable ["lockTransfer", false, true];
+AS_Sset("milActive",0);
+AS_Sset("civActive",0);
+AS_Sset("expActive", false);
+AS_Sset("blockCSAT", false);
+AS_Sset("jTime", false);
+AS_Sset("lockTransfer", false);
+
+// todo: this option is not being saved, so it is irrelevant. Consider removing.
+AS_Sset("enableWpnProf",false); // class-based weapon proficiences, MP only
+
+AS_spawnLoopTime = 0.5; // seconds between each check of spawn/despawn locations (expensive loop).
 
 // Pricing values for soldiers, vehicles of AAF
 {AS_data_allCosts setVariable [_x,100,true]} forEach ["I_crew_F","O_crew_F","C_man_1"];
@@ -235,36 +258,12 @@ server setVariable ["lockTransfer", false, true];
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_NCO;
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_sniper;
 
-// todo: this option is not being saved, so it is irrelevant. Consider removing.
-server setVariable ["enableWpnProf",false,true]; // class-based weapon proficiences, MP only
-
-// todo: include the statics to save system in the new Location system
-staticsToSave = []; publicVariable "staticsToSave";
-
-cuentaCA = 600; // todo: document this
-// variables that use to avoid race conditions in changing server variables.
-prestigeIsChanging = false;
-cityIsSupportChanging = false;
-resourcesIsChanging = false;
-savingServer = false;
-
 // todo: document this
 misiones = [];
-revelar = false;
 publicVariable "misiones";
-publicVariable "revelar";
-
-destroyedBuildings = []; publicVariable "destroyedBuildings";
-
-// initial vehicles in the garage. This is a persistent variable, consider
-// moving it to AS_persistent.
-vehInGarage = [
-	"C_Van_01_transport_F","C_Offroad_01_F","C_Offroad_01_F",
-	"B_G_Quadbike_01_F","B_G_Quadbike_01_F","B_G_Quadbike_01_F"
-];
-publicVariable "vehInGarage";
 
 // list of vehicles (objects) that can no longer be used for undercover
+// This is non-persistent as it is a temporary component
 reportedVehs = [];
 publicVariable "reportedVehs";
 

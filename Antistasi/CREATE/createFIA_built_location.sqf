@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
 params ["_location"];
 
@@ -126,4 +127,4 @@ if (_wasDestroyed) then {
 	};
 } forEach _soldiers;
 {deleteGroup _x} forEach _groups;
-{if (!_wasDestroyed and !(_x in staticsToSave)) then {deleteVehicle _x}} forEach _vehicles;
+{if (!_wasDestroyed and !(_x in AS_P("vehicles"))) then {deleteVehicle _x}} forEach _vehicles;

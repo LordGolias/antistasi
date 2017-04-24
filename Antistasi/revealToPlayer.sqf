@@ -1,33 +1,14 @@
-if (isDedicated) exitWith {};
-private ["_lider"];
-if (count _this == 0) then
-	{
-	while {revelar} do
+while {AS_S("revealFromRadio")} do {
+	if ((player == leader group player) and ([player] call hasRadio)) then {
 		{
-		if (player == leader group player) then
-			{
-			if ([player] call hasRadio) then
-				{
-				{
-				_lider = leader _x;
-				if (((side _lider == side_red) or (side _lider == side_green)) and (vehicle _lider != _lider) and (player knowsAbout _lider < 1.5)) then
-					{
-					player reveal [_lider,4];
-					sleep 1;
-					};
-				} forEach allGroups;
-				};
+			private _lider = leader _x;
+			if ((side _lider in [side_red, side_green]) and
+				(vehicle _lider != _lider) and
+				(player knowsAbout _lider < 1.5)) then {
+				player reveal [_lider,4];
+				sleep 1;
 			};
-		sleep 10;
-		};
-	}
-else
-	{
-	private ["_grupo"];
-	if (player == leader group player) then
-		{
-		_grupo = _this select 0;
-		_lider = leader _grupo;
-		player reveal [_lider,4];
-		};
+		} forEach allGroups;
 	};
+	sleep 10;
+};

@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith{};
 params ["_location"];
 
@@ -85,7 +86,7 @@ if !(_location call AS_fnc_location_spawned) then {
 waitUntil {sleep 1;not (_location call AS_fnc_location_spawned)};
 
 {
-	if (not(_x in staticsToSave)) then {
+	if (not(_x in AS_P("vehicles"))) then {
 		deleteVehicle _x;
 	};
 } forEach _vehiculos;

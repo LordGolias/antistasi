@@ -2,8 +2,8 @@
 AS_SERVER_ONLY("citySupportChange.sqf");
 private ["_opfor","_blufor","_pos","_city","_datos","_numCiv","_numVeh","_roads"];
 
-waitUntil {!cityIsSupportChanging};
-cityIsSupportChanging = true;
+waitUntil {isNil "AS_cityIsSupportChanging"};
+AS_cityIsSupportChanging = true;
 _opfor = _this select 0;
 _blufor = _this select 1;
 _pos = _this select 2;
@@ -55,5 +55,5 @@ if (_FIAsupport + _AAFsupport < 5) then {_AAFsupport = 1; _FIAsupport = 5};
 [_city, "FIAsupport", _FIAsupport] call AS_fnc_location_set;
 [_city, "AAFsupport", _AAFsupport] call AS_fnc_location_set;
 
-cityIsSupportChanging = false;
+AS_cityIsSupportChanging = nil;
 true

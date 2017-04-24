@@ -63,18 +63,20 @@ if (_type in ["base", "airfield"]) then {
     };
 };
 
-private _staticsToSave = staticsToSave;
+waitUntil {isNil "AS_vehiclesChanging"};
+AS_vehiclesChanging = true;
+private _staticsRemoved = [];
 {
 	if ((position _x) distance _posicion < _size) then {
-		_staticsToSave = _staticsToSave - [_x];
+		_staticsRemoved pushBack _x;
 		deleteVehicle _x;
 	};
-} forEach staticsToSave;
+} forEach AS_P("vehicles");
 
-if (not(_staticsToSave isEqualTo staticsToSave)) then {
-	staticsToSave = _staticsToSave;
-	publicVariable "staticsToSave";
+if (count _staticsRemoved > 0) then {
+	AS_Pset("vehicles", AS_P("vehicles") - _staticsRemoved);
 };
+AS_vehiclesChanging = nil;
 
 waitUntil {sleep 1;
 	(not (_location call AS_fnc_location_spawned)) or

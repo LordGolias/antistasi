@@ -105,17 +105,13 @@ if ((_location call AS_fnc_location_spawned) and (_location call AS_fnc_location
 
 waitUntil {sleep 1; (not (_location call AS_fnc_location_spawned))};
 
-{
-	if ((!alive _x) and (not(_x in destroyedBuildings))) then {
-		destroyedBuildings pushBack (position _x);
-		publicVariableServer "destroyedBuildings"
-	};
-} forEach _buildings;
+[_buildings] remoteExec ["AS_fnc_updateDestroyedBuildings", 2];
+
 {if (alive _x) then {deleteVehicle _x}} forEach _soldados;
 if (!isNull _journalist) then {deleteVehicle _journalist};
 {deleteGroup _x} forEach _grupos;
 {
-	if (not(_x in staticsToSave)) then {
+	if (not(_x in AS_P("vehicles"))) then {
 		if (!([AS_P("spawnDistance")-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x};
 	};
 } forEach _vehiculos;

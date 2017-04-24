@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 private _location = _this;
 
 private _soldados = [];
@@ -6,7 +7,7 @@ private _vehiculos = [];
 
 private _posicion = _location call AS_fnc_location_position;
 private _size = _location call AS_fnc_location_size;
-private _estaticas = staticsToSave select {_x distance _posicion < _size};
+private _estaticas = AS_P("vehicles") select {_x distance _posicion < _size};
 private _garrison = _location call AS_fnc_location_garrison;
 
 private _grupoMort = grpNull;

@@ -4,8 +4,6 @@ AS_SERVER_ONLY("initLocations.sqf");
 AS_location = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
 publicVariable "AS_location";
 AS_location setVariable ["all", [], true];
-destroyedCities = [];
-publicVariable "destroyedCities";
 
 call {
     if (worldName == "Altis") exitwith {

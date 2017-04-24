@@ -27,7 +27,7 @@ private _FIAResIncomeMultiplier = 1;
     _FIAtotalPop = _FIAtotalPop + _popFIA;
     _AAFtotalPop = _AAFtotalPop + _popAAF;
 
-    if !(_city in destroyedCities) then {
+    if !(_city in AS_P("destroyedLocations")) then {
         _incomeMultiplier = 0.33;
         if (not _power) then {_incomeMultiplier = 0.5*0.33};
 
@@ -103,7 +103,7 @@ if ((_FIAtotalPop > _AAFtotalPop) and ("AS_airfield_3" call AS_fnc_location_side
 {
     private _side = _x call AS_fnc_location_side;
     _power = [_x] call powerCheck;
-    if ((_power) and (not(_x in destroyedCities))) then {
+    if ((_power) and (not(_x in AS_P("destroyedLocations")))) then {
         if (_side == "FIA") then {_FIAResIncomeMultiplier = _FIAResIncomeMultiplier + 0.25};
         if (_side == "AAF") then {_AAFResIncomeMultiplier = _AAFResIncomeMultiplier + 0.25};
     };
@@ -113,7 +113,7 @@ if ((_FIAtotalPop > _AAFtotalPop) and ("AS_airfield_3" call AS_fnc_location_side
 {
     private _side = _x call AS_fnc_location_side;
     _power = [_x] call powerCheck;
-    if !(_x in destroyedCities) then {
+    if !(_x in AS_P("destroyedLocations")) then {
         _powerMultiplier = 1;
         if (_power) then {
             _powerMultiplier = 3;

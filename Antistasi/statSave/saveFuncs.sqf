@@ -6,7 +6,8 @@ call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 // Add variables here that you want to save.
 AS_serverVariables = [
 	"prestigeNATO", "prestigeCSAT", "resourcesAAF", "resourcesFIA", "skillFIA", "skillAAF", "hr",  // FIA attributes
-	"enableFTold", "civPerc", "spawnDistance", "minimumFPS", "cleantime"  // game options
+	"enableFTold", "civPerc", "spawnDistance", "minimumFPS", "cleantime",  // game options
+	"secondsForAAFAttack", "destroyedLocations", "vehiclesInGarage", "destroyedBuildings"
 ];
 
 // function that saves all AS_serverVariables. The two parameters overwrite the AS_persistent variable value to save.
@@ -21,11 +22,37 @@ AS_fnc_savePersistents = {
 		};
 		[_saveName, _x, _varValue] call AS_fnc_SaveStat;
 	} forEach AS_serverVariables;
+
+	// vehicles have to be serialized, so we do it here.
+	private _vehicles = [];
+	{
+		private _type = typeOf _x;
+		private _pos = getPos _x;
+		private _dir = getDir _x;
+		_vehicles pushBack [_type,_pos,_dir];
+	} forEach AS_P("vehicles");
+	[_saveName, "vehicles", _vehicles] call AS_fnc_SaveStat;
 };
 
 
 // function that loads all AS_serverVariables.
 AS_fnc_loadPersistents = {
+
+	// vehicles have to be serialized, so we do it here.
+	private _vehicles = [];
+	{
+		private _type = _x select 0;
+		private _pos = _x select 1;
+		private _dir = _x select 2;
+
+		_veh = _type createVehicle _pos;
+		_veh setDir _dir;
+		[_veh, "FIA"] call AS_fnc_initVehicle;
+		_vehicles pushBack _veh;
+	} forEach ([_saveName, "vehicles"] call AS_fnc_LoadStat);
+	AS_Pset('vehicles', _vehicles);
+
+	// remaining variables
     params ["_saveName"];
 	{
         AS_Pset(_x, [_saveName, _x] call AS_fnc_LoadStat);
@@ -126,8 +153,6 @@ fn_SaveProfile = {saveProfileNamespace};
 AS_fnc_saveMarkers = {
 	params ["_saveName"];
 	[_saveName, "deadAntennas", antenasmuertas] call fn_SaveStat;
-
-	[_saveName, "destroyedBuildings", destroyedBuildings] call fn_SaveStat;
 };
 
 AS_fnc_loadMarkers = {
@@ -144,33 +169,15 @@ AS_fnc_loadMarkers = {
 		_antena setDamage 1;
 		deleteMarker _mrk;
 	} forEach antenasmuertas;
-
-	// list of military building positions that were destroyed.
-	destroyedBuildings = [];
-	{
-		// destroy the building.
-		private _buildings = [];
-		private _dist = 5;
-		while {count _buildings == 0} do {
-			_buildings = nearestObjects [_x, listMilBld, _dist];
-			_dist = _dist + 5;
-		};
-		(_buildings select 0) setDamage 1;
-		destroyedBuildings pushBack _x;
-	} forEach ([_saveName, "destroyedBuildings"] call fn_LoadStat);
 };
 
 //===========================================================================
 // Variables that require scripting after loaded. See fn_SetStat.
 specialVarLoads =
-["minas","mineFieldMrk","estaticas","cuentaCA","fecha","tasks"];
+["minas","mineFieldMrk","estaticas","fecha","tasks"];
 
 // global variables that are set to be publicVariable on loading.
-AS_publicVariables = [
-	"cuentaCA", "miembros",
-	"destroyedCities",
-	"vehInGarage", "staticsToSave"
-];
+AS_publicVariables = ["miembros"];
 
 //THIS FUNCTIONS HANDLES HOW STATS ARE LOADED
 fn_SetStat = {
@@ -180,9 +187,6 @@ fn_SetStat = {
 
 	if(_varName in specialVarLoads) then {
 		call {
-			if(_varName == 'cuentaCA') exitWith {
-				if (_varValue < 2700) then {cuentaCA = 2700} else {cuentaCA = _varValue};
-			};
 			if(_varName == 'fecha') exitWith {setDate _varValue; forceWeatherChange};
 			if(_varName == 'minas') exitWith
 				{
@@ -207,22 +211,6 @@ fn_SetStat = {
 						_dirMina = _varvalue select _i select 3;
 						_mina setDir _dirMina;
 						};
-					};
-				};
-			if(_varname == 'estaticas') exitWith
-				{
-				for "_i" from 0 to (count _varvalue) - 1 do
-					{
-					_tipoVeh = _varvalue select _i select 0;
-					_posVeh = _varvalue select _i select 1;
-					_dirVeh = _varvalue select _i select 2;
-
-					_veh = _tipoVeh createVehicle _posVeh;
-					_veh setDir _dirVeh;
-					if (_tipoVeh in (allStatMGs + allStatATs + allStatAAs + allStatMortars)) then {
-						staticsToSave pushBack _veh;
-					};
-					[_veh, "FIA"] call AS_fnc_initVehicle;
 					};
 				};
 			if(_varname == 'tasks') exitWith

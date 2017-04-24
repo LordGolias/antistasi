@@ -1,3 +1,4 @@
+#include "macros.hpp"
 private ["_unit","_recursos","_hr","_armas","_municion","_items","_pos"];
 
 _unit = _this select 0;
@@ -23,7 +24,7 @@ if (_unit == AS_commander) then
 					{
 					_veh = assignedVehicle _x;
 					_tipoVeh = typeOf _veh;
-					if ((_veh isKindOf "StaticWeapon") and (not(_veh in staticsToSave))) then
+					if ((_veh isKindOf "StaticWeapon") and (not(_veh in AS_P("vehicles")))) then
 						{
 						_recursos = _recursos + ([_tipoVeh] call FIAvehiclePrice) + ([typeOf (vehicle leader _x)] call FIAvehiclePrice);
 						}
@@ -46,7 +47,7 @@ if (_unit == AS_commander) then
 							deleteVehicle _subVeh;
 							};
 						};
-					if (!(_veh in staticsToSave)) then {deleteVehicle _veh};
+					if !(_veh in AS_P("vehicles")) then {deleteVehicle _veh};
 					};
 				deleteVehicle _x;
 				} forEach _uds;

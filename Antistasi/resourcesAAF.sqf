@@ -4,8 +4,8 @@ if (!isPlayer AS_commander) exitWith {};
 
 private ["_resourcesAAF","_coste"];
 
-waitUntil {!resourcesIsChanging};
-resourcesIsChanging = true;
+waitUntil {sleep 5; isNil "AS_resourcesIsChanging"};
+AS_resourcesIsChanging = true;
 _coste = _this select 0;
 
 if (isNil "_coste") then {_coste = 0};
@@ -14,4 +14,4 @@ _resourcesAAF = AS_P("resourcesAAF");
 _resourcesAAF = _resourcesAAF + _coste;
 if (_resourcesAAF < 0) then {_resourcesAAF = 0};
 AS_Pset("resourcesAAF",_resourcesAAF);
-resourcesIsChanging = false;
+AS_resourcesIsChanging = nil;

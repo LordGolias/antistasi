@@ -226,20 +226,20 @@ fnc_infoScreen = {
 
 	if (_type == "status") then {
 
-		private _p1 = ["Number of vehicles in garage: %1", count vehInGarage];
+		private _p1 = ["Number of vehicles in garage: %1", count AS_P("vehiclesInGarage")];
 		_pI pushBackUnique (format _p1);
 
-		if (count vehInGarage > 0) then {
+		if (count AS_P("vehiclesInGarage") > 0) then {
 			private _vehicleTypes = [];
 			{
 				_vehicleTypes pushBackUnique _x;
-			} forEach vehInGarage;
+			} forEach AS_P("vehiclesInGarage");
 			_p2 = ["List of vehicles \n"];
 			_p2v = [];
 			for "_i" from 0 to (count _vehicleTypes - 1) do {
 				_p2 pushBack ("%" + str ((2*(_i+1))-1) + " x %" + str (2*(_i+1)));
 				if (_i < (count _vehicleTypes - 1)) then {_p2 pushBack ", "};
-				_p2v = _p2v + [getText (configFile >> "CfgVehicles" >> _vehicleTypes select _i >> "displayName"), ({_x == _vehicleTypes select _i} count vehInGarage)];
+				_p2v = _p2v + [getText (configFile >> "CfgVehicles" >> _vehicleTypes select _i >> "displayName"), ({_x == _vehicleTypes select _i} count AS_P("vehiclesInGarage"))];
 			};
 			_p2 = _p2 joinString "";
 			_p2 = [_p2] + _p2v;

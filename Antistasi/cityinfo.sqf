@@ -17,7 +17,7 @@ private _pop = 0;
 _popFIA = round _popFIA;
 _popAAF = round _popAAF;
 hint format ["Total pop: %1\nFIA Support: %2\nAAF SUpport: %3 \n\nDestroyed Cities: %4\n\nClick on the zone",
-	_pop, _popFIA, _popAAF, {_x in destroyedCities} count (call AS_fnc_location_cities)];
+	_pop, _popFIA, _popAAF, {_x in AS_P("destroyedLocations")} count (call AS_fnc_location_cities)];
 
 openMap true;
 
@@ -46,7 +46,7 @@ while {visibleMap} do
 			];
 			if ([_location] call powerCheck) then {_texto = format ["%1\nPowered",_texto]} else {_texto = format ["%1\nNot Powered",_texto]};
 			if (_side == "AAF") then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
-			if (_location in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
+			if (_location in AS_P("destroyedLocations")) then {_texto = format ["%1\nDESTROYED",_texto]};
 		};
 		if (_type == "airfield") then {
 			if (_side == "AAF") then {
@@ -75,7 +75,7 @@ while {visibleMap} do
 			} else {
 				_texto = format ["FIA Powerplant%1",[_location] call garrisonInfo];
 			};
-			if (_location in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
+			if (_location in AS_P("destroyedLocations")) then {_texto = format ["%1\nDESTROYED",_texto]};
 		};
 		if (_type == "resource") then {
 			if (_side == "AAF") then {
@@ -85,7 +85,7 @@ while {visibleMap} do
 			};
 			if ([_location] call powerCheck) then {_texto = format ["%1\n\nPowered",_texto]} else {_texto = format ["%1\n\nNo Powered",_texto]};
 			if (_side == "AAF") then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
-			if (_location in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
+			if (_location in AS_P("destroyedLocations")) then {_texto = format ["%1\nDESTROYED",_texto]};
 		};
 		if (_type == "factory") then {
 			if (_side == "AAF") then {
@@ -95,7 +95,7 @@ while {visibleMap} do
 			};
 			if ([_location] call powerCheck) then {_texto = format ["%1\n\nPowered",_texto]} else {_texto = format ["%1\n\nNo Powered",_texto]};
 			if (_side == "AAF") then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
-			if (_location in destroyedCities) then {_texto = format ["%1\nDESTROYED",_texto]};
+			if (_location in AS_P("destroyedLocations")) then {_texto = format ["%1\nDESTROYED",_texto]};
 			};
 		if (_type == "outpost") then {
 			if (_side == "AAF") then {

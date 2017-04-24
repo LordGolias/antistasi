@@ -2,8 +2,8 @@
 AS_SERVER_ONLY("statSave/saveServer.sqf");
 params ["_saveName"];
 
-if (savingServer) exitWith {"Server data save is still in process" remoteExecCall ["hint",AS_commander]};
-savingServer = true;
+if (!isNil "AS_savingServer") exitWith {"Server data save is still in process" remoteExecCall ["hint",AS_commander]};
+AS_savingServer = true;
 
 // spawn and wait for all clients to report their data.
 private _savingPlayersHandle = ([_saveName] spawn {
@@ -16,12 +16,9 @@ private _savingPlayersHandle = ([_saveName] spawn {
 
 [_saveName, "BE_data", ([] call fnc_BE_save)] call fn_SaveStat;
 
-[_saveName, "cuentaCA", cuentaCA] call fn_SaveStat;
 [_saveName, "smallCAmrk", smallCAmrk] call fn_SaveStat;
 [_saveName, "miembros", miembros] call fn_SaveStat;
 [_saveName, "fecha", date] call fn_SaveStat;
-[_saveName, "vehInGarage", vehInGarage] call fn_SaveStat;
-[_saveName, "destroyedCities", destroyedCities] call fn_SaveStat;
 
 [_saveName] call AS_fnc_saveAAFarsenal;
 [_saveName] call AS_fnc_saveMarkers;
@@ -63,7 +60,7 @@ if (_amigo getVariable ["BLUFORSpawn",false]) then
 				{
 				_veh = vehicle _amigo;
 				_tipoVeh = typeOf _veh;
-				if (not(_veh in staticsToSave)) then
+				if (not(_veh in AS_P("vehicles"))) then
 					{
 					if ((_veh isKindOf "StaticWeapon") or (driver _veh == _amigo)) then
 						{
@@ -125,7 +122,7 @@ if ((_veh isKindOf "StaticWeapon") and (_testDist < 50)) then {
 // saves vehicles close to the HQ.
 if (_veh distance getMarkerPos "FIA_HQ" < 50) then
 	{
-	if ((not (_veh isKindOf "StaticWeapon")) and
+	if (!(_veh isKindOf "StaticWeapon") and
 		!(_veh isKindOf "ReammoBox") and
 		!(_veh isKindOf "FlagCarrier") and
 		!(_veh isKindOf "Building") and
@@ -187,6 +184,6 @@ waitUntil {scriptDone _savingPlayersHandle};
 
 [] call fn_SaveProfile;
 
-savingServer = false;
+AS_savingServer = nil;
 
 diag_log "[AS] server: game saved.";

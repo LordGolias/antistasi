@@ -71,7 +71,7 @@ if (_location call AS_fnc_location_spawned) then
 		[0,300] remoteExec ["resourcesFIA",2];
 		[2,0] remoteExec ["prestige",2];
 		if (_tipoVeh == opSPAA) then {[3,3] remoteExec ["prestige",2]; [0,10,_posicion] remoteExec ["citySupportChange",2]} else {[0,5,_posicion] remoteExec ["citySupportChange",2]};
-		[1200] remoteExec ["timingCA",2];
+		[1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 		{if (_x distance _veh < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 		[5,AS_commander] call playerScoreAdd;
 		["mis"] remoteExec ["fnc_BE_XP", 2];
@@ -84,7 +84,7 @@ if (dateToNumber date > _fechalimnum) then
 	[-5,-100] remoteExec ["resourcesFIA",2];
 	[5,0,_posicion] remoteExec ["citySupportChange",2];
 	if (_tipoVeh == opSPAA) then {[0,-3] remoteExec ["prestige",2]};
-	[-600] remoteExec ["timingCA",2];
+	[-600] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 	[-10,AS_commander] call playerScoreAdd;
 	};
 

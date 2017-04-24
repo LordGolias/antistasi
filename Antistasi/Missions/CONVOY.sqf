@@ -323,7 +323,7 @@ if (_tipoConvoy == "HVT") then {
 	if ((_hvt distance _posdestino < 100) or (dateToNumber date > _fechafinNum)) then
 		{
 		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescHVT,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleHVT, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-		[-1200] remoteExec ["timingCA",2];
+		[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 		[-10,AS_commander] call playerScoreAdd;
 		}
 	else
@@ -331,7 +331,7 @@ if (_tipoConvoy == "HVT") then {
 		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescHVT,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleHVT, A3_STR_INDEP],_destino],_posdestino,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 		[10,0] remoteExec ["prestige",2];
 		[0,5,_posdestino] remoteExec ["citySupportChange",2];
-		[1800] remoteExec ["timingCA",2];
+		[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 		{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_hvt,"BLUFORSpawn"] call distanceUnits);
 		[5,AS_commander] call playerScoreAdd;
 		[position _hvt] spawn patrolCA;
@@ -346,7 +346,7 @@ if (_tipoConvoy == "Municion") then
 	if ((_vehObj distance _posdestino < 100) or (dateToNumber date >_fechafinNum)) then
 		{
 		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMun,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMun, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"rearm"] call BIS_fnc_setTask;
-		[-1200] remoteExec ["timingCA",2];
+		[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 		[-10,AS_commander] call playerScoreAdd;
 		[_vehObj] call emptyCrate;
 		}
@@ -354,7 +354,7 @@ if (_tipoConvoy == "Municion") then
 		{
 		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMun,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMun, A3_STR_INDEP],_destino],_posdestino,"SUCCEEDED",5,true,true,"rearm"] call BIS_fnc_setTask;
 		[0,300] remoteExec ["resourcesFIA",2];
-		[1800] remoteExec ["timingCA",2];
+		[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 		{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_vehObj,"BLUFORSpawn"] call distanceUnits);
 		[5,AS_commander] call playerScoreAdd;
 		[position _vehObj] spawn patrolCA;
@@ -369,7 +369,7 @@ if (_tipoConvoy == "Armor") then
 		{
 		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescArm,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleArm, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 		server setVariable [_destino,dateToNumber date,true];
-		[-1200] remoteExec ["timingCA",2];
+		[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 		[-10,AS_commander] call playerScoreAdd;
 		}
 	else
@@ -377,7 +377,7 @@ if (_tipoConvoy == "Armor") then
 		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescArm,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleArm, A3_STR_INDEP],_destino],_posdestino,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 		[5,0] remoteExec ["prestige",2];
 		[0,5,_posdestino] remoteExec ["citySupportChange",2];
-		[2700] remoteExec ["timingCA",2];
+		[2700] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 		{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_vehObj,"BLUFORSpawn"] call distanceUnits);
 		[5,AS_commander] call playerScoreAdd;
 		[position _vehObj] spawn patrolCA;
@@ -435,14 +435,14 @@ if (_tipoConvoy == "Money") then
 		if ((dateToNumber date > _fechafinNum) or (_vehObj distance _posdestino < 100)) then
 			{
 			[5000] remoteExec ["resourcesAAF",2];
-			[-1200] remoteExec ["timingCA",2];
+			[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 			[-10,AS_commander] call playerScoreAdd;
 			}
 		else
 			{
 			[position _vehObj] spawn patrolCA;
 			[-5000] remoteExec ["resourcesAAF",2];
-			[2700] remoteExec ["timingCA",2];
+			[2700] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 			};
 		};
 	if (driver _vehObj getVariable ["BLUFORSpawn",false]) then
@@ -453,7 +453,7 @@ if (_tipoConvoy == "Money") then
 			{
 			_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMny,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMny, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"move"] call BIS_fnc_setTask;
 			[-5000] remoteExec ["resourcesAAF",2];
-			[1800] remoteExec ["timingCA",2];
+			[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 			};
 		if (_vehObj distance _posHQ < 50) then
 			{
@@ -462,7 +462,7 @@ if (_tipoConvoy == "Money") then
 			[10,-20,_destino] remoteExec ["citySupportChange",2];
 			[-20,0] remoteExec ["prestige",2];
 			[0,5000] remoteExec ["resourcesFIA",2];
-			[-1200] remoteExec ["timingCA",2];
+			[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 			{if (_x distance _vehObj < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 			[5,AS_commander] call playerScoreAdd;
 			["mis"] remoteExec ["fnc_BE_XP", 2];

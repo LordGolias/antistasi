@@ -65,7 +65,7 @@ if (_location call AS_fnc_location_spawned) then
 		{
 		_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
 			_tskTitle,_location],_posicion,"FAILED",5,true,true,"rearm"] call BIS_fnc_setTask;
-		[-1200] remoteExec ["timingCA",2];
+		[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 		[-10,AS_commander] call playerScoreAdd;
 		};
 	if ((not alive _camion) or ({_x getVariable ["BLUFORSpawn",false]} count crew _camion > 0)) then
@@ -74,7 +74,7 @@ if (_location call AS_fnc_location_spawned) then
 		_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
 			_tskTitle,_location],_posicion,"SUCCEEDED",5,true,true,"rearm"] call BIS_fnc_setTask;
 		[0,300] remoteExec ["resourcesFIA",2];
-		[1200] remoteExec ["timingCA",2];
+		[1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 		{if (_x distance _camion < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 		[5,AS_commander] call playerScoreAdd;
 		["mis"] remoteExec ["fnc_BE_XP", 2];
@@ -84,7 +84,7 @@ else
 	{
 	_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
 		_tskTitle,_location],_posicion,"FAILED",5,true,true,"rearm"] call BIS_fnc_setTask;
-	[-1200] remoteExec ["timingCA",2];
+	[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 	[-10,AS_commander] call playerScoreAdd;
 	};
 

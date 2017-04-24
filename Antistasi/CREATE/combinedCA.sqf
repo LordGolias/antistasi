@@ -277,11 +277,7 @@ else
 	waitUntil {sleep 1; !(_location call AS_fnc_location_spawned)};
 	};
 
-if (cuentaCA < 0) then {
-	cuentaCA = 600;
-};
-
-[2700] remoteExec ["timingCA",2];
+[2700] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 
 sleep 30;
 

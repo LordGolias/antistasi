@@ -2,42 +2,40 @@
 AS_SERVER_ONLY("AAFeconomics.sqf");
 private ["_resourcesAAF","_coste","_destroyedCities","_destroyed","_nombre"];
 
+waitUntil {isNil "AS_resourcesIsChanging"};
+AS_resourcesIsChanging = true;
+
 _resourcesAAF = AS_P("resourcesAAF");
 
 private _debug_prefix = "AAFeconomics: ";
 private _debug_message = format ["Starting to buy with %1", _resourcesAAF];
 AS_ISDEBUG(_debug_prefix + _debug_message);
 
-waitUntil {!resourcesIsChanging};
-resourcesIsChanging = true;
-
 // This is needed only before AAF buys equipment.
 call AS_fnc_updateAAFarsenal;
 
 //////////////// try to restore cities ////////////////
-if (_resourcesAAF > 5000) then
-	{
-	_destroyedCities = destroyedCities arrayIntersect (call AS_fnc_location_cities);
-	if (count _destroyedCities > 0) then
+if (_resourcesAAF > 5000) then {
+	// todo: this only repairs cities. It should repair everything.
+	_destroyedCities = AS_P("destroyedLocations") arrayIntersect (call AS_fnc_location_cities);
+	private _repaired = [];
+	if (count _destroyedCities > 0) then {
 		{
-		{
-		_destroyed = _x;
-		if ((_resourcesAAF > 5000) and (not(_destroyed call AS_fnc_location_spawned))) then
-			{
-			_resourcesAAF = _resourcesAAF - 5000;
-			destroyedCities = destroyedCities - [_destroyed];
-			private _type = _destroyed call AS_fnc_location_type;
-			private _position = _destroyed call AS_fnc_location_position;
-			private _nombre = [_destroyed] call localizar;
-			publicVariable "destroyedCities";
-			[10,0,_position] remoteExec ["citySupportChange",2];
-			[-5,0] remoteExec ["prestige",2];
-			if (_type == "powerplant") then {[_destroyed] call powerReorg};
-			[["TaskFailed", ["", format ["%1 rebuilt by AAF",_nombre]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
+			_destroyed = _x;
+			if ((_resourcesAAF > 5000) and (not(_destroyed call AS_fnc_location_spawned))) then {
+				_resourcesAAF = _resourcesAAF - 5000;
+				_repaired pushBack _destroyed;
+				private _type = _destroyed call AS_fnc_location_type;
+				private _position = _destroyed call AS_fnc_location_position;
+				private _nombre = [_destroyed] call localizar;
+				[50,0,_position] remoteExec ["citySupportChange",2];
+				[-5,0] remoteExec ["prestige",2];
+				if (_type == "powerplant") then {[_destroyed] call powerReorg};
+				[["TaskFailed", ["", format ["%1 rebuilt by AAF",_nombre]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 			};
 		} forEach _destroyedCities;
-		}
-	else
+		AS_Pset("destroyedLocations", _destroyedCities - _repaired);
+	} else
 		{
 		if ((count antenasMuertas > 0) and (not("REP" in misiones))) then
 			{
@@ -117,4 +115,4 @@ if (_resourcesAAF > 2000) then
 	};
 AS_Pset("resourcesAAF",round _resourcesAAF);
 
-resourcesIsChanging = false;
+AS_resourcesIsChanging = nil;

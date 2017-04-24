@@ -15,7 +15,7 @@ _threat = _threat + 2 * (
 	private _garrison = _x call AS_fnc_location_garrison;
 	if (_otherPosition distance _position < AS_P("spawnDistance")) then {
 		_threat = _threat + (2*({(_x == "Ammo Bearer")} count _garrison)) + (floor((count _garrison)/8));
-		private _estaticas = staticsToSave select {_x distance _otherPosition < _size};
+		private _estaticas = AS_P("vehicles") select {_x distance _otherPosition < _size};
 		if (count _estaticas > 0) then {
 			_threat = _threat + ({typeOf _x in allStatMortars} count _estaticas) + (2*({typeOf _x in allStatATs} count _estaticas));
 		};

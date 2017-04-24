@@ -9,7 +9,7 @@ private _civs = [];
 
 private _posicion = _location call AS_fnc_location_position;
 private _size = _location call AS_fnc_location_size;
-private _isDestroyed = _location in destroyedCities;
+private _isDestroyed = _location in AS_P("destroyedLocations");
 
 // spawn flag
 private _flag = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];

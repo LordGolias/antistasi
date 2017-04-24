@@ -99,7 +99,7 @@ fnc_addMoveObjAction = {
 	{
 		removeAllActions _x;
 		_x addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == AS_commander)", 5];
-	} forEach staticsToSave + _objs;
+	} forEach AS_P("vehicles") + _objs;
 };
 
 // (un-)lock a vehicle

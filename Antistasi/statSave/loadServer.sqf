@@ -9,21 +9,27 @@ petros allowdamage false;
 [_saveName] call AS_fnc_loadMarkers;
 [true] call fnc_MAINT_arsenal;
 
-[_saveName, "destroyedCities"] call fn_LoadStat; publicVariable "destroyedCities";
 [_saveName, "minas"] call fn_LoadStat;
-[_saveName, "cuentaCA"] call fn_LoadStat;
 [_saveName, "fecha"] call fn_LoadStat;
 [_saveName, "smallCAmrk"] call fn_LoadStat;
 [_saveName, "miembros"] call fn_LoadStat;
-[_saveName, "vehInGarage"] call fn_LoadStat;
 
 [_saveName] call AS_fnc_location_load;
 
 {
-	if (_x in destroyedCities) then {
-		[_x] call destroyCity;
+	[_x] call destroyCity;
+} forEach AS_P("destroyedLocations");
+
+// destroy the buildings.
+{
+	private _buildings = [];
+	private _dist = 5;
+	while {count _buildings == 0} do {
+		_buildings = nearestObjects [_x, listMilBld, _dist];
+		_dist = _dist + 5;
 	};
-} forEach (call AS_fnc_location_all);
+	(_buildings select 0) setDamage 1;
+} forEach AS_P("destroyedBuildings");
 
 {
 	[_x] call powerReorg;
@@ -31,7 +37,6 @@ petros allowdamage false;
 
 [_saveName] call AS_fnc_loadAAFarsenal;
 [_saveName] call AS_fnc_loadHQ;
-[_saveName, "estaticas"] call fn_LoadStat;//tiene que ser el último para que el sleep del borrado del contenido no haga que despawneen
 
 if (isMultiplayer) then {
 	{

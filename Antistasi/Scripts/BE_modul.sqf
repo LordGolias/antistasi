@@ -317,7 +317,7 @@ fnc_BE_permission = {
 			};
 		};
 		case "FIA_garage": {
-			if (BE_current_FIA_GarageCap > (count vehInGarage)) then {
+			if (BE_current_FIA_GarageCap > (count AS_P("vehiclesInGarage"))) then {
 				_result = true;
 			};
 		};
@@ -546,7 +546,7 @@ fnc_BE_C_VEH = {
 	{
 		if (_x in _type) then {_result = _result + 1};
 	//} forEach BE_vehiclesCaptured;
-	} forEach vehInGarage;
+	} forEach AS_P("vehiclesInGarage");
 
 	[(_result >= _minVal), BE_STR_CVEH]
 };

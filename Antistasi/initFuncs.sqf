@@ -46,6 +46,8 @@ AS_fnc_placeHQdefault = compile preProcessFileLineNumbers "fnc_placeHQdefault.sq
 
 AS_fnc_AAFattackScore = compile preProcessFileLineNumbers "Functions\fnc_AAFattackScore.sqf";
 
+AS_fnc_changePersistentVehicles = compile preProcessFileLineNumbers "Functions\fnc_changePersistentVehicles.sqf";
+
 minefieldAAF = compile preProcessFileLineNumbers "CREATE\minefieldAAF.sqf";
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";
 accionArsenal = compile preProcessFileLineNumbers "Municion\accionArsenal.sqf";
@@ -99,7 +101,7 @@ resourcesAAF = compile preProcessFileLineNumbers "resourcesAAF.sqf";
 VANTinfo = compile preProcessFileLineNumbers "AI\VANTinfo.sqf";
 recruitFIAgarrison = compile preProcessFileLineNumbers "REINF\recruitFIAgarrison.sqf";
 isFrontline = compile preProcessFileLineNumbers "isFrontline.sqf";
-timingCA = compile preProcessFileLineNumbers "timingCA.sqf";
+AS_fnc_changeSecondsforAAFattack = compile preProcessFileLineNumbers "Functions\fnc_changeSecondsforAAFattack.sqf";
 destroyCity = compile preProcessFileLineNumbers "destroyCity.sqf";
 CSATpunish = compile preProcessFileLineNumbers "CREATE\CSATpunish.sqf";
 FIAradio = compile preProcessFileLineNumbers "FIAradio.sqf";

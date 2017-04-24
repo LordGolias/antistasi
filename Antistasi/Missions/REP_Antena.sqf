@@ -49,7 +49,7 @@ if (_location call AS_fnc_location_spawned) then
 		_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],
 			_tskTitle,_location],_posicion,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 		[2,0] remoteExec ["prestige",2];
-		[1200] remoteExec ["timingCA",2];
+		[1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 		{if (_x distance _veh < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 		[5,AS_commander] call playerScoreAdd;
 		};
@@ -61,7 +61,7 @@ if (dateToNumber date > _fechalimnum) then
 		_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],
 			_tskTitle,_location],_posicion,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 		[2,0] remoteExec ["prestige",2];
-		[1200] remoteExec ["timingCA",2];
+		[1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 		{if (_x distance _veh < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 		[5,AS_commander] call playerScoreAdd;
 		["mis"] remoteExec ["fnc_BE_XP", 2];
@@ -71,7 +71,7 @@ if (dateToNumber date > _fechalimnum) then
 		_tsk = ["REP",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],
 			_tskTitle,_location],_posicion,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 		//[5,0,_posicion] remoteExec ["citySupportChange",2];
-		[-600] remoteExec ["timingCA",2];
+		[-600] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 		[-10,AS_commander] call playerScoreAdd;
 		};
 	antenasMuertas = antenasMuertas - [_posicion];

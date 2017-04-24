@@ -33,7 +33,7 @@ if ((not alive _antena) or (_location call AS_fnc_location_side == "FIA")) then 
 	sleep 15;
 	_tsk = ["DES",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],_tskTitle,_mrkfin],_posicion,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 	[5,-5] remoteExec ["prestige",2];
-	[600] remoteExec ["timingCA",2];
+	[600] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 	{if (_x distance _posicion < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 	[5,AS_commander] call playerScoreAdd;
 	["mis"] remoteExec ["fnc_BE_XP", 2];

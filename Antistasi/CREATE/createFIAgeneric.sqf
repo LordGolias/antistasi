@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 // Used to spawn "city","fia_hq","factory","resource","powerplant"
 if (!isServer and hasInterface) exitWith{};
 params ["_location"];
@@ -13,7 +14,7 @@ private _buildings = [];
 private _posicion = _location call AS_fnc_location_position;
 private _type = _location call AS_fnc_location_type;
 private _size = _location call AS_fnc_location_size;
-private _isDestroyed = _location in destroyedCities;
+private _isDestroyed = _location in AS_P("destroyedLocations");
 
 if (_type != "fia_hq") then {
 	// The flag
@@ -91,12 +92,7 @@ waitUntil {sleep 1; !(_location call AS_fnc_location_spawned)};
 ////////////////////// clean everything /////////////////////////
 /////////////////////////////////////////////////////////////////
 
-{
-	if ((!alive _x) and !(_x in destroyedBuildings)) then {
-		destroyedBuildings pushBack (position _x);
-	};
-	publicVariableServer "destroyedBuildings";
-} forEach _buildings;
+[_buildings] remoteExec ["AS_fnc_updatedDestroyedBuildings", 2];
 
 {
 	if (_location call AS_fnc_location_side == "FIA") then {
@@ -108,6 +104,6 @@ waitUntil {sleep 1; !(_location call AS_fnc_location_spawned)};
 	};
 } forEach _soldados;
 {deleteGroup _x} forEach _grupos;
-{if (!(_x in staticsToSave)) then {deleteVehicle _x}} forEach _vehiculos;
+{if (!(_x in AS_P("vehicles"))) then {deleteVehicle _x}} forEach _vehiculos;
 
 {deleteVehicle _x} forEach _civs;

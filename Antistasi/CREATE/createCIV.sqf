@@ -27,7 +27,7 @@ _tipociv = "";
 _tipoveh = "";
 _dirveh = 0;
 
-if (_location in destroyedCities) then {
+if (_location in AS_P("destroyedLocations")) then {
 	_numCiv = _numCiv / 10;
 	_numVeh = _numVeh / 10;
 };

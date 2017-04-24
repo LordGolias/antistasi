@@ -17,7 +17,7 @@ private _demand = (call AS_fnc_location_all) select {_x call AS_fnc_location_typ
 	private _supplyingPowerplant = [_supply,_pos] call BIS_fnc_nearestPosition;
 	private _powered = true;
 	if (_supplyingPowerplant == _location) then {
-		if ((_location in destroyedCities) or _supplySide != _demandSide) then {
+		if ((_location in AS_P("destroyedLocations")) or _supplySide != _demandSide) then {
 			_powered = false;
 		};
 		[_x,_powered] spawn apagon;

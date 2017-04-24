@@ -37,9 +37,8 @@ if (isMultiPlayer and player != AS_commander) then {
 [_veh, "FIA"] call AS_fnc_initVehicle;
 
 if (_type isKindOf "StaticWeapon") then {
-	staticsToSave pushBackUnique _veh;
-	publicVariable "staticsToSave";
 	_veh addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == AS_commander)"];
+	[_veh] call remoteExec ["AS_fnc_changePersistentVehicles", 2];
 };
 hint "Vehicle Purchased";
 player reveal _veh;

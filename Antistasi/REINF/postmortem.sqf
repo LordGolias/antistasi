@@ -14,5 +14,7 @@ if (!isNull _group) then {
 	};
 }
 else {
-	if (_killed in staticsToSave) then {staticsToSave = staticsToSave - [_killed]; publicVariable "staticsToSave";};
+	if (_killed in AS_P("vehicles")) then {
+		[_killed, false] call remoteExec ["AS_fnc_changePersistentVehicles", 2];
+	};
 };

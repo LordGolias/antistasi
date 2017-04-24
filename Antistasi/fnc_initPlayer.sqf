@@ -1,3 +1,4 @@
+#include "macros.hpp"
 waitUntil {!isNull player};
 waitUntil {player == player};
 
@@ -30,16 +31,14 @@ player addEventHandler ["HandleHeal", {
 
 player addEventHandler ["WeaponAssembled", {
 	params ["_EHunit", "_EHobj"];
-	if (_EHunit isKindOf "StaticWeapon") then {
+	if (_EHobj isKindOf "StaticWeapon") then {
 		_EHobj addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == AS_commander)"];
-		if !(_EHunit in staticsToSave) then {
-			staticsToSave pushBack _EHunit;
-			publicVariable "staticsToSave";
-			[_EHunit, "FIA"] call AS_fnc_initVehicle;
+		if !(_EHobj in AS_P("vehicles")) then {
+            [_EHobj] call remoteExec ["AS_fnc_addPersistentVehicles", 2];
 		};
-	} else {
-		_EHobj addEventHandler ["Killed",{[_this select 0] remoteExec ["postmortem",2]}];
 	};
+    [_EHobj, "FIA"] call AS_fnc_initVehicle;
+    _EHobj addEventHandler ["Killed",{[_this select 0] remoteExec ["postmortem",2]}];
 }];
 
 player addEventHandler ["WeaponDisassembled", {

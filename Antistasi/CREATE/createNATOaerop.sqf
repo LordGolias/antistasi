@@ -10,7 +10,7 @@ private _gruposFIA = [];
 
 private _posicion = _location call AS_fnc_location_position;
 private _size = _location call AS_fnc_location_size;
-private _estaticas = staticsToSave select {_x distance _posicion < _size};
+private _estaticas = AS_P("vehicles") select {_x distance _posicion < _size};
 private _prestigio = AS_P("prestigeNATO")/100;
 private _buildings = nearestObjects [_posicion, ["Land_LandMark_F"], _size / 2];
 
@@ -121,4 +121,4 @@ if (!isNull _journalist) then {deleteVehicle _journalist};
 
 {if (alive _x) then {deleteVehicle _x}} forEach _soldados;
 {deleteGroup _x} forEach _grupos;
-{if (!(_x in staticsToSave)) then {deleteVehicle _x}} forEach _vehiculos;
+{if (!(_x in AS_P("vehicles"))) then {deleteVehicle _x}} forEach _vehiculos;

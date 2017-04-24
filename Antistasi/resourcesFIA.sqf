@@ -1,8 +1,10 @@
 #include "macros.hpp"
 AS_SERVER_ONLY("resourcesFIA.sqf");
 private ["_hr","_resourcesFIA","_hrT","_resourcesFIAT"];
-waitUntil {!resourcesIsChanging};
-resourcesIsChanging = true;
+
+waitUntil {sleep 5; isNil "AS_resourcesIsChanging"};
+AS_resourcesIsChanging = true;
+
 _hr = _this select 0;
 _resourcesFIA = _this select 1;
 if (isNil "_resourcesFIA") then {diag_log "Tienes algún coste sin definit en las tablas de FIA"};
@@ -22,7 +24,7 @@ _resourcesFIAT = _resourcesFIAT max 0;
 
 AS_Pset("hr",_hrT);
 AS_Pset("resourcesFIA",_resourcesFIAT);
-resourcesIsChanging = false;
+AS_resourcesIsChanging = nil;
 
 _texto = "";
 _hrSim = "";

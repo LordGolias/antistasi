@@ -10,8 +10,6 @@ private _FIAbases = [["base","airfield"], "FIA"] call AS_fnc_location_TS;
 
 private _useCSAT = true;
 
-cuentaCA = cuentaCA + 600;  // increase the time for the next CA
-
 private _validTypes = ["base", "airfield", "outpost", "city", "roadblock"];
 
 // only attack cities and use CSAT if FIA controls a base or airfield
@@ -125,7 +123,6 @@ if ((count _objectives > 0) and (_count_easy < 3)) then {
 	} else {
 		[_location] remoteExec ["CSATpunish",HCattack]
 	};
-	cuentaCA = cuentaCA - 600;
 };
 
 if (not("CONVOY" in misiones) and count _objectives == 0) then {

@@ -2,8 +2,10 @@
 AS_SERVER_ONLY("citySupportChange.sqf");
 private ["_nato","_csat"];
 
-waitUntil {!prestigeIsChanging};
+// locking to avoid race conditions
+waitUntil {isNil "prestigeIsChanging"};
 prestigeIsChanging = true;
+
 _nato = _this select 0;
 _csat = _this select 1;
 
@@ -21,7 +23,7 @@ if (_csatT > 100) then {_csatT = 100};
 
 if (_nato != 0) then {AS_Pset("prestigeNATO",_natoT);
 if (_csat != 0) then {AS_Pset("prestigeCSAT",_csatT);
-prestigeIsChanging = false;
+prestigeIsChanging = nil;
 
 _texto = "";
 _natoSim = "";

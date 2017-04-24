@@ -1,3 +1,4 @@
+#include "macros.hpp"
 private ["_pool","_vehInGarage","_chequeo"];
 
 _pool = true;
@@ -11,7 +12,7 @@ _chequeo = false;
 
 if (_chequeo) exitWith {Hint "You cannot manage the Garage with enemies nearby"};
 vehInGarageShow = [];
-if (_pool) then {vehInGarageShow = vehInGarage} else {vehInGarageShow = personalGarage};
+if (_pool) then {vehInGarageShow = AS_P("vehiclesInGarage")} else {vehInGarageShow = personalGarage};
 
 if (count vehInGarageShow == 0) exitWith {hintC "The Garage is empty"};
 _break = false;
@@ -101,16 +102,15 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown",
 				[garageVeh, "FIA"] call AS_fnc_initVehicle;
 				["<t size='0.6'>Vehicle retrieved from Garage",0,0,3,0,0,4] spawn bis_fnc_dynamicText;
 				_pool = false;
-				if (vehInGarageShow isEqualTo vehInGarage) then {_pool = true};
+				if (vehInGarageShow isEqualTo AS_P("vehiclesInGarage")) then {_pool = true};
 				_newArr = [];
 				_found = false;
 				if (_pool) then
 					{
 					{
 					if ((_x != (vehInGarageShow select cuentaGarage)) or (_found)) then {_newArr pushBack _x} else {_found = true};
-					} forEach vehInGarage;
-					vehInGarage = _newArr;
-					publicVariable "vehInGarage";
+					} forEach AS_P("vehiclesInGarage");
+					AS_Pset("vehiclesInGarage", _newArr);
 					}
 				else
 					{
@@ -120,7 +120,9 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown",
 					personalGarage = _newArr;
 					garageVeh setVariable ["duenyo",getPlayerUID player,true];
 					};
-				if (garageVeh isKindOf "StaticWeapon") then {staticsToSave = staticsToSave + [garageVeh]; publicVariable "staticsToSave"};
+				if (garageVeh isKindOf "StaticWeapon") then {
+					[garageVeh] remoteExec ["AS_fnc_changePersistentVehicles", 2];
+				};
 				[garageVeh] call emptyCrate;
 				garageVeh allowDamage true;
 				garageVeh enableSimulationGlobal true;

@@ -28,12 +28,12 @@ while {true} do {
 		};
 	} forEach vehicles;
 
+	// update the counter by the time that has passed
+	[-_timeBetweenResources] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
+
 	// start AAF attacks under certain conditions.
-	cuentaCA = cuentaCA - _timeBetweenResources;
-	publicVariable "cuentaCA";
-	if ((cuentaCA < 1) and (diag_fps > AS_P("minimumFPS"))) then {
+	if ((AS_P("secondsForAAFAttack") < 1) and (diag_fps > AS_P("minimumFPS"))) then {
 		private _awActive = server getVariable ["waves_active",false];
-		[1200] remoteExec ["timingCA",2];
 		if ((not("AtaqueAAF" in misiones)) and !_awActive) then {
 			private _script = [] spawn ataqueAAF;
 			waitUntil {sleep 5; scriptDone _script};

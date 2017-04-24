@@ -29,12 +29,7 @@ _l5 = ["Petros", "CSAT has lost the bleeps, the sweeps, and the creeps."];
 _l6 = ["Petros", _text];
 [[_l5, _l6],"SIDE",0.15] execVM "createConv.sqf";
 
-if (cuentaCA < 0) then {
-	cuentaCA = _delay * 60;
-}
-else {
-	cuentaCA = cuentaCA + (_delay * 60);
-};
+[_delay * 60, false] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 
 _jtime = dateToNumber [date select 0, date select 1, date select 2, date select 3, (date select 4) + _cd];
 

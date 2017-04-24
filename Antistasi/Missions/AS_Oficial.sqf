@@ -36,7 +36,7 @@ if (not alive _oficial) then {
 	_tsk = ["AS",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
 		_tskTitle,_location],_posicion,"SUCCEEDED",5,true,true,"Kill"] call BIS_fnc_setTask;
 	[0,300] remoteExec ["resourcesFIA",2];
-	[1800] remoteExec ["timingCA",2];
+	[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_posicion,"BLUFORSpawn"] call distanceUnits);
 	[5,AS_commander] call playerScoreAdd;
 	[_location,30] call AS_fnc_location_increaseBusy;
@@ -44,7 +44,7 @@ if (not alive _oficial) then {
 } else {
 	_tsk = ["AS",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
 		_tskTitle,_location],_posicion,"FAILED",5,true,true,"Kill"] call BIS_fnc_setTask;
-	[-600] remoteExec ["timingCA",2];
+	[-600] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 	[-10,AS_commander] call playerScoreAdd;
 	[_location,-30] call AS_fnc_location_increaseBusy;
 };

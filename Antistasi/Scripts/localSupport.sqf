@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (isDedicated) exitWith {};
 
 private ["_location", "_data", "_prestigeOPFOR", "_prestigeBLUFOR", "_text", "_icon", "_power", "_pColour", "_info"];
@@ -11,7 +12,7 @@ while {true} do {
 	private _side = _power call AS_fnc_location_side;
 	_pSide = CGREY;
 	call {
-		if (_power in destroyedCities) exitWith {_icon = '\A3\ui_f\data\map\mapcontrol\power_ca.paa'; _pSide = CGREY};
+		if (_power in AS_P("destroyedLocations")) exitWith {_icon = '\A3\ui_f\data\map\mapcontrol\power_ca.paa'; _pSide = CGREY};
 		if (_side == "AAF") exitWith {_icon = '\A3\ui_f\data\map\mapcontrol\power_ca.paa'; _pSide = CGREEN};
 		if (_side == "FIA") exitWith {_icon = '\A3\ui_f\data\map\mapcontrol\power_ca.paa'; _pSide = CBLUE};
 	};
@@ -25,7 +26,7 @@ while {true} do {
 		private _AAFsupport = [_city, "AAFsupport"] call AS_fnc_location_get;
 		private _side = _city call AS_fnc_location_side;
 
-		if (_city in destroyedCities) exitWith {_icon = '\A3\ui_f\data\map\mapcontrol\power_ca.paa'; _pSide = CGREY};
+		if (_city in AS_P("destroyedLocations")) exitWith {_icon = '\A3\ui_f\data\map\mapcontrol\power_ca.paa'; _pSide = CGREY};
 		if (_side == "AAF") exitWith {_icon = '\A3\ui_f\data\map\mapcontrol\power_ca.paa'; _pSide = CGREEN};
 		if (_side == "FIA") exitWith {_icon = '\A3\ui_f\data\map\mapcontrol\power_ca.paa'; _pSide = CBLUE};
 

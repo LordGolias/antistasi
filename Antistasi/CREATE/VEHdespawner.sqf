@@ -29,7 +29,9 @@ if ((typeOf _veh in arrayCivVeh) and ({_x getVariable ["BLUFORSpawn",false]} cou
 	};
 while {alive _veh} do
 	{
-	if ((not([AS_P("spawnDistance"),1,_veh,"BLUFORSpawn"] call distanceUnits)) and (not([AS_P("spawnDistance"),1,_veh,"OPFORSpawn"] call distanceUnits)) and (not(_veh in staticsToSave)) and (_veh distance getMarkerPos "FIA_HQ" > 100)) then
+	if ((not([AS_P("spawnDistance"),1,_veh,"BLUFORSpawn"] call distanceUnits)) and
+		(not([AS_P("spawnDistance"),1,_veh,"OPFORSpawn"] call distanceUnits)) and
+		(not(_veh in AS_P("vehicles"))) and (_veh distance getMarkerPos "FIA_HQ" > 100)) then
 		{
 		//hint format ["%1 se lo ha cargado el despawner",_veh];
 		if (_veh in reportedVehs) then {reportedVehs = reportedVehs - [_veh]; publicVariable "reportedVehs"};

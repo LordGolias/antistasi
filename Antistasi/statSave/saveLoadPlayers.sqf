@@ -7,6 +7,7 @@ Relevant functions of this module:
 		- AS_fnc_loadLocalPlayer: loads player data.
 		- AS_fnc_saveLocalPlayer: saves player on the server.
 */
+#include "../macros.hpp"
 
 // The ids and data of the players. Everyone has this list locally because
 // games can be saved by anyone (as anyone can be a commander).
@@ -27,7 +28,7 @@ AS_fnc_serializeLocalPlayer = {
 			if (vehicle _hired != _hired) then {
 				_veh = vehicle _hired;
 				_tipoVeh = typeOf _veh;
-				if (not(_veh in staticsToSave)) then {
+				if (not(_veh in AS_P("vehicles"))) then {
 					if ((_veh isKindOf "StaticWeapon") or (driver _veh == _hired)) then {
 						_money = _money + ([_tipoVeh] call FIAvehiclePrice);
 						if (count attachedObjects _veh != 0) then {{_money = _money + ([typeOf _x] call FIAvehiclePrice)} forEach attachedObjects _veh};

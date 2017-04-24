@@ -1,3 +1,4 @@
+#include "macros.hpp"
 params ["_location", ["_restructured", false]];
 private ["_texto","_garrison","_size","_posicion"];
 
@@ -11,7 +12,7 @@ if (_restructured) then {
 };
 
 _text = format ["Garrison size: %1" + _lineBreak, count _garrison] +
-        format ["; Statics: %1", {_x distance _position < _size} count staticsToSave];
+        format ["; Statics: %1", {_x distance _position < _size} count AS_P("vehicles")];
 {
     private _type = _x;
     private _count = {_x == _type} count _garrison;

@@ -13,7 +13,7 @@ _soldados = [];
 
 if (server getVariable "blockCSAT") exitWith {};
 
-if ({(_x distance _posicion < 500) and ((typeOf _x == "B_static_AA_F") or (typeOf _x == statAA))} count staticsToSave > 4) exitWith {};
+if ({(_x distance _posicion < 500) and ((typeOf _x == "B_static_AA_F") or (typeOf _x == statAA))} count AS_P("vehicles") > 4) exitWith {};
 
 _tsk = ["DEF_HQ",[side_blue,civilian],[_tskDesc,_tskTitle,"FIA_HQ"],_posicion,"CREATED",5,true,true,"Defend"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";

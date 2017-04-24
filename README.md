@@ -181,3 +181,12 @@ Vehicles are bought by FIA or AAF, or are spawned by NATO/CSAT. Afterwards:
 The AAF has an arsenal of vehicles that it buys with AAF money.
 AAF has different categories of vehicles that are defined in `AAFarsenal.sqf`
 that can be modified in the `templates/` (e.g. for RHS).
+
+## AAF attacks
+
+The AAF attacks from time to time. The relevant variable that controls this is the
+`AS_P("secondsForAAFattack")`. This variable is modified via `fnc_changeSecondsForAAFattack`.
+The script that starts attacks is the `ataqueAAF.sqf`. It is run from the loop in `resourcecheck.sqf`
+when `AS_P("secondsForAAFattack") == 0`. `ataqueAAF.sqf` checks whether it is worth to attack
+a given location, and, if yes, it spawns the attack accordingly using `CSATpunish.sqf` (for cities),
+`combinedCA.sqf` (for other locations), and `Mission/CONVOY.sqf` (when no locations are available to attack).

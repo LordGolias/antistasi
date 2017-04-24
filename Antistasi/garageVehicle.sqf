@@ -1,3 +1,4 @@
+#include "macros.hpp"
 private ["_pool","_veh","_tipoVeh"];
 _pool = false;
 if (_this select 0) then {_pool = true};
@@ -57,7 +58,7 @@ if (_permission) then {
 
 if !(_permission) exitWith {hint _text};
 
-if (_veh in staticsToSave) then {staticsToSave = staticsToSave - [_veh]; publicVariable "staticsToSave"};
+[_veh, false] remoteExec ["AS_fnc_changePersistentVehicles", 2];
 
 if (server getVariable "lockTransfer") exitWith {
 	{
@@ -83,8 +84,7 @@ if ((count FIA_texturedVehicles > 0) && !(_tipoVeh in FIA_texturedVehicles)) the
 
 if (_pool) then
 	{
-	vehInGarage = vehInGarage + [_tipoVeh];
-	publicVariable "vehInGarage";
+		AS_Pset("vehiclesInGarage", AS_P("vehiclesInGarage") + [_tipoVeh]);
 	hint "Vehicle added to FIA Garage";
 	}
 else

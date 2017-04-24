@@ -134,11 +134,10 @@ else {
 	_tsk = ["AtaqueAAF",[side_blue,civilian],[format ["CSAT is making a punishment expedition to %1. They will kill everybody there. Defend the city at all costs",_nombredest],"CSAT Punishment",_mrkDestino],_posdestino,"FAILED",10,true,true,"Defend"] call BIS_fnc_setTask;
 	[-5,-20,_posdestino] remoteExec ["citySupportChange",2];
 	{[0,-5,_x] remoteExec ["citySupportChange",2]} forEach (call AS_fnc_location_cities);
-	destroyedCities = destroyedCities + [_mrkDestino];
-	if (count destroyedCities > 7) then {
+	AS_Pset("destroyedLocations", AS_P("destroyedLocations") + [_mrkDestino]);
+	if (count AS_P("destroyedLocations") > 7) then {
 		 ["destroyedCities",false,true] remoteExec ["BIS_fnc_endMission",0];
 	};
-	publicVariable "destroyedCities";
 	for "_i" from 1 to 60 do {
 		createMine ["APERSMine",_posdestino,[],_size];
 	};
@@ -148,7 +147,7 @@ else {
 sleep 15;
 
 [0,_tsk] spawn borrarTask;
-[7200] remoteExec ["timingCA",2];
+[7200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 {
 waitUntil {sleep 1; !([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits)};
 deleteVehicle _x;

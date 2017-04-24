@@ -42,7 +42,7 @@ _coste = _coste * (1-damage _veh);
 
 [0,_coste] remoteExec ["resourcesFIA",2];
 
-if (_veh in staticsToSave) then {staticsToSave = staticsToSave - [_veh]; publicVariable "staticsToSave"};
+[_veh, false] remoteExec ["AS_fnc_changePersistentVehicles", 2];
 if (_veh in reportedVehs) then {reportedVehs = reportedVehs - [_veh]; publicVariable "reportedVehs"};
 
 [_veh] call vaciar;

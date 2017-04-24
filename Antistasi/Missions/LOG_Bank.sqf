@@ -58,7 +58,7 @@ if ((dateToNumber date > _fechalimnum) or (!alive _camion)) then
 	{
 	_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],_tskTitle,_mrkfin],_posicion,"FAILED",5,true,true,"Interact"] call BIS_fnc_setTask;
 	[5000] remoteExec ["resourcesAAF",2];
-	[-1800] remoteExec ["timingCA",2];
+	[-1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 	[-10,AS_commander] call playerScoreAdd;
 	}
 else
@@ -105,7 +105,7 @@ if ((_camion distance _posbase < 50) and (dateToNumber date < _fechalimnum)) the
 	_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],_tskTitle,_mrkfin],_posicion,"SUCCEEDED",5,true,true,"Interact"] call BIS_fnc_setTask;
 	[0,5000] remoteExec ["resourcesFIA",2];
 	[-2,0] remoteExec ["prestige",2];
-	[1800] remoteExec ["timingCA",2];
+	[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 	{if (_x distance _camion < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 	[5,AS_commander] call playerScoreAdd;
 	["mis"] remoteExec ["fnc_BE_XP", 2];
@@ -113,7 +113,7 @@ if ((_camion distance _posbase < 50) and (dateToNumber date < _fechalimnum)) the
 if (!alive _camion) then
 	{
 	_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP],_tskTitle,_mrkfin],_posicion,"FAILED",5,true,true,"Interact"] call BIS_fnc_setTask;
-	[1800] remoteExec ["timingCA",2];
+	[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 	[-10,AS_commander] call playerScoreAdd;
 	};
 
