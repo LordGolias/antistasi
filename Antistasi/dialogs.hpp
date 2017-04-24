@@ -333,7 +333,7 @@ class boost_menu // 390
 	AS_FRAME(1, "Is the start too hard for you?");
 
 	#define STR_BST_YES "closeDialog 0; if (player == AS_commander) then {[[], ""boost.sqf""] remoteExec [""execVM"", 2];};if ((player == AS_commander) and (isNil ""placementDone"")) then {[] spawn placementselection};"
-	#define STR_BST_NO "closeDialog 0; [false] remoteExec [""fnc_MAINT_arsenal"", 2]; if (hayBE) then {[] call fnc_BE_refresh}; if ((player == AS_commander) and (isNil ""placementDone"")) then {[] spawn placementselection};"
+	#define STR_BST_NO "closeDialog 0; [false] remoteExec [""fnc_MAINT_arsenal"", 2]; [] call fnc_BE_refresh; if ((player == AS_commander) and (isNil ""placementDone"")) then {[] spawn placementselection};"
 
 	BTN_L(1,-1, "YES", "You'll get some resources, and basic gear will be unlocked", STR_BST_YES);
 	BTN_R(1,-1, "NO", "Pea shooters, iron sights and plain clothes it is", STR_BST_NO);

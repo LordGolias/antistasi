@@ -11,19 +11,14 @@ if ((isNil "_hr") or (isNil "_resourcesFIA")) exitWith {};
 _hrT = AS_P("hr");
 _resourcesFIAT = AS_P("resourcesFIA");
 
-// BE module
-if (hayBE) then {
-	if (_hr > 0) then {
-		_hr = _hr min (["HR"] call fnc_BE_permission);
-	};
-};
-// BE module
-
 _hrT = _hrT + _hr;
 _resourcesFIAT = round (_resourcesFIAT + _resourcesFIA);
 
-if (_hrT < 0) then {_hrT = 0};
-if (_resourcesFIAT < 0) then {_resourcesFIAT = 0};
+if (_hrT > 0) then {
+	_hrT = _hrT min (["HR"] call fnc_BE_permission);
+};
+_hrT = _hrT max 0;
+_resourcesFIAT = _resourcesFIAT max 0;
 
 AS_Pset("hr",_hrT);
 AS_Pset("resourcesFIA",_resourcesFIAT);

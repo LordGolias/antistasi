@@ -295,11 +295,7 @@ else {
 	[5,0] remoteExec ["prestige",2];
 	{if (_x distance _targetPosition < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 	[5,AS_commander] call playerScoreAdd;
-	// BE module
-	if (hayBE) then {
-		["mis"] remoteExec ["fnc_BE_XP", 2];
-	};
-	// BE module
+	["mis"] remoteExec ["fnc_BE_XP", 2];
 };
 
 [1200,_tsk] spawn borrarTask;

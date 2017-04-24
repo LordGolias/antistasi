@@ -108,11 +108,7 @@ if ((_camion distance _posbase < 50) and (dateToNumber date < _fechalimnum)) the
 	[1800] remoteExec ["timingCA",2];
 	{if (_x distance _camion < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 	[5,AS_commander] call playerScoreAdd;
-	// BE module
-	if (hayBE) then {
-		["mis"] remoteExec ["fnc_BE_XP", 2];
-	};
-	// BE module
+	["mis"] remoteExec ["fnc_BE_XP", 2];
 	};
 if (!alive _camion) then
 	{

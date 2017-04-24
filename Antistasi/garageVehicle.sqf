@@ -34,32 +34,28 @@ if (!_pool) then
 
 if (_exit) exitWith {hint "You are not owner of this vehicle and you cannot garage it"};
 
-// BE module
 _permission = true;
 _checkText = "";
 _text = "Error in permission system, module garage.";
-if (hayBE) then {
-	if (_pool) then {
-		_permission = ["FIA_garage"] call fnc_BE_permission;
-		_checkText = format ["first :%1 -- %2", _permission, _checkText];
-		_text = "There's not enough space in our garage...";
-	} else {
-		_permission = ["pers_garage"] call fnc_BE_permission;
-		_checkText = format ["second :%1 -- %2", _permission, _checkText];
-		_text = "There's not enough space in your garage...";
-	};
+if (_pool) then {
+	_permission = ["FIA_garage"] call fnc_BE_permission;
+	_checkText = format ["first :%1 -- %2", _permission, _checkText];
+	_text = "There's not enough space in our garage...";
+} else {
+	_permission = ["pers_garage"] call fnc_BE_permission;
+	_checkText = format ["second :%1 -- %2", _permission, _checkText];
+	_text = "There's not enough space in your garage...";
+};
 
-	if (_permission) then {
-		_permission = ["vehicle", _tipoVeh, _veh] call fnc_BE_permission;
-		_checkText = format ["third :%1 -- %2", _permission, _checkText];
-		_text = "We cannot maintain this type of vehicle.";
-	};
+if (_permission) then {
+	_permission = ["vehicle", _tipoVeh, _veh] call fnc_BE_permission;
+	_checkText = format ["third :%1 -- %2", _permission, _checkText];
+	_text = "We cannot maintain this type of vehicle.";
 };
 
 //[petros,"hint",_checkText] remoteExec ["commsMP",AS_commander];
 
 if !(_permission) exitWith {hint _text};
-// BE module
 
 if (_veh in staticsToSave) then {staticsToSave = staticsToSave - [_veh]; publicVariable "staticsToSave"};
 

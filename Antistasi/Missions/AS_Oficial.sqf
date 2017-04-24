@@ -40,11 +40,7 @@ if (not alive _oficial) then {
 	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_posicion,"BLUFORSpawn"] call distanceUnits);
 	[5,AS_commander] call playerScoreAdd;
 	[_location,30] call AS_fnc_location_increaseBusy;
-	// BE module
-	if (hayBE) then {
-		["mis"] remoteExec ["fnc_BE_XP", 2];
-	};
-	// BE module
+	["mis"] remoteExec ["fnc_BE_XP", 2];
 } else {
 	_tsk = ["AS",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
 		_tskTitle,_location],_posicion,"FAILED",5,true,true,"Kill"] call BIS_fnc_setTask;

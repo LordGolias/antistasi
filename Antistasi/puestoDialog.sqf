@@ -44,14 +44,12 @@ if (_tipo != "delete") then {
 	// BE module
 	private _permission = true;
 	private _text = "Error in permission system, module rb/wp.";
-	if (hayBE) then {
-		if (_type == "roadblock") then {
-			_permission = ["RB"] call fnc_BE_permission;
-			_text = "We cannot maintain any additional roadblocks.";
-		} else {
-			_permission = ["WP"] call fnc_BE_permission;
-			_text = "We cannot maintain any additional watchposts.";
-		};
+	if (_type == "roadblock") then {
+		_permission = ["RB"] call fnc_BE_permission;
+		_text = "We cannot maintain any additional roadblocks.";
+	} else {
+		_permission = ["WP"] call fnc_BE_permission;
+		_text = "We cannot maintain any additional watchposts.";
 	};
 	if !(_permission) exitWith {hint _text; openMap false;};
 

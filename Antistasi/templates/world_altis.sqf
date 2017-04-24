@@ -58,7 +58,7 @@ for "_i" from 0 to (count posantenas - 1) do
             _antena = _this select 0;
             _mrk = [mrkAntenas, _antena] call BIS_fnc_nearestPosition;
             antenas = antenas - [_antena]; antenasmuertas = antenasmuertas + [getPos _antena]; deleteMarker _mrk;
-            if (hayBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
+            ["cl_loc"] remoteExec ["fnc_BE_XP", 2];
             [["TaskSucceeded", ["", "Radio Tower Destroyed"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
             }
         ];

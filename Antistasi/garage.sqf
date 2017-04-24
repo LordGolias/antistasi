@@ -125,11 +125,7 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown",
 				garageVeh allowDamage true;
 				garageVeh enableSimulationGlobal true;
 
-				// BE module
-				if (hayBE) then {
-					[garageVeh, "out"] call fnc_BE_checkVehicle;
-				};
-				// BE module
+				[garageVeh, "out"] call fnc_BE_checkVehicle;
 				};
 			};
 		_handled;

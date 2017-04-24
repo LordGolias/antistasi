@@ -13,9 +13,7 @@ private _size = _location call AS_fnc_location_size;
 [_location,"side","AAF"] call AS_fnc_location_set;
 _location call AS_fnc_location_updateMarker;
 
-if (hayBE) then {
-	["territory", -1] remoteExec ["fnc_BE_update", 2];
-};
+["territory", -1] remoteExec ["fnc_BE_update", 2];
 
 // todo: transfer alive garrison to FIA_HQ
 [_location, "garrison", []] call AS_fnc_location_set;

@@ -154,11 +154,7 @@ if (not alive _heli) then
 	[1200] remoteExec ["timingCA",2];
 	{if (_x distance _heli < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 	[5,AS_commander] call playerScoreAdd;
-	// BE module
-	if (hayBE) then {
-		["mis"] remoteExec ["fnc_BE_XP", 2];
-	};
-	// BE module
+	["mis"] remoteExec ["fnc_BE_XP", 2];
 	};
 
 if ((dateToNumber date > _fechalimnum) or (_vehT distance _posicion < 100)) then

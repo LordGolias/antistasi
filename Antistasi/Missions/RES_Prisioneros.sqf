@@ -124,11 +124,7 @@ if ({(alive _x) and (_x distance getMarkerPos "FIA_HQ" < 50)} count _POWs > 0) t
 	{if (_x distance getMarkerPos "FIA_HQ" < 500) then {[_cuenta,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 	[round (_cuenta/2),AS_commander] call playerScoreAdd;
 	{[_x] join _grpPOW; [_x] orderGetin false} forEach _POWs;
-	// BE module
-	if (hayBE) then {
-		["mis"] remoteExec ["fnc_BE_XP", 2];
-	};
-	// BE module
+	["mis"] remoteExec ["fnc_BE_XP", 2];
 	};
 
 sleep 60;

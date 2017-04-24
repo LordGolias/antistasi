@@ -123,7 +123,7 @@ if ((call _fnc_isAADestroyed) and (call _fnc_isCleaned)) then {
 	_location call AS_fnc_location_updateMarker;
 
 	[_posicion] remoteExec ["patrolCA",HCattack];
-	if (hayBE) then {["cl_loc"] remoteExec ["fnc_BE_XP", 2]};
+	["cl_loc"] remoteExec ["fnc_BE_XP", 2];
 };
 
 waitUntil {sleep 1; !(_location call AS_fnc_location_spawned)};

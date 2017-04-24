@@ -110,7 +110,6 @@ fnc_BE_pushVariables = {
 	publicVariable "BE_class_MRAP";
 	publicVariable "BE_mil_vehicles";
 
-	publicVariable "hayBE";
 	publicVariable "BE_currentStage";
 	publicVariable "BE_currentPrice";
 };

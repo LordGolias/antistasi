@@ -335,12 +335,8 @@ if (_tipoConvoy == "HVT") then {
 		{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_hvt,"BLUFORSpawn"] call distanceUnits);
 		[5,AS_commander] call playerScoreAdd;
 		[position _hvt] spawn patrolCA;
-		// BE module
-		if (hayBE) then {
-			["mis"] remoteExec ["fnc_BE_XP", 2];
-		};
-		// BE module
-		};
+		["mis"] remoteExec ["fnc_BE_XP", 2];
+	};
 };
 
 
@@ -362,11 +358,7 @@ if (_tipoConvoy == "Municion") then
 		{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_vehObj,"BLUFORSpawn"] call distanceUnits);
 		[5,AS_commander] call playerScoreAdd;
 		[position _vehObj] spawn patrolCA;
-		// BE module
-		if (hayBE) then {
-			["mis"] remoteExec ["fnc_BE_XP", 2];
-		};
-		// BE module
+		["mis"] remoteExec ["fnc_BE_XP", 2];
 		};
 	};
 
@@ -389,11 +381,7 @@ if (_tipoConvoy == "Armor") then
 		{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_vehObj,"BLUFORSpawn"] call distanceUnits);
 		[5,AS_commander] call playerScoreAdd;
 		[position _vehObj] spawn patrolCA;
-		// BE module
-		if (hayBE) then {
-			["mis"] remoteExec ["fnc_BE_XP", 2];
-		};
-		// BE module
+		["mis"] remoteExec ["fnc_BE_XP", 2];
 		};
 	};
 
@@ -433,11 +421,7 @@ if (_tipoConvoy == "Prisoners") then
 			{[_x] join _grppow; [_x] orderGetin false} forEach _POWs;
 			{[_cuenta,_x] call playerScoreAdd} forEach (allPlayers - hcArray);
 			[round (_cuenta/2),AS_commander] call playerScoreAdd;
-			// BE module
-			if (hayBE) then {
-				["mis"] remoteExec ["fnc_BE_XP", 2];
-			};
-			// BE module
+			["mis"] remoteExec ["fnc_BE_XP", 2];
 			};
 		};
 	};
@@ -481,11 +465,7 @@ if (_tipoConvoy == "Money") then
 			[-1200] remoteExec ["timingCA",2];
 			{if (_x distance _vehObj < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 			[5,AS_commander] call playerScoreAdd;
-			// BE module
-			if (hayBE) then {
-				["mis"] remoteExec ["fnc_BE_XP", 2];
-			};
-			// BE module
+			["mis"] remoteExec ["fnc_BE_XP", 2];
 			waitUntil {sleep 1; speed _vehObj < 1};
 			[_vehObj] call vaciar;
 			deleteVehicle _vehObj;
@@ -518,11 +498,7 @@ if (_tipoConvoy == "Supplies") then
 				[0,15,_destino] remoteExec ["citySupportChange",2];
 				{if (_x distance _vehObj < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 				[5,AS_commander] call playerScoreAdd;
-				// BE module
-				if (hayBE) then {
-					["mis"] remoteExec ["fnc_BE_XP", 2];
-				};
-				// BE module
+				["mis"] remoteExec ["fnc_BE_XP", 2];
 				}
 			else
 				{

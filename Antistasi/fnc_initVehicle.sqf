@@ -62,7 +62,7 @@ private _aaf_veh_EHkilled = {
 		if (_citySupportEffect != 0) then {
 			[-_citySupportEffect,_citySupportEffect,position _veh] remoteExec ["citySupportChange",2];
 		};
-		if (_xpEffect != "" and hayBE) then {[_xpEffect] remoteExec ["fnc_BE_XP", 2]};
+		if (_xpEffect != "") then {[_xpEffect] remoteExec ["fnc_BE_XP", 2]};
 	};
 };
 

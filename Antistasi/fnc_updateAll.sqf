@@ -72,7 +72,7 @@ private _FIAResIncomeMultiplier = 1;
         [["TaskSucceeded", ["", format ["%1 joined FIA",[_city, false] call AS_fnc_getLocationName]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
         _city call AS_fnc_location_updateMarker;
 
-        if (hayBE) then {["con_cit"] remoteExec ["fnc_BE_XP", 2]};
+        ["con_cit"] remoteExec ["fnc_BE_XP", 2];
         [0,5] remoteExec ["prestige",2];
         [_city, !_power] spawn apagon;
         sleep 5;
@@ -129,10 +129,8 @@ _AAFnewMoney = AS_P("resourcesAAF") + round _AAFnewMoney;
 _FIAnewMoney = AS_P("resourcesFIA") + round _FIAnewMoney;
 _FIAnewHR = AS_P("hr") + round _FIAnewHR;
 
-if (hayBE) then {
-    if (_FIAnewHR > 0) then {
-        _FIAnewHR = _FIAnewHR min (["HR"] call fnc_BE_permission);
-    };
+if (_FIAnewHR > 0) then {
+    _FIAnewHR = _FIAnewHR min (["HR"] call fnc_BE_permission);
 };
 
 [[petros,"taxRep",_texto],"commsMP"] call BIS_fnc_MP;

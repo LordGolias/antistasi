@@ -1,14 +1,7 @@
 #include "../macros.hpp"
 if (player != AS_commander) exitWith {hint "Only Commander AS_commander has access to this function"};
 
-// BE module
-_permission = true;
-if (hayBE) then {
-	_permission = ["skill"] call fnc_BE_permission;
-};
-
-if !(_permission) exitWith {hint "Our troops are not experienced enough to be trained yet."};
-// BE module
+if !(["skill"] call fnc_BE_permission) exitWith {hint "Our troops are not experienced enough to be trained yet."};
 
 _skillFIA = AS_P("skillFIA");
 if (_skillFIA > 19) exitWith {hint "Your troops have the maximum training"};

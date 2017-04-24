@@ -60,11 +60,8 @@ else
 	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_posicion,"BLUFORSpawn"] call distanceUnits);
 	[10,AS_commander] call playerScoreAdd;
 	[0,3] remoteExec ["prestige",2];
-	// BE module
-	if (hayBE) then {
-		["mis"] remoteExec ["fnc_BE_XP", 2];
-	};
-	// BE module
+
+	["mis"] remoteExec ["fnc_BE_XP", 2];
 	};
 
 [1200,_tsk] spawn borrarTask;

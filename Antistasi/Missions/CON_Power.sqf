@@ -41,11 +41,7 @@ if (_location call AS_fnc_location_side == "FIA") then {
 	[600] remoteExec ["timingCA",2];
 	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_posicion,"BLUFORSpawn"] call distanceUnits);
 	[10,AS_commander] call playerScoreAdd;
-	// BE module
-	if (hayBE) then {
-		["mis"] remoteExec ["fnc_BE_XP", 2];
-	};
-	// BE module
+	["mis"] remoteExec ["fnc_BE_XP", 2];
 };
 
 if (_source == "civ") then {

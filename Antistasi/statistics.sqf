@@ -18,23 +18,13 @@ if (isMultiplayer) then
 	while {showStatistics} do
 		{
 		waitUntil {sleep 0.5; player == player getVariable ["owner",player]};
-		if (player != AS_commander) then
-			{
+		if (player != AS_commander) then {
 			if (isPlayer AS_commander) then {_nombreC = name AS_commander} else {_nombreC = "NONE"};
-			if (hayBE) then {
-				_texto = format ["<t size='0.55'>" + "Commander: %3 | %2 | HR: %1 | Your Money: %4 € | NATO Support: %5 | CSAT Support: %6 | %7 | %8", AS_P("hr"), player getVariable ["Rank_PBar", "Init"], _nombreC, player getVariable "dinero",AS_P("PrestigeNATO"), AS_P("prestigeCSAT"), server getVariable "BE_PBar", ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)];
-			} else {
-				_texto = format ["<t size='0.55'>" + "Commander: %3 | %2 | HR: %1 | Your Money: %4 € | NATO Support: %5 | CSAT Support: %6 | %7", AS_P("hr"), player getVariable ["Rank_PBar", "Init"], _nombreC, player getVariable "dinero",AS_P("PrestigeNATO"), AS_P("prestigeCSAT"), ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)];
-			};
+			_texto = format ["<t size='0.55'>" + "Commander: %3 | %2 | HR: %1 | Your Money: %4 € | NATO Support: %5 | CSAT Support: %6 | %7 | %8", AS_P("hr"), player getVariable ["Rank_PBar", "Init"], _nombreC, player getVariable "dinero",AS_P("PrestigeNATO"), AS_P("prestigeCSAT"), server getVariable "BE_PBar", ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)];
 		}
-		else
-			{
-				if (hayBE) then {
-					_texto = format ["<t size='0.55'>" + "%5 | HR: %1 | Your Money: %6 € | FIA Money: %2 € | NATO Support: %3 | CSAT Support: %4 | %7 | %8", AS_P("hr"), AS_P("resourcesFIA"), AS_P("PrestigeNATO"), AS_P("prestigeCSAT"), player getVariable ["Rank_PBar", "Init"], player getVariable "dinero", server getVariable "BE_PBar", ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)];
-				} else {
-					_texto = format ["<t size='0.55'>" + "%5 | HR: %1 | Your Money: %6 € | FIA Money: %2 € | NATO Support: %3 | CSAT Support: %4 | %7", AS_P("hr"), AS_P("resourcesFIA"), AS_P("PrestigeNATO"), AS_P("prestigeCSAT"), player getVariable ["Rank_PBar", "Init"], player getVariable "dinero", ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)];
-				};
-			};
+		else {
+			_texto = format ["<t size='0.55'>" + "%5 | HR: %1 | Your Money: %6 € | FIA Money: %2 € | NATO Support: %3 | CSAT Support: %4 | %7 | %8", AS_P("hr"), AS_P("resourcesFIA"), AS_P("PrestigeNATO"), AS_P("prestigeCSAT"), player getVariable ["Rank_PBar", "Init"], player getVariable "dinero", server getVariable "BE_PBar", ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)];
+		};
 		//if (captive player) then {_texto = format ["%1 ON",_texto]} else {_texto = format ["%1 OFF",_texto]};
 		if (_texto != _viejoTexto) then
 			{
@@ -55,11 +45,7 @@ else
 	while {showStatistics} do
 		{
 		waitUntil {sleep 0.5; player == player getVariable ["owner",player]};
-		if (hayBE) then {
-			_texto = format ["<t size='0.55'>" + "HR: %1 | FIA Money: %2 € | NATO Support: %3 | CSAT Support: %4 | %5 | %6", AS_P("hr"), AS_P("resourcesFIA"), AS_P("PrestigeNATO"), AS_P("prestigeCSAT"), server getVariable "BE_PBar", ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)];
-		} else {
-			_texto = format ["<t size='0.55'>" + "HR: %1 | FIA Money: %2 € | NATO Support: %3 | CSAT Support: %4 | %5", AS_P("hr"), AS_P("resourcesFIA"), AS_P("PrestigeNATO"), AS_P("prestigeCSAT"), ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)];
-		};
+		_texto = format ["<t size='0.55'>" + "HR: %1 | FIA Money: %2 € | NATO Support: %3 | CSAT Support: %4 | %5 | %6", AS_P("hr"), AS_P("resourcesFIA"), AS_P("PrestigeNATO"), AS_P("prestigeCSAT"), server getVariable "BE_PBar", ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)];
 		//if (captive player) then {_texto = format ["%1 ON",_texto]} else {_texto = format ["%1 OFF",_texto]};
 		if (_texto != _viejoTexto) then
 			{

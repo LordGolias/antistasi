@@ -305,8 +305,6 @@ AS_maxSkill = 20;
 // BE_modul handles all the permissions e.g. to build roadblocks, skill, etc.
 #include "Scripts\BE_modul.sqf"
 [] call fnc_BE_initialize;
-if !(isNil "BE_INIT") then {hayBE = true; publicVariable "hayBE"};
-publicVariable "hayBE";
 
 publicVariable "unlockedWeapons";
 publicVariable "unlockedItems";
