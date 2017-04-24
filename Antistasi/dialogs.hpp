@@ -287,21 +287,6 @@ BTN_R(1,-1, "AT Mines", "", "closeDialog 0; [""ATMine""] spawn mineDialog");
 	};
 };
 
-class fasttravel_dialog // 340
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-    AS_DIALOG(1,"Fast Travel","closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
-
-	BTN_L(1,-1, "Fast Travel (old)", "Targets: all FIA-controlled zones", "closeDialog 0; nul = [] execVM ""fastTravelRadio.sqf"";");
-	BTN_R(1,-1, "Fast Travel (new)", "Only FIA camps and HQ", "closeDialog 0; nul = [] execVM ""altFastTravel.sqf"";");
-
-	};
-};
-
 class commander_menu // 360
 {
 	idd=-1;
@@ -536,7 +521,7 @@ class radio_comm_commander
 	{
 AS_DIALOG(5,"Battle Options",A_CLOSE);
 
-BTN_L(1,-1, "Fast Travel", "", "[] call AS_UIfnc_fastTravel");
+BTN_L(1,-1, "Fast Travel", "", "closeDialog 0; [] spawn AS_fnc_fastTravel;");
 BTN_L(2,-1, "Disguise Yourself", "", "closeDialog 0; nul = [] spawn undercover");
 BTN_L(3,-1, "Vehicle Manager", "", "closeDialog 0; nul = createDialog ""vehicle_manager"";");
 BTN_L(4,-1, "AI Management", "", "if (player == leader group player) then {closeDialog 0; nul = createDialog ""AI_management""} else {hint ""Only group leaders may access to this option""};");
@@ -560,7 +545,7 @@ class radio_comm_player
 	{
 AS_DIALOG(3,"Battle Options",A_CLOSE);
 
-BTN_L(1,-1, "Fast Travel", "", "call AS_UIfnc_fastTravel;");
+BTN_L(1,-1, "Fast Travel", "", "closeDialog 0; [] spawn AS_fnc_fastTravel;");
 BTN_L(2,-1, "Disguise Yourself", "", "closeDialog 0; nul = [] spawn undercover");
 BTN_L(3,-1, "Resign Commander", "", "closedialog 0; if (isMultiplayer) then {execVM ""orgPlayers\commResign.sqf""} else {hint ""This feature is MP Only""};");
 
@@ -617,7 +602,7 @@ class gameplay_options
 
 	class controls
 	{
-    AS_DIALOG(4,"Gameplay options","closeDialog 0; createDialog ""game_options_commander"";");
+    AS_DIALOG(3,"Gameplay options","closeDialog 0; createDialog ""game_options_commander"";");
 
     #define _code "[""minAISkill"", -0.1, 0, """"] call AS_UIfnc_change_var;"
 	BTN_L(1,-1, "-0.1 min AI skill", "Decreases lowest AI skill (default=0.6).", _code);
@@ -629,10 +614,8 @@ class gameplay_options
     #define _code "[""maxAISkill"", 0.1, 1, """"] call AS_UIfnc_change_var;"
 	BTN_R(2,-1, "+0.1 max AI skill", "Increases highest skill AI (default=0.9)", _code);
 
-    #define _code  "[""enableFTold"",""Extended Fast Travel system enabled"",""Fast Travel limited to camps and HQ""] call AS_UIfnc_toggle_bool;"
-	BTN_L(3,-1, "Fast travel On/Off", "Toggle the old Fast Travel system on/off", _code);
     #define _code "if (server getVariable [""enableWpnProf"",false]) then {server setVariable [""enableWpnProf"",false,true]; [] remoteExec [""fnc_resetSkills"", [0,-2] select isDedicated,true]} else {server setVariable [""enableWpnProf"",true,true]}; hint format [""Current setting: %1"", [""off"", ""on""] select (server getVariable [""enableWpnProf"",false])];"
-	BTN_R(3,-1, "Weapon Proficiencies", "Turn the extended weapon proficiencies system on/off (MP exclusive)", _code);
+	BTN_M(3,-1, "Weapon Proficiencies", "Turn the extended weapon proficiencies system on/off (MP exclusive)", _code);
     #undef _code
 	};
 };

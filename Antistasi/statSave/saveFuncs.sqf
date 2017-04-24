@@ -6,7 +6,7 @@ call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 // Add variables here that you want to save.
 AS_serverVariables = [
 	"prestigeNATO", "prestigeCSAT", "resourcesAAF", "resourcesFIA", "skillFIA", "skillAAF", "hr",  // FIA attributes
-	"enableFTold", "civPerc", "spawnDistance", "minimumFPS", "cleantime",  // game options
+	"civPerc", "spawnDistance", "minimumFPS", "cleantime",  // game options
 	"secondsForAAFAttack", "destroyedLocations", "vehiclesInGarage", "destroyedBuildings"
 ];
 

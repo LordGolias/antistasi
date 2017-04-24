@@ -25,7 +25,7 @@ private _savingPlayersHandle = ([_saveName] spawn {
 [_saveName] call AS_fnc_location_save;
 [_saveName] call AS_fnc_saveHQ;
 
-private ["_hrfondo","_resfondo","_veh","_tipoVeh","_contenedores","_arrayEst","_posVeh","_dierVeh","_prestigeOPFOR","_prestigeBLUFOR","_ciudad","_datos","_marcadores","_garrison","_arrayMrkMF","_arrayPuestosFIA","_pospuesto","_tipoMina","_posMina","_detectada","_tipos","_exists","_amigo","_arrayCampsFIA","_enableFTold","_enableMemAcc","_campList"];
+private ["_hrfondo","_resfondo","_veh","_tipoVeh","_contenedores","_arrayEst","_posVeh","_dierVeh","_prestigeOPFOR","_prestigeBLUFOR","_ciudad","_datos","_marcadores","_garrison","_arrayMrkMF","_arrayPuestosFIA","_pospuesto","_tipoMina","_posMina","_detectada","_tipos","_exists","_amigo","_arrayCampsFIA","_enableMemAcc","_campList"];
 
 // save all units as hr and money.
 

@@ -43,15 +43,6 @@ AS_UIfnc_toggle_bool = {
     };
 };
 
-AS_UIfnc_fastTravel = {
-    closeDialog 0;
-    if (AS_P("enableFTold")) then {
-        createDialog "fasttravel_dialog"
-    } else {
-        [] execVM "altFastTravel.sqf";
-    };
-};
-
 call compile preProcessFileLineNumbers "dialogs\recruitUnit.sqf";
 call compile preProcessFileLineNumbers "dialogs\recruitSquad.sqf";
 call compile preProcessFileLineNumbers "dialogs\recruitGarrison.sqf";
