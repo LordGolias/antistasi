@@ -44,6 +44,8 @@ AS_fnc_renameFIAcamp = compile preProcessFileLineNumbers "fnc_renameFIAcamp.sqf"
 
 AS_fnc_placeHQdefault = compile preProcessFileLineNumbers "fnc_placeHQdefault.sqf";
 
+AS_fnc_AAFattackScore = compile preProcessFileLineNumbers "Functions\fnc_AAFattackScore.sqf";
+
 minefieldAAF = compile preProcessFileLineNumbers "CREATE\minefieldAAF.sqf";
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";
 accionArsenal = compile preProcessFileLineNumbers "Municion\accionArsenal.sqf";

@@ -44,7 +44,7 @@ if (_type != "fia_hq") then {
 	};
 };
 
-if (_type == "watchpost") then {
+if (_type == "outpost") then {
 	// populate military buildings
 	_buildings append (nearestObjects [_posicion, listMilBld, _size*1.5]);
 

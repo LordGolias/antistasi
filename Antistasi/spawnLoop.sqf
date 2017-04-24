@@ -78,7 +78,7 @@ while {true} do {
 						};
 						[_x] remoteExec ["AS_fnc_createFIAgeneric",HCGarrisons]
 					};
-					case (_type in ["resource","powerplant","factory","fia_hq"]): {
+					case (_type in ["resource","powerplant","factory","fia_hq","outpost","outpostAA"]): {
 						[_x] remoteExec ["AS_fnc_createFIAgeneric",HCGarrisons]
 					};
 					case (_type == "airfield"): {[_x] remoteExec ["createNATOaerop",HCGarrisons]};

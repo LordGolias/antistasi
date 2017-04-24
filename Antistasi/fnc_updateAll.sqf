@@ -95,7 +95,7 @@ private _FIAResIncomeMultiplier = 1;
 } forEach call AS_fnc_location_cities;
 
 // control the airport and have majority => win game.
-if ((_FIAtotalPop > _AAFtotalPop) and ("AS_airport_3" call AS_fnc_location_side == "FIA")) exitWith {
+if ((_FIAtotalPop > _AAFtotalPop) and ("AS_airfield_3" call AS_fnc_location_side == "FIA")) exitWith {
     ["end1",true,true,true,true] remoteExec ["BIS_fnc_endMission",0]
 };
 

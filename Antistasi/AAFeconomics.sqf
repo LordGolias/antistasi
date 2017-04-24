@@ -1,10 +1,12 @@
 #include "macros.hpp"
 AS_SERVER_ONLY("AAFeconomics.sqf");
-private ["_resourcesAAF","_prestigeCSAT","_coste","_destroyedCities","_destroyed","_nombre"];
+private ["_resourcesAAF","_coste","_destroyedCities","_destroyed","_nombre"];
 
 _resourcesAAF = AS_P("resourcesAAF");
 
-_prestigeCSAT = AS_P("prestigeCSAT");
+private _debug_prefix = "AAFeconomics: ";
+private _debug_message = format ["Starting to buy with %1", _resourcesAAF];
+AS_ISDEBUG(_debug_prefix + _debug_message);
 
 waitUntil {!resourcesIsChanging};
 resourcesIsChanging = true;
@@ -69,14 +71,23 @@ _extra_conditions setVariable ["armedHelis", _FIAcontrolledLocations >= 3];
 _extra_conditions setVariable ["planes", _FIAcontrolledBases >= 1];
 
 {
+	private _debug_bought_count = 0;
 	private _cost = [_x] call AS_fnc_AAFarsenal_cost;
 	private _extra_condition = _extra_conditions getvariable [_x,true];
 
 	while {_extra_condition and ([_x] call AS_fnc_AAFarsenal_canAdd) and  _resourcesAAF > _cost} do {
 		[_x] call AS_fnc_AAFarsenal_addVehicle;
 		_resourcesAAF = _resourcesAAF - _cost;
+		_debug_bought_count = _debug_bought_count + 1;
 	};
+
+	_debug_message = format ["bought %1 '%2' (%3,%4), remaining money: %5",
+			_debug_bought_count, _x, [_x] call AS_fnc_AAFarsenal_canAdd, _extra_condition, _resourcesAAF];
+	AS_ISDEBUG(_debug_prefix + _debug_message);
 } forEach AS_AAFarsenal_categories;
+
+deleteVehicle _extra_conditions;
+deleteGroup _logicGroup;
 
 //////////////// try to upgrade skills ////////////////
 _skillFIA = AS_P("skillFIA");

@@ -170,5 +170,5 @@ AS_fnc_updateAAFarsenal = {
 	["tanks", _AAFbases] call _AS_fnc_AAFarsenal_setMax;
 	["apcs", 2*_AAFbases] call _AS_fnc_AAFarsenal_setMax;
 	["trucks", 2*_AAFbases] call _AS_fnc_AAFarsenal_setMax;
-	["supplies", _AAFbases] call _AS_fnc_AAFarsenal_setMax;
+	["supplies", round (_AAFbases/4)] call _AS_fnc_AAFarsenal_setMax;
 };

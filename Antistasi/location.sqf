@@ -485,6 +485,7 @@ AS_fnc_location_updateMarker = {
     };
     if (_side == "AAF") then {
         // roadblocks are hidden
+        _mrk setMarkerText "";
         if (_type in ["roadblock","hill","hillAA"]) then {
             _mrk setMarkerAlpha 0;
         };

@@ -1,9 +1,11 @@
 ﻿#include "macros.hpp"
 AS_SERVER_ONLY("resourcecheck.sqf");
 
+private _timeBetweenResources = 600;
+
 scriptName "resourcecheck";
 while {true} do {
-	sleep 600;
+	sleep _timeBetweenResources;
 	if (isMultiplayer) then {waitUntil {sleep 10; isPlayer AS_commander}};
 
 	call AS_fnc_updateAll;
@@ -27,15 +29,12 @@ while {true} do {
 	} forEach vehicles;
 
 	// start AAF attacks under certain conditions.
-	cuentaCA = cuentaCA - 600;
+	cuentaCA = cuentaCA - _timeBetweenResources;
 	publicVariable "cuentaCA";
 	if ((cuentaCA < 1) and (diag_fps > AS_P("minimumFPS"))) then {
-		private _awActive = false;
-		if !(isNil {server getVariable "waves_active"}) then {
-			_awActive = (server getVariable "waves_active");
-		};
+		private _awActive = server getVariable ["waves_active",false];
 		[1200] remoteExec ["timingCA",2];
-		if ((count ("FIA" call AS_fnc_location_S) > 0) and (not("AtaqueAAF" in misiones)) and !(_awActive)) then {
+		if ((not("AtaqueAAF" in misiones)) and !_awActive) then {
 			private _script = [] spawn ataqueAAF;
 			waitUntil {sleep 5; scriptDone _script};
 		};
