@@ -46,14 +46,6 @@ if (random 100 < _chance) then
 	};
 } forEach AS_AAFarsenal_categories;
 
-_minasAAF = allmines - (detectedMines side_blue);
-_revelaMina = false;
-if (count _minasAAF > 0) then
-	{
-	{if (random 100 < _chance) then {side_blue revealMine _x; _revelaMina = true}} forEach _minasAAF;
-	};
-if (_revelaMina) then {_texto = format ["%1 New Mines marked on your map<br/>",_texto];};
-
 if (_texto == "<t size='0.6' color='#C1C0BB'>Intel Found.<br/> <t size='0.5' color='#C1C0BB'><br/>") then {_texto = format ["<t size='0.6' color='#C1C0BB'>Intel Not Found.<br/> <t size='0.5' color='#C1C0BB'><br/>"];};
 
 //[_texto,-0.9999,0,30,0,0,4] spawn bis_fnc_dynamicText;

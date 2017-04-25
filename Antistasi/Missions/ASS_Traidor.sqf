@@ -151,14 +151,6 @@ else
 				{
 				[] remoteExec ["ataqueHQ",HCattack];
 				};
-			}
-		else
-			{
-			_minasFIA = allmines - (detectedMines side_red);
-			if (count _minasFIA > 0) then
-				{
-				{if (random 100 < 30) then {side_red revealMine _x;}} forEach _minasFIA;
-				};
 			};
 		};
 	};

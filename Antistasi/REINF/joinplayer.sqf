@@ -12,4 +12,3 @@ _viejogrupo = group player;
 [player] join group _objetivo;
 deleteGroup _viejogrupo;
 player addAction ["Leave this Group", {nul = [] execVM "REINF\leaveplayer.sqf";},nil,0,false,true];
-

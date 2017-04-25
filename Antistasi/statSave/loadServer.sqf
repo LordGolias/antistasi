@@ -9,7 +9,6 @@ petros allowdamage false;
 [_saveName] call AS_fnc_loadMarkers;
 [true] call fnc_MAINT_arsenal;
 
-[_saveName, "minas"] call fn_LoadStat;
 [_saveName, "fecha"] call fn_LoadStat;
 [_saveName, "smallCAmrk"] call fn_LoadStat;
 [_saveName, "miembros"] call fn_LoadStat;

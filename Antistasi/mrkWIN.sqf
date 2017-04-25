@@ -44,11 +44,14 @@ if (_type == "base") then {
 	[0,10,_posicion] remoteExec ["citySupportChange",2];
 	[["TaskSucceeded", ["", "Base Taken"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 	[20,10] remoteExec ["prestige",2];
-	_minasAAF = allmines - (detectedMines side_blue);
-	if (count _minasAAF > 0) then {
-		{if (_x distance _pos < 1000) then {side_blue revealMine _x}} forEach _minasAAF;
-	};
 	["con_bas"] remoteExec ["fnc_BE_XP", 2];
+
+	// discover nearby minefields
+	{
+		if ((_x call AS_fnc_location_position) distance _pos < 400) then {
+			[_x,"found",true] call AS_fnc_location_set;
+		};
+	} forEach (["minefield", "AAF"] call AS_fnc_location_TS);
 };
 
 if (_type == "powerplant") then {

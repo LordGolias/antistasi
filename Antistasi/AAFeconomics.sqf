@@ -99,20 +99,11 @@ if ((_skillAAF < (_skillFIA + 4)) && (_skillAAF < AS_maxSkill)) then {
 	};
 };
 
-//////////////// try to build minefields ////////////////
-// todo: code inside this condition is broken (two opposing conditions)
-if (_resourcesAAF > 2000) then
-	{
-	{
-	if (_resourcesAAF < 2000) exitWith {};
-	if ([_x] call isFrontline) then {
-		_cercano = ["FIA" call AS_fnc_location_S, _x call AS_fnc_location_position] call BIS_fnc_nearestPosition;
-		_minefieldDone = false;
-		_minefieldDone = [_cercano,_x] call minefieldAAF;
-		if (_minefieldDone) then {_resourcesAAF = _resourcesAAF - 2000};
-	};
-	} forEach (["base", "AAF"] call AS_fnc_location_TS);
-	};
+//////////////// try to build a minefield ////////////////
+if (_resourcesAAF > 2000 and count (["minefield","AAF"] call AS_fnc_location_TS) < 3) then {
+	private _minefieldDeployed = call AS_fnc_deployAAFminefield;
+	if (_minefieldDeployed) then {_resourcesAAF = _resourcesAAF - 2000};
+};
 AS_Pset("resourcesAAF",round _resourcesAAF);
 
 AS_resourcesIsChanging = nil;

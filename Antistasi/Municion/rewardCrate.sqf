@@ -6,7 +6,7 @@ _crate = _this select 0;
 
 if (random 10 < 5) then {
 	for [{_i=1},{_i<=(1 + round random 2)},{_i=_i+1}] do {
-		_cosa = AAFMines call BIS_Fnc_selectRandom;
+		_cosa = (selectRandom AAFMines) call AS_fnc_mineMag;
 		_num = 1 + (floor random 5);
 		if (not(_cosa in unlockedMagazines)) then {_crate addMagazineCargoGlobal [_cosa, _num]};
 	};

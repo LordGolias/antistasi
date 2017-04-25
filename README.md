@@ -190,3 +190,20 @@ The script that starts attacks is the `ataqueAAF.sqf`. It is run from the loop i
 when `AS_P("secondsForAAFattack") == 0`. `ataqueAAF.sqf` checks whether it is worth to attack
 a given location, and, if yes, it spawns the attack accordingly using `CSATpunish.sqf` (for cities),
 `combinedCA.sqf` (for other locations), and `Mission/CONVOY.sqf` (when no locations are available to attack).
+
+## Minefields
+
+Minefields are created and destroyed like other locations. The AAF buys
+minefields and places them on the map. These can be found by FIA after which
+they appear on the map (mines are still hidden and have to be found via mine detectors).
+The FIA commander can also create minefields on the map.
+
+Minefields (from both sides) are deleted when they contain no mines (exploded or defused).
+
+Relevant scripts:
+
+* `Create/minefield.sqf`: spawns an existing FIA/AAF minefield
+* `Functions/fnc_addMinefield.sqf`: adds a new minefield
+* `Functions/fnc_deployAAFminefield.sqf`: tries to find a suitable position and creates an AAF minefield (called by `AAFeconomics.sqf`).
+* `Functions/fnc_deployFIAminefield.sqf`: interface for the player to choose a position and mine positions to place a minefield (it creates a mission).
+* `REINF\missionFIAminefield.sqf`: the mission that creates a FIA minefield

@@ -77,7 +77,7 @@ AS_FIAsoldiersMapping = [
 	"B_G_Sharpshooter_F", "Sniper",
     "B_G_engineer_F", "Repair Specialist",
     "B_G_Soldier_LAT_F", "AA Specialist",  // AA specialist is spawned as B_G_Soldier_LAT_F
-    "B_G_Soldier_exp_F", "Repair Specialist",
+    "B_G_Soldier_exp_F", "Explosives Specialist",
     "B_G_Soldier_A_F", "Ammo Bearer",
     "B_G_Soldier_lite_F", "Crew",
     "B_G_Survivor_F", "Survivor"
@@ -106,6 +106,7 @@ if (isServer) then {
 	AS_data_allCosts setVariable ["Medic", 300, true];
 	AS_data_allCosts setVariable ["Squad Leader", 100, true];
 	AS_data_allCosts setVariable ["Repair Specialist", 200, true];
+	AS_data_allCosts setVariable ["Explosives Specialist", 200, true];
 	AS_data_allCosts setVariable ["AT Specialist", 200, true];
 	AS_data_allCosts setVariable ["AA Specialist", 300, true];
 	AS_data_allCosts setVariable ["Sniper", 100, true];

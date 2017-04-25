@@ -53,6 +53,7 @@ while {true} do {
 					case (_type == "airfield"): {[_x] remoteExec ["createAirbase",HCGarrisons]};
 					case (_type in ["outpost", "seaport"]): {[_x] remoteExec ["createOutpost",HCGarrisons]};
 					case (_type == "outpostAA"): {[_x] remoteExec ["createOutpostAA",HCGarrisons]};
+					case (_type == "minefield"): {[_x] remoteExec ["AS_fnc_createMinefield",HCGarrisons]};
 				};
 			};
 			if (_isSpawned and !_spawnCondition) then {
@@ -87,6 +88,7 @@ while {true} do {
 						[_x] remoteExec ["AS_fnc_createFIA_built_location",HCGarrisons];
 					};
 					case (_type == "NATOwatchpost"): {[_x] remoteExec ["createNATOpuesto",HCGarrisons]};
+					case (_type == "minefield"): {[_x] remoteExec ["AS_fnc_createMinefield",HCGarrisons]};
 				};
 			};
 			if (_isSpawned and !_spawnCondition) then {

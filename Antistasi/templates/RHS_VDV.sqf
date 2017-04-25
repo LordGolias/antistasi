@@ -138,10 +138,19 @@ statMGtowerBackpacks = 	["RHS_Kord_Gun_Bag","RHS_Kord_Tripod_Bag"];
 Weapons, ammo, launchers, missiles, mines, items and optics will spawn in ammo crates, the rest will not. These lists, together with the corresponding lists in the NATO/USAF template, determine what can be unlocked. Weapons of all kinds and ammo are the exception: they can all be unlocked.
 */
 
-AAFMines = [
-	"rhs_mine_tm62m_mag",
-	"rhs_mine_pmn2_mag"
+AAFExponsives = [
+	"SatchelCharge_F",
+	"DemoCharge_F",
+	"ClaymoreDirectional_F"
 ];
+
+AAFMines = [
+	"rhs_mine_tm62m",
+	"rhs_mine_pmn2"
+];
+
+atMine = "rhs_mine_tm62m";
+apMine = "rhs_mine_pmn2";
 
 // Unlocked equipment can only be set in the server or the clients will not be
 // synced with the server.
@@ -177,8 +186,6 @@ indNVG = 		"rhs_1PN138";
 indRF = 		"rhs_pdu4";
 indFL = 		"rhs_acc_2dpZenit";
 indLaser = 		"rhs_acc_perst1ik";
-atMine = 		"rhs_mine_tm62m_mag";
-apMine = 		"rhs_mine_pmn2_mag";
 
 // The flag
 cFlag = "rhs_Flag_vdv_F";

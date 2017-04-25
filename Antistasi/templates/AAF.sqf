@@ -141,15 +141,24 @@ statMGtowerBackpacks = 	["I_HMG_01_high_weapon_F","I_HMG_01_support_high_F"];
 genAALaunchers = ["launch_I_Titan_F"];
 genATLaunchers = ["launch_I_Titan_short_F","launch_NLAW_F"];
 
-AAFMines = [
-	"SLAMDirectionalMine_Wire_Mag",
-	"SatchelCharge_Remote_Mag",
-	"ClaymoreDirectionalMine_Remote_Mag",
-	"ATMine_Range_Mag",
-	"APERSTripMine_Wire_Mag",
-	"APERSMine_Range_Mag",
-	"APERSBoundingMine_Range_Mag"
+// These have to be CfgVehicles
+AAFExponsives = [
+	"SatchelCharge_F",
+	"DemoCharge_F",
+	"ClaymoreDirectional_F"
 ];
+
+// These have to be CfgVehicles mines that explode automatically (minefields)
+AAFMines = [
+	"SLAMDirectionalMine",
+	"ATMine",
+	"APERSMine",
+	"APERSTripMine",
+	"APERSBoundingMine"
+];
+
+atMine = "ATMine";
+apMine = "APERSMine";
 
 // Equipment unlocked by default
 if (isServer) then {
@@ -173,8 +182,6 @@ indNVG = 		"NVGoggles_INDEP";
 indRF = 		"Rangefinder";
 indFL = 		"acc_flashlight";
 indLaser = 		"acc_pointer_IR";
-atMine = 		"ATMine_Range_Mag";
-apMine = 		"APERSMine_Range_Mag";
 
 // The flag
 cFlag = "Flag_AAF_F";

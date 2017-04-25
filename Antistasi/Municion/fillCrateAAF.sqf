@@ -69,7 +69,7 @@ _fnc_gear = {
 
 	if (_cat == "mine") exitWith {
 		for "_i" from 0 to _typeInt do {
-			_item = selectRandom (AAFMines - unlockedMagazines);
+			_item = (selectRandom AAFmines) call AS_fnc_mineMag;
 			_crate addMagazineCargoGlobal [_item, _classInt];
 		};
 	};

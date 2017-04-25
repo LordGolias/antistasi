@@ -58,6 +58,12 @@ getNumber ( _x >> ""isbackpack"" ) isEqualTo 1
 getNumber ( _x >> ""maximumLoad"" ) != 0
 }})" configClasses ( configFile >> "cfgVehicles");
 
+_allMines = "(
+    getNumber ( _x >> ""scope"" ) == 2
+    && {
+    getText ( _x >> ""vehicleClass"" ) isEqualTo 'Mines'
+})" configClasses ( configFile >> "cfgVehicles");
+
 _itemFilter = "
     ( getNumber ( _x >> ""scope"" ) isEqualTo 2
     &&
@@ -187,6 +193,26 @@ AS_allBackpacksAttrs = [];
 	_load = (getNumber (configFile >> "CfgVehicles" >> _name >> "maximumLoad"));
 	AS_allBackpacksAttrs pushBack [_weight, _load];
 } forEach _allBackpacks;
+
+// all mines and respective mags. Used for minefields.
+AS_allMines = [];
+AS_allMinesMags = [];
+{
+    private _mag = getText (configFile >> "CfgAmmo" >> (getText (_x >> "ammo")) >> "defaultMagazine");
+    AS_allMines pushBack (configName _x);
+    AS_allMinesMags pushBack _mag;
+} forEach _allMines;
+
+// converts Mine (CfgVehicle) to Mine (CfgMagazine)
+AS_fnc_mineMag = {
+	// _this is a mine (CfgVehicle)
+	private _index = AS_allMines find _this;
+	if (_index != -1) exitWith {
+		AS_allMinesMags select _index
+	};
+	diag_log format ["[AS] Error: AS_fnc_mineMag called with unknown mine '%1'.", _this];
+	AS_allMinesMags select 0
+};
 
 private _allUniforms = [];
 {

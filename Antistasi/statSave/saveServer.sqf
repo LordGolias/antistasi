@@ -150,18 +150,6 @@ if (_veh distance getMarkerPos "FIA_HQ" < 50) then
 
 [_saveName, _cargo_w, _cargo_m, _cargo_i, _cargo_b] call AS_fnc_saveArsenal;
 
-_arrayMinas = [];
-{
-_tipoMina = typeOf _x;
-_posMina = getPos _x;
-_dirMina = getDir _x;
-_detectada = false;
-if (_x mineDetectedBy side_blue) then {_detectada = true};
-_arrayMinas = _arrayMinas + [[_tipoMina,_posMina,_detectada,_dirMina]];
-} forEach allMines;
-
-[_saveName, "minas", _arrayMinas] call fn_SaveStat;
-
 if (!isDedicated) then
 	{
 	_tipos = [];

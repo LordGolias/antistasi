@@ -173,8 +173,7 @@ AS_fnc_loadMarkers = {
 
 //===========================================================================
 // Variables that require scripting after loaded. See fn_SetStat.
-specialVarLoads =
-["minas","mineFieldMrk","estaticas","fecha","tasks"];
+specialVarLoads = ["fecha","tasks"];
 
 // global variables that are set to be publicVariable on loading.
 AS_publicVariables = ["miembros"];
@@ -188,31 +187,6 @@ fn_SetStat = {
 	if(_varName in specialVarLoads) then {
 		call {
 			if(_varName == 'fecha') exitWith {setDate _varValue; forceWeatherChange};
-			if(_varName == 'minas') exitWith
-				{
-				for "_i" from 0 to (count _varvalue) - 1 do
-					{
-					_tipoMina = _varvalue select _i select 0;
-					switch _tipoMina do
-						{
-						case "APERSMine_Range_Ammo": {_tipoMina = "APERSMine"};
-						case "ATMine_Range_Ammo": {_tipoMina = "ATMine"};
-						case "APERSBoundingMine_Range_Ammo": {_tipoMina = "APERSBoundingMine"};
-						case "SLAMDirectionalMine_Wire_Ammo": {_tipoMina = "SLAMDirectionalMine"};
-						case "APERSTripMine_Wire_Ammo": {_tipoMina = "APERSTripMine"};
-						case "ClaymoreDirectionalMine_Remote_Ammo": {_tipoMina = "Claymore_F"};
-						};
-					_posMina = _varvalue select _i select 1;
-					_mina = createMine [_tipoMina, _posMina, [], 0];
-					_detectada = _varvalue select _i select 2;
-					if (_detectada) then {side_blue revealMine _mina};
-					if (count (_varvalue select _i) > 3) then//borrar esto en febrero
-						{
-						_dirMina = _varvalue select _i select 3;
-						_mina setDir _dirMina;
-						};
-					};
-				};
 			if(_varname == 'tasks') exitWith
 				{
 				{

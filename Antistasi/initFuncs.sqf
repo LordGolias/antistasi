@@ -48,7 +48,13 @@ AS_fnc_AAFattackScore = compile preProcessFileLineNumbers "Functions\fnc_AAFatta
 
 AS_fnc_changePersistentVehicles = compile preProcessFileLineNumbers "Functions\fnc_changePersistentVehicles.sqf";
 
-minefieldAAF = compile preProcessFileLineNumbers "CREATE\minefieldAAF.sqf";
+// everything related with minefields is here
+AS_fnc_addMinefield = compile preProcessFileLineNumbers "Functions\fnc_addMinefield.sqf";
+AS_fnc_deployAAFminefield = compile preProcessFileLineNumbers "Functions\fnc_deployAAFminefield.sqf";
+AS_fnc_deployFIAminefield = compile preProcessFileLineNumbers "Functions\fnc_deployFIAminefield.sqf";
+AS_missionFIAminefield = compile preProcessFileLineNumbers "REINF\missionFIAminefield.sqf";
+AS_fnc_createMinefield = compile preProcessFileLineNumbers "CREATE\minefield.sqf";
+
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";
 accionArsenal = compile preProcessFileLineNumbers "Municion\accionArsenal.sqf";
 powerCheck = compile preProcessFileLineNumbers "powerCheck.sqf";
@@ -113,7 +119,6 @@ NATOArty = compile preProcessFileLineNumbers "REINF\NATOArty.sqf";
 AS_fnc_fillCrateNATO = compile preProcessFileLineNumbers "Municion\fillCrateNATO.sqf";
 NATOAmmo = compile preProcessFileLineNumbers "Missions\NATOAmmo.sqf";
 puestoDialog = compile preProcessFileLineNumbers "puestoDialog.sqf";
-mineDialog = compile preProcessFileLineNumbers "Dialogs\mineDialog.sqf";
 onPlayerDisconnect = compile preProcessFileLineNumbers "onPlayerDisconnect.sqf";
 playerScoreAdd = compile preProcessFileLineNumbers "orgPlayers\playerScoreAdd.sqf";
 assignStavros = compile preProcessFileLineNumbers "orgPlayers\assignStavros.sqf";

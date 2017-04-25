@@ -17,7 +17,7 @@ class build_menu
 AS_DIALOG(3,"Building Options", "closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
 
 BTN_M(1,-1,"Manage Locations", "", "closeDialog 0; [] spawn AS_fncUI_ManageLocationsMenu;");
-BTN_M(2,-1,"Build Minefield", "", "closeDialog 0; createDialog ""minebuild_menu"";");
+BTN_M(2,-1,"Build Minefield", "", "closeDialog 0; createDialog ""AS_createMinefield"";");
 BTN_M(3, -1, "HQ Fortifications", "", "closeDialog 0; nul= createDialog ""HQ_fort_dialog"";");
 	};
 };
@@ -272,17 +272,17 @@ BTN_R(1,-1, "Smoke", "", "closeDialog 0; tipoMuni = ""8Rnd_82mm_Mo_Smoke_white""
 	};
 };
 
-class minebuild_menu
+class AS_createMinefield
 {
 	idd=-1;
 	movingenable=false;
 
 	class controls
 	{
-AS_DIALOG(2,"Build Minefield","closeDialog 0; createDialog ""build_menu"";");
+AS_DIALOG(2,"Create minefield","closeDialog 0; createDialog ""build_menu"";");
 
-BTN_L(1,-1, "APERS Mines", "", "closeDialog 0; [""APERSMine""] spawn mineDialog");
-BTN_R(1,-1, "AT Mines", "", "closeDialog 0; [""ATMine""] spawn mineDialog");
+BTN_L(1,-1, "AP Mines", "", "closeDialog 0; [apMine] spawn AS_fnc_deployFIAminefield");
+BTN_R(1,-1, "AT Mines", "", "closeDialog 0; [atMine] spawn AS_fnc_deployFIAminefield");
 
 	};
 };

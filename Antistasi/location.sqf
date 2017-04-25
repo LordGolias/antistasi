@@ -17,6 +17,10 @@ AS_fnc_location_properties = {
         case "camp": {  // the camp has a name
 			_properties append ["name"];
 		};
+        case "minefield": {
+			_properties append ["mines", "found"];  // [type, pos, dir]
+            _properties = _properties - ["garrison"];
+		};
         default {
             []
         };
@@ -186,11 +190,17 @@ AS_fnc_location_init = {
             [_this,"side","AAF"] call AS_fnc_location_set;
             [_this,"busy",dateToNumber date] call AS_fnc_location_set;
         };
+        case "minefield": {
+            [_this, "mines", []] call AS_fnc_location_set;  // [type, pos, dir]
+            [_this, "found", false] call AS_fnc_location_set;
+        };
         default {
             [_this,"side","AAF"] call AS_fnc_location_set;
         };
     };
-    [_this,"garrison",[]] call AS_fnc_location_set;
+    if ("garrison" in ((_this call AS_fnc_location_type) call AS_fnc_location_properties)) then {
+        [_this,"garrison",[]] call AS_fnc_location_set;
+    };
     [_this,"spawned",false] call AS_fnc_location_set;
     [_this,"forced_spawned",false] call AS_fnc_location_set;
 };
@@ -461,6 +471,7 @@ AS_fnc_location_updateMarker = {
         case "seaport": {_markerType = "b_naval"; _locationName = "Sea Port"};
         case "hill": {_markerType = "loc_rock"; _locationName = "Hill"};
         case "hillAA": {_markerType = "loc_rock"; _locationName = "Hill"};
+        case "minefield": {_markerType = "hd_warning"; _locationName = "Minefield"};
         default {diag_log format ["[AS] Error: location_updateMarker with undefined type '%1'", _type]};
     };
 
@@ -474,9 +485,14 @@ AS_fnc_location_updateMarker = {
     };
     _mrk setMarkerPos _position;
     _mrk setMarkerType _markerType;
+    _mrk setMarkerAlpha 1;
 
     if (_side == "FIA") then {
-        _mrk setMarkerText format ["%1: %2", _locationName, count (_location call AS_fnc_location_garrison)];
+        if (_type != "minefield") then {
+            _mrk setMarkerText format ["%1: %2", _locationName, count (_location call AS_fnc_location_garrison)];
+        } else {
+            _mrk setMarkerText format ["%1: %2", _locationName, count ([_location,"mines"] call AS_fnc_location_get)];
+        };
         _mrk setMarkerColor "ColorBLUFOR";
     };
     if (_side == "NATO") then {
@@ -488,6 +504,11 @@ AS_fnc_location_updateMarker = {
         _mrk setMarkerText "";
         if (_type in ["roadblock","hill","hillAA"]) then {
             _mrk setMarkerAlpha 0;
+        };
+        if (_type == "minefield") then {
+            if (!([_location,"found"] call AS_fnc_location_get)) then {
+                _mrk setMarkerAlpha 0;
+            };
         };
         _mrk setMarkerColor "ColorGUER";
         // AAF does not show names

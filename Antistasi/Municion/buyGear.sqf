@@ -27,13 +27,14 @@ switch (_type) do {
 	};
 
 	case "explosives": {
-        expCrate addMagazineCargoGlobal ["DemoCharge_Remote_Mag", 2];
-        expCrate addMagazineCargoGlobal ["SatchelCharge_Remote_Mag", 2];
+		{
+			expCrate addMagazineCargoGlobal [_x call AS_fnc_mineMag, 2];
+		} forEach AAFExponsives;
 	};
 
 	case "mines": {
-        expCrate addMagazineCargoGlobal [apMine, 2];
-        expCrate addMagazineCargoGlobal [atMine, 2];
+        expCrate addMagazineCargoGlobal [apMine call AS_fnc_mineMag, 2];
+        expCrate addMagazineCargoGlobal [atMine call AS_fnc_mineMag, 2];
 	};
 };
 
