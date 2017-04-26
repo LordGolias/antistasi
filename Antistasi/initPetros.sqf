@@ -4,7 +4,6 @@ petros setSkill 1;
 petros setVariable ["inconsciente",false,true];
 petros setVariable ["respawning",false];
 
-//[] remoteExec ["petrosAnimation", 2];
 [] remoteExec ["fnc_rearmPetros", 2];
 
 petros addEventHandler ["HandleDamage",

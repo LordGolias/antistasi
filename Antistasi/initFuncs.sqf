@@ -243,6 +243,5 @@ attackWaves = compile preprocessFileLineNumbers "Scripts\attackWaves.sqf";
 teleport = compile preprocessFileLineNumbers "teleport.sqf";
 
 rankCheck = compile preprocessFileLineNumbers "Scripts\rankCheck.sqf";
-petrosAnimation = compile preprocessFileLineNumbers "Scripts\petrosAnimation.sqf";
 skillAdjustments = compile preprocessFileLineNumbers "Scripts\skillAdjustments.sqf";
 localSupport = compile preprocessFileLineNumbers "Scripts\localSupport.sqf";

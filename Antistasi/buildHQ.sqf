@@ -34,4 +34,3 @@ if (_movido) then {[] call vaciar};
 placementDone = true; publicVariable "placementDone";
 sleep 5;
 [[Petros,"mission"],"flagaction"] call BIS_fnc_MP;
-//[] remoteExec ["petrosAnimation", 2];

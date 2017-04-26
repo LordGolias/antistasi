@@ -581,17 +581,14 @@ class maintenance_menu
     AS_DIALOG(3,"Maintenance","closeDialog 0; createDialog ""game_options_commander"";");
 
 	#define STR_MAINT_ARS "[] remoteExec [""fnc_MAINT_main"", 2];"
-	#define STR_MAINT_PAN "[] remoteExec [""fnc_togglePetrosAnim"", 2];"
-	#define STR_MAINT_PET "[true] remoteExec [""fnc_togglePetrosAnim"", 2]; [] remoteExec [""fnc_MAINT_resetPetros"", 2];"
+	#define STR_MAINT_PET "[] remoteExec [""fnc_MAINT_resetPetros"", 2];"
 	#define STR_MAINT_MOV "[] remoteExec [""fnc_MAINT_moveStatic"", 2];"
 
 	BTN_L(1,-1, "Reset HQ", "Resets all HQ items to near Petros.", "closeDialog 0; createDialog ""HQ_reset_menu"";");
 	BTN_L(2,-1, "Cleanup arsenal", "Remove items that do not exist or are unlocked.", STR_MAINT_ARS);
-	BTN_L(3,-1, "Toggle Petros' animations", "Turn the idle animation of Petros on/off.", STR_MAINT_PAN);
-
-	BTN_R(1,-1, "Reset Petros' position", "Terminate Petros' animation, move him next to the campfire at HQ.", STR_MAINT_PET);
+	BTN_R(1,-1, "Reset Petros' position", "Move Petros next to the campfire at HQ.", STR_MAINT_PET);
 	BTN_R(2,-1, "Move statics/HQ items", "Reset your ability to move statics and HQ assets.", STR_MAINT_MOV);
-	BTN_R(3,-1, "Fix Y button", "Press in case the Y button stops working.", "closeDialog 0; [] execVM ""reinitY.sqf"";");
+	BTN_M(3,-1, "Fix Y button", "Press in case the Y button stops working.", "closeDialog 0; [] execVM ""reinitY.sqf"";");
 	};
 };
 

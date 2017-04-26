@@ -8,7 +8,7 @@ petros forceSpeed -1;
 
 [[petros,"remove"],"flagaction"] call BIS_fnc_MP;
 //removeAllActions petros;
-[true] remoteExecCall ["fnc_togglePetrosAnim", 2];
+[] remoteExec ["fnc_rearmPetros", 2];
 [petros] join AS_commander;
 petros setBehaviour "AWARE";
 if (isMultiplayer) then
