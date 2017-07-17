@@ -77,8 +77,7 @@ petros addMPEventHandler ["mpkilled",
             grupoPetros setGroupId ["Petros","GroupColor4"];
             petros setIdentity "amiguete";
             petros setName "Petros";
-            //petros disableAI "MOVE";
-            //petros disableAI "AUTOTARGET";
+            petros disableAI "MOVE";  // so petros does not move under any circumstance
             petros forceSpeed 0;
             [[Petros,"buildHQ"],"flagaction"] call BIS_fnc_MP;
             call compile preprocessFileLineNumbers "initPetros.sqf";

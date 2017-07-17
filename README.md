@@ -18,6 +18,12 @@ This modified version has the same mechanics and the same features but improves 
 
 The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 line added, 2 lines were deleted, I have +4 years experience as professional programer).
 
+# Mod support
+
+* ACE
+* VCOM
+* RHS
+
 # Replacing Factions
 
 This version supports easy replacement of modded factions. Use the following steps:
