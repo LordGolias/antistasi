@@ -12,6 +12,9 @@ call compile preProcessFileLineNumbers "FIArecruitment.sqf";
 
 call compile preProcessFileLineNumbers "location.sqf";
 
+AS_fnc_oneStepMission = compile preProcessFileLineNumbers "Missions\fnc_oneStepMission.sqf";
+AS_fnc_cleanResources = compile preProcessFileLineNumbers "Missions\fnc_cleanResources.sqf";
+
 AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "CREATE\setDefaultSkill.sqf";
 AS_fnc_getWeaponItemsCargo = compile preProcessFileLineNumbers "municion\getWeaponItemsCargo.sqf";
 AS_fnc_getBestEquipment = compile preProcessFileLineNumbers "municion\getBestEquipment.sqf";
@@ -50,6 +53,7 @@ AS_fnc_HQmove = compile preProcessFileLineNumbers "fnc_HQmove.sqf";
 AS_fnc_HQaddObject = compile preprocessFileLineNumbers "fnc_HQaddObject.sqf";
 
 AS_fnc_AAFattackScore = compile preProcessFileLineNumbers "Functions\fnc_AAFattackScore.sqf";
+AS_fnc_wait_or_fail = compile preProcessFileLineNumbers "Functions\fnc_wait_or_fail.sqf";
 
 AS_fnc_changePersistentVehicles = compile preProcessFileLineNumbers "Functions\fnc_changePersistentVehicles.sqf";
 
@@ -146,7 +150,6 @@ LOG_Ammo = compile preProcessFileLineNumbers "Missions\LOG_Ammo.sqf";
 DES_Vehicle = compile preProcessFileLineNumbers "Missions\DES_Vehicle.sqf";
 DES_Heli = compile preProcessFileLineNumbers "Missions\DES_Heli.sqf";
 DES_Antena = compile preProcessFileLineNumbers "Missions\DES_Antena.sqf";
-CON_Puestos = compile preProcessFileLineNumbers "Missions\CON_Puestos.sqf";
 ataqueHQ = compile preProcessFileLineNumbers "Missions\ataqueHQ.sqf";
 localizar = compile preProcessFileLineNumbers "localizar.sqf";
 AS_Oficial = compile preProcessFileLineNumbers "Missions\AS_Oficial.sqf";
@@ -232,9 +235,8 @@ pBarMP = compile preProcessFileLineNumbers "pBarMP.sqf";
 createConv = compile preProcessFileLineNumbers "createConv.sqf";
 misReqCiv = compile preProcessFileLineNumbers "Missions\misReqCiv.sqf";
 misReqMil = compile preProcessFileLineNumbers "Missions\misReqMil.sqf";
-CON_Power = compile preProcessFileLineNumbers "Missions\CON_Power.sqf";
 PR_Pamphlet = compile preProcessFileLineNumbers "Missions\PR_Pamphlet.sqf";
-CON_AA = compile preProcessFileLineNumbers "Missions\CON_AA.sqf";
+AS_mis_conquer = compile preProcessFileLineNumbers "Missions\conquer.sqf";
 PR_Brainwash = compile preProcessFileLineNumbers "Missions\PR_Brainwash.sqf";
 DEF_Camp = compile preProcessFileLineNumbers "Missions\DEF_Camp.sqf";
 jamLRRadio = compile preProcessFileLineNumbers "jamLRRadio.sqf";

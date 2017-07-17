@@ -1,32 +1,28 @@
 if (!isServer and hasInterface) exitWith{};
 
-_tskTitle = localize "Str_tsk_fndCiv";
-_tskDesc = localize "Str_tskDesc_fndCiv";
-
 private _site = _this select 0;
 private _position = _site call AS_fnc_location_position;
 private _size = _site call AS_fnc_location_size;
 
-_tiempolim = 60;
-_fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
-_fechalimnum = dateToNumber _fechalim;
+private _tiempolim = 60;
+private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
+private _fechalimnum = dateToNumber _fechalim;
 
-_bldgs = nearestObjects [_position, ["house"], _size];
-_posbldg = [];
-_bldg = _bldgs select 0;
-while {count _posbldg < 3} do
-	{
+private _bldgs = nearestObjects [_position, ["house"], _size];
+private _posbldg = [];
+private _bldg = _bldgs select 0;
+while {count _posbldg < 3} do {
 	_bldg = _bldgs call BIS_Fnc_selectRandom;
 	_posbldg = [_bldg] call BIS_fnc_buildingPositions;
 	if (count _posbldg < 3) then {_bldgs = _bldgs - [_bldg]};
-	};
+};
 
-_posDealer = _posbldg select 0;
-_nombredest = [_site] call localizar;
+private _posDealer = _posbldg select 0;
+private _nombredest = [_site] call localizar;
 
-_grpVul = createGroup side_blue;
-_grpDealer = createGroup Civilian;
-Stranger = _grpDealer createUnit ["C_man_w_worker_F", [8173.79,25308.9,0.00156975], [], 0.9, "NONE"];
+private _grpVul = createGroup side_blue;
+private _grpDealer = createGroup Civilian;
+Stranger = _grpDealer createUnit ["C_man_w_worker_F", [0,0,0], [], 0.9, "NONE"];
 Stranger allowDamage false;
 sleep 2;
 Stranger setPos _posDealer;
@@ -43,16 +39,16 @@ publicVariable "posStranger";
 
 // reset the boolean for active civilian missions
 server setVariable ["civActive", 0, true];
-_civActive = ((server getVariable "civActive") > 0);
+private _civActive = ((server getVariable "civActive") > 0);
 
-_break = false;
-_acc = false;
-_contact = false;
+private _acc = false;
+private _contact = false;
 
 
-_posTsk = (position _bldg) getPos [random 50, random 360];
+private _tskTitle = localize "Str_tsk_fndCiv";
+private _tskDesc = format [localize "Str_tskDesc_fndCiv",_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_Str_INDEP];
 
-_tsk = ["FND_C",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_Str_INDEP],_tskTitle,_site],_posDealer,"CREATED",5,true,true,"Find"] call BIS_fnc_setTask;
+private _tsk = ["FND_C",[side_blue,civilian],[_tskDesc,_tskTitle,_site],_posDealer,"CREATED",5,true,true,"Find"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";
 
 waitUntil {sleep 1; (dateToNumber date > _fechalimnum) || (not alive Stranger) || ({(side _x isEqualTo civilian) && (_x distance Stranger < 500)} count allPlayers > 0)};
@@ -99,15 +95,13 @@ if ((_contact) && (alive Stranger) && (_civActive)) then {
 	Stranger enableAI "MOVE";
 	Stranger stop false;
 	Stranger doMove getMarkerPos "resource_7";
-	_tsk = ["FND_C",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_Str_INDEP],_tskTitle,_site],_posDealer,"SUCCEEDED",5,true,true,"Find"] call BIS_fnc_setTask;
+	_tsk = ["FND_C",[side_blue,civilian],[_tskDesc,_tskTitle,_site],_posDealer,"SUCCEEDED",5,true,true,"Find"] call BIS_fnc_setTask;
 		Stranger allowDamage false;
-}
-else {
-	_tsk = ["FND_C",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_Str_INDEP],_tskTitle,_site],_posDealer,"FAILED",5,true,true,"Find"] call BIS_fnc_setTask;
+} else {
+	_tsk = ["FND_C",[side_blue,civilian],[_tskDesc,_tskTitle,_site],_posDealer,"FAILED",5,true,true,"Find"] call BIS_fnc_setTask;
 	[[Stranger,"remove"],"flagaction"] call BIS_fnc_MP;
 	[Stranger] joinSilent grpNull;
 	[Stranger] joinSilent _grpVul;
-	_break = true;
 };
 
 server setVariable ["civActive", 0, true];

@@ -65,7 +65,7 @@ if (_tipo == "CON") exitWith {
 		};
 	}
 	else {
-		[selectRandom _posibles, "mil"] remoteExec ["CON_AA",HCgarrisons];
+		[selectRandom _posibles, "mil"] remoteExec ["AS_mis_conquer",HCgarrisons];
 		["I have a mission for you..."] call _fnc_info;
 	};
 };

@@ -1,19 +1,18 @@
 #include "../macros.hpp"
 AS_SERVER_ONLY("Missions/missionrequest.sqf");
 
-private ["_tipo","_posbase","_posibles","_sitios","_exists","_sitio","_pos","_ciudad"];
+params ["_tipo", ["_silencio", false], ["_pickTarget", false]];
 
-_tipo = _this select 0;
+private _posbase = getMarkerPos "FIA_HQ";
+private _posibles = [];
+private _sitios = [];
+private _exists = false;
 
-_posbase = getMarkerPos "FIA_HQ";
-_posibles = [];
-_sitios = [];
-_exists = false;
-
-_silencio = false;
-if (count _this > 1) then {_silencio = _this select 1};
-
-if (_tipo in misiones) exitWith {if (!_silencio) then {[[petros,"globalChat","I already gave you a mission of this type"],"commsMP"] call BIS_fnc_MP}};
+if (_tipo in misiones) exitWith {
+	if (!_silencio) then {
+		[[petros,"globalChat","I already gave you a mission of this type"],"commsMP"] call BIS_fnc_MP
+	};
+};
 
 if (_tipo == "DES") exitWith {
 	{
@@ -146,12 +145,10 @@ if (_tipo == "CONVOY") exitWith {
 };
 
 if (_tipo == "PR") then {
-	private _pickTarget = false;
 	private _posiblesA = [];
 	private _posiblesB = [];
 	private _locations = [["city"], "AAF"] call AS_fnc_location_TS;
 
-	if (count _this > 2) then {_pickTarget = _this select 2};
 	if (_pickTarget) then {
 		{
 			private _pos = _x call AS_fnc_location_position;

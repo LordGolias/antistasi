@@ -1,37 +1,35 @@
 if (!isServer and hasInterface) exitWith{};
 params ["_location"];
 
-private _posicion = _location call AS_fnc_location_position;
-private _nombredest = [_location] call localizar;
+private _position = _location call AS_fnc_location_position;
+private _location_name = [_location] call localizar;
 private _size = _location call AS_fnc_location_size;
 
-_tskTitle = localize "STR_tsk_resRefugees";
-_tskDesc = localize "STR_tskDesc_resRefugees";
+private _tskTitle = localize "STR_tsk_resRefugees";
+private _tskDesc = format [localize "STR_tskDesc_resRefugees", _location_name, A3_STR_INDEP];
 
-_POWs = [];
+private _POWs = [];
 
-_casas = nearestObjects [_posicion, ["house"], _size];
-_poscasa = [];
-_casa = _casas select 0;
-while {count _poscasa < 5} do
-	{
-	_casa = _casas call BIS_Fnc_selectRandom;
-	_poscasa = [_casa] call BIS_fnc_buildingPositions;
-	if (count _poscasa < 5) then {_casas = _casas - [_casa]};
+// get a house with at least 5 positions
+private _houses = nearestObjects [_position, ["house"], _size];
+private _house_positions = [];
+private _house = _houses select 0;
+while {count _house_positions < 5} do {
+	_house = _houses call BIS_Fnc_selectRandom;
+	_house_positions = [_house] call BIS_fnc_buildingPositions;
+	if (count _house_positions < 5) then {
+		_houses = _houses - [_house]
 	};
+};
 
-_tsk = ["RES",[side_blue,civilian],[format [_tskDesc,_nombredest, A3_STR_INDEP],
-	_tskTitle,_location],getPos _casa,"CREATED",5,true,true,"run"] call BIS_fnc_setTask;
+private _tsk = ["RES",[side_blue,civilian],[_tskDesc,_tskTitle,_location],getPos _house,"CREATED",5,true,true,"run"] call BIS_fnc_setTask;
 misiones pushBack _tsk; publicVariable "misiones";
 
-_grupo = createGroup side_blue;
+private _grupo = createGroup side_blue;
 
-_num = count _poscasa;
-if (_num > 8) then {_num = 8};
-
-for "_i" from 1 to (_num) - 1 do
-	{
-	_unit = _grupo createUnit [["Survivor"] call AS_fnc_getFIAUnitClass, _poscasa select _i, [], 0, "NONE"];
+private _num = (count _house_positions) max 8;
+for "_i" from 0 to _num - 1 do {
+	private _unit = _grupo createUnit [["Survivor"] call AS_fnc_getFIAUnitClass, _house_positions select _i, [], 0, "NONE"];
 	_unit allowdamage false;
 	_unit disableAI "MOVE";
 	_unit disableAI "AUTOTARGET";
@@ -39,52 +37,51 @@ for "_i" from 1 to (_num) - 1 do
 	_unit setBehaviour "CARELESS";
 	_unit allowFleeing 0;
 	_unit setSkill 0;
-	_POWs = _POWs + [_unit];
+	_POWs pushBack _unit;
 	[[_unit,"refugiado"],"flagaction"] call BIS_fnc_MP;
-	};
-
-sleep 5;
-
+	sleep 1;
+};
 {_x allowDamage true} forEach _POWs;
 
 sleep 30;
 
-[_casa] spawn
-	{
-	private ["_casa"];
-	_casa = _this select 0;
-	sleep 300 + (random 1800);
-	if ("RES" in misiones) then {[position _casa] remoteExec ["patrolCA",HCattack]};
-	};
+[_house] spawn {
+	params ["_house"];
+	sleep (300 + random 1800);
+	if ("RES" in misiones) then {[position _house] remoteExec ["patrolCA",HCattack]};
+};
 
-waitUntil {sleep 1; ({alive _x} count _POWs == 0) or ({(alive _x) and (_x distance getMarkerPos "FIA_HQ" < 50)} count _POWs > 0)};
+private _fnc_clean = {
+	[1200,_tsk] spawn borrarTask;
 
-if ({alive _x} count _POWs == 0) then
-	{
-	_tsk = ["RES",[side_blue,civilian],[format [_tskDesc,_location, A3_STR_INDEP],_tskTitle,_nombredest],getPos _casa,"FAILED",5,true,true,"run"] call BIS_fnc_setTask;
-	_cuenta = count _POWs;
-	[_cuenta,0] remoteExec ["prestige",2];
-	[0,-15,_posicion] remoteExec ["citySupportChange",2];
+	[[_grupo]] call AS_fnc_cleanResources;
+};
+
+private _fnc_missionFailedCondition = {{alive _x} count _POWs < (count _POWs)/2};
+
+private _fnc_missionFailed = {
+	_tsk = ["RES",[side_blue,civilian],[_tskDesc,_tskTitle,_location_name],getPos _house,"FAILED",5,true,true,"run"] call BIS_fnc_setTask;
+	[count _POWs,0] remoteExec ["prestige",2];
+	[0,-15,_position] remoteExec ["citySupportChange",2];
 	[-10,AS_commander] call playerScoreAdd;
-	}
-else
-	{
-	_tsk = ["RES",[side_blue,civilian],[format [_tskDesc,_location, A3_STR_INDEP],_tskTitle,_nombredest],getPos _casa,"SUCCEEDED",5,true,true,"run"] call BIS_fnc_setTask;
-	_cuenta = {(alive _x) and (_x distance getMarkerPos "FIA_HQ" < 150)} count _POWs;
-	_hr = _cuenta;
-	_resourcesFIA = 100 * _cuenta;
-	[_hr,_resourcesFIA] remoteExec ["resourcesFIA",2];
-	[0,_cuenta,_location] remoteExec ["citySupportChange",2];
-	[_cuenta,0] remoteExec ["prestige",2];
-	{if (_x distance getMarkerPos "FIA_HQ" < 500) then {[_cuenta,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-	[round (_cuenta/2),AS_commander] call playerScoreAdd;
+
+	call _fnc_clean;
+};
+
+private _fnc_missionSuccessfulCondition = {{(alive _x) and (_x distance getMarkerPos "FIA_HQ" < 50)} count _POWs > ({alive _x} count _POWs) / 2};
+
+private _fnc_missionSuccessful = {
+	_tsk = ["RES",[side_blue,civilian],[_tskDesc,_tskTitle,_location_name],getPos _house,"SUCCEEDED",5,true,true,"run"] call BIS_fnc_setTask;
+	private _hr = {alive _x} count _POWs;
+	[_hr,0] remoteExec ["resourcesFIA",2];
+	[0,_hr,_location] remoteExec ["citySupportChange",2];
+	[_hr,0] remoteExec ["prestige",2];
+	{if (_x distance getMarkerPos "FIA_HQ" < 500) then {[_hr,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
+	[round (_hr/2),AS_commander] call playerScoreAdd;
 	{[_x] join _grupo; [_x] orderGetin false} forEach _POWs;
 	["mis"] remoteExec ["fnc_BE_XP", 2];
-	};
 
+	call _fnc_clean;
+};
 
-sleep 60;
-{deleteVehicle _x} forEach _POWs;
-deleteGroup _grupo;
-
-[1200,_tsk] spawn borrarTask;
+[_fnc_missionFailedCondition, _fnc_missionFailed, _fnc_missionSuccessfulCondition, _fnc_missionSuccessful] call AS_fnc_oneStepMission;
