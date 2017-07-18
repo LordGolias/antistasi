@@ -26,31 +26,15 @@ waitUntil {({(isPlayer _x) and (!isNull _x) and (_x == _x)} count allUnits) == (
 
 addMissionEventHandler ["HandleDisconnect",{[_this select 0] call onPlayerDisconnect;false}];
 
-AS_commander = objNull;
 maxPlayers = playableSlotsNumber west;
-if (serverName in servidoresOficiales) then
-    {
+AS_commander = playableUnits select 0;
+AS_commander setRank "CORPORAL";
+[AS_commander, "CORPORAL"] remoteExec ["ranksMP"];
+publicVariable "AS_commander";
+
+if (serverName in servidoresOficiales) then {
     [] execVM "serverAutosave.sqf";
-    }
-else
-    {
-    if (isNil "comandante") then {comandante = (playableUnits select 0)};
-    if (isNull comandante) then {comandante = (playableUnits select 0)};
-    {
-    if (_x!=comandante) then
-        {
-        //_x setVariable ["score", 0,true];
-        }
-    else
-        {
-        AS_commander = _x;
-        publicVariable "AS_commander";
-        _x setRank "CORPORAL";
-        [_x,"CORPORAL"] remoteExec ["ranksMP"];
-        //_x setVariable ["score", 25,true];
-        };
-    } forEach playableUnits;
-    };
+};
 diag_log "[AS] Server MP: players are in";
 publicVariable "maxPlayers";
 

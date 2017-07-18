@@ -1292,8 +1292,6 @@ class Mission
 					flags=6;
 					class Attributes
 					{
-						name="comandante";
-						description="Default Commander";
 						isPlayer=1;
 						isPlayable=1;
 					};

@@ -5,7 +5,13 @@ call compile preprocessFileLineNumbers "debug\init.sqf";
 
 // it is a SP game, initialize the server.
 if (!isMultiPlayer) then {
-    {if ((side _x == west) and (_x != comandante)) then {_grupete = group _x; deleteVehicle _x; deleteGroup _grupete}} forEach allUnits;
+    {
+        if (not isPlayer _x) then {
+            private _grupete = group _x;
+            deleteVehicle _x;
+            deleteGroup _grupete;
+        };
+    } forEach playableUnits;
     diag_log "[AS] Server: start SP";
     call compile preprocessFileLineNumbers "initFuncs.sqf";
     diag_log "[AS] Server SP: initFuncs finished";
