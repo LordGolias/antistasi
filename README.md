@@ -56,6 +56,44 @@ This way, you only need to focus on adding vehicles, groups and units; the rest 
 
 In the vanilla version, everything related to AAF is only defined in `templates/AAF.sqf`.
 
+# Development
+
+Development of this mission is easy. We currently only use the following software to do it:
+
+* Arma 3
+* A text editor. We recommend [Atom](https://atom.io/) with plugins [language-arma-atom](https://atom.io/packages/language-arma-atom) and [linter-sqf](https://atom.io/packages/linter-sqf) but any will do.
+* [DSynchronize](https://dsynchronize.en.softonic.com/), so the development does not occur on an Arma user, but on any computer.
+* The version control system [git](https://en.wikipedia.org/wiki/Git)
+
+Steps after installing the software above:
+
+1. Fork this repository on GitHub
+2. `git clone` your forked repository to directory SOURCE (e.g. `C:\Users\Golias\Documents\a3Projects\`, e.g. with power shell)
+3. open Arma 3 and create a new profile `antistasi_edit`.
+4. start DSynchronize and
+    1. create a new job
+    2. add a source (e.g. `C:\Users\Golias\Documents\a3Projects\Antistasi\Antistasi`)
+    3. add a destination (e.g. `C:\Users\Golias\Documents\Arma 3 - Other Profiles\antistasi_edit\missions\Antistasi.Altis`)
+    4. tick the option `Save settings on exit`, untick `Bidirectional sync` and tick `realtime sync`
+    5. When asked to sync first time, say yes.
+
+Step 4. guarantees that when you modify the source code in directory SOURCE (tracked by git), the files are automatically copied to the destination, and
+are therefore available to test on Arma 3 Eden editor.
+
+Lets test that everything works:
+
+1. Open the Eden editor (on profile `antistasi_edit`), and the text editor on directory X.
+2. Start the preview. The mission should start as normal.
+3. In the file `antistasi/init.sqf`, search for `skipTime`, and delete the line `skipTime random 24` (i.e. make the mission always start at the same time).
+4. Save the file. Once you do this, you may open DSynchronize window and confirm that the file `init.sqf` was copied (updated) to the destination.
+5. Restart the mission. The mission should have now always started at 6am sharp.
+
+In summary, you modified this version of antistasi and tested it.
+
+Note that if you modify the `mission.sqm` on SOURCE, you will need to load it again in the editor.
+`mission.sqm` can be modified in Eden editor for testing, but it is not copied back to SOURCE and will be lost when
+you load it again. To change this behavior, tick the box `Bidirectional sync` in DSynchronize.
+
 # Debug tools
 
 Run
