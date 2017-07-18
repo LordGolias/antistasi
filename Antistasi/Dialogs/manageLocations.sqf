@@ -40,6 +40,7 @@ AS_fncUI_manageLocationsMapSelection = {
 	onMapSingleClick "AS_map_position = _pos;";
 	waitUntil {sleep 0.5; (count AS_map_position != 0) or !visibleMap};
 	openMap false;
+	onMapSingleClick "";
 
 	if (count AS_map_position != 0) then {
 		switch (_option) do {

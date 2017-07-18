@@ -46,19 +46,18 @@ private _tempMarkers = [];
 // wait until a valid position (or cancelled for initial placement)
 private _position = getMarkerPos "FIA_HQ";
 while {true} do {
-	AS_map_position = [];
-	onMapSingleClick "AS_map_position = _pos;";
 
-	waitUntil {sleep 1; (count AS_map_position > 0) or (not visiblemap)};
+	AS_map_position = [];
+	onMapSingleClick "AS_map_position = +_pos; true";
+
+	waitUntil {sleep 1;(count AS_map_position > 0) or (!_hqDestroyed and not visiblemap)};
 	onMapSingleClick "";
-	if (count AS_map_position == 0) exitWith {};  // no position selected
+	if (!_hqDestroyed and not visiblemap) exitWith {};
 	_position = +AS_map_position;
-	AS_map_position = nil;
 	private _closest = ([_enemyLocations, _position] call BIS_fnc_nearestPosition);
 	private _closestEnemyLocation = _closest call AS_fnc_location_position;
 
-	_validLocation = true;
-
+	private _validLocation = true;
 	if (_closestEnemyLocation distance _position < _minDistanceToLocation) then {
 		_validLocation = false;
 		hint "That is too close from the enemy. Select another place.";
@@ -70,21 +69,18 @@ while {true} do {
 
 	// check if there is any enemy in the surroundings.
 	if (_validLocation and _hqDestroyed) then {
-		_enemigos = false;
 		{
-            if ((side _x == side_green) or (side _x == side_red)) then {
-                if (_x distance _position < _minDistanceToEnemy) exitWith {_enemigos = true};
-            };
+            if ((side _x == side_green) or (side _x == side_red) and {_x distance _position < _minDistanceToEnemy}) exitWith {
+				_validLocation = false;
+				hint "There are enemies in the surroundings. Select another place.";
+			};
 		} forEach allUnits;
-        if (_enemigos) then {
-			_validLocation = false;
-			hint "There are enemies in the surroundings. Select another place.";
-		};
 	};
 
 	if (_validLocation) exitWith {};
 };
 openmap [false,false];
+AS_map_position = nil;
 
 if !(_position isEqualTo (getMarkerPos "FIA_HQ")) then {
 	["FIA_HQ", "position", _position] call AS_fnc_location_set;
