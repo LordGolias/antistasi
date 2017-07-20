@@ -53,7 +53,7 @@ AS_fnc_location_get = {
         diag_log format ["[AS] Error: location_set wrong property '%1' for location '%2'", _property, _location];
     };
 
-    AS_location getVariable (_location + "_" + _property);
+    AS_location getVariable (_location + "_" + _property)
 };
 
 AS_fnc_location_type = {
