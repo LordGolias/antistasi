@@ -34,7 +34,8 @@ while {true} do {
 		private _isSpawned = _x call AS_fnc_location_spawned;
 
 		if (_x call AS_fnc_location_side == "AAF") then {
-			_spawnCondition = ({(_x distance _position < AS_P("spawnDistance"))} count _spawningBLUFORunits > 0) or (_x call AS_fnc_location_forced_spawned);
+			private _spawnCondition = ({(_x distance _position < AS_P("spawnDistance"))} count _spawningBLUFORunits > 0) or
+			                          (_x call AS_fnc_location_forced_spawned);
 			if (!_isSpawned and _spawnCondition) then {
 				_x call AS_fnc_location_spawn;
 				private _type = _x call AS_fnc_location_type;
@@ -62,12 +63,12 @@ while {true} do {
 		};
 		if (_x call AS_fnc_location_side == "FIA") then {
 			// not clear what this is doing. owner is about who controls it, not something else.
-			_playerIsClose = (_x call AS_fnc_location_forced_spawned) or
-							 ({((_x getVariable ["owner", objNull]) == _x) and
-							   (_x distance _position < AS_P("spawnDistance"))} count _spawningBLUFORunits > 0);
+			private _playerIsClose = (_x call AS_fnc_location_forced_spawned) or
+							         ({((_x getVariable ["owner", objNull]) == _x) and
+							   	     (_x distance _position < AS_P("spawnDistance"))} count _spawningBLUFORunits > 0);
 			// enemies are close.
-			_spawnCondition = (_playerIsClose or
-							   ({_x distance _position < AS_P("spawnDistance")} count _spawningOPFORunits > 0));
+			private _spawnCondition = _playerIsClose or
+							          ({_x distance _position < AS_P("spawnDistance")} count _spawningOPFORunits > 0);
 			if (!_isSpawned and _spawnCondition) then {
 				_x call AS_fnc_location_spawn;
 

@@ -1,13 +1,12 @@
 if (!hasInterface) exitWith {};
 
-_counter = _this select 0;
-_del = _this select 1;
-
-_xc = safezoneX + 0.43 * safezoneW;
-_yc = safezoneY + 0.05 * safezoneH;
+private _counter = _this select 0;
+private _del = _this select 1;
 
 if !(_del) then {
 	with uiNamespace do {
+		private _xc = safezoneX + 0.43 * safezoneW;
+		private _yc = safezoneY + 0.05 * safezoneH;
 		ctrlDelete (uiNamespace getVariable "pBar");
 		ctrlDelete (uiNamespace getVariable "pBartext");
 		pBar = findDisplay 46 ctrlCreate ["RscProgress", -1];
@@ -20,10 +19,9 @@ if !(_del) then {
 		pBartext ctrlSetPosition [ _xc, _yc];
 		pBartext ctrlCommit 0;
 
-
 	    [ "TIMER", "onEachFrame", {
 	        params[ "_start", "_end" ];
-	        _progress = linearConversion[ _start, _end, time, 0, 1 ];
+	        private _progress = linearConversion[ _start, _end, time, 0, 1 ];
 	        (uiNamespace getVariable "pBar") progressSetPosition _progress;
 	        (uiNamespace getVariable "pBartext") ctrlSetStructuredText parseText format["%1%2", round(100*_progress), "%"];
 

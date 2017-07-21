@@ -7,22 +7,26 @@ if (isNull _viejo) exitWith {};
 
 waitUntil {alive player};
 
-[_viejo] remoteExec ["postmortem",2];
+[_viejo] remoteExec ["postmortem", 2];
 
-_owner = _viejo getVariable ["owner",_viejo];
+private _owner = _viejo getVariable ["owner",_viejo];
 
-if (_owner != _viejo) exitWith {hint "Died while AI Remote Control"; selectPlayer _owner; disableUserInput false; deleteVehicle _nuevo};
+if (_owner != _viejo) exitWith {
+	hint "Died while AI Remote Control";
+	selectPlayer _owner;
+	disableUserInput false;
+	deleteVehicle _nuevo;
+};
 
 [0,-1,getPos _viejo] remoteExec ["citySupportChange",2];
 
-_score = _viejo getVariable ["score",0];
-_punish = _viejo getVariable ["punish",0];
-_dinero = _viejo getVariable ["dinero",0];
-_elegible = _viejo getVariable ["elegible",true];
-_rango = _viejo getVariable ["rango","PRIVATE"];
+private _score = _viejo getVariable ["score",0];
+private _punish = _viejo getVariable ["punish",0];
+private _dinero = _viejo getVariable ["dinero",0];
+private _elegible = _viejo getVariable ["elegible",true];
+private _rango = _viejo getVariable ["rango", "PRIVATE"];
 
-_dinero = round (_dinero - (_dinero * 0.1));
-if (_dinero < 0) then {_dinero = 0};
+_dinero = (round (_dinero - (_dinero * 0.1))) max 0;
 
 _nuevo setVariable ["score",_score -1,true];
 _nuevo setVariable ["owner",_nuevo,true];

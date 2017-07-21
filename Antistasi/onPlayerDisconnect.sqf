@@ -1,34 +1,33 @@
 #include "macros.hpp"
-private ["_unit","_recursos","_hr","_armas","_municion","_items","_pos"];
 
-_unit = _this select 0;
+params ["_unit"];
 
-_recursos = 0;
-_hr = 0;
+// first, if unit is owning someone, drop that ownership
+private _owner = _unit getVariable ["owner", _unit];
+if (_unit getVariable ["owner",_unit] != _unit) then {
+	selectPlayer _owner;
+};
 
-if (_unit == AS_commander) then
+if (_unit == AS_commander) then {
+	private _recursos = 0;
+	private _hr = 0;
 	{
-	{
-	if (!(_x getVariable ["esNATO",false])) then
-		{
-		if ((leader _x getVariable ["BLUFORspawn",false]) and (!isPlayer leader _x)) then
+		// all non-NATO units from FIA
+		if (!(_x getVariable ["esNATO",false]) and
+		   {leader _x getVariable ["BLUFORspawn",false]} and
+		   {!isPlayer leader _x}) then {
 			{
-			_uds = units _x;
-				{
-				if (alive _x) then
-					{
+				if (alive _x) then {
 					_recursos = _recursos + (AS_data_allCosts getVariable ([_x] call AS_fnc_getFIAUnitNameType));
 					_hr = _hr + 1;
-					};
-				if (!isNull (assignedVehicle _x)) then
-					{
-					_veh = assignedVehicle _x;
-					_tipoVeh = typeOf _veh;
-					if ((_veh isKindOf "StaticWeapon") and (not(_veh in AS_P("vehicles")))) then
-						{
+				};
+				// check for vehicles
+				if not(isNull (assignedVehicle _x)) then {
+					private _veh = assignedVehicle _x;
+					private _tipoVeh = typeOf _veh;
+					if ((_veh isKindOf "StaticWeapon") and (not(_veh in AS_P("vehicles")))) then {
 						_recursos = _recursos + ([_tipoVeh] call FIAvehiclePrice) + ([typeOf (vehicle leader _x)] call FIAvehiclePrice);
-						}
-					else {
+					} else {
 						call {
 							if (_tipoVeh in AS_FIArecruitment_all) exitWith {
 								// this is the buying price because it
@@ -40,40 +39,39 @@ if (_unit == AS_commander) then
 								_recursos = _recursos  + ([_category] call AS_fnc_AAFarsenal_cost);
 							};
 						};
-						if (count attachedObjects _veh > 0) then
-							{
-							_subVeh = (attachedObjects _veh) select 0;
+						if (count attachedObjects _veh > 0) then {
+							private _subVeh = (attachedObjects _veh) select 0;
 							_recursos = _recursos + ([(typeOf _subVeh)] call FIAvehiclePrice);
 							deleteVehicle _subVeh;
-							};
 						};
-					if !(_veh in AS_P("vehicles")) then {deleteVehicle _veh};
 					};
+					if !(_veh in AS_P("vehicles")) then {deleteVehicle _veh};
+				};
+				// todo: the unit's arsenal is gone. Fixe it.
 				deleteVehicle _x;
-				} forEach _uds;
-			};
+			} forEach (units _x);
 		};
 	} forEach allGroups;
-	if (((count playableUnits > 0) and (count miembros == 0)) or ({(getPlayerUID _x) in miembros} count playableUnits > 0)) then
-		{
+	if (((count playableUnits > 0) and (count miembros == 0)) or ({(getPlayerUID _x) in miembros} count playableUnits > 0)) then {
 		[] spawn assignStavros;
-		};
-	// this is not right: the HQ may be built close to a location, with undefined behavior.
-	if (group petros == group _unit) then {[] spawn buildHQ};
 	};
-if ((_hr > 0) or (_recursos > 0)) then {[_hr,_recursos] spawn resourcesFIA};
+	// in case the commander disconnects while moving the HQ, HQ is built in the location.
+	if (group petros == group _unit) then {[] spawn buildHQ};
 
-_cargoArray = [_unit, true] call AS_fnc_getUnitArsenal;
+	if ((_hr > 0) or (_recursos > 0)) then {[_hr,_recursos] spawn resourcesFIA};
+};
+
+// store the player arsenal in the box.
+private _cargoArray = [_unit, true] call AS_fnc_getUnitArsenal;
 [caja, _cargoArray select 0, _cargoArray select 1, _cargoArray select 2, _cargoArray select 3] call AS_fnc_populateBox;
 
-_pos = getPosATL _unit;
-_wholder = nearestObjects [_pos, ["weaponHolderSimulated", "weaponHolder"], 2];
+private _pos = getPosATL _unit;
+private _wholder = nearestObjects [_pos, ["weaponHolderSimulated", "weaponHolder"], 2];
 {deleteVehicle _x;} forEach _wholder + [_unit];
-if (alive _unit) then
-	{
+if (alive _unit) then {
 	_unit setVariable ["owner",_unit,true];
 	_unit setDamage 1;
-	};
+};
 
 // send data to the server.
 call AS_fnc_saveLocalPlayerData;

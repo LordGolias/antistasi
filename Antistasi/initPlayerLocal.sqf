@@ -265,6 +265,6 @@ bandera addAction [localize "str_act_hqOptions",{call AS_fncUI_openHQmenu;},nil,
 cajaVeh addAction [localize "str_act_healRepair", "healandrepair.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
 cajaVeh addAction [localize "str_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == AS_commander)",5];
 
-fuego addAction [localize "str_act_rest", "skiptime.sqf",nil,0,false,true,"","isPlayer _this"];
+fuego addAction [localize "str_act_rest", "skiptime.sqf",nil,0,false,true,"","(_this == AS_commander)"];
 
 diag_log "[AS] client: ready";

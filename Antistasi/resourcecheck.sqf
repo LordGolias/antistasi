@@ -1,4 +1,4 @@
-﻿#include "macros.hpp"
+#include "macros.hpp"
 AS_SERVER_ONLY("resourcecheck.sqf");
 
 private _timeBetweenResources = 600;

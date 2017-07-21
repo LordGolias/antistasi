@@ -1,24 +1,20 @@
-if (player!= AS_commander) exitWith {hint "Only the Commander can order to rest"};
-_presente = false;
+private _enemies_around = false;
 
-{
-if ((side _x == side_green) or (side _x == side_red)) then
-	{
-	if ([500,1,_x,"BLUFORSpawn"] call distanceUnits) then {_presente = true};
-	};
-} forEach allUnits;
-if (_presente) exitWith {hint "You cannot rest with enemies near our units"};
 if ("AtaqueAAF" in misiones) exitWith {hint "You cannot rest while AAF or CSAT is counterattacking"};
 if ("DEF_HQ" in misiones) exitWith {hint "You cannot rest while your HQ is under attack"};
 
-_chequeo = false;
-_posHQ = getMarkerPos "FIA_HQ";
 {
-if (_x distance _posHQ > 100) then {_chequeo = true};
+	if (((side _x == side_green) or (side _x == side_red)) and
+	    {[500,1,_x,"BLUFORSpawn"] call distanceUnits > 0}) exitWith {_enemies_around = true};
+} forEach allUnits;
+if (_enemies_around) exitWith {hint "You cannot rest with enemies near our units"};
+
+private _all_around = false;
+private _posHQ = getMarkerPos "FIA_HQ";
+{
+	if (_x distance _posHQ > 200) exitWith {_all_around = true};
 } forEach (allPlayers - hcArray);
 
-if (_chequeo) exitWith {hint "All player must be in a 100mts radius from HQ to be able to rest"};
+if _all_around exitWith {hint "All players must be around the HQ to rest"};
 
-[[],"resourcecheckSkipTime"] call BIS_fnc_MP;
-
-
+[[], "resourcecheckSkipTime"] call BIS_fnc_MP;

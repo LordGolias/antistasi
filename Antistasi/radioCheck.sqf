@@ -1,3 +1,4 @@
+// _this: a location
 private _ok = false;
 {
 	if ((alive _x) and (_this distance _x < 3500)) then {

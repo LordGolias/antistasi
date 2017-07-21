@@ -1,4 +1,4 @@
-_pos = _this select 0;
+params ["_pos"];
 
 {
 	if (_x distance _pos < 30) then {
