@@ -36,8 +36,8 @@ AS_fnc_deleteSavedGame = {
     private _savedGames = profileNameSpace getVariable ["AS_savedGames", []];
     private _index = _savedGames find _saveName;
     if (_index != -1) exitWith {
-        _savedVariables = profileNameSpace getVariable ["AS_savedVariables", []];
-        _allVariables = _savedVariables select _index;
+        private _savedVariables = profileNameSpace getVariable ["AS_savedVariables", []];
+        private _allVariables = _savedVariables select _index;
         {profileNameSpace setVariable [[_saveName, _x] call AS_fnc_variableName, nil]} forEach _allVariables;  // erase all variables from this save.
         _savedVariables deleteAt _index;
         _savedGames deleteAt _index;
@@ -64,9 +64,9 @@ AS_fnc_SaveStat = {
 	params ["_saveName", "_varName", "_varValue"];
 	if (!isNil "_varValue") then {
         // save the variable in the list of variables.
-        _savedGames = profileNameSpace getVariable ["AS_savedGames", []];
-        _savedVariables = profileNameSpace getVariable ["AS_savedVariables", []];
-        _index = _savedGames find _saveName;
+        private _savedGames = profileNameSpace getVariable ["AS_savedGames", []];
+        private _savedVariables = profileNameSpace getVariable ["AS_savedVariables", []];
+        private _index = _savedGames find _saveName;
         (_savedVariables select _index) pushBack _varName;
         profileNameSpace setVariable ["AS_savedVariables", _savedVariables];
         // and its value

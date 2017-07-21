@@ -30,11 +30,11 @@ private ["_hrfondo","_resfondo","_veh","_tipoVeh","_contenedores","_arrayEst","_
 // save all units as hr and money.
 
 _resfondo = AS_P("resourcesFIA");
-_cargoArray = [caja, true] call AS_fnc_getBoxArsenal;  // restricted to locked weapons
-_cargo_w = _cargoArray select 0;
-_cargo_m = _cargoArray select 1;
-_cargo_i = _cargoArray select 2;
-_cargo_b = _cargoArray select 3;
+private _cargoArray = [caja, true] call AS_fnc_getBoxArsenal;  // restricted to locked weapons
+private _cargo_w = _cargoArray select 0;
+private _cargo_m = _cargoArray select 1;
+private _cargo_i = _cargoArray select 2;
+private _cargo_b = _cargoArray select 3;
 
 {
 _amigo = _x;
@@ -47,10 +47,10 @@ if (_amigo getVariable ["BLUFORSpawn",false]) then
 			if (isPlayer (leader group _amigo)) then
 				{
 				if (!isMultiplayer) then {
-					_precio = AS_data_allCosts getVariable ([_amigo] call AS_fnc_getFIAUnitNameType);
+					private _precio = AS_data_allCosts getVariable ([_amigo] call AS_fnc_getFIAUnitNameType);
 					if (!(isNil "_precio")) then {_resfondo = _resfondo + _precio};
 				};
-				_arsenal = [_amigo, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons
+				private _arsenal = [_amigo, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons
 				_cargo_w = [_cargo_w, _arsenal select 0] call AS_fnc_mergeCargoLists;
 				_cargo_m = [_cargo_m, _arsenal select 1] call AS_fnc_mergeCargoLists;
 				_cargo_i = [_cargo_i, _arsenal select 2] call AS_fnc_mergeCargoLists;
@@ -82,7 +82,7 @@ _hrfondo = AS_P("hr") + ({(alive _x) and (not isPlayer _x) and (_x getVariable [
 
 if (isMultiplayer) then {
 	{
-		_arsenal = [_x, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons
+		private _arsenal = [_x, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons
 		_cargo_w = [_cargo_w, _arsenal select 0] call AS_fnc_mergeCargoLists;
 		_cargo_m = [_cargo_m, _arsenal select 1] call AS_fnc_mergeCargoLists;
 		_cargo_i = [_cargo_i, _arsenal select 2] call AS_fnc_mergeCargoLists;
@@ -90,7 +90,7 @@ if (isMultiplayer) then {
 	} forEach playableUnits;
 }
 else {
-	_arsenal = [player, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons
+	private _arsenal = [player, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons
 	_cargo_w = [_cargo_w, _arsenal select 0] call AS_fnc_mergeCargoLists;
 	_cargo_m = [_cargo_m, _arsenal select 1] call AS_fnc_mergeCargoLists;
 	_cargo_i = [_cargo_i, _arsenal select 2] call AS_fnc_mergeCargoLists;
@@ -98,7 +98,7 @@ else {
 };
 
 // list of locations where static weapons are saved.
-_statMrks = [];
+private _statMrks = [];
 {
     _statMrks pushBack _x;
 } forEach ("FIA" call AS_fnc_location_S);
@@ -109,13 +109,13 @@ _arrayEst = [];
 _veh = _x;
 _tipoVeh = typeOf _veh;
 
-_test = [_statMrks, getPos _veh] call BIS_fnc_nearestPosition;
-_testDist = _veh distance (getMarkerPos _test);
+private _test = [_statMrks, getPos _veh] call BIS_fnc_nearestPosition;
+private _testDist = _veh distance (getMarkerPos _test);
 
 // saves static weapons everywhere.
 if ((_veh isKindOf "StaticWeapon") and (_testDist < 50)) then {
 	_posVeh = getPos _veh;
-	_dirVeh = getDir _veh;
+	private _dirVeh = getDir _veh;
 	_arrayEst = _arrayEst + [[_tipoVeh,_posVeh,_dirVeh]];
 };
 
@@ -134,10 +134,10 @@ if (_veh distance getMarkerPos "FIA_HQ" < 50) then
 		({(alive _x) and (!isPlayer _x)} count crew _veh == 0) and
 		!(_tipoVeh == "WeaponHolderSimulated")) then {
 		_posVeh = getPos _veh;
-		_dirVeh = getDir _veh;
+		private _dirVeh = getDir _veh;
 		_arrayEst = _arrayEst + [[_tipoVeh,_posVeh,_dirVeh]];
 
-		_arsenal = [_veh, true] call AS_fnc_getBoxArsenal;  // restricted to locked weapons
+		private _arsenal = [_veh, true] call AS_fnc_getBoxArsenal;  // restricted to locked weapons
 		_cargo_w = [_cargo_w, _arsenal select 0] call AS_fnc_mergeCargoLists;
 		_cargo_m = [_cargo_m, _arsenal select 1] call AS_fnc_mergeCargoLists;
 		_cargo_i = [_cargo_i, _arsenal select 2] call AS_fnc_mergeCargoLists;
@@ -156,7 +156,7 @@ if (!isDedicated) then
 	{
 	if (_x in misiones) then
 		{
-		_state = [_x] call BIS_fnc_taskState;
+		private _state = [_x] call BIS_fnc_taskState;
 		if (_state == "CREATED") then
 			{
 			_tipos = _tipos + [_x];

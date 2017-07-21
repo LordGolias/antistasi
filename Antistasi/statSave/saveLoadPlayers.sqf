@@ -16,18 +16,18 @@ AS_profileID_data = [];
 
 // client function. Maps local data into an array.
 AS_fnc_serializeLocalPlayer = {
-	_result = [];
+	private _result = [];
 	if (isMultiplayer) then {
-		_score = player getVariable "score";
-		_rank = rank player;
-		_money = player getVariable "dinero";
+		private _score = player getVariable "score";
+		private _rank = rank player;
+		private _money = player getVariable "dinero";
 		{
-		_hired = _x;
+		private _hired = _x;
 		if ((!isPlayer _hired) and (alive _hired)) then {
 			_money = _money + (AS_data_allCosts getVariable ([_x] call AS_fnc_getFIAUnitNameType));
 			if (vehicle _hired != _hired) then {
-				_veh = vehicle _hired;
-				_tipoVeh = typeOf _veh;
+				private _veh = vehicle _hired;
+				private _tipoVeh = typeOf _veh;
 				if (not(_veh in AS_P("vehicles"))) then {
 					if ((_veh isKindOf "StaticWeapon") or (driver _veh == _hired)) then {
 						_money = _money + ([_tipoVeh] call FIAvehiclePrice);
@@ -58,7 +58,7 @@ AS_fnc_getPlayersData = {
 // Stores profile data received from a client.
 AS_fnc_receivePlayerData = {
 	params ["_profileID", "_data"];
-    _index = AS_profileIDs find _profileID;
+    private _index = AS_profileIDs find _profileID;
     if (_index == -1) then {
         AS_profileIDs pushback _profileID;
         AS_profileID_data pushback _data;

@@ -39,14 +39,14 @@ petros allowdamage false;
 
 if (isMultiplayer) then {
 	{
-        _jugador = _x;
+        private _jugador = _x;
         if ([_jugador] call isMember) then
             {
             {_jugador removeMagazine _x} forEach magazines _jugador;
             {_jugador removeWeaponGlobal _x} forEach weapons _jugador;
             removeBackpackGlobal _jugador;
             };
-        _pos = (getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle _jugador)];
+        private _pos = (getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle _jugador)];
         _jugador setPos _pos;
 	} forEach playableUnits;
 
@@ -57,7 +57,7 @@ if (isMultiplayer) then {
 	{player removeWeaponGlobal _x} forEach weapons player;
 	removeBackpackGlobal player;
 
-	_pos = (getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)];
+	private _pos = (getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)];
 	player setPos _pos;
 };
 
@@ -72,13 +72,13 @@ petros allowdamage true;
     sleep 25;
     [_saveName, "tasks"] call fn_LoadStat;
 
-    _tmpCAmrk = + smallCAmrk;
+    private _tmpCAmrk = + smallCAmrk;
     smallCAmrk = [];
 
     {
 		private _position = (_x call AS_fnc_location_position);
-    	_base = [_position] call findBasesForCA;
-    	_radio = _position call radioCheck;
+    	private _base = [_position] call findBasesForCA;
+    	private _radio = _position call radioCheck;
     	if ((_base != "") and (_radio) and (_x in mrkFIA) and (not(_x in smallCAmrk))) then {
         	[_x] remoteExec ["patrolCA",HCattack];
         	smallCAmrk pushBackUnique _x;

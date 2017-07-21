@@ -15,8 +15,8 @@ AS_fnc_savePersistents = {
 	params ["_saveName", "_varNames", "_varValues"];
 
 	{
-		_index = _varNames find _x;
-		_varValue = AS_P(_x);
+		private _index = _varNames find _x;
+		private _varValue = AS_P(_x);
 		if (_index != -1) then {
 			_varValue = _varValues select _index;
 		};
@@ -37,6 +37,7 @@ AS_fnc_savePersistents = {
 
 // function that loads all AS_serverVariables.
 AS_fnc_loadPersistents = {
+	params ["_saveName"];
 
 	// vehicles have to be serialized, so we do it here.
 	private _vehicles = [];
@@ -45,7 +46,7 @@ AS_fnc_loadPersistents = {
 		private _pos = _x select 1;
 		private _dir = _x select 2;
 
-		_veh = _type createVehicle _pos;
+		private _veh = _type createVehicle _pos;
 		_veh setDir _dir;
 		[_veh, "FIA"] call AS_fnc_initVehicle;
 		_vehicles pushBack _veh;
@@ -98,7 +99,7 @@ AS_fnc_loadArsenal = {
 
 AS_fnc_saveHQ = {
     params ["_saveName"];
-	_array = [];
+	private _array = [];
 	{
 		_array pushback [getPos _x, getDir _x];
 	} forEach AS_permanent_HQplacements;
@@ -108,7 +109,7 @@ AS_fnc_saveHQ = {
 	if (!isNil "AS_HQ_placements") then {
 		{
 			// save stuff only close to the HQ.
-			_pos = getPos _x;
+			private _pos = getPos _x;
 			if (_pos distance (getMarkerPos "FIA_HQ") < 50) then {
 				_array pushback [_pos, getDir _x, typeOf _x];
 			};
@@ -120,9 +121,10 @@ AS_fnc_saveHQ = {
 };
 
 AS_fnc_loadHQ = {
+	params ["_saveName"];
 	petros setPos ("FIA_HQ" call AS_fnc_location_position);
 
-	_array = [_saveName, "HQPermanents"] call AS_fnc_LoadStat;
+	private _array = [_saveName, "HQPermanents"] call AS_fnc_LoadStat;
 	for "_i" from 0 to count AS_permanent_HQplacements - 1 do {
 		(AS_permanent_HQplacements select _i) setPos ((_array select _i) select 0);
 		(AS_permanent_HQplacements select _i) setDir ((_array select _i) select 1);
@@ -134,7 +136,7 @@ AS_fnc_loadHQ = {
 	AS_HQ_placements = [];
 	_array = [_saveName, "HQPlacements"] call AS_fnc_LoadStat;
 	for "_i" from 0 to count _array - 1 do {
-		_item = ((_array select _i) select 2) createVehicle ((_array select _i) select 0);
+		private _item = ((_array select _i) select 2) createVehicle ((_array select _i) select 0);
 		_item setDir ((_array select _i) select 1);
 		AS_HQ_placements pushBack _item;
 	};
@@ -162,8 +164,8 @@ AS_fnc_loadMarkers = {
 	// destroy dead antennas and remove respective marker.
 	// antenasmuertas is a list of positions, not markers.
 	{
-		_mrk = [mrkAntenas, _x] call BIS_fnc_nearestPosition;
-		_antena = [antenas, _mrk] call BIS_fnc_nearestPosition;
+		private _mrk = [mrkAntenas, _x] call BIS_fnc_nearestPosition;
+		private _antena = [antenas, _mrk] call BIS_fnc_nearestPosition;
 		antenas = antenas - [_antena];
 		_antena removeAllEventHandlers "Killed";
 		_antena setDamage 1;
@@ -180,8 +182,8 @@ AS_publicVariables = ["miembros"];
 
 //THIS FUNCTIONS HANDLES HOW STATS ARE LOADED
 fn_SetStat = {
-	_varName = _this select 0;
-	_varValue = _this select 1;
+	private _varName = _this select 0;
+	private _varValue = _this select 1;
 	if(isNil '_varValue') exitWith {};
 
 	if(_varName in specialVarLoads) then {

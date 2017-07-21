@@ -67,7 +67,7 @@ AS_fncUI_loadGame = {
     disableSerialization;
     private _id = lbCurSel 0;
     if (_id != -1) then {
-        _saveName = lbData [0, _id];
+        private _saveName = lbData [0, _id];
         private _wasLoaded = ([_saveName] call AS_fnc_loadGame);
         if (_wasLoaded) then {
             [] call AS_fncUI_updateSaveGameList;
@@ -83,7 +83,7 @@ AS_fncUI_deleteGame = {
     disableSerialization;
     private _id = lbCurSel 0;
     if (_id != -1) then {
-        _saveName = lbData [0, _id];
+        private _saveName = lbData [0, _id];
         [_saveName] call AS_fnc_deleteSavedGame;
         [] call AS_fncUI_updateSaveGameList;
         hint format ['"%1" deleted', _saveName];
