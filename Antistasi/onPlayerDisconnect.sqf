@@ -2,11 +2,8 @@
 
 params ["_unit"];
 
-// first, if unit is owning someone, drop that ownership
-private _owner = _unit getVariable ["owner", _unit];
-if (_unit getVariable ["owner",_unit] != _unit) then {
-	selectPlayer _owner;
-};
+// first, if player is controlling another unit, drop that control
+call AS_fnc_safeDropAIcontrol;
 
 if (_unit == AS_commander) then {
 	private _recursos = 0;
@@ -68,10 +65,6 @@ private _cargoArray = [_unit, true] call AS_fnc_getUnitArsenal;
 private _pos = getPosATL _unit;
 private _wholder = nearestObjects [_pos, ["weaponHolderSimulated", "weaponHolder"], 2];
 {deleteVehicle _x;} forEach _wholder + [_unit];
-if (alive _unit) then {
-	_unit setVariable ["owner",_unit,true];
-	_unit setDamage 1;
-};
 
 // send data to the server.
 call AS_fnc_saveLocalPlayerData;

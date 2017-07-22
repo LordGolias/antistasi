@@ -90,13 +90,7 @@ waitUntil {sleep 5;
 
 if (_success) then {
 	if (isPlayer leader _group) then {
-		_owner = (leader _group) getVariable ["owner",leader _group];
-		(leader _group) remoteExec ["removeAllActions",leader _group];
-		_owner remoteExec ["selectPlayer",leader _group];
-		(leader _group) setVariable ["owner",_owner,true];
-		{[_x] joinsilent group _owner} forEach units group _owner;
-		[group _owner, _owner] remoteExec ["selectLeader", _owner];
-		"" remoteExec ["hint",_owner];
+		remoteExec ["AS_fnc_completeDropAIcontrol", leader _group];
 		waitUntil {!(isPlayer leader _group)};
 	};
 

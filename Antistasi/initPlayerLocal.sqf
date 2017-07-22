@@ -83,7 +83,6 @@ else {
 disableUserInput false;
 MIASquadUnits = creategroup WEST;  // units that are not in the squad because they lost communication with the player (no radio).
 player setvariable ["compromised", 0];  // Used by undercover mechanics
-player setVariable ["owner",player,true];  // used to gain temporary control over other units (player != player getVariabe ["owner", player])
 player setVariable ["punish",0,true];  // punish time for Team kill
 player setVariable ["dinero",100,true];  // initial money
 player setVariable ["BLUFORSpawn",true,true];  // means that the unit triggers spawn of zones.

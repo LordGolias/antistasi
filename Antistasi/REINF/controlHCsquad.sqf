@@ -1,45 +1,45 @@
-//if (hayACE) exitWith {hint "Feature disabled with ACE Mod"};
 if (player != AS_commander) exitWith {hint "Only Commander has the ability to control HC units"};
 
-_grupos = _this select 0;
-
-_grupo = _grupos select 0;
-_unit = leader _grupo;
+params ["_groups"];
+private _grupo = _groups select 0;
+private _unit = leader _grupo;
 
 if (_unit getVariable ["inconsciente",false]) exitWith {hint "You cannot control an unconscious unit"};
 if (!alive _unit) exitWith {hint "You cannot control a dead unit"};
-if ((not(typeOf _unit in AS_allFIASoldierClasses)) and ([_unit] call AS_fnc_getFIAUnitType != "Survivor")) exitWith {hint "You cannot control a unit which does not belong to FIA"};
+if ((not(typeOf _unit in AS_allFIASoldierClasses)) and ([_unit] call AS_fnc_getFIAUnitType != "Survivor")) exitWith {
+    hint "You cannot control a unit which does not belong to FIA"
+};
 
-while {(count (waypoints _grupo)) > 0} do
- {
-  deleteWaypoint ((waypoints _grupo) select 0);
- };
+while {(count (waypoints _grupo)) > 0} do {
+    deleteWaypoint ((waypoints _grupo) select 0);
+};
 
-_wp = _grupo addwaypoint [getpos _unit,0];
+private _wp = _grupo addwaypoint [getpos _unit, 0];
 
 {
-if (_x != vehicle _x) then
-	{
-	[_x] orderGetIn true;
+    if (_x != vehicle _x) then {
+    	[_x] orderGetIn true;
 	};
 } forEach units group player;
 
 hcShowBar false;
 hcShowBar true;
 
-_unit setVariable ["owner",player,true];
-selectPlayer _unit;
+// _unit != player
+_unit call AS_fnc_setAIControl;
+// _unit == player
 
-_tiempo = 60;
+player addAction [localize "STR_act_returnControl",{selectPlayer (player getVariable ["owner",player])}];
 
-_unit addAction [localize "STR_act_returnControl",{selectPlayer (player getVariable ["owner",player])}];
-
-waitUntil {sleep 1; hint format ["Time to return control to AI: %1", _tiempo]; _tiempo = _tiempo - 1; (_tiempo < 0) or (isPlayer AS_commander)};
-
-removeAllActions _unit;
-if (!isPlayer (_unit getVariable ["owner",_unit])) then {selectPlayer (_unit getVariable ["owner",_unit])};
-//_unit setVariable ["owner",nil,true];
-
-{[_x] joinsilent group AS_commander} forEach units group AS_commander;
-group AS_commander selectLeader AS_commander;
+private _tiempo = 10;
+waitUntil {sleep 1;
+    hint format ["Time to return control to AI: %1", _tiempo];
+    _tiempo = _tiempo - 1; (_tiempo < 0) or {not call AS_fnc_controlsAI}
+};
 hint "";
+
+removeAllActions player;
+call AS_fnc_safeDropAIControl;
+
+{[_x] joinsilent group player} forEach units group player;
+group player selectLeader player;

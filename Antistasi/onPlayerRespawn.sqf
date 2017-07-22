@@ -29,7 +29,6 @@ private _rango = _viejo getVariable ["rango", "PRIVATE"];
 _dinero = (round (_dinero - (_dinero * 0.1))) max 0;
 
 _nuevo setVariable ["score",_score -1,true];
-_nuevo setVariable ["owner",_nuevo,true];
 _nuevo setVariable ["punish",_punish,true];
 _nuevo setVariable ["respawning",false];
 _nuevo setVariable ["dinero",_dinero,true];
