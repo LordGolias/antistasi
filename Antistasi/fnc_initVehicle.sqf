@@ -86,7 +86,7 @@ if (_side in ["AAF","CSAT"] and (_veh isKindOf "StaticWeapon")) then {
 };
 
 if (_tipo in allStatMortars) then {
-	// mortars denounce position for every shot fired.
+	// mortars may denounce position for every shot fired.
 	_veh addEventHandler ["Fired", {
 		params ["_mortar"];
 		private _side = side gunner _mortar;
@@ -94,12 +94,10 @@ if (_tipo in allStatMortars) then {
 		if (_side == side_blue) then {
 			if (random 8 < 1) then {
 				if (_mortar distance (getMarkerPos "FIA_HQ") < 200) then {
-					if !("DEF_HQ" in misiones) then {
+					if (count ("aaf_attack_hq" call AS_fnc_active_missions) == 0) then {
 						private _lider = leader (gunner _mortar);
-						if (!isPlayer _lider) then {
+						if (!isPlayer _lider or {[_lider] call isMember}) then {
 							[] remoteExec ["ataqueHQ",HCattack];
-						} else {
-							if ([_lider] call isMember) then {[] remoteExec ["ataqueHQ",HCattack]};
 						};
 					};
 				} else {

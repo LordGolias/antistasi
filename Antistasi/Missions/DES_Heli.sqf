@@ -1,36 +1,28 @@
-#include "../macros.hpp"
-if (!isServer and hasInterface) exitWith{};
-params ["_location", "_source"];
+params ["_mission"];
+private _location = _mission call AS_fnc_mission_location;
+private _position = _location call AS_fnc_location_position;
 
-private _posicion = _location call AS_fnc_location_position;
-private _size = _location call AS_fnc_location_size;
 private _nombredest = [_location] call localizar;
 
 private _tskTitle = localize "STR_tsk_DesHeli";
 private _tskDesc = format [localize "STR_tskDesc_DesHeli",_nombredest];
-
-if (_source == "mil") then {
-	private _val = server getVariable "milActive";
-	server setVariable ["milActive", _val + 1, true];
-};
 
 private _posHQ = getMarkerPos "FIA_HQ";
 
 private _poscrash = [0,0,0];
 while {surfaceIsWater _poscrash or (_poscrash distance _posHQ) < 4000} do {
 	sleep 0.1;
-	_poscrash = [_posicion, 5000, random 360] call BIS_fnc_relPos;
+	_poscrash = [_position, 5000, random 360] call BIS_fnc_relPos;
 };
 
 private _tipoVeh = (["planes", "armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all) call BIS_fnc_selectRandom;
 
 private _posCrashMrk = [_poscrash,random 500,random 360] call BIS_fnc_relPos;
-private _posCrash = _posCrash findEmptyPosition [0,100,_tipoVeh];
+private _posCrash = _poscrash findEmptyPosition [0,100,_tipoVeh];
 private _mrkfin = createMarker [format ["DES%1", random 100], _posCrashMrk];
 _mrkfin setMarkerShape "ICON";
 
-private _tsk = ["DES",[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-misiones pushBack _tsk; publicVariable "misiones";
+private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 
 private _vehiculos = [];
 private _soldados = [];
@@ -56,7 +48,7 @@ _soldados pushBack _unit;
 private _tam = 100;
 private _roads = [];
 while {count _roads == 0} do {
-	_roads = _posicion nearRoads _tam;
+	_roads = _position nearRoads _tam;
 	_tam = _tam + 50;
 };
 private _road = _roads select 0;
@@ -76,7 +68,7 @@ _vehiculos pushBack _veh;
 sleep 1;
 
 private _tipoGrupo = [infPatrol, side_green] call fnc_pickGroup;
-private _grupo = [_posicion, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+private _grupo = [_position, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 
 {
 	_x assignAsCargo _veh;
@@ -118,18 +110,13 @@ private _fnc_clean = {
 		{deleteVehicle _x} forEach (_smoke getVariable ["effects", []]);
 		deleteVehicle _smoke;
 	};
-
-	if (_source == "mil") then {
-		private _val = server getVariable "milActive";
-		server setVariable ["milActive", _val - 1, true];
-	};
-
-	[1200,_tsk] spawn borrarTask;
-
 	[_grupos, _vehiculos, [_mrkfin]] call AS_fnc_cleanResources;
+	sleep 30;
+    [_task] call BIS_fnc_deleteTask;
+    _mission call AS_fnc_mission_completed;
 };
 
-private _fnc_missionFailedCondition = {_vehT distance _posicion < 50};
+private _fnc_missionFailedCondition = {_vehT distance _position < 50};
 
 private _fnc_missionFailed = {
 	_vehT doMove position _heli;
@@ -139,7 +126,7 @@ private _fnc_missionFailed = {
 		deleteVehicle _smoke;
 	};
 
-	_Vwp0 = _grupoVehT addWaypoint [_posicion, 1];
+	_Vwp0 = _grupoVehT addWaypoint [_position, 1];
 	_Vwp0 setWaypointType "MOVE";
 	_Vwp0 setWaypointBehaviour "SAFE";
 
@@ -150,11 +137,11 @@ private _fnc_missionFailed = {
 	_Gwp0 setWaypointType "GETIN";
 	_Vwp0 synchronizeWaypoint [_Gwp0];
 
-	_Vwp0 = _grupoVeh addWaypoint [_posicion, 2];
+	_Vwp0 = _grupoVeh addWaypoint [_position, 2];
 	_Vwp0 setWaypointType "MOVE";
 	_Vwp0 setWaypointBehaviour "SAFE";
 
-	_tsk = ["DES",[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 	[-600] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 	[-10,AS_commander] call playerScoreAdd;
 	call _fnc_clean;
@@ -163,7 +150,7 @@ private _fnc_missionFailed = {
 private _fnc_missionSuccessfulCondition = {not alive _heli};
 
 private _fnc_missionSuccessful = {
-	_tsk = ["DES",[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 	[0,300] remoteExec ["resourcesFIA",2];
 	[5,0] remoteExec ["prestige",2];
 	[1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];

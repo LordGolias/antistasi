@@ -1,12 +1,11 @@
-if (!isServer and hasInterface) exitWith{};
-params ["_location"];
-
+params ["_mission"];
+private _location = _mission call AS_fnc_mission_location;
 private _position = _location call AS_fnc_location_position;
-private _location_name = [_location] call localizar;
+
 private _size = _location call AS_fnc_location_size;
 
 private _tskTitle = localize "STR_tsk_resRefugees";
-private _tskDesc = format [localize "STR_tskDesc_resRefugees", _location_name, A3_STR_INDEP];
+private _tskDesc = format [localize "STR_tskDesc_resRefugees", [_location] call localizar, A3_STR_INDEP];
 
 private _POWs = [];
 
@@ -15,15 +14,14 @@ private _houses = nearestObjects [_position, ["house"], _size];
 private _house_positions = [];
 private _house = _houses select 0;
 while {count _house_positions < 5} do {
-	_house = _houses call BIS_Fnc_selectRandom;
+	_house = selectRandom _houses;
 	_house_positions = [_house] call BIS_fnc_buildingPositions;
 	if (count _house_positions < 5) then {
 		_houses = _houses - [_house]
 	};
 };
 
-private _tsk = ["RES",[side_blue,civilian],[_tskDesc,_tskTitle,_location],getPos _house,"CREATED",5,true,true,"run"] call BIS_fnc_setTask;
-misiones pushBack _tsk; publicVariable "misiones";
+private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],getPos _house,"CREATED",5,true,true,"run"] call BIS_fnc_setTask;
 
 private _grupo = createGroup side_blue;
 
@@ -43,24 +41,24 @@ for "_i" from 0 to _num - 1 do {
 };
 {_x allowDamage true} forEach _POWs;
 
-sleep 30;
-
-[_house] spawn {
-	params ["_house"];
-	sleep (300 + random 1800);
-	if ("RES" in misiones) then {[position _house] remoteExec ["patrolCA",HCattack]};
+[_position, _mission] spawn {
+	params ["_position", "_mission"];
+	sleep (5*60 + random (30*60));
+	if (_mission call AS_fnc_mission_status == "active") then {[_position] remoteExec ["patrolCA",HCattack]};
 };
 
 private _fnc_clean = {
-	[1200,_tsk] spawn borrarTask;
-
 	[[_grupo]] call AS_fnc_cleanResources;
+
+	sleep 30;
+	[_task] call BIS_fnc_deleteTask;
+	_mission call AS_fnc_mission_completed;
 };
 
 private _fnc_missionFailedCondition = {{alive _x} count _POWs < (count _POWs)/2};
 
 private _fnc_missionFailed = {
-	_tsk = ["RES",[side_blue,civilian],[_tskDesc,_tskTitle,_location_name],getPos _house,"FAILED",5,true,true,"run"] call BIS_fnc_setTask;
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],getPos _house,"FAILED",5,true,true,"run"] call BIS_fnc_setTask;
 	[count _POWs,0] remoteExec ["prestige",2];
 	[0,-15,_position] remoteExec ["citySupportChange",2];
 	[-10,AS_commander] call playerScoreAdd;
@@ -71,7 +69,7 @@ private _fnc_missionFailed = {
 private _fnc_missionSuccessfulCondition = {{(alive _x) and (_x distance getMarkerPos "FIA_HQ" < 50)} count _POWs > ({alive _x} count _POWs) / 2};
 
 private _fnc_missionSuccessful = {
-	_tsk = ["RES",[side_blue,civilian],[_tskDesc,_tskTitle,_location_name],getPos _house,"SUCCEEDED",5,true,true,"run"] call BIS_fnc_setTask;
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],getPos _house,"SUCCEEDED",5,true,true,"run"] call BIS_fnc_setTask;
 	private _hr = {alive _x} count _POWs;
 	[_hr,0] remoteExec ["resourcesFIA",2];
 	[0,_hr,_location] remoteExec ["citySupportChange",2];

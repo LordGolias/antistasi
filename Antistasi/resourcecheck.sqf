@@ -13,9 +13,6 @@ while {true} do {
 	// Assign new commander if needed.
 	if (isMultiplayer) then {[] spawn assignStavros};
 
-	// if no attacks in progress, request a random mission with 50% chance.
-	if ((not("AtaqueAAF" in misiones)) and (random 100 < 50)) then {[] call missionRequestAUTO};
-
 	// if too little patrols, generate new patrols.
 	if (AAFpatrols < 3) then {[] remoteExec ["genRoadPatrol",hcAttack]};
 
@@ -34,7 +31,7 @@ while {true} do {
 	// start AAF attacks under certain conditions.
 	if ((AS_P("secondsForAAFAttack") < 1) and (diag_fps > AS_P("minimumFPS"))) then {
 		private _awActive = server getVariable ["waves_active",false];
-		if ((not("AtaqueAAF" in misiones)) and !_awActive) then {
+		if ((count ("aaf_attack" call AS_fnc_active_missions) == 0) and !_awActive) then {
 			private _script = [] spawn ataqueAAF;
 			waitUntil {sleep 5; scriptDone _script};
 		};

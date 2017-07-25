@@ -4,8 +4,7 @@ params ["_type", "_money"];
 private ["_weapons", "_accessories", "_amount"];
 
 if (AS_P("resourcesFIA") < _money) exitWith {
-	_l1 = ["Devin", "Get lost ya cheap wanker!"];
-    [[_l1],"DIRECT",0.15] execVM "createConv.sqf";
+	hint "not enough money :(";
 };
 
 private _buyableWeapons = CSATweapons + NATOweapons;
@@ -41,15 +40,11 @@ switch (_type) do {
 if (_type in ["ASRifles", "Machineguns", "Sniper Rifles", "Launchers", "Pistols", "GLaunchers"]) then {
 	_weapons = _weapons - unlockedWeapons;
     for "_i" from 1 to _amount do {
-        _weapon = selectRandom _weapons;
+        private _weapon = selectRandom _weapons;
         expCrate addItemCargoGlobal [_weapon, 1];
-        _magazines = AS_allWeaponsAttrs select (AS_allWeapons find _weapon);
+        private _magazines = AS_allWeaponsAttrs select (AS_allWeapons find _weapon);
         expCrate addMagazineCargoGlobal [selectRandom _magazines, 10];
     };
 };
-
-_l2 = ["Devin", "Aye, the market for explosives is boomin'. They be hard to get a hold of, don't ya know."];
-if (_money > 1000) then {_l2 = ["Devin", "Yer a fine customer. Give ya an even better deal next time."]};
-[[_l2],"DIRECT",0.15] execVM "createConv.sqf";
 
 [0, -_money] remoteExec ["resourcesFIA",2];

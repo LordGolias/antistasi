@@ -145,30 +145,9 @@ fn_LoadStat = AS_fnc_LoadStat;  // to be replaced in whole project.
 
 fn_SaveProfile = {saveProfileNamespace};
 
-AS_fnc_saveMarkers = {
-	params ["_saveName"];
-	[_saveName, "deadAntennas", antenasmuertas] call fn_SaveStat;
-};
-
-AS_fnc_loadMarkers = {
-	params ["_saveName"];
-
-	antenasmuertas = [_saveName, "deadAntennas"] call fn_LoadStat;
-	// destroy dead antennas and remove respective marker.
-	// antenasmuertas is a list of positions, not markers.
-	{
-		private _mrk = [mrkAntenas, _x] call BIS_fnc_nearestPosition;
-		private _antena = [antenas, _mrk] call BIS_fnc_nearestPosition;
-		antenas = antenas - [_antena];
-		_antena removeAllEventHandlers "Killed";
-		_antena setDamage 1;
-		deleteMarker _mrk;
-	} forEach antenasmuertas;
-};
-
 //===========================================================================
 // Variables that require scripting after loaded. See fn_SetStat.
-specialVarLoads = ["fecha","tasks"];
+specialVarLoads = ["fecha"];
 
 // global variables that are set to be publicVariable on loading.
 AS_publicVariables = ["miembros"];
@@ -182,26 +161,6 @@ fn_SetStat = {
 	if(_varName in specialVarLoads) then {
 		call {
 			if(_varName == 'fecha') exitWith {setDate _varValue; forceWeatherChange};
-			if(_varname == 'tasks') exitWith
-				{
-				{
-				if (_x == "AtaqueAAF") then
-					{
-					[] call ataqueAAF;
-					}
-				else
-					{
-					if (_x == "DEF_HQ") then
-						{
-						[] spawn ataqueHQ;
-						}
-					else
-						{
-						[_x,true] call missionRequest;
-						};
-					};
-				} forEach _varvalue;
-				};
 		};
 	}
 	else

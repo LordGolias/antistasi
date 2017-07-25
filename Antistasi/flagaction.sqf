@@ -41,7 +41,6 @@ switch _tipo do {
 		};
 	case "heal_camp": {_flag addAction [localize "STR_act_useMed", "heal.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
 	case "refuel": {_flag addAction [localize "STR_act_refuel", "refuel.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
-	case "conversation": {_flag addAction [localize "STR_act_talk", "AI\conversation.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
 	case "buy_exp": {_flag addAction [localize "STR_act_buy", {nul=CreateDialog "exp_menu";},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
 	case "jam": {_flag addAction [localize "STR_act_jamCSAT", "jamLRRAdio.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
 	case "toggle_device": {_flag addAction [localize "STR_act_toggleDevice", "Scripts\toggleDevice.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};

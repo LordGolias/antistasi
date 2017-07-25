@@ -131,7 +131,7 @@ AS_fnc_AAFarsenal_cost = {
 };
 
 // Returns the value of selling a given category
-AS_fnc_AAFarsenal_cost = {
+AS_fnc_AAFarsenal_value = {
     params ["_category"];
 	CHECK_CATEGORY(_category);
     AS_AAFarsenal getVariable ("value_" + _category)

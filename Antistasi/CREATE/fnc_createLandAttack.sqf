@@ -1,4 +1,4 @@
-params ["_toUse", "_posorigen", "_posdestino", "_threatEval", "_isMarker"];
+params ["_toUse", "_posorigen", "_posdestino", "_threatEval"];
 
 private _soldiers = [];
 private _groups = [];
@@ -31,15 +31,15 @@ _vehicles pushBack _veh;
 {[_x] call AS_fnc_initUnitAAF} forEach _vehCrew;
 [_veh,"AAF"] call AS_fnc_initVehicle;
 
+private _landPos = [_posdestino, position _road,_threatEval] call findSafeRoadToUnload;
+
 if (_toUse == "tanks") then {
-	_Vwp0 = _grupoVeh addWaypoint [_landPos, 0];
+	private _Vwp0 = _grupoVeh addWaypoint [_landPos, 0];
 	_Vwp0 setWaypointBehaviour "SAFE";
 	[_veh,"Tank"] call inmuneConvoy;
 	_Vwp0 setWaypointType "SAD";
 	_veh allowCrewInImmobile true;
 } else {
-	private _landPos = [_posdestino, position _road,_threatEval] call findSafeRoadToUnload;
-
 	// todo: to a better job at selecting groups/units here: they may not fit.
 	private _seats = ([_tipoVeh,true] call BIS_fnc_crewCount) - ([_tipoVeh,false] call BIS_fnc_crewCount);
 	private _tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
@@ -51,16 +51,16 @@ if (_toUse == "tanks") then {
 		private _group = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 		{[_x] spawn AS_fnc_initUnitAAF; _x assignAsCargo _veh; _x moveInCargo _veh; _soldiers pushBack _x} forEach units _group;
 		_groups pushBack _group;
-		_Vwp0 = _grupoVeh addWaypoint [_landPos, 0];
+		private _Vwp0 = _grupoVeh addWaypoint [_landPos, 0];
 		_Vwp0 setWaypointBehaviour "SAFE";
 		_Vwp0 setWaypointType "TR UNLOAD";
-		_Vwp1 = _grupoVeh addWaypoint [_posdestino, 1];
+		private _Vwp1 = _grupoVeh addWaypoint [_posdestino, 1];
 		_Vwp1 setWaypointType "SAD";
 		_Vwp1 setWaypointBehaviour "COMBAT";
-		_Vwp2 = _group addWaypoint [_landPos, 0];
+		private _Vwp2 = _group addWaypoint [_landPos, 0];
 		_Vwp2 setWaypointType "GETOUT";
 		_Vwp0 synchronizeWaypoint [_Vwp2];
-		_Vwp3 = _group addWaypoint [_posdestino, 1];
+		private _Vwp3 = _group addWaypoint [_posdestino, 1];
 		_Vwp3 setWaypointType "SAD";
 		[_veh] spawn smokeCover;
 		[_veh,"APC"] spawn inmuneConvoy;
@@ -79,10 +79,10 @@ if (_toUse == "tanks") then {
 		(units _group) join _grupoVeh;
 		deleteGroup _group;
 
-		_Vwp0 = _grupoVeh addWaypoint [_landPos, 0];
+		private _Vwp0 = _grupoVeh addWaypoint [_landPos, 0];
 		_Vwp0 setWaypointBehaviour "SAFE";
 		_Vwp0 setWaypointType "GETOUT";
-		_Vwp1 = _grupoVeh addWaypoint [_posdestino, 1];
+		private _Vwp1 = _grupoVeh addWaypoint [_posdestino, 1];
 		_Vwp1 setWaypointType "SAD";
 		_Vwp1 setWaypointBehaviour "COMBAT";
 		[_veh,"Inf Truck."] spawn inmuneConvoy;

@@ -91,9 +91,9 @@ AS_fnc_object_add = {
 
     _objects pushBack _object;
     AS_objects setVariable ["_all", _objects, _isGlobal];
-    AS_objects setVariable ["_properties_" + _object, [], _isGlobal];
+    AS_objects setVariable ["_properties_" + _object, ["_properties"], _isGlobal];
 
-    // _isGlobal has to be the first property set so next ones area already set correctly.
+    // _isGlobal has to be the first property set so next ones are already set correctly.
     [_object, "_isGlobal", _isGlobal] call AS_fnc_object_set;
     [_object, "_type", _type] call AS_fnc_object_set;
 };
@@ -159,4 +159,45 @@ AS_fnc_object_remove = {
     // itself
     AS_objects setVariable ["all", _objects - [_object], _isGlobal];
     AS_objects setVariable ["_properties_" + _object, nil, _isGlobal];
+};
+
+AS_fnc_object_save = {
+    params ["_saveName"];
+    private _objects = call AS_fnc_objects;
+    [_saveName, "AS_objects", _objects] call fn_SaveStat;
+    {
+        private _object = _x;
+        private _properties = _object call AS_fnc_object_properties;
+        // saves both "_" and non-"_" properties.
+        {
+            [_saveName, "AS_objects_" + _object + "_" + _x, [_object, _x] call AS_fnc_object_get] call fn_SaveStat;
+        } forEach _properties;
+    } forEach _objects;
+};
+
+AS_fnc_object_load = {
+    params ["_saveName"];
+
+    // remove all existing objects first
+    {
+        _x call AS_fnc_object_remove;
+    } forEach (call AS_fnc_objects);
+
+    // populate with the saved objects
+    private _objects = [_saveName, "AS_objects"] call fn_LoadStat;
+    {
+        //
+        private _object = _x;
+        private _type = [_saveName, "AS_objects_" + _object + "_" + "_type"] call fn_LoadStat;
+        private _isGlobal = [_saveName, "AS_objects_" + _object + "_" + "_isGlobal"] call fn_LoadStat;
+        [_object, _type, _isGlobal] call AS_fnc_object_add;
+
+        private _properties = [_saveName, "AS_objects_" + _object + "_" + "_properties"] call fn_LoadStat;
+        {
+            if (_x find "_" != 0) then {
+                private _value = [_saveName, "AS_objects_" + _object + "_" + _x] call fn_LoadStat;
+                [_object, _x, _value] call AS_fnc_object_set;
+            };
+        } forEach _properties;
+    } forEach _objects;
 };

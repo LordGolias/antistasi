@@ -15,6 +15,7 @@ This modified version has the same mechanics and the same features but improves 
 * There is no "petros cavalary": this is the commander's responsibility.
 * Menus were remade from scratch to better accommodate more buttons and other layouts.
 * Locations backend was rewritten from scratch.
+* Missions backend was rewritten from scratch.
 
 The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 line added, 2 lines were deleted, I have +4 years experience as professional programer).
 
@@ -36,9 +37,9 @@ or `templates/CSAT.sqf` (for CSAT)
 
 Essentially, our code detects every unit from that faction, and populates
 the correct lists with the equipment (weapons, items, vests, etc.) that the units use.
-This way, you only need to focus on adding vehicles, groups and units; the rest is automatic.
+This way, you only need to focus on adding vehicles, groups and units; the remaining is automatic.
 
-In the vanilla version, everything related to AAF is only defined in `templates/AAF.sqf`.
+Everything related to the faction AAF is defined only in `templates/AAF.sqf`.
 
 # Replacing Worlds
 
@@ -49,12 +50,6 @@ This version supports easy replacement of worlds. Use the following steps:
 3. Create markers on different points of interest. These can be airfields, bases, etc.
 The markers names must start with "AS_airfield", "AS_base", etc.
 2. Add markers to it.
-
-Essentially, our code detects every unit from that faction, and populates
-the correct lists with the equipment (weapons, items, vests, etc.) that the units use.
-This way, you only need to focus on adding vehicles, groups and units; the rest is automatic.
-
-In the vanilla version, everything related to AAF is only defined in `templates/AAF.sqf`.
 
 # Development
 
@@ -77,10 +72,9 @@ Steps after installing the software above:
     4. tick the option `Save settings on exit`, untick `Bidirectional sync` and tick `realtime sync`
     5. When asked to sync first time, say yes.
 
-Step 4. guarantees that when you modify the source code in directory SOURCE (tracked by git), the files are automatically copied to the destination, and
-are therefore available to test on Arma 3 Eden editor.
+Step 4. guarantees that when you modify the source code in directory SOURCE (tracked by git), the files are automatically copied to the destination, and are therefore available to test on Arma 3 Eden editor.
 
-Lets test that everything works:
+Test that everything works:
 
 1. Open the Eden editor (on profile `antistasi_edit`), and the text editor on directory X.
 2. Start the preview. The mission should start as normal.
@@ -244,6 +238,25 @@ Related globals:
 - `AS_permanent_HQplacements`: all permanent HQ objects (e.g. caja)
 - `AS_HQ_placements`: all non-permanent HQ objects (e.g. sandbags)
 
+## Missions
+
+A mission is a persistent data structure that has a `type` (e.g. `kill_officer`),
+a `status` (e.g. `available`), and other properties. These properties are used
+to call scripts that start a scripted set of events with tasks for the players.
+Every script is stored in the directory `Missions/`, and the API to
+create, start, and cancel missions is defined in `Missions/mission.sqf`.
+For example, to create the mission to `kill_officer` in city `_cityName`, use
+
+```
+// create and save it persistently
+["kill_officer", _cityName] call AS_fnc_mission_add;
+// spawn its script
+["kill_officer", true] AS_fnc_mission_activate;
+...
+// delete it (do not do it until the script finishes):
+"kill_officer" AS_fnc_mission_remove;
+```
+
 ## Vehicles
 
 Vehicles are bought by FIA or AAF, or are spawned by NATO/CSAT. Afterwards:
@@ -265,8 +278,8 @@ The AAF attacks from time to time. The relevant variable that controls this is t
 `AS_P("secondsForAAFattack")`. This variable is modified via `fnc_changeSecondsForAAFattack`.
 The script that starts attacks is the `ataqueAAF.sqf`. It is run from the loop in `resourcecheck.sqf`
 when `AS_P("secondsForAAFattack") == 0`. `ataqueAAF.sqf` checks whether it is worth to attack
-a given location, and, if yes, it spawns the attack accordingly using `CSATpunish.sqf` (for cities),
-`combinedCA.sqf` (for other locations), and `Mission/CONVOY.sqf` (when no locations are available to attack).
+a given location, and, if yes, it spawns the attack accordingly using `CSATpunish.sqf` (for cities)
+and `combinedCA.sqf` (for other locations).
 
 ## Minefields
 
@@ -283,4 +296,4 @@ Relevant scripts:
 * `Functions/fnc_addMinefield.sqf`: adds a new minefield
 * `Functions/fnc_deployAAFminefield.sqf`: tries to find a suitable position and creates an AAF minefield (called by `AAFeconomics.sqf`).
 * `Functions/fnc_deployFIAminefield.sqf`: interface for the player to choose a position and mine positions to place a minefield (it creates a mission).
-* `REINF\missionFIAminefield.sqf`: the mission that creates a FIA minefield
+* `Missions\missionFIAminefield.sqf`: the mission that creates a FIA minefield

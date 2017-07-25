@@ -175,7 +175,7 @@ campNames = ["Spaulding","Wagstaff","Firefly","Loophole","Quale","Driftwood","Fl
 			"Fieramosca","Bulldozer","Bambino","Pedersoli"];
 
 // todo: improve this.
-expCrate = ""; // Devin's crate
+expCrate = ""; // dealer's crate
 
 // load functions required by the server
 #include "Functions\serverFunctions.sqf"
@@ -235,9 +235,6 @@ AS_Pset("maxAISkill",0.9); // The maximum skill of the AAF/FIA AI (at highest sk
 AS_Sset("revealFromRadio",false);
 
 // todo: document these variables...
-AS_Sset("milActive",0);
-AS_Sset("civActive",0);
-AS_Sset("expActive", false);
 AS_Sset("blockCSAT", false);
 AS_Sset("jTime", false);
 AS_Sset("lockTransfer", false);
@@ -256,10 +253,6 @@ AS_spawnLoopTime = 0.5; // seconds between each check of spawn/despawn locations
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_special;
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_NCO;
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_sniper;
-
-// todo: document this
-misiones = [];
-publicVariable "misiones";
 
 // list of vehicles (objects) that can no longer be used for undercover
 // This is non-persistent as it is a temporary component

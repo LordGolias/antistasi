@@ -1,7 +1,11 @@
 private _enemies_around = false;
 
-if ("AtaqueAAF" in misiones) exitWith {hint "You cannot rest while AAF or CSAT is counterattacking"};
-if ("DEF_HQ" in misiones) exitWith {hint "You cannot rest while your HQ is under attack"};
+if (count ("aaf_attack" call AS_fnc_active_missions) != 0) exitWith {
+	hint "You cannot rest while FIA is under attack";
+};
+if (count ("aaf_attack_hq" call AS_fnc_active_missions) != 0) exitWith {
+	hint "You cannot rest while FIA HQ is under attack";
+};
 
 {
 	if (((side _x == side_green) or (side _x == side_red)) and

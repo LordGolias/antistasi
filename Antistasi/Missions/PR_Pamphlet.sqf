@@ -1,9 +1,8 @@
 #include "../macros.hpp"
-if (!isServer and hasInterface) exitWith{};
-
-params ["_location"];
+params ["_mission"];
+private _location = _mission call AS_fnc_mission_location;
 private _position = _location call AS_fnc_location_position;
-private _position = _location call AS_fnc_location_population;
+
 private _locationName = [_location] call localizar;
 private _size = _location call AS_fnc_location_size;
 
@@ -18,8 +17,7 @@ private _tskDesc_fail = format [localize "STR_tskDesc_PRPamphlet_fail", _locatio
 private _tskDesc_drop = format [localize "STR_tskDesc_PRPamphlet_drop",_locationName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
 private _tskDesc_success = format [localize "STR_tskDesc_PRPamphlet_success",_locationName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
 
-private _tsk = ["PR",[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
-misiones pushBack _tsk; publicVariable "misiones";
+private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
 
 // spawn mission vehicle
 private _truck = "C_Van_01_transport_F" createVehicle ((getMarkerPos "FIA_HQ") findEmptyPosition [5,50,"C_Van_01_transport_F"]);
@@ -118,9 +116,11 @@ for "_i" from 0 to 1 do {
 } forEach _grupos;
 
 private _fnc_clean = {
-	[1200,_tsk] spawn borrarTask;
-
 	[_grupos, _leafletDrops + _PRCrates] call AS_fnc_cleanResources;
+
+	sleep 30;
+	[_task] call BIS_fnc_deleteTask;
+	_mission call AS_fnc_mission_completed;
 
 	waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,_truck,"BLUFORSpawn"] call distanceUnits)) or ((_truck distance (getMarkerPos "FIA_HQ") < 60) and (speed _truck < 1))};
 	if ((_truck distance (getMarkerPos "FIA_HQ") < 60) and (speed _truck < 1)) then {
@@ -133,7 +133,7 @@ private _fnc_clean = {
 private _fnc_missionFailedCondition = {(dateToNumber date > _fechalimnum) or (not alive _truck)};
 
 private _fnc_missionFailed = {
-	_tsk = ["PR",[side_blue,civilian], [_tskDesc_fail,_tskTitle,_location],_position,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
+	_task = [_mission,[side_blue,civilian], [_tskDesc_fail,_tskTitle,_location],_position,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
 	[0,-2,_location] remoteExec ["citySupportChange",2];
 	[-10,AS_commander] call playerScoreAdd;
 
@@ -141,7 +141,7 @@ private _fnc_missionFailed = {
 };
 
 private _fnc_missionSuccessful = {
-	_tsk = ["PR",[side_blue,civilian], [_tskDesc_success,_tskTitle,_location],_position,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
+	_task = [_mission,[side_blue,civilian], [_tskDesc_success,_tskTitle,_location],_position,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
 	[-15,5,_location] remoteExec ["citySupportChange",2];
 	[5,0] remoteExec ["prestige",2];
 	{if (_x distance _position < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
@@ -192,7 +192,7 @@ while {(_currentDropCount < _totalDropCounts) and {not call _fnc_missionFailedCo
 
 	// advance site, refresh task
 	_currentDrop = _targetBuildings select _currentDropCount;
-	_tsk = ["PR",[side_blue,civilian],[_tskDesc_drop,_tskTitle,_location], position _currentDrop,"ASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
+	_task = [_mission,[side_blue,civilian],[_tskDesc_drop,_tskTitle,_location], position _currentDrop,"ASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
 
 	// send patrol to the location
 	private _patGroup = _grupos select 0;

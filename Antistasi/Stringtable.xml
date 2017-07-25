@@ -225,7 +225,7 @@
 			</Key>
 
 			<Key ID="STR_tsk_DesVehicle">
-				<Original>Steal or Destroy Armor</Original>
+				<Original>Destroy Armor</Original>
 			</Key>
 			<Key ID="STR_tskDesc_DesVehicle">
 				<Original>We know an %4 is stationed in %1. This is a good chance to steal or destroy it before it causes more damage. Do it before %2:%3.</Original>

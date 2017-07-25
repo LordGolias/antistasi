@@ -1,20 +1,21 @@
 #include "macros.hpp"
-//if (player != AS_commander) exitWith {hint "Only Commander can ask for NATO support"};
-_tipo = _this select 0;
+params ["_type"];
 
 if (!allowPlayerRecruit) exitWith {hint "Server is very loaded. \nWait one minute or change FPS settings in order to fulfill this request"};
-if (_tipo in misiones) exitWith {hint "NATO is already busy with this kind of mission"};
+if (count (_type call AS_fnc_active_missions) != 0) exitWith {hint "NATO is already busy with this kind of mission"};
 if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
 
-_bases = [["base"], "FIA"] call AS_fnc_location_TS;
-_aeropuertos = [["airfield"], "FIA"] call AS_fnc_location_TS;
+private _bases = [["base"], "FIA"] call AS_fnc_location_TS;
+private _aeropuertos = [["airfield"], "FIA"] call AS_fnc_location_TS;
 
-if (((_tipo == "NATOArty") or (_tipo == "NATOArmor") or (_tipo == "NATORoadblock")) and (count _bases == 0)) exitWith {hint "You need to conquer at least one base to perform this action"};
+if (_type in ["NATOArty", "NATOArmor", "NATORoadblock"] and (count _bases == 0)) exitWith {
+	hint "You need to conquer at least one base to perform this action"
+};
 
 _costeNATO = 5;
 _textoHint = "";
 
-switch (_tipo) do {
+switch (_type) do {
 	case "NATOCA": {
 		_costeNATO = 20;
 		_textohint = "Click on the base or airport you want NATO to attack";
@@ -49,8 +50,8 @@ _NATOSupp = AS_P("prestigeNATO");
 
 if (_NATOSupp < _costeNATO) exitWith {hint format ["We lack of enough NATO Support in order to proceed with this request (%1 needed)",_costeNATO]};
 
-if (_tipo == "NATOCAS") exitWith {[] remoteExec [_tipo,HCattack]};
-if (_tipo == "NATOUAV") exitWith {[] remoteExec [_tipo,HCattack]};
+if (_type == "NATOCAS") exitWith {};
+if (_type == "NATOUAV") exitWith {[] remoteExec [_type,HCattack]};
 
 posicionTel = [];
 
@@ -65,7 +66,7 @@ onMapSingleClick "";
 if (!visibleMap) exitWith {};
 
 _posicionTel =+ posicionTel;
-if ((_tipo != "NATOArmor") or (_tipo == "NATORoadblock")) then {openMap false};
+if ((_type != "NATOArmor") or (_type == "NATORoadblock")) then {openMap false};
 
 // break, in case no valid point of origin was selected
 _salir = false;
@@ -75,20 +76,20 @@ _loc = "spawnNATO";
 
 
 // roadblocks, only allowed on roads
-if (_tipo == "NATORoadblock") exitWith {
+if (_type == "NATORoadblock") exitWith {
 	_check = isOnRoad _posicionTel;
 	if !(_check) exitWith {hint "Roadblocks can only be placed on roads."};
-	[_posicionTel] remoteExec [_tipo,HCattack];
+	[_posicionTel] remoteExec [_type,HCattack];
 };
 
-if (_tipo == "NATOAmmo") exitWith {[_posiciontel,_NATOSupp] remoteExec [_tipo, HCattack]};
+if (_type == "NATOAmmo") exitWith {[_posiciontel,_NATOSupp] remoteExec [_type, HCattack]};
 
 private _location = _posicionTel call AS_fnc_location_nearest;
 private _position = _location call AS_fnc_location_position;
 private _type = _location call AS_fnc_location_type;
 private _side = _location call AS_fnc_location_side;
 
-if (_tipo == "NATOQRF") exitWith {
+if (_type == "NATOQRF") exitWith {
 	_sitioName = "the NATO carrier";
 	if (_type in ["base", "arfield"]) then {
 		_loc = _location;
@@ -116,12 +117,12 @@ if (_tipo == "NATOQRF") exitWith {
 
 if (_posicionTel distance _position > 50) exitWith {hint "You must click near a map marker"};
 
-if (_tipo == "NATOArty") exitWith {
+if (_type == "NATOArty") exitWith {
 	if (_type != "base") exitWith {hint "Artillery support can only be obtained from bases."};
 	[_location] remoteExec ["NATOArty", HCattack];
 };
 
-if (_tipo == "NATOArmor") then {
+if (_type == "NATOArmor") then {
 	if (_type != "base") then {
 		_salir = true;
 		hint "You must click near a friendly base";
@@ -151,13 +152,13 @@ if (_tipo == "NATOArmor") then {
 	};
 };
 
-if (_tipo == "NATOCA") then {
+if (_type == "NATOCA") then {
 	if !(_type in ["base", "outpost", "airfield", "outpostAA"]) then {_salir = true; hint "NATO won't attack this kind of zone."};
 	if (_side == "FIA") then {_salir = true; hint "NATO Attacks may be only ordered on AAF controlled zones"};
 };
 
 if (_salir) exitWith {};
 
-if (_tipo == "NATOCA") then {
-	[_location] remoteExec [_tipo,HCattack];
+if (_type == "NATOCA") then {
+	[_location] remoteExec [_type,HCattack];
 };

@@ -1,19 +1,14 @@
 #include "../macros.hpp"
-if (!isServer and hasInterface) exitWith{};
+params ["_mission"];
+private _location = _mission call AS_fnc_mission_location;
+private _position = _location call AS_fnc_location_position;
 
-/*
-parameters
-0: target marker (marker)
-*/
-private _targetMarker = _this select 0;
-private _targetPosition = _targetMarker call AS_fnc_location_position;
-private _targetName = [_targetMarker] call localizar;
+private _targetName = [_location] call localizar;
 
 // mission timer
 private _tiempolim = 60;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
-
 
 private _tskTitle = localize "STR_tsk_PRBrain";
 private _tskDesc = localize "STR_tskDesc_PRBrain";
@@ -22,43 +17,36 @@ private _tskDesc_fail2 = format [localize "STR_tskDesc_PRBrain_fail2",_targetNam
 private _tskDesc_hold = format [localize "STR_tskDesc_PRBrain_hold",_targetName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
 private _tskDesc_success = format [localize "STR_tskDesc_PRBrain_success",_targetName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
 
-
-private _tsk = ["PR",[side_blue,civilian],[_tskDesc_fail,_tskTitle,_targetMarker],_targetPosition,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
-misiones pushBack _tsk; publicVariable "misiones";
+private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
 
 
 // find bases and airports to serve as spawnpoints for reinforcements
 private _bases = [];
 {
-	private _base = _x;
 	private _posbase = _x call AS_fnc_location_position;
-	if ((_targetPosition distance _posbase < 7500) and
-	    (_targetPosition distance _posbase > 1500) and !(_x call AS_fnc_location_spawned)) then {
+	if ((_position distance _posbase < 7500) and
+	    (_position distance _posbase > 1500) and !(_x call AS_fnc_location_spawned)) then {
 		_bases pushBack _x;
-	}
+	};
 } forEach (["base", "AAF"] call AS_fnc_location_TS);
 
 private _base = "";
-private _posbase = [];
 if (count _bases > 0) then {
-	_base = [_bases,_targetPosition] call BIS_fnc_nearestPosition;
-	_base call AS_fnc_location_position;
+	_base = [_bases,_position] call BIS_fnc_nearestPosition;
 };
 
 private _airports = [];
 {
 	private _posAirport = _x call AS_fnc_location_position;
-	if ((_targetPosition distance _posAirport < 7500) and
-	    (_targetPosition distance _posAirport > 1500) and
+	if ((_position distance _posAirport < 7500) and
+	    (_position distance _posAirport > 1500) and
 		!(_x call AS_fnc_location_spawned)) then {
 		_airports pushBack _x;
 	};
 } forEach (["airfield", "AAF"] call AS_fnc_location_TS);
 private _airport = "";
-private _posAirport = [];
 if (count _airports > 0) then {
-	_airport = [_airports, _targetPosition] call BIS_fnc_nearestPosition;
-	_posAirport = call AS_fnc_location_position;
+	_airport = [_airports, _position] call BIS_fnc_nearestPosition;
 };
 
 // spawn mission vehicle
@@ -108,26 +96,28 @@ server setVariable ["BCactive", false, true];
 
 // dispatch a small QRF
 if !(_airport == "") then {
-	[_airport, _targetPosition, _targetMarker, _tiempolim, "transport", "small"] remoteExec ["enemyQRF",HCattack];
+	[_airport, _position, _location, _tiempolim, "transport", "small"] remoteExec ["enemyQRF",HCattack];
 }
 else {
-	[_base, _targetPosition, _targetMarker, _tiempolim, "transport", "small"] remoteExec ["enemyQRF",HCattack];
+	[_base, _position, _location, _tiempolim, "transport", "small"] remoteExec ["enemyQRF",HCattack];
 };
 
 private _fnc_clean = {
-	[1200,_tsk] spawn borrarTask;
-
 	[[], _objectsToDelete + _grafArray + [propTruck]] call AS_fnc_cleanResources;
 
 	// reset the flag for active attack-spawning objects
 	server setVariable ["activeItem", nil, true];
+
+	sleep 30;
+    [_task] call BIS_fnc_deleteTask;
+    _mission call AS_fnc_mission_completed;
 };
 
 private _fnc_missionFailedCondition = {(dateToNumber date > _fechalimnum) or (not alive _truck)};
 
 private _fnc_missionFailed = {
-	_tsk = ["PR",[side_blue,civilian],[_tskDesc_fail,_tskTitle,_targetMarker],_targetPosition,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
-	[5,-5,_targetMarker] remoteExec ["citySupportChange",2];
+	_task = [_mission,[side_blue,civilian],[_tskDesc_fail,_tskTitle,_location],_position,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
+	[5,-5,_location] remoteExec ["citySupportChange",2];
 	[-10,AS_commander] call playerScoreAdd;
 
 	call _fnc_clean;
@@ -135,23 +125,23 @@ private _fnc_missionFailed = {
 
 private _fnc_missionSuccessful = {
 	params ["_prestige"];
-	_tsk = ["PR",[side_blue,civilian],[_tskDesc_success,_tskTitle,_targetMarker],_targetPosition,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
-	[0,_prestige,_targetMarker] remoteExec ["citySupportChange",2];
-	{if (_x distance _targetPosition < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
+	_task = [_mission,[side_blue,civilian],[_tskDesc_success,_tskTitle,_location],_position,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
+	[0,_prestige,_location] remoteExec ["citySupportChange",2];
+	{if (_x distance _position < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 	[10,AS_commander] call playerScoreAdd;
 	["mis"] remoteExec ["fnc_BE_XP", 2];
 };
 
 
 // wait until the vehicle enters the target area
-waitUntil {sleep 1; (_truck distance _targetPosition < 150) or _fnc_missionFailedCondition};
+waitUntil {sleep 1; (_truck distance _position < 150) or _fnc_missionFailedCondition};
 
 if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 
 
 while {not ((server getVariable "BCactive") or _fnc_missionFailedCondition)} do {
 	private _active = false;
-	while {(_truck distance _targetPosition < 150) and
+	while {(_truck distance _position < 150) and
 		not ((server getVariable "BCactive") or _fnc_missionFailedCondition)} do {
 		// activate if it is not moving
 		if (not _active and (speed _truck < 1)) then {
@@ -239,9 +229,9 @@ if (isMultiplayer) then {
 	};
 };
 
-[_targetMarker, 30, _timing, _comp] spawn attackWaves;
+[_location, 30, _timing, _comp] spawn attackWaves;
 
-_tsk = ["PR",[side_blue,civilian],[_tskDesc_hold,_tskTitle,_targetMarker],_truck,"ASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
+_task = [_mission,[side_blue,civilian],[_tskDesc_hold,_tskTitle,_location],_truck,"ASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
 
 
 _fnc_missionFailedCondition = {not (alive _truck)};
@@ -320,8 +310,8 @@ if (_prestige == 0) then {
 
 // failure if you held out for less than 10 minutes
 if (_prestige == 0) exitWith {
-	_tsk = ["PR",[side_blue,civilian],[_tskDesc_fail2,_tskTitle,_targetMarker],_targetPosition,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
-	[5,-5,_targetMarker] remoteExec ["citySupportChange",2];
+	_task = [_mission,[side_blue,civilian],[_tskDesc_fail2,_tskTitle,_location],_position,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
+	[5,-5,_location] remoteExec ["citySupportChange",2];
 	[-10,AS_commander] call playerScoreAdd;
 };
 

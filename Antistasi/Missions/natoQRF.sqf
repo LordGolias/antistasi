@@ -1,20 +1,18 @@
 #include "../macros.hpp"
-if (!isServer and hasInterface) exitWith{};
-
+params ["_mission"];
 /*
 parameters
-0: base/airport/carrier to start from
-1: target location
+base/airport/carrier to start from (location)
+destination (position)
 
 If origin is an airport/carrier, the QRF will consist of air cavalry. Otherwise it'll be ground forces in MRAPs.
 */
-
-private _orig = _this select 0;
-private _dest = _this select 1;
+private _origin = [_mission, "origin"] call AS_fnc_object_get;
+private _destination = [_mission, "destination"] call AS_fnc_object_get;
 
 // names of locations for the task description
 private _origName = "the NATO carrier";
-private _destName = [[call AS_fnc_location_cities, _dest] call BIS_fnc_nearestPosition] call localizar;
+private _destName = [[call AS_fnc_location_all, _destination] call BIS_fnc_nearestPosition] call localizar;
 
 // kind of QRF: air/land
 private _type = "air";
@@ -23,17 +21,17 @@ private _type = "air";
 private _bases = [["base"], "FIA"] call AS_fnc_location_TS;
 
 // define type of QRF by type of origin
-if (_orig != "spawnNATO") then {
-	_origName = [_orig] call localizar;
-	if (_orig in _bases) then {
+if (_origin != "spawnNATO") then {
+	_origName = [_origin] call localizar;
+	if (_origin in _bases) then {
 		_type = "land";
 	};
 };
 
-private _posOrig = _orig call AS_fnc_location_position;
+private _posOrig = _origin call AS_fnc_location_position;
 
 // marker on the map, required for the UPS script
-private _mrk = createMarker ["NATOQRF", _dest];
+private _mrk = createMarker ["NATOQRF", _destination];
 _mrk setMarkerShape "ICON";
 _mrk setMarkerType "b_support";
 _mrk setMarkerText "NATO QRF";
@@ -43,42 +41,43 @@ private _tiempolim = 30;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
 
-_tsk = ["NATOQRF",
-	[side_blue,civilian],
-	[format ["Our Commander asked NATO for reinforcements near %1. Their troops will depart from %2.",_destName,_origName],
-	"NATO QRF",_mrk],
-	_dest,"CREATED",5,true,true,"Move"] call BIS_fnc_setTask;
-misiones pushBackUnique _tsk; publicVariable "misiones";
+private _tskDesc = format ["Our Commander asked NATO for reinforcements near %1. Their troops will depart from %2.",_destName,_origName];
+private _tskTitle = "NATO QRF";
 
-// cost: 10 NATO
-[-10,0] remoteExec ["prestige",2];
+private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrk],_destination,"CREATED",5,true,true,"Move"] call BIS_fnc_setTask;
 
 // arrays of all spawned units/groups
-private _soldados = [];
-private _grupos = [];
-private _vehiculos = [];
+private _groups = [];
+private _vehicles = [];
+
+private _fnc_clean = {
+	[_groups, _vehicles, [_mrk]] call AS_fnc_cleanResources;
+	sleep 30;
+    [_task] call BIS_fnc_deleteTask;
+    _mission call AS_fnc_mission_completed;
+};
 
 // initialise groups, two for vehicles, two for dismounts
 private _grpVeh1 = createGroup side_blue;
-_grupos pushBack _grpVeh1;
+_groups pushBack _grpVeh1;
 
 private _grpVeh2 = createGroup side_blue;
-_grupos pushBack _grpVeh2;
+_groups pushBack _grpVeh2;
 
 private _grpDis1 = createGroup side_blue;
-_grupos pushBack _grpDis1;
+_groups pushBack _grpDis1;
 
 private _grpDis2 = createGroup side_blue;
-_grupos pushBack _grpDis2;
+_groups pushBack _grpDis2;
 
 // air cav
 if (_type == "air") then {
 	// landing pad, to allow for dismounts
 	private _landpos1 = [];
-	_landpos1 = [_dest, 0, 150, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
+	_landpos1 = [_destination, 0, 150, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
 	_landpos1 set [2, 0];
 	private _pad1 = createVehicle ["Land_HelipadEmpty_F", _landpos1, [], 0, "NONE"];
-	_vehiculos pushBack _pad1;
+	_vehicles pushBack _pad1;
 
 	// first chopper
 	private _vehicle = [_posOrig, 0, selectRandom bluHeliArmed, side_blue] call bis_fnc_spawnvehicle;
@@ -87,12 +86,11 @@ if (_type == "air") then {
 	private _grpVeh1 = _vehicle select 2;
 	{[_x] spawn NATOinitCA} forEach _heliCrew1;
 	[_heli1, "NATO"] call AS_fnc_initVehicle;
-	_soldados append _heliCrew1;
-	_grupos pushBack _grpVeh1;
-	_vehiculos pushBack _heli1;
+	_groups pushBack _grpVeh1;
+	_vehicles pushBack _heli1;
 
 	// spawn loiter script for armed escort
-	[_grpVeh1, _posOrig, _dest, 15*60] spawn fnc_QRF_gunship;
+	[_grpVeh1, _posOrig, _destination, 15*60] spawn fnc_QRF_gunship;
 
 	sleep 5;
 
@@ -104,11 +102,10 @@ if (_type == "air") then {
 	private _heli2 = _vehicle2 select 0;
 	private _heliCrew2 = _vehicle2 select 1;
 	private _grpVeh2 = _vehicle2 select 2;
-	{[_x] spawn NATOinitCA} forEach _heliCrew2;
+	{[_x] call NATOinitCA} forEach _heliCrew2;
 	[_heli2, "NATO"] call AS_fnc_initVehicle;
-	_soldados append _heliCrew2;
-	_grupos pushBack _grpVeh2;
-	_vehiculos pushBack _heli2;
+	_groups pushBack _grpVeh2;
+	_vehicles pushBack _heli2;
 
 	// add dismounts
 	{
@@ -116,8 +113,7 @@ if (_type == "air") then {
 		_soldier assignAsCargo _heli2;
 		_soldier moveInCargo _heli2;
 
-		[_soldier] spawn NATOinitCA;
-		_soldados pushBack _soldier;
+		[_soldier] call NATOinitCA;
 	} forEach bluAirCav;
 	_grpDis2 selectLeader (units _grpDis2 select 0);
 
@@ -140,8 +136,8 @@ if (_type == "air") then {
 	[_veh1,"NATO Armor"] spawn inmuneConvoy;
 	private _vehCrew1 = _vehicle1 select 1;
 	private _grpVeh1 = _vehicle1 select 2;
-	{[_x] spawn NATOinitCA; _soldados pushBack _x} forEach _vehCrew1;
-	_vehiculos pushBack _veh1;
+	{[_x] call NATOinitCA} forEach _vehCrew1;
+	_vehicles pushBack _veh1;
 
 	// add dismounts
 	{
@@ -149,13 +145,12 @@ if (_type == "air") then {
 		_soldier assignAsCargo _veh1;
 		_soldier moveInCargo _veh1;
 
-		[_soldier] spawn NATOinitCA;
-		_soldados pushBack _soldier;
+		[_soldier] call NATOinitCA;
 	} forEach bluMRAPHMGgroup;
 	_grpDis1 selectLeader (units _grpDis1 select 0);
 
 	// spawn dismount script
-	[_grpVeh1, _posOrig, _dest, _mrk, _grpDis1, 25*60] spawn fnc_QRF_leadVehicle;
+	[_grpVeh1, _posOrig, _destination, _mrk, _grpDis1, 25*60] spawn fnc_QRF_leadVehicle;
 
 	sleep 15;
 
@@ -166,8 +161,8 @@ if (_type == "air") then {
 	[_veh2,"NATO Armor"] spawn inmuneConvoy;
 	private _vehCrew2 = _vehicle2 select 1;
 	private _grpVeh2 = _vehicle2 select 2;
-	{[_x] spawn NATOinitCA; _soldados pushBack _x} forEach _vehCrew2;
-	_vehiculos pushBack _veh2;
+	{[_x] call NATOinitCA;} forEach _vehCrew2;
+	_vehicles pushBack _veh2;
 
 	// add dismounts
 	{
@@ -175,49 +170,36 @@ if (_type == "air") then {
 		_soldier assignAsCargo _veh2;
 		_soldier moveInCargo _veh2;
 
-		[_soldier] spawn NATOinitCA;
-		_soldados pushBack _soldier;
+		[_soldier] call NATOinitCA;
 	} forEach bluMRAPgroup;
 	_grpDis2 selectLeader (units _grpDis2 select 0);
 
 	// spawn dismount script
-	private _pos3 = +_dest;
-	_xshift3 = (_dest select 0) + 30;
+	private _pos3 = +_destination;
+	private _xshift3 = (_destination select 0) + 30;
 	_pos3 set [0, _xshift3];
 	[_grpVeh2, _posOrig, _pos3, _mrk, _grpDis2, 25, "assault"] call fnc_QRF_dismountTroops;
 };
 
 {
 	_x setVariable ["esNATO",true,true];
-} foreach _grupos;
+} foreach _groups;
 
 
-// you lose if all soldiers die before the timer runs out
-waitUntil {sleep 10; (dateToNumber date > _fechalimnum) or ({alive _x} count _soldados == 0)};
+private _soldiers = [];
+{
+	_soldiers append (units _x);
+} forEach _groups;
+
+
+// 3/4 of all soldiers die or timer runs out
+waitUntil {sleep 10; (dateToNumber date > _fechalimnum) or {{alive _x} count _soldiers < (count _soldiers)/4}};
 
 if (dateToNumber date > _fechalimnum) then {
-	_tsk = ["NATOQRF",[side_blue,civilian],[format ["Our Commander asked NATO for reinforcements near %1. Their troops will depart from %2",_destName,_origName],"NATO QRF",_mrk],_dest,"SUCCEEDED",5,true,true,"Move"] call BIS_fnc_setTask;
-}
-else {
-	_tsk = ["NATOQRF",[side_blue,civilian],[format ["Our Commander asked NATO for reinforcements near %1. Their troops will depart from %2",_destName,_origName],"NATO QRF",_mrk],_dest,"FAILED",5,true,true,"Move"] call BIS_fnc_setTask;
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrk],_destination,"SUCCEEDED",5,true,true,"Move"] call BIS_fnc_setTask;
+} else {
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrk],_destination,"FAILED",5,true,true,"Move"] call BIS_fnc_setTask;
 	[-5,0] remoteExec ["prestige",2];
 };
 
-sleep 15;
-deleteMarker "NATOQRF";
-[0,_tsk] spawn borrarTask;
-
-// despawn everything
-{
-	_soldado = _x;
-	waitUntil {sleep 1; {_x distance _soldado < AS_P("spawnDistance")} count (allPlayers - hcArray) == 0};
-	deleteVehicle _soldado;
-} forEach _soldados;
-
-{deleteGroup _x} forEach _grupos;
-
-{
-	_vehiculo = _x;
-	waitUntil {sleep 1; {_x distance _vehiculo < AS_P("spawnDistance")/2} count (allPlayers - hcArray) == 0};
-	deleteVehicle _x
-} forEach _vehiculos;
+call _fnc_clean;

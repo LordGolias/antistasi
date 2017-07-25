@@ -1,21 +1,26 @@
 #include "../macros.hpp"
-if (!isServer and hasInterface) exitWith {};
-params ["_bank"];
+params ["_mission"];
 
-private _position = getPos _bank;
+private _location = _mission call AS_fnc_mission_location;
+private _position = _location call AS_fnc_location_position;
+
+private _bankPosition = [AS_bankPositions, _position] call BIS_fnc_nearestPosition;
+private _bank = (nearestObjects [_bankPosition, AS_bankTypes, 25]) select 0;
+
 private _posbase = getMarkerPos "FIA_HQ";
 
 private _tiempolim = 120;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
 
-private _ciudad = [call AS_fnc_location_cities, _position] call BIS_fnc_nearestPosition;
 private _mrkfin = createMarker [format ["LOG%1", random 100], _position];
-private _nombredest = [_ciudad] call localizar;
+private _nombredest = [_location] call localizar;
 _mrkfin setMarkerShape "ICON";
 
-private _tskTitle = localize "STR_tsk_logBank";
-private _tskDesc = format [localize "STR_tskDesc_logBank",_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP];
+private _taskTitle = localize "STR_task_logBank";
+private _taskDesc = format [localize "STR_taskDesc_logBank",_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP];
+
+private _task = [_mission,[side_blue,civilian],[_taskDesc,_taskTitle,_mrkfin],_position,"CREATED",5,true,true,"Interact"] call BIS_fnc_setTask;
 
 private _truck = "C_Van_01_box_F" createVehicle ((getMarkerPos "FIA_HQ") findEmptyPosition [1,50,"C_Van_01_box_F"]);
 {_x reveal _truck} forEach (allPlayers - hcArray);
@@ -30,8 +35,6 @@ _truck addEventHandler ["GetIn", {
 
 [_truck, "Mission Vehicle"] spawn inmuneConvoy;
 
-private _tsk = ["LOG",[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_position,"CREATED",5,true,true,"Interact"] call BIS_fnc_setTask;
-misiones pushBack _tsk; publicVariable "misiones";
 private _mrk = createMarkerLocal [format ["%1patrolarea", floor random 100], _position];
 _mrk setMarkerShapeLocal "RECTANGLE";
 _mrk setMarkerSizeLocal [30,30];
@@ -49,21 +52,18 @@ sleep 1;
 _position = _bank buildingPos 1;
 
 private _fnc_clean = {
-	{deleteVehicle _x} forEach units _grupo;
-	deleteGroup _grupo;
-	deleteMarker _mrk;
-	deleteMarker _mrkfin;
-
 	[_truck] call vaciar;
-	deleteVehicle _truck;
+	[[_grupo], [_truck], [_mrk, _mrkfin]] call AS_fnc_cleanResources;
 
-	[1200,_tsk] spawn borrarTask;
+	sleep 30;
+    [_task] call BIS_fnc_deleteTask;
+    _mission call AS_fnc_mission_completed;
 };
 
 private _fnc_missionFailedCondition = {(dateToNumber date > _fechalimnum) or (not alive _truck)};
 
 private _fnc_missionFailed = {
-	_tsk = ["LOG",[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_position,"FAILED",5,true,true,"Interact"] call BIS_fnc_setTask;
+	_task = [_mission,[side_blue,civilian],[_taskDesc,_taskTitle,_mrkfin],_position,"FAILED",5,true,true,"Interact"] call BIS_fnc_setTask;
 	[5000] remoteExec ["resourcesAAF",2];
 	[-1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 	[-10,AS_commander] call playerScoreAdd;
@@ -72,7 +72,7 @@ private _fnc_missionFailed = {
 };
 
 private _fnc_missionSuccessful = {
-	_tsk = ["LOG",[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_position,"SUCCEEDED",5,true,true,"Interact"] call BIS_fnc_setTask;
+	_task = [_mission,[side_blue,civilian],[_taskDesc,_taskTitle,_mrkfin],_position,"SUCCEEDED",5,true,true,"Interact"] call BIS_fnc_setTask;
 	[0,5000] remoteExec ["resourcesFIA",2];
 	[-2,0] remoteExec ["prestige",2];
 	[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];

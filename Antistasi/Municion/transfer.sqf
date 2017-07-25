@@ -35,16 +35,17 @@ if (_cuenta < 1) then
 	_proceder = true;
 	};
 
-if (_cuenta > 0) then
-	{
-	if (_caja == caja) then
-		{
-		if ("DEF_HQ" in misiones) then {_cuenta = round (_cuenta / 10)} else {_cuenta = round (_cuenta / 100)};
-		}
-	else
-		{
-		_cuenta = round (_cuenta / 5);
+if (_cuenta > 0) then {
+	if (_caja == caja) then {
+		// in HQ attacks, transfer is 10x slower.
+		if (count ("aaf_attack_hq" call AS_fnc_active_missions) != 0) then {
+			_cuenta = round (_cuenta / 10)
+		} else {
+			_cuenta = round (_cuenta / 100)
 		};
+	} else {
+		_cuenta = round (_cuenta / 5);
+	};
 	if (_cuenta < 1) then {_cuenta = 1};
 	_cuenta = _cuenta * 10;
 	_jugador setVariable ["loadingCrate", true];

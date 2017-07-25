@@ -6,7 +6,7 @@ if (server getVariable "blockCSAT") exitWith {[[_l1],"DIRECT",0.15] execVM "crea
 if ((server getVariable "jTime") > dateToNumber date) exitWith {[[_l2],"DIRECT",0.15] execVM "createConv.sqf";};
 
 
-_s = antenas - antenasMuertas;
+_s = antenas;
 _c = 0;
 
 if (count _s > 0) then {

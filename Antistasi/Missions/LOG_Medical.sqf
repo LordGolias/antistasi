@@ -1,33 +1,21 @@
 #include "../macros.hpp"
-if (!isServer and hasInterface) exitWith{};
-
-params ["_location"];
-private _posicion = _location call AS_fnc_location_position;
-private _nombredest = [_location] call localizar;
-private _size = _location call AS_fnc_location_size;
+params ["_mission"];
+private _location = _mission call AS_fnc_mission_location;
+private _position = _location call AS_fnc_location_position;
 
 private _tiempolim = 60;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
 
-/*
-_posicion -> location of the destination, town
-_posCrash -> location of the vehicle
-_posCrashMrk -> marker for the vehicle
-_posBase -> location of the base sending reinforcements
-*/
-
 private _posHQ = "FIA_HQ" call AS_fnc_location_position;
-
 private _fMarkers = "FIA" call AS_fnc_location_S;
-private _hMarkers = [["base","airfield","outpost","outpostAA"], "AAF"] call AS_fnc_location_TS;
 
 // select list of valid bases
 private _bases = [];
 {
 	private _posbase = _x call AS_fnc_location_position;
-	if ((_posicion distance _posbase < 7500) and
-		(_posicion distance _posbase > 1500) and
+	if ((_position distance _posbase < 7500) and
+		(_position distance _posbase > 1500) and
 		(not (_x call AS_fnc_location_spawned))) then {_bases pushBack _x}
 } forEach (["base", "AAF"] call AS_fnc_location_TS);
 
@@ -35,7 +23,7 @@ private _bases = [];
 private _base = "";
 private _posbase = [];
 if (count _bases > 0) then {
-	_base = [_bases,_posicion] call BIS_fnc_nearestPosition;
+	_base = [_bases,_position] call BIS_fnc_nearestPosition;
 	_posbase = _base call AS_fnc_location_position;
 };
 if (_base == "") exitWith {
@@ -49,7 +37,7 @@ private _nombreOrig = [_base] call localizar;
 private _poscrash = [];
 for "_i" from 0 to 20 do {
 	sleep 0.1;
-	_poscrash = [_posicion,2000,random 360] call BIS_fnc_relPos;
+	_poscrash = [_position,2000,random 360] call BIS_fnc_relPos;
 	private _nfMarker = [_fMarkers,_poscrash] call BIS_fnc_nearestPosition;
 	private _fposition = _nfMarker call AS_fnc_location_position;
 	private _hposition = _nfMarker call AS_fnc_location_position;
@@ -64,31 +52,30 @@ if (_poscrash isEqualTo []) exitWith {
 };
 
 private _tskTitle = localize "STR_tsk_logMedical";
-private _tskDesc = format [localize "STR_tskDesc_logMedical", _nombredest,
+private _tskDesc = format [localize "STR_tskDesc_logMedical", [_location] call localizar,
 	numberToDate [2035,_fechalimnum] select 3,
 	numberToDate [2035,_fechalimnum] select 4,
 	_nombreOrig, A3_STR_INDEP
 ];
 
-
 private _tipoVeh = "C_Van_01_transport_F";
 
 private _posCrashMrk = [_poscrash,random 200,random 360] call BIS_fnc_relPos;
-private _posCrash = _posCrash findEmptyPosition [0,100,_tipoVeh];
+_poscrash = _poscrash findEmptyPosition [0,100,_tipoVeh];
 private _mrkfin = createMarker [format ["REC%1", random 100], _posCrashMrk];
 _mrkfin setMarkerShape "ICON";
 
-private _tsk = ["LOG",[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
-
-misiones pushBack _tsk; publicVariable "misiones";
+private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
 
 private _vehiculos = [];
 private _soldados = [];
 private _grupos = [];
 
 private _fnc_clean = {
-	[1200,_tsk] spawn borrarTask;
 	[_grupos, _vehiculos, [_mrkfin]] call AS_fnc_cleanResources;
+	sleep 30;
+    [_task] call BIS_fnc_deleteTask;
+    _mission call AS_fnc_mission_completed;
 };
 
 private _truck = createVehicle [_tipoVeh, _poscrash, [], 0, "CAN_COLLIDE"];
@@ -168,18 +155,18 @@ _Vwp0 synchronizeWaypoint [_Gwp0];
 private _fnc_missionFailedCondition = {(dateToNumber date > _fechalimnum) or (not alive _truck)};
 
 private _fnc_missionFailed = {
-	_tsk = ["LOG",[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
-	[5,-5,_posicion] remoteExec ["citySupportChange",2];
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
+	[5,-5,_position] remoteExec ["citySupportChange",2];
 	[-10,AS_commander] call playerScoreAdd;
 
 	call _fnc_clean;
 };
 
 private _fnc_missionSuccessful = {
-	_tsk = ["LOG", [side_blue,civilian], [_tskDesc,_tskTitle,_mrkfin], _posCrashMrk,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
+	_task = [_mission, [side_blue,civilian], [_tskDesc,_tskTitle,_mrkfin], _posCrashMrk,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
 	[0,15,_location] remoteExec ["citySupportChange",2];
 	[5,0] remoteExec ["prestige",2];
-	{if (_x distance _posicion < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
+	{if (_x distance _position < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
 	[5,AS_commander] call playerScoreAdd;
 	["mis"] remoteExec ["fnc_BE_XP", 2];
 
@@ -202,7 +189,7 @@ waitUntil {sleep 1;
 
 if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 
-_tsk = ["LOG",[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_poscrash,"AUTOASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
+_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_poscrash,"AUTOASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
 
 // make all FIA around the truck non-captive
 {
@@ -238,12 +225,12 @@ _crate2 attachTo [_truck, [-0.3,-1.0,-0.4]];
 _crate3 attachTo [_truck, [0,-1.6,-0.4]];
 _crate4 attachTo [_truck, [0,-2.0,-0.4]];
 
-private _mrkTarget = createMarker [format ["REC%1", random 100], _posicion];
+private _mrkTarget = createMarker [format ["REC%1", random 100], _position];
 _mrkTarget setMarkerShape "ICON";
 
-_tsk = ["LOG",[side_blue,civilian],[_tskDesc,_tskTitle,_mrkTarget],_posicion,"AUTOASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
+_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkTarget],_position,"AUTOASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
 
-waitUntil {sleep 1; (_truck distance _posicion < 40) or _fnc_missionFailedCondition};
+waitUntil {sleep 1; (_truck distance _position < 40) or _fnc_missionFailedCondition};
 
 if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 

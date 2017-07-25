@@ -1,14 +1,19 @@
-if (!isServer and hasInterface) exitWith {};
+params ["_mission"];
+private _location = _mission call AS_fnc_mission_location;
+private _position = _location call AS_fnc_location_position;
 
 // only one defence mission at a time, no camp attacks while CSAT coms are being jammed
-if !(isNil {server getVariable "campQRF"}) exitWith {};
-if (server getVariable "blockCSAT") exitWith {};
-if ("DEF" in misiones) exitWith {};
+private _debug_prefix = format ["DEF_Camp from '%1' to '%2' cancelled: ", _location];
+if (server getVariable "blockCSAT") exitWith {
+	private _message = "blocked";
+	AS_ISDEBUG(_debug_prefix + _message);
+};
+if (server getVariable "campQRF") exitWith {
+	private _message = "another attack already in progress";
+	AS_ISDEBUG(_debug_prefix + _message);
+};
 
-// location of the camp (marker)
-params ["_camp"];
-private _position = _camp call AS_fnc_location_position;
-private _campName = [_camp, "name"] call AS_fnc_location_get;
+private _campName = [_location, "name"] call AS_fnc_location_get;
 
 // maximum duration of the attack, sets the despawn timer
 private _duration = 15;
@@ -25,11 +30,9 @@ private _airports = [];
 } forEach (["airfield", "AAF"] call AS_fnc_location_TS);
 
 private _airport = "";
-private _posAirport = [];
 private _airportName = "";
 if (count _airports > 0) then {
 	_airport = [_airports, _position] call BIS_fnc_nearestPosition;
-	_posAirport = _airport call AS_fnc_location_position;
 	_airportName = [_airport] call localizar;
 } else {
 	_airport = "spawnCSAT";
@@ -39,8 +42,7 @@ if (count _airports > 0) then {
 private _tskTitle = format [localize "STR_tsk_DefCamp", _campName];
 private _tskDesc = format [localize "STR_tskDesc_DefCamp", _campName, _airportName];
 
-private _tsk = ["DEF_Camp",[side_blue,civilian],[_tskDesc, _tskTitle, _camp], _position,"CREATED",5,true,true,"Defend"] call BIS_fnc_setTask;
-misiones pushBack _tsk; publicVariable "misiones";
+private _task = [_mission,[side_blue,civilian],[_tskDesc, _tskTitle, _location], _position,"CREATED",5,true,true,"Defend"] call BIS_fnc_setTask;
 
 // size of the QRF, depending on the number of players online
 private _QRFsize = "small";
@@ -51,7 +53,7 @@ if (isMultiplayer) then {
 };
 
 // call the QRF, single transport helicopter
-[_airport, _position, _camp, _duration, "transport", _QRFsize, "campQRF"] remoteExec ["enemyQRF", 2];
+[_airport, _position, _location, _duration, "transport", _QRFsize, "campQRF"] remoteExec ["enemyQRF", 2];
 
 // wait for the QRF script to be loaded
 sleep 10;
@@ -64,14 +66,15 @@ private _soldados = [];
 
 private _fnc_clean = {
 	// troops are despawned by the QRF script
-	[1200,_tsk] spawn borrarTask;
+	sleep 30;
+    [_task] call BIS_fnc_deleteTask;
+    _mission call AS_fnc_mission_completed;
 };
 
-private _fnc_missionFailedCondition = {not _camp call AS_fnc_location_exists};
+private _fnc_missionFailedCondition = {not _location call AS_fnc_location_exists};
 
 private _fnc_missionFailed = {
-	_tsk = ["DEF_Camp",[side_blue,civilian],[_tskDesc, _tskTitle, _camp],_position,"FAILED",5,true,true,"Defend"] call BIS_fnc_setTask;
-	call _fnc_clean;
+	_task = [_mission,[side_blue,civilian],[_tskDesc, _tskTitle, _location],_position,"FAILED",5,true,true,"Defend"] call BIS_fnc_setTask;
 };
 
 // 3/4 are incapacitated
@@ -80,13 +83,12 @@ private _fnc_missionSuccessfulCondition = {
 };
 
 private _fnc_missionSuccessful = {
-	_tsk = ["DEF_Camp",[side_blue,civilian],[_tskDesc, _tskTitle, _camp],_position,"SUCCEEDED",5,true,true,"Defend"] call BIS_fnc_setTask;
+	_task = [_mission,[side_blue,civilian],[_tskDesc, _tskTitle, _location],_position,"SUCCEEDED",5,true,true,"Defend"] call BIS_fnc_setTask;
 	[0,3] remoteExec ["prestige",2];
 	[0,300] remoteExec ["resourcesFIA",2];
 	[5,AS_commander] call playerScoreAdd;
 	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_position,"BLUFORSpawn"] call distanceUnits);
-
-	call _fnc_clean;
 };
 
 [_fnc_missionFailedCondition, _fnc_missionFailed, _fnc_missionSuccessfulCondition, _fnc_missionSuccessful] call AS_fnc_oneStepMission;
+call _fnc_clean;

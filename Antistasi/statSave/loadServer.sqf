@@ -6,8 +6,23 @@ petros allowdamage false;
 
 [_saveName] call AS_fnc_loadPersistents;
 [_saveName] call AS_fnc_loadArsenal;
-[_saveName] call AS_fnc_loadMarkers;
 [true] call fnc_MAINT_arsenal;
+
+antenasmuertas = [_saveName, "deadAntennas"] call fn_LoadStat;
+antenas = [_saveName, "antennas"] call fn_LoadStat;
+{
+	private _antenna = nearestBuilding _x;
+	_antenna removeAllEventHandlers "Killed";
+	_antenna setDamage 1;
+} forEach antenasmuertas;
+{
+	private _antenna = nearestBuilding _x;
+	_antenna removeAllEventHandlers "Killed";
+	_antenna setDamage 0;
+	_antenna addEventHandler ["Killed", AS_fnc_antennaKilledEH];
+} forEach antenas;
+publicVariable "antenas";
+publicVariable "antenasmuertas";
 
 [_saveName, "fecha"] call fn_LoadStat;
 [_saveName, "smallCAmrk"] call fn_LoadStat;
@@ -66,15 +81,17 @@ if (isMultiplayer) then {
 diag_log format ['[AS] Server: game "%1" loaded', _saveName];
 petros allowdamage true;
 
-// resume existing attacks in 25 seconds.
-[_saveName] spawn {
-    params ["_saveName"];
-    sleep 25;
-    [_saveName, "tasks"] call fn_LoadStat;
+// load all generic objects (e.g. missions)
+[_saveName] call AS_fnc_object_load;
 
+// re-activate all missions.
+{[_x, true] call AS_fnc_mission_activate} forEach (call AS_fnc_active_missions);
+
+ // resume existing attacks in 25 seconds.
+[] spawn {
+    sleep 25;
     private _tmpCAmrk = + smallCAmrk;
     smallCAmrk = [];
-
     {
 		private _position = (_x call AS_fnc_location_position);
     	private _base = [_position] call findBasesForCA;

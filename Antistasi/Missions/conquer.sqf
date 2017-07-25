@@ -1,20 +1,9 @@
-if (!isServer and hasInterface) exitWith{};
-params ["_location", ["_source",""]];
-
-private _posicion = _location call AS_fnc_location_position;
+params ["_mission"];
+private _location = _mission call AS_fnc_mission_location;
+private _position = _location call AS_fnc_location_position;
 private _type = _location call AS_fnc_location_type;
-private _nombredest = [_location] call localizar;
 
-if (_source == "civ") then {
-	private _val = server getVariable "civActive";
-	server setVariable ["civActive", _val + 1, true];
-};
-if (_source == "mil") then {
-	private _val = server getVariable "milActive";
-	server setVariable ["milActive", _val + 1, true];
-};
-
-private _tiempolim = 90;
+private _tiempolim = 60;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
 
@@ -34,30 +23,27 @@ switch _type do {
         _tskTitle = localize "STR_tsk_CONOP";
         _tskDesc = localize "STR_tskDesc_CONOP";
     };
+	default {
+		_tskTitle = "Take location";
+		_tskDesc = "Clear enemy presence in %1 and capture it before %2:%3.";
+	};
 };
 
-_tskDesc = format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
+_tskDesc = format [_tskDesc,[_location] call localizar,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
 
-private _tsk = ["CON",[side_blue,civilian],[_tskDesc,_tskTitle,_location],_posicion,"CREATED",5,true,true,"Target"] call BIS_fnc_setTask;
-misiones pushBack _tsk; publicVariable "misiones";
+private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"CREATED",5,true,true,"Target"] call BIS_fnc_setTask;
 
 private _fnc_clean = {
-	[1200,_tsk] spawn borrarTask;
-	if (_source == "civ") then {
-		private _val = server getVariable "civActive";
-		server setVariable ["civActive", _val - 1, true];
-	};
-    if (_source == "mil") then {
-        private _val = server getVariable "milActive";
-		server setVariable ["milActive", _val - 1, true];
-    };
+	sleep 30;
+    [_task] call BIS_fnc_deleteTask;
+    _mission call AS_fnc_mission_completed;
 };
 
 private _fnc_missionFailedCondition = {dateToNumber date > _fechalimnum};
 
 private _fnc_missionFailed = {
-	_tsk = ["CON",[side_blue,civilian],[_tskDesc,_tskTitle,_location],_posicion,"FAILED",5,true,true,"Target"] call BIS_fnc_setTask;
-	[5,0,_posicion] remoteExec ["citySupportChange",2];
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"FAILED",5,true,true,"Target"] call BIS_fnc_setTask;
+	[5,0,_position] remoteExec ["citySupportChange",2];
 	[-600] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 	[-10,AS_commander] call playerScoreAdd;
 
@@ -67,11 +53,11 @@ private _fnc_missionFailed = {
 private _fnc_missionSuccessfulCondition = {_location call AS_fnc_location_side == "FIA"};
 
 private _fnc_missionSuccessful = {
-	_tsk = ["CON",[side_blue,civilian],[_tskDesc,_tskTitle,_location],_posicion,"SUCCEEDED",5,true,true,"Target"] call BIS_fnc_setTask;
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"SUCCEEDED",5,true,true,"Target"] call BIS_fnc_setTask;
 	[0,200] remoteExec ["resourcesFIA",2];
-	[-5,0,_posicion] remoteExec ["citySupportChange",2];
+	[-5,0,_position] remoteExec ["citySupportChange",2];
 	[600] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_posicion,"BLUFORSpawn"] call distanceUnits);
+	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_position,"BLUFORSpawn"] call distanceUnits);
 	[10,AS_commander] call playerScoreAdd;
 	["mis"] remoteExec ["fnc_BE_XP", 2];
 
