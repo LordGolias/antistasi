@@ -53,9 +53,10 @@ waitUntil {sleep 1;
 
 if (dateToNumber date > _fechalimnum) then {
 	_task = [_mission, [side_blue,civilian],[_tskDesc,_tskTitle,_origin],_originPos,"SUCCEEDED",5,true,true,"Attack"] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_success", 2];
 } else {
 	_task = [_mission, [side_blue,civilian],[_tskDesc,_tskTitle,_origin],_originPos,"FAILED",5,true,true,"Attack"] call BIS_fnc_setTask;
-	[-5,0] remoteExec ["prestige",2];
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 };
 
 call _fnc_clean;

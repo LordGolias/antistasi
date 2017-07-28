@@ -99,12 +99,16 @@ if (_arrivedSafely) then {
 		[_mapPosition, "FIA", _minesData] call AS_fnc_addMinefield;
 
 		_task = ["Mines",[side_blue,civilian],[_tskDesc,_tskTitle,_mrk],_mapPosition,"SUCCEEDED",5,true,true,"Map"] call BIS_fnc_setTask;
-		[2,_cost] remoteExec ["resourcesFIA",2];  // recover the costs
+		[{alive _x} count units _group,_cost] remoteExec ["resourcesFIA",2];  // recover the costs
+
+		[_mission] remoteExec ["AS_fnc_mission_success", 2];
 	} else {
 		_task = ["Mines",[side_blue,civilian],[_tskDesc,_tskTitle,_mrk],_mapPosition,"FAILED",5,true,true,"Map"] call BIS_fnc_setTask;
+		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	};
 } else {
 	_task = ["Mines",[side_blue,civilian],[_tskDesc,_tskTitle,_mrk],_mapPosition,"FAILED",5,true,true,"Map"] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 };
 
 call _fnc_clean;

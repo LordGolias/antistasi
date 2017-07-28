@@ -9,7 +9,7 @@ private _population = [_location, "population"] call AS_fnc_location_get;
 private _tskTitle = "CSAT Punishment";
 private _tskDesc = format ["CSAT is making a punishment expedition to %1. They will kill everybody there. Defend the city at all costs",_nombredest];
 
-private _mission = ["aaf_attack", _location] call AS_fnc_mission_add;
+private _mission = ["csat_attack", _location] call AS_fnc_mission_add;
 [_mission, "status", "active"] call AS_fnc_mission_set;
 private _task = [_mission, [side_blue,civilian],[_tskDesc, _tskTitle, _location],_position,"CREATED",10,true,true,"Defend"] call BIS_fnc_setTask;
 
@@ -139,14 +139,7 @@ private _fnc_missionFailedCondition = {
 };
 private _fnc_missionFailed = {
 	_task = [_mission, [side_blue,civilian],[_tskDesc, _tskTitle, _location],_position,"FAILED",10,true,true,"Defend"] call BIS_fnc_setTask;
-	[7200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	[-5,-20,_position] remoteExec ["citySupportChange",2];
-	{[0,-5,_x] remoteExec ["citySupportChange",2]} forEach (call AS_fnc_location_cities);
-
-	AS_Pset("destroyedLocations", AS_P("destroyedLocations") + [_location]);
-	if (count AS_P("destroyedLocations") > 7) then {
-		 ["destroyedCities",false,true] remoteExec ["BIS_fnc_endMission",0];
-	};
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 };
 private _fnc_missionSuccessfulCondition = {
 	(True and _csat_arrived and
@@ -157,12 +150,7 @@ private _fnc_missionSuccessfulCondition = {
 };
 private _fnc_missionSuccessful = {
 	_task = [_mission, [side_blue,civilian],[_tskDesc, _tskTitle, _location],_position,"SUCCEEDED",10,true,true,"Defend"] call BIS_fnc_setTask;
-	[7200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	[-5,20,_position] remoteExec ["citySupportChange",2];
-	{[-5,0,_x] remoteExec ["citySupportChange",2]} forEach (call AS_fnc_location_cities);
-	[10,0] remoteExec ["prestige",2];
-	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_position,"BLUFORSpawn"] call distanceUnits);
-	[10,AS_commander] call playerScoreAdd;
+	[_mission] remoteExec ["AS_fnc_mission_success", 2];
 
 	{_x doMove _posorigen} forEach _soldiers;
 };

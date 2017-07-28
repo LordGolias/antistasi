@@ -96,8 +96,8 @@ private _fnc_missionFailedCondition = {dateToNumber date > _fechalimnum or {_tra
 
 private _fnc_missionFailed = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_traidor,"FAILED",5,true,true,"Kill"] call BIS_fnc_setTask;
-	[-10,AS_commander] call playerScoreAdd;
-	[-2,-2000] remoteExec ["resourcesFIA",2];
+	_mission remoteExec ["AS_fnc_mission_fail", 2];
+
 	call _fnc_clean;
 };
 
@@ -105,14 +105,7 @@ private _fnc_missionSuccessfulCondition = {(not alive _traidor)};
 
 private _fnc_missionSuccessful = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_traidor,"SUCCEEDED",5,true,true,"Kill"] call BIS_fnc_setTask;
-	[0,-2] remoteExec ["prestige",2];
-	{
-		if (!isPlayer _x) then {
-			[10,_x] call playerScoreAdd;
-		};
-	} forEach ([_size,0,_position,"BLUFORSpawn"] call distanceUnits);
-	[5,AS_commander] call playerScoreAdd;
-	["mis"] remoteExec ["fnc_BE_XP", 2];
+	_mission remoteExec ["AS_fnc_mission_success", 2];
 
 	call _fnc_clean;
 };

@@ -154,11 +154,12 @@ private _fnc_missionFailedCondition = {
 };
 private _fnc_missionFailed = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"FAILED",5,true,true,"Attack"] call BIS_fnc_setTask;
-	[-10,0] remoteExec ["prestige",2];
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 };
 private _fnc_missionSuccessfulCondition = {_location call AS_fnc_location_side == "FIA"};
 private _fnc_missionSuccessful = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"SUCCEEDED",5,true,true,"Attack"] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_success", 2];
 };
 
 [_fnc_missionFailedCondition, _fnc_missionFailed, _fnc_missionSuccessfulCondition, _fnc_missionSuccessful] call AS_fnc_oneStepMission;

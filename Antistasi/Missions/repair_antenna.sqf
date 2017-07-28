@@ -14,7 +14,7 @@ private _fechalimnum = dateToNumber _fechalim;
 private _tskTitle = localize "STR_tsk_repAntenna";
 private _tskDesc = format [localize "STR_tskDesc_repAntenna",_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP];
 
-private _task = ["REP",[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 
 private _veh = objNull;
 private _group = grpNull;
@@ -32,29 +32,17 @@ private _fnc_clean = {
 private _fnc_missionFailedCondition = {dateToNumber date > _fechalimnum};
 
 private _fnc_missionFailed = {
-	_task = ["REP",[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-	[-600] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	[-10,AS_commander] call playerScoreAdd;
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+	[_mission, _position] remoteExec ["AS_fnc_mission_fail", 2];
 
-	// if this mission fails, the antena is re-built.
-	antenasMuertas = antenasMuertas - [_position];
-	antenas = antenas + [_position];
-	publicVariable "antenas";
-	publicVariable "antenasMuertas";
-
-	_antenna setDammage 0;
-	_antenna addEventHandler ["Killed", AS_fnc_antennaKilledEH];
 	call _fnc_clean;
 };
 
 private _fnc_missionSuccessfulCondition = {not alive _veh or (_location call AS_fnc_location_side == "FIA")};
 
 private _fnc_missionSuccessful = {
-	_task = ["REP",[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-	[2,0] remoteExec ["prestige",2];
-	[1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	[5,AS_commander] call playerScoreAdd;
-	["mis"] remoteExec ["fnc_BE_XP", 2];
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_success", 2];
 
 	call _fnc_clean;
 };

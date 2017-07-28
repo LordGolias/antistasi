@@ -74,7 +74,8 @@ _dealer setunitpos "up";
 
 private _fnc_missionFailedCondition = {(dateToNumber date > _fechalimnum) or !(alive _dealer)};
 private _fnc_missionFailed = {
-	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_posCmp,"FAILED",5,true,true,"Find"] call BIS_fnc_setTask
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_posCmp,"FAILED",5,true,true,"Find"] call BIS_fnc_setTask;
+	_mission remoteExec ["AS_fnc_mission_fail", 2];
 };
 private _fnc_missionSuccessfulCondition = {
 	{((side _x isEqualTo side_blue) or (side _x isEqualTo civilian)) and
@@ -83,6 +84,8 @@ private _fnc_missionSuccessfulCondition = {
 private _fnc_missionSuccessful = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_posCmp,"SUCCEEDED",5,true,true,"Find"] call BIS_fnc_setTask;
 	[[_dealer,"buy_exp"],"flagaction"] call BIS_fnc_MP;
+
+	_mission remoteExec ["AS_fnc_mission_success", 2];
 };
 
 private _missionStartCondition = {

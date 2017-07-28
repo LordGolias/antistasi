@@ -43,9 +43,7 @@ private _fnc_missionFailedCondition = {dateToNumber date > _fechalimnum};
 
 private _fnc_missionFailed = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"FAILED",5,true,true,"Target"] call BIS_fnc_setTask;
-	[5,0,_position] remoteExec ["citySupportChange",2];
-	[-600] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	[-10,AS_commander] call playerScoreAdd;
+	_mission remoteExec ["AS_fnc_mission_fail", 2];
 
 	call _fnc_clean;
 };
@@ -54,12 +52,7 @@ private _fnc_missionSuccessfulCondition = {_location call AS_fnc_location_side =
 
 private _fnc_missionSuccessful = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"SUCCEEDED",5,true,true,"Target"] call BIS_fnc_setTask;
-	[0,200] remoteExec ["resourcesFIA",2];
-	[-5,0,_position] remoteExec ["citySupportChange",2];
-	[600] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_position,"BLUFORSpawn"] call distanceUnits);
-	[10,AS_commander] call playerScoreAdd;
-	["mis"] remoteExec ["fnc_BE_XP", 2];
+	_mission remoteExec ["AS_fnc_mission_success", 2];
 
 	call _fnc_clean;
 };

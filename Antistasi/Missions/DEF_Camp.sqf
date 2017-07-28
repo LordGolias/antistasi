@@ -75,6 +75,7 @@ private _fnc_missionFailedCondition = {not _location call AS_fnc_location_exists
 
 private _fnc_missionFailed = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc, _tskTitle, _location],_position,"FAILED",5,true,true,"Defend"] call BIS_fnc_setTask;
+	_mission remoteExec ["AS_fnc_mission_fail", 2];
 };
 
 // 3/4 are incapacitated
@@ -84,10 +85,7 @@ private _fnc_missionSuccessfulCondition = {
 
 private _fnc_missionSuccessful = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc, _tskTitle, _location],_position,"SUCCEEDED",5,true,true,"Defend"] call BIS_fnc_setTask;
-	[0,3] remoteExec ["prestige",2];
-	[0,300] remoteExec ["resourcesFIA",2];
-	[5,AS_commander] call playerScoreAdd;
-	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_position,"BLUFORSpawn"] call distanceUnits);
+	_mission remoteExec ["AS_fnc_mission_success", 2];
 };
 
 [_fnc_missionFailedCondition, _fnc_missionFailed, _fnc_missionSuccessfulCondition, _fnc_missionSuccessful] call AS_fnc_oneStepMission;

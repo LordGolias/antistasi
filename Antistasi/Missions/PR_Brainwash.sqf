@@ -126,10 +126,9 @@ private _fnc_missionFailed = {
 private _fnc_missionSuccessful = {
 	params ["_prestige"];
 	_task = [_mission,[side_blue,civilian],[_tskDesc_success,_tskTitle,_location],_position,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
-	[0,_prestige,_location] remoteExec ["citySupportChange",2];
-	{if (_x distance _position < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-	[10,AS_commander] call playerScoreAdd;
-	["mis"] remoteExec ["fnc_BE_XP", 2];
+	[_mission, _prestige] remoteExec ["AS_fnc_mission_success", 2];
+
+	call _fnc_clean;
 };
 
 
@@ -311,8 +310,7 @@ if (_prestige == 0) then {
 // failure if you held out for less than 10 minutes
 if (_prestige == 0) exitWith {
 	_task = [_mission,[side_blue,civilian],[_tskDesc_fail2,_tskTitle,_location],_position,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
-	[5,-5,_location] remoteExec ["citySupportChange",2];
-	[-10,AS_commander] call playerScoreAdd;
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 };
 
 [_prestige] call _fnc_missionSuccessful;

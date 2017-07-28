@@ -1,5 +1,5 @@
 #include "macros.hpp"
-AS_SERVER_ONLY("citySupportChange.sqf");
+AS_SERVER_ONLY("prestige.sqf");
 
 // locking to avoid race conditions
 waitUntil {isNil "prestigeIsChanging"};
@@ -19,8 +19,8 @@ if (_csatT < 0) then {_csatT = 0};
 if (_csatT > 100) then {_csatT = 100};
 
 
-if (_nato != 0) then {AS_Pset("prestigeNATO",_natoT);
-if (_csat != 0) then {AS_Pset("prestigeCSAT",_csatT);
+if (_nato != 0) then {AS_Pset("prestigeNATO",_natoT)};
+if (_csat != 0) then {AS_Pset("prestigeCSAT",_csatT)};
 prestigeIsChanging = nil;
 
 _texto = "";

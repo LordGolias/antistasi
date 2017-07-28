@@ -27,10 +27,8 @@ private _fnc_clean = {
 private _fnc_missionFailedCondition = {dateToNumber date > _fechalimnum};
 
 private _fnc_missionFailed = {
-	_task = ["LOG",[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"FAILED",5,true,true,"rearm"] call BIS_fnc_setTask;
-	[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	[-10,AS_commander] call playerScoreAdd;
-
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"FAILED",5,true,true,"rearm"] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	call _fnc_clean;
 };
 
@@ -74,11 +72,8 @@ private _fnc_missionSuccessfulCondition = {({_x getVariable ["BLUFORSpawn",false
 
 private _fnc_missionSuccessful = {
 	[position _truck] spawn patrolCA;
-	_task = ["LOG",[side_blue,civilian], [_tskDesc,_tskTitle,_location], _position, "SUCCEEDED",5,true,true,"rearm"] call BIS_fnc_setTask;
-	[0,300] remoteExec ["resourcesFIA",2];
-	[1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	[5,AS_commander] call playerScoreAdd;
-	["mis"] remoteExec ["fnc_BE_XP", 2];
+	_task = [_mission, [side_blue,civilian], [_tskDesc,_tskTitle,_location], _position, "SUCCEEDED",5,true,true,"rearm"] call BIS_fnc_setTask;
+	[_mission, getPos _truck] remoteExec ["AS_fnc_mission_success", 2];
 
 	call _fnc_clean;
 };

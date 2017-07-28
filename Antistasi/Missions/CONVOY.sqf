@@ -217,22 +217,10 @@ private _fnc_missionFailedCondition = call {
 
 private _fnc_missionFailed = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_position],_position,"FAILED",5,true,true,_tskIcon] call BIS_fnc_setTask;
-	[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	[-10,AS_commander] call playerScoreAdd;
-	call {
-		if (_missionType == "convoy_money") exitWith {
-			[5000] remoteExec ["resourcesAAF",2];
-			[-5,0] remoteExec ["prestige",2];
-		};
-		if (_missionType == "convoy_ammo") exitWith {
-			[_vehObj] call emptyCrate;
-		};
-		if (_missionType == "convoy_supplies") exitWith {
-			[-5,0] remoteExec ["prestige",2];
-		};
-		/*if (_missionType == "convoy_armor") exitWith {};
-		if (_missionType == "convoy_hvt") exitWith {};
-		if (_missionType == "convoy_prisoners") exitWith {};*/
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
+
+	if (_missionType == "convoy_ammo") then {
+		[_vehObj] call emptyCrate;
 	};
 };
 
@@ -268,13 +256,7 @@ private _fnc_missionSuccessful = call {
 			private _fnc_missionSuccessfulCondition = {(_vehObj distance _destination < 50) and {speed _vehObj < 1}};
 			private _fnc_missionSuccessful = {
 				_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_position],_position,"SUCCEEDED",5,true,true,_tskIcon] call BIS_fnc_setTask;
-				[10, -20, _location] remoteExec ["citySupportChange",2];
-				[-20,0] remoteExec ["prestige",2];
-				[0,5000] remoteExec ["resourcesFIA",2];
-				[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-				{if (_x distance _vehObj < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-				[5,AS_commander] call playerScoreAdd;
-				["mis"] remoteExec ["fnc_BE_XP", 2];
+				[_mission, getPos _vehObj] remoteExec ["AS_fnc_mission_success", 2];
 			};
 			[_fnc_missionFailedCondition, _fnc_missionFailed, _fnc_missionSuccessfulCondition, _fnc_missionSuccessful] call AS_fnc_oneStepMission;
 		}
@@ -282,34 +264,22 @@ private _fnc_missionSuccessful = call {
 	if (_missionType == "convoy_armor") exitWith {
 		{
 			_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_position],_position,"SUCCEEDED",5,true,true,_tskIcon] call BIS_fnc_setTask;
-			[5,0] remoteExec ["prestige",2];
-			[0,5,_position] remoteExec ["citySupportChange",2];
-			[2700] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-			{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_vehObj,"BLUFORSpawn"] call distanceUnits);
-			[5,AS_commander] call playerScoreAdd;
+			[_mission, getPos _vehObj] remoteExec ["AS_fnc_mission_success", 2];
+
 			[position _vehObj] spawn patrolCA;
-			["mis"] remoteExec ["fnc_BE_XP", 2];
 		}
 	};
 	if (_missionType == "convoy_hvt") exitWith {
 		{
-			[10,0] remoteExec ["prestige",2];
-			[0,5,_position] remoteExec ["citySupportChange",2];
-			[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-			{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_hvt,"BLUFORSpawn"] call distanceUnits);
-			[5,AS_commander] call playerScoreAdd;
+			_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_position],_position,"SUCCEEDED",5,true,true,_tskIcon] call BIS_fnc_setTask;
+			[_mission, getPos _vehObj] remoteExec ["AS_fnc_mission_success", 2];
+
 			[position _hvt] spawn patrolCA;
-			["mis"] remoteExec ["fnc_BE_XP", 2];
 		}
 	};
 	if (_missionType == "convoy_prisoners") exitWith {
 		{
-			private _hr = {alive _x} count _POWs;
-			[_hr,0] remoteExec ["resourcesFIA",2];
-			[_hr - (count _POWs),0] remoteExec ["prestige",2];
-			{[_hr,_x] call playerScoreAdd} forEach (allPlayers - hcArray);
-			[round (_hr/2),AS_commander] call playerScoreAdd;
-			["mis"] remoteExec ["fnc_BE_XP", 2];
+			[_mission,  getPos _vehObj, {alive _x} count _POWs] remoteExec ["AS_fnc_mission_success", 2];
 
 			{[_x] join _grpPOW; [_x] orderGetin false} forEach _POWs;
 		}

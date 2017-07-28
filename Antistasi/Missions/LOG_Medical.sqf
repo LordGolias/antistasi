@@ -156,28 +156,14 @@ private _fnc_missionFailedCondition = {(dateToNumber date > _fechalimnum) or (no
 
 private _fnc_missionFailed = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
-	[5,-5,_position] remoteExec ["citySupportChange",2];
-	[-10,AS_commander] call playerScoreAdd;
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
 	call _fnc_clean;
 };
 
 private _fnc_missionSuccessful = {
 	_task = [_mission, [side_blue,civilian], [_tskDesc,_tskTitle,_mrkfin], _posCrashMrk,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
-	[0,15,_location] remoteExec ["citySupportChange",2];
-	[5,0] remoteExec ["prestige",2];
-	{if (_x distance _position < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-	[5,AS_commander] call playerScoreAdd;
-	["mis"] remoteExec ["fnc_BE_XP", 2];
-
-	if (random 10 < 8) then {
-		for "_i" from 1 to 3 do {
-			private _item = (selectRandom AAFmines) call AS_fnc_mineMag;
-			private _num = 2 + (floor random 5);
-			cajaVeh addMagazineCargoGlobal [_item, _num];
-		};
-		[[petros,"globalChat","Someone delivered mines to our camp [repair box]"],"commsMP"] call BIS_fnc_MP;
-	};
+	[_mission] remoteExec ["AS_fnc_mission_success", 2];
 
 	call _fnc_clean;
 };

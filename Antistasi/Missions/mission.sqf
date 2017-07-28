@@ -15,8 +15,6 @@ AS_missions_MAX_DISTANCE = 4000;
 // maximum number of missions available or active.
 AS_missions_MAX_MISSIONS = 5;
 
-AS_missions_allwaysAvailable = ["nato_cas"];
-
 AS_fnc_missions = {
     "mission" call AS_fnc_objects
 };
@@ -75,26 +73,25 @@ private _mission_to_script = {
     params ["_mission"];
     private _missionType = _mission call AS_fnc_mission_type;
 
-    call {
-        if (_missionType == "kill_officer") exitWith {_mission call AS_mis_assassinate};
-        if (_missionType == "kill_specops") exitWith {_mission call AS_mis_assassinate};
-        if (_missionType == "kill_traitor") exitWith {_mission call ASS_Traidor};
-        if (_missionType == "black_market") exitWith {_mission call AS_mis_black_market};
-        if (_missionType == "pamphlets") exitWith {_mission call PR_Pamphlet};
-        if (_missionType == "broadcast") exitWith {_mission call PR_Brainwash};
-        if (_missionType in ["convoy_armor", "convoy_ammo","convoy_money", "convoy_supplies"]) exitWith {_mission call AS_mis_convoy};
-        if (_missionType == "rescue_prisioners") exitWith {_mission call RES_Prisioneros};
-        if (_missionType == "rescue_refugees") exitWith {_mission call RES_Refugiados};
-        if (_missionType == "rob_bank") exitWith {_mission call LOG_Bank};
-        if (_missionType == "help_meds") exitWith {_mission call LOG_Suministros};
-        if (_missionType == "send_meds") exitWith {_mission call LOG_Medical};
-        if (_missionType == "steal_ammo") exitWith {_mission call LOG_Ammo};
-        if (_missionType == "destroy_vehicle") exitWith {_mission call DES_Vehicle};
-        if (_missionType == "destroy_helicopter") exitWith {_mission call DES_Heli};
-        if (_missionType == "destroy_antenna") exitWith {_mission call DES_Antena};
-        if (_missionType == "conquer") exitWith {_mission call AS_mis_conquer};
-        diag_log format ["[AS] Error: _mission_to_script: mission type '%1' does not have script", _missionType];
-    };
+    if (_missionType == "kill_officer") exitWith {_mission call AS_mis_assassinate};
+    if (_missionType == "kill_specops") exitWith {_mission call AS_mis_assassinate};
+    if (_missionType == "kill_traitor") exitWith {_mission call ASS_Traidor};
+    if (_missionType == "black_market") exitWith {_mission call AS_mis_black_market};
+    if (_missionType == "pamphlets") exitWith {_mission call PR_Pamphlet};
+    if (_missionType == "broadcast") exitWith {_mission call PR_Brainwash};
+    if (_missionType in ["convoy_armor", "convoy_ammo","convoy_money", "convoy_supplies"]) exitWith {_mission call AS_mis_convoy};
+    if (_missionType == "rescue_prisioners") exitWith {_mission call RES_Prisioneros};
+    if (_missionType == "rescue_refugees") exitWith {_mission call RES_Refugiados};
+    if (_missionType == "rob_bank") exitWith {_mission call LOG_Bank};
+    if (_missionType == "help_meds") exitWith {_mission call LOG_Suministros};
+    if (_missionType == "send_meds") exitWith {_mission call LOG_Medical};
+    if (_missionType == "steal_ammo") exitWith {_mission call LOG_Ammo};
+    if (_missionType == "destroy_vehicle") exitWith {_mission call DES_Vehicle};
+    if (_missionType == "destroy_helicopter") exitWith {_mission call DES_Heli};
+    if (_missionType == "destroy_antenna") exitWith {_mission call DES_Antena};
+    if (_missionType == "repair_antenna") exitWith {_mission call AS_mis_repair_antenna};
+    if (_missionType == "conquer") exitWith {_mission call AS_mis_conquer};
+    diag_log format ["[AS] Error: _mission_to_script: mission type '%1' does not have script", _missionType];
 };
 
 private _fnc_isValidMission = {

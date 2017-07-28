@@ -15,7 +15,7 @@ private _tskDesc = format [localize "STR_tskDesc_DesAntenna",_nombredest,numberT
 private _mrkfin = createMarker [format ["DES%1", random 100], _position];
 _mrkfin setMarkerShape "ICON";
 
-private _task = ["DES",[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_position,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_position,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
 
 private _fnc_clean = {
 	[[], [], [_mrkfin]] call AS_fnc_cleanResources;
@@ -28,20 +28,15 @@ private _fnc_clean = {
 private _fnc_missionFailedCondition = {dateToNumber date > _fechalimnum};
 
 private _fnc_missionFailed = {
-	_task = ["DES",[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_position,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-	[-10,AS_commander] call playerScoreAdd;
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_position,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 };
 
 private _fnc_missionSuccessfulCondition = {(not alive _antenna) or (_location call AS_fnc_location_side == "FIA")};
 
 private _fnc_missionSuccessful = {
-	sleep 15;
-	_task = ["DES",[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_position,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-	[5,-5] remoteExec ["prestige",2];
-	[600] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	{if (_x distance _position < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-	[5,AS_commander] call playerScoreAdd;
-	["mis"] remoteExec ["fnc_BE_XP", 2];
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_position,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
+	[_mission, _position] remoteExec ["AS_fnc_mission_success", 2];
 };
 
 [_fnc_missionFailedCondition, _fnc_missionFailed, _fnc_missionSuccessfulCondition, _fnc_missionSuccessful] call AS_fnc_oneStepMission;

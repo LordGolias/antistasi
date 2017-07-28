@@ -60,12 +60,14 @@ if (_heli distance _position < 300) then {
 	_wp3 setWaypointType "MOVE";
 	_wp3 setWaypointSpeed "FULL";
     waitUntil {position _crate select 2 < 1 || isNull _chute};
-
-    _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_position,"SUCCEEDED",5,true,true,"rifle"] call BIS_fnc_setTask;
 	private _humo = "SmokeShellBlue" createVehicle position _crate;
 	_vehicles pushBack _humo;
+
+    _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_position,"SUCCEEDED",5,true,true,"rifle"] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_success", 2];
 } else {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_position,"FAILED",5,true,true,"rifle"] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 };
 
 call _fnc_clean;

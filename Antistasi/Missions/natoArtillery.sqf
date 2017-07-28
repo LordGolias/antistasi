@@ -60,9 +60,10 @@ waitUntil {sleep 10; (dateToNumber date > _fechalimnum) or ({alive _x} count _ve
 
 if ({alive _x} count _vehicles == 0) then {
 	_task = [_mission,[west,civilian],[_tskDesc,_tskTitle,_location],_position,"FAILED",5,true,true,"target"] call BIS_fnc_setTask;
-	[-20,0] remoteExec ["prestige",2];
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 } else {
 	_task = [_mission,[west,civilian],[_tskDesc,_tskTitle,_location],_position,"SUCCEEDED",5,true,true,"target"] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_success", 2];
 };
 
 call _fnc_clean;

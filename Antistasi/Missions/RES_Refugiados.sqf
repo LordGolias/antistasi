@@ -59,9 +59,7 @@ private _fnc_missionFailedCondition = {{alive _x} count _POWs < (count _POWs)/2}
 
 private _fnc_missionFailed = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],getPos _house,"FAILED",5,true,true,"run"] call BIS_fnc_setTask;
-	[count _POWs,0] remoteExec ["prestige",2];
-	[0,-15,_position] remoteExec ["citySupportChange",2];
-	[-10,AS_commander] call playerScoreAdd;
+	[_mission,  {not alive _x or captive _x} count _POWs] remoteExec ["AS_fnc_mission_fail", 2];
 
 	call _fnc_clean;
 };
@@ -70,14 +68,9 @@ private _fnc_missionSuccessfulCondition = {{(alive _x) and (_x distance getMarke
 
 private _fnc_missionSuccessful = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],getPos _house,"SUCCEEDED",5,true,true,"run"] call BIS_fnc_setTask;
-	private _hr = {alive _x} count _POWs;
-	[_hr,0] remoteExec ["resourcesFIA",2];
-	[0,_hr,_location] remoteExec ["citySupportChange",2];
-	[_hr,0] remoteExec ["prestige",2];
-	{if (_x distance getMarkerPos "FIA_HQ" < 500) then {[_hr,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-	[round (_hr/2),AS_commander] call playerScoreAdd;
+	[_mission,  {alive _x} count _POWs] remoteExec ["AS_fnc_mission_success", 2];
+
 	{[_x] join _grupo; [_x] orderGetin false} forEach _POWs;
-	["mis"] remoteExec ["fnc_BE_XP", 2];
 
 	call _fnc_clean;
 };

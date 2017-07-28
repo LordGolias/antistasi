@@ -131,9 +131,11 @@ if (_success) then {
 	_mrk call AS_fnc_location_updateMarker; // creates the visible marker
 
 	_task = [_mrk,[side_blue,civilian],[_taskDesc,_taskTitle,_mrk],_position,"SUCCEEDED",5,true,true,"Move"] call BIS_fnc_setTask;
-	[-5,5,_position] remoteExec ["citySupportChange",2];
+	[_mission] remoteExec ["AS_fnc_mission_success", 2];
 } else {
 	_task = [_mrk,[side_blue,civilian],[_taskDesc,_taskTitle,_mrk],_position,"FAILED",5,true,true,"Move"] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
+
 	deleteMarker _mrk;
 };
 

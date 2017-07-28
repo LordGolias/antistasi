@@ -64,21 +64,13 @@ private _fnc_missionFailedCondition = {(dateToNumber date > _fechalimnum) or (no
 
 private _fnc_missionFailed = {
 	_task = [_mission,[side_blue,civilian],[_taskDesc,_taskTitle,_mrkfin],_position,"FAILED",5,true,true,"Interact"] call BIS_fnc_setTask;
-	[5000] remoteExec ["resourcesAAF",2];
-	[-1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	[-10,AS_commander] call playerScoreAdd;
-
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	call _fnc_clean;
 };
 
 private _fnc_missionSuccessful = {
 	_task = [_mission,[side_blue,civilian],[_taskDesc,_taskTitle,_mrkfin],_position,"SUCCEEDED",5,true,true,"Interact"] call BIS_fnc_setTask;
-	[0,5000] remoteExec ["resourcesFIA",2];
-	[-2,0] remoteExec ["prestige",2];
-	[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	{if (_x distance _truck < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-	[5,AS_commander] call playerScoreAdd;
-	["mis"] remoteExec ["fnc_BE_XP", 2];
+	[_mission] remoteExec ["AS_fnc_mission_success", 2];
 
 	call _fnc_clean;
 };

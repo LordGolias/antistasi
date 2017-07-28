@@ -6,8 +6,6 @@ private _aeropuertos = (["airfield", "FIA"] call AS_fnc_location_TS) + ["spawnNA
 private _origen = [_aeropuertos,AS_commander] call BIS_fnc_nearestPosition;
 private _orig = _origen call AS_fnc_location_position;
 
-[-10,0] remoteExec ["prestige",2];
-
 private _tiempolim = _prestigio;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
@@ -67,11 +65,12 @@ _grupoHeli setVariable ["isHCgroup", true, true];
 private _fnc_missionFailedCondition = {({alive _x} count _vehicles == 0) or ({canMove _x} count _vehicles == 0)};
 private _fnc_missionFailed = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_origen],_orig,"FAILED",5,true,true,"Attack"] call BIS_fnc_setTask;
-	[-5,0] remoteExec ["prestige",2];
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 };
 private _fnc_missionSuccessfulCondition = {dateToNumber date > _fechalimnum};
 private _fnc_missionSuccessful = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_origen],_orig,"SUCCEEDED",5,true,true,"Attack"] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_success", 2];
 };
 
 [_fnc_missionFailedCondition, _fnc_missionFailed, _fnc_missionSuccessfulCondition, _fnc_missionSuccessful] call AS_fnc_oneStepMission;

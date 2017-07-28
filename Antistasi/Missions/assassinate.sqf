@@ -75,16 +75,7 @@ private _fnc_missionFailedCondition = {dateToNumber date > _fechalimnum};
 
 private _fnc_missionFailed = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"FAILED",5,true,true,"Kill"] call BIS_fnc_setTask;
-	[-600] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	[-10,AS_commander] call playerScoreAdd;
-
-	if (_missionType == "kill_specops") exitWith {
-		[5,0,_position] remoteExec ["citySupportChange",2];
-	};
-
-	if (_missionType == "kill_officer") then {
-		[_location,-30] call AS_fnc_location_increaseBusy;
-	};
+	_mission remoteExec ["AS_fnc_mission_fail", 2];
 
 	call _fnc_clean;
 };
@@ -96,21 +87,7 @@ if (typeName _target == "GROUP") then {
 
 private _fnc_missionSuccessful = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"SUCCEEDED",5,true,true,"Kill"] call BIS_fnc_setTask;
-	[0,200] remoteExec ["resourcesFIA",2];
-
-	if (_missionType == "kill_specops") then {
-		[0,5,_position] remoteExec ["citySupportChange",2];
-		[600] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	};
-	if (_missionType == "kill_officer") then {
-		[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack", 2];
-		[_location,30] call AS_fnc_location_increaseBusy;
-	};
-
-	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_position,"BLUFORSpawn"] call distanceUnits);
-	[10,AS_commander] call playerScoreAdd;
-	[0,3] remoteExec ["prestige",2];
-	["mis"] remoteExec ["fnc_BE_XP", 2];
+	_mission remoteExec ["AS_fnc_mission_success", 2];
 
 	call _fnc_clean;
 };

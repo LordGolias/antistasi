@@ -134,19 +134,14 @@ private _fnc_missionFailedCondition = {(dateToNumber date > _fechalimnum) or (no
 
 private _fnc_missionFailed = {
 	_task = [_mission,[side_blue,civilian], [_tskDesc_fail,_tskTitle,_location],_position,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
-	[0,-2,_location] remoteExec ["citySupportChange",2];
-	[-10,AS_commander] call playerScoreAdd;
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
 	call _fnc_clean;
 };
 
 private _fnc_missionSuccessful = {
 	_task = [_mission,[side_blue,civilian], [_tskDesc_success,_tskTitle,_location],_position,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
-	[-15,5,_location] remoteExec ["citySupportChange",2];
-	[5,0] remoteExec ["prestige",2];
-	{if (_x distance _position < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-	[5,AS_commander] call playerScoreAdd;
-	["mis"] remoteExec ["fnc_BE_XP", 2];
+	[_mission] remoteExec ["AS_fnc_mission_success", 2];
 
 	call _fnc_clean;
 };

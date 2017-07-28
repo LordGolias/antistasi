@@ -142,8 +142,7 @@ private _fnc_missionFailed = {
 	_Vwp0 setWaypointBehaviour "SAFE";
 
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-	[-600] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	[-10,AS_commander] call playerScoreAdd;
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	call _fnc_clean;
 };
 
@@ -151,11 +150,7 @@ private _fnc_missionSuccessfulCondition = {not alive _heli};
 
 private _fnc_missionSuccessful = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-	[0,300] remoteExec ["resourcesFIA",2];
-	[5,0] remoteExec ["prestige",2];
-	[1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	[5,AS_commander] call playerScoreAdd;
-	["mis"] remoteExec ["fnc_BE_XP", 2];
+	[_mission, getPos _heli] remoteExec ["AS_fnc_mission_success", 2];
 
 	call _fnc_clean;
 };

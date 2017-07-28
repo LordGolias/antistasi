@@ -241,8 +241,7 @@ private _max_time = time + 60*60;
 private _fnc_missionFailedCondition = {_location call AS_fnc_location_side != "FIA"};
 private _fnc_missionFailed = {
 	_task = [_mission, [side_blue,civilian],[_tskDesc, _tskTitle, _location],_position,"FAILED",10,true,true,"Defend"] call BIS_fnc_setTask;
-	[-10,AS_commander] call playerScoreAdd;
-	[2700] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
+	_mission remoteExec ["AS_fnc_mission_fail", 2];
 };
 private _fnc_missionSuccessfulCondition = {
 	{not alive _x or captive _x} count _soldiers > _max_incapacitated or
@@ -250,9 +249,7 @@ private _fnc_missionSuccessfulCondition = {
 };
 private _fnc_missionSuccessful = {
 	_task = [_mission, [side_blue,civilian],[_tskDesc, _tskTitle, _location],_position,"SUCCEEDED",10,true,true,"Defend"] call BIS_fnc_setTask;
-	{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_position,"BLUFORSpawn"] call distanceUnits);
-	[2700] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	[5,AS_commander] call playerScoreAdd;
+	_mission remoteExec ["AS_fnc_mission_success", 2];
 
 	{_x doMove _posorigen} forEach _soldiers;
 	{
