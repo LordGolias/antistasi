@@ -43,7 +43,7 @@ musicON = true;
 
 private _isJip = _this select 1;
 
-_titulo = ["A3 - Antistasi","by Barbolani",antistasiVersion] spawn BIS_fnc_infoText;
+private _titulo = ["A3 - Antistasi","by Barbolani",antistasiVersion] spawn BIS_fnc_infoText;
 
 if (isMultiplayer) then {
     // removes everything but map, GPS, etc.
@@ -63,7 +63,7 @@ else {
     // removes everything but map, GPS, etc.
     [player] call AS_fnc_emptyUnit;
 	AS_commander = player;
-	_group = group player;
+	private _group = group player;
 	_group setGroupId ["Stavros","GroupColor4"];
 	player setIdentity "protagonista";
 	player setUnitRank "COLONEL";
@@ -89,7 +89,7 @@ player setVariable ["dinero",100,true];  // initial money
 player setVariable ["BLUFORSpawn",true,true];  // means that the unit triggers spawn of zones.
 player setUnitRank "PRIVATE";
 player setVariable ["rango",rank player,true];  // todo: check that this is really necessary.
-_score = 0;
+private _score = 0;
 if (player==AS_commander) then {_score = 25};
 player setVariable ["score", _score, true];
 
@@ -99,19 +99,15 @@ if (isMultiplayer) then {
     personalGarage = [];
 };
 
-player setPos (getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)];
-
 call AS_fnc_loadLocalPlayer;
-
-[] call AS_fnc_initPlayer;
+call AS_fnc_initPlayer;
 
 player addEventHandler ["GetInMan", {
-	private ["_unit","_veh"];
-	_unit = _this select 0;
-	_veh = _this select 2;
-	_exit = false;
+	private _unit = _this select 0;
+	private _veh = _this select 2;
+	private _exit = false;
 	if (isMultiplayer) then {
-		_owner = _veh getVariable "duenyo";
+		private _owner = _veh getVariable "duenyo";
 		if (!isNil "_owner") then {
 			if (_owner isEqualType "") then {
 				if ({getPlayerUID _x == _owner} count (units group player) == 0) then {
@@ -132,7 +128,7 @@ player addEventHandler ["GetInMan", {
 			if ((not (_veh isKindOf "C_Van_01_fuel_F")) and (not (_veh isKindOf "I_Truck_02_fuel_F")) and (not (_veh isKindOf "B_G_Van_01_fuel_F"))) then {
 				//if (_this select 1 == "driver") then {[_unit,"camion"] call flagaction};
 				if (_this select 1 == "driver") then {
-					_EHid = _unit addAction [localize "STR_act_loadAmmobox", "Municion\transfer.sqf",nil,0,false,true];
+					private _EHid = _unit addAction [localize "STR_act_loadAmmobox", "Municion\transfer.sqf",nil,0,false,true];
 					_unit setVariable ["transferID", _EHid, true];
 				};
 			};
@@ -221,7 +217,7 @@ else {  // not JIP
 };
 waitUntil {scriptDone _titulo};
 
-_texto = "";
+private _texto = "";
 
 if (hayTFAR) then {
 	_texto = "TFAR Detected\n\nAntistasi detects TFAR in the server config.\nAll players will start with TFAR default radios.\nDefault revive system will shut down radios while players are inconscious.\n\n";
@@ -252,8 +248,8 @@ caja addAction [localize "STR_act_moveAsset", "moveObject.sqf",nil,0,false,true,
 
 mapa addAction [localize "str_act_gameOptions", {CreateDialog "game_options_commander";},nil,0,false,true,"","(isPlayer _this) and (_this == AS_commander) and (_this == _this getVariable ['owner',objNull])"];
 mapa addAction [localize "str_act_gameOptions", {CreateDialog "game_options_player";},nil,0,false,true,"","(isPlayer _this) and !(_this == AS_commander) and (_this == _this getVariable ['owner',objNull])"];
-mapa addAction [localize "str_act_mapInfo", {nul = [] execVM "cityinfo.sqf";},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
-mapa addAction [localize "str_act_tfar", {nul=CreateDialog "tfar_menu";},nil,0,false,true,"","(isClass (configFile >> ""CfgPatches"" >> ""task_force_radio""))", 5];
+mapa addAction [localize "str_act_mapInfo", {[] execVM "cityinfo.sqf";},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
+mapa addAction [localize "str_act_tfar", {CreateDialog "tfar_menu";},nil,0,false,true,"","(isClass (configFile >> ""CfgPatches"" >> ""task_force_radio""))", 5];
 mapa addAction [localize "str_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == AS_commander)", 5];
 
 [[bandera,"unit"],"flagaction"] call BIS_fnc_MP;

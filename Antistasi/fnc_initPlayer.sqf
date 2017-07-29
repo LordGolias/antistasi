@@ -9,8 +9,11 @@ if (!hayACEMedical) then {
     player setVariable ["inconsciente",false,true];
 };
 
+player setPos ((getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)]);
+
+
 player addEventHandler ["HandleHeal", {
-	_player = _this select 0;
+	private _player = _this select 0;
 	if (captive _player) then {
 		if ({((side _x== side_red) or (side _x== side_green)) and (_x knowsAbout player > 1.4)} count allUnits > 0) then {
 			_player setCaptive false;
@@ -47,12 +50,11 @@ player addEventHandler ["WeaponDisassembled", {
 }];
 
 if (isMultiplayer) then {
-    _notAMemberMessage = "You are not in the Member's List of this Server.\n\n" +
-			             "Ask the Commander in order to be allowed to access the HQ Ammobox.\n\n"+
-				         "In the meantime you may use the other box to store equipment and share it with others.";
-
 	player addEventHandler ["InventoryOpened", {
-		_control = false;
+        private _notAMemberMessage = "You are not in the Member's List of this Server.\n\n" +
+    			             "Ask the Commander in order to be allowed to access the HQ Ammobox.\n\n"+
+    				         "In the meantime you may use the other box to store equipment and share it with others.";
+		private _control = false;
 		if !([_this select 0] call isMember) then {
 			if ((_this select 1 == caja) or ((_this select 0) distance caja < 3)) then {
 				_control = true;
@@ -63,7 +65,7 @@ if (isMultiplayer) then {
 	}];
 
     player addEventHandler ["Fired", {
-		_tipo = _this select 1;
+		private _tipo = _this select 1;
 		if ((_tipo == "Put") or (_tipo == "Throw")) then {
 			if (player distance petros < 50) then {
 				deleteVehicle (_this select 6);
