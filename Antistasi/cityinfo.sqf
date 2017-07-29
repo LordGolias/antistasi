@@ -1,3 +1,5 @@
+#include "macros.hpp"
+
 private _popFIA = 0;
 private _popAAF = 0;
 private _pop = 0;

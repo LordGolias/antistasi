@@ -10,5 +10,5 @@ private _deleteControl = {
 };
 
 {
-	[_x, _this] spawn _deleteSingle;
+	[_x, _this] spawn _deleteControl;
 } forEach control_points;

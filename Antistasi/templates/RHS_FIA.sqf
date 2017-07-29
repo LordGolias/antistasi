@@ -1,7 +1,7 @@
 // clean everything because we do not need the default stuff
 if (isServer) then {
 	{AS_FIArecruitment setVariable [_x, nil, true];} forEach (allVariables AS_FIArecruitment);
-}
+};
 
 // todo: transform this list into the lists below
 private _vehFIA = [

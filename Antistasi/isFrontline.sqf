@@ -1,6 +1,7 @@
 #include "macros.hpp"
+params ["_location"];
 
-private _position = _this call AS_fnc_location_position;
+private _position = _location call AS_fnc_location_position;
 
 private _locations = [["airfield", "base", "watchpost", "fia_hq"], "FIA"] call AS_fnc_location_TS;
 
