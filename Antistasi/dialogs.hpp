@@ -4,6 +4,7 @@
 #include "dialogs\recruitSquad.hpp"
 #include "dialogs\recruitGarrison.hpp"
 #include "dialogs\manageLocations.hpp"
+#include "dialogs\manageMissions.hpp"
 #include "dialogs\buyVehicle.hpp"
 #include "dialogs\HQmenu.hpp"
 
@@ -19,35 +20,6 @@ AS_DIALOG(3,"Building Options", "closeDialog 0; if (player == AS_commander) then
 BTN_M(1,-1,"Manage Locations", "", "closeDialog 0; [] spawn AS_fncUI_ManageLocationsMenu;");
 BTN_M(2,-1,"Build Minefield", "", "closeDialog 0; createDialog ""AS_createMinefield"";");
 BTN_M(3, -1, "HQ Fortifications", "", "closeDialog 0; nul= createDialog ""HQ_fort_dialog"";");
-	};
-};
-
-class mission_menu
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(4,"Available Missions",A_CLOSE);
-
-#define STR_MIS_MIL "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""FND_M""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_CIV "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""FND_C""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_EXP "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""FND_E""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_LOG	"closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""LOG""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_DES	"closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""DES""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_RES "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""RES""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_PRO "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""PR"",false,true],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-
-BTN_L(1,-1,"Military Contact", "", STR_MIS_MIL);
-BTN_L(2,-1,"Civilian Contact", "", STR_MIS_CIV);
-BTN_L(3,-1,"Sketchy Irishman", "", STR_MIS_EXP);
-
-BTN_R(1,-1,"Logistics Mission", "", STR_MIS_LOG);
-BTN_R(2,-1,"Destroy Mission", "", STR_MIS_DES);
-BTN_R(3,-1,"Rescue Mission", "", STR_MIS_RES);
-
-BTN_M(4, -1, "Propaganda", "", STR_MIS_PRO);
 	};
 };
 
@@ -322,50 +294,6 @@ class boost_menu // 390
 
 	BTN_L(1,-1, "YES", "You'll get some resources, and basic gear will be unlocked", STR_BST_YES);
 	BTN_R(1,-1, "NO", "Pea shooters, iron sights and plain clothes it is", STR_BST_NO);
-	};
-};
-
-class misCiv_menu // 400
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-    AS_DIALOG(2,"Available Missions",A_CLOSE);
-
-	#define STR_CIV_ASS "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""ASS""],""misReqCiv""] call BIS_fnc_MP} else {hint ""Stranger does not trust you.""};"
-	#define STR_CIV_CVY "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""CONVOY""],""misReqCiv""] call BIS_fnc_MP} else {hint ""Stranger does not trust you.""};"
-	#define STR_CIV_CON "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""CON""],""misReqCiv""] call BIS_fnc_MP} else {hint ""Stranger does not trust you.""};"
-
-	BTN_L(1,-1, "Assassination Mission", "", STR_CIV_ASS);
-	BTN_R(1,-1, "Convoy Ambush", "", STR_CIV_CVY);
-
-	BTN_M(2, -1, "Conquest Missions", "", STR_CIV_CON);
-
-	};
-};
-
-class misMil_menu // 410
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-    AS_DIALOG(2,"Available Missions",A_CLOSE);
-
-	#define STR_MIL_ASS "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""AS""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
-	#define STR_MIL_CVY "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""CONVOY""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
-	#define STR_MIL_CON "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""CON""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
-	#define STR_MIL_DES "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""DES""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
-
-	BTN_L(1,-1, "Assassination Mission", "", STR_MIL_ASS);
-	BTN_L(2,-1, "Convoy Ambush", "", STR_MIL_CVY);
-
-	BTN_R(1,-1, "Conquest Missions", "", STR_MIL_CON);
-	BTN_R(2,-1, "Destroy Missions", "", STR_MIL_DES);
-
 	};
 };
 

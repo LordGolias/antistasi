@@ -1,9 +1,9 @@
 #include "../macros.hpp"
-AS_SERVER_ONLY("Missions/outcomes.sqf");
 
 // converts the outcome values to changes in the game state
 // of the game.
 AS_fnc_mission_execute = {
+    AS_SERVER_ONLY("AS_fnc_mission_execute");
     params [["_commander_score", 0],
             ["_players_score", 0],
             ["_prestige", [0, 0]],
@@ -49,7 +49,7 @@ AS_fnc_mission_execute = {
 };
 
 // converts the outcome values into a formatted description
-AS_fnc_mission_description = {
+AS_fnc_mission_description_private = {
     params [["_commander_score", 0],
             ["_players_score", 0],
             ["_prestige", [0, 0]],
@@ -103,11 +103,7 @@ AS_fnc_mission_description = {
     if (_description isEqualTo []) exitWith {
         _description pushBack "No relevant information about mission outcome";
     };
-    private _result = "";
-    {
-        _result = _x + "<br/>";
-    } forEach _description;
-    _result
+    _description
 };
 
 
@@ -340,11 +336,23 @@ AS_fnc_mission_fail_get = {
 
 
 AS_fnc_mission_success = {
+    AS_SERVER_ONLY("AS_fnc_mission_success");
     (_this call AS_fnc_mission_success_get) call AS_fnc_mission_execute;
     ["mis"] call fnc_BE_XP;
 };
 
 
 AS_fnc_mission_fail = {
+    AS_SERVER_ONLY("AS_fnc_mission_fail");
     (_this call AS_fnc_mission_fail_get) call AS_fnc_mission_execute;
+};
+
+
+AS_fnc_mission_success_description = {
+    (_this call AS_fnc_mission_success_get) call AS_fnc_mission_description_private
+};
+
+
+AS_fnc_mission_fail_description = {
+    (_this call AS_fnc_mission_fail_get) call AS_fnc_mission_description_private
 };

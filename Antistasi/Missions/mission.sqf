@@ -39,6 +39,23 @@ AS_fnc_active_missions = {
         _x call AS_fnc_mission_type == _missionType}
 };
 
+AS_fnc_available_missions = {
+    (call AS_fnc_missions) select {_x call AS_fnc_mission_status == "available"}
+};
+
+AS_fnc_mission_name = {
+    params ["_mission"];
+    private _missionType = _mission call AS_fnc_mission_type;
+    private _location = _mission call AS_fnc_mission_location;
+
+    private _name = _missionType;
+    if (_location != "") then {
+        _name = _name + " at " + [_location] call localizar;
+    };
+    _name
+};
+
+
 private _fnc_signature_to_mission = {
     params ["_type", "_location"];
     format ["%s_%s", _type, _location]
@@ -177,7 +194,6 @@ AS_fnc_mission_remove = AS_fnc_object_remove;
 
 private _fnc_isAvailable = {
     private ["_mission"];
-    //private _mission = _name call _fnc_mission_to_signature;
     private _missionType = _mission call AS_fnc_mission_type;
     private _location = _mission call AS_fnc_mission_location;
 
