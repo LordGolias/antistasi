@@ -1,7 +1,3 @@
-
-private ["_texto","_datos","_power","_busy","_garrison"];
-posicionTel = [];
-
 private _popFIA = 0;
 private _popAAF = 0;
 private _pop = 0;
@@ -16,17 +12,15 @@ private _pop = 0;
 } forEach call AS_fnc_location_cities;
 _popFIA = round _popFIA;
 _popAAF = round _popAAF;
-hint format ["Total pop: %1\nFIA Support: %2\nAAF SUpport: %3 \n\nDestroyed Cities: %4\n\nClick on the zone",
+hint format ["Total pop: %1\nFIA Support: %2\nAAF SUpport: %3 \n\nDestroyed Cities: %4\n\nClick on the location",
 	_pop, _popFIA, _popAAF, {_x in AS_P("destroyedLocations")} count (call AS_fnc_location_cities)];
 
 openMap true;
 
+posicionTel = [];
 onMapSingleClick "posicionTel = _pos;";
 
-
-//waitUntil {sleep 1; (count posicionTel > 0) or (not visiblemap)};
-while {visibleMap} do
-	{
+while {visibleMap} do {
 	if (count posicionTel > 0) then {
 		private _location = posicionTel call AS_fnc_location_nearest;
 		private _position = _location call AS_fnc_location_position;
@@ -117,5 +111,5 @@ while {visibleMap} do
 		};
 	posicionTel = [];
 	sleep 1;
-	};
+};
 onMapSingleClick "";
