@@ -2,7 +2,7 @@
 if (!isServer and hasInterface) exitWith {};
 params ["_location"];
 
-private ["_unit","_AAVeh","_crate","_vehiculos","_grupos","_soldados","_stcs"];
+private ["_unit","_AAVeh","_vehiculos","_grupos","_soldados","_stcs"];
 
 private _grupo = createGroup side_green;
 private _grupoCSAT = createGroup side_red;
@@ -62,9 +62,10 @@ _mrkfin setMarkerTypeLocal "hd_warning";
 _mrkfin setMarkerColorLocal "ColorRed";
 _mrkfin setMarkerBrushLocal "DiagGrid";
 
-private _grupoUAV = objNull;
+private _grupoUAV = grpNull;
+private _uav = objNull;
 if (!isNil opUAVsmall) then {
-	private _uav = createVehicle [opUAVsmall, _posCmp, [], 0, "FLY"];
+	_uav = createVehicle [opUAVsmall, _posCmp, [], 0, "FLY"];
 	[_uav,"CSAT"] call AS_fnc_initVehicle;
 	createVehicleCrew _uav;
 	_grupoUAV = group (crew _uav select 1);
@@ -76,7 +77,7 @@ if (!isNil opUAVsmall) then {
 
 {[_x,"CSAT"] call AS_fnc_initVehicle} forEach _vehiculos;
 
-{[_x] spawn CSATinit; _soldados pushBack _x} forEach units _grup_grupoCSAToUAV;
+{[_x] spawn CSATinit; _soldados pushBack _x} forEach units _grupoCSAT;
 _grupos pushBack _grupoCSAT;
 [leader _grupoCSAT, _mrkfin, "AWARE", "SPAWNED","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 
@@ -107,7 +108,7 @@ private _fnc_isCleaned = {
 // and AA destroyed
 private _fnc_isAAdestroyed = {true};
 if (!isNull _AAVeh) then {
-	_fnc_AAdestroyed = {(not alive _AAVeh)};
+	_fnc_isAAdestroyed = {(not alive _AAVeh)};
 };
 
 waitUntil {sleep 1;

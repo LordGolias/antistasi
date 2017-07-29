@@ -87,9 +87,10 @@ AS_fnc_location_forced_spawned = {
 };
 
 AS_fnc_location_side = {
-    private _type = _this call AS_fnc_location_type;
+    params ["_location"];
+    private _type = _location call AS_fnc_location_type;
     if (_type != "city") exitWith {
-        [_this,"side"] call AS_fnc_location_get
+        [_location, "side"] call AS_fnc_location_get
     };
     private _FIAsupport = [_this,"FIAsupport"] call AS_fnc_location_get;
     private _AAFsupport = [_this,"AAFsupport"] call AS_fnc_location_get;
@@ -157,7 +158,7 @@ AS_fnc_location_add = {
     private _locations = call AS_fnc_location_all;
 
     if (_marker in _locations) exitWith {
-        diag_log format ["[AS] Error: location '%1' added but already exists. Called with type '%2'", _location, _type];
+        diag_log format ["[AS] Error: location '%1' added but already exists. Called with type '%2'", _marker, _type];
     };
 
     AS_location setVariable [_marker + "_position", getMarkerPos _marker, true];
@@ -210,7 +211,7 @@ AS_fnc_location_delete = {
     private _location = _this;
     private _all = AS_location getVariable "all";
     if !(_location in _all) exitWith {
-        diag_log format ["[AS] Error: location '%1' called for removal but it does not exist.", _x];
+        diag_log format ["[AS] Error: location '%1' called for removal but it does not exist.", _location];
     };
 
     // its properties

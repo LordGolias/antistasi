@@ -20,11 +20,11 @@ _soldados append _gunners;
 _vehiculos append _vehicles;
 
 // create flag
-_bandera = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
+private _bandera = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
 _bandera allowDamage false;
 [[_bandera,"take"],"flagaction"] call BIS_fnc_MP;
 _vehiculos pushBack _bandera;
-_caja = "I_supplyCrate_F" createVehicle _posicion;
+private _caja = "I_supplyCrate_F" createVehicle _posicion;
 _vehiculos pushBack _caja;
 {[_x, "AAF"] call AS_fnc_initVehicle;} forEach _vehiculos;
 

@@ -38,10 +38,10 @@ if (_frontera) then {
 	private _base = [_validBases,_posicion] call BIS_fnc_nearestPosition;
 	private _position = _base call AS_fnc_location_position;
 	if (_position distance _posicion > 1000) then {
-		_pos = [_posicion] call mortarPos;
-		_veh = statMortar createVehicle _pos;
+		private _pos = [_posicion] call mortarPos;
+		private _veh = statMortar createVehicle _pos;
 		[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
-		_unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
+		private _unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
 		[_unit, false] spawn AS_fnc_initUnitAAF;
 		[_veh, "AAF"] call AS_fnc_initVehicle;
 		_unit moveInGunner _veh;
@@ -81,7 +81,7 @@ for "_i" from 1 to _groupsCount do {
 	if (!(_location call AS_fnc_location_spawned) or
 		(diag_fps < AS_P("minimumFPS") and _i != 1)) exitWith {};
 	_grupo = [_posicion, side_green, [infTeam, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
-	_stance = "RANDOM";
+	private _stance = "RANDOM";
 	if (_i == 1) then {_stance = "RANDOMUP"};
 	[leader _grupo, _location, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 	_grupos pushBack _grupo;
@@ -98,6 +98,7 @@ waitUntil {sleep 1;
 	(not (_location call AS_fnc_location_spawned)) or
 	(({(!(vehicle _x isKindOf "Air"))} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)) >
 	 3*({(alive _x) and !(captive _x) and (_x distance _posicion < _size)} count _soldados))
+};
 
 if ((_location call AS_fnc_location_spawned) and (_location call AS_fnc_location_side == "AAF")) then {
 	[_bandera] remoteExec ["mrkWIN",2];

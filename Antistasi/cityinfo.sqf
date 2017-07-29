@@ -93,10 +93,14 @@ while {visibleMap} do {
 			if (_side == "AAF") then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
 			if (_location in AS_P("destroyedLocations")) then {_texto = format ["%1\nDESTROYED",_texto]};
 			};
-		if (_type == "outpost") then {
+		if (_type in ["outpost", "outpostAA"]) then {
 			if (_side == "AAF") then {
 				_texto = "AAF Outpost";
-				if (_position call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
+				if (_position call radioCheck) then {
+					_texto = format ["%1\n\nRadio Comms ON",_texto]
+				} else {
+					_texto = format ["%1\n\nRadio Comms OFF",_texto]
+				};
 			} else {
 				_texto = format ["FIA Outpost%1",[_location] call garrisonInfo];
 			};

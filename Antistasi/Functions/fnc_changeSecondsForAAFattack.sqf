@@ -3,8 +3,6 @@ AS_SERVER_ONLY("fnc_changeSecondsforAAFattack.sqf");
 
 params ["_time", ["_multiply", true]];
 
-private _time = _this select 0;
-
 if (_multiply) then {
 	private _FIAbases = ["base", "FIA"] call AS_fnc_location_TS;
 	private _allBases = "base" call AS_fnc_location_T;
@@ -17,4 +15,4 @@ if (_multiply) then {
 };
 
 private _current = AS_P("secondsForAAFAttack");
-AS_Pset("secondsForAAFAttack", (_current + round _tiempo) max 0);
+AS_Pset("secondsForAAFAttack", (_current + round _time) max 0);
