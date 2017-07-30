@@ -1,10 +1,9 @@
 enableSaving [ false, false ];
 if (isServer and (isNil "serverInitDone")) then {skipTime random 24};
 
-call compile preprocessFileLineNumbers "debug\init.sqf";
-
 // it is a SP game, initialize the server.
 if (!isMultiPlayer) then {
+    call compile preprocessFileLineNumbers "debug\init.sqf";
     {
         if (not isPlayer _x) then {
             private _grupete = group _x;

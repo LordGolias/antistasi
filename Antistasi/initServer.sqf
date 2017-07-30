@@ -4,6 +4,7 @@
 if (!isMultiplayer) exitWith {};
 if (!(isNil "serverInitDone")) exitWith {};
 
+call compile preprocessFileLineNumbers "debug\init.sqf";
 diag_log "[AS] Server MP: starting";
 call compile preprocessFileLineNumbers "initFuncs.sqf";
 diag_log "[AS] Server MP: initFuncs done";
