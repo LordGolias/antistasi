@@ -14,8 +14,18 @@ petros setName "Petros";
 petros disableAI "MOVE";
 petros disableAI "AUTOTARGET";
 
+_oldPos = getPos fuego; //
+
 _pos = [position petros, 3, getDir petros] call BIS_Fnc_relPos;
 fuego setPos _pos;
+
+waitUntil
+{
+	sleep 0.1;
+	!(getPos fuego isEqualTo _oldPos)
+}; // Wait untill fireplace is moved to the new position
+// before using it as a center point for the other HQ items
+
 _rnd = getdir Petros;
 _pos = [getPos fuego, 3, _rnd] call BIS_Fnc_relPos;
 caja setPos _pos;
