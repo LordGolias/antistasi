@@ -19,8 +19,6 @@ if (!isMultiPlayer) then {
     call compile preprocessFileLineNumbers "initVar.sqf";
     diag_log "[AS] Server SP: initVar finished";
 
-    call compile preprocessFileLineNumbers "initPetros.sqf";
-
     HCciviles = 2;
     HCgarrisons = 2;
     HCattack = 2;

@@ -9,7 +9,7 @@ AS_DIALOG(4, "FIA HQ", A_CLOSE);
 
 BTN_L(1,-1, "Grab 100 € from Pool", "", "if (isMultiPlayer) then {nul=call stavrosSteal} else {hint ""This function is MP only""};");
 BTN_L(2,-1, "Manage Garrisons", "", "closeDialog 0; call AS_fncUI_RecruitGarrisonMenu;");
-BTN_L(3,-1, "Move HQ to another Zone", "", "closeDialog 0; nul = [] spawn moveHQ;");
+BTN_L(3,-1, "Move HQ to another position", "", "call AS_fncUI_HQmove");
 
 BTN_R(1,-1, "Ingame Member's List", "", "if (isMultiplayer) then {nul = [] execVM ""OrgPlayers\membersList.sqf""} else {hint ""This function is MP only""};");
 BTN_R(2,109, "Train FIA", "", "[] remoteExec [""fnc_BE_buyUpgrade"", 2]");

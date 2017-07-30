@@ -56,4 +56,5 @@ cajaVeh allowDamage false;
 
 AS_permanent_HQplacements = [caja, cajaVeh, mapa, fuego, bandera];
 
-call AS_fnc_placeHQdefault;
+call AS_fnc_initPetros;
+call AS_fnc_HQdeploy;

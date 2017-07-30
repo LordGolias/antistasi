@@ -265,10 +265,10 @@ fnc_logOutput = {
 publicVariable "fnc_logOutput";
 
 fnc_deployPad = {
+	// _obj is the paint
 	params ["_obj", "_caller"];
 
 	private _pos = position _obj;
-	server setVariable ["AS_vehicleOrientation", [_caller, _obj] call BIS_fnc_dirTo, true];
 	if ((_pos distance fuego) > 30) exitWith {
 		[petros,"hint","Too far from HQ."] remoteExec ["commsMP",AS_commander];
 		deleteVehicle _obj;
@@ -278,10 +278,20 @@ fnc_deployPad = {
 		deleteVehicle _obj;
 	};
 
-	deleteVehicle _obj;
+	server setVariable ["AS_vehicleOrientation", [_caller, _obj] call BIS_fnc_dirTo, true];
 	vehiclePad = createVehicle ["Land_JumpTarget_F", _pos, [], 0, "CAN_COLLIDE"];
-
 	publicVariable "vehiclePad";
+
+	deleteVehicle _obj;
+};
+
+fnc_deletePad = {
+	if not(isNil "vehiclePad") then {
+		deleteVehicle vehiclePad;
+		vehiclePad = nil;
+		publicVariable "vehiclePad";
+	};
+	server setVariable ["AS_vehicleOrientation", nil, true];
 };
 
 fnc_selectCMPData = {

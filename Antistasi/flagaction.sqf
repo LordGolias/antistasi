@@ -25,7 +25,7 @@ switch _tipo do {
 	case "prisionero": {_flag addAction [localize "STR_act_liberate", "AI\liberatePOW.sqf",nil,0,false,true]};
 	case "interrogar": {_flag addAction [localize "STR_act_interrogate", "AI\interrogar.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"]};
 	case "capturar": {_flag addAction [localize "STR_act_offerToJoin", "AI\capturar.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"]};
-	case "buildHQ": {_flag addAction [localize "STR_act_buildHQ", {[] spawn buildHQ},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"]};
+	case "buildHQ": {_flag addAction [localize "STR_act_buildHQ", {[] remoteExec ["fnc_deployPad", 2]},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"]};
 	case "seaport": {_flag addAction ["Buy Boat", "REINF\buyBoat.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
 	case "steal": {_flag addAction ["Steal Static", "REINF\stealStatic.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];};
 	case "garage":

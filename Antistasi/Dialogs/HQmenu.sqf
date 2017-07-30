@@ -16,3 +16,19 @@ AS_fncUI_openHQmenu = {
 		_childControl  ctrlSetTooltip _texto;
 	};
 };
+
+AS_fncUI_HQmove = {
+	if (player != AS_commander) exitWith {
+		hint "Only the commander can do this";
+	};
+
+	if ((count weaponCargo caja > 0) or
+	    (count magazineCargo caja > 0) or
+		(count itemCargo caja > 0) or
+		(count backpackCargo caja > 0)) exitWith {
+			hint "The Ammobox must be empty to move the HQ";
+	};
+
+	[] remoteExec ["AS_fnc_HQmove", 2];
+	closeDialog 0;
+};

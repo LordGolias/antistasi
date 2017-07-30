@@ -1,14 +1,12 @@
 #include "macros.hpp"
-private ["_hqDestroyed", "_hqInitialPlacement", "_position","_closestEnemyLocation"];
 
-_hqInitialPlacement = isNil "placementDone";
-_hqDestroyed = !_hqInitialPlacement;
+private _hqInitialPlacement = isNil "placementDone";
+private _hqDestroyed = !_hqInitialPlacement;
 
 if (_hqDestroyed) then {
 	AS_commander allowDamage false;
 	"Petros is Dead" hintC "Petros has been killed. You lost part of your assets and need to select a new HQ position far from the enemies.";
-}
-else {
+} else {
 	diag_log "[AS] INFO: New Game selected.";
 	hint "Select the position you want to put your HQ.
           \nClose the map to start in the default position.
@@ -82,54 +80,12 @@ while {true} do {
 openmap [false,false];
 AS_map_position = nil;
 
-if !(_position isEqualTo (getMarkerPos "FIA_HQ")) then {
-	["FIA_HQ", "position", _position] call AS_fnc_location_set;
-	"FIA_HQ" call AS_fnc_location_updateMarker;
-	call AS_fnc_placeHQdefault;
-};
-
-if (_hqDestroyed) then {
-    [[petros,"buildHQ"],"flagaction"] call BIS_fnc_MP;
-}
-else {
-	// update controllers' ownership close to chosen location
-	{
-		if ((_x call AS_fnc_location_position) distance _position < 1000) then {
-			[_x,"side","FIA"] call AS_fnc_location_set;
-		};
-	} forEach (["roadblock", "AAF"] call AS_fnc_location_TS);
-};
-
-// delete vehiclePad
-if !(isNil "vehiclePad") then {
-	[vehiclePad, {deleteVehicle _this}] remoteExec ["call", 0];
-	[vehiclePad, {vehiclePad = nil}] remoteExec ["call", 0];
-	server setVariable ["AS_vehicleOrientation", 0, true];
-};
-
-if (_hqInitialPlacement) then {
-	// move all players to the HQ.
-	if (isMultiplayer) then {
-		{_x setPos getPos petros} forEach playableUnits;
-	} else {
-		AS_commander setPos (getPos petros);
-	};
-}
-else {
-	AS_commander allowDamage true;
-	caja hideObjectGlobal false;
-	cajaVeh hideObjectGlobal false;
-	mapa hideObjectGlobal false;
-	fuego hideObjectGlobal false;
-	bandera hideObjectGlobal false;
-};
-
 {
     deleteMarker _x;
 } forEach _tempMarkers;
 
-if (_hqInitialPlacement) then {
-	placementDone = true;
-	publicVariable "placementDone";
+[_position] remoteExec ["AS_fnc_HQplace", 2];
+
+if _hqInitialPlacement then {
 	createDialog "boost_menu";
 };

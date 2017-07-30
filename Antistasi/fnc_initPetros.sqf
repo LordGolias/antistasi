@@ -1,14 +1,31 @@
+#include "macros.hpp"
+AS_SERVER_ONLY("fnc_initPetros.sqf");
+
+if (!isNil "petros") then {
+    deleteVehicle petros;
+    deleteGroup grupoPetros;
+};
+
+grupoPetros = createGroup side_blue;
+petros = grupoPetros createUnit ["B_G_officer_F", getMarkerPos "FIA_HQ", [], 0, "NONE"];
+[[petros,"mission"],"flagaction"] call BIS_fnc_MP;
+grupoPetros setGroupId ["Petros","GroupColor4"];
+petros setIdentity "amiguete";
+petros setName "Petros";
+petros disableAI "MOVE";
+petros disableAI "AUTOTARGET";
+
 removeHeadgear petros;
 removeGoggles petros;
 petros setSkill 1;
 petros setVariable ["inconsciente",false,true];
 petros setVariable ["respawning",false];
 
-[] remoteExec ["fnc_rearmPetros", 2];
+call fnc_rearmPetros;
 
 petros addEventHandler ["HandleDamage",
         {
-        private ["_unit","_part","_dam","_injurer"];
+        private ["_part","_dam","_injurer"];
         _part = _this select 1;
         _dam = _this select 2;
         _injurer = _this select 3;
@@ -37,24 +54,21 @@ petros addEventHandler ["HandleDamage",
         _dam
         }];
 
-petros addMPEventHandler ["mpkilled",
-    {
+petros addMPEventHandler ["mpkilled", {
     removeAllActions petros;
-    _killer = _this select 1;
-    if (isServer) then
-        {
-            diag_log format ["[AS] INFO: Petros died. Killer: %1", _killer];
+    private _killer = _this select 1;
+    if isServer then {
+        diag_log format ["[AS] INFO: Petros died. Killer: %1", _killer];
         if ((side _killer == side_red) or (side _killer == side_green)) then {
-            [] spawn
-                {
+            [] spawn {
                 ["FIA_HQ", "garrison", []] call AS_fnc_location_set;
 
 				// remove 1/2 of every item.
 				([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 				{
-					_values = _x select 1;
+					private _values = _x select 1;
 					for "_i" from 0 to (count _values - 1) do {
-						_new_value = floor ((_values select _i)/2.0);
+						private _new_value = floor ((_values select _i)/2.0);
 						_values set [_i, _new_value];
 					};
 				} forEach [_cargo_w, _cargo_m, _cargo_i, _cargo_b];
@@ -63,25 +77,14 @@ petros addMPEventHandler ["mpkilled",
 
                 [] remoteExec ["fnc_MAINT_arsenal", 2];
 
-                waitUntil {sleep 6; isPlayer AS_commander};
-                [] remoteExec ["placementSelection",AS_commander];
-               };
-            }
-        else
-            {
-            _viejo = petros;
-            grupoPetros = createGroup side_blue;
-            publicVariable "grupoPetros";
-            petros = grupoPetros createUnit ["B_G_officer_F", position _viejo, [], 0, "NONE"];
-            grupoPetros setGroupId ["Petros","GroupColor4"];
-            petros setIdentity "amiguete";
-            petros setName "Petros";
-            petros disableAI "MOVE";  // so petros does not move under any circumstance
-            petros forceSpeed 0;
-            [[Petros,"buildHQ"],"flagaction"] call BIS_fnc_MP;
-            call compile preprocessFileLineNumbers "initPetros.sqf";
-            deleteVehicle _viejo;
-            publicVariable "petros";
+                waitUntil {sleep 5; isPlayer AS_commander};
+                [] remoteExec ["AS_fnc_HQselect", AS_commander];
             };
+        } else {
+            call AS_fnc_initPetros;
         };
-   }];
+    };
+}];
+
+publicVariable "grupoPetros";
+publicVariable "petros";

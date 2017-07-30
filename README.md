@@ -211,6 +211,24 @@ are converted to locations using the following convention
 Cities (`"city"`) and hills (`"hill","hillAA"`) are initialized differently,
 see `templates/world_altis.sqf` to learn how.
 
+## FIA HQ
+
+The FIA HQ is a location (called `fia_hq`) always controlled by FIA.
+The following scripts are relevant to change its position:
+
+- `fnc_HQselect.sqf`: client script to choose a position for the HQ
+- `fnc_HQplace.sqf`: teleport FIA HQ to a given location (initially-place or rebuild)
+- `fnc_HQdeploy.sqf`: places permanent HQ structures in FIA HQ position
+- `fnc_HQmove.sqf`: make petros join commander's group and allow the commander to use `fnc_HQbuild.sqf`
+- `fnc_HQbuild.sqf`: spawn the FIA HQ in petros current location (move the HQ)
+
+3 different events can cause the HQ to change position:
+- initial placement: execute `fnc_HQselect.sqf` which then calls `fnc_HQplace.sqf`
+- Commander chooses to move the HQ: execute `fnc_HQmove.sqf` and then `fnc_HQbuild.sqf`
+- HQ is destroyed: execute `fnc_HQselect.sqf` which then calls `fnc_HQplace.sqf`
+
+Both `fnc_HQbuild.sqf` and `fnc_HQplace.sqf` call `fnc_HQdeploy.sqf` to position the permanent structures.
+
 ## Vehicles
 
 Vehicles are bought by FIA or AAF, or are spawned by NATO/CSAT. Afterwards:

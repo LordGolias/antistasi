@@ -42,7 +42,11 @@ AS_fnc_establishFIALocation = compile preProcessFileLineNumbers "fnc_establishFI
 AS_fnc_abandonFIALocation = compile preProcessFileLineNumbers "fnc_abandonFIALocation.sqf";
 AS_fnc_renameFIAcamp = compile preProcessFileLineNumbers "fnc_renameFIAcamp.sqf";
 
-AS_fnc_placeHQdefault = compile preProcessFileLineNumbers "fnc_placeHQdefault.sqf";
+AS_fnc_initPetros = compile preProcessFileLineNumbers "fnc_initPetros.sqf";
+AS_fnc_HQdeploy = compile preProcessFileLineNumbers "fnc_HQdeploy.sqf";
+AS_fnc_HQbuild = compile preProcessFileLineNumbers "fnc_HQbuild.sqf";
+AS_fnc_HQselect = compile preProcessFileLineNumbers "fnc_HQselect.sqf";
+AS_fnc_HQmove = compile preProcessFileLineNumbers "fnc_HQmove.sqf";
 
 AS_fnc_AAFattackScore = compile preProcessFileLineNumbers "Functions\fnc_AAFattackScore.sqf";
 
@@ -65,7 +69,6 @@ smokeCoverAuto = compile preProcessFileLineNumbers "AI\smokeCoverAuto.sqf";
 landThreatEval = compile preProcessFileLineNumbers "AI\landThreatEval.sqf";
 mortarPos = compile preProcessFileLineNumbers "CREATE\mortarPos.sqf";
 REP_Antena = compile preProcessFileLineNumbers "Missions\REP_Antena.sqf";
-placementSelection = compile preProcessFileLineNumbers "placementselection.sqf";
 isMember = compile preProcessFileLineNumbers "orgPlayers\isMember.sqf";
 vaciar = compile preProcessFileLineNumbers "Municion\vaciar.sqf";
 AS_specOP = compile preProcessFileLineNumbers "Missions\AS_specOP.sqf";
@@ -193,8 +196,6 @@ powerReorg = compile preProcessFileLineNumbers "powerReorg.sqf";
 apagon = compile preProcessFileLineNumbers "apagon.sqf";
 mrkWIN = compile preProcessFileLineNumbers "mrkWIN.sqf";
 mrkLOOSE = compile preProcessFileLineNumbers "mrkLOOSE.sqf";
-moveHQ = compile preProcessFileLineNumbers "moveHQ.sqf";
-buildHQ = compile preProcessFileLineNumbers "buildHQ.sqf";
 /*
 Generics
 */
