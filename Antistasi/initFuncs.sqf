@@ -194,7 +194,6 @@ AAFeconomics = compile preProcessFileLineNumbers "AAFeconomics.sqf";
 findBasesForCA = compile preProcessFileLineNumbers "findBasesForCA.sqf";
 findBasesForConvoy = compile preProcessFileLineNumbers "findBasesForConvoy.sqf";
 findAirportsForCA = compile preProcessFileLineNumbers "findAirportsForCA.sqf";
-patrolDestinos = compile preProcessFileLineNumbers "patrolDestinos.sqf";
 ataqueAAF = compile preProcessFileLineNumbers "ataqueAAF.sqf";
 citySupportChange = compile preProcessFileLineNumbers "citySupportChange.sqf";
 AS_fnc_spawnLoop = compile preProcessFileLineNumbers "spawnLoop.sqf";

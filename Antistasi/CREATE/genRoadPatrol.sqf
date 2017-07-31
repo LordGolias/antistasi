@@ -36,10 +36,26 @@ while {count _validTypes != 0} do {
 
 if (count _validTypes == 0) exitWith {};
 
+
+private _groundDestinies = {
+	private _posHQ = getMarkerPos "FIA_HQ";
+
+	private _validLocations = [];
+	private _allLocations = [
+		["base", "airfield", "resource", "factory", "powerplant", "outpost", "outpostAA"],
+		"AAF"] call AS_fnc_location_TS;
+	{
+		private _pos = _x call AS_fnc_location_position;
+		if (_posHQ distance _pos < 3000) then {_validLocations pushBack _x};
+	} forEach _allLocations;
+	_validLocations
+};
+
+
 private _posbase = _base call AS_fnc_location_position;
 private _category = [_type] call AS_fnc_AAFarsenal_category;
 
-private _arraydestinos = ["AAF" call AS_fnc_location_S] call patrolDestinos;
+private _arraydestinos = call _groundDestinies;
 private _distancia = 50;
 
 private _isFlying = _category in ["armedHelis","transportHelis", "planes"];
@@ -143,7 +159,7 @@ while {alive _veh} do
 			}
 		else
 			{
-			_arraydestinos = ["AAF" call AS_fnc_location_S] call patrolDestinos;
+			_arraydestinos = call _groundDestinies;
 			};
 		};
 	};
