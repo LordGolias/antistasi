@@ -106,15 +106,9 @@ AS_fnc_saveHQ = {
 	[_saveName, "HQPermanents", _array] call fn_SaveStat;
 
 	_array = [];
-	if (!isNil "AS_HQ_placements") then {
-		{
-			// save stuff only close to the HQ.
-			private _pos = getPos _x;
-			if (_pos distance (getMarkerPos "FIA_HQ") < 50) then {
-				_array pushback [_pos, getDir _x, typeOf _x];
-			};
-		} forEach AS_HQ_placements;
-	};
+	{
+		_array pushback [getPos _x, getDir _x, typeOf _x];
+	} forEach AS_HQ_placements;
 	[_saveName, "HQPlacements", _array] call fn_SaveStat;
 
 	[_saveName, "HQinflamed", inflamed fuego] call fn_Savestat;
@@ -122,7 +116,7 @@ AS_fnc_saveHQ = {
 
 AS_fnc_loadHQ = {
 	params ["_saveName"];
-	petros setPos ("FIA_HQ" call AS_fnc_location_position);
+	call fnc_initPetros;
 
 	private _array = [_saveName, "HQPermanents"] call AS_fnc_LoadStat;
 	for "_i" from 0 to count AS_permanent_HQplacements - 1 do {
@@ -132,15 +126,14 @@ AS_fnc_loadHQ = {
 
 	fuego inflame ([_saveName, "HQinflamed"] call AS_fnc_LoadStat);
 
-	// this is modified only by moveObject.sqf
-	AS_HQ_placements = [];
+	"delete" call AS_fnc_HQaddObject;
 	_array = [_saveName, "HQPlacements"] call AS_fnc_LoadStat;
-	for "_i" from 0 to count _array - 1 do {
-		private _item = ((_array select _i) select 2) createVehicle ((_array select _i) select 0);
-		_item setDir ((_array select _i) select 1);
-		AS_HQ_placements pushBack _item;
-	};
-	publicVariable "AS_HQ_placements";
+	{
+		_x params ["_pos", "_dir", "_type"];
+		private _obj = _type createVehicle _pos;
+		_obj setDir _dir;
+		AS_HQ_placements pushBack _obj;
+	} forEach _array;
 
 	placementDone = true; publicVariable "placementDone";
 	[[petros,"remove"],"flagaction"] call BIS_fnc_MP;

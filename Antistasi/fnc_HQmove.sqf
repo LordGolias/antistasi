@@ -16,7 +16,7 @@ if isMultiplayer then {
 	{_x hideObject true} forEach AS_permanent_HQplacements;
 };
 
-call fnc_deletePad;
+"delete" call AS_fnc_HQaddObject;
 
 sleep 5;
 

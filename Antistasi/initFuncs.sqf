@@ -47,6 +47,7 @@ AS_fnc_HQdeploy = compile preProcessFileLineNumbers "fnc_HQdeploy.sqf";
 AS_fnc_HQbuild = compile preProcessFileLineNumbers "fnc_HQbuild.sqf";
 AS_fnc_HQselect = compile preProcessFileLineNumbers "fnc_HQselect.sqf";
 AS_fnc_HQmove = compile preProcessFileLineNumbers "fnc_HQmove.sqf";
+AS_fnc_HQaddObject = compile preprocessFileLineNumbers "fnc_HQaddObject.sqf";
 
 AS_fnc_AAFattackScore = compile preProcessFileLineNumbers "Functions\fnc_AAFattackScore.sqf";
 
@@ -229,7 +230,6 @@ compNATORoadblock = compile preprocessFileLineNumbers "Compositions\cmpNATO_RB.s
 buyGear = compile preProcessFileLineNumbers "Municion\buyGear.sqf";
 pBarMP = compile preProcessFileLineNumbers "pBarMP.sqf";
 createConv = compile preProcessFileLineNumbers "createConv.sqf";
-HQ_adds = compile preprocessFileLineNumbers "Compositions\HQ_adds.sqf";
 misReqCiv = compile preProcessFileLineNumbers "Missions\misReqCiv.sqf";
 misReqMil = compile preProcessFileLineNumbers "Missions\misReqMil.sqf";
 CON_Power = compile preProcessFileLineNumbers "Missions\CON_Power.sqf";

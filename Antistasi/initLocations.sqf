@@ -55,6 +55,7 @@ publicVariable "cajaVeh";
 cajaVeh allowDamage false;
 
 AS_permanent_HQplacements = [caja, cajaVeh, mapa, fuego, bandera];
+AS_HQ_placements = []; // objects placed on HQ
 
 call AS_fnc_initPetros;
 call AS_fnc_HQdeploy;

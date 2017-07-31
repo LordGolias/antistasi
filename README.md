@@ -229,6 +229,21 @@ The following scripts are relevant to change its position:
 
 Both `fnc_HQbuild.sqf` and `fnc_HQplace.sqf` call `fnc_HQdeploy.sqf` to position the permanent structures.
 
+The HQ also has objects that can be spawned by the commander. The scripts that handle these are:
+
+- `fnc_HQaddObject.sqf`: adds or delete a HQ object.
+
+Other related functions:
+
+- `statSave/saveFuncs.sqf/AS_fnc_saveHQ`: persistently save the HQ objects
+- `statSave/saveFuncs.sqf/AS_fnc_loadHQ`: persistently load the HQ objects
+- `fnc_initPetros.sqf`: restart petros (creates a new petros unit)
+
+Related globals:
+
+- `AS_permanent_HQplacements`: all permanent HQ objects (e.g. caja)
+- `AS_HQ_placements`: all non-permanent HQ objects (e.g. sandbags)
+
 ## Vehicles
 
 Vehicles are bought by FIA or AAF, or are spawned by NATO/CSAT. Afterwards:
