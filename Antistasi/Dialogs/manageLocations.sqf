@@ -115,5 +115,6 @@ AS_fncUI_manageLocationsRename = {
 
 	if (_newName != _oldName) then {
 		[_location, _newName] remoteExec ["AS_fnc_renameFIAcamp", 2];
+		hint format ["Camp renamed to '%1'", _newName];
 	};
 };

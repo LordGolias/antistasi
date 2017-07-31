@@ -62,7 +62,7 @@ AS_fnc_AAFarsenal_category = {
 	params ["_type"];
 	private _category = "";
 	{
-		if (_type in (AS_AAFarsenal getVariable ("valid_" + _x))) exitWith {_result = _x;};
+		if (_type in (AS_AAFarsenal getVariable ("valid_" + _x))) exitWith {_category = _x;};
 	} forEach AS_AAFarsenal_categories;
 	_category
 };
@@ -117,7 +117,7 @@ AS_fnc_AAFarsenal_count = {
 // Removes the vehicle type from the arsenal.
 AS_fnc_AAFarsenal_deleteVehicle = {
     params ["_type"];
-	private _category = [typeOf _veh] call AS_fnc_AAFarsenal_category;
+	private _category = [_type] call AS_fnc_AAFarsenal_category;
 	private _current = AS_AAFarsenal getVariable _category;
 	_current deleteAt (_current find _type);
 	AS_AAFarsenal setVariable [_category, _current, true];
