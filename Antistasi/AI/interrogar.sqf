@@ -7,7 +7,7 @@ if (!alive _unit) exitWith {};
 
 _jugador globalChat "You souvlaki! Tell me what you know!";
 
-_chance = AS_P("prestigeNATO") - AS_P("prestigeCSAT");
+_chance = AS_P("NATOsupport") - AS_P("CSATsupport");
 
 _chance = _chance + 20;
 

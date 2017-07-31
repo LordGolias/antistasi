@@ -36,13 +36,13 @@ if (_type in ["outpost", "seaport"]) then {
 	};
 };
 if (_type == "powerplant") then {
-	[0,-5] remoteExec ["prestige",2];
+	[0,-5] call AS_fnc_changeForeignSupport;
 	[["TaskFailed", ["", "Powerplant Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 	[_location] remoteExec ["powerReorg",2];
 };
 if (_type in ["resource", "factory"]) then {
 	[10,-10,_posicion] remoteExec ["citySupportChange",2];
-	[0,-5] remoteExec ["prestige",2];
+	[0,-5] call AS_fnc_changeForeignSupport;
 
 	if (_type == "resource") then {
 		[["TaskFailed", ["", "Resource Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
@@ -52,7 +52,7 @@ if (_type in ["resource", "factory"]) then {
 };
 if (_type in ["base", "airfield"]) then {
 	[20,-20,_posicion] remoteExec ["citySupportChange",2];
-	[0,-10] remoteExec ["prestige",2];
+	[0,-10] call AS_fnc_changeForeignSupport;
 	server setVariable [_location,dateToNumber date,true];
 	[_location,60] call AS_fnc_location_increaseBusy;
 

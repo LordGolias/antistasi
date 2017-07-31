@@ -29,7 +29,7 @@ if (_resourcesAAF > 5000) then {
 				private _position = _destroyed call AS_fnc_location_position;
 				private _nombre = [_destroyed] call localizar;
 				[50,0,_position] remoteExec ["citySupportChange",2];
-				[-5,0] remoteExec ["prestige",2];
+				[-5,0] call AS_fnc_changeForeignSupport;
 				if (_type == "powerplant") then {[_destroyed] call powerReorg};
 				[["TaskFailed", ["", format ["%1 rebuilt by AAF",_nombre]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 			};

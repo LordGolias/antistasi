@@ -41,7 +41,7 @@ private _tempPos = [];
 // spawn crew for statics
 {
 	// AAs are not spawned below 50
-	if (AS_P("prestigeNATO") < 50 and (typeOf _x in bluStatAA)) then {
+	if (AS_P("NATOsupport") < 50 and (typeOf _x in bluStatAA)) then {
 		_x enableSimulation false;
 	    _x hideObjectGlobal true;
 	} else {

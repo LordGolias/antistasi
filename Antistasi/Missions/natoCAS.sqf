@@ -1,6 +1,6 @@
 #include "../macros.hpp"
 
-private _prestigio = AS_P("prestigeNATO");
+private _prestigio = AS_P("NATOsupport");
 private _aeropuertos = (["airfield", "FIA"] call AS_fnc_location_TS) + ["spawnNATO"];
 
 private _origen = [_aeropuertos,AS_commander] call BIS_fnc_nearestPosition;

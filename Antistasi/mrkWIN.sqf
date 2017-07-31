@@ -37,18 +37,18 @@ _location call AS_fnc_location_updateMarker;
 if (_type == "airfield") then {
 	[0,10,_posicion] remoteExec ["citySupportChange",2];
 	[["TaskSucceeded", ["", "Airport Taken"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-	[20,10] remoteExec ["prestige",2];
+	[20,10] call AS_fnc_changeForeignSupport;
    	["con_bas"] remoteExec ["fnc_BE_XP", 2];
 };
 if (_type == "base") then {
 	[0,10,_posicion] remoteExec ["citySupportChange",2];
 	[["TaskSucceeded", ["", "Base Taken"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-	[20,10] remoteExec ["prestige",2];
+	[20,10] call AS_fnc_changeForeignSupport;
 	["con_bas"] remoteExec ["fnc_BE_XP", 2];
 
 	// discover nearby minefields
 	{
-		if ((_x call AS_fnc_location_position) distance _pos < 400) then {
+		if ((_x call AS_fnc_location_position) distance _posicion < 400) then {
 			[_x,"found",true] call AS_fnc_location_set;
 		};
 	} forEach (["minefield", "AAF"] call AS_fnc_location_TS);
@@ -56,7 +56,7 @@ if (_type == "base") then {
 
 if (_type == "powerplant") then {
 	[["TaskSucceeded", ["", "Powerplant Taken"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-	[0,5] remoteExec ["prestige",2];
+	[0,5] call AS_fnc_changeForeignSupport;
 	["con_ter"] remoteExec ["fnc_BE_XP", 2];
 	[_location] call powerReorg;
 };
@@ -66,7 +66,7 @@ if (_type == "outpost") then {
 };
 if (_type == "seaport") then {
 	[["TaskSucceeded", ["", "Seaport Taken"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-	[10,10] remoteExec ["prestige",2];
+	[10,10] call AS_fnc_changeForeignSupport;
 	["con_ter"] remoteExec ["fnc_BE_XP", 2];
 	[[_bandera,"seaport"],"flagaction"] call BIS_fnc_MP;
 };
@@ -74,7 +74,7 @@ if (_type in ["factory", "resource"]) then {
 	if (_type == "factory") then {[["TaskSucceeded", ["", "Factory Taken"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;};
 	if (_type == "resource") then {[["TaskSucceeded", ["", "Resource Taken"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;};
 	["con_ter"] remoteExec ["fnc_BE_XP", 2];
-	[0,10] remoteExec ["prestige",2];
+	[0,10] call AS_fnc_changeForeignSupport;
 	_powerpl = [(call AS_fnc_location_all) select {_x call AS_fnc_location_type == "powerplant"}, _posicion] call BIS_fnc_nearestPosition;
 	if (_powerpl call AS_fnc_location_side == "AAF") then {
 		sleep 5;

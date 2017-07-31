@@ -8,7 +8,7 @@ if (!alive _unit) exitWith {};
 
 _jugador globalChat "You have one chance, join us and help us liberate the island from tiranny!";
 
-_chance = AS_P("prestigeNATO") - AS_P("prestigeCSAT");
+_chance = AS_P("NATOsupport") - AS_P("CSATsupport");
 
 _chance = _chance + 20;
 
@@ -30,7 +30,7 @@ if (_rnd < _chance) then
 	sleep 100;
 	if (alive _unit) then
 		{
-		[1,0] remoteExec ["prestige",2];
+		[1,0] remoteExec ["AS_fnc_changeForeignSupport",2];
 		[-1,1,position _unit] remoteExec ["citySupportChange",2];
 		[1,0] remoteExec ["resourcesFIA",2];
 		};

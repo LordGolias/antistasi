@@ -18,7 +18,7 @@ if ((side _unit == side_green) or (side _unit == side_red)) then
 else
 	{
 	[-2,2,getPos _unit] remoteExec ["citySupportChange",2];
-	[1,0] remoteExec ["prestige",2];
+	[1,0] remoteExec ["AS_fnc_changeForeignSupport",2];
 	};
 _armas = [];
 _municion = [];

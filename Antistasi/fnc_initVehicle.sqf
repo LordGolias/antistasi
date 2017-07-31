@@ -51,7 +51,7 @@ private _aaf_veh_EHkilled = {
 				_xpEffect = "des_arm";
 			};
 			case "trucks": {
-				// these are unlimited, so they cost money but no prestige
+				// these are unlimited, so they cost money but no support
 				[-1000] remoteExec ["resourcesAAF", 2];
 				_xpEffect = "des_veh";
 			};
@@ -149,7 +149,7 @@ if (_veh isKindOf "Car") then {
 	}];
 };
 
-// NATO vehicles are locked and take prestige on destruction.
+// NATO vehicles are locked and take support on destruction.
 if (_side == "NATO") then {
     _veh lock 3;  // locked for players
 
@@ -160,9 +160,9 @@ if (_side == "NATO") then {
             moveOut _unit;
         };
     }];
-    // lose prestige when vehicle is destroyed
+    // lose support when vehicle is destroyed
     _veh addEventHandler ["killed", {
-        [-2,0] remoteExec ["prestige",2];
+        [-2,0] remoteExec ["AS_fnc_changeForeignSupport",2];
         [2,-2,position (_this select 0)] remoteExec ["citySupportChange",2];
     }];
 };

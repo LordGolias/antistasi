@@ -34,7 +34,7 @@ if ((_base=="") and (_aeropuerto=="")) exitWith {
 
 // check whether CSAT will support
 private _CSAT = false;
-private _prestigeCSAT = AS_P("prestigeCSAT");
+private _prestigeCSAT = AS_P("CSATsupport");
 if ((random 100 < _prestigeCSAT) and (_prestigeCSAT >= 20) and !(server getVariable "blockCSAT")) then {
 	_CSAT = true;
 };
@@ -79,9 +79,9 @@ if (_base != "") then {_threatEvalLand = [_position] call landThreatEval};
 if (_CSAT) then {
 	if (AS_P("resourcesAAF") > 20000) then {
 		[-20000] remoteExec ["resourcesAAF",2];
-		[5,0] remoteExec ["prestige",2];
+		[5,0] remoteExec ["AS_fnc_changeForeignSupport",2];
 	} else {
-		[5,-20] remoteExec ["prestige",2]
+		[5,-20] remoteExec ["AS_fnc_changeForeignSupport",2]
 	};
 	private _posorigen = getMarkerPos "spawnCSAT";
 	_posorigen set [2,300];

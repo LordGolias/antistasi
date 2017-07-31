@@ -27,7 +27,7 @@ AS_fnc_mission_execute = {
         _players_score call _increase_players_score;
     };
     if not (_prestige IsEqualTo [0, 0]) then {
-        _prestige call prestige;
+        _prestige call AS_fnc_changeForeignSupport;
     };
     if not (_resourcesFIA IsEqualTo [0, 0]) then {
         _resourcesFIA call resourcesFIA;
@@ -156,7 +156,7 @@ AS_fnc_mission_success_get = {
     if (_type == "convoy_prisoners") exitWith {
         _args params ["_vehPosition", ["_hr", 0]];
         [round (_hr/2), [500, _vehPosition, _hr], [_hr, 0], [_hr, 0],
-            [["Variable number of resources, prestige and city support", {}]]
+            [["Variable number of resources, foreign support and city support", {}]]
         ]
     };
     if (_type == "csat_attack") exitWith {
@@ -223,13 +223,13 @@ AS_fnc_mission_success_get = {
     if (_type == "rescue_prisioners") exitWith {
         _args params [["_hr", 0]];
         [round (_hr/2), [500, getMarkerPos "FIA_HQ", _hr], [_hr, 0], [_hr, 0],
-            [["Variable number of resources, prestige and city support", {}]]
+            [["Variable number of resources, foreign support and city support", {}]]
         ]
     };
     if (_type == "rescue_refugees") exitWith {
         _args params [["_hr", 0]];
         [round (_hr/2), [500, getMarkerPos "FIA_HQ", _hr], [_hr, 0], [_hr, 0],
-            [["Variable number of resources, prestige and city support", {}]]
+            [["Variable number of resources, foreign support and city support", {}]]
         ]
     };
     []

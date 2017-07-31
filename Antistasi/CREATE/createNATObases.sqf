@@ -10,7 +10,7 @@ private _gruposFIA = [];
 
 private _posicion = _location call AS_fnc_location_position;
 private _size = _location call AS_fnc_location_size;
-private _prestigio = AS_P("prestigeNATO")/100;
+private _prestigio = AS_P("NATOsupport")/100;
 private _estaticas = AS_P("vehicles") select {_x distance _posicion < _size};
 
 private _buildings = nearestObjects [_posicion, listMilBld, _size*1.5];

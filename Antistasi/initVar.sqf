@@ -204,8 +204,8 @@ AS_Pset("resourcesFIA",1000); //Initial FIA money pool value
 AS_Pset("resourcesAAF",0); //Initial AAF resources
 AS_Pset("skillFIA",0); //Initial skill level of FIA
 AS_Pset("skillAAF",0); //Initial skill level of AAF
-AS_Pset("prestigeNATO",5); //Initial Prestige NATO
-AS_Pset("prestigeCSAT",5); //Initial Prestige CSAT
+AS_Pset("NATOsupport",5); //Initial NATO support
+AS_Pset("CSATsupport",5); //Initial CSAT support
 
 AS_Pset("secondsForAAFattack",600);  // The time for the attack script to be run
 AS_Pset("destroyedLocations", []); // Locations that are destroyed (can be repaired)

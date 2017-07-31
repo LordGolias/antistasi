@@ -46,7 +46,7 @@ switch (_type) do {
 	};
 };
 
-_NATOSupp = AS_P("prestigeNATO");
+_NATOSupp = AS_P("NATOsupport");
 
 if (_NATOSupp < _costeNATO) exitWith {hint format ["We lack of enough NATO Support in order to proceed with this request (%1 needed)",_costeNATO]};
 

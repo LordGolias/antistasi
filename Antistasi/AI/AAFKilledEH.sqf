@@ -22,7 +22,7 @@ if ((side _killer == side_blue) || (captive _killer)) then {
 
 	// if dead has no weapons, AAF support increases by 2.
 	if (count weapons _killed < 1) then {
-		[-1,0] remoteExec ["prestige",2];
+		[-1,0] remoteExec ["AS_fnc_changeForeignSupport",2];
 		[2,0,getPos _killed] remoteExec ["citySupportChange",2];
 		if (isPlayer _killer) then {_killer addRating -1000};
 	} else {

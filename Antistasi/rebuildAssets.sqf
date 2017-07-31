@@ -30,7 +30,7 @@ if (not(_location in _validLocations)) exitWith {hint "You cannot rebuild destro
 hint format ["%1 Rebuilt"];
 
 [0,10,_posicionTel] remoteExec ["citySupportChange",2];
-[5,0] remoteExec ["prestige",2];
+[5,0] remoteExec ["AS_fnc_changeForeignSupport",2];
 AS_Pset("destroyedLocations", AS_P("destroyedLocations") - [_location]);
 if (_type == "powerplant") then {[_location] call powerReorg};
 [0,-5000] remoteExec ["resourcesFIA",2];

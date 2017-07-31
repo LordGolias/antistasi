@@ -265,13 +265,13 @@ fnc_BE_upgrade = {
 
 	switch (BE_currentStage) do {
 		case 1: {
-			[10,0] remoteExec ["prestige",2];
+			[10,0] remoteExec ["AS_fnc_changeForeignSupport",2];
 		};
 		case 2: {
-			[20,0] remoteExec ["prestige",2];
+			[20,0] remoteExec ["AS_fnc_changeForeignSupport",2];
 		};
 		case 3: {
-			[30,0] remoteExec ["prestige",2];
+			[30,0] remoteExec ["AS_fnc_changeForeignSupport",2];
 		};
 		default {
 		};

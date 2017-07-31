@@ -73,15 +73,16 @@ private _FIAResIncomeMultiplier = 1;
         _city call AS_fnc_location_updateMarker;
 
         ["con_cit"] remoteExec ["fnc_BE_XP", 2];
-        [0,5] remoteExec ["prestige",2];
+
+        [0,5] call AS_fnc_changeForeignSupport;
         [_city, !_power] spawn apagon;
         sleep 5;
         _city call deleteControles;
     };
     if ((_AAFsupport > _FIAsupport) and (_side == "FIA")) then {
         [["TaskFailed", ["", format ["%1 joined AAF",[_city, false] call AS_fnc_getLocationName]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-        _location call AS_fnc_location_updateMarker;
-        [0,-5] remoteExec ["prestige",2];
+        _city call AS_fnc_location_updateMarker;
+        [0,-5] call AS_fnc_changeForeignSupport;
         sleep 5;
         [_city, !_power] spawn apagon;
     };
