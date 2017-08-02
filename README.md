@@ -259,7 +259,7 @@ For example, to create the mission to `kill_officer` in city `_cityName`, use
 
 ## Player's score, rank and eligibility to command
 
-Every player has a score that allows him become commander.
+Every player has a score that allows him become commander (`player getVariable "score"`)
 
 The score is modified (increase or decrease) by:
 - kill enemies/friends/civilians
@@ -269,7 +269,7 @@ The score is modified (increase or decrease) by:
 The (server) script that changes a player's score is `orgPlayers/fnc_changePlayerScore.sqf`.
 
 Score defines the rank of the player. Rank is the indicator of the player's score
-and is updated on the client side periodically by `Scripts/rankCheck.sqf`.
+and is updated on the client side periodically by `Scripts/rankCheck.sqf` (`player getVariable "rank"`).
 
 Players can decide to become eligible to be commander (`AS_fncUI_toggleElegibility`).
 Only eligible players can become commanders.
@@ -283,6 +283,12 @@ The script `orgPlayers/fnc_chooseCommander.sqf` makes this choice. When it is ca
 players are ranked by score and the highest player with more than 20% of the current commander's score
 becomes the new commander. In case the commander resigns or disconnects, the highest scored player becomes
 the new commander. Commander is set using `orgPlayers/fnc_setCommander.sqf`.
+
+## Player's money
+
+Every player has money (`player getVariable "money"`) that it can spend to buy vehicles, units, or score.
+Players donate money to other players or to FIA (gaining score) via a menu.
+The commander can take money from FIA via a menu (losing score).
 
 ## Vehicles
 

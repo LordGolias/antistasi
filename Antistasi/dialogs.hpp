@@ -90,8 +90,8 @@ AS_DIALOG(2,"Player and Money Interaction", "closeDialog 0; if (player == AS_com
 BTN_L(1,-1, "Add Server Member", "", "if (isMultiplayer) then {closeDialog 0; nul = [""add""] call memberAdd;} else {hint ""This function is MP only""};");
 BTN_L(2,-1, "Remove Server Member", "", "if (isMultiplayer) then {closeDialog 0; nul = [""remove""] call memberAdd;} else {hint ""This function is MP only""};");
 
-BTN_R(1,-1, "Donate 100 € to player", "", "[true] call donateMoney;");
-BTN_R(2,-1, "Donate 100 € to FIA", "", "[] call donateMoney;");
+BTN_R(1,-1, "Donate 100 € to player in front of you", "", "true call AS_fncUI_donateMoney;");
+BTN_R(2,-1, "Donate 100 € to FIA", "", "call AS_fncUI_donateMoney;");
 
 	};
 };

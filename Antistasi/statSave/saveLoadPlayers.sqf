@@ -20,7 +20,7 @@ AS_fnc_serializeLocalPlayer = {
 	if isMultiplayer then {
 		private _score = player getVariable "score";
 		private _rank = player getVariable "rank";
-		private _money = player getVariable "dinero";
+		private _money = player getVariable "money";
 		{
 		private _hired = _x;
 		if ((!isPlayer _hired) and (alive _hired)) then {
@@ -124,7 +124,7 @@ AS_fnc_deserializeLocalPlayer = {
 		player setVariable ["score", _data select 0, true];
 		player setVariable ["rank", _data select 1, true];
 		player setUnitRank (_data select 1);
-		player setVariable ["dinero", _data select 2, true];
+		player setVariable ["money", _data select 2, true];
 		personalGarage = _data select 3;
         hint "Profile loaded."
 	};

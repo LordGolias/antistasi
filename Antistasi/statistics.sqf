@@ -20,10 +20,28 @@ if (isMultiplayer) then
 		waitUntil {sleep 0.5; player == player getVariable ["owner",player]};
 		if (player != AS_commander) then {
 			if (isPlayer AS_commander) then {_nombreC = name AS_commander} else {_nombreC = "NONE"};
-			_texto = format ["<t size='0.55'>" + "Commander: %3 | %2 | HR: %1 | Your Money: %4 € | NATO Support: %5 | CSAT Support: %6 | %7 | %8", AS_P("hr"), player getVariable ["Rank_PBar", "Init"], _nombreC, player getVariable "dinero",AS_P("NATOsupport"), AS_P("CSATsupport"), server getVariable "BE_PBar", ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)];
+			_texto = format ["<t size='0.55'>" + "Commander: %3 | %2 | HR: %1 | Your Money: %4 € | NATO Support: %5 | CSAT Support: %6 | %7 | %8",
+							 AS_P("hr"),
+							 player getVariable ["Rank_PBar", "Init"],
+							 _nombreC,
+							 player getVariable "money",
+							 AS_P("NATOsupport"),
+							 AS_P("CSATsupport"),
+							 server getVariable "BE_PBar",
+							 ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)
+							];
 		}
 		else {
-			_texto = format ["<t size='0.55'>" + "%5 | HR: %1 | Your Money: %6 € | FIA Money: %2 € | NATO Support: %3 | CSAT Support: %4 | %7 | %8", AS_P("hr"), AS_P("resourcesFIA"), AS_P("NATOsupport"), AS_P("CSATsupport"), player getVariable ["Rank_PBar", "Init"], player getVariable "dinero", server getVariable "BE_PBar", ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)];
+			_texto = format ["<t size='0.55'>" + "%5 | HR: %1 | Your Money: %6 € | FIA Money: %2 € | NATO Support: %3 | CSAT Support: %4 | %7 | %8",
+							 AS_P("hr"),
+							 AS_P("resourcesFIA"),
+							 AS_P("NATOsupport"),
+							 AS_P("CSATsupport"),
+							 player getVariable ["Rank_PBar", "Init"],
+							 player getVariable "money",
+							 server getVariable "BE_PBar",
+							 ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)
+							];
 		};
 		//if (captive player) then {_texto = format ["%1 ON",_texto]} else {_texto = format ["%1 OFF",_texto]};
 		if (_texto != _viejoTexto) then

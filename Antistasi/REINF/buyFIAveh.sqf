@@ -16,7 +16,7 @@ private _coste = [_type] call FIAvehiclePrice;
 
 private _resourcesFIA = AS_P("resourcesFIA");
 if (isMultiPlayer and player != AS_commander) then {
-	_resourcesFIA = player getVariable "dinero";
+	_resourcesFIA = player getVariable "money";
 };
 
 if (_resourcesFIA < _coste) exitWith {hint format ["You do not have enough money for this vehicle: %1 € required",_coste]};

@@ -22,7 +22,7 @@ if (_owner != _viejo) exitWith {
 
 private _score = _viejo getVariable ["score",0];
 private _punish = _viejo getVariable ["punish",0];
-private _dinero = _viejo getVariable ["dinero",0];
+private _dinero = _viejo getVariable ["money",0];
 private _elegible = _viejo getVariable ["elegible",true];
 private _rank = _viejo getVariable ["rank", AS_ranks select 0];
 _viejo setVariable ["BLUFORSpawn",nil,true];
@@ -32,7 +32,7 @@ _dinero = (round (_dinero - (_dinero * 0.1))) max 0;
 _nuevo setVariable ["score",_score -1,true];
 _nuevo setVariable ["punish",_punish,true];
 _nuevo setVariable ["respawning",false];
-_nuevo setVariable ["dinero",_dinero,true];
+_nuevo setVariable ["money",_dinero,true];
 _nuevo setVariable ["compromised",0];
 _nuevo setVariable ["elegible",_elegible,true];
 _nuevo setVariable ["BLUFORSpawn",true,true];

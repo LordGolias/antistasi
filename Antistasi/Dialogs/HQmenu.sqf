@@ -32,3 +32,23 @@ AS_fncUI_HQmove = {
 	[] remoteExec ["AS_fnc_HQmove", 2];
 	closeDialog 0;
 };
+
+
+AS_fncUI_takeFIAmoney = {
+	if (player != AS_commander) exitWith {
+		hint "Only the commander can do this";
+	};
+	if not isMultiplayer exitWith {
+		hint "In single player your money is FIA money";
+	};
+	if (AS_P("resourcesFIA") < 100) exitWith {
+		hint "FIA does not have money"
+	};
+
+	[100] call resourcesPlayer;
+	[0,-100] remoteExec ["resourcesFIA", 2];
+	[-2, AS_commander] remoteExec ["AS_fnc_changePlayerScore", 2];
+
+	hint "You grabbed 100 € from the FIA Money Pool.\n\nThis will affect your status among FIA forces";
+	closeDialog 0;
+};

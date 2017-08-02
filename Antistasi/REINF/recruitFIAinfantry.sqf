@@ -22,7 +22,7 @@ _cost = AS_data_allCosts getVariable _type;
 if (!isMultiPlayer) then {
 	_moneyAvailable = AS_P("resourcesFIA");
 } else {
-	_moneyAvailable = player getVariable "dinero";
+	_moneyAvailable = player getVariable "money";
 };
 
 if (_cost > _moneyAvailable) exitWith {hint format ["You do not have enough money for this kind of unit (%1 € needed)",_cost]};
