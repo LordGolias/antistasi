@@ -86,10 +86,10 @@ player setvariable ["compromised", 0];  // Used by undercover mechanics
 player setVariable ["punish",0,true];  // punish time for Team kill
 player setVariable ["dinero",100,true];  // initial money
 player setVariable ["BLUFORSpawn",true,true];  // means that the unit triggers spawn of zones.
-player setUnitRank "PRIVATE";
-player setVariable ["rango",rank player,true];  // todo: check that this is really necessary.
+player setUnitRank (AS_ranks select 0);
+player setVariable ["rank", (AS_ranks select 0), true];
 private _score = 0;
-if (player==AS_commander) then {_score = 25};
+if (player == AS_commander) then {_score = 25}; // so the commander does not lose the position immediately.
 player setVariable ["score", _score, true];
 
 if (isMultiplayer) then {
@@ -168,8 +168,7 @@ if (_isJip) then {
 			};
 		};
 		if ({[_x] call isMember} count playableUnits == 1) then {
-			[player] call stavrosInit;
-			[] remoteExec ["assignStavros",2];
+			[] remoteExec ["AS_fnc_chooseCommander", 2];
 		};
 	};
 

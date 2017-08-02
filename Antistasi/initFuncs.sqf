@@ -94,6 +94,11 @@ PR_Brainwash = compile preProcessFileLineNumbers "Missions\PR_Brainwash.sqf";
 DEF_Camp = compile preProcessFileLineNumbers "Missions\DEF_Camp.sqf";
 CSATpunish = compile preProcessFileLineNumbers "Missions\CSATpunish.sqf";
 
+// player score, rank, eligibility and commanding
+AS_fnc_changePlayerScore = compile preProcessFileLineNumbers "orgPlayers\fnc_changePlayerScore.sqf";
+AS_fnc_chooseCommander = compile preProcessFileLineNumbers "orgPlayers\fnc_chooseCommander.sqf";
+AS_fnc_setCommander = compile preProcessFileLineNumbers "orgPlayers\fnc_setCommander.sqf";
+
 AS_fnc_shuffle = compile preProcessFileLineNumbers "Functions\fnc_shuffle.sqf";
 AS_fnc_antennaKilledEH = compile preProcessFileLineNumbers "Functions\fnc_antennaKilledEH.sqf";
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";
@@ -122,13 +127,11 @@ VEHdespawner = compile preProcessFileLineNumbers "CREATE\VEHdespawner.sqf";
 findSafeRoadToUnload = compile preProcessFileLineNumbers "AI\findSafeRoadToUnload.sqf";
 garageVehicle = compile preProcessFileLineNumbers "garageVehicle.sqf";
 garage = compile preProcessFileLineNumbers "garage.sqf";
-ranksMP = compile preProcessFileLineNumbers "OrgPlayers\ranksMP.sqf";
 undercoverAI = compile preProcessFileLineNumbers "AI\undercoverAI.sqf";
 memberAdd = compile preProcessFileLineNumbers "OrgPlayers\memberAdd.sqf";
 donateMoney = compile preProcessFileLineNumbers "OrgPlayers\donateMoney.sqf";
 stavrosSteal = compile preProcessFileLineNumbers "OrgPlayers\stavrosSteal.sqf";
 resourcesPlayer = compile preProcessFileLineNumbers "OrgPlayers\resourcesPlayer.sqf";
-numericRank = compile preProcessFileLineNumbers "numericRank.sqf";
 inconsciente = compile preProcessFileLineNumbers "Revive\inconsciente.sqf";
 respawn = compile preProcessFileLineNumbers "Revive\respawn.sqf";
 handleDamage = compile preProcessFileLineNumbers "Revive\handleDamage.sqf";
@@ -153,9 +156,6 @@ citiesToCivPatrol = compile preProcessFileLineNumbers "citiesToCivPatrol.sqf";
 AS_fnc_fillCrateNATO = compile preProcessFileLineNumbers "Municion\fillCrateNATO.sqf";
 puestoDialog = compile preProcessFileLineNumbers "puestoDialog.sqf";
 onPlayerDisconnect = compile preProcessFileLineNumbers "onPlayerDisconnect.sqf";
-playerScoreAdd = compile preProcessFileLineNumbers "orgPlayers\playerScoreAdd.sqf";
-assignStavros = compile preProcessFileLineNumbers "orgPlayers\assignStavros.sqf";
-stavrosInit = compile preProcessFileLineNumbers "orgPlayers\stavrosInit.sqf";
 castigo = compile preProcessFileLineNumbers "castigo.sqf";
 fpsChange = compile preProcessFileLineNumbers "fpsChange.sqf";
 AS_fnc_initUnitFIA = compile preProcessFileLineNumbers "fnc_initUnitFIA.sqf";

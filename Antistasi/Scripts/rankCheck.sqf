@@ -1,32 +1,47 @@
-if !(hasInterface) exitWith {};
-params ["_player"];
-private ["_score", "_rankData", "_multiplier", "_nextRank", "_currentRank", "_promoted", "_text"];
+#include "macros.hpp"
+AS_CLIENT_ONLY("rankCheck.sqf");
 
 while {true} do {
-	_score = _player getVariable ["score",0];
-	_rankData = [_player] call numericRank;
-	_multiplier = _rankData select 0;
-	_nextRank = _rankData select 1;
-	_currentRank = _player getVariable ["rango","PRIVATE"];
-	_promoted = false;
+	private _player = player getVariable ["owner", player];
+	private _rank = _player getVariable ["rank", AS_ranks select 0];
+	private _curr_index = AS_ranks find _rank;
+	private _prev_index = (_curr_index - 1) max 0;
+	private _next_index = (_curr_index + 1) min (count AS_ranks - 1);
 
-	if (_currentRank == "COLONEL") exitWith {};
+	private _currentScore = _player getVariable ["score", 0];
+	private _scoreToPromotion = 50*_next_index*_next_index;
+	private _scoreToDemotion = 50*_prev_index*_prev_index;
 
-	if (_score >= 50*_multiplier) then {
-		_promoted = true;
-		[_player,_nextRank] remoteExec ["ranksMP"];
-		_player setVariable ["rango",_nextRank,true];
-		_text = format ["%3%1: %2.\n",name _player,_nextRank];
-		[-1*(50*_multiplier),_player] call playerScoreAdd;
-		_multiplier = _multiplier + 1;
+	private _abbreviation = AS_rank_abbreviations select _curr_index;
+	if (_next_index != _curr_index and {_currentScore >= _scoreToPromotion}) then {
+		private _new_rank = AS_ranks select _next_index;
+		_player setVariable ["rank", _new_rank, true];
+		_player setUnitRank _new_rank;
+
+		[petros,"hint",format ["%1: %2.\n\nCONGATULATIONS!",name _player, _new_rank]] remoteExec ["commsMP"];
+		_rank = _new_rank;
+		_abbreviation = AS_rank_abbreviations select _next_index;
+		_next_index = (_next_index + 1) min (count AS_ranks - 1);
 	};
 
-	if (_promoted) then {
-		_text = format ["%1\n\nCONGATULATIONS!",_text];
-		[petros,"hint",_text] remoteExec ["commsMP"];
+	if (_prev_index != _curr_index and {_currentScore < _scoreToDemotion}) then {
+		private _new_rank = AS_ranks select _prev_index;
+		_player setVariable ["rank", _new_rank, true];
+		_player setUnitRank _new_rank;
+
+		[petros,"hint",format ["%1: %2.\n\nSAD!",name _player, _new_rank]] remoteExec ["commsMP"];
+		_rank = _new_rank;
+		_abbreviation = AS_rank_abbreviations select _prev_index;
+		_next_index = _curr_index;
 	};
-	[_player,_currentRank] remoteExec ["ranksMP"];
-	0 = ["Rank"] call fnc_updateProgressBar;
+
+	if (_rank == "COLONEL") then {
+		_currentScore = 0;
+	};
+	// update the top bar information.
+	private _percentage = (_currentScore / _scoreToPromotion) max 0;
+	private _formatData = ["#1DA81D", "#C1C0BB", _abbreviation, AS_rank_abbreviations select _next_index, "Rank"];
+	["Rank", _formatData, _percentage, "Rank_PBar"] call fnc_updateProgressBar;
 
 	sleep 60;
 };

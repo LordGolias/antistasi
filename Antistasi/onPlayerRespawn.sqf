@@ -24,7 +24,8 @@ private _score = _viejo getVariable ["score",0];
 private _punish = _viejo getVariable ["punish",0];
 private _dinero = _viejo getVariable ["dinero",0];
 private _elegible = _viejo getVariable ["elegible",true];
-private _rango = _viejo getVariable ["rango", "PRIVATE"];
+private _rank = _viejo getVariable ["rank", AS_ranks select 0];
+_viejo setVariable ["BLUFORSpawn",nil,true];
 
 _dinero = (round (_dinero - (_dinero * 0.1))) max 0;
 
@@ -32,19 +33,17 @@ _nuevo setVariable ["score",_score -1,true];
 _nuevo setVariable ["punish",_punish,true];
 _nuevo setVariable ["respawning",false];
 _nuevo setVariable ["dinero",_dinero,true];
-//_nuevo setUnitRank (rank _viejo);
 _nuevo setVariable ["compromised",0];
 _nuevo setVariable ["elegible",_elegible,true];
-_viejo setVariable ["BLUFORSpawn",nil,true];
 _nuevo setVariable ["BLUFORSpawn",true,true];
 _nuevo setCaptive false;
-_nuevo setRank _rango;
-_nuevo setVariable ["rango",_rango,true];
+_nuevo setUnitRank _rank;
+_nuevo setVariable ["rank",_rank,true];
 
 disableUserInput false;
 //_nuevo enableSimulation true;
 if (_viejo == AS_commander) then {
-	[_nuevo] call stavrosInit;
+	[_nuevo] call AS_fnc_setCommander;
 };
 
 [_nuevo] call AS_fnc_emptyUnit;

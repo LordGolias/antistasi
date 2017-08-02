@@ -459,7 +459,7 @@ BTN_R(2,-1, "Recruit Squad", "", "closeDialog 0; call AS_fncUI_RecruitSquadMenu;
 BTN_R(3,-1, "Building Options", "", "closeDialog 0; nul=CreateDialog ""build_menu"";");
 BTN_R(4,-1, "Player and Money", "", "closeDialog 0; if (isMultiPlayer) then {nul = createDialog ""player_money""} else {hint ""MP Only Menu""};");
 
-BTN_M(5, -1, "Resign Commander", "", "closedialog 0; if (isMultiplayer) then {execVM ""orgPlayers\commResign.sqf""} else {hint ""This feature is MP Only""};");
+BTN_M(5, -1, "Resign Commander", "", "closeDialog 0; call AS_fncUI_toggleElegibility;");
 
 	};
 };
@@ -475,7 +475,7 @@ AS_DIALOG(3,"Battle Options",A_CLOSE);
 
 BTN_L(1,-1, "Fast Travel", "", "closeDialog 0; [] spawn AS_fnc_fastTravel;");
 BTN_L(2,-1, "Disguise Yourself", "", "closeDialog 0; nul = [] spawn undercover");
-BTN_L(3,-1, "Resign Commander", "", "closedialog 0; if (isMultiplayer) then {execVM ""orgPlayers\commResign.sqf""} else {hint ""This feature is MP Only""};");
+BTN_L(3,-1, "Toggle your eligiblily for commanding", "", "closeDialog 0; call AS_fncUI_toggleElegibility;");
 
 BTN_R(1,-1, "AI Management", "", "if (player == leader group player) then {closeDialog 0; nul = createDialog ""AI_management""} else {hint ""Only group leaders may access to this option""};");
 BTN_R(2,-1, "Player and Money", "", "closeDialog 0; if (isMultiPlayer) then {nul = createDialog ""player_money""} else {hint ""MP Only Menu""};");

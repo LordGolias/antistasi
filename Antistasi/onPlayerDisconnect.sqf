@@ -1,4 +1,5 @@
 #include "macros.hpp"
+AS_SERVER_ONLY("onPlayerDisconnect.sqf");
 
 params ["_unit"];
 
@@ -49,11 +50,10 @@ if (_unit == AS_commander) then {
 			} forEach (units _x);
 		};
 	} forEach allGroups;
-	if (((count playableUnits > 0) and (count miembros == 0)) or ({(getPlayerUID _x) in miembros} count playableUnits > 0)) then {
-		[] spawn assignStavros;
-	};
+
+	["disconnected"] spawn AS_fnc_chooseCommander;
 	// in case the commander disconnects while moving the HQ, HQ is built in the location.
-	if (group petros == group _unit) then {[] remoteExec ["AS_fnc_HQbuild", 2]};
+	if (group petros == group _unit) then {call AS_fnc_HQbuild};
 
 	if ((_hr > 0) or (_recursos > 0)) then {[_hr,_recursos] spawn resourcesFIA};
 };

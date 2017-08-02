@@ -117,8 +117,7 @@ private _fnc_missionFailedCondition = {(dateToNumber date > _fechalimnum) or (no
 
 private _fnc_missionFailed = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc_fail,_tskTitle,_location],_position,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
-	[5,-5,_location] remoteExec ["citySupportChange",2];
-	[-10,AS_commander] call playerScoreAdd;
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
 	call _fnc_clean;
 };

@@ -257,6 +257,33 @@ For example, to create the mission to `kill_officer` in city `_cityName`, use
 "kill_officer" AS_fnc_mission_remove;
 ```
 
+## Player's score, rank and eligibility to command
+
+Every player has a score that allows him become commander.
+
+The score is modified (increase or decrease) by:
+- kill enemies/friends/civilians
+- complete/fail missions
+- conquer/lose locations
+
+The (server) script that changes a player's score is `orgPlayers/fnc_changePlayerScore.sqf`.
+
+Score defines the rank of the player. Rank is the indicator of the player's score
+and is updated on the client side periodically by `Scripts/rankCheck.sqf`.
+
+Players can decide to become eligible to be commander (`AS_fncUI_toggleElegibility`).
+Only eligible players can become commanders.
+The choice of the commander happens in any of the following situations:
+
+- the commander resigns (`AS_fncUI_toggleElegibility`)
+- the commander disconnects
+- periodically
+
+The script `orgPlayers/fnc_chooseCommander.sqf` makes this choice. When it is called,
+players are ranked by score and the highest player with more than 20% of the current commander's score
+becomes the new commander. In case the commander resigns or disconnects, the highest scored player becomes
+the new commander. Commander is set using `orgPlayers/fnc_setCommander.sqf`.
+
 ## Vehicles
 
 Vehicles are bought by FIA or AAF, or are spawned by NATO/CSAT. Afterwards:

@@ -46,12 +46,8 @@ if(isServer) then {
 		[] execVM "orgPlayers\mList.sqf";
         ["miembros"] call fn_LoadStat;
         {
-        if (([_x] call isMember) and (isNull AS_commander)) then
-            {
-            AS_commander = _x;
-            _x setRank "LIEUTENANT";
-            [_x,"LIEUTENANT"] remoteExec ["ranksMP"];
-            //_x setVariable ["score", 25,true];
+            if (([_x] call isMember) and (isNull AS_commander)) then {
+                AS_commander = _x;
             };
         } forEach playableUnits;
         publicVariable "AS_commander";

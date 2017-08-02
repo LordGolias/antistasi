@@ -20,13 +20,7 @@ _EHkilledIdx = _unit addEventHandler ["killed", {
 		[-1,-1,getPos _muerto] remoteExec ["citySupportChange",2];
 	} else {
 		if (isPlayer _killer) then {
-			if (!isMultiPlayer) then {
-				[0,-20] remoteExec ["resourcesFIA",2];
-				_killer addRating -500;
-			} else {
-				if (typeOf _muerto == "C_man_w_worker_F") then {_killer addRating -1000};
-				[-10,_killer] call playerScoreAdd;
-			};
+			[-20,_killer] remoteExec ["AS_fnc_changePlayerScore",2];
 		};
 		_multiplicador = 1;
 		if (typeOf _muerto == "C_journalist_F") then {_multiplicador = 10};

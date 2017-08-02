@@ -16,12 +16,12 @@ AS_fnc_mission_execute = {
     private _increase_players_score = {
         params ["_size", "_position", "_value"];
         {
-    		if (isPlayer _x) then {[_value,_x] call playerScoreAdd;};
+            if (isPlayer _x) then {[_value,_x] call AS_fnc_changePlayerScore;};
     	} forEach ([_size,0,_position,"BLUFORSpawn"] call distanceUnits);
     };
 
     if not (_commander_score == 0) then {
-        [_commander_score, AS_commander] call playerScoreAdd;
+        [_commander_score, AS_commander] call AS_fnc_changePlayerScore;
     };
     if not (_players_score == 0) then {
         _players_score call _increase_players_score;
@@ -303,7 +303,7 @@ AS_fnc_mission_fail_get = {
         [-20, 0, [-10, 0]]
     };
     if (_type == "broadcast") exitWith {
-        [-20, 0, [0, 0], [0, 0], [5,-5,_position]]
+        [-10, 0, [0, 0], [0, 0], [5,-5,_position]]
     };
     if (_type == "pamphlets") exitWith {
         [-10, 0, [0, 0], [0, 0], [5,0,_position]]

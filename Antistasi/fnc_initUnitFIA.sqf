@@ -77,10 +77,7 @@ else {
 
 		// player team-kill
 		if (isPlayer _killer) then {
-			if (!isMultiPlayer) then {
-				[0,-20] remoteExec ["resourcesFIA",2];
-				_killer addRating -1000;
-			};
+			[-20,_killer,false] remoteExec ["AS_fnc_changePlayerScore", 2];
 		};
 		[0,-0.25,getPos _muerto] remoteExec ["citySupportChange",2];
 

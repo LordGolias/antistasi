@@ -15,7 +15,7 @@ private _size = _location call AS_fnc_location_size;
 
 {
 	if (isPlayer _x) then {
-		[5,_x] remoteExec ["playerScoreAdd", _x];
+		[5,_x] call AS_fnc_changePlayerScore;
 		[[_location], "intelFound.sqf"] remoteExec ["execVM", _x];
 		if (captive _x) then {[_x,false] remoteExec ["setCaptive",_x]};
 	}

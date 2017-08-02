@@ -28,6 +28,14 @@ autoHeal = false;
 // This is used to avoid race conditions in showing income in the screen.
 incomeRep = false;
 
+// Ordered ranks used to rank players
+AS_ranks = [
+	"PRIVATE", "CORPORAL", "SERGEANT", "LIEUTENANT", "CAPTAIN", "MAJOR", "COLONEL"
+];
+AS_rank_abbreviations = [
+	"PRV", "CPL", "SGT", "LT", "CPT", "MAJ", "COL"
+];
+
 // UPSMON is used for all kinds of AI patrolling. We initialize it here
 // so any client can spawn patrols.
 call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
