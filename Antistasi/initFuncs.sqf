@@ -152,7 +152,6 @@ deleteControles = compile preProcessFileLineNumbers "deleteControles.sqf";
 cleanserVeh = compile preProcessFileLineNumbers "CREATE\cleanserVeh.sqf";
 citiesToCivPatrol = compile preProcessFileLineNumbers "citiesToCivPatrol.sqf";
 AS_fnc_fillCrateNATO = compile preProcessFileLineNumbers "Municion\fillCrateNATO.sqf";
-puestoDialog = compile preProcessFileLineNumbers "puestoDialog.sqf";
 onPlayerDisconnect = compile preProcessFileLineNumbers "onPlayerDisconnect.sqf";
 castigo = compile preProcessFileLineNumbers "castigo.sqf";
 fpsChange = compile preProcessFileLineNumbers "fpsChange.sqf";
