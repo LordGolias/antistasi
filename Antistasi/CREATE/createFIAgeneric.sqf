@@ -21,11 +21,11 @@ if (_type != "fia_hq") then {
 	private _veh = createVehicle ["Flag_FIA_F", _posicion, [],0, "CAN_COLLIDE"];
 	_veh allowDamage false;
 	_vehiculos pushBack _veh;
-	[[_veh,"unit"],"flagaction"] call BIS_fnc_MP;
-	[[_veh,"vehicle"],"flagaction"] call BIS_fnc_MP;
-	[[_veh,"garage"],"flagaction"] call BIS_fnc_MP;
+	[[_veh,"unit"],"AS_fnc_addAction"] call BIS_fnc_MP;
+	[[_veh,"vehicle"],"AS_fnc_addAction"] call BIS_fnc_MP;
+	[[_veh,"garage"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	if (_type == "seaport") then {
-		[[_veh,"seaport"],"flagaction"] call BIS_fnc_MP;
+		[[_veh,"seaport"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	};
 
 	// worker civilians in non-military non-destroyed markers
@@ -52,7 +52,7 @@ if (_type == "outpost") then {
 	// if close to an antenna, add jam option
 	private _antennaPos = [antenas,_posicion] call BIS_fnc_nearestPosition;
 	if (_antennaPos distance _posicion < 100) then {
-		[[nearestBuilding _pos,"jam"],"flagaction"] call BIS_fnc_MP;
+		[[nearestBuilding _pos,"jam"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	};
 };
 

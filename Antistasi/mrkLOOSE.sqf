@@ -25,7 +25,7 @@ while {isNull _flag} do {
 	_dist = _dist + 10;
 	_flag = (nearestObjects [_posicion, ["FlagCarrier"], _dist]) select 0;
 };
-[[_flag,"take"],"flagaction"] call BIS_fnc_MP;
+[[_flag,"take"],"AS_fnc_addAction"] call BIS_fnc_MP;
 
 if (_type in ["outpost", "seaport"]) then {
 	[10,-10,_posicion] remoteExec ["citySupportChange",2];

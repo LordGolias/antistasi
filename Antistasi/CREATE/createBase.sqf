@@ -24,7 +24,7 @@ _vehiculos append _vehicles;
 // spawn flag and crate
 private _bandera = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
 _bandera allowDamage false;
-[[_bandera,"take"],"flagaction"] call BIS_fnc_MP;
+[[_bandera,"take"],"AS_fnc_addAction"] call BIS_fnc_MP;
 _veh = "I_supplyCrate_F" createVehicle _posicion;
 [_veh, "Watchpost"] call AS_fnc_fillCrateAAF;
 _vehiculos append [_bandera, _veh];

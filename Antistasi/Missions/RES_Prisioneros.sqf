@@ -29,7 +29,7 @@ for "_i" from 1 to _prisioners do {
 	removeAllAssignedItems _unit;
 	sleep 1;
 	_POWS pushBack _unit;
-	[[_unit, "prisionero"],"flagaction"] call BIS_fnc_MP;
+	[[_unit, "prisionero"],"AS_fnc_addAction"] call BIS_fnc_MP;
 };
 
 sleep 5;

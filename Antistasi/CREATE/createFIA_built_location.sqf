@@ -49,7 +49,7 @@ if (_type == "camp") then {
 	{
 		call {
 			if (typeof _x == campCrate) exitWith {_campBox = _x;};
-			if (typeof _x == "Land_MetalBarrel_F") exitWith {[[_x,"refuel"],"flagaction"] call BIS_fnc_MP;};
+			if (typeof _x == "Land_MetalBarrel_F") exitWith {[[_x,"refuel"],"AS_fnc_addAction"] call BIS_fnc_MP;};
 			if (typeof _x == "Land_Campfire_F") exitWith {_x inflame true;};
 		};
 		_x setVectorUp (surfaceNormal (position _x));
@@ -57,11 +57,12 @@ if (_type == "camp") then {
 
 	_vehicles append _objs;
 
-	// adds options to access the box
-	[[_campBox,"heal_camp"],"flagaction"] call BIS_fnc_MP;
 	[_campBox] call emptyCrate;
-	_campBox addaction [localize "STR_act_arsenal", {_this call accionArsenal;}, [], 6, true, false, "", "(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",5];
-	_campBox addAction [localize "STR_act_unloadCargo", {[] call vaciar}];
+
+	// adds options to access the box
+	[[_campBox,"heal_camp"],"AS_fnc_addAction"] call BIS_fnc_MP;
+	[[_campBox,"arsenal"],"AS_fnc_addAction"] call BIS_fnc_MP;
+	[[_campBox,"emptyCrate"],"AS_fnc_addAction"] call BIS_fnc_MP;
 };
 
 private _wasDestroyed = false;

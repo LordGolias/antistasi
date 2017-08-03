@@ -37,7 +37,7 @@ if (isMultiPlayer and player != AS_commander) then {
 [_veh, "FIA"] call AS_fnc_initVehicle;
 
 if (_type isKindOf "StaticWeapon") then {
-	_veh addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == AS_commander)"];
+	[[_veh,"moveObject"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	[_veh] call remoteExec ["AS_fnc_changePersistentVehicles", 2];
 };
 hint "Vehicle Purchased";

@@ -56,7 +56,7 @@ if !(isNull (player getVariable ['ObjAttached',objNull])) then  {
 };
 
 // add the action back
-_vehicle addAction [localize "STR_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == AS_commander)", 5];
+_vehicle addAction [localize "STR_act_moveAsset", "actions\moveObject.sqf",nil,0,false,true,"","(_this == AS_commander)", 5];
 
 player removeAction _EHid;
 

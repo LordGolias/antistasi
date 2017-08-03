@@ -21,13 +21,13 @@ private _size = _location call AS_fnc_location_size;
 	}
 } forEach ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits);
 
-[[_bandera,"remove"],"flagaction"] call BIS_fnc_MP;
+[[_bandera,"remove"],"AS_fnc_addAction"] call BIS_fnc_MP;
 _bandera setFlagTexture "\A3\Data_F\Flags\Flag_FIA_CO.paa";
 
 sleep 5;
-[[_bandera,"unit"],"flagaction"] call BIS_fnc_MP;
-[[_bandera,"vehicle"],"flagaction"] call BIS_fnc_MP;
-[[_bandera,"garage"],"flagaction"] call BIS_fnc_MP;
+[[_bandera,"unit"],"AS_fnc_addAction"] call BIS_fnc_MP;
+[[_bandera,"vehicle"],"AS_fnc_addAction"] call BIS_fnc_MP;
+[[_bandera,"garage"],"AS_fnc_addAction"] call BIS_fnc_MP;
 
 [_location,"side","FIA"] call AS_fnc_location_set;
 _location call AS_fnc_location_updateMarker;
@@ -68,7 +68,7 @@ if (_type == "seaport") then {
 	[["TaskSucceeded", ["", "Seaport Taken"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 	[10,10] call AS_fnc_changeForeignSupport;
 	["con_ter"] remoteExec ["fnc_BE_XP", 2];
-	[[_bandera,"seaport"],"flagaction"] call BIS_fnc_MP;
+	[[_bandera,"seaport"],"AS_fnc_addAction"] call BIS_fnc_MP;
 };
 if (_type in ["factory", "resource"]) then {
 	if (_type == "factory") then {[["TaskSucceeded", ["", "Factory Taken"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;};

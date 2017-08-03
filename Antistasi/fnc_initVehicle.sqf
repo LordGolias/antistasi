@@ -82,7 +82,7 @@ if (_side == "AAF" and _tipo == AS_AAFarsenal_uav) then {
 
 // static weapons can be stolen by FIA from AAF and CSAT
 if (_side in ["AAF","CSAT"] and (_veh isKindOf "StaticWeapon")) then {
-    [[_veh,"steal"], "flagaction"] call BIS_fnc_MP;
+    [[_veh,"steal"], "AS_fnc_addAction"] call BIS_fnc_MP;
 };
 
 if (_tipo in allStatMortars) then {

@@ -5,7 +5,7 @@ petros enableAI "MOVE";
 petros enableAI "AUTOTARGET";
 petros forceSpeed -1;
 
-[[petros, "remove"], "flagaction"] call BIS_fnc_MP;
+[[petros, "remove"], "AS_fnc_addAction"] call BIS_fnc_MP;
 call fnc_rearmPetros;
 [petros] join AS_commander;
 petros setBehaviour "AWARE";
@@ -20,4 +20,4 @@ if isMultiplayer then {
 
 sleep 5;
 
-[[Petros, "buildHQ"],"flagaction"] call BIS_fnc_MP;
+[[Petros, "buildHQ"],"AS_fnc_addAction"] call BIS_fnc_MP;

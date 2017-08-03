@@ -83,7 +83,7 @@ private _fnc_missionSuccessfulCondition = {
 };
 private _fnc_missionSuccessful = {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_posCmp,"SUCCEEDED",5,true,true,"Find"] call BIS_fnc_setTask;
-	[[_dealer,"buy_exp"],"flagaction"] call BIS_fnc_MP;
+	[[_dealer,"buy_exp"],"AS_fnc_addAction"] call BIS_fnc_MP;
 
 	_mission remoteExec ["AS_fnc_mission_success", 2];
 };
@@ -101,7 +101,7 @@ _dealer allowDamage true;
 
 waitUntil {sleep 10; call _fnc_missionFailedCondition};
 
-[[_dealer,"remove"],"flagaction"] call BIS_fnc_MP;
+[[_dealer,"remove"],"AS_fnc_addAction"] call BIS_fnc_MP;
 if (alive _dealer) then {
 	_dealer enableAI "ANIM";
 	_dealer enableAI "MOVE";

@@ -330,3 +330,21 @@ Relevant scripts:
 * `Functions/fnc_deployAAFminefield.sqf`: tries to find a suitable position and creates an AAF minefield (called by `AAFeconomics.sqf`).
 * `Functions/fnc_deployFIAminefield.sqf`: interface for the player to choose a position and mine positions to place a minefield (it creates a mission).
 * `Missions\missionFIAminefield.sqf`: the mission that creates a FIA minefield
+
+## Actions
+
+Most actions consequences are defined in directory `actions/`.
+The list of custom actions is defined in `AS_fnc_addAction`.
+To add one of these actions to all players (from server or client) use
+
+```
+[[_object,"actionName"],"AS_fnc_addAction"] call BIS_fnc_MP;
+```
+
+To add an action to a specific player/client, locally run
+
+```
+_object AS_fnc_addAction "actionName";
+```
+
+To remove actions, use the same function with the action name `"remove"`.

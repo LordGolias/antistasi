@@ -97,8 +97,7 @@ fnc_addMoveObjAction = {
    		};
 	} forEach nearestObjects [getPos fuego, [], 60];
 	{
-		removeAllActions _x;
-		_x addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == AS_commander)", 5];
+		[[_x,"moveObject"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	} forEach AS_P("vehicles") + _objs;
 };
 

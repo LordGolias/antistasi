@@ -168,7 +168,7 @@ if (_missionType == "convoy_prisoners") then {
 		_unit moveInCargo [_vehObj, _i + 3]; // 3 because first 3 are in front
 		removeAllWeapons _unit;
 		removeAllAssignedItems _unit;
-		[[_unit,"refugiado"],"flagaction"] call BIS_fnc_MP;
+		[[_unit,"refugiado"],"AS_fnc_addAction"] call BIS_fnc_MP;
 		_POWS pushBack _unit;
 	};
 };

@@ -22,7 +22,7 @@ _vehiculos append _vehicles;
 // create flag
 private _bandera = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
 _bandera allowDamage false;
-[[_bandera,"take"],"flagaction"] call BIS_fnc_MP;
+[[_bandera,"take"],"AS_fnc_addAction"] call BIS_fnc_MP;
 _vehiculos pushBack _bandera;
 private _caja = "I_supplyCrate_F" createVehicle _posicion;
 _vehiculos pushBack _caja;

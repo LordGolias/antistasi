@@ -17,5 +17,5 @@ else {
 	server setVariable ["BCactive", false, true];
 	server setVariable ["BCdisabled", true, true];
 	{if (isPlayer _x) then {[petros,"hint","Device turned off."] remoteExec ["commsMP",_x]}} forEach ([20,0,_object,"BLUFORSpawn"] call distanceUnits);
-	[[propTruck,"remove"],"flagaction"] call BIS_fnc_MP;
+	[[propTruck,"remove"],"AS_fnc_addAction"] call BIS_fnc_MP;
 };

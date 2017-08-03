@@ -19,8 +19,8 @@ if (_objType == "pad") exitWith {
 	} forEach nearestObjects [petros, [], 80];
 	private _padBag = "Land_Bucket_painted_F" createVehicle [0,0,0];
 	_padBag setPos ([getPos fuego, 2, floor(random 361)] call BIS_Fnc_relPos);
-	[[_padBag, "moveObject"], "flagaction"] call BIS_fnc_MP;
-	[[_padBag, "deploy"], "flagaction"] call BIS_fnc_MP;
+	[[_padBag, "moveObject"], "AS_fnc_addAction"] call BIS_fnc_MP;
+	[[_padBag, "deploy"], "AS_fnc_addAction"] call BIS_fnc_MP;
 };
 
 private _pos = [getPos fuego, 10, floor(random 361)] call BIS_Fnc_relPos;
@@ -41,4 +41,4 @@ if (_objType == "sandbag") then {
 private _object = _item createVehicle _pos;
 AS_HQ_placements pushBack _object;
 
-[[_object,"moveObject"],"flagaction"] call BIS_fnc_MP;
+[[_object,"moveObject"],"AS_fnc_addAction"] call BIS_fnc_MP;

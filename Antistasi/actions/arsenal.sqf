@@ -17,7 +17,7 @@ _old_cargo = [_unit, true] call AS_fnc_getUnitArsenal;
 
 // add allowed stuff.
 //["AmmoboxInit",[caja, false,{true}]] call BIS_fnc_arsenal;
-caja setvariable ["bis_addVirtualWeaponCargo_cargo",nil,true];  // see http://stackoverflow.com/a/43194611/7808917 
+caja setvariable ["bis_addVirtualWeaponCargo_cargo",nil,true];  // see http://stackoverflow.com/a/43194611/7808917
 [caja,(_cargo_w select 0) + unlockedWeapons, true] call BIS_fnc_addVirtualWeaponCargo;
 [caja,(_cargo_m select 0) + unlockedMagazines, true] call BIS_fnc_addVirtualMagazineCargo;
 [caja,(_cargo_i select 0) + unlockedItems, true] call BIS_fnc_addVirtualItemCargo;

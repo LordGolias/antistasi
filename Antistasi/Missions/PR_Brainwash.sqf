@@ -144,13 +144,13 @@ while {not ((server getVariable "BCactive") or _fnc_missionFailedCondition)} do 
 		// activate if it is not moving
 		if (not _active and (speed _truck < 1)) then {
 			_active = true;
-			[[_truck,"toggle_device"],"flagaction"] call BIS_fnc_MP;
+			[[_truck,"toggle_device"],"AS_fnc_addAction"] call BIS_fnc_MP;
 			server setVariable ["BCdisabled", false, true];
 		};
 		// deactivate if it moves
 		if (_active and (speed _truck > 1)) then {
 			_active = false;
-			[[_truck,"remove"],"flagaction"] call BIS_fnc_MP;
+			[[_truck,"remove"],"AS_fnc_addAction"] call BIS_fnc_MP;
 			server setVariable ["BCdisabled", true, true];
 		};
 		sleep 1;

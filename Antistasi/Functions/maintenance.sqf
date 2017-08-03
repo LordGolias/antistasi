@@ -2,7 +2,7 @@
 AS_SERVER_ONLY("maintenance.sqf");
 
 fnc_MAINT_main = {
-	0 = [true] call fnc_MAINT_arsenal;
+	[true] call fnc_MAINT_arsenal;
 };
 
 fnc_MAINT_arsenal = {
@@ -27,7 +27,7 @@ fnc_MAINT_arsenal = {
 		publicVariable "unlockedBackpacks";
 	};
 
-	0 = [] call fnc_MAINT_refillArsenal;
+	[] call fnc_MAINT_refillArsenal;
 
 	diag_log "[AS] maintenance: Arsenal resynchronised";
 };

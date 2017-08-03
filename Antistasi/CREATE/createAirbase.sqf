@@ -15,7 +15,7 @@ private _busy = _location call AS_fnc_location_busy;
 // spawn flag
 private _flag = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
 _flag allowDamage false;
-[[_flag,"take"],"flagaction"] call BIS_fnc_MP;
+[[_flag,"take"],"AS_fnc_addAction"] call BIS_fnc_MP;
 _vehiculos pushBack _flag;
 
 // spawn crate

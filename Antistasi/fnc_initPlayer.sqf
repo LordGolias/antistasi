@@ -35,7 +35,6 @@ player addEventHandler ["HandleHeal", {
 player addEventHandler ["WeaponAssembled", {
 	params ["_EHunit", "_EHobj"];
 	if (_EHobj isKindOf "StaticWeapon") then {
-		_EHobj addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == AS_commander)"];
 		if !(_EHobj in AS_P("vehicles")) then {
             [_EHobj] call remoteExec ["AS_fnc_addPersistentVehicles", 2];
 		};

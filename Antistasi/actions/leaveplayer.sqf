@@ -4,4 +4,4 @@ removeAllActions player;
 _grupo = createGroup side_blue;
 [player] join _grupo;
 hint "You left your group";
-player addAction ["Join this Player Group", {nul = [] execVM "REINF\joinplayer.sqf";},nil,0,false,true];
+player addAction ["Join this Player Group", "actions\joinplayer.sqf",nil,0,false,true];

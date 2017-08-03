@@ -36,7 +36,7 @@ for "_i" from 0 to _num - 1 do {
 	_unit allowFleeing 0;
 	_unit setSkill 0;
 	_POWs pushBack _unit;
-	[[_unit,"refugiado"],"flagaction"] call BIS_fnc_MP;
+	[[_unit,"refugiado"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	sleep 1;
 };
 {_x allowDamage true} forEach _POWs;

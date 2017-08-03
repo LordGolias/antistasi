@@ -7,8 +7,8 @@ if (typeOf _unit == "Fin_random_F") exitWith {};
 _unit setVariable ["surrendered",true];
 if ((side _unit == side_green) or (side _unit == side_red)) then
 	{
-	[[_unit,"interrogar"],"flagaction"] call BIS_fnc_MP;
-	[[_unit,"capturar"],"flagaction"] call BIS_fnc_MP;
+	[[_unit,"interrogar"],"AS_fnc_addAction"] call BIS_fnc_MP;
+	[[_unit,"capturar"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	[0,10] remoteExec ["resourcesFIA",2];
 	[-2,0,getPos _unit] remoteExec ["citySupportChange",2];
 	_coste = AS_data_allCosts getVariable (typeOf _unit);

@@ -1,7 +1,7 @@
 _unit = _this select 0;
 _jugador = _this select 1;
 
-[[_unit,"remove"],"flagaction"] call BIS_fnc_MP;
+[[_unit,"remove"],"AS_fnc_addAction"] call BIS_fnc_MP;
 //removeAllActions _unit;
 
 _jugador globalChat "You are free. Come with us!";
