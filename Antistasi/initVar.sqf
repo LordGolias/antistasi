@@ -25,9 +25,6 @@ allowPlayerRecruit = true;
 // Whether the autoHeal system is activated for this client.
 autoHeal = false;
 
-// This is used to avoid race conditions in showing income in the screen.
-incomeRep = false;
-
 // Ordered ranks used to rank players
 AS_ranks = [
 	"PRIVATE", "CORPORAL", "SERGEANT", "LIEUTENANT", "CAPTAIN", "MAJOR", "COLONEL"

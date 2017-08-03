@@ -127,7 +127,7 @@ if (_FIAnewHR > 0) then {
     _FIAnewHR = _FIAnewHR min (["HR"] call fnc_BE_permission);
 };
 
-[[petros,"taxRep",_texto],"commsMP"] call BIS_fnc_MP;
+[[petros,"income",_texto],"commsMP"] call BIS_fnc_MP;
 
 AS_Pset("hr",_FIAnewHR);
 AS_Pset("resourcesFIA",_FIAnewMoney);
