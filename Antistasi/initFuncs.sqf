@@ -206,8 +206,8 @@ artilleriaNATO = compile preProcessFileLineNumbers "AI\artilleriaNATO.sqf";
 dismountFIA = compile preProcessFileLineNumbers "AI\dismountFIA.sqf";
 powerReorg = compile preProcessFileLineNumbers "powerReorg.sqf";
 apagon = compile preProcessFileLineNumbers "apagon.sqf";
-mrkWIN = compile preProcessFileLineNumbers "mrkWIN.sqf";
-mrkLOOSE = compile preProcessFileLineNumbers "mrkLOOSE.sqf";
+AS_fnc_location_win = compile preProcessFileLineNumbers "fnc_location_win.sqf";
+AS_fnc_location_lose = compile preProcessFileLineNumbers "fnc_location_lose.sqf";
 /*
 Generics
 */

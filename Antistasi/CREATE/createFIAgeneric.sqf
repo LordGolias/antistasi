@@ -81,7 +81,7 @@ if !(_type in ["fia_hq","city"]) then {
 
 	// successful attack => lose marker
 	if (_wasCaptured) then {
-		[_location] remoteExec ["mrkLOOSE",2];
+		[_location] remoteExec ["AS_fnc_location_lose",2];
 	};
 };
 

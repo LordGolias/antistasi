@@ -102,7 +102,7 @@ waitUntil {sleep 1;
 	3*(({alive _x} count _soldados) + count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)))};
 
 if (_location call AS_fnc_location_spawned) then {
-	[_location] remoteExec ["mrkLOOSE",2];
+	[_location] remoteExec ["AS_fnc_location_lose",2];
 };
 
 waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};

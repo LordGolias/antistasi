@@ -1,9 +1,9 @@
 #include "macros.hpp"
-AS_SERVER_ONLY("mrkLOOSE.sqf");
+AS_SERVER_ONLY("AS_fnc_location_lose.sqf");
 params ["_location"];
 
 if (_location call AS_fnc_location_side == "AAF") exitWith {
-	diag_log format ["[AS] Error: mrkLOOSE called for AAF location '%1'", _location];
+	diag_log format ["[AS] Error: AS_fnc_location_lose called for AAF location '%1'", _location];
 };
 
 private _posicion = _location call AS_fnc_location_position;
@@ -17,15 +17,6 @@ _location call AS_fnc_location_updateMarker;
 
 // todo: transfer alive garrison to FIA_HQ
 [_location, "garrison", []] call AS_fnc_location_set;
-
-// update flag
-private _flag = objNull;
-private _dist = 10;
-while {isNull _flag} do {
-	_dist = _dist + 10;
-	_flag = (nearestObjects [_posicion, ["FlagCarrier"], _dist]) select 0;
-};
-[[_flag,"take"],"AS_fnc_addAction"] call BIS_fnc_MP;
 
 if (_type in ["outpost", "seaport"]) then {
 	[10,-10,_posicion] remoteExec ["citySupportChange",2];
@@ -85,5 +76,5 @@ waitUntil {sleep 1;
 };
 
 if (_location call AS_fnc_location_spawned) then {
-	[_flag] spawn mrkWIN;
+	[_location] spawn AS_fnc_location_win;
 };
