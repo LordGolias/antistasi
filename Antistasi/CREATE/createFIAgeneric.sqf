@@ -1,6 +1,5 @@
 #include "../macros.hpp"
 // Used to spawn "city","fia_hq","factory","resource","powerplant"
-if (!isServer and hasInterface) exitWith{};
 params ["_location"];
 
 // Spawned stuff

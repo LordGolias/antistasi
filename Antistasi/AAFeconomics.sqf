@@ -1,11 +1,10 @@
 #include "macros.hpp"
 AS_SERVER_ONLY("AAFeconomics.sqf");
-private ["_resourcesAAF","_coste","_destroyedCities","_destroyed","_nombre"];
 
 waitUntil {isNil "AS_resourcesIsChanging"};
 AS_resourcesIsChanging = true;
 
-_resourcesAAF = AS_P("resourcesAAF");
+private _resourcesAAF = AS_P("resourcesAAF");
 
 private _debug_prefix = "AAFeconomics: ";
 private _debug_message = format ["Starting to buy with %1", _resourcesAAF];
@@ -17,11 +16,11 @@ call AS_fnc_updateAAFarsenal;
 //////////////// try to restore cities ////////////////
 if (_resourcesAAF > 5000) then {
 	// todo: this only repairs cities. It should repair everything.
-	_destroyedCities = AS_P("destroyedLocations") arrayIntersect (call AS_fnc_location_cities);
+	private _destroyedCities = AS_P("destroyedLocations") arrayIntersect (call AS_fnc_location_cities);
 	private _repaired = [];
 	if (count _destroyedCities > 0) then {
 		{
-			_destroyed = _x;
+			private _destroyed = _x;
 			if ((_resourcesAAF > 5000) and (not(_destroyed call AS_fnc_location_spawned))) then {
 				_resourcesAAF = _resourcesAAF - 5000;
 				_repaired pushBack _destroyed;
@@ -91,12 +90,12 @@ deleteVehicle _extra_conditions;
 deleteGroup _logicGroup;
 
 //////////////// try to upgrade skills ////////////////
-_skillFIA = AS_P("skillFIA");
-_skillAAF = AS_P("skillAAF");
+private _skillFIA = AS_P("skillFIA");
+private _skillAAF = AS_P("skillAAF");
 if ((_skillAAF < (_skillFIA + 4)) && (_skillAAF < AS_maxSkill)) then {
-	_coste = 1000 + (1.5*(_skillAAF *750));
+	private _coste = 1000 + (1.5*(_skillAAF *750));
 	if (_coste < _resourcesAAF) then {
-        AS_Pset("skillAAF",_skillAAF + 1);
+        AS_Pset("skillAAF", _skillAAF + 1);
         _skillAAF = _skillAAF + 1;
 		_resourcesAAF = _resourcesAAF - _coste;
 	};

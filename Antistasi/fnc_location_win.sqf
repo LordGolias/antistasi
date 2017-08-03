@@ -81,9 +81,9 @@ if (_type in ["factory", "resource"]) then {
 	if (_powerpl call AS_fnc_location_side == "AAF") then {
 		sleep 5;
 		[["TaskFailed", ["", "Resource out of Power"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-		[_location, false] call apagon;
+		[_location, false] call AS_fnc_changeStreetLights;
 	} else {
-		[_location, true] call apagon;
+		[_location, true] call AS_fnc_changeStreetLights;
 	};
 };
 

@@ -20,6 +20,6 @@ private _demand = (call AS_fnc_location_all) select {_x call AS_fnc_location_typ
 		if ((_location in AS_P("destroyedLocations")) or _supplySide != _demandSide) then {
 			_powered = false;
 		};
-		[_x,_powered] spawn apagon;
+		[_x,_powered] spawn AS_fnc_changeStreetLights;
 	};
 } forEach _demand;

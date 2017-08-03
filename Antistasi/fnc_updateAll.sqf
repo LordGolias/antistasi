@@ -75,7 +75,7 @@ private _FIAResIncomeMultiplier = 1;
         ["con_cit"] remoteExec ["fnc_BE_XP", 2];
 
         [0,5] call AS_fnc_changeForeignSupport;
-        [_city, !_power] spawn apagon;
+        [_city, !_power] spawn AS_fnc_changeStreetLights;
         sleep 5;
         _city call deleteControles;
     };
@@ -84,7 +84,7 @@ private _FIAResIncomeMultiplier = 1;
         _city call AS_fnc_location_updateMarker;
         [0,-5] call AS_fnc_changeForeignSupport;
         sleep 5;
-        [_city, !_power] spawn apagon;
+        [_city, !_power] spawn AS_fnc_changeStreetLights;
     };
 } forEach call AS_fnc_location_cities;
 

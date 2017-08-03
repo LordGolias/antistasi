@@ -146,7 +146,6 @@ VANTinfo = compile preProcessFileLineNumbers "AI\VANTinfo.sqf";
 recruitFIAgarrison = compile preProcessFileLineNumbers "REINF\recruitFIAgarrison.sqf";
 isFrontline = compile preProcessFileLineNumbers "isFrontline.sqf";
 AS_fnc_changeSecondsforAAFattack = compile preProcessFileLineNumbers "Functions\fnc_changeSecondsforAAFattack.sqf";
-destroyCity = compile preProcessFileLineNumbers "destroyCity.sqf";
 FIAradio = compile preProcessFileLineNumbers "FIAradio.sqf";
 deleteControles = compile preProcessFileLineNumbers "deleteControles.sqf";
 cleanserVeh = compile preProcessFileLineNumbers "CREATE\cleanserVeh.sqf";
@@ -205,9 +204,10 @@ artilleria = compile preProcessFileLineNumbers "AI\artilleria.sqf";
 artilleriaNATO = compile preProcessFileLineNumbers "AI\artilleriaNATO.sqf";
 dismountFIA = compile preProcessFileLineNumbers "AI\dismountFIA.sqf";
 powerReorg = compile preProcessFileLineNumbers "powerReorg.sqf";
-apagon = compile preProcessFileLineNumbers "apagon.sqf";
+AS_fnc_changeStreetLights = compile preProcessFileLineNumbers "AS_fnc_changeStreetLights.sqf";
 AS_fnc_location_win = compile preProcessFileLineNumbers "fnc_location_win.sqf";
 AS_fnc_location_lose = compile preProcessFileLineNumbers "fnc_location_lose.sqf";
+AS_fnc_location_destroy = compile preProcessFileLineNumbers "fnc_location_destroy.sqf";
 /*
 Generics
 */

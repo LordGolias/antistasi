@@ -286,6 +286,7 @@ AS_fnc_mission_fail_get = {
             ["City is destroyed", {
                 params ["_location"];
                 AS_Pset("destroyedLocations", AS_P("destroyedLocations") + [_location]);
+                [_location] call AS_fnc_location_destroy;
             	if (count AS_P("destroyedLocations") > 7) then {
             		 ["destroyedCities",false,true] remoteExec ["BIS_fnc_endMission",0];
             	};
