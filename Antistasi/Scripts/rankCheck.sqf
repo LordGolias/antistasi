@@ -1,4 +1,4 @@
-#include "macros.hpp"
+#include "../macros.hpp"
 AS_CLIENT_ONLY("rankCheck.sqf");
 
 while {true} do {

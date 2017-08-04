@@ -1,4 +1,4 @@
-#include "macros.hpp"
+#include "../macros.hpp"
 AS_CLIENT_ONLY("AS_fnc_addAction.sqf");
 
 params ["_object","_type"];

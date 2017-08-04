@@ -1,4 +1,4 @@
-#include "macros.hpp"
+#include "../macros.hpp"
 params ["_mission"];
 
 private _locationType = [_mission, "locationType"] call AS_fnc_mission_get;

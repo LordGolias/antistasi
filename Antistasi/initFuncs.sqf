@@ -10,6 +10,7 @@ call compile preProcessFileLineNumbers "dialogs.sqf";
 call compile preProcessFileLineNumbers "AAFarsenal.sqf";
 call compile preProcessFileLineNumbers "FIArecruitment.sqf";
 
+call compile preProcessFileLineNumbers "object.sqf";
 call compile preProcessFileLineNumbers "location.sqf";
 
 AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "CREATE\setDefaultSkill.sqf";
@@ -72,7 +73,7 @@ AS_mis_natoCAS = compile preProcessFileLineNumbers "Missions\natoCAS.sqf";
 AS_mis_natoArmor = compile preProcessFileLineNumbers "Missions\natoArmor.sqf";
 AS_mis_natoArtillery = compile preProcessFileLineNumbers "Missions\natoArtillery.sqf";
 AS_mis_natoAmmo = compile preProcessFileLineNumbers "Missions\natoAmmo.sqf";
-AS_mis_natoCA = compile preProcessFileLineNumbers "Missions\natoCA.sqf";
+AS_mis_natoAttack = compile preProcessFileLineNumbers "Missions\natoAttack.sqf";
 AS_mis_natoUAV = compile preProcessFileLineNumbers "Missions\natoUAV.sqf";
 AS_mis_natoRoadblock = compile preProcessFileLineNumbers "Missions\natoRoadblock.sqf";
 AS_mis_natoQRF = compile preProcessFileLineNumbers "Missions\natoQRF.sqf";
@@ -93,6 +94,7 @@ PR_Pamphlet = compile preProcessFileLineNumbers "Missions\PR_Pamphlet.sqf";
 PR_Brainwash = compile preProcessFileLineNumbers "Missions\PR_Brainwash.sqf";
 DEF_Camp = compile preProcessFileLineNumbers "Missions\DEF_Camp.sqf";
 CSATpunish = compile preProcessFileLineNumbers "Missions\CSATpunish.sqf";
+combinedCA = compile preProcessFileLineNumbers "Missions\combinedCA.sqf";
 
 // player score, rank, eligibility and commanding
 AS_fnc_changePlayerScore = compile preProcessFileLineNumbers "orgPlayers\fnc_changePlayerScore.sqf";
@@ -102,7 +104,6 @@ AS_fnc_setCommander = compile preProcessFileLineNumbers "orgPlayers\fnc_setComma
 AS_fnc_shuffle = compile preProcessFileLineNumbers "Functions\fnc_shuffle.sqf";
 AS_fnc_antennaKilledEH = compile preProcessFileLineNumbers "Functions\fnc_antennaKilledEH.sqf";
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";
-accionArsenal = compile preProcessFileLineNumbers "Municion\accionArsenal.sqf";
 powerCheck = compile preProcessFileLineNumbers "powerCheck.sqf";
 AAFKilledEH = compile preProcessFileLineNumbers "AI\AAFKilledEH.sqf";
 handleDamageAAF = compile preProcessFileLineNumbers "Revive\handleDamageAAF.sqf";
@@ -166,7 +167,7 @@ resourceCheckSkipTime = compile preProcessFileLineNumbers "resourcecheckSkipTime
 ataqueHQ = compile preProcessFileLineNumbers "Missions\ataqueHQ.sqf";
 localizar = compile preProcessFileLineNumbers "localizar.sqf";
 AS_fnc_fillCrateAAF = compile preProcessFileLineNumbers "Municion\fillCrateAAF.sqf";
-AS_fnc_addAction = compile preProcessFileLineNumbers "actions/fnc_addAction.sqf";
+AS_fnc_addAction = compile preProcessFileLineNumbers "actions\fnc_addAction.sqf";
 resourcesFIA = compile preProcessFileLineNumbers "resourcesFIA.sqf";
 AS_fnc_changeForeignSupport = compile preProcessFileLineNumbers "fnc_changeForeignSupport.sqf";
 createCIV = compile preProcessFileLineNumbers "CREATE\createCIV.sqf";
@@ -185,7 +186,6 @@ NATOinit = compile preProcessFileLineNumbers "CREATE\NATOinit.sqf";
 NATOinitCA = compile preProcessFileLineNumbers "CREATE\NATOinitCA.sqf";
 AS_fnc_createJournalist = compile preProcessFileLineNumbers "CREATE\createJournalist.sqf";
 patrolCA = compile preProcessFileLineNumbers "CREATE\patrolCA.sqf";
-combinedCA = compile preProcessFileLineNumbers "CREATE\combinedCA.sqf";
 AAFeconomics = compile preProcessFileLineNumbers "AAFeconomics.sqf";
 findBasesForCA = compile preProcessFileLineNumbers "findBasesForCA.sqf";
 findBasesForConvoy = compile preProcessFileLineNumbers "findBasesForConvoy.sqf";
@@ -204,7 +204,7 @@ artilleria = compile preProcessFileLineNumbers "AI\artilleria.sqf";
 artilleriaNATO = compile preProcessFileLineNumbers "AI\artilleriaNATO.sqf";
 dismountFIA = compile preProcessFileLineNumbers "AI\dismountFIA.sqf";
 powerReorg = compile preProcessFileLineNumbers "powerReorg.sqf";
-AS_fnc_changeStreetLights = compile preProcessFileLineNumbers "AS_fnc_changeStreetLights.sqf";
+AS_fnc_changeStreetLights = compile preProcessFileLineNumbers "fnc_changeStreetLights.sqf";
 AS_fnc_location_win = compile preProcessFileLineNumbers "fnc_location_win.sqf";
 AS_fnc_location_lose = compile preProcessFileLineNumbers "fnc_location_lose.sqf";
 AS_fnc_location_destroy = compile preProcessFileLineNumbers "fnc_location_destroy.sqf";
@@ -231,9 +231,6 @@ enemyQRF = compile preprocessFileLineNumbers "CREATE\enemyQRF.sqf";
 compNATORoadblock = compile preprocessFileLineNumbers "Compositions\cmpNATO_RB.sqf";
 buyGear = compile preProcessFileLineNumbers "Municion\buyGear.sqf";
 pBarMP = compile preProcessFileLineNumbers "pBarMP.sqf";
-createConv = compile preProcessFileLineNumbers "createConv.sqf";
-misReqCiv = compile preProcessFileLineNumbers "Missions\misReqCiv.sqf";
-misReqMil = compile preProcessFileLineNumbers "Missions\misReqMil.sqf";
 suspendTransfer = compile preProcessFileLineNumbers "Municion\suspendTransfer.sqf";
 attackWaves = compile preprocessFileLineNumbers "Scripts\attackWaves.sqf";
 teleport = compile preprocessFileLineNumbers "teleport.sqf";
