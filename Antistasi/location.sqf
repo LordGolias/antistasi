@@ -145,12 +145,13 @@ AS_fnc_location_cities = {
 AS_fnc_location_add = {
     params ["_marker", "_type"];
     ["location", _marker, true] call AS_fnc_object_add;
+    [_marker, "type", _type, false] call AS_fnc_location_set;
+    [_marker, "position", getMarkerPos _marker, false] call AS_fnc_location_set;
     _marker call AS_fnc_location_init;
 
-    [_marker, "type", _type] call AS_fnc_location_set;
-    [_marker, "size", ((getMarkerSize _marker) select 0) max ((getMarkerSize _marker) select 1)] call AS_fnc_location_set;
+    [_marker, "size", ((getMarkerSize _marker) select 0) max ((getMarkerSize _marker) select 1), false] call AS_fnc_location_set;
     _marker setMarkerAlpha 0;
-    [_marker, "position", getMarkerPos _marker] call AS_fnc_location_set;
+    _marker call AS_fnc_location_updateMarker;
 };
 
 // initializes the location's required properties.
@@ -159,33 +160,33 @@ AS_fnc_location_init = {
 
     switch (_location call AS_fnc_location_type) do {
         case "city": {
-            [_location,"AAFsupport",50] call AS_fnc_location_set;
-            [_location,"FIAsupport",0] call AS_fnc_location_set;
+            [_location,"AAFsupport",50, false] call AS_fnc_location_set;
+            [_location,"FIAsupport",0, false] call AS_fnc_location_set;
         };
         case "fia_hq": {
-            [_location,"side","FIA"] call AS_fnc_location_set;
+            [_location,"side","FIA", false] call AS_fnc_location_set;
         };
         case "base": {
-            [_location,"side","AAF"] call AS_fnc_location_set;
-            [_location,"busy",dateToNumber date] call AS_fnc_location_set;
+            [_location,"side","AAF", false] call AS_fnc_location_set;
+            [_location,"busy",dateToNumber date, false] call AS_fnc_location_set;
         };
         case "airfield": {
-            [_location,"side","AAF"] call AS_fnc_location_set;
-            [_location,"busy",dateToNumber date] call AS_fnc_location_set;
+            [_location,"side","AAF", false] call AS_fnc_location_set;
+            [_location,"busy",dateToNumber date, false] call AS_fnc_location_set;
         };
         case "minefield": {
-            [_location, "mines", []] call AS_fnc_location_set;  // [type, pos, dir]
-            [_location, "found", false] call AS_fnc_location_set;
+            [_location, "mines", [], false] call AS_fnc_location_set;  // [type, pos, dir]
+            [_location, "found", false, false] call AS_fnc_location_set;
         };
         default {
-            [_location,"side","AAF"] call AS_fnc_location_set;
+            [_location,"side","AAF", false] call AS_fnc_location_set;
         };
     };
     if ("garrison" in ((_location call AS_fnc_location_type) call AS_fnc_location_properties)) then {
-        [_location,"garrison",[]] call AS_fnc_location_set;
+        [_location,"garrison",[], false] call AS_fnc_location_set;
     };
-    [_location,"spawned",false] call AS_fnc_location_set;
-    [_location,"forced_spawned",false] call AS_fnc_location_set;
+    [_location,"spawned",false, false] call AS_fnc_location_set;
+    [_location,"forced_spawned",false, false] call AS_fnc_location_set;
 };
 
 AS_fnc_location_remove = {
@@ -200,11 +201,12 @@ AS_fnc_location_remove = {
 };
 
 AS_fnc_location_set = {
-    params ["_location", "_property", "_value"];
-    if !(_property in ((_location call AS_fnc_location_type) call AS_fnc_location_properties)) exitWith {
+    params ["_location", "_property", "_value", ["_update",true]];
+    if (_property != "type" and {not (_property in ((_location call AS_fnc_location_type) call AS_fnc_location_properties))}) exitWith {
         diag_log format ["[AS] Error: AS_fnc_location_set: wrong property '%1' for location '%2'", _property, _location];
     };
     ["location", _location, _property, _value] call AS_fnc_object_set;
+    if not _update exitWith {};
 
     if (_property == "position") then {
         _location setMarkerPos _value;

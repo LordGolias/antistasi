@@ -5,7 +5,7 @@
     * add container: AS_fnc_container_add(container)
     * remove container: AS_fnc_container_remove(container)
 
-    * add object: `AS_fnc_object_add(container, name, type, isGlobal=false)`
+    * add object: `AS_fnc_object_add(container, name, isGlobal=false)`
     * remove object: `AS_fnc_object_remove(container, name)`
     * set property: `AS_fnc_object_set(container, name, property, value)`
     * get property: `AS_fnc_object_get(container, name, property)`
@@ -22,7 +22,7 @@
     2. `isGlobal` defines whether the object is global or local
 */
 
-AS_fnc_containers = {AS_containers getVariable "_all"};
+AS_fnc_containers = {AS_containers getVariable ["_all",[]]};
 
 ////////////////////////////////// Getters //////////////////////////////////
 
@@ -50,10 +50,10 @@ AS_fnc_object_get = {
 
     private _properties = [_container, _object] call AS_fnc_object_properties;
     if not (_property in _properties) exitWith {
-        diag_log format ["[AS] Error: object_get: property '%1' does not exist for object '%2'. Valid properties: %3", _property, _object, _properties];
+        diag_log format ["[AS] Error: object_get: property '%1' does not exist for object '%2' in container '%3'. Valid properties: %4", _property, _object, _container, _properties];
     };
 
-    AS_objects getVariable (_object + "_" + _property)
+    (AS_containers getVariable _container) getVariable (_object + "_" + _property)
 };
 
 ////////////////////////////////// Iterators ////////////////////////////////
@@ -62,7 +62,7 @@ AS_fnc_object_get = {
 // * no second argument: returns all objects
 // * second argument is code: returns all objects that fulfill the condition in the code
 AS_fnc_objects = {
-    params ["_container", ["_condition", nil]];
+    params ["_container", ["_condition", ""]];
 
     if not (_container call AS_fnc_container_exists) exitWith {
         diag_log format ["[AS] Error: AS_fnc_objects: container '%1' does not exist", _container];
@@ -109,7 +109,9 @@ AS_fnc_container_add = {
 
     _containers pushBack _container;
     AS_containers setVariable ["_all", _containers, true];
-    AS_containers setVariable [_container, (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""], true];
+    private _containerObj = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
+    AS_containers setVariable [_container, _containerObj, true];
+    _containerObj setVariable ["_all", []];
 };
 
 AS_fnc_container_remove = {
@@ -123,34 +125,33 @@ AS_fnc_container_remove = {
     AS_containers setVariable [_container, nil, true];
 };
 
-// adds an object of a given type. The first argument must be a unique name. Second argument can be any string.
+// adds an object to a container. The second argument must be a unique name for that container
 // Third argument (_isGlobal) makes the object either local or global (default is local).
 AS_fnc_object_add = {
-    params ["_container", "_object", "_type", ["_isGlobal", false]];
+    params ["_container", "_object", ["_isGlobal", false]];
     private _objects = _container call AS_fnc_objects;
 
     if (_object in _objects) exitWith {
         diag_log format ["[AS] Error: object_add: object '%1' already exists in container '%2'.", _object, _container];
     };
     if (_object find "_" == 0) exitWith {
-        diag_log format ["[AS] Error: object_add: objects cannot start with '_' but '%s' does.", _object];
+        diag_log format ["[AS] Error: object_add: objects cannot start with '_' but '%1' in container '%2' does.", _object, _container];
     };
 
     _objects pushBack _object;
     (AS_containers getVariable _container) setVariable ["_all", _objects, _isGlobal];
-    (AS_containers getVariable _container) setVariable ["_properties_" + _object, ["_properties"], _isGlobal];
+    (AS_containers getVariable _container) setVariable ["_properties_" + _object, [], _isGlobal];
 
     // _isGlobal has to be the first property set so next ones are already set correctly.
     [_container, _object, "_isGlobal", _isGlobal] call AS_fnc_object_set;
-    [_container, _object, "_type", _type] call AS_fnc_object_set;
 };
 
 // Sets a property of an object
 AS_fnc_object_set = {
     params ["_container", "_object", "_property", "_value"];
 
-    if (_property find "_" == 0) exitWith {
-        diag_log format ["[AS] Error: object_set: properties cannot start with '_' but '%s' does.", _property];
+    if (_property != "_isGlobal" and (_property find "_") == 0) exitWith {
+        diag_log format ["[AS] Error: object_set: properties cannot start with '_' but '%1' does (%2, %3, %4).", _property, _container, _object, _value];
     };
 
     if not ([_container, _object] call AS_fnc_object_exists) exitWith {
@@ -165,7 +166,7 @@ AS_fnc_object_set = {
         _isGlobal = [_container, _object, "_isGlobal"] call AS_fnc_object_get;
     };
 
-    private _properties = _object call AS_fnc_object_properties;
+    private _properties = [_container, _object] call AS_fnc_object_properties;
     _properties pushBack _property;
     (AS_containers getVariable _container) setVariable ["_properties_" + _object, _properties, _isGlobal];
     (AS_containers getVariable _container) setVariable [_object + "_" + _property, _value, _isGlobal];
@@ -176,7 +177,7 @@ AS_fnc_object_del = {
     params ["_container", "_object", "_property"];
 
     if (_property find "_" == 0) exitWith {
-        diag_log format ["[AS] Error: object_del: properties cannot start with '_' but '%s' does.", _property];
+        diag_log format ["[AS] Error: object_del: properties cannot start with '_' but '%1' does.", _property];
     };
     if not ([_container, _object] call AS_fnc_object_exists) exitWith {
         diag_log format ["[AS] Error: AS_fnc_object_del: object '%1' does not exist in container '%2'", _object, _container];
@@ -202,7 +203,7 @@ AS_fnc_object_remove = {
     // its properties
     {
         (AS_containers getVariable _container) setVariable ["_properties_" + _object + "_" + _x, nil, _isGlobal];
-    } forEach (_object call AS_fnc_object_properties);
+    } forEach ([_container, _object] call AS_fnc_object_properties);
 
     // itself
     (AS_containers getVariable _container) setVariable ["_all", _objects - [_object], _isGlobal];
@@ -217,7 +218,7 @@ AS_fnc_object_save = {
     [_saveName, "AS_containers_" + _container, _objects] call fn_SaveStat;
     {
         private _object = _x;
-        private _properties = _object call AS_fnc_object_properties;
+        private _properties = [_container, _object] call AS_fnc_object_properties;
         // saves both "_" and non-"_" properties.
         {
             [_saveName, format ["AS_containers_%1_%2_%3", _container, _object, _x], [_container, _object, _x] call AS_fnc_object_get] call fn_SaveStat;
