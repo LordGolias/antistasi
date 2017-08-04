@@ -1,8 +1,8 @@
 #include "macros.hpp"
 params ["_mission"];
 
-private _locationType = [_mission, "locationType"] call AS_fnc_object_get;
-private _position = [_mission, "position"] call AS_fnc_object_get;
+private _locationType = [_mission, "locationType"] call AS_fnc_mission_get;
+private _position = [_mission, "position"] call AS_fnc_mission_get;
 
 if !(_locationType in ["watchpost","roadblock","camp"]) exitwith {
 	diag_log format ["[AS] Error: establishFIALocation called with wrong type '%1'", _locationType];
@@ -127,8 +127,6 @@ if (_success) then {
 		};
 	} forEach units _group;
 	[_mrk, "garrison", _garrison] call AS_fnc_location_set;
-
-	_mrk call AS_fnc_location_updateMarker; // creates the visible marker
 
 	_task = [_mrk,[side_blue,civilian],[_taskDesc,_taskTitle,_mrk],_position,"SUCCEEDED",5,true,true,"Move"] call BIS_fnc_setTask;
 	[_mission] remoteExec ["AS_fnc_mission_success", 2];

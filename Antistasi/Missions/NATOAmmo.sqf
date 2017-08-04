@@ -1,8 +1,8 @@
 #include "../macros.hpp"
 params ["_mission"];
 
-private _position = [_mission, "position"] call AS_fnc_object_get;
-private _support = [_mission, "support"] call AS_fnc_object_get;
+private _position = [_mission, "position"] call AS_fnc_mission_get;
+private _support = [_mission, "support"] call AS_fnc_mission_get;
 
 private _tskTitle = localize "STR_tsk_NATOSupply";
 private _tskDesc = localize "STR_tskDesc_NATOSupply";

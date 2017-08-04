@@ -91,7 +91,7 @@ waitUntil {sleep 1;
 
 // Lost the outpost
 if (call _fnc_isDestroyed) then {
-	_location call AS_fnc_location_delete;
+	_location call AS_fnc_location_remove;
 	[5,-5,_posicion] remoteExec ["citySupportChange",2];
 	[["TaskFailed", ["", "Roadblock Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 };

@@ -7,12 +7,12 @@ destination (position)
 
 If origin is an airport/carrier, the QRF will consist of air cavalry. Otherwise it'll be ground forces in MRAPs.
 */
-private _origin = [_mission, "origin"] call AS_fnc_object_get;
-private _destination = [_mission, "destination"] call AS_fnc_object_get;
+private _origin = [_mission, "origin"] call AS_fnc_mission_get;
+private _destination = [_mission, "destination"] call AS_fnc_mission_get;
 
 // names of locations for the task description
 private _origName = "the NATO carrier";
-private _destName = [[call AS_fnc_location_all, _destination] call BIS_fnc_nearestPosition] call localizar;
+private _destName = [[call AS_fnc_locations, _destination] call BIS_fnc_nearestPosition] call localizar;
 
 // kind of QRF: air/land
 private _type = "air";

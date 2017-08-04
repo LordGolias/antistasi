@@ -1,9 +1,7 @@
 #include "macros.hpp"
 AS_SERVER_ONLY("initLocations.sqf");
 
-AS_location = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
-publicVariable "AS_location";
-AS_location setVariable ["all", [], true];
+["location"] call AS_fnc_container_add;
 
 call {
     if (worldName == "Altis") exitwith {
@@ -26,8 +24,6 @@ call {
 } forEach allMapMarkers;
 
 ["FIA_HQ","fia_hq"] call AS_fnc_location_add;
-
-call AS_fnc_location_updateMarkers;
 
 // This is needed here because petros has a side.
 side_blue = west; // <<<<<< player side, always, at all times, no exceptions

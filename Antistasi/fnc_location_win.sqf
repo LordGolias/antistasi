@@ -32,7 +32,6 @@ sleep 5;
 [[_flag,"garage"],"AS_fnc_addAction"] call BIS_fnc_MP;
 
 [_location,"side","FIA"] call AS_fnc_location_set;
-_location call AS_fnc_location_updateMarker;
 
 [_location] remoteExec ["patrolCA", HCattack];
 
@@ -77,7 +76,7 @@ if (_type in ["factory", "resource"]) then {
 	if (_type == "resource") then {[["TaskSucceeded", ["", "Resource Taken"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;};
 	["con_ter"] remoteExec ["fnc_BE_XP", 2];
 	[0,10] call AS_fnc_changeForeignSupport;
-	private _powerpl = [(call AS_fnc_location_all) select {_x call AS_fnc_location_type == "powerplant"}, _posicion] call BIS_fnc_nearestPosition;
+	private _powerpl = ["powerplant" call AS_fnc_location_T, _posicion] call BIS_fnc_nearestPosition;
 	if (_powerpl call AS_fnc_location_side == "AAF") then {
 		sleep 5;
 		[["TaskFailed", ["", "Resource out of Power"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;

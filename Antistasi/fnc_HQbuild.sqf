@@ -7,7 +7,6 @@ AS_SERVER_ONLY("fnc_HQbuild.sqf");
 petros forceSpeed 0;
 
 ["fia_hq", "position", getPos petros] call AS_fnc_location_set;
-"fia_hq" call AS_fnc_location_updateMarker;
 
 // place everything on its place
 call AS_fnc_HQdeploy;

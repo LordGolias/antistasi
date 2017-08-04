@@ -79,7 +79,6 @@ if !(_location call AS_fnc_location_spawned) then {
 	[_posicion] remoteExec ["patrolCA", HCattack];
 
 	[_location,"side","FIA"] call AS_fnc_location_set;
-	_location call AS_fnc_location_updateMarker;
 	["cl_loc"] remoteExec ["fnc_BE_XP", 2];
 };
 

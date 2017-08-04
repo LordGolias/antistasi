@@ -93,7 +93,6 @@ else {
 					if (typeOf _muerto == (_garrison select _i)) exitWith {_garrison deleteAt _i};
 				};
 				[_location, "garrison", _garrison] call AS_fnc_location_set;
-				_location call AS_fnc_location_updateMarker;
 			};
 		};
 	}];

@@ -1,7 +1,7 @@
 #include "../macros.hpp"
 params ["_mission"];
-private _position = [_mission, "position"] call AS_fnc_object_get;
-private _time = [_mission, "time"] call AS_fnc_object_get;
+private _position = [_mission, "position"] call AS_fnc_mission_get;
+private _time = [_mission, "time"] call AS_fnc_mission_get;
 
 private _origin = [("FIA" call AS_fnc_location_S) - ["spawnNATO"], AS_commander] call BIS_Fnc_nearestPosition;
 private _orig = _origin call AS_fnc_location_position;
@@ -89,13 +89,12 @@ if ({(alive _x) and (_x distance _position < 10)} count units _group > 0) then {
 
 	[_mrk,"roadblock"] call AS_fnc_location_add;
 	[_mrk, "side", "NATO"] call AS_fnc_location_set;
-	_mrk call AS_fnc_location_updateMarker; // creates the visible marker
 
 	_task = [_mission,[side_blue,civilian],[format ["NATO successfully deployed a roadblock, They will hold their position until %1:%2.",numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],_tskTitle,_mrk],_position,"SUCCEEDED",5,true,true,"Move"] call BIS_fnc_setTask;
 	[_mission] remoteExec ["AS_fnc_mission_success", 2];
 
 	waitUntil {sleep 60; dateToNumber date > _fechalimnum};
-	_mrk call AS_fnc_location_delete;
+	_mrk call AS_fnc_location_remove;
 } else {
 	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskDesc,_mrk],_position,"FAILED",5,true,true,"Move"] call BIS_fnc_setTask;
 	[_mission] remoteExec ["AS_fnc_mission_fail", 2];

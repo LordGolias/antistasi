@@ -82,10 +82,7 @@ diag_log format ['[AS] Server: game "%1" loaded', _saveName];
 petros allowdamage true;
 
 // load all generic objects (e.g. missions)
-[_saveName] call AS_fnc_object_load;
-
-// re-activate all missions.
-{[_x, true] call AS_fnc_mission_activate} forEach (call AS_fnc_active_missions);
+[_saveName] call AS_fnc_mission_load;
 
  // resume existing attacks in 25 seconds.
 [] spawn {

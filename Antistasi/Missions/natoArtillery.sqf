@@ -2,7 +2,7 @@
 params ["_mission"];
 private _location = _mission call AS_fnc_mission_location;
 private _position = _location call AS_fnc_location_position;
-private _power = [_mission, "power"] call AS_fnc_object_get;
+private _power = [_mission, "power"] call AS_fnc_mission_get;
 
 private _tiempolim = _power;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];

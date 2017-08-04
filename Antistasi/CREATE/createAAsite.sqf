@@ -121,7 +121,6 @@ if ((call _fnc_isAADestroyed) and (call _fnc_isCleaned)) then {
 	[["TaskSucceeded", ["", "Outpost Cleansed"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 
 	[_location,"side","FIA"] call AS_fnc_location_set;
-	_location call AS_fnc_location_updateMarker;
 
 	[_posicion] remoteExec ["patrolCA",HCattack];
 	["cl_loc"] remoteExec ["fnc_BE_XP", 2];

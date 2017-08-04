@@ -96,7 +96,7 @@ waitUntil {sleep 1;
 };
 
 if (_wasAbandoned or _wasDestroyed) then {
-	_location call AS_fnc_location_delete;
+	_location call AS_fnc_location_remove;
 };
 
 if (_wasDestroyed) then {

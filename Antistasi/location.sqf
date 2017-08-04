@@ -28,15 +28,10 @@ AS_fnc_location_properties = {
     _properties
 };
 
-// Returns all properties of a given type that are saved.
-AS_fnc_location_saved_properties = {
-    private _properties = _this call AS_fnc_location_properties;
-    _properties - ["spawned", "forced_spawned"]
-};
-
 // Whether the location exists or not. Used in conjunction with *_add and *_remove
 AS_fnc_location_exists = {
-    _this in (AS_location getVariable "all")
+    params ["_location"];
+    ["mission", _location] call AS_fnc_object_exists;
 };
 
 ////////////////////////////////// Getters //////////////////////////////////
@@ -44,16 +39,7 @@ AS_fnc_location_exists = {
 
 AS_fnc_location_get = {
     params ["_location", "_property"];
-    if !(_location in (AS_location getVariable "all")) exitWith {
-        diag_log format ["[AS] Error: location_set wrong location '%1'", _location];
-    };
-    // We use `AS_location getVariable` because `AS_fnc_location_type` uses
-    // this function and using it here would cause an infinite loop.
-    if !(_property in ((AS_location getVariable (_location + "_type")) call AS_fnc_location_properties)) exitWith {
-        diag_log format ["[AS] Error: location_set wrong property '%1' for location '%2'", _property, _location];
-    };
-
-    AS_location getVariable (_location + "_" + _property)
+    ["location", _location, _property] call AS_fnc_object_get
 };
 
 AS_fnc_location_type = {
@@ -105,26 +91,30 @@ AS_fnc_location_side = {
 // I.e. return list of locations that match certain criteria
 
 // All locations
-AS_fnc_location_all = {AS_location getVariable "all"};
+AS_fnc_locations = {
+    params [["_condition", nil]];
+    ["location", _condition] call AS_fnc_objects
+};
 
 AS_fnc_location_nearest = {
-    [AS_location getVariable "all", _this] call BIS_Fnc_nearestPosition
+    [call AS_fnc_locations, _this] call BIS_Fnc_nearestPosition
 };
 
 // returns all locations of a given side
 AS_fnc_location_S = {
+
     if (_this isEqualType []) exitWith {
-        (AS_location getVariable "all") select {(_x call AS_fnc_location_side) in _this}
+        {(_x call AS_fnc_location_side) in _this} call AS_fnc_locations
     };
-    (AS_location getVariable "all") select {_x call AS_fnc_location_side == _this}
+    {_x call AS_fnc_location_side == _this} call AS_fnc_locations
 };
 
 // returns all locations of a given type
 AS_fnc_location_T = {
     if (_this isEqualType []) exitWith {
-        (AS_location getVariable "all") select {(_x call AS_fnc_location_type) in _this}
+        {(_x call AS_fnc_location_type) in _this} call AS_fnc_locations
     };
-    (AS_location getVariable "all") select {_x call AS_fnc_location_type == _this}
+    {_x call AS_fnc_location_type == _this} call AS_fnc_locations
 };
 
 // returns all locations of a given type and side
@@ -132,95 +122,75 @@ AS_fnc_location_TS = {
     params ["_type", "_side"];
 
     if (_type isEqualType []) exitWith {
-        (AS_location getVariable "all") select {
-            _x call AS_fnc_location_side == _side and
-            (_x call AS_fnc_location_type) in _type}
+        {_x call AS_fnc_location_side == _side and
+         (_x call AS_fnc_location_type) in _type} call AS_fnc_locations
     };
 
-    (AS_location getVariable "all") select {
-        _x call AS_fnc_location_side == _side and
-        _x call AS_fnc_location_type == _type}
+    {_x call AS_fnc_location_side == _side and
+     _x call AS_fnc_location_type == _type} call AS_fnc_locations
 };
 
 // All cities
 AS_fnc_location_cities = {
-    (AS_location getVariable "all") select {_x call AS_fnc_location_type == "city"}
+    {_x call AS_fnc_location_type == "city"} call AS_fnc_locations
 };
 
 /////////////////////////////////////////////////////////////////////////
 ///////// BELOW THIS POINT ARE FUNCTIONS THAT CHANGE THE STATE //////////
 /////////////////////////////////////////////////////////////////////////
 
+
 // adds a location. The first argument must be a marker. The location
 // taks ownership of it. Every location requires a different marker.
 AS_fnc_location_add = {
     params ["_marker", "_type"];
-    private _locations = call AS_fnc_location_all;
-
-    if (_marker in _locations) exitWith {
-        diag_log format ["[AS] Error: location '%1' added but already exists. Called with type '%2'", _marker, _type];
-    };
-
-    AS_location setVariable [_marker + "_position", getMarkerPos _marker, true];
-    AS_location setVariable [_marker + "_size", ((getMarkerSize _marker) select 0) max
-                                                ((getMarkerSize _marker) select 1), true];
-    AS_location setVariable [_marker + "_type", _type, true];
-    _marker setMarkerAlpha 0;
-
-    _locations pushBack _marker;
-    AS_location setVariable ["all", _locations, true];
+    ["location", _marker, true] call AS_fnc_object_add;
     _marker call AS_fnc_location_init;
+
+    [_marker, "type", _type] call AS_fnc_location_set;
+    [_marker, "size", ((getMarkerSize _marker) select 0) max ((getMarkerSize _marker) select 1)] call AS_fnc_location_set;
+    _marker setMarkerAlpha 0;
+    [_marker, "position", getMarkerPos _marker] call AS_fnc_location_set;
 };
 
 // initializes the location's required properties.
 AS_fnc_location_init = {
+    params ["_location"];
 
-    switch (_this call AS_fnc_location_type) do {
+    switch (_location call AS_fnc_location_type) do {
         case "city": {
-            [_this,"AAFsupport",50] call AS_fnc_location_set;
-            [_this,"FIAsupport",0] call AS_fnc_location_set;
+            [_location,"AAFsupport",50] call AS_fnc_location_set;
+            [_location,"FIAsupport",0] call AS_fnc_location_set;
         };
         case "fia_hq": {
-            [_this,"side","FIA"] call AS_fnc_location_set;
+            [_location,"side","FIA"] call AS_fnc_location_set;
         };
         case "base": {
-            [_this,"side","AAF"] call AS_fnc_location_set;
-            [_this,"busy",dateToNumber date] call AS_fnc_location_set;
+            [_location,"side","AAF"] call AS_fnc_location_set;
+            [_location,"busy",dateToNumber date] call AS_fnc_location_set;
         };
         case "airfield": {
-            [_this,"side","AAF"] call AS_fnc_location_set;
-            [_this,"busy",dateToNumber date] call AS_fnc_location_set;
+            [_location,"side","AAF"] call AS_fnc_location_set;
+            [_location,"busy",dateToNumber date] call AS_fnc_location_set;
         };
         case "minefield": {
-            [_this, "mines", []] call AS_fnc_location_set;  // [type, pos, dir]
-            [_this, "found", false] call AS_fnc_location_set;
+            [_location, "mines", []] call AS_fnc_location_set;  // [type, pos, dir]
+            [_location, "found", false] call AS_fnc_location_set;
         };
         default {
-            [_this,"side","AAF"] call AS_fnc_location_set;
+            [_location,"side","AAF"] call AS_fnc_location_set;
         };
     };
-    if ("garrison" in ((_this call AS_fnc_location_type) call AS_fnc_location_properties)) then {
-        [_this,"garrison",[]] call AS_fnc_location_set;
+    if ("garrison" in ((_location call AS_fnc_location_type) call AS_fnc_location_properties)) then {
+        [_location,"garrison",[]] call AS_fnc_location_set;
     };
-    [_this,"spawned",false] call AS_fnc_location_set;
-    [_this,"forced_spawned",false] call AS_fnc_location_set;
+    [_location,"spawned",false] call AS_fnc_location_set;
+    [_location,"forced_spawned",false] call AS_fnc_location_set;
 };
 
-// This obliterates everything related with that location including the markers
-AS_fnc_location_delete = {
-    private _location = _this;
-    private _all = AS_location getVariable "all";
-    if !(_location in _all) exitWith {
-        diag_log format ["[AS] Error: location '%1' called for removal but it does not exist.", _location];
-    };
-
-    // its properties
-    {
-        AS_location setVariable [_location + "_" + _x, nil, true];
-    } forEach (call AS_fnc_location_properties);
-
-    // from the list
-    AS_location setVariable ["all", _all - [_location], true];
+AS_fnc_location_remove = {
+    params ["_location"];
+    ["location", _location] call AS_fnc_object_remove;
 
     // the hidden marker
     deleteMarker _location;
@@ -229,19 +199,18 @@ AS_fnc_location_delete = {
     deleteMarker (format ["Dum%1", _location]);
 };
 
-// Sets a property
 AS_fnc_location_set = {
     params ["_location", "_property", "_value"];
-    if !(_location in (AS_location getVariable "all")) exitWith {
-        diag_log format ["[AS] Error: location_set with wrong location '%1' for property '%2'", _location, _property];
-    };
     if !(_property in ((_location call AS_fnc_location_type) call AS_fnc_location_properties)) exitWith {
-        diag_log format ["[AS] Error: location_set with wrong property '%1' for location '%2'", _property, _location];
+        diag_log format ["[AS] Error: AS_fnc_location_set: wrong property '%1' for location '%2'", _property, _location];
     };
+    ["location", _location, _property, _value] call AS_fnc_object_set;
 
-    AS_location setVariable [_location + "_" + _property, _value, true];
     if (_property == "position") then {
         _location setMarkerPos _value;
+    };
+    if (_property in ["position", "side", "garrison"]) then {
+        _location call AS_fnc_location_updateMarker;
     };
 };
 
@@ -262,13 +231,8 @@ AS_fnc_location_increaseBusy = {
 // use `_location` to normal spawn,
 // use `[_location, true]` to forced spawn
 AS_fnc_location_spawn = {
-    private _location = _this;
-    private _forced = false;
-    if (_this isEqualType []) then {
-        _location = _this select 0;
-        _forced = _this select 1;
-    };
-    if (_forced) then {
+    params ["_location", ["_forced", false]];
+    if _forced then {
         [_location,"forced_spawned",true] call AS_fnc_location_set;
     } else {
         [_location,"spawned",true] call AS_fnc_location_set;
@@ -279,17 +243,9 @@ AS_fnc_location_spawn = {
 // use `_location` to normal despawn,
 // use `[_location, true]` to forced despawn
 AS_fnc_location_despawn = {
-    private _location = _this;
-    private _forced = false;
-    if (_this isEqualType []) then {
-        _location = _this select 0;
-        _forced = _this select 1;
-    };
+    params ["_location", ["_forced", false]];
 
-    if !(_location in (AS_location getVariable "all")) exitWith {
-        diag_log format ["[AS] Error: location '%1' called for spawn but it does not exist.", _location];
-    };
-    if (_forced) then {
+    if _forced then {
         [_location,"forced_spawned",false] call AS_fnc_location_set;
     } else {
         [_location,"spawned",false] call AS_fnc_location_set;
@@ -315,7 +271,7 @@ AS_fnc_location_addRoadblocks = {
     	if (_otherPosition distance _position < 1000) then {
     		_count = _count + 1;
     	};
-    } forEach ((AS_location getVariable "all") select {_x call AS_fnc_location_type == "roadblock"});
+    } forEach ((call AS_fnc_locations) select {_x call AS_fnc_location_type == "roadblock"});
 
     if (_count > 3) exitWith {};
 
@@ -356,7 +312,6 @@ AS_fnc_location_createRoadblock = {
     [_marker,"side","AAF"] call AS_fnc_location_set;
 };
 
-
 // Add cities from CfgWorld. Paramaters:
 // - _excludeBelow: meters below which the city is ignored
 // - _minSize: every city has at least this size by expanding it.
@@ -393,8 +348,8 @@ AS_fnc_location_addCities = {
             [_mrk, "city"] call AS_fnc_location_add;
 
             // stores everything
-            AS_location setVariable [_city + "_population", _population, true];
-            AS_location setVariable [_city + "_roads", _roads, true];
+            [_city, "population", _population] call AS_fnc_location_set;
+            [_city, "roads", _roads] call AS_fnc_location_set;
         };
     } forEach (nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"),
         ["NameCityCapital","NameCity","NameVillage","CityCenter"], 25000]);
@@ -428,12 +383,12 @@ AS_fnc_location_addHills = {
 AS_fnc_location_updateMarkers = {
     {
         _x call AS_fnc_location_updateMarker;
-    } forEach (AS_location getVariable "all");
+    } forEach (call AS_fnc_locations);
 };
 
-// Updates all public markers, creating new ones if needed.
+// Updates location's public marker, creating a new marker if needed.
 AS_fnc_location_updateMarker = {
-    private _location = _this;
+    params ["_location"];
     private _type = (_location call AS_fnc_location_type);
     private _position = (_location call AS_fnc_location_position);
     private _side = (_location call AS_fnc_location_side);
@@ -518,25 +473,19 @@ AS_fnc_location_updateMarker = {
 
 AS_fnc_location_save = {
     params ["_saveName"];
-    {
-        private _location = _x;
-        private _type = (_location call AS_fnc_location_type);
-        {
-            [_saveName, "LOCATION" + _location + "_" +  _x,
-             AS_location getVariable (_location + "_" + _x)] call AS_fnc_saveStat;
-        } forEach (_type call AS_fnc_location_saved_properties);
-    } forEach (AS_location getVariable "all");
+    ["location", _saveName] call AS_fnc_object_save;
 };
+
 
 AS_fnc_location_load = {
     params ["_saveName"];
+    ["location", _saveName] call AS_fnc_object_load;
     {
         private _location = _x;
-        private _type = (_location call AS_fnc_location_type);
-        {
-            AS_location setVariable [(_location + "_" + _x),
-             [_saveName, "LOCATION" + _location + "_" + _x] call AS_fnc_loadStat, true];
-        } forEach (_type call AS_fnc_location_saved_properties);
+
+        // ignore non-persistent properties from the save
+        [_location,"spawned",false] call AS_fnc_location_set;
+        [_location,"forced_spawned",false] call AS_fnc_location_set;
 
         // create hidden marker if it does not exist.
         if (getMarkerColor _location == "") then {
@@ -550,7 +499,7 @@ AS_fnc_location_load = {
             _location setMarkerPos (_location call AS_fnc_location_position);
         };
 
-    } forEach (AS_location getVariable "all");
+    } forEach (call AS_fnc_locations);
 };
 
 ///////////// Auxiliar functions

@@ -96,5 +96,5 @@ while {true} do {
 				_x call AS_fnc_location_despawn;
 			};
 		};
-	} forEach (call AS_fnc_location_all);
+	} forEach (call AS_fnc_locations);
 };

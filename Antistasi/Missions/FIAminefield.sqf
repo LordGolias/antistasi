@@ -1,10 +1,10 @@
 params ["_mission"];
 
-private _mineType = [_mission, "mine_type"] call AS_fnc_object_get;
-private _mapPosition = [_mission, "position"] call AS_fnc_object_get;
-private _minesPositions = [_mission, "positions"] call AS_fnc_object_get;
-private _vehType = [_mission, "vehicle"] call AS_fnc_object_get;
-private _cost = [_mission, "cost"] call AS_fnc_object_get;
+private _mineType = [_mission, "mine_type"] call AS_fnc_mission_get;
+private _mapPosition = [_mission, "position"] call AS_fnc_mission_get;
+private _minesPositions = [_mission, "positions"] call AS_fnc_mission_get;
+private _vehType = [_mission, "vehicle"] call AS_fnc_mission_get;
+private _cost = [_mission, "cost"] call AS_fnc_mission_get;
 
 private _tskTitle = "Minefield Deploy";
 private _tskDesc = format ["An Engineer Team has been deployed at your High command. Once they reach the position, they will start to deploy %1 mines in the area. Cover them in the meantime.",count _minesPositions];

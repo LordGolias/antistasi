@@ -30,7 +30,7 @@ AS_DEBUG_init = {
 
         {
             [_x] call AS_DEBUG_initLocation;
-        } forEach (call AS_fnc_location_all);
+        } forEach (call AS_fnc_locations);
     };
 
     // turn debug off

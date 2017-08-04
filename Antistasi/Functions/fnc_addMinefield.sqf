@@ -17,4 +17,3 @@ if (_minesData isEqualTo []) then {
     };
 };
 [_mrk,"mines",_minesData] call AS_fnc_location_set;
-_mrk call AS_fnc_location_updateMarker;

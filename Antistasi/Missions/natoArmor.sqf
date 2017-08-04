@@ -2,7 +2,7 @@
 params ["_mission"];
 private _location = _mission call AS_fnc_mission_location;
 private _position = _location call AS_fnc_location_position;
-private _tanks = [_mission, "tanks"] call AS_fnc_object_get;
+private _tanks = [_mission, "tanks"] call AS_fnc_mission_get;
 
 private _bases = [["base"], "FIA"] call AS_fnc_location_TS;
 _bases = _bases select {not (_x call AS_fnc_location_spawned)};

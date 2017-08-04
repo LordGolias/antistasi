@@ -8,8 +8,8 @@ if (_location call AS_fnc_location_type != "powerplant") exitWith {
 
 private _supplySide = _location call AS_fnc_location_side;
 
-private _supply = (call AS_fnc_location_all) select {_x call AS_fnc_location_type == "powerplant"};
-private _demand = (call AS_fnc_location_all) select {_x call AS_fnc_location_type in ["city", "factory", "resource"]};
+private _supply = "powerplant" call AS_fnc_location_T;
+private _demand = ["city", "factory", "resource"] call AS_fnc_location_T;
 
 {
 	private _pos = _x call AS_fnc_location_position;

@@ -7,7 +7,6 @@ private _hqInitialPlacement = isNil "placementDone";
 "delete" call AS_fnc_HQaddObject;
 
 ["fia_hq", "position", _position] call AS_fnc_location_set;
-"fia_hq" call AS_fnc_location_updateMarker;
 call AS_fnc_initPetros;
 call AS_fnc_HQdeploy;
 

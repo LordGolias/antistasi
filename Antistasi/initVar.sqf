@@ -160,6 +160,8 @@ if (!isServer) exitWith {};
 
 // Below this point, everything defined only belongs to the server
 
+// create container to store missions
+["mission"] call AS_fnc_container_add;
 
 // Picks the stuff defined for FIA above and merges it in a single interface
 call compile preprocessFileLineNumbers "initFIA.sqf";

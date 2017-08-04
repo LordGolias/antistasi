@@ -46,7 +46,6 @@ if (_resourcesAAF > 5000) then {
 					_fnc_isnotRepairing) exitWith {
 						_resourcesAAF = _resourcesAAF - 5000;
 						private _mission = ["repair_antenna", _location] call AS_fnc_mission_add;
-						[_mission, "status", "available"] call AS_fnc_object_set;
 						_mission call AS_fnc_mission_activate;
 				};
 			} forEach antenasMuertas;

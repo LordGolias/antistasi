@@ -2,7 +2,7 @@
 params ["_mission"];
 private _location = _mission call AS_fnc_mission_location;
 private _position = _location call AS_fnc_location_position;
-private _group_count = [_mission, "group_count"] call AS_fnc_object_get;
+private _group_count = [_mission, "group_count"] call AS_fnc_mission_get;
 
 private _name = [_location] call localizar;
 

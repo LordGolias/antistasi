@@ -137,7 +137,7 @@ private _arrayEst = [];
 
 [_saveName, _cargo_w, _cargo_m, _cargo_i, _cargo_b] call AS_fnc_saveArsenal;
 
-[_saveName] call AS_fnc_object_save;
+[_saveName] call AS_fnc_mission_save;
 
 // if the spawning is faster, let us wait until it is finished.
 waitUntil {scriptDone _savingPlayersHandle};

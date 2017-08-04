@@ -11,7 +11,6 @@ private _type = _location call AS_fnc_location_type;
 private _size = _location call AS_fnc_location_size;
 
 [_location,"side","AAF"] call AS_fnc_location_set;
-_location call AS_fnc_location_updateMarker;
 
 ["territory", -1] remoteExec ["fnc_BE_update", 2];
 

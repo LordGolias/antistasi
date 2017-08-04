@@ -173,7 +173,7 @@ if (_isJip) then {
 
 	{
 	if (_x isKindOf "FlagCarrier") then {
-		private _location = [call AS_fnc_location_all, getPos _x] call BIS_fnc_nearestPosition;
+		private _location = [call AS_fnc_locations, getPos _x] call BIS_fnc_nearestPosition;
 		if !((_location call AS_fnc_location_type) in ["hill", "roadblock"]) then {
 			if (_location call AS_fnc_location_side == "FIA") then {
 				_x addAction [localize "STR_act_recruitUnit", {call AS_fncUI_RecruitUnitMenu;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];

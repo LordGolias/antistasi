@@ -161,7 +161,7 @@ _side = [_location,"side","AAF"] call AS_fnc_location_set;
 [_marker,"roadblock"] call AS_fnc_location_add;
 [_marker,"side","FIA"] call AS_fnc_location_set;
 // ...
-_marker call AS_fnc_location_delete;
+_marker call AS_fnc_location_remove;
 ```
 
 * list locations of a certain type or side:
@@ -251,10 +251,10 @@ For example, to create the mission to `kill_officer` in city `_cityName`, use
 // create and save it persistently
 ["kill_officer", _cityName] call AS_fnc_mission_add;
 // spawn its script
-["kill_officer", true] AS_fnc_mission_activate;
+"kill_officer" call AS_fnc_mission_activate;
 ...
 // delete it (do not do it until the script finishes):
-"kill_officer" AS_fnc_mission_remove;
+"kill_officer" call AS_fnc_mission_remove;
 ```
 
 ## Player's score, rank and eligibility to command

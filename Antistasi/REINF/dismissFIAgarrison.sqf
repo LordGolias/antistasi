@@ -13,4 +13,3 @@ if (_enemiesClose) exitWith {Hint "There are enemies within 500m of the zone. Yo
 private _garrison = [_location, "garrison"] call AS_fnc_location_get;
 _garrison deleteAt (_garrison find _type);
 [_location, "garrison", _garrison] call AS_fnc_location_set;
-_location call AS_fnc_location_updateMarker;
