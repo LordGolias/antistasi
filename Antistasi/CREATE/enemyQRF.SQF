@@ -65,7 +65,7 @@ if (typeName _orig == "ARRAY") then {
 
 // get the position of the target marker
 if !(typeName _orig == "ARRAY") then {
-	_orig = _orig call AS_fnc_location_location;
+	_orig = _orig call AS_fnc_location_position;
 };
 
 // create a patrol marker if none provided

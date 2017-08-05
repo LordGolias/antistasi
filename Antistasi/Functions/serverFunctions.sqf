@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 if (!isServer and hasInterface) exitWith {};
 
 AS_fnc_roadAndDir = {

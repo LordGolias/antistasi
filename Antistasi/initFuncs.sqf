@@ -13,6 +13,11 @@ call compile preProcessFileLineNumbers "FIArecruitment.sqf";
 call compile preProcessFileLineNumbers "object.sqf";
 call compile preProcessFileLineNumbers "location.sqf";
 
+call compile preprocessFileLineNumbers "Functions\clientFunctions.sqf";
+call compile preprocessFileLineNumbers "Functions\serverFunctions.sqf";
+call compile preprocessFileLineNumbers "Functions\QRFfunctions.sqf";
+call compile preprocessFileLineNumbers "Functions\maintenance.sqf";
+
 AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "CREATE\setDefaultSkill.sqf";
 AS_fnc_getWeaponItemsCargo = compile preProcessFileLineNumbers "municion\getWeaponItemsCargo.sqf";
 AS_fnc_getBestEquipment = compile preProcessFileLineNumbers "municion\getBestEquipment.sqf";
@@ -43,10 +48,11 @@ AS_fnc_abandonFIALocation = compile preProcessFileLineNumbers "fnc_abandonFIALoc
 AS_fnc_renameFIAcamp = compile preProcessFileLineNumbers "fnc_renameFIAcamp.sqf";
 
 AS_fnc_initPetros = compile preProcessFileLineNumbers "fnc_initPetros.sqf";
-AS_fnc_HQdeploy = compile preProcessFileLineNumbers "fnc_HQdeploy.sqf";
 AS_fnc_HQbuild = compile preProcessFileLineNumbers "fnc_HQbuild.sqf";
-AS_fnc_HQselect = compile preProcessFileLineNumbers "fnc_HQselect.sqf";
+AS_fnc_HQdeploy = compile preProcessFileLineNumbers "fnc_HQdeploy.sqf";
 AS_fnc_HQmove = compile preProcessFileLineNumbers "fnc_HQmove.sqf";
+AS_fnc_HQplace = compile preProcessFileLineNumbers "fnc_HQplace.sqf";
+AS_fnc_HQselect = compile preProcessFileLineNumbers "fnc_HQselect.sqf";
 AS_fnc_HQaddObject = compile preprocessFileLineNumbers "fnc_HQaddObject.sqf";
 
 AS_fnc_AAFattackScore = compile preProcessFileLineNumbers "Functions\fnc_AAFattackScore.sqf";
@@ -63,6 +69,7 @@ AS_fnc_createMinefield = compile preProcessFileLineNumbers "CREATE\minefield.sqf
 
 // auxiliars to missions
 call compile preProcessFileLineNumbers "Missions\mission.sqf";
+call compile preProcessFileLineNumbers "Missions\outcomes.sqf";
 AS_fnc_oneStepMission = compile preProcessFileLineNumbers "Missions\fnc_oneStepMission.sqf";
 AS_fnc_cleanResources = compile preProcessFileLineNumbers "Missions\fnc_cleanResources.sqf";
 // missions

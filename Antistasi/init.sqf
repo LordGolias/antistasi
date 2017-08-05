@@ -40,6 +40,8 @@ if(isNil "AS_profileID") then {
 };
 
 if(isServer) then {
+    {if not isPlayer _x then {deleteVehicle _x}} forEach allUnits;
+
 	miembros = [];
     if (serverName in servidoresOficiales) then
         {

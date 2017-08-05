@@ -82,9 +82,6 @@ if ("rhs_weap_akms" in AS_allWeapons) then {
 // This is needed to find the sounds of dog's barking, so it is in every client
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 
-// Miscelaneous functions that all clients need.
-#include "Functions\clientFunctions.sqf"
-
 // Templates below modify server-side content so the server has to initialize
 // some things at this point.
 if (isServer) then {
@@ -184,11 +181,6 @@ campNames = ["Spaulding","Wagstaff","Firefly","Loophole","Quale","Driftwood","Fl
 // todo: improve this.
 expCrate = ""; // dealer's crate
 
-// load functions required by the server
-#include "Functions\serverFunctions.sqf"
-#include "Functions\QRFfunctions.sqf"
-#include "Functions\maintenance.sqf"
-
 // todo: have a menu to switch this behaviour
 switchCom = false;  // Game will not auto assign Commander position to the highest ranked player
 publicVariable "switchCom";
@@ -249,7 +241,7 @@ AS_Sset("lockTransfer", false);
 // todo: this option is not being saved, so it is irrelevant. Consider removing.
 AS_Sset("enableWpnProf",false); // class-based weapon proficiences, MP only
 
-AS_spawnLoopTime = 0.5; // seconds between each check of spawn/despawn locations (expensive loop).
+AS_spawnLoopTime = 1; // seconds between each check of spawn/despawn locations (expensive loop).
 
 // Pricing values for soldiers, vehicles of AAF
 {AS_data_allCosts setVariable [_x,100,true]} forEach ["I_crew_F","O_crew_F","C_man_1"];
@@ -296,6 +288,9 @@ for "_i" from 0 to (count _allVehicles - 1) do {
 publicVariable "FIA_texturedVehicles";
 publicVariable "FIA_texturedVehicleConfigs";
 
+call AS_fnc_initPetros;
+call AS_fnc_HQdeploy;
+
 
 // The max skill that AAF or FIA can have (BE_module).
 AS_maxSkill = 20;
@@ -308,3 +303,5 @@ publicVariable "unlockedWeapons";
 publicVariable "unlockedItems";
 publicVariable "unlockedBackpacks";
 publicVariable "unlockedMagazines";
+
+[] spawn AS_fnc_mission_updateAvailable;

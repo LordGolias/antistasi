@@ -19,28 +19,28 @@ private _tskDesc_success = format [localize "STR_tskDesc_PRPamphlet_success",_lo
 
 private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
 
+// spawn two additional patrols with dogs
+private _grupos = [];
+private _vehicles = [];
+
 // spawn mission vehicle
 private _truck = "C_Van_01_transport_F" createVehicle ((getMarkerPos "FIA_HQ") findEmptyPosition [5,50,"C_Van_01_transport_F"]);
-
-// eye candy
-private _PRCrates = [];
-private _leafletDrops = [];
 
 private _totalDropCounts = 3;
 private _crate3 = "Land_WoodenCrate_01_F" createVehicle [0,0,0];
 _crate3 attachTo [_truck,[0,-2.5,-0.25]];
 _crate3 setDir (getDir _truck + 78);
-_PRCrates pushBack _crate3;
+_vehicles pushBack _crate3;
 
 private _crate2 = "Land_WoodenCrate_01_F" createVehicle [0,0,0];
 _crate2 attachTo [_truck,[0.4,-1.1,-0.25]];
 _crate2 setDir (getDir _truck);
-_PRCrates pushBack _crate2;
+_vehicles pushBack _crate2;
 
 private _crate1 = "Land_WoodenCrate_01_F" createVehicle [0,0,0];
 _crate1 attachTo [_truck,[-0.4,-1.1,-0.25]];
 _crate1 setDir (getDir _truck);
-_PRCrates pushBack _crate1;
+_vehicles pushBack _crate1;
 
 // initialize mission vehicle
 [_truck, "FIA"] call AS_fnc_initVehicle;
@@ -57,50 +57,12 @@ _truck addEventHandler ["GetIn",
 
 [_truck,"Mission Vehicle"] spawn inmuneConvoy;
 
-// search for target positions
-private _targetBuildings = [];
-
 private _allBuildings = nearestObjects [_position, ["Building"], _size];
-private _usableBuildings = +_allBuildings;
-
-private _index = round (3* ((count _allBuildings) /4));
-private _perimeterBuildings = [_allBuildings, _index] call BIS_fnc_subSelect;
-
-private _currentBuilding = "";
-private _lastBuilding = "";
-
-// first position on the perimeter of town
-while {(count _targetBuildings < 1) && (count _perimeterBuildings > 0)} do {
-	_currentBuilding = selectRandom _perimeterBuildings;
-	private _bPositions = [_currentBuilding] call BIS_fnc_buildingPositions;
-	if (count _bPositions > 1) then {
-		_targetBuildings pushBackUnique _currentBuilding;
-		_lastBuilding = _currentBuilding;
-	};
-	_usableBuildings = _usableBuildings - [_currentBuilding];
-	_perimeterBuildings = _perimeterBuildings - [_currentBuilding];
-};
-
-// rest somewhere in town, at least 100m from the previous one
-while {(count _targetBuildings < _totalDropCounts) && (count _usableBuildings > 0)} do {
-	_currentBuilding = selectRandom _usableBuildings;
-	private _bPositions = [_currentBuilding] call BIS_fnc_buildingPositions;
-	if (((position _lastBuilding distance position _currentBuilding) > 100) && (count _bPositions > 1)) then {
-		_targetBuildings pushBackUnique _currentBuilding;
-		_lastBuilding = _currentBuilding;
-	};
-	_usableBuildings = _usableBuildings - [_currentBuilding];
-};
-
-// spawn two additional patrols with dogs
-private _grupos = [];
-private _soldados = [];
-
-private _tipoGrupo = [infGarrisonSmall, side_green] call fnc_pickGroup;
-private _params = [_position, side_green, _tipogrupo];
+_allBuildings = _allBuildings call AS_fnc_shuffle;
 
 for "_i" from 0 to 1 do {
-	private _grupo = _params call BIS_Fnc_spawnGroup;
+	private _tipoGrupo = [infGarrisonSmall, side_green] call fnc_pickGroup;
+	private _grupo = [_position, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 	private _perro = _grupo createUnit ["Fin_random_F",_position,[],0,"FORM"];
 	[_perro] call guardDog;
 	[leader _grupo, _location, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
@@ -111,12 +73,11 @@ for "_i" from 0 to 1 do {
 	private _grp = _x;
 	{
 		[_x, false] call AS_fnc_initUnitAAF;
-	 	_soldados pushBack _x
 	} forEach units _grp;
 } forEach _grupos;
 
 private _fnc_clean = {
-	[_grupos, _leafletDrops + _PRCrates] call AS_fnc_cleanResources;
+	[_grupos, _vehicles] call AS_fnc_cleanResources;
 
 	sleep 30;
 	[_task] call BIS_fnc_deleteTask;
@@ -170,42 +131,43 @@ _currentDrop: current site (building)
 pr_unloading_pamphlets: active process
 */
 private _currentDropCount = 0;
-private _currentDrop = objNull;
+private _currentDrop = _allBuildings select 0;
 
 private _fnc_loadCratesCondition = {
 	// The condition to allow loading the crates into the truck
-	(_currentDrop distance _truck < 20) and
-	(speed _truck < 1) and
-	({_x getVariable ["inconsciente",false]} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) !=
-	  count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits)) and
-	({(_x distance _truck < 50)} count _soldados == 0)
+	(_truck distance _currentDrop < 20) and {speed _truck < 1} and
+	{{alive _x and not (_x getVariable ["inconsciente",false])} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) > 0} and
+	{{(side _x == side_green) or (side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
 };
 
+private _str_unloadStopped = "Stop the truck closeby, have someone close to the truck and no enemies around";
 
 // keep the mission running until all sites are visited
 while {(_currentDropCount < _totalDropCounts) and {not call _fnc_missionFailedCondition}} do {
 
 	// advance site, refresh task
-	_currentDrop = _targetBuildings select _currentDropCount;
-	_task = [_mission,[side_blue,civilian],[_tskDesc_drop,_tskTitle,_location], position _currentDrop,"ASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
+	_currentDrop = _allBuildings select _currentDropCount;
+	_task = [_mission, [side_blue,civilian], [_tskDesc_drop,_tskTitle,_location], position _currentDrop,"ASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
 
 	// send patrol to the location
-	private _patGroup = _grupos select 0;
-	if (((leader _patGroup) distance2D (position _currentDrop)) > ((leader (_grupos select 1)) distance2D (position _currentDrop))) then {
-		_patGroup = _grupos select 1;
-	};
-	if (alive leader _patGroup) then {
-		private _wp101 = _patGroup addWaypoint [position _currentDrop, 20];
-		_wp101 setWaypointType "SAD";
-		_wp101 setWaypointBehaviour "AWARE";
-		_patGroup setCombatMode "RED";
-		_patGroup setCurrentWaypoint _wp101;
-	};
+	{
+		if (alive leader _x) then {
+			private _wp101 = _x addWaypoint [position _currentDrop, 20];
+			_wp101 setWaypointType "SAD";
+			_wp101 setWaypointBehaviour "AWARE";
+			_x setCombatMode "RED";
+			_x setCurrentWaypoint _wp101;
+		};
+	} forEach _grupos;
 
 	// wait 1m to unload the truck
-	[_truck, 60, _fnc_loadCratesCondition, _fnc_missionFailedCondition] call AS_fnc_wait_or_fail;
+	[_truck, 60, _fnc_loadCratesCondition, _fnc_missionFailedCondition, _str_unloadStopped] call AS_fnc_wait_or_fail;
 
 	if (call _fnc_missionFailedCondition) exitWith {};  // exits the while loop, not the mission
+
+	private _posUnload = (position _truck) findEmptyPosition [1,10,"C_Van_01_transport_F"];
+	private _drop = [_posUnload, random 360, _leaflets] call BIS_fnc_ObjectsMapper;
+	_vehicles append _drop;
 
 	// next location
 	_currentDropCount = _currentDropCount + 1;

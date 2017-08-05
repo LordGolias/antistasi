@@ -13,11 +13,9 @@ This API handles the following mission `status`:
 // maximum distance from HQ for a mission to be available
 AS_missions_MAX_DISTANCE = 4000;
 // maximum number of missions available or active.
-AS_missions_MAX_MISSIONS = 5;
+AS_missions_MAX_MISSIONS = 10;
 
-AS_fnc_missions = {
-    "mission" call AS_fnc_objects
-};
+AS_fnc_missions = {"mission" call AS_fnc_objects};
 
 AS_fnc_mission_get = {
     params ["_mission", "_property"];
@@ -43,7 +41,7 @@ AS_fnc_mission_location = {
 
 AS_fnc_mission_add = {
     params ["_type", "_location"];
-    private _name = format ["%s_%s", _type, _location];
+    private _name = format ["%1_%2", _type, _location];
     ["mission", _name, true] call AS_fnc_object_add;
     [_name, "status", "possible"] call AS_fnc_mission_set;
     [_name, "type", _type] call AS_fnc_mission_set;
@@ -72,7 +70,7 @@ AS_fnc_mission_name = {
 
     private _name = _missionType;
     if (_location != "") then {
-        _name = _name + " at " + [_location] call localizar;
+        _name = _name + " at " + ([_location] call localizar);
     };
     _name
 };
@@ -130,7 +128,7 @@ AS_fnc_mission_updateAvailable = {
                 if (_mission call _fnc_isPossibleMission and {_mission call _fnc_isValidMission}) then {
                     _possible pushBack _mission;
                 };
-            } forEach AS_mission_CITY_MISSIONS + AS_mission_BASE_MISSIONS + [
+            } forEach _cityMissions + _baseMissions + [
                 "destroy_helicoper", "conquer", "destroy_antenna", "rob_bank"
             ];
         } forEach _locations;
@@ -149,7 +147,8 @@ AS_fnc_mission_updateAvailable = {
             private _location = _x call AS_fnc_location_nearest;
             if ((_x distance (getMarkerPos "FIA_HQ") < AS_missions_MAX_DISTANCE) and
                 (_location call AS_fnc_location_side == "AAF") and
-                not(_location call AS_fnc_location_spawned)) then {
+                not(_location call AS_fnc_location_spawned) and
+                {_x distance (_location call AS_fnc_location_position) < (_location call AS_fnc_location_size)}) then {
                 _possible pushBack ["rob_bank", _location];
             };
         } forEach AS_bankPositions;
@@ -211,7 +210,7 @@ AS_fnc_mission_updateAvailable = {
 
     {
         _x params ["_type", "_location"];
-        if not ((format ["%s_%s", _type, _location]) in _possible) then {
+        if not ((format ["%1_%2", _type, _location]) in _possible) then {
             _x call AS_fnc_mission_add;
         };
     } forEach _new_possible;
@@ -242,24 +241,24 @@ AS_fnc_mission_activate = {
     call {
         private _missionType = _mission call AS_fnc_mission_type;
 
-        if (_missionType == "kill_officer") exitWith {_mission call AS_mis_assassinate};
-        if (_missionType == "kill_specops") exitWith {_mission call AS_mis_assassinate};
-        if (_missionType == "kill_traitor") exitWith {_mission call ASS_Traidor};
-        if (_missionType == "black_market") exitWith {_mission call AS_mis_black_market};
-        if (_missionType == "pamphlets") exitWith {_mission call PR_Pamphlet};
-        if (_missionType == "broadcast") exitWith {_mission call PR_Brainwash};
-        if (_missionType in ["convoy_armor", "convoy_ammo","convoy_money", "convoy_supplies"]) exitWith {_mission call AS_mis_convoy};
-        if (_missionType == "rescue_prisioners") exitWith {_mission call RES_Prisioneros};
-        if (_missionType == "rescue_refugees") exitWith {_mission call RES_Refugiados};
-        if (_missionType == "rob_bank") exitWith {_mission call LOG_Bank};
-        if (_missionType == "help_meds") exitWith {_mission call LOG_Suministros};
-        if (_missionType == "send_meds") exitWith {_mission call LOG_Medical};
-        if (_missionType == "steal_ammo") exitWith {_mission call LOG_Ammo};
-        if (_missionType == "destroy_vehicle") exitWith {_mission call DES_Vehicle};
-        if (_missionType == "destroy_helicopter") exitWith {_mission call DES_Heli};
-        if (_missionType == "destroy_antenna") exitWith {_mission call DES_Antena};
-        if (_missionType == "repair_antenna") exitWith {_mission call AS_mis_repair_antenna};
-        if (_missionType == "conquer") exitWith {_mission call AS_mis_conquer};
+        if (_missionType == "kill_officer") exitWith {[_mission] spawn AS_mis_assassinate};
+        if (_missionType == "kill_specops") exitWith {[_mission] spawn AS_mis_assassinate};
+        if (_missionType == "kill_traitor") exitWith {[_mission] spawn ASS_Traidor};
+        if (_missionType == "black_market") exitWith {[_mission] spawn AS_mis_black_market};
+        if (_missionType == "pamphlets") exitWith {[_mission] spawn PR_Pamphlet};
+        if (_missionType == "broadcast") exitWith {[_mission] spawn PR_Brainwash};
+        if (_missionType in ["convoy_armor", "convoy_ammo","convoy_money", "convoy_supplies"]) exitWith {[_mission] spawn AS_mis_convoy};
+        if (_missionType == "rescue_prisioners") exitWith {[_mission] spawn RES_Prisioneros};
+        if (_missionType == "rescue_refugees") exitWith {[_mission] spawn RES_Refugiados};
+        if (_missionType == "rob_bank") exitWith {[_mission] spawn LOG_Bank};
+        if (_missionType == "help_meds") exitWith {[_mission] spawn LOG_Suministros};
+        if (_missionType == "send_meds") exitWith {[_mission] spawn LOG_Medical};
+        if (_missionType == "steal_ammo") exitWith {[_mission] spawn LOG_Ammo};
+        if (_missionType == "destroy_vehicle") exitWith {[_mission] spawn DES_Vehicle};
+        if (_missionType == "destroy_helicopter") exitWith {[_mission] spawn DES_Heli};
+        if (_missionType == "destroy_antenna") exitWith {[_mission] spawn DES_Antena};
+        if (_missionType == "repair_antenna") exitWith {[_mission] spawn AS_mis_repair_antenna};
+        if (_missionType == "conquer") exitWith {[_mission] spawn AS_mis_conquer};
         diag_log format ["[AS] Error: AS_fnc_mission_activate: mission type '%1' does not have script", _missionType];
     };
 };
@@ -284,10 +283,14 @@ AS_fnc_mission_completed = {
     [_mission, "status", "completed"] call AS_fnc_mission_set;
 };
 
-AS_fnc_mission_save = {"mission" call AS_fnc_container_save;};
+AS_fnc_mission_save = {
+    params ["_saveName"];
+    ["mission", _saveName] call AS_fnc_object_save;
+};
 
 AS_fnc_mission_load = {
+    params ["_saveName"];
     {_x call AS_fnc_mission_remove} forEach (call AS_fnc_missions);
-    "mission" call AS_fnc_container_load;
+    ["mission", _saveName] call AS_fnc_object_load;
     {_x call AS_fnc_mission_activate} forEach (call AS_fnc_active_missions);
 };

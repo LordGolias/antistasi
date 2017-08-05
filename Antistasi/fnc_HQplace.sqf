@@ -2,15 +2,13 @@
 AS_SERVER_ONLY("fnc_HQplace.sqf");
 params ["_position"];
 
-private _hqInitialPlacement = isNil "placementDone";
-
 "delete" call AS_fnc_HQaddObject;
 
-["fia_hq", "position", _position] call AS_fnc_location_set;
+["FIA_HQ", "position", _position] call AS_fnc_location_set;
 call AS_fnc_initPetros;
 call AS_fnc_HQdeploy;
 
-if _hqInitialPlacement then {
+if isNil "placementDone" then {
 	// update controllers' ownership close to chosen location
 	{
 		if ((_x call AS_fnc_location_position) distance _position < 1000) then {

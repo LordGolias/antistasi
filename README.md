@@ -207,7 +207,7 @@ see `templates/world_altis.sqf` to learn how.
 
 ## FIA HQ
 
-The FIA HQ is a location (called `fia_hq`) always controlled by FIA.
+The FIA HQ is a location (called `FIA_HQ`) always controlled by FIA.
 The following scripts are relevant to change its position:
 
 - `fnc_HQselect.sqf`: client script to choose a position for the HQ
@@ -231,7 +231,7 @@ Other related functions:
 
 - `statSave/saveFuncs.sqf/AS_fnc_saveHQ`: persistently save the HQ objects
 - `statSave/saveFuncs.sqf/AS_fnc_loadHQ`: persistently load the HQ objects
-- `fnc_initPetros.sqf`: restart petros (creates a new petros unit)
+- `AS_fnc_initPetros.sqf`: restart petros (creates a new petros unit)
 
 Related globals:
 

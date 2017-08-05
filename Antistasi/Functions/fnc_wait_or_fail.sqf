@@ -1,4 +1,5 @@
-params ["_truck", "_waitTime", "_fnc_unloadCondition", "_fnc_missionFailedCondition"];
+params ["_truck", "_waitTime", "_fnc_unloadCondition", "_fnc_missionFailedCondition",
+		["_str_unloadStopped", "Stay close to the truck and keep it clear"]];
 
 // wait by the truck or the mission to fail
 private _active = false;
@@ -13,7 +14,7 @@ while {(_counter < _waitTime) and {not call _fnc_missionFailedCondition}} do {
 				};
 			} forEach ([100,0,_truck,"BLUFORSpawn"] call distanceUnits);
 			_active = true;
-			[[petros,"globalChat","Guard the truck!"],"commsMP"] call BIS_fnc_MP;
+			[[petros,"sideChat","Guard the truck!"],"commsMP"] call BIS_fnc_MP;
 		};
 		_counter = _counter + 1;
 		sleep 1;
@@ -30,7 +31,7 @@ while {(_counter < _waitTime) and {not call _fnc_missionFailedCondition}} do {
 		} forEach ([100,0,_truck,"BLUFORSpawn"] call distanceUnits);
 
 		if (not call _fnc_missionFailedCondition) then {
-			[[petros,"globalChat","Stay close to the truck and keep it clear"],"commsMP"] call BIS_fnc_MP;
+			[[petros, "sideChat", _str_unloadStopped],"commsMP"] call BIS_fnc_MP;
 		};
 
 		waitUntil {sleep 1; call _fnc_unloadCondition or _fnc_missionFailedCondition};

@@ -116,7 +116,7 @@ AS_fnc_saveHQ = {
 
 AS_fnc_loadHQ = {
 	params ["_saveName"];
-	call fnc_initPetros;
+	call AS_fnc_initPetros;
 
 	private _array = [_saveName, "HQPermanents"] call AS_fnc_LoadStat;
 	for "_i" from 0 to count AS_permanent_HQplacements - 1 do {

@@ -17,8 +17,7 @@ if (_hqDestroyed) then {
 private _enemyLocations = "AAF" call AS_fnc_location_S;
 if (_hqDestroyed) then {
 	openMap [true,true];
-}
-else {
+} else {
 	_enemyLocations = _enemyLocations - ("roadblock" call AS_fnc_location_T);  // first-time location can be close to controllers.
 	openMap true;
 };

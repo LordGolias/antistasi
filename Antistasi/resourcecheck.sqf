@@ -5,6 +5,7 @@ private _timeBetweenResources = 600;
 
 scriptName "resourcecheck";
 while {true} do {
+	call AS_fnc_mission_updateAvailable;
 	sleep _timeBetweenResources;
 	if (isMultiplayer) then {waitUntil {sleep 10; isPlayer AS_commander}};
 

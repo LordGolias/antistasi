@@ -27,8 +27,10 @@ AS_fncUI_updateMissionList = {
 AS_fncUI_updateMissionData = {
 	disableSerialization;
 	private _mission = lbData [0, lbCurSel 0];
-
 	private _textCbo = ((findDisplay DISPLAYID) displayCtrl 1);
+	if (_mission == "") exitWith {
+		_textCbo ctrlSetStructuredText parseText "No mission selected";
+	};
 
 	private _str_success = "";
 	{
@@ -50,7 +52,7 @@ AS_fncUI_activateMission = {
 	private _mission = lbData [0, lbCurSel 0];
 
 	if (_mission != "") then {
-		_mission call AS_fnc_mission_activate;
+		[_mission] remoteExec ["AS_fnc_mission_activate", 2];
 	} else {
 		hint "No mission selected";
 	};

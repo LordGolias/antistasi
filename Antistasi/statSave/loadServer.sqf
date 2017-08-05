@@ -78,11 +78,11 @@ if (isMultiplayer) then {
 
 [[_saveName, "BE_data"] call fn_LoadStat] call fnc_BE_load;
 
-diag_log format ['[AS] Server: game "%1" loaded', _saveName];
-petros allowdamage true;
-
 // load all generic objects (e.g. missions)
 [_saveName] call AS_fnc_mission_load;
+
+diag_log format ['[AS] Server: game "%1" loaded', _saveName];
+petros allowdamage true;
 
  // resume existing attacks in 25 seconds.
 [] spawn {

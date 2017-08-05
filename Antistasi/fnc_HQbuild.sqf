@@ -6,7 +6,7 @@ AS_SERVER_ONLY("fnc_HQbuild.sqf");
 [[petros,"mission"],"AS_fnc_addAction"] call BIS_fnc_MP;
 petros forceSpeed 0;
 
-["fia_hq", "position", getPos petros] call AS_fnc_location_set;
+["FIA_HQ", "position", getPos petros] call AS_fnc_location_set;
 
 // place everything on its place
 call AS_fnc_HQdeploy;

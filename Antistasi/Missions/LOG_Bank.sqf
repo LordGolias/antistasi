@@ -17,8 +17,8 @@ private _mrkfin = createMarker [format ["LOG%1", random 100], _position];
 private _nombredest = [_location] call localizar;
 _mrkfin setMarkerShape "ICON";
 
-private _taskTitle = localize "STR_task_logBank";
-private _taskDesc = format [localize "STR_taskDesc_logBank",_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP];
+private _taskTitle = localize "STR_tsk_logBank";
+private _taskDesc = format [localize "STR_tskDesc_logBank",_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP];
 
 private _task = [_mission,[side_blue,civilian],[_taskDesc,_taskTitle,_mrkfin],_position,"CREATED",5,true,true,"Interact"] call BIS_fnc_setTask;
 
@@ -95,11 +95,16 @@ if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 } forEach ([AS_P("spawnDistance"),0,_position,"BLUFORSpawn"] call distanceUnits);
 
 private _fnc_loadCondition = {
-	(_truck distance _position < 7) and ({(_x distance _truck < 50)} count units _grupo == 0)
+	// The condition to allow loading the crates into the truck
+	(_truck distance _position < 7) and {speed _truck < 1} and
+	{{alive _x and not (_x getVariable ["inconsciente",false])} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) > 0} and
+	{{(side _x == side_green) or (side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
 };
 
+private _str_unloadStopped = "Stop the truck closeby, have someone close to the truck and no enemies around";
+
 // wait 2m or the mission to fail
-[_truck, 120, _fnc_loadCondition, _fnc_missionFailedCondition] call AS_fnc_wait_or_fail;
+[_truck, 120, _fnc_loadCondition, _fnc_missionFailedCondition, _str_unloadStopped] call AS_fnc_wait_or_fail;
 
 if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 

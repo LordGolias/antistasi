@@ -2,7 +2,7 @@
 private _tskTitle = localize "STR_tsk_HQAttack";
 private _tskDesc = localize "STR_tskDesc_HQAttack";
 
-private _location = "fia_hq";
+private _location = "FIA_HQ";
 private _position = _location call AS_fnc_location_position;
 
 private _origin = getMarkerPos "spawnCSAT";

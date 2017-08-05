@@ -5,7 +5,7 @@ class AS_ManageMissions
 
 	class controls
 	{
-AS_DIALOG(4,"Manage missions", "closeDialog 0;");
+AS_DIALOG(5,"Manage missions", "closeDialog 0;");
 
 LIST_L(0,1,0,4,"call AS_fncUI_updateMissionData;");
 READ(1,1,1,4, "Mission information");

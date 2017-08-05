@@ -7,8 +7,8 @@ private _tiempolim = 60;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
 
-private _taskTitle = localize "STR_task_logSupply";
-private _taskDesc = format [localize "STR_taskDesc_logSupply",[_location] call localizar,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
+private _taskTitle = localize "STR_tsk_logSupply";
+private _taskDesc = format [localize "STR_tskDesc_logSupply",[_location] call localizar,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
 
 private _task = [_mission,[side_blue,civilian],[_taskDesc,_taskTitle,_location],_position,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
 
@@ -54,12 +54,13 @@ if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 [_position] remoteExec ["patrolCA", HCattack];
 
 private _fnc_unloadCondition = {
-	(_truck distance _position < 40) and
-	(speed _truck < 1) and
-	({_x getVariable ["inconsciente",false]} count ([40,0,_truck,"BLUFORSpawn"] call distanceUnits) !=
-	 count ([40,0,_truck,"BLUFORSpawn"] call distanceUnits)) and
-	({(side _x == side_green) and (_x distance _truck < 50)} count allUnits == 0)
+	// The condition to allow loading the crates into the truck
+	(_truck distance _position < 20) and {speed _truck < 1} and
+	{{alive _x and not (_x getVariable ["inconsciente",false])} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) > 0} and
+	{{(side _x == side_green) or (side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
 };
+
+private _str_unloadStopped = "Stop the truck closeby, have someone close to the truck and no enemies around";
 
 // make all FIA around the truck non-captive
 {
@@ -92,7 +93,7 @@ _truck lock 2;
 _truck engineOn false;
 
 // wait for the truck to unload (2m) or the mission to fail
-[_truck, 120, _fnc_unloadCondition, _fnc_missionFailedCondition] call AS_fnc_wait_or_fail;
+[_truck, 120, _fnc_unloadCondition, _fnc_missionFailedCondition, _str_unloadStopped] call AS_fnc_wait_or_fail;
 
 if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 

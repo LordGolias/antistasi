@@ -31,7 +31,7 @@ AS_fnc_location_properties = {
 // Whether the location exists or not. Used in conjunction with *_add and *_remove
 AS_fnc_location_exists = {
     params ["_location"];
-    ["mission", _location] call AS_fnc_object_exists;
+    ["location", _location] call AS_fnc_object_exists;
 };
 
 ////////////////////////////////// Getters //////////////////////////////////
@@ -43,7 +43,8 @@ AS_fnc_location_get = {
 };
 
 AS_fnc_location_type = {
-    [_this,"type"] call AS_fnc_location_get
+    params ["_location"];
+    [_location,"type"] call AS_fnc_location_get
 };
 
 AS_fnc_location_size = {
@@ -91,10 +92,7 @@ AS_fnc_location_side = {
 // I.e. return list of locations that match certain criteria
 
 // All locations
-AS_fnc_locations = {
-    params [["_condition", nil]];
-    ["location", _condition] call AS_fnc_objects
-};
+AS_fnc_locations = {"location" call AS_fnc_objects};
 
 AS_fnc_location_nearest = {
     [call AS_fnc_locations, _this] call BIS_Fnc_nearestPosition
@@ -104,17 +102,17 @@ AS_fnc_location_nearest = {
 AS_fnc_location_S = {
 
     if (_this isEqualType []) exitWith {
-        {(_x call AS_fnc_location_side) in _this} call AS_fnc_locations
+        (call AS_fnc_locations) select {(_x call AS_fnc_location_side) in _this}
     };
-    {_x call AS_fnc_location_side == _this} call AS_fnc_locations
+    (call AS_fnc_locations) select {_x call AS_fnc_location_side == _this}
 };
 
 // returns all locations of a given type
 AS_fnc_location_T = {
     if (_this isEqualType []) exitWith {
-        {(_x call AS_fnc_location_type) in _this} call AS_fnc_locations
+        (call AS_fnc_locations) select {(_x call AS_fnc_location_type) in _this}
     };
-    {_x call AS_fnc_location_type == _this} call AS_fnc_locations
+    (call AS_fnc_locations) select {_x call AS_fnc_location_type == _this}
 };
 
 // returns all locations of a given type and side
@@ -122,17 +120,17 @@ AS_fnc_location_TS = {
     params ["_type", "_side"];
 
     if (_type isEqualType []) exitWith {
-        {_x call AS_fnc_location_side == _side and
-         (_x call AS_fnc_location_type) in _type} call AS_fnc_locations
+        (call AS_fnc_locations) select {_x call AS_fnc_location_side == _side and
+         (_x call AS_fnc_location_type) in _type}
     };
 
-    {_x call AS_fnc_location_side == _side and
-     _x call AS_fnc_location_type == _type} call AS_fnc_locations
+    (call AS_fnc_locations) select {_x call AS_fnc_location_side == _side and
+     _x call AS_fnc_location_type == _type}
 };
 
 // All cities
 AS_fnc_location_cities = {
-    {_x call AS_fnc_location_type == "city"} call AS_fnc_locations
+    (call AS_fnc_locations) select {_x call AS_fnc_location_type == "city"}
 };
 
 /////////////////////////////////////////////////////////////////////////
@@ -481,6 +479,7 @@ AS_fnc_location_save = {
 
 AS_fnc_location_load = {
     params ["_saveName"];
+    {_x call AS_fnc_location_remove} forEach (call AS_fnc_locations);
     ["location", _saveName] call AS_fnc_object_load;
     {
         private _location = _x;
@@ -500,6 +499,8 @@ AS_fnc_location_load = {
         } else {
             _location setMarkerPos (_location call AS_fnc_location_position);
         };
+
+        _location call AS_fnc_location_updateMarker;
 
     } forEach (call AS_fnc_locations);
 };

@@ -192,19 +192,19 @@ _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_poscrash,"A
 
 private _fnc_loadCratesCondition = {
 	// The condition to allow loading the crates into the truck
-	(_truck distance _posCrash < 40) and
-	(speed _truck < 1) and
-	({_x getVariable ["inconsciente",false]} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) !=
-	  count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits)) and
-	({(_x distance _truck < 50)} count _soldados == 0)
+	(_truck distance _poscrash < 20) and {speed _truck < 1} and
+	{{alive _x and not (_x getVariable ["inconsciente",false])} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) > 0} and
+	{{(side _x == side_green) or (side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
 };
 
+private _str_unloadStopped = "Stop the truck closeby, have someone close to the truck and no enemies around";
+
 // wait for the truck to unload (2m) or the mission to fail
-[_truck, 120, _fnc_loadCratesCondition, _fnc_missionFailedCondition] call AS_fnc_wait_or_fail;
+[_truck, 120, _fnc_loadCratesCondition, _fnc_missionFailedCondition, _str_unloadStopped] call AS_fnc_wait_or_fail;
 
 if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 
-private _formato = format ["Good to go. Deliver these supplies to %1 on the double.",_nombredest];
+private _formato = format ["Good to go. Deliver these supplies to %1 on the double.",[_location] call localizar];
 {if (isPlayer _x) then {[petros,"hint",_formato] remoteExec ["commsMP",_x]}} forEach ([80,0,_truck,"BLUFORSpawn"] call distanceUnits);
 _crate1 attachTo [_truck, [0.3,-1.0,-0.4]];
 _crate2 attachTo [_truck, [-0.3,-1.0,-0.4]];

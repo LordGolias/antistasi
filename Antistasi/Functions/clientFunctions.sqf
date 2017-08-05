@@ -1,3 +1,5 @@
+#include "../macros.hpp"
+
 // select a group from a collection of groups
 fnc_pickGroup = {
 	params ["_groupType", "_affiliation"];
@@ -11,7 +13,7 @@ fnc_pickGroup = {
 			_cfgPath = AAFConfigGroupInf;
 		};
 		case side_red: {
-			_cfgPath = opCfgInf;
+			_cfgPath = CSATConfigGroupInf;
 		};
 		case side_blue: {
 			_cfgPath = NATOConfigGroupInf;

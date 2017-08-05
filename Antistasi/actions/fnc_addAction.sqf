@@ -3,8 +3,8 @@ AS_CLIENT_ONLY("AS_fnc_addAction.sqf");
 
 params ["_object","_type"];
 
-#define IS_PLAYER "(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"
-#define IS_COMMANDER "(isPlayer _this) and (_this == _this getVariable ['owner',objNull]) and (_this == AS_commander)"
+#define IS_PLAYER "(isPlayer _this) and (_this == _this getVariable ['owner',_this])"
+#define IS_COMMANDER "(isPlayer _this) and (_this == _this getVariable ['owner',_this]) and (_this == AS_commander)"
 
 
 switch _type do {

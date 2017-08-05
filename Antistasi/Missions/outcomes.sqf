@@ -23,7 +23,7 @@ AS_fnc_mission_execute = {
     if not (_commander_score == 0) then {
         [_commander_score, AS_commander] call AS_fnc_changePlayerScore;
     };
-    if not (_players_score == 0) then {
+    if not (_players_score IsEqualTo 0) then {
         _players_score call _increase_players_score;
     };
     if not (_prestige IsEqualTo [0, 0]) then {
@@ -64,8 +64,8 @@ AS_fnc_mission_description_private = {
     if not (_commander_score == 0) then {
         _description pushBack (format ["Commander's score: %1", _commander_score]);
     };
-    if not (_players_score == 0) then {
-        _description pushBack (format ["Players's score: %1", _players_score]);
+    if not (_players_score IsEqualTo 0) then {
+        _description pushBack (format ["Players's score: %1", _players_score select 2]);
     };
     if not (_prestige IsEqualTo [0, 0]) then {
         if (_prestige select 0 != 0) then {
@@ -98,7 +98,7 @@ AS_fnc_mission_description_private = {
         _description pushBack (format ["Disruption in AAF base: %1", _increaseBusy select 1]);
     };
     if not (_custom IsEqualTo []) then {
-        _description pushBack (_custom select 0);
+        {_description pushBack (_x select 0)} forEach _custom;
     };
     if (_description isEqualTo []) exitWith {
         _description pushBack "No relevant information about mission outcome";
@@ -110,7 +110,7 @@ AS_fnc_mission_description_private = {
 // returns a list of values that are ingested by AS_fnc_mission_execute/AS_fnc_mission_description
 // that contain complete information about how a successful mission changed the game state
 AS_fnc_mission_success_get = {
-    params ["_mission", "_args"];
+    params ["_mission", ["_args", []]];
     private _location = _mission call AS_fnc_mission_location;
     private _position = _location call AS_fnc_location_position;
     private _size = _location call AS_fnc_location_size;
@@ -142,19 +142,19 @@ AS_fnc_mission_success_get = {
         ]
     };
     if (_type in ["convoy_money", "convoy_ammo", "convoy_supplies"]) exitWith {
-        _args params ["_vehPosition"];
+        _args params [["_vehPosition", [0,0,0]]];
         [5, [500, _vehPosition, 10], [-5, 0], [0, 5000], [10, -20, _position], -20*60]
     };
     if (_type == "convoy_armor") exitWith {
-        _args params ["_vehPosition"];
+        _args params [["_vehPosition", [0,0,0]]];
         [5, [500, _vehPosition, 10], [5, 0], [0, 0], [0, 5, _position], 45*60]
     };
     if (_type == "convoy_hvt") exitWith {
-        _args params ["_vehPosition"];
+        _args params [["_vehPosition", [0,0,0]]];
         [5, [500, _vehPosition, 10], [10, 0], [0, 0], [0, 5, _position], 30*60]
     };
     if (_type == "convoy_prisoners") exitWith {
-        _args params ["_vehPosition", ["_hr", 0]];
+        _args params [["_vehPosition", [0,0,0]], ["_hr", 0]];
         [round (_hr/2), [500, _vehPosition, _hr], [_hr, 0], [_hr, 0],
             [["Variable number of resources, foreign support and city support", {}]]
         ]
@@ -168,23 +168,23 @@ AS_fnc_mission_success_get = {
         [5, [500, _position, 10], [0, 3], [0, 300]]
     };
     if (_type == "destroy_antenna") exitWith {
-        _args params ["_pos"];
+        _args params [["_pos", [0,0,0]]];
         [5, [500, _pos, 10], [5, -5], [0, 0], [0, 0, []], 10*60]
     };
     if (_type == "destroy_helicopter") exitWith {
-        _args params ["_pos"];
+        _args params [["_pos", [0,0,0]]];
         [5, [500, _pos, 10], [5, 0], [0, 300], [0, 0, []], 20*60]
     };
     if (_type == "destroy_vehicle") exitWith {
-        _args params ["_pos"];
+        _args params [["_pos", [0,0,0]]];
         [5, [500, _pos, 10], [2, 0], [0, 300], [0, 5, _position], 20*60]
     };
     if (_type == "steal_ammo") exitWith {
-        _args params ["_pos"];
+        _args params [["_pos", [0,0,0]]];
         [5, [500, _pos, 10], [2, 0], [0, 300], [0, 0, []], 20*60]
     };
-    if (_type == "steal_bank") exitWith {
-        _args params ["_pos"];
+    if (_type == "rob_bank") exitWith {
+        _args params [["_pos", [0,0,0]]];
         [5, [500, _pos, 10], [-2, 0], [0, 5000], [0, -5, _position], 10*60]
     };
     if (_type == "send_meds") exitWith {
@@ -204,8 +204,8 @@ AS_fnc_mission_success_get = {
         [5, [500, _position, 10], [5, 0], [0, 0], [0, 15, _position]]
     };
     if (_type == "broadcast") exitWith {
-        _args params ["_prestige"];
-        [5, [500, _position, 10], [0, 0], [0, 0], [0, 0, []], 0, ["", 0], [
+        _args params [["_prestige",0]];
+        [5, [500, _position, 10], [0, 0], [0, 0], [0, 0, []], 0, [
             ["City support per minute spent", {
                 params ["_prestige", "_location"];
                 [0, _prestige, _location] remoteExec ["citySupportChange",2];
@@ -222,13 +222,13 @@ AS_fnc_mission_success_get = {
     };
     if (_type == "rescue_prisioners") exitWith {
         _args params [["_hr", 0]];
-        [round (_hr/2), [500, getMarkerPos "FIA_HQ", _hr], [_hr, 0], [_hr, 0],
+        [round (_hr/2), [500, getMarkerPos "FIA_HQ", _hr], [_hr, 0], [_hr, 0],  [0, 0, []], 0,
             [["Variable number of resources, foreign support and city support", {}]]
         ]
     };
     if (_type == "rescue_refugees") exitWith {
         _args params [["_hr", 0]];
-        [round (_hr/2), [500, getMarkerPos "FIA_HQ", _hr], [_hr, 0], [_hr, 0],
+        [round (_hr/2), [500, getMarkerPos "FIA_HQ", _hr], [_hr, 0], [_hr, 0],  [0, 0, []], 0,
             [["Variable number of resources, foreign support and city support", {}]]
         ]
     };
@@ -294,7 +294,7 @@ AS_fnc_mission_fail_get = {
             ["FIA loses 5 support in all cities", {[0,-5,_x] call citySupportChange} forEach (call AS_fnc_location_cities)]
         ]]
     };
-    if (_type in ["defend_camp", "destroy_antenna", "destroy_helicopter", "destroy_vehicle", "steal_ammo", "steal_bank"]) exitWith {
+    if (_type in ["defend_camp", "destroy_antenna", "destroy_helicopter", "destroy_vehicle", "steal_ammo", "rob_bank"]) exitWith {
         [-20, 0, [0, 0], [0, 0], [0, 0, []], -10*60]
     };
     if (_type in ["send_meds", "help_meds"]) exitWith {
@@ -310,7 +310,7 @@ AS_fnc_mission_fail_get = {
         [-10, 0, [0, 0], [0, 0], [5,0,_position]]
     };
     if (_type == "repair_antenna") exitWith {
-        _args params ["_antennaPos"];
+        _args params [["_antennaPos", [0,0,0]]];
         [-20, 0, [0, 0], [0, 0], [0, 0, []], -10*60,
             [["AAF antenna is repaired", {
                 params ["_antennaPos"];
@@ -326,11 +326,11 @@ AS_fnc_mission_fail_get = {
     };
     if (_type == "rescue_prisioners") exitWith {
         _args params [["_dead", 0]];
-        [-20, 0, [-_dead, 0], [0, 0], [0, 0, []], [["Variable lost of NATO support", {}]]]
+        [-20, 0, [-_dead, 0], [0, 0], [0, 0, []], 0, [["Variable lost of NATO support", {}]]]
     };
     if (_type == "rescue_refugees") exitWith {
         _args params [["_dead", 0]];
-        [-20, 0, [-_dead, 0], [0, 0], [0, -15, _position], [["Variable lost of NATO support", {}]]]
+        [-20, 0, [-_dead, 0], [0, 0], [0, -15, _position], 0, [["Variable lost of NATO support", {}]]]
     };
     [-20]
 };
