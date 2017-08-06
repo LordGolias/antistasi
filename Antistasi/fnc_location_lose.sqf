@@ -14,8 +14,21 @@ private _size = _location call AS_fnc_location_size;
 
 ["territory", -1] remoteExec ["fnc_BE_update", 2];
 
+
+// remove all garrison
 // todo: transfer alive garrison to FIA_HQ
 [_location, "garrison", []] call AS_fnc_location_set;
+
+// Remove all statics there
+private _staticsRemoved = [];
+{
+	if ((position _x) distance _posicion < _size) then {
+		_staticsRemoved pushBack _x;
+		deleteVehicle _x;
+	};
+} forEach AS_P("vehicles");
+[_staticsRemoved, false] call AS_fnc_changePersistentVehicles;
+
 
 if (_type in ["outpost", "seaport"]) then {
 	[10,-10,_posicion] remoteExec ["citySupportChange",2];
@@ -52,21 +65,6 @@ if (_type in ["base", "airfield"]) then {
 		[["TaskFailed", ["", "Airport Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
     };
 };
-
-waitUntil {isNil "AS_vehiclesChanging"};
-AS_vehiclesChanging = true;
-private _staticsRemoved = [];
-{
-	if ((position _x) distance _posicion < _size) then {
-		_staticsRemoved pushBack _x;
-		deleteVehicle _x;
-	};
-} forEach AS_P("vehicles");
-
-if (count _staticsRemoved > 0) then {
-	AS_Pset("vehicles", AS_P("vehicles") - _staticsRemoved);
-};
-AS_vehiclesChanging = nil;
 
 waitUntil {sleep 1;
 	(not (_location call AS_fnc_location_spawned)) or
