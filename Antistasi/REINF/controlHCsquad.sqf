@@ -29,7 +29,7 @@ hcShowBar true;
 _unit call AS_fnc_setAIControl;
 // _unit == player
 
-player addAction [localize "STR_act_returnControl",{selectPlayer (player getVariable ["owner",player])}];
+player addAction [localize "STR_act_returnControl", AS_fnc_dropAIcontrol];
 
 private _tiempo = 10;
 waitUntil {sleep 1;
@@ -38,7 +38,7 @@ waitUntil {sleep 1;
 };
 hint "";
 
-removeAllActions player;
+removeAllActions _unit;
 call AS_fnc_safeDropAIControl;
 
 {[_x] joinsilent group player} forEach units group player;

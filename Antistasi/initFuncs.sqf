@@ -17,6 +17,7 @@ call compile preprocessFileLineNumbers "Functions\clientFunctions.sqf";
 call compile preprocessFileLineNumbers "Functions\serverFunctions.sqf";
 call compile preprocessFileLineNumbers "Functions\QRFfunctions.sqf";
 call compile preprocessFileLineNumbers "Functions\maintenance.sqf";
+call compile preprocessFileLineNumbers "features\controlAI.sqf";
 
 AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "CREATE\setDefaultSkill.sqf";
 AS_fnc_getWeaponItemsCargo = compile preProcessFileLineNumbers "municion\getWeaponItemsCargo.sqf";
