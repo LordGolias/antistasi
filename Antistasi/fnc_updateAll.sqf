@@ -76,14 +76,11 @@ private _FIAResIncomeMultiplier = 1;
 
         [0,5] call AS_fnc_changeForeignSupport;
         [_city, !_power] spawn AS_fnc_changeStreetLights;
-        sleep 5;
-        _city call deleteControles;
     };
     if ((_AAFsupport > _FIAsupport) and (_side == "FIA")) then {
         [["TaskFailed", ["", format ["%1 joined AAF",[_city, false] call AS_fnc_getLocationName]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
         _city call AS_fnc_location_updateMarker;
         [0,-5] call AS_fnc_changeForeignSupport;
-        sleep 5;
         [_city, !_power] spawn AS_fnc_changeStreetLights;
     };
 } forEach call AS_fnc_location_cities;

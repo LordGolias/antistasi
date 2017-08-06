@@ -155,7 +155,6 @@ recruitFIAgarrison = compile preProcessFileLineNumbers "REINF\recruitFIAgarrison
 isFrontline = compile preProcessFileLineNumbers "isFrontline.sqf";
 AS_fnc_changeSecondsforAAFattack = compile preProcessFileLineNumbers "Functions\fnc_changeSecondsforAAFattack.sqf";
 FIAradio = compile preProcessFileLineNumbers "FIAradio.sqf";
-deleteControles = compile preProcessFileLineNumbers "deleteControles.sqf";
 cleanserVeh = compile preProcessFileLineNumbers "CREATE\cleanserVeh.sqf";
 citiesToCivPatrol = compile preProcessFileLineNumbers "citiesToCivPatrol.sqf";
 AS_fnc_fillCrateNATO = compile preProcessFileLineNumbers "Municion\fillCrateNATO.sqf";

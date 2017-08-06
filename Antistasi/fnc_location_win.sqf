@@ -86,8 +86,6 @@ if (_type in ["factory", "resource"]) then {
 	};
 };
 
-_location call deleteControles;
-
 waitUntil {sleep 1;
 	(not (_location call AS_fnc_location_spawned)) or
 	(({(not(vehicle _x isKindOf "Air")) and (alive _x) and (!fleeing _x)} count ([_size,0,_posicion,"OPFORSpawn"] call distanceUnits)) >
@@ -95,4 +93,6 @@ waitUntil {sleep 1;
 
 if (_location call AS_fnc_location_spawned) then {
 	[_location] spawn AS_fnc_location_lose;
+} else {
+	_location call AS_fnc_location_removeRoadblocks;
 };

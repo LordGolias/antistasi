@@ -17,7 +17,7 @@ This modified version has the same mechanics and the same features but improves 
 * Locations backend was rewritten from scratch.
 * Missions backend was rewritten from scratch.
 
-The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 line added, 2 lines were deleted, I have +4 years experience as professional programer).
+The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 line added, 2 lines were deleted, I have +4 years experience as professional programmer).
 
 # Mod support
 
@@ -182,8 +182,8 @@ _type = _location call AS_fnc_location_type;
 hint str (_type call AS_fnc_location_properties);
 ```
 
-Internally, all information about the locations is stored in the logic
-`AS_location`, but you should not access its data directly: use `AS_fnc_location_*`.
+Internally, locations uses the component `AS_object` (`object.sqf`), that is responsible
+for persistency and data consistency. Use only `AS_fnc_location_*` to interact with them.
 The functions in `location.sqf` are documented, so you can learn which they are
 and what they do.
 
@@ -204,6 +204,13 @@ are converted to locations using the following convention
 
 Cities (`"city"`) and hills (`"hill","hillAA"`) are initialized differently,
 see `templates/world_altis.sqf` to learn how.
+
+### Roadblocks
+
+A particular type of location is the roadblock. The roadblocks are placed
+on the map during initialization using the markers `"AS_roadblock"` and
+from the script `location.sqf/AS_fnc_location_addAllRoadblocks`.
+Whenever a location is taken, roadblocks for that location are created/destroyed.
 
 ## FIA HQ
 

@@ -18,8 +18,11 @@ AS_fnc_location_properties = {
 			_properties append ["name"];
 		};
         case "minefield": {
-			_properties append ["mines", "found"];  // [type, pos, dir]
+			_properties append ["mines", "found"];  // [[type, pos, dir], bool]
             _properties = _properties - ["garrison"];
+		};
+        case "roadblock": {
+			_properties append ["location"];  // the associated location of the roadblock
 		};
         default {
             []
@@ -176,6 +179,10 @@ AS_fnc_location_init = {
             [_location, "mines", [], false] call AS_fnc_location_set;  // [type, pos, dir]
             [_location, "found", false, false] call AS_fnc_location_set;
         };
+        case "roadblock": {
+            [_location,"side","AAF", false] call AS_fnc_location_set;
+            [_location, "location", "", false] call AS_fnc_location_set;
+        };
         default {
             [_location,"side","AAF", false] call AS_fnc_location_set;
         };
@@ -258,13 +265,16 @@ AS_fnc_location_despawn = {
 AS_fnc_location_addAllRoadblocks = {
     {
         _x call AS_fnc_location_addRoadblocks;
-    } forEach ([["powerplant", "base", "airfield", "resource", "factory",
-                 "seaport", "outpost"], "AAF"] call AS_fnc_location_TS);
+    } forEach ("AAF" call AS_fnc_location_S);
 };
 
-// called during initialization
 AS_fnc_location_addRoadblocks = {
     params ["_location", ["_max", 3]];
+
+    private _type = _location call AS_fnc_location_type;
+    if not (_type in ["powerplant", "base", "airfield", "resource", "factory",
+                 "seaport", "outpost"]) exitWith {};
+
     private _position = _location call AS_fnc_location_position;
 
     private _count = 0;
@@ -292,7 +302,7 @@ AS_fnc_location_addRoadblocks = {
         	private _otherLocation = [_controlPoints, _posroad] call BIS_fnc_nearestPosition;
             private _otherPosition = _otherLocation call AS_fnc_location_position;
         	if (_otherPosition distance _posroad > 500) then {
-				private _marker = [_posroad] call AS_fnc_location_addRoadblock;
+				private _marker = [_location, _posroad] call AS_fnc_location_addRoadblock;
                 _count = _count + 1;
                 _controlPoints pushBack _marker;
 			};
@@ -300,12 +310,27 @@ AS_fnc_location_addRoadblocks = {
     };
 };
 
+AS_fnc_location_removeRoadblocks = {
+    params [ "_location"];
+    private _position = _location call AS_fnc_location_position;
+
+    private _roadblocks = ("roadblock" call AS_fnc_location_T) select {[_x,"location"] call AS_fnc_location_get == _location};
+    {
+        [_x] spawn {
+            params ["_roadblock"];
+            waitUntil {sleep 5; !(_roadblock call AS_fnc_location_spawned)};
+            _roadblock call AS_fnc_location_remove;
+        };
+    } forEach _roadblocks;
+};
+
 AS_fnc_location_addRoadblock = {
-    params ["_position"];
+    params ["_location", "_position"];
     private _name = format ["roadblock_%1_%2", round (_position select 0), round (_position select 1)];
-    private _marker = createMarker [_name, _position];
-    [_marker, "roadblock"] call AS_fnc_location_add;
-    _marker
+    private _roadblock = createMarker [_name, _position];
+    [_roadblock, "roadblock"] call AS_fnc_location_add;
+    [_roadblock, "location", _location] call AS_fnc_location_set;
+    _roadblock
 };
 
 // Add cities from CfgWorld. Paramaters:

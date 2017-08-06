@@ -74,4 +74,6 @@ waitUntil {sleep 1;
 
 if (_location call AS_fnc_location_spawned) then {
 	[_location] spawn AS_fnc_location_win;
+} else {
+	[_location] call AS_fnc_location_addRoadblocks;
 };
