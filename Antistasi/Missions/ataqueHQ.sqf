@@ -17,7 +17,7 @@ if (count ("aaf_attack_hq" call AS_fnc_active_missions) != 0) exitWith {
 	AS_ISDEBUG(_debug_prefix + _message);
 };
 
-if ({(_x distance _position < 500) and ((typeOf _x == "B_static_AA_F") or (typeOf _x == statAA))} count AS_P("vehicles") > 4) exitWith {};
+if ({(_x distance _position < 500) and (typeOf _x in allStatAAs)} count AS_P("vehicles") > 4) exitWith {};
 
 private _mission = ["aaf_attack_hq", _location] call AS_fnc_mission_add;
 [_mission, "status", "active"] call AS_fnc_mission_set;
