@@ -86,5 +86,5 @@ AS_map_position = nil;
 [_position] remoteExec ["AS_fnc_HQplace", 2];
 
 if _hqInitialPlacement then {
-	createDialog "boost_menu";
+	createDialog "set_difficulty_menu";
 };

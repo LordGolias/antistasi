@@ -279,7 +279,7 @@ class commander_menu // 360
 	};
 };
 
-class boost_menu // 390
+class set_difficulty_menu // 390
 {
 	idd=-1;
 	movingenable=false;
@@ -289,11 +289,11 @@ class boost_menu // 390
 	AS_BOX(1);
 	AS_FRAME(1, "Is the start too hard for you?");
 
-	#define STR_BST_YES "closeDialog 0; if (player == AS_commander) then {[[], ""boost.sqf""] remoteExec [""execVM"", 2];};if ((player == AS_commander) and (isNil ""placementDone"")) then {[] spawn AS_fnc_HQselect};"
-	#define STR_BST_NO "closeDialog 0; [false] remoteExec [""fnc_MAINT_arsenal"", 2]; [] call fnc_BE_refresh; if ((player == AS_commander) and (isNil ""placementDone"")) then {[] spawn AS_fnc_HQselect};"
+	#define STR_BST_YES "closeDialog 0; [] remoteExec [""fnc_setEasy"", 2];"
+	#define STR_BST_NO "closeDialog 0;"
 
-	BTN_L(1,-1, "YES", "You'll get some resources, and basic gear will be unlocked", STR_BST_YES);
-	BTN_R(1,-1, "NO", "Pea shooters, iron sights and plain clothes it is", STR_BST_NO);
+	BTN_L(1,-1, "YES", "FIA starts with some NATO weapons", STR_BST_YES);
+	BTN_R(1,-1, "NO", "FIA starts only with basic gear", STR_BST_NO);
 	};
 };
 

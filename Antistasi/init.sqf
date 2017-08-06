@@ -71,7 +71,7 @@ if(isServer) then {
     publicVariable "miembros";
     fpsCheck = [] execVM "fpsCheck.sqf";
     waitUntil {!(isNil "placementDone")};
-    [caja, 10] call AS_fnc_fillCrateNATO;
+    [caja] call emptyCrate;
     [] spawn AS_fnc_spawnLoop;
     resourcecheck = [] execVM "resourcecheck.sqf";
     if (serverName in servidoresOficiales) then {

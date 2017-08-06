@@ -229,6 +229,8 @@ createWatchpost = compile preProcessFileLineNumbers "CREATE\createWatchpost.sqf"
 createAAsite = compile preProcessFileLineNumbers "CREATE\createAAsite.sqf";
 genRoadPatrol = compile preProcessFileLineNumbers "CREATE\genRoadPatrol.sqf";
 
+AS_fnc_setEasy = compile preProcessFileLineNumbers "fnc_setEasy.sqf";
+
 unlockVehicle = compile preProcessFileLineNumbers "unlockVehicle.sqf";
 AS_fnc_fastTravel = compile preProcessFileLineNumbers "fnc_fastTravel.sqf";
 emptyCrate = compile preProcessFileLineNumbers "Municion\emptyCrate.sqf";
