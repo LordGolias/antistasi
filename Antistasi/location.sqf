@@ -255,7 +255,7 @@ AS_fnc_location_despawn = {
 /////////// Three functions below are currently not used, but will be ///////////
 
 // Creates roadblocks for AAF.
-AS_fnc_location_createRoadblocks = {
+AS_fnc_location_addAllRoadblocks = {
     {
         _x call AS_fnc_location_addRoadblocks;
     } forEach ([["powerplant", "base", "airfield", "resource", "factory",
@@ -264,52 +264,48 @@ AS_fnc_location_createRoadblocks = {
 
 // called during initialization
 AS_fnc_location_addRoadblocks = {
-    private _position = _this call AS_fnc_location_position;
+    params ["_location", ["_max", 3]];
+    private _position = _location call AS_fnc_location_position;
+
     private _count = 0;
+    private _controlPoints = ("roadblock" call AS_fnc_location_T);
     {
     	private _otherPosition = _x call AS_fnc_location_position;
     	if (_otherPosition distance _position < 1000) then {
     		_count = _count + 1;
     	};
-    } forEach ((call AS_fnc_locations) select {_x call AS_fnc_location_type == "roadblock"});
-
-    if (_count > 3) exitWith {};
+    } forEach _controlPoints;
 
     // iterates randomly through all roads within 500m to add roadblocks
     // adds a roadblock to a road when it:
     // 	- is between [400,500] meters
-    // 	- has no roadblocks within 1000 meters
+    // 	- has no roadblocks within 500 meters
     // 	- has two connected roads
     // it stops when there are 3 roadblocks
     private _roads = _position nearRoads 500;
-    while {count _roads > 0} do {
+    while {count _roads > 0 and _count < _max} do {
     	private _road = selectRandom _roads;
     	_roads = _roads - [_road];
+        private _posroad = getPos _road;
 
-    	private _posroad = getPos _road;
-    	if (_count == 3) exitWith {};
-
-    	if (_posroad distance _position > 400) then {
-            private _roadsCon = roadsConnectedto _road;
-            if (count _roadsCon > 1) then {
-            	private _otherLocation = [control_points, _posroad] call BIS_fnc_nearestPosition;
-                private _otherPosition = _otherLocation call AS_fnc_location_position;
-            	if (_otherPosition distance _posroad > 1000) then {
-
-    				_posroad call AS_fnc_location_createRoadblock;
-                    _count = _count + 1;
-    			};
-    		};
+    	if (_posroad distance _position > 400 and {count roadsConnectedto _road > 1}) then {
+        	private _otherLocation = [_controlPoints, _posroad] call BIS_fnc_nearestPosition;
+            private _otherPosition = _otherLocation call AS_fnc_location_position;
+        	if (_otherPosition distance _posroad > 500) then {
+				private _marker = [_posroad] call AS_fnc_location_addRoadblock;
+                _count = _count + 1;
+                _controlPoints pushBack _marker;
+			};
     	};
-    } forEach _roads;
+    };
 };
 
-AS_fnc_location_createRoadblock = {
-    // _this is a position with 3 coordinates. We use x and y to get a unique name.
-    private _name = format ["roadblock_%1_%2", round (_this select 0), round (_this select 1)];
-    private _marker = createMarker [_name, _this];
-    [_marker, "roadblock1"] call AS_fnc_location_add;
-    [_marker,"side","AAF"] call AS_fnc_location_set;
+AS_fnc_location_addRoadblock = {
+    params ["_position"];
+    private _name = format ["roadblock_%1_%2", round (_position select 0), round (_position select 1)];
+    private _marker = createMarker [_name, _position];
+    [_marker, "roadblock"] call AS_fnc_location_add;
+    _marker
 };
 
 // Add cities from CfgWorld. Paramaters:

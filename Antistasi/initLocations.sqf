@@ -20,8 +20,11 @@ call {
         if (_x find "AS_seaport" == 0) exitWith {[_x, "seaport"] call AS_fnc_location_add};
         if (_x find "AS_outpostAA" == 0) exitWith {[_x, "outpostAA"] call AS_fnc_location_add};
         if (_x find "AS_outpost" == 0) exitWith {[_x, "outpost"] call AS_fnc_location_add};
+        if (_x find "AS_roadblock" == 0) exitWith {[_x, "roadblock"] call AS_fnc_location_add};
     };
 } forEach allMapMarkers;
+
+call AS_fnc_location_addAllRoadblocks;
 
 ["FIA_HQ","fia_hq"] call AS_fnc_location_add;
 
