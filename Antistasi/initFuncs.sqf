@@ -114,7 +114,6 @@ AS_fnc_antennaKilledEH = compile preProcessFileLineNumbers "Functions\fnc_antenn
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";
 powerCheck = compile preProcessFileLineNumbers "powerCheck.sqf";
 AAFKilledEH = compile preProcessFileLineNumbers "AI\AAFKilledEH.sqf";
-handleDamageAAF = compile preProcessFileLineNumbers "Revive\handleDamageAAF.sqf";
 civVEHinit = compile preProcessFileLineNumbers "CREATE\civVEHinit.sqf";
 smokeCoverAuto = compile preProcessFileLineNumbers "AI\smokeCoverAuto.sqf";
 landThreatEval = compile preProcessFileLineNumbers "AI\landThreatEval.sqf";
@@ -139,14 +138,17 @@ garage = compile preProcessFileLineNumbers "garage.sqf";
 undercoverAI = compile preProcessFileLineNumbers "AI\undercoverAI.sqf";
 memberAdd = compile preProcessFileLineNumbers "OrgPlayers\memberAdd.sqf";
 resourcesPlayer = compile preProcessFileLineNumbers "OrgPlayers\resourcesPlayer.sqf";
+
+// Revive system
 inconsciente = compile preProcessFileLineNumbers "Revive\inconsciente.sqf";
 respawn = compile preProcessFileLineNumbers "Revive\respawn.sqf";
 handleDamage = compile preProcessFileLineNumbers "Revive\handleDamage.sqf";
 AS_fnc_isUnconscious = compile preProcessFileLineNumbers "Revive\fnc_isUnconscious.sqf";
 AS_fnc_setUnconscious = compile preProcessFileLineNumbers "Revive\fnc_setUnconscious.sqf";
 initRevive = compile preProcessFileLineNumbers "Revive\initRevive.sqf";
-pedirAyuda = compile preProcessFileLineNumbers "AI\pedirAyuda.sqf";
-ayudar = compile preProcessFileLineNumbers "AI\ayudar.sqf";
+pedirAyuda = compile preProcessFileLineNumbers "Revive\pedirAyuda.sqf";
+ayudar = compile preProcessFileLineNumbers "Revive\ayudar.sqf";
+
 cubrirConHumo = compile preProcessFileLineNumbers "AI\cubrirConHumo.sqf";
 autoRearm = compile preProcessFileLineNumbers "AI\autoRearm.sqf";
 destroyCheck = compile preProcessFileLineNumbers "destroyCheck.sqf";

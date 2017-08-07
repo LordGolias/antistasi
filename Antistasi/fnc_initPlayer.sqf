@@ -2,11 +2,10 @@
 waitUntil {!isNull player};
 waitUntil {player == player};
 
-if (hayACEhearing) then {player addItem "ACE_EarPlugs"};
+if hayACEhearing then {player addItem "ACE_EarPlugs"};
+
 if (!hayACEMedical) then {
-    [player] execVM "Revive\initRevive.sqf";
-} else {
-    [player,false] call AS_fnc_setUnconscious
+    player call initRevive;
 };
 
 player setPos ((getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)]);
@@ -84,22 +83,6 @@ if (isMultiplayer) then {
 	}];
 
 	[missionNamespace, "arsenalClosed", {[] spawn skillAdjustments;}] call BIS_fnc_addScriptedEventHandler;
-};
-
-if (!isMultiplayer and hayACEMedical) then {
-	player setVariable ["respawning",false];
-	player addEventHandler ["HandleDamage", {
-		if (player getVariable ["ACE_isUnconscious", false]) then {
-			[] spawn {
-                sleep 15;
-                if !(player call AS_fnc_isUnconscious) then {
-                    // put the player in the inconscious state where it can respawn with "SPACEBAR".
-                    player setDamage 0.9;
-                    [player] spawn inconsciente;
-                };
-            };
-		};
-	}];
 };
 
 [] execVM "reinitY.sqf";

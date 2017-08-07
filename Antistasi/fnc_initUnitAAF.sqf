@@ -37,5 +37,4 @@ else {
 	};
 };
 
-_unit addEventHandler ["HandleDamage",handleDamageAAF];
 _unit addEventHandler ["killed", AAFKilledEH];
