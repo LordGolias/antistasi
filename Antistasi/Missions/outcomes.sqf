@@ -237,7 +237,7 @@ AS_fnc_mission_success_get = {
 
 
 AS_fnc_mission_fail_get = {
-    params ["_mission", "_args"];
+    params ["_mission", ["_args", []]];
     private _location = _mission call AS_fnc_mission_location;
     private _position = _location call AS_fnc_location_position;
     private _type = _mission call AS_fnc_mission_type;
