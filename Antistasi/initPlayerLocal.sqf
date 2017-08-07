@@ -80,6 +80,8 @@ else {
 	[] execVM "playerMarkers.sqf";
 };
 
+autoHeal = true;
+
 disableUserInput false;
 MIASquadUnits = creategroup WEST;  // units that are not in the squad because they lost communication with the player (no radio).
 player setvariable ["compromised", 0];  // Used by undercover mechanics

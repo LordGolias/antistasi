@@ -1,7 +1,4 @@
-private ["_unit"];
-//esto habrá que meterlo en onplayerrespawn también
-_unit = _this select 0;
+params ["_unit"];
 _unit setVariable ["inconsciente",false,true];
-
 _unit setVariable ["respawning",false];
 _unit addEventHandler ["HandleDamage", handleDamage];

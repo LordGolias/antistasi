@@ -1,58 +1,53 @@
-private ["_unit","_distancia","_hayMedico","_medico","_units","_ayudando","_pidiendoAyuda"];
-_unit = _this select 0;
+params ["_unit"];
 
-_distancia = 81;
-_haymedico = false;
-_medico = objNull;
+private _bestDistance = 81;  // best distance of the current medic (max distance for first medic)
+private _hasMedic = false;
+private _medic = objNull;
 
-_medItem = "FirstAidKit";
-if (hayACEMedical) then {_medItem = "ACE_fieldDressing"};
-//if (count _this == 1) then {_units = units group _unit} else {_units = units (_this select 1)};
-_units = units group _unit;
+private _medItem = "FirstAidKit";
+if hayACEMedical then {_medItem = "ACE_fieldDressing"};
+
+private _canHeal = {
+	params ["_candidate"];
+	(alive _candidate) and
+	{not (_candidate getVariable "inconsciente")} and
+	{vehicle _candidate == _candidate} and
+	{_medItem in (items _candidate)} and
+	{_candidate distance _unit < _bestDistance}
+};
+
+private _units = units group _unit;
 {
-if (!isPlayer _x) then
-	{
-	if ([_x] call AS_fnc_getFIAUnitType == "Medic") then
-		{
-		if ((alive _x) and (_medItem in (items _x)) and (not (_x getVariable "inconsciente")) and (vehicle _x == _x) and (_x distance _unit < 81)) then
-			{
-			_hayMedico = true;
-			_ayudando = _x getVariable "ayudando";
-			if ((isNil "_ayudando") and (!(_x getVariable "rearming"))) then
-				{
-				_medico = _x;
-				_distancia = _x distance _unit;
-				};
+	if ((!isPlayer _x) and {[_x] call AS_fnc_getFIAUnitType == "Medic"}) then {
+		if (_x call _canHeal) then {
+			_hasMedic = true;
+			private _ayudando = _x getVariable "ayudando";
+			if ((isNil "_ayudando") and (!(_x getVariable "rearming"))) then {
+				_medic = _x;
+				_bestDistance = _x distance _unit;
 			};
 		};
 	};
+	if not isNull _medic exitWith {}; // medic found, short circuit loop
 } forEach _units;
 
-if ((!_haymedico) or (_unit getVariable "inconsciente")) then
+if ((!_hasMedic) or (_unit getVariable "inconsciente")) then {
 	{
-	{
-	if (!isPlayer _x) then
-		{
-		if ([_x] call AS_fnc_getFIAUnitType != "Medic") then
-			{
-			if ((alive _x) and (_medItem in (items _x)) and (not (_x getVariable "inconsciente")) and (vehicle _x == _x) and (_x distance _unit < _distancia)) then
-				{
-				_ayudando = _x getVariable "ayudando";
-				if ((isNil "_ayudando") and (!(_x getVariable "rearming"))) then
-					{
-					_medico = _x;
-					_distancia = _x distance _unit;
-					};
+		if ((!isPlayer _x) and {[_x] call AS_fnc_getFIAUnitType != "Medic"}) then {
+			if (_x call _canHeal) then {
+				private _ayudando = _x getVariable "ayudando";
+				if ((isNil "_ayudando") and (!(_x getVariable "rearming"))) then {
+					_medic = _x;
+					_bestDistance = _x distance _unit;
 				};
-
 			};
 		};
+		if not isNull _medic exitWith {}; // medic found, short circuit loop
 	} forEach _units;
-	};
+};
 
-if (!isNull _medico) then
-	{
-	[_unit,_medico] spawn ayudar;
-	};
+if not isNull _medic then {
+	[_unit,_medic] spawn ayudar;
+};
 
-_medico
+_medic
