@@ -129,7 +129,8 @@ NATOBackpacks = _result select 3;
 NATOVests = NATOItems arrayIntersect AS_allVests;
 NATOHelmets = NATOItems arrayIntersect AS_allHelmets;
 
-NATOThrowGrenades = NATOItems arrayIntersect AS_allThrowGrenades;
+NATOThrowGrenades = NATOMagazines arrayIntersect AS_allThrowGrenades;
+NATOMagazines = NATOMagazines - NATOThrowGrenades;
 
 //////////////////// CSAT ////////////////////
 
@@ -149,4 +150,5 @@ CSATBackpacks = _result select 3;
 CSATVests = CSATItems arrayIntersect AS_allVests;
 CSATHelmets = CSATItems arrayIntersect AS_allHelmets;
 
-CSATThrowGrenades = CSATItems arrayIntersect AS_allThrowGrenades;
+CSATThrowGrenades = CSATMagazines arrayIntersect AS_allThrowGrenades;
+CSATMagazines = CSATMagazines - CSATThrowGrenades;
