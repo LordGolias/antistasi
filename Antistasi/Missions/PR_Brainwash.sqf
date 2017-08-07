@@ -242,7 +242,7 @@ private _fnc_continueCounterCondition = {
 
 // counter increases when no enemy within 50m and anyone conscious
 private _fnc_increaseCounterCondition = {
-	{_x getVariable ["inconsciente",false]} count ([300,0, _truck,"BLUFORSpawn"] call distanceUnits) !=
+	{_x call AS_fnc_isUnconscious} count ([300,0, _truck,"BLUFORSpawn"] call distanceUnits) !=
 	 count ([300,0, _truck,"BLUFORSpawn"] call distanceUnits) and
 	({((side _x == side_green) || (side _x == side_red)) and (_x distance _truck < 50)} count allUnits == 0)
 };

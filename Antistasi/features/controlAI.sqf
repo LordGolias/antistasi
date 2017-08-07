@@ -68,7 +68,7 @@ AS_fnc_controlUnit = {
     if (player != leader group player) exitWith {hint "You cannot control AI if you are not the squad leader"};
     if (isPlayer _unit) exitWith {hint "You cannot control another player"};
     if (!alive _unit) exitWith {hint "You cannot control a dead unit"};
-    if (_unit getVariable ["inconsciente",false]) exitWith {hint "You cannot control an unconscious unit"};
+    if (_unit call AS_fnc_isUnconscious) exitWith {hint "You cannot control an unconscious unit"};
     if (captive _unit) exitWith {hint "You cannot control an Undercover unit"};
     if ((not(typeOf _unit in AS_allFIASoldierClasses)) and ([_unit] call AS_fnc_getFIAUnitType != "Survivor")) exitWith {hint "You cannot control a unit which does not belong to FIA"};
     if (call AS_fnc_controlsAI) exitWith {hint "You cannot control AI while you are controlling another AI"};
@@ -105,7 +105,7 @@ AS_fnc_controlHCSquad = {
     params ["_group"];
     private _unit = leader _group;
 
-    if (_unit getVariable ["inconsciente",false]) exitWith {hint "You cannot control an unconscious unit"};
+    if (_unit call AS_fnc_isUnconscious) exitWith {hint "You cannot control an unconscious unit"};
     if (!alive _unit) exitWith {hint "You cannot control a dead unit"};
     if ((not(typeOf _unit in AS_allFIASoldierClasses)) and ([_unit] call AS_fnc_getFIAUnitType != "Survivor")) exitWith {
         hint "You cannot control a unit which does not belong to FIA"

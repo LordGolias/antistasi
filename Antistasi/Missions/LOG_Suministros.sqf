@@ -56,7 +56,7 @@ if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 private _fnc_unloadCondition = {
 	// The condition to allow loading the crates into the truck
 	(_truck distance _position < 20) and {speed _truck < 1} and
-	{{alive _x and not (_x getVariable ["inconsciente",false])} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) > 0} and
+	{{alive _x and not (_x call AS_fnc_isUnconscious)} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) > 0} and
 	{{(side _x == side_green) or (side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
 };
 

@@ -29,7 +29,7 @@ if (_medic == _unit) exitWith {
 	true
 };
 
-if ((not (_unit getVariable "inconsciente")) and (not(_unit getVariable ["ayudado",false]))) then {
+if ((not (_unit call AS_fnc_isUnconscious)) and (not(_unit getVariable ["ayudado",false]))) then {
 	_unit groupChat format ["Comrades, this is %1. I'm hurt",name _unit];
 	sleep 2;
 	_medic groupChat format ["Wait a minute comrade %1, I will patch you up",name _unit];
@@ -42,9 +42,9 @@ private _timeOut = time + 60;
 
 while {true} do {
 	_medic doMove getPosATL _unit;
-	if ((_timeOut < time) or _canHeal or (_medic getVariable "inconsciente") or (_unit != vehicle _unit) or (_medic != vehicle _medic)) exitWith {};
+	if ((_timeOut < time) or _canHeal or (_medic call AS_fnc_isUnconscious) or (_unit != vehicle _unit) or (_medic != vehicle _medic)) exitWith {};
 	if (isPlayer _unit) then {
-		if ((unitReady _medic) and (alive _medic) and (_medic distance _unit > 3) and (!(_medic getVariable "inconsciente"))) then {
+		if ((unitReady _medic) and (alive _medic) and (_medic distance _unit > 3) and (!(_medic call AS_fnc_isUnconscious))) then {
 			_medic setPos position _unit;
 		};
 	};

@@ -36,7 +36,7 @@ if (isPlayer _unit) then {
 if (_part == "") then {
 	call {
 		if (_dam > 0.95) exitWith {
-			if (!(_unit getVariable "inconsciente")) then {
+			if (!(_unit call AS_fnc_isUnconscious)) then {
 				_dam = 0.9;
 				[_unit] spawn inconsciente;
 			} else {

@@ -56,7 +56,7 @@ if (alive _unit) then {
 
 private _medic = objNull;
 private _tiempo = 5;
-while {(time < _bleedOut) and (damage _unit > 0.25) and (alive _unit) and (_unit getVariable "inconsciente") and (!(_unit getVariable "respawning"))} do {
+while {(time < _bleedOut) and (damage _unit > 0.25) and (alive _unit) and (_unit call AS_fnc_isUnconscious) and (!(_unit getVariable "respawning"))} do {
 	sleep _tiempo;
 	if (random 10 < 5) then {
 		playSound3D [(injuredSounds call BIS_fnc_selectRandom),_unit,false, getPosASL _unit, 1, 1, 50];
@@ -130,7 +130,7 @@ if (time > _bleedOut) exitWith {
 };
 
 
-if (_unit getVariable "inconsciente") then {
+if (_unit call AS_fnc_isUnconscious) then {
 	_unit setVariable ["inconsciente",false,true]
 };
 if (alive _unit) then {

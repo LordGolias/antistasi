@@ -40,7 +40,7 @@ petros addEventHandler ["HandleDamage",
             {
             if (_dam > 0.95) then
                 {
-                if (!(petros getVariable "inconsciente")) then
+                if (!(petros call AS_fnc_isUnconscious)) then
                     {
                     _dam = 0.9;
                     [petros] spawn inconsciente;

@@ -142,6 +142,7 @@ resourcesPlayer = compile preProcessFileLineNumbers "OrgPlayers\resourcesPlayer.
 inconsciente = compile preProcessFileLineNumbers "Revive\inconsciente.sqf";
 respawn = compile preProcessFileLineNumbers "Revive\respawn.sqf";
 handleDamage = compile preProcessFileLineNumbers "Revive\handleDamage.sqf";
+AS_fnc_isUnconscious = compile preProcessFileLineNumbers "Revive\fnc_isUnconscious.sqf";
 initRevive = compile preProcessFileLineNumbers "Revive\initRevive.sqf";
 pedirAyuda = compile preProcessFileLineNumbers "AI\pedirAyuda.sqf";
 ayudar = compile preProcessFileLineNumbers "AI\ayudar.sqf";
