@@ -18,7 +18,7 @@ petros disableAI "AUTOTARGET";
 removeHeadgear petros;
 removeGoggles petros;
 petros setSkill 1;
-petros setVariable ["inconsciente",false,true];
+[petros, false] call AS_fnc_setUnconscious;
 petros setVariable ["respawning",false];
 
 call fnc_rearmPetros;

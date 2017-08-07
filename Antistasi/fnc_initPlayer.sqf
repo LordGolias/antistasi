@@ -6,7 +6,7 @@ if (hayACEhearing) then {player addItem "ACE_EarPlugs"};
 if (!hayACEMedical) then {
     [player] execVM "Revive\initRevive.sqf";
 } else {
-    player setVariable ["inconsciente",false,true];
+    [player,false] call AS_fnc_setUnconscious
 };
 
 player setPos ((getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)]);
@@ -92,7 +92,7 @@ if (!isMultiplayer and hayACEMedical) then {
 		if (player getVariable ["ACE_isUnconscious", false]) then {
 			[] spawn {
                 sleep 15;
-                if !(player getVariable ["inconsciente", false]) then {
+                if !(player call AS_fnc_isUnconscious) then {
                     // put the player in the inconscious state where it can respawn with "SPACEBAR".
                     player setDamage 0.9;
                     [player] spawn inconsciente;

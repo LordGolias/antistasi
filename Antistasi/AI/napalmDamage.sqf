@@ -21,7 +21,7 @@ while {time < _timeOut} do
 					if ((_dam >= 1) and (isPlayer _x)) then
 						{
 						_x setdamage 0;
-						_x setVariable ["inconsciente",true,true];
+						[_x, true] call AS_fnc_setUnconscious;
 						[_x] spawn respawn;
 						}
 					else

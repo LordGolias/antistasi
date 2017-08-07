@@ -1,5 +1,5 @@
 params ["_unit"];
-_unit setVariable ["inconsciente",true,true];
+[_unit,true] call AS_fnc_setUnconscious;
 
 private _bleedOut = time + 300;
 private _isPlayer = false;
@@ -131,7 +131,7 @@ if (time > _bleedOut) exitWith {
 
 
 if (_unit call AS_fnc_isUnconscious) then {
-	_unit setVariable ["inconsciente",false,true]
+	[_unit,false] call AS_fnc_setUnconscious
 };
 if (alive _unit) then {
 	_unit playMoveNow "AmovPpneMstpSnonWnonDnon_healed";

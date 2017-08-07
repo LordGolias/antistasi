@@ -28,13 +28,15 @@ if (isMultiplayer) exitWith {
 	};
 	(findDisplay 46) displayRemoveEventHandler ["KeyDown", respawnMenu];
 	_unit setCaptive false;
-	_unit setVariable ["inconsciente",false,true];
+	[_unit,false] call AS_fnc_setUnconscious;
 	_unit setVariable ["respawning",false];
 	_unit setDamage 1;
 };
 private ["_posicion","_tam","_roads","_road","_pos"];
 _posicion = getMarkerPos "FIA_HQ";
-if (_unit call AS_fnc_isUnconscious) then {_unit setVariable ["inconsciente",false,true]};
+if (_unit call AS_fnc_isUnconscious) then {
+	[_unit, false] call AS_fnc_setUnconscious;
+};
 _unit setVariable ["ayudado",nil];
 _unit setVariable ["ayudando",nil];
 _unit setDamage 0;
