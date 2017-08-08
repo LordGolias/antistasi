@@ -109,13 +109,19 @@ reverse it.
 
 ## Initialization
 
-The relevant scripts are `init.sqf`, `initServer.sqf`, and `initPlayerLocal.sqf`.
+Initialization entry point is `init.sqf`. This is called by Arma itself.
+This script uses `server.sqf`, `headlessClient.sqf`, `client.sqf` in `initialization/`.
 
-`initPlayerLocal.sqf` is responsible for initializing the player. This includes
+Regardless of the game mode (SP or MP), `server.sqf` is called on the server side
+and `client.sqf` or `headlessClient.sqf` are called on non-server.
+
+The code that has to be called on every machine running AS is `initFuncs.sqf` and `initVar.sqf`.
+`initFuncs.sqf` defines all functions and components. 
+
+`server.sqf` call `serverMP.sqf` or `serverSP.sqf` depending
+
+`client.sqf` is responsible for initializing a player. This includes
 Event Handling, available actions, etc.
-
-In SP, `init.sqf` is called and then `initPlayerLocal.sqf`.
-In MP, `initServer.sqf` is responsible for the server, and `initPlayerLocal.sqf` for the client.
 
 ## Memory management
 

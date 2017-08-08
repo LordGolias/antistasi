@@ -103,6 +103,7 @@ fuego = "Land_Campfire_F" createvehicle [0,0,0];
 publicVariable "fuego";
 fuego allowDamage false;
 caja = "IG_supplyCrate_F" createvehicle [0,0,0];
+[caja] call emptyCrate;
 publicVariable "caja";
 caja allowDamage false;
 mapa = "MapBoard_altis_F" createvehicle [0,0,0];

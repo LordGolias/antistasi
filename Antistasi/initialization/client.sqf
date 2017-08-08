@@ -1,14 +1,14 @@
-waitUntil {!isNull player};
-waitUntil {player == player};
+diag_log "[AS] client: waiting for player";
+waitUntil {!isNull player and {player == player}};
+diag_log "[AS] client: starting";
 
 [] execVM "briefing.sqf";
 #include "Scripts\SHK_Fastrope.sqf"
 
-if (isMultiplayer and !isServer) then {
+if not isServer then {
     call compile preprocessFileLineNumbers "initFuncs.sqf";
     call compile preprocessFileLineNumbers "initVar.sqf";
 };
-
 
 private _colorWest = west call BIS_fnc_sideColor;
 private _colorEast = east call BIS_fnc_sideColor;
@@ -16,11 +16,9 @@ private _colorEast = east call BIS_fnc_sideColor;
 _x set [3, 0.33]
 } forEach [_colorWest, _colorEast];
 
-waitUntil {!isNil "petros"};
-
 private _introShot =
 	[
-    position petros, // Target position
+    getMarkerPos "FIA_HQ", // Target position
     worldName + " Island", // SITREP text
     50, //  altitude
     50, //  radius
@@ -33,10 +31,9 @@ private _introShot =
     ] spawn BIS_fnc_establishingShot;
 
 // wait for the server to be ready to receive players (see initServer.sqf)
-if (isMultiplayer) then {
-    waitUntil {!isNil "serverInitVarsDone"};
-    diag_log "[AS] client: serverInitVarsDone";
-};
+diag_log "[AS] client: waiting for serverInitVarsDone";
+waitUntil {!isNil "serverInitVarsDone"};
+diag_log "[AS] client: serverInitVarsDone";
 
 musicON = true;
 [] execVM "musica.sqf";
@@ -45,9 +42,8 @@ private _isJip = _this select 1;
 
 private _titulo = ["A3 - Antistasi","by Barbolani",antistasiVersion] spawn BIS_fnc_infoText;
 
-if (isMultiplayer) then {
-    // removes everything but map, GPS, etc.
-    [player] call AS_fnc_emptyUnit;
+[player] call AS_fnc_emptyUnit;
+if isMultiplayer then {
 	player setVariable ["elegible",true,true];
 	musicON = false;
 	waitUntil {scriptdone _introshot};
@@ -58,10 +54,7 @@ if (isMultiplayer) then {
 	cutText ["Starting Mission","BLACK IN",0];
 	diag_log "[AS] client: serverInitDone";
 	diag_log format ["[AS] client: isJIP: %1", _isJip];
-}
-else {
-    // removes everything but map, GPS, etc.
-    [player] call AS_fnc_emptyUnit;
+} else {
 	AS_commander = player;
 	private _group = group player;
 	_group setGroupId ["Stavros","GroupColor4"];
@@ -74,9 +67,10 @@ else {
 (group player) enableAttack false;
 if (!hayACE) then {
 	tags = [] execVM "tags.sqf";
-	if ((cadetMode) and (isMultiplayer)) then {[] execVM "playerMarkers.sqf"};
-}
-else {
+	if ((cadetMode) and (isMultiplayer)) then {
+        [] execVM "playerMarkers.sqf"
+    };
+} else {
 	[] execVM "playerMarkers.sqf";
 };
 
@@ -94,7 +88,7 @@ private _score = 0;
 if (player == AS_commander) then {_score = 25}; // so the commander does not lose the position immediately.
 player setVariable ["score", _score, true];
 
-if (isMultiplayer) then {
+if isMultiplayer then {
 	["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;//Exec on client
 
     personalGarage = [];
@@ -200,8 +194,7 @@ if (_isJip) then {
 
 	// sync the inventory content to the JIP.
 	remoteExec ["fnc_MAINT_refillArsenal", 2];
-}
-else {  // not JIP
+} else {  // not JIP
 	if (isNil "placementDone") then {
 		waitUntil {!isNil "AS_commander"};
 		if (player == AS_commander) then {
