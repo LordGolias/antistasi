@@ -4,6 +4,7 @@ AS_SERVER_ONLY("server.sqf");
 call compile preprocessFileLineNumbers "debug\init.sqf";
 
 diag_log "[AS] Server: starting";
+call compile preprocessFileLineNumbers "initialization\server_functions.sqf";
 call compile preprocessFileLineNumbers "initFuncs.sqf";
 diag_log "[AS] Server: initFuncs done";
 call compile preprocessFileLineNumbers "initLocations.sqf";
