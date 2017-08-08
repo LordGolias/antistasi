@@ -1,9 +1,17 @@
-diag_log "[AS] client: waiting for player";
-waitUntil {!isNull player and {player == player}};
+private _isJip = false;
+if isNull player then {
+    _isJip = true;
+};
+
+if _isJip then {
+    diag_log "[AS] client: JIP: waiting for player";
+    waitUntil {!isNull player and {player == player}};
+};
 diag_log "[AS] client: starting";
 
+
 [] execVM "briefing.sqf";
-#include "Scripts\SHK_Fastrope.sqf"
+#include "..\Scripts\SHK_Fastrope.sqf"
 
 if not isServer then {
     call compile preprocessFileLineNumbers "initFuncs.sqf";
@@ -37,8 +45,6 @@ diag_log "[AS] client: serverInitVarsDone";
 
 musicON = true;
 [] execVM "musica.sqf";
-
-private _isJip = _this select 1;
 
 private _titulo = ["A3 - Antistasi","by Barbolani",antistasiVersion] spawn BIS_fnc_infoText;
 

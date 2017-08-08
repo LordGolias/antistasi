@@ -8,12 +8,12 @@ if(isNil "AS_profileID") then {
 	profileNameSpace setVariable ["AS_profileID", AS_profileID];
 };
 
+if (not isDedicated) then {
+    // this has to be scheduled because the server is waiting for clients.
+	[] execVM "initialization\client.sqf";
+} else {
+    call compile preProcessFileLineNumbers "initialization\headlessClient.sqf";
+};
 if isServer then {
 	call compile preProcessFileLineNumbers "initialization\server.sqf";
 };
-if (not isServer and isDedicated) then {
-	call compile preProcessFileLineNumbers "initialization\headlessClient.sqf";
-} else {
-	// this has to be scheduled because the server is waiting for clients.
-	[] execVM "initialization\client.sqf";
-}
