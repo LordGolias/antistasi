@@ -110,7 +110,9 @@ if (isServer) then {
 
 	// Stores everything related to what units and squads the FIA can recruit (and costs)
 	AS_FIArecruitment = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
+	publicVariable "AS_FIArecruitment";
 	AS_data_allCosts = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
+	publicVariable "AS_data_allCosts";
 };
 
 call compile preprocessFileLineNumbers "templates\FIA.sqf";
@@ -294,6 +296,7 @@ call AS_fnc_HQdeploy;
 
 // The max skill that AAF or FIA can have (BE_module).
 AS_maxSkill = 20;
+publicVariable "AS_maxSkill";
 
 // BE_modul handles all the permissions e.g. to build roadblocks, skill, etc.
 #include "Scripts\BE_modul.sqf"

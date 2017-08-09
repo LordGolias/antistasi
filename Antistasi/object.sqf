@@ -33,11 +33,6 @@ AS_fnc_container_exists = {
 
 AS_fnc_object_exists = {
     params ["_container", "_object"];
-
-    if not (_container call AS_fnc_container_exists) exitWith {
-        diag_log format ["[AS] Error: AS_fnc_object_exists: container '%1' does not exist", _container];
-        false
-    };
     _object in (_container call AS_fnc_objects)
 };
 
@@ -45,12 +40,12 @@ AS_fnc_object_get = {
     params ["_container", "_object", "_property"];
 
     if not ([_container, _object] call AS_fnc_object_exists) exitWith {
-        diag_log format ["[AS] Error: AS_fnc_object_get: object '%1' does not exist in container '%2'", _object, _container];
+        diag_log format ["[AS] Error: object_get(%1,%2,%3): object '%2' does not exist in container '%1'. Valid objects: %4", _container, _object, _property, _container call AS_fnc_objects];
     };
 
     private _properties = [_container, _object] call AS_fnc_object_properties;
     if not (_property in _properties) exitWith {
-        diag_log format ["[AS] Error: object_get: property '%1' does not exist for object '%2' in container '%3'. Valid properties: %4", _property, _object, _container, _properties];
+        diag_log format ["[AS] Error: object_get(%1,%2,%3): property '%3' does not exist for object '%2' in container '%1'. Valid properties: %4", _container, _object, _property, _properties];
     };
 
     (AS_containers getVariable _container) getVariable (_object + "_" + _property)
@@ -74,7 +69,7 @@ AS_fnc_object_properties = {
     params ["_container", "_object"];
 
     if not ([_container, _object] call AS_fnc_object_exists) exitWith {
-        diag_log format ["[AS] Error: AS_fnc_object_properties: object '%1' does not exist in container %2", _object, _container];
+        diag_log format ["[AS] Error: object_properties: object '%1' does not exist in container %2", _object, _container];
         []
     };
     (AS_containers getVariable _container) getVariable (_object + "_" + "_properties")
@@ -104,7 +99,7 @@ AS_fnc_container_add = {
     AS_containers setVariable ["_all", _containers, true];
     private _containerObj = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
     AS_containers setVariable [_container, _containerObj, true];
-    _containerObj setVariable ["_all", []];
+    _containerObj setVariable ["_all", [], true];
 };
 
 AS_fnc_container_remove = {
@@ -122,6 +117,8 @@ AS_fnc_container_remove = {
 // Third argument (_isGlobal) makes the object either local or global (default is local).
 AS_fnc_object_add = {
     params ["_container", "_object", ["_isGlobal", false]];
+    waitUntil {isNil "AS_object__all"};
+    AS_object__all = true;
     private _objects = _container call AS_fnc_objects;
 
     if (_object in _objects) exitWith {
@@ -135,6 +132,7 @@ AS_fnc_object_add = {
     (AS_containers getVariable _container) setVariable ["_all", _objects, _isGlobal];
     (AS_containers getVariable _container) setVariable [_object + "_" + "_properties", ["_properties"], _isGlobal];
 
+    AS_object__all = nil;
     // _isGlobal has to be the first property set so next ones are already set correctly.
     [_container, _object, "_isGlobal", _isGlobal] call AS_fnc_object_set;
 };
@@ -142,6 +140,8 @@ AS_fnc_object_add = {
 // Sets a property of an object
 AS_fnc_object_set = {
     params ["_container", "_object", "_property", "_value"];
+    waitUntil {isNil "AS_object__all"};
+    AS_object__all = true;
 
     if (_property != "_isGlobal" and (_property find "_") == 0) exitWith {
         diag_log format ["[AS] Error: object_set: properties cannot start with '_' but '%1' does (%2, %3, %4).", _property, _container, _object, _value];
@@ -163,11 +163,14 @@ AS_fnc_object_set = {
     _properties pushBack _property;
     (AS_containers getVariable _container) setVariable [_object + "_" + "_properties", _properties, _isGlobal];
     (AS_containers getVariable _container) setVariable [_object + "_" + _property, _value, _isGlobal];
+    AS_object__all = nil;
 };
 
 // deletes a property of an object
 AS_fnc_object_del = {
     params ["_container", "_object", "_property"];
+    waitUntil {isNil "AS_object__all"};
+    AS_object__all = true;
 
     if (_property find "_" == 0) exitWith {
         diag_log format ["[AS] Error: object_del: properties cannot start with '_' but '%1' does.", _property];
@@ -181,12 +184,15 @@ AS_fnc_object_del = {
     _properties = _properties - [_property];
     (AS_containers getVariable _container) setVariable [_object + "_" + "_properties", _properties, _isGlobal];
     (AS_containers getVariable _container) setVariable [_object + "_" + _property, nil, _isGlobal];
+    AS_object__all = nil;
 };
 
 // removes an object.
 AS_fnc_object_remove = {
     params ["_container", "_object"];
     private _objects = _container call AS_fnc_objects;
+    waitUntil {isNil "AS_object__all"};
+    AS_object__all = true;
 
     if !(_object in _objects) exitWith {
         diag_log format ["[AS] Error: object_remove: object '%1' cannot be removed from container '%2' because it does not exist.", _object, _container];
@@ -201,6 +207,7 @@ AS_fnc_object_remove = {
     // itself
     (AS_containers getVariable _container) setVariable ["_all", _objects - [_object], _isGlobal];
     (AS_containers getVariable _container) setVariable [_object + "_" + "_properties", nil, _isGlobal];
+    AS_object__all = nil;
 };
 
 ////////////////////////////////// Persistent ////////////////////////////////

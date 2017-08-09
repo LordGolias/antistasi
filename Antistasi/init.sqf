@@ -12,8 +12,10 @@ if (not isDedicated) then {
     // this has to be scheduled because the server is waiting for clients.
 	[] execVM "initialization\client.sqf";
 } else {
-    call compile preProcessFileLineNumbers "initialization\headlessClient.sqf";
+    if not isServer then {
+        [] execVM "initialization\headlessClient.sqf";
+    };
 };
 if isServer then {
-	call compile preProcessFileLineNumbers "initialization\server.sqf";
+	[] execVM "initialization\server.sqf";
 };

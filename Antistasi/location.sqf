@@ -400,13 +400,6 @@ AS_fnc_location_addHills = {
         ["Hill"], 25000]);
 };
 
-// Creates all shown markers in the map.
-AS_fnc_location_updateMarkers = {
-    {
-        _x call AS_fnc_location_updateMarker;
-    } forEach (call AS_fnc_locations);
-};
-
 // Updates location's public marker, creating a new marker if needed.
 AS_fnc_location_updateMarker = {
     params ["_location"];
