@@ -48,7 +48,7 @@ if (_ai) then {
 	private _cargo_b = [[], []];
 	{
 		private _unit = _x;
-		if ((alive _unit) and (not(_x getVariable "inconsciente"))) then {
+		if ((alive _unit) and (not(_x call AS_fnc_isUnconscious))) then {
 			_resourcesFIA = _resourcesFIA + (AS_data_allCosts getVariable ([_unit] call AS_fnc_getFIAUnitNameType));
 			_hr = _hr + 1;
 

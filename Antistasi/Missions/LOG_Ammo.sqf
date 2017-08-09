@@ -1,101 +1,83 @@
-if (!isServer and hasInterface) exitWith{};
-params ["_location", "_source"];
+params ["_mission"];
+private _location = _mission call AS_fnc_mission_location;
+private _position = _location call AS_fnc_location_position;
 
-private _posicion = _location call AS_fnc_location_position;
-private _nombredest = [_location] call localizar;
 private _size = _location call AS_fnc_location_size;
 
-_tskTitle = localize "STR_tsk_logAmmo";
-_tskDesc = localize "STR_tskDesc_logAmmo";
+private _tiempolim = 60;  // 1h
+private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
+private _fechalimnum = dateToNumber _fechalim;
 
-private ["_pos","_camion","_camionCreado","_grupo","_grupo1","_mrk"];
+private _tskTitle = localize "STR_tsk_logAmmo";
+private _tskDesc = format [localize "STR_tskDesc_logAmmo", [_location] call localizar, numberToDate [2035,_fechalimnum] select 3, numberToDate [2035,_fechalimnum] select 4];
 
-_tiempolim = 60;
-_fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
-_fechalimnum = dateToNumber _fechalim;
+private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"CREATED",5,true,true,"rearm"] call BIS_fnc_setTask;
 
-_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
-	_tskTitle,_location],_posicion,"CREATED",5,true,true,"rearm"] call BIS_fnc_setTask;
-misiones pushBack _tsk; publicVariable "misiones";
-_camionCreado = false;
+private _groups = [];
+private _vehicles = [];
+private _markers = [];
 
-waitUntil {sleep 1;(dateToNumber date > _fechalimnum) or (_location call AS_fnc_location_spawned)};
+private _fnc_clean = {
+	[_groups, _vehicles, _markers] call AS_fnc_cleanResources;
+	sleep 30;
+    [_task] call BIS_fnc_deleteTask;
+    _mission call AS_fnc_mission_completed;
+};
 
-if (_location call AS_fnc_location_spawned) then
-	{
-	sleep 10;
-	while {true} do {
-		_pos = _posicion findEmptyPosition [10,_size, vehAmmo];
-		if (count _pos > 0) exitWith {};
-		_size = _size + 20
+private _fnc_missionFailedCondition = {dateToNumber date > _fechalimnum};
+
+private _fnc_missionFailed = {
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"FAILED",5,true,true,"rearm"] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
+	call _fnc_clean;
+};
+
+waitUntil {sleep 1;False or _fnc_missionFailedCondition or (_location call AS_fnc_location_spawned)};
+
+if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
+
+private _pos = [];
+while {count _pos > 0} do {
+	_pos = _position findEmptyPosition [10,_size, vehAmmo];
+	_size = _size + 20
+};
+
+private _truck = vehAmmo createVehicle _pos;
+_vehicles pushBack _truck;
+[_truck, "Convoy"] call AS_fnc_fillCrateAAF;
+
+// patrol marker. To be deleted in the end
+private _mrk = createMarkerLocal [format ["%1patrolarea", floor random 100], _pos];
+_mrk setMarkerShapeLocal "RECTANGLE";
+_mrk setMarkerSizeLocal [20,20];
+_mrk setMarkerTypeLocal "hd_warning";
+_mrk setMarkerColorLocal "ColorRed";
+_mrk setMarkerBrushLocal "DiagGrid";
+_mrk setMarkerAlphaLocal 0;
+
+// patrol groups
+for "_i" from 1 to (2 + floor random 3) do {
+	private _tipoGrupo = [infGarrisonSmall, side_green] call fnc_pickGroup;
+	private _group = [_pos, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+	_groups append _group;
+	if (random 10 < 33) then {
+		private _perro = _group createUnit ["Fin_random_F",_pos,[],0,"FORM"];
+		[_perro] call guardDog;
 	};
-	_camion = vehAmmo createVehicle _pos;
-	_camionCreado = true;
-	[_camion, "Convoy"] call AS_fnc_fillCrateAAF;
+	[leader _group, _mrk, "SAFE","SPAWNED", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+	{[_x, false] call AS_fnc_initUnitAAF} forEach units _group;
+};
 
-	_mrk = createMarkerLocal [format ["%1patrolarea", floor random 100], _pos];
-	_mrk setMarkerShapeLocal "RECTANGLE";
-	_mrk setMarkerSizeLocal [20,20];
-	_mrk setMarkerTypeLocal "hd_warning";
-	_mrk setMarkerColorLocal "ColorRed";
-	_mrk setMarkerBrushLocal "DiagGrid";
-	_mrk setMarkerAlphaLocal 0;
+private _fnc_missionSuccessfulCondition = {({_x getVariable ["BLUFORSpawn",false]} count crew _truck > 0)};
 
-	_tipoGrupo = [infGarrisonSmall, side_green] call fnc_pickGroup;
-	_grupo = [_pos, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-	sleep 1;
-	if (random 10 < 33) then
-		{
-		_perro = _grupo createUnit ["Fin_random_F",_posicion,[],0,"FORM"];
-		[_perro] spawn guardDog;
-		};
+private _fnc_missionSuccessful = {
+	[position _truck] spawn patrolCA;
+	_task = [_mission, [side_blue,civilian], [_tskDesc,_tskTitle,_location], _position, "SUCCEEDED",5,true,true,"rearm"] call BIS_fnc_setTask;
+	[_mission, getPos _truck] remoteExec ["AS_fnc_mission_success", 2];
 
-	[leader _grupo, _mrk, "SAFE","SPAWNED", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+	call _fnc_clean;
+};
 
-	_grupo1 = [_pos, side_green, _tipoGrupo] call BIS_Fnc_spawnGroup;
-	sleep 1;
-	[leader _grupo1, _mrk, "SAFE","SPAWNED", "NOVEH2"] execVM "scripts\UPSMON.sqf";
+_fnc_missionFailedCondition = {(not alive _truck) or {dateToNumber date > _fechalimnum}};
 
-	{[_x, false] spawn AS_fnc_initUnitAAF} forEach units _grupo;
-	{[_x, false] spawn AS_fnc_initUnitAAF} forEach units _grupo1;
-
-	waitUntil {sleep 1; (not alive _camion) or (dateToNumber date > _fechalimnum) or ({_x getVariable ["BLUFORSpawn",false]} count crew _camion > 0)};
-
-	if (dateToNumber date > _fechalimnum) then
-		{
-		_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
-			_tskTitle,_location],_posicion,"FAILED",5,true,true,"rearm"] call BIS_fnc_setTask;
-		[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-		[-10,AS_commander] call playerScoreAdd;
-		};
-	if ((not alive _camion) or ({_x getVariable ["BLUFORSpawn",false]} count crew _camion > 0)) then
-		{
-		[position _camion] spawn patrolCA;
-		_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
-			_tskTitle,_location],_posicion,"SUCCEEDED",5,true,true,"rearm"] call BIS_fnc_setTask;
-		[0,300] remoteExec ["resourcesFIA",2];
-		[1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-		{if (_x distance _camion < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-		[5,AS_commander] call playerScoreAdd;
-		["mis"] remoteExec ["fnc_BE_XP", 2];
-		};
-	}
-else
-	{
-	_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4],
-		_tskTitle,_location],_posicion,"FAILED",5,true,true,"rearm"] call BIS_fnc_setTask;
-	[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-	[-10,AS_commander] call playerScoreAdd;
-	};
-
-[1200,_tsk] spawn borrarTask;
-if (_camionCreado) then
-	{
-	{deleteVehicle _x} forEach units _grupo;
-	deleteGroup _grupo;
-	{deleteVehicle _x} forEach units _grupo1;
-	deleteGroup _grupo1;
-	deleteMarker _mrk;
-	waitUntil {sleep 1; not ([300,1,_camion,"BLUFORSpawn"] call distanceUnits)};
-	deleteVehicle _camion;
-	};
+[_fnc_missionFailedCondition, _fnc_missionFailed, _fnc_missionSuccessfulCondition, _fnc_missionSuccessful] call AS_fnc_oneStepMission;

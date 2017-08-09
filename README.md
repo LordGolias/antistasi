@@ -15,8 +15,9 @@ This modified version has the same mechanics and the same features but improves 
 * There is no "petros cavalary": this is the commander's responsibility.
 * Menus were remade from scratch to better accommodate more buttons and other layouts.
 * Locations backend was rewritten from scratch.
+* Missions backend was rewritten from scratch.
 
-The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 line added, 2 lines were deleted, I have +4 years experience as professional programer).
+The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 line added, 2 lines were deleted, I have +4 years experience as professional programmer).
 
 # Mod support
 
@@ -36,9 +37,9 @@ or `templates/CSAT.sqf` (for CSAT)
 
 Essentially, our code detects every unit from that faction, and populates
 the correct lists with the equipment (weapons, items, vests, etc.) that the units use.
-This way, you only need to focus on adding vehicles, groups and units; the rest is automatic.
+This way, you only need to focus on adding vehicles, groups and units; the remaining is automatic.
 
-In the vanilla version, everything related to AAF is only defined in `templates/AAF.sqf`.
+Everything related to the faction AAF is defined only in `templates/AAF.sqf`.
 
 # Replacing Worlds
 
@@ -49,12 +50,6 @@ This version supports easy replacement of worlds. Use the following steps:
 3. Create markers on different points of interest. These can be airfields, bases, etc.
 The markers names must start with "AS_airfield", "AS_base", etc.
 2. Add markers to it.
-
-Essentially, our code detects every unit from that faction, and populates
-the correct lists with the equipment (weapons, items, vests, etc.) that the units use.
-This way, you only need to focus on adding vehicles, groups and units; the rest is automatic.
-
-In the vanilla version, everything related to AAF is only defined in `templates/AAF.sqf`.
 
 # Development
 
@@ -77,10 +72,9 @@ Steps after installing the software above:
     4. tick the option `Save settings on exit`, untick `Bidirectional sync` and tick `realtime sync`
     5. When asked to sync first time, say yes.
 
-Step 4. guarantees that when you modify the source code in directory SOURCE (tracked by git), the files are automatically copied to the destination, and
-are therefore available to test on Arma 3 Eden editor.
+Step 4. guarantees that when you modify the source code in directory SOURCE (tracked by git), the files are automatically copied to the destination, and are therefore available to test on Arma 3 Eden editor.
 
-Lets test that everything works:
+Test that everything works:
 
 1. Open the Eden editor (on profile `antistasi_edit`), and the text editor on directory X.
 2. Start the preview. The mission should start as normal.
@@ -167,7 +161,7 @@ _side = [_location,"side","AAF"] call AS_fnc_location_set;
 [_marker,"roadblock"] call AS_fnc_location_add;
 [_marker,"side","FIA"] call AS_fnc_location_set;
 // ...
-_marker call AS_fnc_location_delete;
+_marker call AS_fnc_location_remove;
 ```
 
 * list locations of a certain type or side:
@@ -188,8 +182,8 @@ _type = _location call AS_fnc_location_type;
 hint str (_type call AS_fnc_location_properties);
 ```
 
-Internally, all information about the locations is stored in the logic
-`AS_location`, but you should not access its data directly: use `AS_fnc_location_*`.
+Internally, locations uses the component `AS_object` (`object.sqf`), that is responsible
+for persistency and data consistency. Use only `AS_fnc_location_*` to interact with them.
 The functions in `location.sqf` are documented, so you can learn which they are
 and what they do.
 
@@ -210,6 +204,98 @@ are converted to locations using the following convention
 
 Cities (`"city"`) and hills (`"hill","hillAA"`) are initialized differently,
 see `templates/world_altis.sqf` to learn how.
+
+### Roadblocks
+
+A particular type of location is the roadblock. The roadblocks are placed
+on the map during initialization using the markers `"AS_roadblock"` and
+from the script `location.sqf/AS_fnc_location_addAllRoadblocks`.
+Whenever a location is taken, roadblocks for that location are created/destroyed.
+
+## FIA HQ
+
+The FIA HQ is a location (called `FIA_HQ`) always controlled by FIA.
+The following scripts are relevant to change its position:
+
+- `fnc_HQselect.sqf`: client script to choose a position for the HQ
+- `fnc_HQplace.sqf`: teleport FIA HQ to a given location (initially-place or rebuild)
+- `fnc_HQdeploy.sqf`: places permanent HQ structures in FIA HQ position
+- `fnc_HQmove.sqf`: make petros join commander's group and allow the commander to use `fnc_HQbuild.sqf`
+- `fnc_HQbuild.sqf`: spawn the FIA HQ in petros current location (move the HQ)
+
+3 different events can cause the HQ to change position:
+- initial placement: execute `fnc_HQselect.sqf` which then calls `fnc_HQplace.sqf`
+- Commander chooses to move the HQ: execute `fnc_HQmove.sqf` and then `fnc_HQbuild.sqf`
+- HQ is destroyed: execute `fnc_HQselect.sqf` which then calls `fnc_HQplace.sqf`
+
+Both `fnc_HQbuild.sqf` and `fnc_HQplace.sqf` call `fnc_HQdeploy.sqf` to position the permanent structures.
+
+The HQ also has objects that can be spawned by the commander. The scripts that handle these are:
+
+- `fnc_HQaddObject.sqf`: adds or delete a HQ object.
+
+Other related functions:
+
+- `statSave/saveFuncs.sqf/AS_fnc_saveHQ`: persistently save the HQ objects
+- `statSave/saveFuncs.sqf/AS_fnc_loadHQ`: persistently load the HQ objects
+- `AS_fnc_initPetros.sqf`: restart petros (creates a new petros unit)
+
+Related globals:
+
+- `AS_permanent_HQplacements`: all permanent HQ objects (e.g. caja)
+- `AS_HQ_placements`: all non-permanent HQ objects (e.g. sandbags)
+
+## Missions
+
+A mission is a persistent data structure that has a `type` (e.g. `kill_officer`),
+a `status` (e.g. `available`), and other properties. These properties are used
+to call scripts that start a scripted set of events with tasks for the players.
+Every script is stored in the directory `Missions/`, and the API to
+create, start, and cancel missions is defined in `Missions/mission.sqf`.
+For example, to create the mission to `kill_officer` in city `_cityName`, use
+
+```
+// create and save it persistently
+["kill_officer", _cityName] call AS_fnc_mission_add;
+// spawn its script
+"kill_officer" call AS_fnc_mission_activate;
+...
+// delete it (do not do it until the script finishes):
+"kill_officer" call AS_fnc_mission_remove;
+```
+
+## Player's score, rank and eligibility to command
+
+Every player has a score that allows him become commander (`player getVariable "score"`)
+
+The score is modified (increase or decrease) by:
+- kill enemies/friends/civilians
+- complete/fail missions
+- conquer/lose locations
+
+The (server) script that changes a player's score is `orgPlayers/fnc_changePlayerScore.sqf`.
+
+Score defines the rank of the player. Rank is the indicator of the player's score
+and is updated on the client side periodically by `Scripts/rankCheck.sqf` (`player getVariable "rank"`).
+
+Players can decide to become eligible to be commander (`AS_fncUI_toggleElegibility`).
+Only eligible players can become commanders.
+The choice of the commander happens in any of the following situations:
+
+- the commander resigns (`AS_fncUI_toggleElegibility`)
+- the commander disconnects
+- periodically
+
+The script `orgPlayers/fnc_chooseCommander.sqf` makes this choice. When it is called,
+players are ranked by score and the highest player with more than 20% of the current commander's score
+becomes the new commander. In case the commander resigns or disconnects, the highest scored player becomes
+the new commander. Commander is set using `orgPlayers/fnc_setCommander.sqf`.
+
+## Player's money
+
+Every player has money (`player getVariable "money"`) that it can spend to buy vehicles, units, or score.
+Players donate money to other players or to FIA (gaining score) via a menu.
+The commander can take money from FIA via a menu (losing score).
 
 ## Vehicles
 
@@ -232,8 +318,8 @@ The AAF attacks from time to time. The relevant variable that controls this is t
 `AS_P("secondsForAAFattack")`. This variable is modified via `fnc_changeSecondsForAAFattack`.
 The script that starts attacks is the `ataqueAAF.sqf`. It is run from the loop in `resourcecheck.sqf`
 when `AS_P("secondsForAAFattack") == 0`. `ataqueAAF.sqf` checks whether it is worth to attack
-a given location, and, if yes, it spawns the attack accordingly using `CSATpunish.sqf` (for cities),
-`combinedCA.sqf` (for other locations), and `Mission/CONVOY.sqf` (when no locations are available to attack).
+a given location, and, if yes, it spawns the attack accordingly using `CSATpunish.sqf` (for cities)
+and `combinedCA.sqf` (for other locations).
 
 ## Minefields
 
@@ -250,4 +336,22 @@ Relevant scripts:
 * `Functions/fnc_addMinefield.sqf`: adds a new minefield
 * `Functions/fnc_deployAAFminefield.sqf`: tries to find a suitable position and creates an AAF minefield (called by `AAFeconomics.sqf`).
 * `Functions/fnc_deployFIAminefield.sqf`: interface for the player to choose a position and mine positions to place a minefield (it creates a mission).
-* `REINF\missionFIAminefield.sqf`: the mission that creates a FIA minefield
+* `Missions\missionFIAminefield.sqf`: the mission that creates a FIA minefield
+
+## Actions
+
+Most actions consequences are defined in directory `actions/`.
+The list of custom actions is defined in `AS_fnc_addAction`.
+To add one of these actions to all players (from server or client) use
+
+```
+[[_object,"actionName"],"AS_fnc_addAction"] call BIS_fnc_MP;
+```
+
+To add an action to a specific player/client, locally run
+
+```
+_object AS_fnc_addAction "actionName";
+```
+
+To remove actions, use the same function with the action name `"remove"`.

@@ -41,7 +41,7 @@ private _tempPos = [];
 // spawn crew for statics
 {
 	// AAs are not spawned below 50
-	if (AS_P("prestigeNATO") < 50 and (typeOf _x in bluStatAA)) then {
+	if (AS_P("NATOsupport") < 50 and (typeOf _x in bluStatAA)) then {
 		_x enableSimulation false;
 	    _x hideObjectGlobal true;
 	} else {
@@ -91,7 +91,7 @@ waitUntil {sleep 1;
 
 // Lost the outpost
 if (call _fnc_isDestroyed) then {
-	_location call AS_fnc_location_delete;
+	_location call AS_fnc_location_remove;
 	[5,-5,_posicion] remoteExec ["citySupportChange",2];
 	[["TaskFailed", ["", "Roadblock Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 };

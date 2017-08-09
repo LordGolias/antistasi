@@ -5,7 +5,7 @@ call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 // Variables that are persistent to `AS_persistent`. They are saved and loaded accordingly.
 // Add variables here that you want to save.
 AS_serverVariables = [
-	"prestigeNATO", "prestigeCSAT", "resourcesAAF", "resourcesFIA", "skillFIA", "skillAAF", "hr",  // FIA attributes
+	"NATOsupport", "CSATsupport", "resourcesAAF", "resourcesFIA", "skillFIA", "skillAAF", "hr",  // FIA attributes
 	"civPerc", "spawnDistance", "minimumFPS", "cleantime",  // game options
 	"secondsForAAFAttack", "destroyedLocations", "vehiclesInGarage", "destroyedBuildings"
 ];
@@ -106,15 +106,9 @@ AS_fnc_saveHQ = {
 	[_saveName, "HQPermanents", _array] call fn_SaveStat;
 
 	_array = [];
-	if (!isNil "AS_HQ_placements") then {
-		{
-			// save stuff only close to the HQ.
-			private _pos = getPos _x;
-			if (_pos distance (getMarkerPos "FIA_HQ") < 50) then {
-				_array pushback [_pos, getDir _x, typeOf _x];
-			};
-		} forEach AS_HQ_placements;
-	};
+	{
+		_array pushback [getPos _x, getDir _x, typeOf _x];
+	} forEach AS_HQ_placements;
 	[_saveName, "HQPlacements", _array] call fn_SaveStat;
 
 	[_saveName, "HQinflamed", inflamed fuego] call fn_Savestat;
@@ -122,7 +116,7 @@ AS_fnc_saveHQ = {
 
 AS_fnc_loadHQ = {
 	params ["_saveName"];
-	petros setPos ("FIA_HQ" call AS_fnc_location_position);
+	call AS_fnc_initPetros;
 
 	private _array = [_saveName, "HQPermanents"] call AS_fnc_LoadStat;
 	for "_i" from 0 to count AS_permanent_HQplacements - 1 do {
@@ -132,19 +126,18 @@ AS_fnc_loadHQ = {
 
 	fuego inflame ([_saveName, "HQinflamed"] call AS_fnc_LoadStat);
 
-	// this is modified only by moveObject.sqf
-	AS_HQ_placements = [];
+	"delete" call AS_fnc_HQaddObject;
 	_array = [_saveName, "HQPlacements"] call AS_fnc_LoadStat;
-	for "_i" from 0 to count _array - 1 do {
-		private _item = ((_array select _i) select 2) createVehicle ((_array select _i) select 0);
-		_item setDir ((_array select _i) select 1);
-		AS_HQ_placements pushBack _item;
-	};
-	publicVariable "AS_HQ_placements";
+	{
+		_x params ["_pos", "_dir", "_type"];
+		private _obj = _type createVehicle _pos;
+		_obj setDir _dir;
+		AS_HQ_placements pushBack _obj;
+	} forEach _array;
 
 	placementDone = true; publicVariable "placementDone";
-	[[petros,"remove"],"flagaction"] call BIS_fnc_MP;
-	[[petros,"mission"], "flagaction"] call BIS_fnc_MP;
+	[[petros,"remove"],"AS_fnc_addAction"] call BIS_fnc_MP;
+	[[petros,"mission"], "AS_fnc_addAction"] call BIS_fnc_MP;
 };
 
 fn_SaveStat = AS_fnc_SaveStat;  // to be replaced in whole project.
@@ -152,30 +145,9 @@ fn_LoadStat = AS_fnc_LoadStat;  // to be replaced in whole project.
 
 fn_SaveProfile = {saveProfileNamespace};
 
-AS_fnc_saveMarkers = {
-	params ["_saveName"];
-	[_saveName, "deadAntennas", antenasmuertas] call fn_SaveStat;
-};
-
-AS_fnc_loadMarkers = {
-	params ["_saveName"];
-
-	antenasmuertas = [_saveName, "deadAntennas"] call fn_LoadStat;
-	// destroy dead antennas and remove respective marker.
-	// antenasmuertas is a list of positions, not markers.
-	{
-		private _mrk = [mrkAntenas, _x] call BIS_fnc_nearestPosition;
-		private _antena = [antenas, _mrk] call BIS_fnc_nearestPosition;
-		antenas = antenas - [_antena];
-		_antena removeAllEventHandlers "Killed";
-		_antena setDamage 1;
-		deleteMarker _mrk;
-	} forEach antenasmuertas;
-};
-
 //===========================================================================
 // Variables that require scripting after loaded. See fn_SetStat.
-specialVarLoads = ["fecha","tasks"];
+specialVarLoads = ["fecha"];
 
 // global variables that are set to be publicVariable on loading.
 AS_publicVariables = ["miembros"];
@@ -189,26 +161,6 @@ fn_SetStat = {
 	if(_varName in specialVarLoads) then {
 		call {
 			if(_varName == 'fecha') exitWith {setDate _varValue; forceWeatherChange};
-			if(_varname == 'tasks') exitWith
-				{
-				{
-				if (_x == "AtaqueAAF") then
-					{
-					[] call ataqueAAF;
-					}
-				else
-					{
-					if (_x == "DEF_HQ") then
-						{
-						[] spawn ataqueHQ;
-						}
-					else
-						{
-						[_x,true] call missionRequest;
-						};
-					};
-				} forEach _varvalue;
-				};
 		};
 	}
 	else

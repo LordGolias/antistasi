@@ -308,7 +308,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={21352.904,18.805365,7365.0918};
-			name="control";
+			name="AS_roadblock";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -972,7 +972,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={20225.459,51.926247,9764.0469};
-			name="control_1";
+			name="AS_roadblock_1";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -984,7 +984,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={18686.242,33.419968,12984.817};
-			name="control_2";
+			name="AS_roadblock_2";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -996,7 +996,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={17395.725,6.8728871,13678.938};
-			name="control_3";
+			name="AS_roadblock_3";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1008,7 +1008,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={16243.763,10.627922,16035.776};
-			name="control_4";
+			name="AS_roadblock_4";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1020,7 +1020,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={15912.838,14.831045,17419.23};
-			name="control_5";
+			name="AS_roadblock_5";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1032,7 +1032,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={20606.404,30.147467,16434.098};
-			name="control_6";
+			name="AS_roadblock_6";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1044,7 +1044,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={23392.266,12.817312,19781.82};
-			name="control_7";
+			name="AS_roadblock_7";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1056,7 +1056,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={26138.971,29.33642,21649.521};
-			name="control_8";
+			name="AS_roadblock_8";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1068,7 +1068,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={26972.438,11.84,23794.695};
-			name="control_9";
+			name="AS_roadblock_9";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1080,7 +1080,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={20859.186,39.916412,18130.299};
-			name="control_10";
+			name="AS_roadblock_10";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1092,7 +1092,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={22409.627,14.53,18546.168};
-			name="control_11";
+			name="AS_roadblock_11";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1104,7 +1104,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={14299.023,28.816759,19459.014};
-			name="control_12";
+			name="AS_roadblock_12";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1116,7 +1116,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={12457.554,20.109625,15881.864};
-			name="control_13";
+			name="AS_roadblock_13";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1128,7 +1128,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={6779.8569,47.131229,15767.385};
-			name="control_14";
+			name="AS_roadblock_14";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1140,7 +1140,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={5196.5117,18.511513,14484.832};
-			name="control_15";
+			name="AS_roadblock_15";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1152,7 +1152,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4218.6943,46.132374,12250.941};
-			name="control_16";
+			name="AS_roadblock_16";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1164,7 +1164,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={3075.3669,11.887937,12245.063};
-			name="control_17";
+			name="AS_roadblock_17";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1176,7 +1176,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4161.3164,71.182114,15725.689};
-			name="control_18";
+			name="AS_roadblock_18";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1188,7 +1188,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={7335.7158,154.97171,17096.492};
-			name="control_19";
+			name="AS_roadblock_19";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";
@@ -1620,7 +1620,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={7361.7524,6.9700465,11000.5};
-			name="control_20";
+			name="AS_roadblock_20";
 			markerType="RECTANGLE";
 			type="Empty";
 			colorName="ColorPink";

@@ -80,17 +80,18 @@ else {
 	[] execVM "playerMarkers.sqf";
 };
 
+autoHeal = true;
+
 disableUserInput false;
 MIASquadUnits = creategroup WEST;  // units that are not in the squad because they lost communication with the player (no radio).
 player setvariable ["compromised", 0];  // Used by undercover mechanics
-player setVariable ["owner",player,true];  // used to gain temporary control over other units (player != player getVariabe ["owner", player])
 player setVariable ["punish",0,true];  // punish time for Team kill
-player setVariable ["dinero",100,true];  // initial money
+player setVariable ["money",100,true];  // initial money
 player setVariable ["BLUFORSpawn",true,true];  // means that the unit triggers spawn of zones.
-player setUnitRank "PRIVATE";
-player setVariable ["rango",rank player,true];  // todo: check that this is really necessary.
+player setUnitRank (AS_ranks select 0);
+player setVariable ["rank", (AS_ranks select 0), true];
 private _score = 0;
-if (player==AS_commander) then {_score = 25};
+if (player == AS_commander) then {_score = 25}; // so the commander does not lose the position immediately.
 player setVariable ["score", _score, true];
 
 if (isMultiplayer) then {
@@ -126,7 +127,6 @@ player addEventHandler ["GetInMan", {
 		};
 		if (_veh isKindOf "Truck_F") then {
 			if ((not (_veh isKindOf "C_Van_01_fuel_F")) and (not (_veh isKindOf "I_Truck_02_fuel_F")) and (not (_veh isKindOf "B_G_Van_01_fuel_F"))) then {
-				//if (_this select 1 == "driver") then {[_unit,"camion"] call flagaction};
 				if (_this select 1 == "driver") then {
 					private _EHid = _unit addAction [localize "STR_act_loadAmmobox", "Municion\transfer.sqf",nil,0,false,true];
 					_unit setVariable ["transferID", _EHid, true];
@@ -169,19 +169,15 @@ if (_isJip) then {
 			};
 		};
 		if ({[_x] call isMember} count playableUnits == 1) then {
-			[player] call stavrosInit;
-			[] remoteExec ["assignStavros",2];
+			[] remoteExec ["AS_fnc_chooseCommander", 2];
 		};
 	};
 
 	{
 	if (_x isKindOf "FlagCarrier") then {
-		private _location = [call AS_fnc_location_all, getPos _x] call BIS_fnc_nearestPosition;
+		private _location = [call AS_fnc_locations, getPos _x] call BIS_fnc_nearestPosition;
 		if !((_location call AS_fnc_location_type) in ["hill", "roadblock"]) then {
-			if (_location call AS_fnc_location_side == "AAF") then {
-				_x addAction [localize "STR_act_takeFlag", {[[_this select 0, _this select 1],"mrkWIN"] call BIS_fnc_MP;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
-			}
-			else {
+			if (_location call AS_fnc_location_side == "FIA") then {
 				_x addAction [localize "STR_act_recruitUnit", {call AS_fncUI_RecruitUnitMenu;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
 				_x addAction [localize "STR_act_buyVehicle", {call AS_fncUI_buyVehicleMenu;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
 				_x addAction [localize "STR_act_persGarage", {nul = [true] spawn garage},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
@@ -242,25 +238,30 @@ if (hayTFAR or hayACE or hayRHS) then {
 };
 
 removeAllActions caja;
-caja addaction [localize "STR_act_arsenal", {_this call accionArsenal;}, [], 6, true, false, "", "(isPlayer _this) and (_this == _this getVariable ['owner',objNull])",5];
-caja addAction [localize "STR_act_unloadCargo", "[] call vaciar"];
-caja addAction [localize "STR_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == AS_commander)"];
+[caja,"arsenal"] call AS_fnc_addAction;
+[caja,"emptyCrate"] call AS_fnc_addAction;
 
-mapa addAction [localize "str_act_gameOptions", {CreateDialog "game_options_commander";},nil,0,false,true,"","(isPlayer _this) and (_this == AS_commander) and (_this == _this getVariable ['owner',objNull])"];
-mapa addAction [localize "str_act_gameOptions", {CreateDialog "game_options_player";},nil,0,false,true,"","(isPlayer _this) and !(_this == AS_commander) and (_this == _this getVariable ['owner',objNull])"];
-mapa addAction [localize "str_act_mapInfo", {[] execVM "cityinfo.sqf";},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
+removeAllActions mapa;
+mapa addAction [localize "str_act_gameOptions", {CreateDialog "game_options_commander";},nil,0,false,true,"","(isPlayer _this) and (_this == AS_commander) and (_this == _this getVariable ['owner',_this])"];
+mapa addAction [localize "str_act_gameOptions", {CreateDialog "game_options_player";},nil,0,false,true,"","(isPlayer _this) and !(_this == AS_commander) and (_this == _this getVariable ['owner',_this])"];
+mapa addAction [localize "str_act_mapInfo", "actions\fnc_location_mapInfo.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',_this])"];
 mapa addAction [localize "str_act_tfar", {CreateDialog "tfar_menu";},nil,0,false,true,"","(isClass (configFile >> ""CfgPatches"" >> ""task_force_radio""))", 5];
-mapa addAction [localize "str_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == AS_commander)", 5];
 
-[[bandera,"unit"],"flagaction"] call BIS_fnc_MP;
-[[bandera,"vehicle"],"flagaction"] call BIS_fnc_MP;
-[[bandera,"garage"],"flagaction"] call BIS_fnc_MP;
+removeAllActions bandera;
+[bandera,"unit"] call AS_fnc_addAction;
+[bandera,"vehicle"] call AS_fnc_addAction;
+[bandera,"garage"] call AS_fnc_addAction;
 
-bandera addAction [localize "str_act_hqOptions",{call AS_fncUI_openHQmenu;},nil,0,false,true,"","(isPlayer _this) and (player == AS_commander) and (_this == _this getVariable ['owner',objNull]) and (petros == leader group petros)"];
+bandera addAction [localize "str_act_hqOptions",{call AS_fncUI_openHQmenu;},nil,0,false,true,"","(isPlayer _this) and (player == AS_commander) and (_this == _this getVariable ['owner',_this]) and (petros == leader group petros)"];
 
-cajaVeh addAction [localize "str_act_healRepair", "healandrepair.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
-cajaVeh addAction [localize "str_act_moveAsset", "moveObject.sqf",nil,0,false,true,"","(_this == AS_commander)",5];
+removeAllActions cajaVeh;
+cajaVeh addAction [localize "str_act_healRepair", "actions\healandrepair.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',_this])"];
 
-fuego addAction [localize "str_act_rest", "skiptime.sqf",nil,0,false,true,"","(_this == AS_commander)"];
+removeAllActions fuego;
+fuego addAction [localize "str_act_rest", "actions\skiptime.sqf",nil,0,false,true,"","(_this == AS_commander)"];
+
+{
+    [_x,"moveObject"] call AS_fnc_addAction;
+} forEach [caja, mapa, bandera, cajaVeh, fuego];
 
 diag_log "[AS] client: ready";

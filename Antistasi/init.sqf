@@ -19,8 +19,6 @@ if (!isMultiPlayer) then {
     call compile preprocessFileLineNumbers "initVar.sqf";
     diag_log "[AS] Server SP: initVar finished";
 
-    call compile preprocessFileLineNumbers "initPetros.sqf";
-
     HCciviles = 2;
     HCgarrisons = 2;
     HCattack = 2;
@@ -42,18 +40,16 @@ if(isNil "AS_profileID") then {
 };
 
 if(isServer) then {
+    {if (not isPlayer _x and side _x == side_blue) then {deleteVehicle _x}} forEach allUnits;
+
 	miembros = [];
     if (serverName in servidoresOficiales) then
         {
 		[] execVM "orgPlayers\mList.sqf";
         ["miembros"] call fn_LoadStat;
         {
-        if (([_x] call isMember) and (isNull AS_commander)) then
-            {
-            AS_commander = _x;
-            _x setRank "LIEUTENANT";
-            [_x,"LIEUTENANT"] remoteExec ["ranksMP"];
-            //_x setVariable ["score", 25,true];
+            if (([_x] call isMember) and (isNull AS_commander)) then {
+                AS_commander = _x;
             };
         } forEach playableUnits;
         publicVariable "AS_commander";
@@ -75,7 +71,7 @@ if(isServer) then {
     publicVariable "miembros";
     fpsCheck = [] execVM "fpsCheck.sqf";
     waitUntil {!(isNil "placementDone")};
-    [caja, 10] call AS_fnc_fillCrateNATO;
+    [caja] call emptyCrate;
     [] spawn AS_fnc_spawnLoop;
     resourcecheck = [] execVM "resourcecheck.sqf";
     if (serverName in servidoresOficiales) then {

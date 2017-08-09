@@ -184,7 +184,7 @@ else
 	_roundsMax = _rounds;
 	};
 
-private _location = [call AS_fnc_location_all,_posicionTel] call BIS_fnc_nearestPosition;
+private _location = [call AS_fnc_locations,_posicionTel] call BIS_fnc_nearestPosition;
 
 private _forcedSpawned = false;
 if !(_location call AS_fnc_location_forced_spawned) then {

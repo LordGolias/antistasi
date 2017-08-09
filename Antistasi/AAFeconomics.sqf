@@ -1,11 +1,10 @@
 #include "macros.hpp"
 AS_SERVER_ONLY("AAFeconomics.sqf");
-private ["_resourcesAAF","_coste","_destroyedCities","_destroyed","_nombre"];
 
 waitUntil {isNil "AS_resourcesIsChanging"};
 AS_resourcesIsChanging = true;
 
-_resourcesAAF = AS_P("resourcesAAF");
+private _resourcesAAF = AS_P("resourcesAAF");
 
 private _debug_prefix = "AAFeconomics: ";
 private _debug_message = format ["Starting to buy with %1", _resourcesAAF];
@@ -17,11 +16,11 @@ call AS_fnc_updateAAFarsenal;
 //////////////// try to restore cities ////////////////
 if (_resourcesAAF > 5000) then {
 	// todo: this only repairs cities. It should repair everything.
-	_destroyedCities = AS_P("destroyedLocations") arrayIntersect (call AS_fnc_location_cities);
+	private _destroyedCities = AS_P("destroyedLocations") arrayIntersect (call AS_fnc_location_cities);
 	private _repaired = [];
 	if (count _destroyedCities > 0) then {
 		{
-			_destroyed = _x;
+			private _destroyed = _x;
 			if ((_resourcesAAF > 5000) and (not(_destroyed call AS_fnc_location_spawned))) then {
 				_resourcesAAF = _resourcesAAF - 5000;
 				_repaired pushBack _destroyed;
@@ -29,28 +28,30 @@ if (_resourcesAAF > 5000) then {
 				private _position = _destroyed call AS_fnc_location_position;
 				private _nombre = [_destroyed] call localizar;
 				[50,0,_position] remoteExec ["citySupportChange",2];
-				[-5,0] remoteExec ["prestige",2];
+				[-5,0] call AS_fnc_changeForeignSupport;
 				if (_type == "powerplant") then {[_destroyed] call powerReorg};
 				[["TaskFailed", ["", format ["%1 rebuilt by AAF",_nombre]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 			};
 		} forEach _destroyedCities;
 		AS_Pset("destroyedLocations", _destroyedCities - _repaired);
-	} else
-		{
-		if ((count antenasMuertas > 0) and (not("REP" in misiones))) then
+	} else {
+		private _fnc_isNotRepairing = {"repair_antenna" call AS_fnc_active_missions == 0};
+		if ((count antenasMuertas > 0) and _fnc_isnotRepairing) then {
+			// try to rebuild one antenna.
 			{
-			{
-			if ((_resourcesAAF > 5000) and (not("REP" in misiones))) then {
-				private _location = [call AS__fnc_location_all, _x] call BIS_fnc_nearestPosition;
-				if ((_location call AS_fnc_location_side == "AAF") and !(_location call AS_fnc_location_spawned)) then {
-					[_location,_x] remoteExec ["REP_Antena",HCattack];
-					_resourcesAAF = _resourcesAAF - 5000;
+				private _location = _x call AS_fnc_location_nearest;
+				if ((_resourcesAAF > 5000) and
+				    {_location call AS_fnc_location_side == "AAF"} and
+					{!(_location call AS_fnc_location_spawned)} and
+					_fnc_isnotRepairing) exitWith {
+						_resourcesAAF = _resourcesAAF - 5000;
+						private _mission = ["repair_antenna", _location] call AS_fnc_mission_add;
+						_mission call AS_fnc_mission_activate;
 				};
-			};
 			} forEach antenasMuertas;
-			};
 		};
 	};
+};
 
 //////////////// try to expand arsenal ////////////////
 
@@ -88,12 +89,12 @@ deleteVehicle _extra_conditions;
 deleteGroup _logicGroup;
 
 //////////////// try to upgrade skills ////////////////
-_skillFIA = AS_P("skillFIA");
-_skillAAF = AS_P("skillAAF");
+private _skillFIA = AS_P("skillFIA");
+private _skillAAF = AS_P("skillAAF");
 if ((_skillAAF < (_skillFIA + 4)) && (_skillAAF < AS_maxSkill)) then {
-	_coste = 1000 + (1.5*(_skillAAF *750));
+	private _coste = 1000 + (1.5*(_skillAAF *750));
 	if (_coste < _resourcesAAF) then {
-        AS_Pset("skillAAF",_skillAAF + 1);
+        AS_Pset("skillAAF", _skillAAF + 1);
         _skillAAF = _skillAAF + 1;
 		_resourcesAAF = _resourcesAAF - _coste;
 	};

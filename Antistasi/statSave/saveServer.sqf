@@ -21,7 +21,10 @@ private _savingPlayersHandle = ([_saveName] spawn {
 [_saveName, "fecha", date] call fn_SaveStat;
 
 [_saveName] call AS_fnc_saveAAFarsenal;
-[_saveName] call AS_fnc_saveMarkers;
+
+[_saveName, "antennas", antenas] call fn_SaveStat;
+[_saveName, "deadAntennas", antenasmuertas] call fn_SaveStat;
+
 [_saveName] call AS_fnc_location_save;
 [_saveName] call AS_fnc_saveHQ;
 
@@ -134,21 +137,7 @@ private _arrayEst = [];
 
 [_saveName, _cargo_w, _cargo_m, _cargo_i, _cargo_b] call AS_fnc_saveArsenal;
 
-if (!isDedicated) then {
-    _tipos = [];
-    {
-    if (_x in misiones) then
-        {
-        private _state = [_x] call BIS_fnc_taskState;
-        if (_state == "CREATED") then
-            {
-            _tipos = _tipos + [_x];
-            };
-        };
-    } forEach ["AS","CON","DES","LOG","RES","CONVOY","DEF_HQ","AtaqueAAF"];
-
-    ["tasks",_tipos] call fn_SaveStat;
-    };
+[_saveName] call AS_fnc_mission_save;
 
 // if the spawning is faster, let us wait until it is finished.
 waitUntil {scriptDone _savingPlayersHandle};

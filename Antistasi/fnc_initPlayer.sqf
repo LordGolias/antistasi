@@ -2,11 +2,10 @@
 waitUntil {!isNull player};
 waitUntil {player == player};
 
-if (hayACEhearing) then {player addItem "ACE_EarPlugs"};
+if hayACEhearing then {player addItem "ACE_EarPlugs"};
+
 if (!hayACEMedical) then {
-    [player] execVM "Revive\initRevive.sqf";
-} else {
-    player setVariable ["inconsciente",false,true];
+    player call initRevive;
 };
 
 player setPos ((getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)]);
@@ -35,7 +34,6 @@ player addEventHandler ["HandleHeal", {
 player addEventHandler ["WeaponAssembled", {
 	params ["_EHunit", "_EHobj"];
 	if (_EHobj isKindOf "StaticWeapon") then {
-		_EHobj addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == AS_commander)"];
 		if !(_EHobj in AS_P("vehicles")) then {
             [_EHobj] call remoteExec ["AS_fnc_addPersistentVehicles", 2];
 		};
@@ -85,22 +83,6 @@ if (isMultiplayer) then {
 	}];
 
 	[missionNamespace, "arsenalClosed", {[] spawn skillAdjustments;}] call BIS_fnc_addScriptedEventHandler;
-};
-
-if (!isMultiplayer and hayACEMedical) then {
-	player setVariable ["respawning",false];
-	player addEventHandler ["HandleDamage", {
-		if (player getVariable ["ACE_isUnconscious", false]) then {
-			[] spawn {
-                sleep 15;
-                if !(player getVariable ["inconsciente", false]) then {
-                    // put the player in the inconscious state where it can respawn with "SPACEBAR".
-                    player setDamage 0.9;
-                    [player] spawn inconsciente;
-                };
-            };
-		};
-	}];
 };
 
 [] execVM "reinitY.sqf";

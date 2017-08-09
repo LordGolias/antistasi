@@ -1,54 +1,45 @@
 #include "../macros.hpp"
-if (!isServer and hasInterface) exitWith{};
-params ["_location"];
+params ["_mission"];
+private _location = _mission call AS_fnc_mission_location;
+private _position = _location call AS_fnc_location_position;
 
-private _posicion = _location call AS_fnc_location_position;
-private _nombredest = [_location] call localizar;
-private _size = _location call AS_fnc_location_size;
+private _tiempolim = 60;
+private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
+private _fechalimnum = dateToNumber _fechalim;
 
-_tskTitle = localize "STR_tsk_logMedical";
-_tskDesc = localize "STR_tskDesc_logMedical";
+private _posHQ = "FIA_HQ" call AS_fnc_location_position;
+private _fMarkers = "FIA" call AS_fnc_location_S;
 
-private ["_poscrash","_posbase","_mrkfin","_mrkTarget","_tipoveh","_heli","_vehiculos","_soldados","_grupos","_unit","_roads","_road","_vehicle","_veh","_tipogrupo","_tsk","_humo","_emitterArray"];
-
-/*
-_posicion -> location of the destination, town
-_posCrash -> location of the vehicle
-_posCrashMrk -> marker for the vehicle
-_posBase -> location of the base sending reinforcements
-*/
-
-_posHQ = getMarkerPos "FIA_HQ";
-
-_tiempolim = 60;
-_fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
-_fechalimnum = dateToNumber _fechalim;
-
-_fMarkers = "FIA" call AS_fnc_location_S;
-_hMarkers = [["base","airfield","outpost","outpostAA"], "AAF"] call AS_fnc_location_TS;
-
+// select list of valid bases
 private _bases = [];
 {
-	_posbase = _x call AS_fnc_location_position;
-	if ((_posicion distance _posbase < 7500) and
-		(_posicion distance _posbase > 1500) and
+	private _posbase = _x call AS_fnc_location_position;
+	if ((_position distance _posbase < 7500) and
+		(_position distance _posbase > 1500) and
 		(not (_x call AS_fnc_location_spawned))) then {_bases pushBack _x}
 } forEach (["base", "AAF"] call AS_fnc_location_TS);
-_base = "";
-_posbase = [];
+
+// select nearest base to
+private _base = "";
+private _posbase = [];
 if (count _bases > 0) then {
-	_base = [_bases,_posicion] call BIS_fnc_nearestPosition;
+	_base = [_bases,_position] call BIS_fnc_nearestPosition;
 	_posbase = _base call AS_fnc_location_position;
 };
+if (_base == "") exitWith {
+	hint "There are no supplies missing.";
+};
 
-_nombreOrig = [_base] call localizar;
+private _nombreOrig = [_base] call localizar;
 
-while {true} do {
+// find a suitable position for the medical supplies
+// try 20 times, if fail, the mission does not start
+private _poscrash = [];
+for "_i" from 0 to 20 do {
 	sleep 0.1;
-	_poscrash = [_posicion,2000,random 360] call BIS_fnc_relPos;
-	_nfMarker = [_fMarkers,_poscrash] call BIS_fnc_nearestPosition;
+	_poscrash = [_position,2000,random 360] call BIS_fnc_relPos;
+	private _nfMarker = [_fMarkers,_poscrash] call BIS_fnc_nearestPosition;
 	private _fposition = _nfMarker call AS_fnc_location_position;
-	_nhMarker = [_hMarkers,_poscrash] call BIS_fnc_nearestPosition;
 	private _hposition = _nfMarker call AS_fnc_location_position;
 	if ((!surfaceIsWater _poscrash) &&
 	    (_poscrash distance _posHQ < 4000) &&
@@ -56,38 +47,56 @@ while {true} do {
 		(_hposition distance _poscrash > 800)) exitWith {};
 };
 
-_tipoVeh = "C_Van_01_transport_F";
+if (_poscrash isEqualTo []) exitWith {
+	hint "There are no supplies missing.";
+};
 
-_posCrashMrk = [_poscrash,random 200,random 360] call BIS_fnc_relPos;
-_posCrash = _posCrash findEmptyPosition [0,100,_tipoVeh];
-_mrkfin = createMarker [format ["REC%1", random 100], _posCrashMrk];
+private _tskTitle = localize "STR_tsk_logMedical";
+private _tskDesc = format [localize "STR_tskDesc_logMedical", [_location] call localizar,
+	numberToDate [2035,_fechalimnum] select 3,
+	numberToDate [2035,_fechalimnum] select 4,
+	_nombreOrig, A3_STR_INDEP
+];
+
+private _tipoVeh = "C_Van_01_transport_F";
+
+private _posCrashMrk = [_poscrash,random 200,random 360] call BIS_fnc_relPos;
+_poscrash = _poscrash findEmptyPosition [0,100,_tipoVeh];
+private _mrkfin = createMarker [format ["REC%1", random 100], _posCrashMrk];
 _mrkfin setMarkerShape "ICON";
 
-_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, _nombreOrig, A3_STR_INDEP],_tskTitle,_mrkfin],_posCrashMrk,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
+private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
 
-misiones pushBack _tsk; publicVariable "misiones";
+private _vehiculos = [];
+private _soldados = [];
+private _grupos = [];
 
-_vehiculos = [];
-_soldados = [];
-_grupos = [];
+private _fnc_clean = {
+	[_grupos, _vehiculos, [_mrkfin]] call AS_fnc_cleanResources;
+	sleep 30;
+    [_task] call BIS_fnc_deleteTask;
+    _mission call AS_fnc_mission_completed;
+};
 
-_sTruck = createVehicle [_tipoVeh, _poscrash, [], 0, "CAN_COLLIDE"];
-[_sTruck,"Mission Vehicle"] spawn inmuneConvoy;
-reportedVehs pushBack _sTruck; publicVariable "reportedVehs";
-//_sTruck setFuel 0;
+private _truck = createVehicle [_tipoVeh, _poscrash, [], 0, "CAN_COLLIDE"];
+[_truck,"Mission Vehicle"] spawn inmuneConvoy;
+reportedVehs pushBack _truck; publicVariable "reportedVehs";
+_vehiculos pushBack _truck;
 
-_crate1 = "Box_IND_Support_F" createVehicle _poscrash;
-_crate2 = "Box_IND_Support_F" createVehicle _poscrash;
-_crate3 = "Box_NATO_WpsSpecial_F" createVehicle _poscrash;
-_crate4 = "Box_NATO_WpsSpecial_F" createVehicle _poscrash;
-_crate1 setPos ([getPos _sTruck, 6, 185] call BIS_Fnc_relPos);
-_crate2 setPos ([getPos _sTruck, 4, 167] call BIS_Fnc_relPos);
-_crate3 setPos ([getPos _sTruck, 8, 105] call BIS_Fnc_relPos);
-_crate4 setPos ([getPos _sTruck, 5, 215] call BIS_Fnc_relPos);
-_crate1 setDir (getDir _sTruck + (floor random 180));
-_crate2 setDir (getDir _sTruck + (floor random 180));
-_crate3 setDir (getDir _sTruck + (floor random 180));
-_crate4 setDir (getDir _sTruck + (floor random 180));
+private _crate1 = "Box_IND_Support_F" createVehicle _poscrash;
+private _crate2 = "Box_IND_Support_F" createVehicle _poscrash;
+private _crate3 = "Box_NATO_WpsSpecial_F" createVehicle _poscrash;
+private _crate4 = "Box_NATO_WpsSpecial_F" createVehicle _poscrash;
+_vehiculos append [_crate1, _crate2, _crate3, _crate4];
+
+_crate1 setPos ([getPos _truck, 6, 185] call BIS_Fnc_relPos);
+_crate2 setPos ([getPos _truck, 4, 167] call BIS_Fnc_relPos);
+_crate3 setPos ([getPos _truck, 8, 105] call BIS_Fnc_relPos);
+_crate4 setPos ([getPos _truck, 5, 215] call BIS_Fnc_relPos);
+_crate1 setDir (getDir _truck + (floor random 180));
+_crate2 setDir (getDir _truck + (floor random 180));
+_crate3 setDir (getDir _truck + (floor random 180));
+_crate4 setDir (getDir _truck + (floor random 180));
 
 [_crate1] call emptyCrate;
 [_crate2] call emptyCrate;
@@ -99,201 +108,127 @@ _crate2 addItemCargoGlobal ["FirstAidKit", 40];
 _crate3 addItemCargoGlobal ["Medikit", 10];
 _crate4 addItemCargoGlobal ["Medikit", 10];
 
-_tipoGrupo = [infGarrisonSmall, side_green] call fnc_pickGroup;
-_grupo = [_poscrash, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-_grupos = _grupos + [_grupo];
+private _tipoGrupo = [infGarrisonSmall, side_green] call fnc_pickGroup;
+private _grupo = [_poscrash, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+_grupos pushBack _grupo;
 
-{[_x] spawn AS_fnc_initUnitAAF; _soldados = _soldados + [_x]} forEach units _grupo;
-
+{[_x] call AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 
 sleep 30;
 
-_tam = 100;
-
-while {true} do
-	{
-	_roads = _posbase nearRoads _tam;
-	if (count _roads > 0) exitWith {};
+private _tam = 100;
+private _road = objNull;
+while {true} do {
+	private _roads = _posbase nearRoads _tam;
+	if (count _roads > 0) exitWith {_road = _roads select 0;};
 	_tam = _tam + 50;
-	};
+};
 
-_road = _roads select 0;
-
-_vehicle= [position _road, 0,selectRandom (["trucks"] call AS_fnc_AAFarsenal_valid), side_green] call bis_fnc_spawnvehicle;
-_veh = _vehicle select 0;
+private _vehicle = [position _road, 0, selectRandom (["trucks"] call AS_fnc_AAFarsenal_valid), side_green] call bis_fnc_spawnvehicle;
+private _veh = _vehicle select 0;
 [_veh, "AAF"] call AS_fnc_initVehicle;
 [_veh,"AAF Escort"] spawn inmuneConvoy;
-_vehCrew = _vehicle select 1;
+private _vehCrew = _vehicle select 1;
 {[_x] spawn AS_fnc_initUnitAAF} forEach _vehCrew;
-_grupoVeh = _vehicle select 2;
-_soldados = _soldados + _vehCrew;
-_grupos = _grupos + [_grupoVeh];
-_vehiculos = _vehiculos + [_veh];
+private _grupoVeh = _vehicle select 2;
+_soldados append _vehCrew;
+_grupos pushBack _grupoVeh;
+_vehiculos pushBack _veh;
 
 sleep 1;
 
 _tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
 _grupo = [_posbase, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 
-{_x assignAsCargo _veh; _x moveInCargo _veh; _soldados = _soldados + [_x]; [_x] spawn AS_fnc_initUnitAAF} forEach units _grupo;
-_grupos = _grupos + [_grupo];
+{_x assignAsCargo _veh; _x moveInCargo _veh; _soldados pushBack _x; [_x] call AS_fnc_initUnitAAF} forEach units _grupo;
+_grupos pushBack _grupo;
 
 [_veh] spawn smokeCover;
 
-_Vwp0 = _grupoVeh addWaypoint [_poscrash, 0];
+private _Vwp0 = _grupoVeh addWaypoint [_poscrash, 0];
 _Vwp0 setWaypointType "TR UNLOAD";
 _Vwp0 setWaypointBehaviour "SAFE";
-_Gwp0 = _grupo addWaypoint [_poscrash, 0];
+private _Gwp0 = _grupo addWaypoint [_poscrash, 0];
 _Gwp0 setWaypointType "GETOUT";
 _Vwp0 synchronizeWaypoint [_Gwp0];
 
-waitUntil {sleep 1; (not alive _sTruck) or (dateToNumber date > _fechalimnum) or ({(side _x == side_blue) and (_x distance _sTruck < 500)} count allUnits > 0)};
+private _fnc_missionFailedCondition = {(dateToNumber date > _fechalimnum) or (not alive _truck)};
 
-waitUntil {sleep 1; (not alive _sTruck) or (dateToNumber date > _fechalimnum) or ({(side _x == side_blue) and (_x distance _sTruck < 50)} count allUnits > 0)};
+private _fnc_missionFailed = {
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_posCrashMrk,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
-_mrkfin = createMarker [format ["REC%1", random 100], _poscrash];
-_mrkfin setMarkerShape "ICON";
-
-if ((not alive _sTruck) or (dateToNumber date > _fechalimnum)) then {
-	_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, _nombreOrig, A3_STR_INDEP],_tskTitle,_mrkfin],_posCrashMrk,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
-	[5,-5,_posicion] remoteExec ["citySupportChange",2];
-	[-10,AS_commander] call playerScoreAdd;
-}
-else {
-	_tsk = ["LOG",[side_blue,civilian],[format ["Secure the vehicle, load the cargo, and deliver the supplies to the people in %1 before %2:%3. AAF command has probably dispatched a patrol from %4 to retrieve the goods, so you better hurry. Note: no cargo left behind!",_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, _nombreOrig, A3_STR_INDEP],_tskTitle,_mrkfin],_poscrash,"AUTOASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
-
-	_cuenta = 120;
-	_counter = 0;
-
-	_active = false;
-
-	{_amigo = _x;
-		if (captive _amigo) then {
-			[_amigo,false] remoteExec ["setCaptive",_amigo];
-		};
-		{
-			if ((side _x == side_green) and (_x distance _posCrash < AS_P("spawnDistance"))) then {
-			if (_x distance _posCrash < 300) then {_x doMove _posCrash} else {_x reveal [_amigo,4]};
-			};
-			if ((side _x == civilian) and (_x distance _posCrash < 300)) then {_x doMove position _sTruck};
-		} forEach allUnits;
-	} forEach ([300,0,_sTruck,"BLUFORSpawn"] call distanceUnits);
-
-
-	while {(_counter < _cuenta) and (alive _sTruck) and (dateToNumber date < _fechalimnum)} do {
-
-		while {(_counter < _cuenta) and (_sTruck distance _posCrash < 40) and (alive _sTruck) and !({_x getVariable ["inconsciente",false]} count ([80,0,_sTruck,"BLUFORSpawn"] call distanceUnits) == count ([80,0,_sTruck,"BLUFORSpawn"] call distanceUnits)) and ({(side _x == side_green) and (_x distance _sTruck < 50)} count allUnits == 0) and (dateToNumber date < _fechalimnum)} do {
-
-			if !(_active) then {
-				{if (isPlayer _x) then {[(_cuenta - _counter),false] remoteExec ["pBarMP",_x]}} forEach ([80,0,_sTruck,"BLUFORSpawn"] call distanceUnits);
-				_active = true;
-				[[petros,"globalChat","Guard the truck!"],"commsMP"] call BIS_fnc_MP;
-			};
-
-			_counter = _counter + 1;
-  			sleep 1;
-
-			};
-
-		if (_counter < _cuenta) then {
-			_counter = 0;
-			_active = false;
-			{if (isPlayer _x) then {[0,true] remoteExec ["pBarMP",_x]}} forEach ([100,0,_sTruck,"BLUFORSpawn"] call distanceUnits);
-
-			if (((_sTruck distance _posCrash > 40) or (not([80,1,_sTruck,"BLUFORSpawn"] call distanceUnits)) or ({(side _x == side_green) and (_x distance _sTruck < 50)} count allUnits != 0)) and (alive _sTruck)) then {[[petros,"hint","Hold this position and keep the truck near the supplies while they are being loaded."],"commsMP"] call BIS_fnc_MP};
-			waitUntil {sleep 1; (!alive _sTruck) or ((_sTruck distance _posCrash < 40) and ([80,1,_sTruck,"BLUFORSpawn"] call distanceUnits) and ({(side _x == side_green) and (_x distance _sTruck < 50)} count allUnits == 0)) or (dateToNumber date > _fechalimnum)};
-		};
-		if ((alive _sTruck) and !(_counter < _cuenta)) exitWith {
-			_formato = format ["Good to go. Deliver these supplies to %1 on the double.",_nombredest];
-			{if (isPlayer _x) then {[petros,"hint",_formato] remoteExec ["commsMP",_x]}} forEach ([80,0,_sTruck,"BLUFORSpawn"] call distanceUnits);
-			_crate1 attachTo [_sTruck,[0.3,-1.0,-0.4]];
-			_crate2 attachTo [_sTruck,[-0.3,-1.0,-0.4]];
-			_crate3 attachTo [_sTruck,[0,-1.6,-0.4]];
-			_crate4 attachTo [_sTruck,[0,-2.0,-0.4]];
-		};
-	};
-	_mrkTarget = createMarker [format ["REC%1", random 100], _posicion];
-	_mrkTarget setMarkerShape "ICON";
-	_active = false;
-
-	_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, _nombreOrig, A3_STR_INDEP],_tskTitle,_mrkTarget],_posicion,"AUTOASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
-
-	waitUntil {sleep 1; (not alive _sTruck) or (dateToNumber date > _fechalimnum) or (_sTruck distance _posicion < 40)};
-
-	if ((alive _sTruck) and (dateToNumber date < _fechalimnum)) then {
-		_sTruck setFuel 0;
-		_counter = 0;
-		_cuenta = 10;
-		while {(_counter < _cuenta) and (alive _sTruck) and !({_x getVariable ["inconsciente",false]} count ([80,0,_sTruck,"BLUFORSpawn"] call distanceUnits) == count ([80,0,_sTruck,"BLUFORSpawn"] call distanceUnits)) and (dateToNumber date < _fechalimnum)} do {
-
-			if !(_active) then {
-				{if (isPlayer _x) then {[(_cuenta - _counter),false] remoteExec ["pBarMP",_x]}} forEach ([80,0,_sTruck,"BLUFORSpawn"] call distanceUnits);
-				_active = true;
-				[[petros,"globalChat","Leave the vehicle here, they'll come pick it up."],"commsMP"] call BIS_fnc_MP;
-			};
-
-			_counter = _counter + 1;
-  			sleep 1;
-
-			};
-			{
-				_x action ["eject", _sTruck];
-			} forEach (crew (_sTruck));
-			sleep 1;
-			_sTruck lock 2;
-			{if (isPlayer _x) then {[_sTruck,true] remoteExec ["fnc_lockVehicle",_x];}} forEach ([100,0,_sTruck,"BLUFORSpawn"] call distanceUnits);
-
-			if (alive _sTruck) then {
-				[[petros,"hint","Supplies Delivered"],"commsMP"] call BIS_fnc_MP;
-				_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, _nombreOrig, A3_STR_INDEP],_tskTitle,_mrkfin],
-					_posCrashMrk,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
-				[0,15,_location] remoteExec ["citySupportChange",2];
-				[5,0] remoteExec ["prestige",2];
-				{if (_x distance _posicion < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-				[5,AS_commander] call playerScoreAdd;
-				["mis"] remoteExec ["fnc_BE_XP", 2];
-
-				if (random 10 < 5) then {
-					if (random 10 < 5) then {
-						for [{_i=1},{_i<=(1 + round random 2)},{_i=_i+1}] do {
-							_cosa = (selectRandom AAFmines) call AS_fnc_mineMag;
-							_num = 1 + (floor random 5);
-							if (not(_cosa in unlockedMagazines)) then {cajaVeh addMagazineCargoGlobal [_cosa, _num]};
-						};
-					}
-					else {
-						for [{_i=1},{_i<=(1 + round random 2)},{_i=_i+1}] do {
-							_cosa = ((AAFItems arrayIntersect AS_allOptics) - unlockedItems) call BIS_Fnc_selectRandom;
-							_num = 1 + (floor random 5);
-							cajaVeh addItemCargoGlobal [_cosa, _num];
-						};
-					};
-					[[petros,"globalChat","Someone dropped off a crate near HQ while you were gone. Check the vehicle ammo box."],"commsMP"] call BIS_fnc_MP;
-				};
-
-			}
-			else {
-				_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, _nombreOrig, A3_STR_INDEP],_tskTitle,_mrkfin],_posCrashMrk,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
-				[5,-5,_posicion] remoteExec ["citySupportChange",2];
-				[-10,AS_commander] call playerScoreAdd;
-			};
-	}
-	else {
-			_tsk = ["LOG",[side_blue,civilian],[format [_tskDesc,_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, _nombreOrig, A3_STR_INDEP],_tskTitle,_mrkfin],_posCrashMrk,"FAILED",5,true,true,"Heal"] call BIS_fnc_setTask;
-			[5,-5,_posicion] remoteExec ["citySupportChange",2];
-			[-10,AS_commander] call playerScoreAdd;
-	};
+	call _fnc_clean;
 };
 
-deleteVehicle _crate1;
-deleteVehicle _crate2;
-deleteVehicle _crate3;
-deleteVehicle _crate4;
+private _fnc_missionSuccessful = {
+	_task = [_mission, [side_blue,civilian], [_tskDesc,_tskTitle,_mrkfin], _posCrashMrk,"SUCCEEDED",5,true,true,"Heal"] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_success", 2];
 
-[1200,_tsk] spawn borrarTask;
-deleteMarker _mrkfin;
+	call _fnc_clean;
+};
+
+// wait for any activity around the truck
+waitUntil {sleep 1;
+	({(side _x == side_blue) and (_x distance _truck < 50)} count allUnits > 0) or _fnc_missionFailedCondition
+};
+
+if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
+
+_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_poscrash,"AUTOASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
+
+// make all FIA around the truck non-captive
 {
-waitUntil {sleep 1;(!([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits))};
-deleteVehicle _x} forEach _vehiculos;
-{deleteVehicle _x} forEach _soldados;
-{deleteGroup _x} forEach _grupos;
+	if (captive _x) then {
+		[_x,false] remoteExec ["setCaptive",_x];
+	};
+} forEach ([300,0,_truck,"BLUFORSpawn"] call distanceUnits);
+
+// make all enemies rush to the truck
+{
+	_x doMove _posCrash;
+} forEach _soldados;
+
+
+private _fnc_loadCratesCondition = {
+	// The condition to allow loading the crates into the truck
+	(_truck distance _poscrash < 20) and {speed _truck < 1} and
+	{{alive _x and not (_x call AS_fnc_isUnconscious)} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) > 0} and
+	{{(side _x == side_green) or (side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
+};
+
+private _str_unloadStopped = "Stop the truck closeby, have someone close to the truck and no enemies around";
+
+// wait for the truck to unload (2m) or the mission to fail
+[_truck, 120, _fnc_loadCratesCondition, _fnc_missionFailedCondition, _str_unloadStopped] call AS_fnc_wait_or_fail;
+
+if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
+
+private _formato = format ["Good to go. Deliver these supplies to %1 on the double.",[_location] call localizar];
+{if (isPlayer _x) then {[petros,"hint",_formato] remoteExec ["commsMP",_x]}} forEach ([80,0,_truck,"BLUFORSpawn"] call distanceUnits);
+_crate1 attachTo [_truck, [0.3,-1.0,-0.4]];
+_crate2 attachTo [_truck, [-0.3,-1.0,-0.4]];
+_crate3 attachTo [_truck, [0,-1.6,-0.4]];
+_crate4 attachTo [_truck, [0,-2.0,-0.4]];
+
+private _mrkTarget = createMarker [format ["REC%1", random 100], _position];
+_mrkTarget setMarkerShape "ICON";
+
+_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkTarget],_position,"AUTOASSIGNED",5,true,true,"Heal"] call BIS_fnc_setTask;
+
+waitUntil {sleep 1; (_truck distance _position < 40) or _fnc_missionFailedCondition};
+
+if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
+
+[[petros,"globalChat","Leave the vehicle here, they'll come pick it up."],"commsMP"] call BIS_fnc_MP;
+
+// remove fuel, eject all and lock
+_truck setFuel 0;
+{
+	_x action ["eject", _truck];
+} forEach (crew _truck);
+sleep 1;
+_truck lock 2;
+{if (isPlayer _x) then {[_truck,true] remoteExec ["fnc_lockVehicle",_x];}} forEach ([100,0,_truck,"BLUFORSpawn"] call distanceUnits);
+
+call _fnc_missionSuccessful;

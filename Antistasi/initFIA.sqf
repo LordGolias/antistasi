@@ -10,6 +10,7 @@ AS_allFIASquadTypes = [];
 for "_i" from 0 to (count AS_FIAsquadsMapping) - 1 step 2 do {
     AS_allFIASquadTypes pushBackUnique (AS_FIAsquadsMapping select (_i + 1));
 };
+AS_allFIASquadTypes append AS_FIACustomSquad_types;
 
 // Contains "Rifleman", "Grenadier", etc.
 AS_allFIAUnitTypes = [];

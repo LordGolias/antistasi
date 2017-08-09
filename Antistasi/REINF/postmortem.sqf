@@ -15,6 +15,6 @@ if (!isNull _group) then {
 }
 else {
 	if (_killed in AS_P("vehicles")) then {
-		[_killed, false] call remoteExec ["AS_fnc_changePersistentVehicles", 2];
+		[_killed, false] remoteExec ["AS_fnc_changePersistentVehicles", 2];
 	};
 };

@@ -15,7 +15,6 @@ private _busy = _location call AS_fnc_location_busy;
 // spawn flag
 private _flag = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
 _flag allowDamage false;
-[[_flag,"take"],"flagaction"] call BIS_fnc_MP;
 _vehiculos pushBack _flag;
 
 // spawn crate
@@ -24,6 +23,8 @@ private _veh = "I_supplyCrate_F" createVehicle _posicion;
 _vehiculos pushBack _veh;
 
 // spawn AT road block
+private _grupo = createGroup side_green;
+_grupos append _grupo;
 if ((_location call AS_fnc_location_spawned) and _frontera) then {
 	([_posicion, _grupo] call AS_fnc_spawnAAF_roadAT) params ["_units1", "_vehicles1"];
 	_soldados append _units1;
@@ -33,7 +34,6 @@ if ((_location call AS_fnc_location_spawned) and _frontera) then {
 // spawn 4 patrols
 // _mrk => to be deleted at the end
 ([_location, 4] call AS_fnc_spawnAAF_patrol) params ["_units1", "_groups1", "_mrk"];
-_spatrol append _units1;
 _grupos append _groups1;
 
 // spawn parked air vehicles
@@ -53,7 +53,7 @@ if (!_busy) then {
 			if !(_location call AS_fnc_location_spawned) exitWith {};
 			if (count _possible_vehicles == 0) exitWith {};
 
-			_tipoveh = selectRandom _vehicles;
+			private _tipoveh = selectRandom _possible_vehicles;
 			_possible_vehicles deleteAt (_possible_vehicles find _tipoveh);
 			private _veh = createVehicle [_tipoveh, _pos, [],3, "NONE"];
 			_veh setDir (_ang + 90);
@@ -77,9 +77,9 @@ for "_i" from 1 to _groupCount do {
 	if (!(_location call AS_fnc_location_spawned) or diag_fps < AS_P("minimumFPS")) exitWith {};
 	if (count _possible_vehicles == 0) exitWith {};
 
-	_tipoveh = selectRandom _vehicles;
+	private _tipoveh = selectRandom _possible_vehicles;
 	_possible_vehicles deleteAt (_possible_vehicles find _tipoveh);
-	_pos = [_posicion, 10, _size/2, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
+	private _pos = [_posicion, 10, _size/2, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
 	_veh = createVehicle [_tipoVeh, _pos, [], 0, "NONE"];
 	_veh setDir random 360;
 	_vehiculos pushBack _veh;
@@ -105,7 +105,7 @@ waitUntil {sleep 1;
 	 3*({(alive _x) and (!(captive _x)) and (_x distance _posicion < _size)} count _soldados))};
 
 if ((_location call AS_fnc_location_spawned) and (_location call AS_fnc_location_side == "AAF")) then {
-	[_flag] remoteExec ["mrkWIN",2];
+	[_location] remoteExec ["AS_fnc_location_win",2];
 };
 
 waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};

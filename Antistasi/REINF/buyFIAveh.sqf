@@ -16,7 +16,7 @@ private _coste = [_type] call FIAvehiclePrice;
 
 private _resourcesFIA = AS_P("resourcesFIA");
 if (isMultiPlayer and player != AS_commander) then {
-	_resourcesFIA = player getVariable "dinero";
+	_resourcesFIA = player getVariable "money";
 };
 
 if (_resourcesFIA < _coste) exitWith {hint format ["You do not have enough money for this vehicle: %1 € required",_coste]};
@@ -37,8 +37,8 @@ if (isMultiPlayer and player != AS_commander) then {
 [_veh, "FIA"] call AS_fnc_initVehicle;
 
 if (_type isKindOf "StaticWeapon") then {
-	_veh addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == AS_commander)"];
-	[_veh] call remoteExec ["AS_fnc_changePersistentVehicles", 2];
+	[[_veh,"moveObject"],"AS_fnc_addAction"] call BIS_fnc_MP;
+	[_veh] remoteExec ["AS_fnc_changePersistentVehicles", 2];
 };
 hint "Vehicle Purchased";
 player reveal _veh;

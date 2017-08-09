@@ -1,250 +1,143 @@
 #include "../macros.hpp"
-if (!isServer and hasInterface) exitWith {};
+params ["_mission"];
+private _location = _mission call AS_fnc_mission_location;
+private _position = _location call AS_fnc_location_position;
 
-_tskTitleMun = localize "STR_tsk_CVY_Ammo";
-_tskDescMun = localize "STR_tskDesc_CVY_Ammo";
+private _missionType = _mission call AS_fnc_mission_type;
 
-_tskTitleArm = localize "STR_tsk_CVY_Armor";
-_tskDescArm = localize "STR_tskDesc_CVY_Armor";
+private _origin = _position call findBasesForConvoy;
+if (_origin == "") exitWith {
+	hint "mission is no longer available";
+	_mission call AS_fnc_mission_remove;
+};
+private _posbase = _origin call AS_fnc_location_position;
 
-_tskTitlePrs = localize "STR_tsk_CVY_Pris";
-_tskDescPrs = localize "STR_tskDesc_CVY_Pris";
+private _tiempolim = 120;
+private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
+private _fechalimnum = dateToNumber _fechalim;
 
-_tskTitleMny = localize "STR_tsk_CVY_Money";
-_tskDescMny = localize "STR_tskDesc_CVY_Money";
-
-_tskTitleSup = localize "STR_tsk_CVY_Supply";
-_tskDescSup = localize "STR_tskDesc_CVY_Supply";
-
-_tskTitleHVT = localize "STR_tsk_CVY_HVT";
-_tskDescHVT = localize "STR_tskDesc_CVY_HVT";
-
-/*
-parameters
-0: destination of the convoy (marker)
-1: origin of the convoy (marker)
-2: source of the mission request ("civ", "mil", "auto", "city") -- OPTIONAL
-3: specified types of convoys (array) -- OPTIONAL
-*/
-params ["_destino", "_base", ["_source", "auto"], "_convoyTypes"];
-private ["_posbase","_posdestino","_soldados","_grupos","_vehiculos","_POWS","_tiempofin","_fechafin","_fechafinNum","_veh","_unit","_hvt", "_tsk", "_grpPOW"];
-
-_posbase = _base call AS_fnc_location_position;
-_posdestino = _destino call AS_fnc_location_position;
-private _typedestino = _destino call AS_fnc_location_type;
-private _sidedestino = _destino call AS_fnc_location_side;
-
-_soldados = [];
-_grupos = [];
-_vehiculos = [];
-_POWS = [];
-
-_posData = [];
-_posRoad = [];
-_dir = 0;
-
-_tipoVehEsc = "";
-_tipoVehObj = "";
-_tipogrupo = "";
-_tiposConvoy = [];
-_posHQ = getMarkerPos "FIA_HQ";
-
-_tiempofin = 120;
-_fechafin = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempofin];
-_fechafinNum = dateToNumber _fechafin;
-
-if (_typedestino in ["base", "airfield"]) then {_tiposConvoy = ["Municion","Armor","Prisoners","HVT"];};
-if (_typedestino == "city") then {
-	if (_sidedestino == "AAF") then {_tiposConvoy = ["Money","Supplies","HVT"]} else {_tiposConvoy = ["Supplies"]}
+private _tskTitle = "";
+private _tskDesc = "";
+private _tskIcon = "";
+private _mainVehicleType = "";
+call {
+	if (_missionType == "convoy_money") exitWith {
+		_tskTitle = localize "STR_tsk_CVY_Money";
+		_tskDesc = localize "STR_tskDesc_CVY_Money";
+		_tskIcon = "move";
+		_mainVehicleType = "C_VAN_01_BOX_F";
+	};
+	if (_missionType == "convoy_supplies") exitWith {
+		_tskTitle = localize "STR_tsk_CVY_Supply";
+		_tskDesc = localize "STR_tskDesc_CVY_Supply";
+		_tskIcon = "heal";
+		_mainVehicleType = "C_VAN_01_BOX_F";
+	};
+	if (_missionType == "convoy_armor") exitWith {
+		_tskTitle = localize "STR_tsk_CVY_Armor";
+		_tskDesc = localize "STR_tskDesc_CVY_Armor";
+		_tskIcon = "destroy";
+		private _tanks = ["tanks"] call AS_fnc_AAFarsenal_all;
+		if (count _tanks == 0) then {
+			_tanks = ["apcs"] call AS_fnc_AAFarsenal_valid;
+			diag_log format ["[AS] Error: convoy: tanks requested but not available", _mission];
+		};
+		_mainVehicleType = selectRandom _tanks;
+	};
+	if (_missionType == "convoy_ammo") exitWith {
+		_tskTitle = localize "STR_tsk_CVY_Ammo";
+		_tskDesc = localize "STR_tskDesc_CVY_Ammo";
+		_tskIcon = "rearm";
+		if (["supplies"] call AS_fnc_AAFarsenal_count == 0) then {
+			diag_log format ["[AS] Error: convoy: supplies requested but not available", _mission];
+		};
+		_mainVehicleType = vehAmmo;
+	};
+	if (_missionType == "convoy_hvt") exitWith {
+		_tskTitle = localize "STR_tsk_CVY_HVT";
+		_tskDesc = localize "STR_tskDesc_CVY_HVT";
+		_tskIcon = "destroy";
+	};
+	if (_missionType == "convoy_prisoners") exitWith {
+		_tskTitle = localize "STR_tsk_CVY_Pris";
+		_tskDesc = localize "STR_tskDesc_CVY_Pris";
+		_tskIcon = "run";
+		private _trucks = ["trucks"] call AS_fnc_AAFarsenal_all;
+		if (count _trucks == 0) then {
+			_trucks = ["trucks"] call AS_fnc_AAFarsenal_valid;
+			diag_log format ["[AS] Error: convoy: trucks requested but not available", _mission];
+		};
+		_mainVehicleType = selectRandom _trucks;
+	};
 };
 
-if (_source == "civ") then {
-	if (_typedestino == "base") then {
-		_tiposConvoy = ["Prisoners","HVT"];
-	}
-	else {
-		_tiposConvoy = ["Money","Supplies"];
-	};
+_tskDesc = format [_tskDesc,[_origin] call localizar,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,[_location] call localizar];
+_tskTitle = format [_tskTitle, A3_STR_INDEP];
 
-	_val = server getVariable "civActive";
-	server setVariable ["civActive", _val + 1, true];
-};
-if (_source == "mil") then {
-	_tiposConvoy = ["Municion","Armor","HVT"];
-	_val = server getVariable "milActive";
-	server setVariable ["milActive", _val + 1, true];
-};
+private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_position],_position,"CREATED",5,true,true,_tskIcon] call BIS_fnc_setTask;
 
-if (_source == "auto") then {
-	_tiposConvoy = ["HVT"];
-};
+private _groups = [];
+private _vehicles = [];
 
-// if an array of specific types is supplied, use it
-if (count _this > 3) then {_tiposConvoy = _convoyTypes};
-_tipoConvoy = _tiposConvoy call BIS_Fnc_selectRandom;
+// particular to specific missions. They do not need to be cleaned.
+private _grpPOW = grpNull;
+private _POWs = [];
+private _hvt = objNull;
 
-if (_source == "city") then {
-	_tiposConvoy = ["Supplies", "Money"];
-	_weights = [0.8, 0.1];
-	_tipoConvoy = [_tiposConvoy, _weights] call BIS_fnc_selectRandomWeighted;
-};
+[_origin,30] call AS_fnc_location_increaseBusy;
 
-// add a delay, depending on the number of places you control
-_tiempolim = (round (5 - (count ("FIA" call AS_fnc_location_S))/10)) + (round random 10);
+private _group = createGroup side_green;
+_groups pushBack _group;
 
-_fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
-_fechalimnum = dateToNumber _fechalim;
-
-_nombredest = [_destino] call localizar;
-_nombreOrig = [_base] call localizar;
-[_base,30] call AS_fnc_location_increaseBusy;
-if (_tipoConvoy == "Municion") then
-	{
-	_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMun,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMun, A3_STR_INDEP],_destino],_posdestino,"CREATED",5,true,true,"rearm"] call BIS_fnc_setTask;
-	_tipoVehObj = vehAmmo;
-	};
-
-if (_tipoConvoy == "Armor") then
-	{
-	_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescArm,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleArm, A3_STR_INDEP],_destino],_posdestino,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-	private _tanks = ["tanks"] call AS_fnc_AAFarsenal_all;
-	if (count _tanks > 0) then {
-		_tipoVehObj = selectRandom _tanks;
-	} else {
-		_tipoVehObj = selectRandom (["apcs"] call AS_fnc_AAFarsenal_valid);
-	}
-	};
-
-if (_tipoConvoy == "Prisoners") then
-	{
-	_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescPrs,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitlePrs, A3_STR_INDEP],_destino],_posdestino,"CREATED",5,true,true,"run"] call BIS_fnc_setTask;
-	_tipoVehObj = selectRandom (["trucks"] call AS_fnc_AAFarsenal_valid);
-	};
-
-if (_tipoConvoy == "Money") then
-	{
-	_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMny,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMny, A3_STR_INDEP],_destino],_posdestino,"CREATED",5,true,true,"move"] call BIS_fnc_setTask;
-	_tipoVehObj = "C_Van_01_box_F";
-	};
-
-if (_tipoConvoy == "Supplies") then
-	{
-	_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescSup,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleSup, A3_STR_INDEP],_destino],_posdestino,"CREATED",5,true,true,"heal"] call BIS_fnc_setTask;
-	_tipoVehObj = "C_Van_01_box_F";
-	};
-
-if (_tipoConvoy == "HVT") then {
-	_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescHVT,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleHVT, A3_STR_INDEP],_destino],_posdestino,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-	_tipoVehObj = selectRandom (["apcs"] call AS_fnc_AAFarsenal_valid);
-};
-
-misiones pushBack _tsk; publicVariable "misiones";
-
-_grupo = createGroup side_green;
-_grupos = _grupos + [_grupo];
-
-_posData = [_posbase, _posdestino] call fnc_findSpawnSpots;
-_posRoad = _posData select 0;
-_dir = _posData select 1;
+([_posbase, _position] call fnc_findSpawnSpots) params ["_posRoad", "_dir"];
 
 // initialisation of vehicles
-_initVehs = {
+private _initVehs = {
 	params ["_specs"];
-	_specs = _specs + [_dir, _grupo, _vehiculos, _grupos, _soldados, true];
+	_specs = _specs + [_dir, _group, _vehicles, _groups, [], true];
 	_specs call fnc_initialiseVehicle;
 };
 
-sleep (_tiempolim * 60);
+sleep (2 * 60);
 
-private _vehData = [[_posRoad, selectRandom vehLead]] call _initVehs;
-_vehiculos = _vehData select 0;
-_grupos = _vehData select 1;
-_soldados = _vehData select 2;
+private _escortSize = 1;
+if ([_location] call isFrontline) then {_escortSize = (round random 2) + 1};
 
-_wp0 = _grupo addWaypoint [_posdestino, 0];
-_wp0 setWaypointType "MOVE";
-_wp0 setWaypointBehaviour "SAFE";
-_wp0 setWaypointSpeed "LIMITED";
-_wp0 setWaypointFormation "COLUMN";
-
-_cuenta = 1;
-if ([_destino] call isFrontline) then {_cuenta = (round random 2) + 1};
-
-_pV = 0;
-
-if (_tipoConvoy == "HVT") then {
+// spawn escorts
+for "_i" from 1 to _escortSize do {
 	sleep 20;
-	_pv = round random 1;
+	private _apcs = ["trucks", "apcs"] call AS_fnc_AAFarsenal_all;
+	private _escortVehicleType = selectRandom _apcs;
 
-	private _vehData = [[_posRoad, _tipoVehObj]] call _initVehs;
-	_vehiculos = _vehData select 0;
-	_grupos = _vehData select 1;
-	_soldados = _vehData select 2;
+	private _vehData = [[_posRoad, _escortVehicleType]] call _initVehs;
+	_vehicles = _vehData select 0;
+	_groups = _vehData select 1;
 
-	_vehObj2 = (_vehData select 3) select 0;
-	[_vehObj2,"AAF Convoy Objective"] spawn inmuneConvoy;
+	private _veh = (_vehData select 3) select 0;
+	[_veh,"AAF Convoy Escort"] spawn inmuneConvoy;
 
-	if (_pv == 1) then {
-		_hvt = ([_posbase, 0, sol_OFF, _grupo] call bis_fnc_spawnvehicle) select 0;
-		[_hvt] spawn AS_fnc_initUnitAAF;
-		_hvt assignAsCargo _vehObj2;
-		_hvt moveInCargo _vehObj2;
-		_grupos = _grupos + [_grupo];
-		_soldados pushBack _hvt;
-		_vehObj2 lock 2;
-		[_vehObj2, true] remoteExec ["fnc_lockVehicle", [0,-2] select isDedicated,true];
+	private _tipoGrupo = "";
+	if (_escortVehicleType call AS_fnc_AAFarsenal_category == "apcs") then {
+		_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
+	} else {
+		_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
 	};
-}
-else {
-	for "_i" from 1 to _cuenta do {
-		sleep 20;
-		private _apcs = ["apcs"] call AS_fnc_AAFarsenal_all;
-		private _FIAstrength = count ([["base","airfield"], "FIA"] call AS_fnc_location_TS);
 
-		// the more bases, the stronger the escort
-		if ((_i == _cuenta - 1) and (_FIAstrength > 2) and (count _apcs > 0)) then {
-			_tipoVehEsc = selectRandom _apcs;
-		};
-		if ((_i == _cuenta) and (count _apcs > 0)) then {
-			_tipoVehEsc = selectRandom _apcs;
-		};
-
-		private _vehData = [[_posRoad, _tipoVehEsc]] call _initVehs;
-		_vehiculos = _vehData select 0;
-		_grupos = _vehData select 1;
-		_soldados = _vehData select 2;
-
-		_veh = (_vehData select 3) select 0;
-		[_veh,"AAF Convoy Escort"] spawn inmuneConvoy;
-
-		if (_tipoVehEsc in _apcs) then {
-			_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
-		} else { // is a truck
-			_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
-		};
-		_grupoEsc = [_posbase, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-		{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados = _soldados + [_x];[_x] join _grupo} forEach units _grupoEsc;
-		deleteGroup _grupoEsc;
-	};
+	private _grupoEsc = [_posbase, side_green, _tipoGrupo] call BIS_Fnc_spawnGroup;
+	{[_x] call AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; [_x] join _group} forEach units _grupoEsc;
+	deleteGroup _grupoEsc;
 };
 
 sleep 20;
 
-_vehObj = _tipoVehObj createVehicle _posRoad;
+private _vehObj = _mainVehicleType createVehicle _posRoad;
+_vehicles pushBack _vehObj;
 _vehObj setDir _dir;
-_vehObj addEventHandler ["HandleDamage", {
-	if (((_this select 1) find "wheel" != -1) && !([AS_P("spawnDistance"),1,_vehObj,"BLUFORSpawn"] call distanceUnits)) then {
-		0;
-	} else {
-		(_this select 2);
-	};
-}];
 
-_driver = ([_posbase, 0, sol_DRV, _grupo] call bis_fnc_spawnvehicle) select 0;
+private _driver = ([_posbase, 0, sol_DRV, _group] call bis_fnc_spawnvehicle) select 0;
 _driver assignAsDriver _vehObj;
 _driver moveInDriver _vehObj;
-[_driver] spawn AS_fnc_initUnitAAF;
-_soldados pushBackUnique _driver;
+[_driver] call AS_fnc_initUnitAAF;
 _driver addEventHandler ["killed", {
 	{
 		_x action ["EJECT", _vehObj];
@@ -252,304 +145,146 @@ _driver addEventHandler ["killed", {
 	} forEach crew _vehObj;
 }];
 
-{
-	_x removeWeaponGlobal (primaryWeapon _x);
-} forEach crew _vehObj;
-
-if ((_tipoConvoy == "HVT") && (_pv == 0)) then {
-	_hvt = ([_posbase, 0, sol_OFF, _grupo] call bis_fnc_spawnvehicle) select 0;
+if (_missionType == "convoy_hvt") then {
+	_hvt = ([_posbase, 0, sol_OFF, _group] call bis_fnc_spawnvehicle) select 0;
 	[_hvt] spawn AS_fnc_initUnitAAF;
 	_hvt assignAsCargo _vehObj;
 	_hvt moveInCargo _vehObj;
-	_grupos = _grupos + [_grupo];
-	_soldados pushBack _hvt;
-	_vehObj lock 2;
-	[_vehObj, true] remoteExec ["fnc_lockVehicle", [0,-2] select isDedicated,true];
 };
-
-_vehiculos = _vehiculos + [_vehObj];
-
-if (_tipoConvoy == "Armor") then {_vehObj lock 3};
-if (_tipoConvoy == "Prisoners") then
-	{
+if (_missionType == "convoy_armor") then {
+	_vehObj lock 3;
+};
+if (_missionType == "convoy_prisoners") then {
 	_grpPOW = createGroup side_blue;
-	_grupos = _grupos + [_grpPOW];
-	for "_i" from 1 to (1+ round (random 11)) do
-		{
-		_unit = _grpPOW createUnit [["Survivor"] call AS_fnc_getFIAUnitClass, _posbase, [], 0, "NONE"];
+	_POWS = [];
+	_groups pushBack _grpPOW;
+	for "_i" from 1 to (1+ round (random 11)) do {
+		private _unit = _grpPOW createUnit [["Survivor"] call AS_fnc_getFIAUnitClass, _posbase, [], 0, "NONE"];
 		_unit setCaptive true;
 		_unit disableAI "MOVE";
 		_unit setBehaviour "CARELESS";
 		_unit allowFleeing 0;
 		_unit assignAsCargo _vehObj;
-		_unit moveInCargo [_vehObj, _i + 3];
+		_unit moveInCargo [_vehObj, _i + 3]; // 3 because first 3 are in front
 		removeAllWeapons _unit;
 		removeAllAssignedItems _unit;
-		[[_unit,"refugiado"],"flagaction"] call BIS_fnc_MP;
-		sleep 1;
-		_POWS = _POWS + [_unit];
-		};
-	};
-if ((_tipoConvoy == "Money") or (_tipoConvoy == "Supplies")) then {reportedVehs pushBack _vehObj; publicVariable "reportedVehs"};
-
-sleep 20;
-
-private _apcs = ["apcs"] call AS_fnc_AAFarsenal_all;
-
-if (count _apcs > 0) then {
-	_tipoVehEsc = selectRandom _apcs;
-};
-
-private _vehData = [[_posRoad, _tipoVehEsc]] call _initVehs;
-_vehiculos = _vehData select 0;
-_grupos = _vehData select 1;
-_soldados = _vehData select 2;
-
-_veh = (_vehData select 3) select 0;
-[_veh,"AAF Convoy Escort"] spawn inmuneConvoy;
-
-if (_tipoVehEsc in _apcs) then {
-	_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
-}
-else {  // is a truck
-	_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
-};
-_grupoEsc = [_posbase, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
-{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldados = _soldados + [_x];[_x] join _grupo} forEach units _grupoEsc;
-deleteGroup _grupoEsc;
-
-if (_tipoConvoy == "HVT") then {
-	waitUntil {sleep 1; (dateToNumber date > _fechafinNum) or (_hvt distance _posdestino < 100) or (not alive _hvt)};
-	if ((_hvt distance _posdestino < 100) or (dateToNumber date > _fechafinNum)) then
-		{
-		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescHVT,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleHVT, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-		[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-		[-10,AS_commander] call playerScoreAdd;
-		}
-	else
-		{
-		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescHVT,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleHVT, A3_STR_INDEP],_destino],_posdestino,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-		[10,0] remoteExec ["prestige",2];
-		[0,5,_posdestino] remoteExec ["citySupportChange",2];
-		[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-		{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_hvt,"BLUFORSpawn"] call distanceUnits);
-		[5,AS_commander] call playerScoreAdd;
-		[position _hvt] spawn patrolCA;
-		["mis"] remoteExec ["fnc_BE_XP", 2];
+		[[_unit,"refugiado"],"AS_fnc_addAction"] call BIS_fnc_MP;
+		_POWS pushBack _unit;
 	};
 };
-
-
-if (_tipoConvoy == "Municion") then
-	{
-	waitUntil {sleep 1; (dateToNumber date > _fechafinNum) or (_vehObj distance _posdestino < 100) or (not alive _vehObj) or (driver _vehObj getVariable ["BLUFORSpawn",false])};
-	if ((_vehObj distance _posdestino < 100) or (dateToNumber date >_fechafinNum)) then
-		{
-		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMun,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMun, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"rearm"] call BIS_fnc_setTask;
-		[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-		[-10,AS_commander] call playerScoreAdd;
-		[_vehObj] call emptyCrate;
-		}
-	else
-		{
-		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMun,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMun, A3_STR_INDEP],_destino],_posdestino,"SUCCEEDED",5,true,true,"rearm"] call BIS_fnc_setTask;
-		[0,300] remoteExec ["resourcesFIA",2];
-		[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-		{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_vehObj,"BLUFORSpawn"] call distanceUnits);
-		[5,AS_commander] call playerScoreAdd;
-		[position _vehObj] spawn patrolCA;
-		["mis"] remoteExec ["fnc_BE_XP", 2];
-		};
-	};
-
-if (_tipoConvoy == "Armor") then
-	{
-	waitUntil {sleep 1; (dateToNumber date > _fechafinNum) or (_vehObj distance _posdestino < 100) or (not alive _vehObj) or (driver _vehObj getVariable ["BLUFORSpawn",false])};
-	if ((_vehObj distance _posdestino < 100) or (dateToNumber date > _fechafinNum)) then
-		{
-		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescArm,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleArm, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-		server setVariable [_destino,dateToNumber date,true];
-		[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-		[-10,AS_commander] call playerScoreAdd;
-		}
-	else
-		{
-		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescArm,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleArm, A3_STR_INDEP],_destino],_posdestino,"SUCCEEDED",5,true,true,"Destroy"] call BIS_fnc_setTask;
-		[5,0] remoteExec ["prestige",2];
-		[0,5,_posdestino] remoteExec ["citySupportChange",2];
-		[2700] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-		{if (isPlayer _x) then {[10,_x] call playerScoreAdd}} forEach ([500,0,_vehObj,"BLUFORSpawn"] call distanceUnits);
-		[5,AS_commander] call playerScoreAdd;
-		[position _vehObj] spawn patrolCA;
-		["mis"] remoteExec ["fnc_BE_XP", 2];
-		};
-	};
-
-if (_tipoConvoy == "Prisoners") then
-	{
-	waitUntil {sleep 1; (dateToNumber date > _fechafinNum) or (_vehObj distance _posdestino < 100) or (not alive driver _vehObj) or (driver _vehObj getVariable ["BLUFORSpawn",false]) or ({alive _x} count _POWs == 0)};
-	if ((_vehObj distance _posdestino < 100) or ({alive _x} count _POWs == 0) or (dateToNumber date > _fechafinNum)) then
-		{
-		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescPrs,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitlePrs, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"run"] call BIS_fnc_setTask;
-		{_x setCaptive false} forEach _POWs;
-		_cuenta = 2 * (count _POWs);
-		[_cuenta,0] remoteExec ["prestige",2];
-		[-10,AS_commander] call playerScoreAdd;
-		};
-	if ((not alive driver _vehObj) or (driver _vehObj getVariable ["BLUFORSpawn",false])) then
-		{
-		[position _vehObj] spawn patrolCA;
-		{_x setCaptive false; _x enableAI "MOVE"; [_x] orderGetin false;} forEach _POWs;
-		waitUntil {sleep 2; ({alive _x} count _POWs == 0) or ({(alive _x) and (_x distance _posHQ < 50)} count _POWs > 0) or (dateToNumber date > _fechafinNum)};
-		if (({alive _x} count _POWs == 0) or (dateToNumber date > _fechafinNum)) then
-			{
-			_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescPrs,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitlePrs, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"run"] call BIS_fnc_setTask;
-			_cuenta = 2 * (count _POWs);
-			[_cuenta,0] remoteExec ["prestige",2];
-			//[0,- _cuenta, _posdestino] remoteExec ["citySupportChange",2];
-			[-10,AS_commander] call playerScoreAdd;
-			}
-		else
-			{
-			_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescPrs,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitlePrs, A3_STR_INDEP],_destino],_posdestino,"SUCCEEDED",5,true,true,"run"] call BIS_fnc_setTask;
-			_cuenta = {(alive _x) and (_x distance _posHQ < 150)} count _POWs;
-			_hr = _cuenta;
-			_resourcesFIA = 300 * _cuenta;
-			[_hr,_resourcesFIA] remoteExec ["resourcesFIA",2];
-			[0,10,_posbase] remoteExec ["citySupportChange",2];
-			[2*_cuenta,0] remoteExec ["prestige",2];
-			{[_x] join _grppow; [_x] orderGetin false} forEach _POWs;
-			{[_cuenta,_x] call playerScoreAdd} forEach (allPlayers - hcArray);
-			[round (_cuenta/2),AS_commander] call playerScoreAdd;
-			["mis"] remoteExec ["fnc_BE_XP", 2];
-			};
-		};
-	};
-
-if (_tipoConvoy == "Money") then
-	{
-	waitUntil {sleep 1; (dateToNumber date > _fechafinNum) or (_vehObj distance _posdestino < 100) or (not alive _vehObj) or (driver _vehObj getVariable ["BLUFORSpawn",false])};
-	if ((dateToNumber date > _fechafinNum) or (_vehObj distance _posdestino < 100) or (not alive _vehObj)) then
-		{
-		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMny,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMny, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"move"] call BIS_fnc_setTask;
-		if ((dateToNumber date > _fechafinNum) or (_vehObj distance _posdestino < 100)) then
-			{
-			[5000] remoteExec ["resourcesAAF",2];
-			[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-			[-10,AS_commander] call playerScoreAdd;
-			}
-		else
-			{
-			[position _vehObj] spawn patrolCA;
-			[-5000] remoteExec ["resourcesAAF",2];
-			[2700] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-			};
-		};
-	if (driver _vehObj getVariable ["BLUFORSpawn",false]) then
-		{
-		[position _vehObj] spawn patrolCA;
-		waitUntil {sleep 2; (_vehObj distance _posHQ < 50) or (not alive _vehObj) or (dateToNumber date > _fechafinNum)};
-		if ((not alive _vehObj) or (dateToNumber date > _fechafinNum)) then
-			{
-			_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMny,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMny, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"move"] call BIS_fnc_setTask;
-			[-5000] remoteExec ["resourcesAAF",2];
-			[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-			};
-		if (_vehObj distance _posHQ < 50) then
-			{
-			_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescMny,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleMny, A3_STR_INDEP],_destino],_posdestino,"SUCCEEDED",5,true,true,"move"] call BIS_fnc_setTask;
-			[-5000] remoteExec ["resourcesAAF",2];
-			[10,-20,_destino] remoteExec ["citySupportChange",2];
-			[-20,0] remoteExec ["prestige",2];
-			[0,5000] remoteExec ["resourcesFIA",2];
-			[-1200] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
-			{if (_x distance _vehObj < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-			[5,AS_commander] call playerScoreAdd;
-			["mis"] remoteExec ["fnc_BE_XP", 2];
-			waitUntil {sleep 1; speed _vehObj < 1};
-			[_vehObj] call vaciar;
-			deleteVehicle _vehObj;
-			};
-		};
-	reportedVehs = reportedVehs - [_vehObj];
+if (_missionType in ["convoy_money", "convoy_supplies"]) then {
+	reportedVehs pushBack _vehObj;
 	publicVariable "reportedVehs";
-	};
+};
 
-if (_tipoConvoy == "Supplies") then
-	{
-	waitUntil {sleep 1; (dateToNumber date > _fechafinNum) or (_vehObj distance _posdestino < 100) or (not alive _vehObj) or (driver _vehObj getVariable ["BLUFORSpawn",false])};
-	if (not alive _vehObj) then
-		{
-		[position _vehObj] spawn patrolCA;
-		_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescSup,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleSup, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"heal"] call BIS_fnc_setTask;
-		[-5,0] remoteExec ["prestige",2];
-		[-10,AS_commander] call playerScoreAdd;
-		};
-	if ((dateToNumber date > _fechafinNum) or (_vehObj distance _posdestino < 100) or (driver _vehObj getVariable ["BLUFORSpawn",false])) then
-		{
-		if (driver _vehObj getVariable ["BLUFORSpawn",false]) then
-			{
-			[position _vehObj] spawn patrolCA;
-			waitUntil {sleep 1; (_vehObj distance _posdestino < 100) or (not alive _vehObj) or (dateToNumber date > _fechafinNum)};
-			if (_vehObj distance _posdestino < 100) then
-				{
-				_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescSup,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleSup, A3_STR_INDEP],_destino],_posdestino,"SUCCEEDED",5,true,true,"heal"] call BIS_fnc_setTask;
-				[5,0] remoteExec ["prestige",2];
-				[0,15,_destino] remoteExec ["citySupportChange",2];
-				{if (_x distance _vehObj < 500) then {[10,_x] call playerScoreAdd}} forEach (allPlayers - hcArray);
-				[5,AS_commander] call playerScoreAdd;
-				["mis"] remoteExec ["fnc_BE_XP", 2];
-				}
-			else
-				{
-				_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescSup,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleSup, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"heal"] call BIS_fnc_setTask;
-				[5,-10,_destino] remoteExec ["citySupportChange",2];
-				[-5,0] remoteExec ["prestige",2];
-				[-10,AS_commander] call playerScoreAdd;
-				};
-			}
-		else
-			{
-			_tsk = ["CONVOY",[side_blue,civilian],[format [_tskDescSup,_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_nombredest],format [_tskTitleSup, A3_STR_INDEP],_destino],_posdestino,"FAILED",5,true,true,"heal"] call BIS_fnc_setTask;
-			[2,0] remoteExec ["prestige",2];
-			[15,0,_destino] remoteExec ["citySupportChange",2];
-			[-10,AS_commander] call playerScoreAdd;
-			};
-		};
-	reportedVehs = reportedVehs - [_vehObj];
-	publicVariable "reportedVehs";
-	};
-
-_wp0 = _grupo addWaypoint [_posbase, 0];
+// set everyone in motion
+private _wp0 = _group addWaypoint [_position, 0];
 _wp0 setWaypointType "MOVE";
 _wp0 setWaypointBehaviour "SAFE";
 _wp0 setWaypointSpeed "LIMITED";
 _wp0 setWaypointFormation "COLUMN";
 
-if (_tipoConvoy == "Prisoners") then
-	{
-	{
-	deleteVehicle _x;
-	} forEach _POWs;
+
+private _fnc_clean = {
+	private _wp0 = _group addWaypoint [_posbase, 0];
+	_wp0 setWaypointType "MOVE";
+	_wp0 setWaypointBehaviour "SAFE";
+	_wp0 setWaypointSpeed "LIMITED";
+	_wp0 setWaypointFormation "COLUMN";
+
+	[_groups, _vehicles] call AS_fnc_cleanResources;
+    sleep 30;
+    [_task] call BIS_fnc_deleteTask;
+    _mission call AS_fnc_mission_completed;
+
+	if (_missionType in ["convoy_money", "convoy_supplies"]) then {
+		[_vehObj] call vaciar;
+		reportedVehs = reportedVehs - [_vehObj];
+		publicVariable "reportedVehs";
 	};
-
-if (_source == "mil") then {
-	_val = server getVariable "milActive";
-	server setVariable ["milActive", _val - 1, true];
+};
+private _fnc_missionFailedCondition = call {
+	if (_missionType in ["convoy_money", "convoy_armor", "convoy_ammo", "convoy_supplies"]) exitWith {
+		{(_vehObj distance _position < 100) or (dateToNumber date > _fechalimnum)}
+	};
+	if (_missionType == "convoy_hvt") exitWith {
+		{(_hvt distance _position < 100) or (dateToNumber date > _fechalimnum)}
+	};
+	if (_missionType == "convoy_prisoners") exitWith {
+		{(_vehObj distance _position < 100) or (dateToNumber date > _fechalimnum) or ({alive _x} count _POWs < ({alive _x} count _POWs)/2)}
+	};
 };
 
-if (_source == "civ") then {
-	_val = server getVariable "civActive";
-	server setVariable ["civActive", _val - 1, true];
+private _fnc_missionFailed = {
+	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_position],_position,"FAILED",5,true,true,_tskIcon] call BIS_fnc_setTask;
+	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
+
+	if (_missionType == "convoy_ammo") then {
+		[_vehObj] call emptyCrate;
+	};
 };
 
-[600,_tsk] spawn borrarTask;
-{
-waitUntil {sleep 1; (!([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits))};
-deleteVehicle _x;
-} forEach _soldados;
-{
-if (!([AS_P("spawnDistance"),1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x}
-} forEach _vehiculos;
+private _fnc_missionSuccessfulCondition = call {
+	if (_missionType in ["convoy_money", "convoy_armor", "convoy_ammo", "convoy_supplies"]) exitWith {
+		(not alive _vehObj) or {driver _vehObj getVariable ["BLUFORSpawn",false]}
+	};
+	if (_missionType == "convoy_armor") exitWith {
+		{not alive _vehObj}
+	};
+	if (_missionType == "convoy_hvt") exitWith {
+		{not alive _hvt}
+	};
+	if (_missionType == "convoy_prisoners") exitWith {
+		{{(alive _x) and (_x distance getMarkerPos "FIA_HQ" < 50)} count _POWs >= ({alive _x} count _POWs) / 2}
+	};
+};
 
-{deleteGroup _x} forEach _grupos;
+private _fnc_missionSuccessful = call {
+	if (_missionType in ["convoy_money", "convoy_ammo", "convoy_supplies"]) exitWith {
+		{
+			private _fnc_missionFailedCondition = {not alive _vehObj or (dateToNumber date > _fechalimnum)};
+			private _fnc_missionFailed = {
+				_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_position],_position,"SUCCEEDED",5,true,true,_tskIcon] call BIS_fnc_setTask;
+				[-5000] remoteExec ["resourcesAAF",2];
+				[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
+			};
+			private _destination = getMarkerPos "FIA_HQ";
+			if (_missionType == "convoy_supplies") then {
+				_destination = _position;
+			};
+
+			private _fnc_missionSuccessfulCondition = {(_vehObj distance _destination < 50) and {speed _vehObj < 1}};
+			private _fnc_missionSuccessful = {
+				_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_position],_position,"SUCCEEDED",5,true,true,_tskIcon] call BIS_fnc_setTask;
+				[_mission, getPos _vehObj] remoteExec ["AS_fnc_mission_success", 2];
+			};
+			[_fnc_missionFailedCondition, _fnc_missionFailed, _fnc_missionSuccessfulCondition, _fnc_missionSuccessful] call AS_fnc_oneStepMission;
+		}
+	};
+	if (_missionType == "convoy_armor") exitWith {
+		{
+			_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_position],_position,"SUCCEEDED",5,true,true,_tskIcon] call BIS_fnc_setTask;
+			[_mission, getPos _vehObj] remoteExec ["AS_fnc_mission_success", 2];
+
+			[position _vehObj] spawn patrolCA;
+		}
+	};
+	if (_missionType == "convoy_hvt") exitWith {
+		{
+			_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_position],_position,"SUCCEEDED",5,true,true,_tskIcon] call BIS_fnc_setTask;
+			[_mission, getPos _vehObj] remoteExec ["AS_fnc_mission_success", 2];
+
+			[position _hvt] spawn patrolCA;
+		}
+	};
+	if (_missionType == "convoy_prisoners") exitWith {
+		{
+			[_mission,  getPos _vehObj, {alive _x} count _POWs] remoteExec ["AS_fnc_mission_success", 2];
+
+			{[_x] join _grpPOW; [_x] orderGetin false} forEach _POWs;
+		}
+	};
+};
+
+[_fnc_missionFailedCondition, _fnc_missionFailed, _fnc_missionSuccessfulCondition, _fnc_missionSuccessful] call AS_fnc_oneStepMission;
+call _fnc_clean;

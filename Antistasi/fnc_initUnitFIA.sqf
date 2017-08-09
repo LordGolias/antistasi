@@ -77,10 +77,7 @@ else {
 
 		// player team-kill
 		if (isPlayer _killer) then {
-			if (!isMultiPlayer) then {
-				[0,-20] remoteExec ["resourcesFIA",2];
-				_killer addRating -1000;
-			};
+			[-20,_killer,false] remoteExec ["AS_fnc_changePlayerScore", 2];
 		};
 		[0,-0.25,getPos _muerto] remoteExec ["citySupportChange",2];
 
@@ -96,7 +93,6 @@ else {
 					if (typeOf _muerto == (_garrison select _i)) exitWith {_garrison deleteAt _i};
 				};
 				[_location, "garrison", _garrison] call AS_fnc_location_set;
-				_location call AS_fnc_location_updateMarker;
 			};
 		};
 	}];

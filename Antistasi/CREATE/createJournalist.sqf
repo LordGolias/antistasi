@@ -5,7 +5,7 @@ private _position = _location call AS_fnc_location_position;
 private _size = _location call AS_fnc_location_size;
 
 private _journalist = objNull;
-if ((random 100 < ((AS_P("prestigeNATO") + AS_P("prestigeCSAT"))/10)) and (_location call AS_fnc_location_spawned)) then {
+if ((random 100 < ((AS_P("NATOsupport") + AS_P("CSATsupport"))/10)) and (_location call AS_fnc_location_spawned)) then {
 	_pos = [];
 	_grupo = createGroup civilian;
 	while {true} do {

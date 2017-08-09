@@ -1,9 +1,7 @@
 #include "macros.hpp"
 AS_SERVER_ONLY("initLocations.sqf");
 
-AS_location = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
-publicVariable "AS_location";
-AS_location setVariable ["all", [], true];
+["location"] call AS_fnc_container_add;
 
 call {
     if (worldName == "Altis") exitwith {
@@ -22,12 +20,13 @@ call {
         if (_x find "AS_seaport" == 0) exitWith {[_x, "seaport"] call AS_fnc_location_add};
         if (_x find "AS_outpostAA" == 0) exitWith {[_x, "outpostAA"] call AS_fnc_location_add};
         if (_x find "AS_outpost" == 0) exitWith {[_x, "outpost"] call AS_fnc_location_add};
+        if (_x find "AS_roadblock" == 0) exitWith {[_x, "roadblock"] call AS_fnc_location_add};
     };
 } forEach allMapMarkers;
 
-["FIA_HQ","fia_hq"] call AS_fnc_location_add;
+call AS_fnc_location_addAllRoadblocks;
 
-call AS_fnc_location_updateMarkers;
+["FIA_HQ","fia_hq"] call AS_fnc_location_add;
 
 // This is needed here because petros has a side.
 side_blue = west; // <<<<<< player side, always, at all times, no exceptions
@@ -55,5 +54,4 @@ publicVariable "cajaVeh";
 cajaVeh allowDamage false;
 
 AS_permanent_HQplacements = [caja, cajaVeh, mapa, fuego, bandera];
-
-call AS_fnc_placeHQdefault;
+AS_HQ_placements = []; // objects placed on HQ

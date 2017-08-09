@@ -11,7 +11,7 @@ private _gruposFIA = [];
 private _posicion = _location call AS_fnc_location_position;
 private _size = _location call AS_fnc_location_size;
 private _estaticas = AS_P("vehicles") select {_x distance _posicion < _size};
-private _prestigio = AS_P("prestigeNATO")/100;
+private _prestigio = AS_P("NATOsupport")/100;
 private _buildings = nearestObjects [_posicion, ["Land_LandMark_F"], _size / 2];
 
 if (count _buildings > 1) then {
@@ -45,9 +45,9 @@ if (count _buildings > 1) then {
 private _pos = [_posicion, 3,0] call BIS_fnc_relPos;
 _veh = createVehicle [bluFlag, _pos, [],0, "CAN_COLLIDE"];
 _veh allowDamage false;
-[[_veh,"unit"],"flagaction"] call BIS_fnc_MP;
-[[_veh,"vehicle"],"flagaction"] call BIS_fnc_MP;
-[[_veh,"garage"],"flagaction"] call BIS_fnc_MP;
+[[_veh,"unit"],"AS_fnc_addAction"] call BIS_fnc_MP;
+[[_veh,"vehicle"],"AS_fnc_addAction"] call BIS_fnc_MP;
+[[_veh,"garage"],"AS_fnc_addAction"] call BIS_fnc_MP;
 _vehiculos pushBack _veh;
 
 // number of vehicles and groups spawned (at least 1)
@@ -102,7 +102,7 @@ waitUntil {sleep 1;
 	 3*(({alive _x} count _soldados) + count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)))};
 
 if (_location call AS_fnc_location_spawned) then {
-	[_location] remoteExec ["mrkLOOSE",2];
+	[_location] remoteExec ["AS_fnc_location_lose",2];
 };
 
 waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};

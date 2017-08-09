@@ -10,12 +10,10 @@ private _FIAbases = [["base","airfield"], "FIA"] call AS_fnc_location_TS;
 
 private _useCSAT = true;
 
-private _validTypes = ["base", "airfield", "outpost", "city", "roadblock"];
+private _validTypes = ["base", "airfield", "outpost", "city", "roadblock", "powerplant", "factory", "resource"];
 
 // only attack cities and use CSAT if FIA controls a base or airfield
-if ((random 100 > AS_P("prestigeCSAT")) or
-	(count _FIAbases == 0) or
-	(server getVariable "blockCSAT")) then {
+if ((random 100 > AS_P("CSATsupport")) or (count _FIAbases == 0) or (server getVariable "blockCSAT")) then {
 	_validTypes = _validTypes - ["city"];
 	_useCSAT = false;
 };
@@ -41,7 +39,6 @@ if (_useCSAT) then {
 	private _type = _location call AS_fnc_location_type;
 	private _position = _location call AS_fnc_location_position;
 	private _garrison = _location call AS_fnc_location_garrison;
-	_isEasy = false;
 
 	if (_type == "_city") then {
 		// cities are attacked by CSAT, so no need to compute anything
@@ -62,7 +59,7 @@ if (_useCSAT) then {
 
 			(_closeEnemylocations call AS_fnc_AAFattackScore) params ["_scoreNeededLand", "_scoreNeededAir"];
 
-			_isEasy = (_scoreNeededLand < 4) and (_scoreNeededAir < 4) and (count _garrison < 4) and !(_type in ["base", "airfield"]);
+			private _isEasy = (_scoreNeededLand < 4) and (_scoreNeededAir < 4) and (count _garrison < 4) and !(_type in ["base", "airfield"]);
 
 			_debug_message = format ["%1: (%2,%3) (%4,%5) %6", _location, _scoreAir, _scoreNeededAir, _scoreLand, _scoreNeededLand, _isEasy];
 			AS_ISDEBUG(_debug_prefix + _debug_message);
@@ -122,23 +119,5 @@ if ((count _objectives > 0) and (_count_easy < 3)) then {
 		[_location] remoteExec ["combinedCA",HCattack]
 	} else {
 		[_location] remoteExec ["CSATpunish",HCattack]
-	};
-};
-
-if (not("CONVOY" in misiones) and count _objectives == 0) then {
-	{
-		private _base = [_x call AS_fnc_location_position] call findBasesForConvoy;
-		if (_base != "") then {
-			private _FIAsupport = [_x, "FIAsupport"] call AS_fnc_location_get;
-			private _AAFsupport = [_x, "AAFsupport"] call AS_fnc_location_get;
-			if (_FIAsupport + _AAFsupport < 95) then {
-				_objectives pushBack [_x,_base];
-			};
-		};
-	} forEach (["city", "FIA"] call AS_fnc_location_TS);
-
-	if (count _objectives > 0) then {
-		private _location = selectRandom _objectives;
-		[(_location select 0),(_location select 1),"civ"] remoteExec ["CONVOY",HCattack];
 	};
 };

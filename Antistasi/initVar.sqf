@@ -25,8 +25,13 @@ allowPlayerRecruit = true;
 // Whether the autoHeal system is activated for this client.
 autoHeal = false;
 
-// This is used to avoid race conditions in showing income in the screen.
-incomeRep = false;
+// Ordered ranks used to rank players
+AS_ranks = [
+	"PRIVATE", "CORPORAL", "SERGEANT", "LIEUTENANT", "CAPTAIN", "MAJOR", "COLONEL"
+];
+AS_rank_abbreviations = [
+	"PRV", "CPL", "SGT", "LT", "CPT", "MAJ", "COL"
+];
 
 // UPSMON is used for all kinds of AI patrolling. We initialize it here
 // so any client can spawn patrols.
@@ -76,9 +81,6 @@ if ("rhs_weap_akms" in AS_allWeapons) then {
 
 // This is needed to find the sounds of dog's barking, so it is in every client
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
-
-// Miscelaneous functions that all clients need.
-#include "Functions\clientFunctions.sqf"
 
 // Templates below modify server-side content so the server has to initialize
 // some things at this point.
@@ -155,6 +157,8 @@ if (!isServer) exitWith {};
 
 // Below this point, everything defined only belongs to the server
 
+// create container to store missions
+["mission"] call AS_fnc_container_add;
 
 // Picks the stuff defined for FIA above and merges it in a single interface
 call compile preprocessFileLineNumbers "initFIA.sqf";
@@ -175,12 +179,7 @@ campNames = ["Spaulding","Wagstaff","Firefly","Loophole","Quale","Driftwood","Fl
 			"Fieramosca","Bulldozer","Bambino","Pedersoli"];
 
 // todo: improve this.
-expCrate = ""; // Devin's crate
-
-// load functions required by the server
-#include "Functions\serverFunctions.sqf"
-#include "Functions\QRFfunctions.sqf"
-#include "Functions\maintenance.sqf"
+expCrate = ""; // dealer's crate
 
 // todo: have a menu to switch this behaviour
 switchCom = false;  // Game will not auto assign Commander position to the highest ranked player
@@ -204,8 +203,8 @@ AS_Pset("resourcesFIA",1000); //Initial FIA money pool value
 AS_Pset("resourcesAAF",0); //Initial AAF resources
 AS_Pset("skillFIA",0); //Initial skill level of FIA
 AS_Pset("skillAAF",0); //Initial skill level of AAF
-AS_Pset("prestigeNATO",5); //Initial Prestige NATO
-AS_Pset("prestigeCSAT",5); //Initial Prestige CSAT
+AS_Pset("NATOsupport",5); //Initial NATO support
+AS_Pset("CSATsupport",5); //Initial CSAT support
 
 AS_Pset("secondsForAAFattack",600);  // The time for the attack script to be run
 AS_Pset("destroyedLocations", []); // Locations that are destroyed (can be repaired)
@@ -235,9 +234,6 @@ AS_Pset("maxAISkill",0.9); // The maximum skill of the AAF/FIA AI (at highest sk
 AS_Sset("revealFromRadio",false);
 
 // todo: document these variables...
-AS_Sset("milActive",0);
-AS_Sset("civActive",0);
-AS_Sset("expActive", false);
 AS_Sset("blockCSAT", false);
 AS_Sset("jTime", false);
 AS_Sset("lockTransfer", false);
@@ -245,7 +241,7 @@ AS_Sset("lockTransfer", false);
 // todo: this option is not being saved, so it is irrelevant. Consider removing.
 AS_Sset("enableWpnProf",false); // class-based weapon proficiences, MP only
 
-AS_spawnLoopTime = 0.5; // seconds between each check of spawn/despawn locations (expensive loop).
+AS_spawnLoopTime = 1; // seconds between each check of spawn/despawn locations (expensive loop).
 
 // Pricing values for soldiers, vehicles of AAF
 {AS_data_allCosts setVariable [_x,100,true]} forEach ["I_crew_F","O_crew_F","C_man_1"];
@@ -256,10 +252,6 @@ AS_spawnLoopTime = 0.5; // seconds between each check of spawn/despawn locations
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_special;
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_NCO;
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_sniper;
-
-// todo: document this
-misiones = [];
-publicVariable "misiones";
 
 // list of vehicles (objects) that can no longer be used for undercover
 // This is non-persistent as it is a temporary component
@@ -296,6 +288,9 @@ for "_i" from 0 to (count _allVehicles - 1) do {
 publicVariable "FIA_texturedVehicles";
 publicVariable "FIA_texturedVehicleConfigs";
 
+call AS_fnc_initPetros;
+call AS_fnc_HQdeploy;
+
 
 // The max skill that AAF or FIA can have (BE_module).
 AS_maxSkill = 20;
@@ -308,3 +303,5 @@ publicVariable "unlockedWeapons";
 publicVariable "unlockedItems";
 publicVariable "unlockedBackpacks";
 publicVariable "unlockedMagazines";
+
+[] spawn AS_fnc_mission_updateAvailable;

@@ -33,7 +33,7 @@ AS_fncUI_manageLocationsMapSelection = {
 
 	// pick position
 	switch (AS_map_type) do {
-		case "roadblock": {hint "Roadblocks are positioned in roads and "};
+		case "roadblock": {hint "Roadblocks are positioned in roads"};
 	};
 	openMap true;
 	AS_map_position = [];
@@ -64,7 +64,16 @@ AS_fncUI_manageLocationsAdd = {
 	if (_type == "roadblock" and count _roads == 0) exitWith {
 		hint "Roadblocks have to be positioned close to roads";
 	};
-	[_type, _position] remoteExec ["AS_fnc_establishFIALocation", 2];
+	if (count ("FIAlocation" call AS_fnc_active_missions) != 0) exitWith {
+		hint "We are already building a location";
+	};
+	// create the mission so it is kept stored.
+	private _mission = ["FIAlocation", ""] call AS_fnc_mission_add;
+	[_mission, "status", "active"] call AS_fnc_mission_set;
+	[_mission, "position", _position] call AS_fnc_mission_set;
+	[_mission, "locationType", _type] call AS_fnc_mission_set;
+
+	[_mission] remoteExec ["AS_mis_establishFIALocation", 2];
 };
 
 AS_fncUI_manageLocationsAbandon = {
@@ -106,5 +115,6 @@ AS_fncUI_manageLocationsRename = {
 
 	if (_newName != _oldName) then {
 		[_location, _newName] remoteExec ["AS_fnc_renameFIAcamp", 2];
+		hint format ["Camp renamed to '%1'", _newName];
 	};
 };

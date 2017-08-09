@@ -1,12 +1,10 @@
 #include "macros.hpp"
+AS_SERVER_ONLY("onPlayerDisconnect.sqf");
 
 params ["_unit"];
 
-// first, if unit is owning someone, drop that ownership
-private _owner = _unit getVariable ["owner", _unit];
-if (_unit getVariable ["owner",_unit] != _unit) then {
-	selectPlayer _owner;
-};
+// first, if player is controlling another unit, drop that control
+call AS_fnc_safeDropAIcontrol;
 
 if (_unit == AS_commander) then {
 	private _recursos = 0;
@@ -52,11 +50,10 @@ if (_unit == AS_commander) then {
 			} forEach (units _x);
 		};
 	} forEach allGroups;
-	if (((count playableUnits > 0) and (count miembros == 0)) or ({(getPlayerUID _x) in miembros} count playableUnits > 0)) then {
-		[] spawn assignStavros;
-	};
+
+	["disconnected"] spawn AS_fnc_chooseCommander;
 	// in case the commander disconnects while moving the HQ, HQ is built in the location.
-	if (group petros == group _unit) then {[] spawn buildHQ};
+	if (group petros == group _unit) then {call AS_fnc_HQbuild};
 
 	if ((_hr > 0) or (_recursos > 0)) then {[_hr,_recursos] spawn resourcesFIA};
 };
@@ -68,10 +65,6 @@ private _cargoArray = [_unit, true] call AS_fnc_getUnitArsenal;
 private _pos = getPosATL _unit;
 private _wholder = nearestObjects [_pos, ["weaponHolderSimulated", "weaponHolder"], 2];
 {deleteVehicle _x;} forEach _wholder + [_unit];
-if (alive _unit) then {
-	_unit setVariable ["owner",_unit,true];
-	_unit setDamage 1;
-};
 
 // send data to the server.
 call AS_fnc_saveLocalPlayerData;

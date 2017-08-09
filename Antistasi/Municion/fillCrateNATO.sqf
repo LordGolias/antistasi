@@ -44,8 +44,10 @@ private _bestScope = [NATOItems arrayIntersect AS_allOptics, "sniperScope"] call
 [selectRandom bluAT, _intNATOSupp, 3*_intNATOSupp] call _addWeapon;
 [selectRandom bluAA, _intNATOSupp, 3*_intNATOSupp] call _addWeapon;
 
-(_magazines select 0) pushBack (selectRandom NATOThrowGrenades);
-(_magazines select 1) pushBack 10*_intNATOSupp;
+for "_i" from 1 to 5 do {
+	(_magazines select 0) pushBack (selectRandom NATOThrowGrenades);
+	(_magazines select 1) pushBack 5*_intNATOSupp;
+};
 
 for "_i" from 1 to 5 do {
     (_items select 0) pushBack (selectRandom NATOVests);

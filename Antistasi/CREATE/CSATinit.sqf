@@ -9,5 +9,4 @@ if (sunOrMoon < 1) then {
 	if (opIR in primaryWeaponItems _unit) then {_unit action ["IRLaserOn", _unit]};
 };
 
-_unit addEventHandler ["HandleDamage",handleDamageAAF];
 _unit addEventHandler ["killed",AAFKilledEH];

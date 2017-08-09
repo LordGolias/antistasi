@@ -95,7 +95,7 @@ vehLead = ["rhs_tigr_sts_3camo_vdv"];
 vehTruckBox = ["rhs_gaz66_repair_vdv"];
 
 // FIA Vehicles
-vehTruckAA = "rhs_gaz66_zu23_msv";
+vehTruckAA = "rhsgref_cdf_b_gaz66_zu23";
 
 
 // Standard group arrays, used for spawning groups -- can use full config paths, config group names, arrays of individual soldiers
@@ -110,14 +110,14 @@ infAA =				["rhs_group_rus_vdv_infantry_section_AA"];
 infAT =				["rhs_group_rus_vdv_infantry_section_AT"];
 
 // Statics to be used
-statMG = 			"rhs_DSHKM_ins";
-statAT = 			"rhs_Kornet_9M133_2_vdv"; // alternatives: rhs_Kornet_9M133_2_vdv, rhs_SPG9M_VDV, rhs_Metis_9k115_2_vdv
-statAA = 			"RHS_ZU23_VDV"; // alternatively: "rhs_Igla_AA_pod_vdv"
+statMG = 			"rhsgref_cdf_b_DSHKM";
+statAT = 			"rhsgref_ins_g_SPG9M"; // alternatives: rhs_Kornet_9M133_2_vdv, rhs_SPG9M_VDV, rhs_Metis_9k115_2_vdv
+statAA = 			"rhsgref_cdf_b_ZU23"; // alternatively: "rhs_Igla_AA_pod_vdv"
 statAA2 = 			"rhs_Igla_AA_pod_vdv";
-statMortar = 		"rhs_2b14_82mm_vdv";
+statMortar = 		"rhsgref_cdf_b_reg_M252";
 
-statMGlow = 		"RHS_NSV_TriPod_VDV";
-statMGtower = 		"rhs_KORD_high_VDV";
+statMGlow = 		"rhsgref_cdf_b_DSHKM_Mini_TriPod";
+statMGtower = 		"rhsgref_cdf_b_DSHKM";
 
 // Lists of statics to determine the defensive capabilities at locations
 allStatMGs = 		allStatMGs + [statMG];

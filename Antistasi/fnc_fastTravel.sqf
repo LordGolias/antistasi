@@ -119,7 +119,7 @@ if !(_location call AS_fnc_location_forced_spawned) then {
 	} else {  // unit; non-vechicle
 		private _position = _positionTo findEmptyPosition [1,50,typeOf _unit];
 		_unit setPosATL _position;
-		if !(_unit getVariable ["inconsciente", true]) then {
+		if !(_unit call AS_fnc_isUnconscious) then {
 			if (isPlayer leader _unit) then {_unit setVariable ["rearming",false]};
 			_unit doWatch objNull;
 			_unit doFollow leader _unit;

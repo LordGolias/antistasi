@@ -21,7 +21,7 @@ while {true} do {
 				if (vehicle _jugador == _jugador) then {
 					_mrk setMarkerPosLocal position _jugador;
 					_mrk setMarkerDirLocal getDir _jugador;
-					if ((_jugador getVariable ["inconsciente",false]) || (_jugador getVariable ["ACE_isUnconscious",false])) then {
+					if (_jugador call AS_fnc_isUnconscious) then {
 						_mrk setMarkerTypeLocal "mil_join";
 						_mrk setMarkerTextLocal format ["%1 Injured",name _jugador];
 						_mrk setMarkerColorLocal "ColorPink";

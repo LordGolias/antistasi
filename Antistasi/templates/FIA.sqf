@@ -94,7 +94,46 @@ AS_FIAsquadsMapping = [
 ];
 
 // squads that require custom initialization
-AS_allFIACustomSquadTypes = ["Mobile AA","Mobile AT","Mobile Mortar"];
+AS_FIACustomSquad_types = ["Mobile AA", "Mobile AT", "Mobile Mortar"];
+
+AS_fnc_FIACustomSquad_piece = {
+	params ["_squadType"];
+	if (_squadType == "Mobile AA") exitWith {"B_static_AA_F"};
+	if (_squadType == "Mobile AT") exitWith {"B_static_AT_F"};
+	if (_squadType == "Mobile Mortar") exitWith {"B_G_Mortar_01_F"};
+};
+
+AS_fnc_FIACustomSquad_cost = {
+	params ["_squadType"];
+	private _cost = 2*(AS_data_allCosts getVariable "Crew");
+	private _costHR = 2;
+	_cost = _cost + ([[_squadType] call AS_fnc_FIACustomSquad_piece] call FIAvehiclePrice) + (["B_G_Van_01_transport_F"] call FIAvehiclePrice);
+	[_costHR, _cost]
+};
+
+AS_fnc_FIACustomSquad_initialization = {
+	params ["_squadType", "_position"];
+	private _pos = _position findEmptyPosition [1,30,"B_G_Van_01_transport_F"];
+    private _veh = [_pos, 0,"B_G_Van_01_transport_F", side_blue] call bis_fnc_spawnvehicle;
+	private _camion = _veh select 0;
+	private _grupo = _veh select 2;
+	_grupo setVariable ["staticAutoT", false, true];
+	private _piece = ([_squadType] call AS_fnc_FIACustomSquad_piece) createVehicle (_position findEmptyPosition [1,30,"B_G_Van_01_transport_F"]);
+	private _morty = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _position findEmptyPosition [1,30,"B_G_Van_01_transport_F"], [], 0, "NONE"];
+
+	if (_squadType == "Mobile Mortar") then {
+		_morty moveInGunner _piece;
+		_piece setVariable ["attachPoint", [0,-1.5,0.2]];
+		[_morty,_camion,_piece] spawn mortyAI;
+	} else {
+		_piece attachTo [_camion,[0,-1.5,0.2]];
+		_piece setDir (getDir _camion + 180);
+		_morty moveInGunner _piece;
+	};
+	[_camion, "FIA"] call AS_fnc_initVehicle;
+	[_piece, "FIA"] call AS_fnc_initVehicle;
+	_grupo
+};
 
 if (isServer) then {
 	// The cost of each AS unit type. Squad cost also depends on this

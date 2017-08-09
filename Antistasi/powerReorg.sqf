@@ -8,8 +8,8 @@ if (_location call AS_fnc_location_type != "powerplant") exitWith {
 
 private _supplySide = _location call AS_fnc_location_side;
 
-private _supply = (call AS_fnc_location_all) select {_x call AS_fnc_location_type == "powerplant"};
-private _demand = (call AS_fnc_location_all) select {_x call AS_fnc_location_type in ["city", "factory", "resource"]};
+private _supply = "powerplant" call AS_fnc_location_T;
+private _demand = ["city", "factory", "resource"] call AS_fnc_location_T;
 
 {
 	private _pos = _x call AS_fnc_location_position;
@@ -20,6 +20,6 @@ private _demand = (call AS_fnc_location_all) select {_x call AS_fnc_location_typ
 		if ((_location in AS_P("destroyedLocations")) or _supplySide != _demandSide) then {
 			_powered = false;
 		};
-		[_x,_powered] spawn apagon;
+		[_x,_powered] spawn AS_fnc_changeStreetLights;
 	};
 } forEach _demand;

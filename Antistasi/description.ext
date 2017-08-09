@@ -259,26 +259,6 @@ class CfgIdentities
 	pitch=1.1;
     };
 
-        class Nomad
-    {
-        name = "Nomad";
-        nameSound = "Nomad";
-        face="WhiteHead_09";
-    glasses = "None";
-    speaker = "Male04ENGB";
-    pitch = 1.0;
-    };
-
-        class Stranger
-    {
-        name = "Stranger";
-        nameSound = "Stranger";
-        face="GreekHead_A3_06";
-    glasses = "None";
-    speaker = "Male04GRE";
-    pitch = 1.0;
-    };
-
         class Devin
     {
         name = "Devin";

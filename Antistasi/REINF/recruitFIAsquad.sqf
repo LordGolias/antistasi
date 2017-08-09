@@ -9,7 +9,7 @@ private _enemiesClose = false;
 	if (((side _x == side_red) or (side _x == side_green)) and (_x distance petros < 500) and (not(captive _x))) exitWith {_enemiesClose = true};
 } forEach allUnits;
 
-if (_enemiesClose) exitWith {Hint "You cannot Recruit Squads with enemies near your HQ"};
+//if (_enemiesClose) exitWith {Hint "You cannot Recruit Squads with enemies near your HQ"};
 
 params ["_grouptype"];
 
@@ -19,28 +19,15 @@ private _costHR = 0;
 private _hr = AS_P("hr");
 private _resourcesFIA = AS_P("resourcesFIA");
 
-if !(_grouptype in AS_allFIACustomSquadTypes) then {
-	([_tipogrupo] call AS_fnc_getFIASquadCost) params ["_cost1", "_hr1"];
-	_cost = _cost + _cost1;
-	_costHR = _costHR + _hr1;
+if !(_grouptype in AS_FIACustomSquad_types) then {
+	([_grouptype] call AS_fnc_getFIASquadCost) params ["_cost", "_hr"];
 	_isInfantry = true;
-}
-else {
-	_cost = 2*(AS_data_allCosts getVariable "Crew");
-	_costHR = 2;
-	_cost = _cost + ([[_grouptype] call AS_fnc_FIAmobileToPiece] call FIAvehiclePrice) + (["B_G_Van_01_transport_F"] call FIAvehiclePrice);
-
-	if ((hayRHS) && (_grouptype == "Mobile AA")) then {
-		_cost = 3*(AS_data_allCosts getVariable "Crew");
-		_costHR = 3;
-		_cost = _cost + ([vehTruckAA] call FIAvehiclePrice);
-	};
+} else {
+	([_grouptype] call AS_fnc_FIACustomSquad_cost) params ["_cost", "_hr"];
 };
 
-private _exit = false;
-if (_hr < _costHR) then {_exit = true;hint format ["You do not have enough HR for this request (%1 required)",_costHR]};
-if (_resourcesFIA < _cost) then {_exit = true;hint format ["You do not have enough money for this request (%1 € required)",_cost]};
-if (_exit) exitWith {};
+if (_hr < _costHR) exitWith {hint format ["You do not have enough HR for this request (%1 required)",_costHR]};
+if (_resourcesFIA < _cost) exitWith {hint format ["You do not have enough money for this request (%1 € required)",_cost]};
 
 [- _costHR, - _cost] remoteExec ["resourcesFIA",2];
 
@@ -53,94 +40,11 @@ while {true} do {
 	if (count _roads > 0) exitWith {_road = _roads select 0;};
 };
 
-private ["_grupo","_camion","_vehicle","_mortero","_morty"];
-
-if (hayRHS) then {
-	if (_isInfantry) then {
-		_pos = [_pos, 30, random 360] call BIS_Fnc_relPos;
-		_grupo = [_pos, side_blue, [_type] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
-	}
-	else {
-		if (_grouptype == "Mobile AA") then {
-			_pos = position _road findEmptyPosition [1,30,vehTruckAA];
-			_vehicle=[_pos, 0, vehTruckAA, side_blue] call bis_fnc_spawnvehicle;
-			_veh = _vehicle select 0;
-			_vehCrew = _vehicle select 1;
-			{deleteVehicle _x} forEach crew _veh;
-			_grupo = _vehicle select 2;
-			[_veh, "FIA"] call AS_fnc_initVehicle;
-			_driv = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _pos, [],0, "NONE"];
-			_driv moveInDriver _veh;
-			driver _veh action ["engineOn", vehicle driver _veh];
-			_gun = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _pos, [],0, "NONE"];
-			_gun moveInGunner _veh;
-			_com = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _pos, [],0, "NONE"];
-			_com moveInCommander _veh;
-		}
-		else {
-			_pos = position _road findEmptyPosition [1,30,"B_G_Van_01_transport_F"];
-			_vehicle=[_pos, 0,"B_G_Van_01_transport_F", side_blue] call bis_fnc_spawnvehicle;
-			_camion = _vehicle select 0;
-			_grupo = _vehicle select 2;
-			_pos = _pos findEmptyPosition [1,30,"B_G_Mortar_01_F"];
-			_attachPos = [0,-1.5,0.2];
-
-			if (_grouptype == "Mobile AT") then {
-				_mortero = "rhs_SPG9M_MSV" createVehicle _pos;
-				_attachPos = [0,-2.4,-0.6];
-			}
-			else {
-				diag_log "[AS] ERROR: RHS Mobile unit vehicle"
-				//_mortero = _grouptype createVehicle _pos;
-			};
-
-			[_mortero, "FIA"] call AS_fnc_initVehicle;
-			_morty = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _pos, [],0, "NONE"];
-			_grupo setVariable ["staticAutoT",false,true];
-			if (_grouptype == "Mobile Mortar") then {
-				_morty moveInGunner _mortero;
-				[_morty,_camion,_mortero] spawn mortyAI;
-			}
-			else {
-				_mortero attachTo [_camion,_attachPos];
-				_mortero setDir (getDir _camion + 180);
-				_morty moveInGunner _mortero;
-			};
-		driver _camion action ["engineOn", vehicle driver _camion];
-		[_camion, "FIA"] call AS_fnc_initVehicle;
-		};
-	};
-}
-else {
-
-if (_isInfantry) then {
-	_pos = [(getMarkerPos "FIA_HQ"), 30, random 360] call BIS_Fnc_relPos;
-	_grupo = [_pos, side_blue, [_grouptype] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
-}
-else {
-	_pos = position _road findEmptyPosition [1,30,"B_G_Van_01_transport_F"];
-    _veh = [_pos, 0,"B_G_Van_01_transport_F", side_blue] call bis_fnc_spawnvehicle;
-	_camion = _veh select 0;
-	_grupo = _veh select 2;
-	_pieceName = [_grouptype] call AS_fnc_FIAmobileToPiece;
-	_pos = _pos findEmptyPosition [1,30,_pieceName];
-	_mortero = _pieceName createVehicle _pos;
-	[_mortero, "FIA"] call AS_fnc_initVehicle;
-	_morty = _grupo createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _pos, [],0, "NONE"];
-	_grupo setVariable ["staticAutoT",false,true];
-	if (_grouptype == "Mobile Mortar") then {
-		_morty moveInGunner _mortero;
-		[_morty,_camion,_mortero] spawn mortyAI;
-	}
-	else {
-		_mortero attachTo [_camion,[0,-1.5,0.2]];
-		_mortero setDir (getDir _camion + 180);
-		_morty moveInGunner _mortero;
-	};
-	driver _camion action ["engineOn", vehicle driver _camion];
-	[_camion, "FIA"] call AS_fnc_initVehicle;
-	};
-
+private _grupo = grpNull;
+if _isInfantry then {
+	_grupo = [[_pos, 30, random 360] call BIS_Fnc_relPos, side_blue, [_grouptype] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
+} else {
+	_grupo = [_grouptype, position _road] call AS_fnc_FIACustomSquad_initialization;
 };
 
 // the name that appears in HC.

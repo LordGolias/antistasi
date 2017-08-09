@@ -13,8 +13,6 @@ diag_log "[AS] Server MP: initLocations done";
 call compile preprocessFileLineNumbers "initVar.sqf";
 diag_log "[AS] Server MP: initVar done";
 
-call compile preprocessFileLineNumbers "initPetros.sqf";
-
 ["Initialize"] call BIS_fnc_dynamicGroups;
 
 // tell every client that the server is ready to receive players (see initPlayerLocal.sqf)
@@ -29,8 +27,7 @@ addMissionEventHandler ["HandleDisconnect",{[_this select 0] call onPlayerDiscon
 
 maxPlayers = playableSlotsNumber west;
 AS_commander = playableUnits select 0;
-AS_commander setRank "CORPORAL";
-[AS_commander, "CORPORAL"] remoteExec ["ranksMP"];
+AS_commander setUnitRank "CORPORAL";
 publicVariable "AS_commander";
 
 if (serverName in servidoresOficiales) then {

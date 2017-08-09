@@ -1,6 +1,5 @@
 #include "../macros.hpp"
 // Used to spawn "city","fia_hq","factory","resource","powerplant"
-if (!isServer and hasInterface) exitWith{};
 params ["_location"];
 
 // Spawned stuff
@@ -21,11 +20,11 @@ if (_type != "fia_hq") then {
 	private _veh = createVehicle ["Flag_FIA_F", _posicion, [],0, "CAN_COLLIDE"];
 	_veh allowDamage false;
 	_vehiculos pushBack _veh;
-	[[_veh,"unit"],"flagaction"] call BIS_fnc_MP;
-	[[_veh,"vehicle"],"flagaction"] call BIS_fnc_MP;
-	[[_veh,"garage"],"flagaction"] call BIS_fnc_MP;
+	[[_veh,"unit"],"AS_fnc_addAction"] call BIS_fnc_MP;
+	[[_veh,"vehicle"],"AS_fnc_addAction"] call BIS_fnc_MP;
+	[[_veh,"garage"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	if (_type == "seaport") then {
-		[[_veh,"seaport"],"flagaction"] call BIS_fnc_MP;
+		[[_veh,"seaport"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	};
 
 	// worker civilians in non-military non-destroyed markers
@@ -50,9 +49,9 @@ if (_type == "outpost") then {
 	_buildings append (nearestObjects [_posicion, listMilBld, _size*1.5]);
 
 	// if close to an antenna, add jam option
-	private _ant = [antenas,_posicion] call BIS_fnc_nearestPosition;
-	if (getPos _ant distance _posicion < 100) then {
-		[[_veh,"jam"],"flagaction"] call BIS_fnc_MP;
+	private _antennaPos = [antenas,_posicion] call BIS_fnc_nearestPosition;
+	if (_antennaPos distance _posicion < 100) then {
+		[[nearestBuilding _pos,"jam"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	};
 };
 
@@ -81,7 +80,7 @@ if !(_type in ["fia_hq","city"]) then {
 
 	// successful attack => lose marker
 	if (_wasCaptured) then {
-		[_location] remoteExec ["mrkLOOSE",2];
+		[_location] remoteExec ["AS_fnc_location_lose",2];
 	};
 };
 

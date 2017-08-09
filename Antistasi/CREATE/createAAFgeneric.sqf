@@ -14,7 +14,6 @@ private _isDestroyed = _location in AS_P("destroyedLocations");
 // spawn flag
 private _flag = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
 _flag allowDamage false;
-[[_flag,"take"],"flagaction"] call BIS_fnc_MP;
 _vehiculos pushBack _flag;
 
 // spawn 2 patrols
@@ -65,7 +64,7 @@ waitUntil {sleep 1;
 };
 
 if ((_location call AS_fnc_location_spawned) and (_location call AS_fnc_location_side == "AAF")) then {
-	[_flag] remoteExec ["mrkWIN",2];
+	[_location] remoteExec ["AS_fnc_location_win", 2];
 };
 
 waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};

@@ -1,7 +1,7 @@
 #include "../macros.hpp"
 params ["_type"];
 
-if ("Mines" in misiones) exitWith {
+if ("fia_minefield" call AS_fnc_active_missions != 0) exitWith {
 	hint "We can only deploy one minefield at a time.";
 	createDialog "AS_createminefield";
 };
@@ -77,7 +77,7 @@ AS_fncUI_addMine = {
 onMapSingleClick "_pos call AS_fncUI_addMine;";
 
 AS_fncUI_keyPressed = {
-	params ["_control","_key","_shift", "_control", "_alt"];
+	params ["_control", "_key", "_shift", "_ctrl", "_alt"];
 	if (_key in [0x1C, 0x9C]) exitWith {  // enter
 		AS_confirmLocations = true;
 		openMap false;
@@ -125,5 +125,23 @@ if !(AS_confirmLocations) exitWith {
 };
 AS_confirmLocations = nil;
 
+// pay price and remove mines from box
+private _vehType = (AS_FIArecruitment getVariable "land_vehicles") select 0;
+private _cost = (2*(AS_data_allCosts getVariable "Explosives Specialist")) + ([_vehType] call FIAvehiclePrice);
+[-2,-_cost] remoteExec ["resourcesFIA",2];
+
+([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
+_cargo_m = [_cargo_m, [[_type call AS_fnc_mineMag], [count _positions]], true] call AS_fnc_mergeCargoLists;  // true -> remove from _cargo_m
+[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true, true] call AS_fnc_populateBox;
+
+// create the mission
+private _mission = ["fia_minefield", ""] call AS_fnc_mission_add;
+[_mission, "status", "active"] call AS_fnc_mission_set;
+[_mission, "mine_type", _type] call AS_fnc_mission_set;
+[_mission, "position", _locationPosition] call AS_fnc_mission_set;
+[_mission, "positions", _positions] call AS_fnc_mission_set;
+[_mission, "vehicle", _vehType] call AS_fnc_mission_set;
+[_mission, "cost", _cost] call AS_fnc_mission_set;
+
 // create the mission that will build the minefield.
-[_type, _locationPosition, _positions] remoteExec ["AS_missionFIAminefield",2];
+[_mission] remoteExec ["AS_FIAminefield",2];

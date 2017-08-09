@@ -73,24 +73,15 @@ private _FIAResIncomeMultiplier = 1;
         _city call AS_fnc_location_updateMarker;
 
         ["con_cit"] remoteExec ["fnc_BE_XP", 2];
-        [0,5] remoteExec ["prestige",2];
-        [_city, !_power] spawn apagon;
-        sleep 5;
-        _city call deleteControles;
 
-        if (!("CONVOY" in misiones)) then {
-            _base = [_city call AS_fnc_location_position] call findBasesForConvoy;
-            if ((_base != "") and (random 3 < 1)) then {
-                [_city,_base,"city"] remoteExec ["CONVOY",HCattack];
-            };
-        };
+        [0,5] call AS_fnc_changeForeignSupport;
+        [_city, !_power] spawn AS_fnc_changeStreetLights;
     };
     if ((_AAFsupport > _FIAsupport) and (_side == "FIA")) then {
         [["TaskFailed", ["", format ["%1 joined AAF",[_city, false] call AS_fnc_getLocationName]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-        _location call AS_fnc_location_updateMarker;
-        [0,-5] remoteExec ["prestige",2];
-        sleep 5;
-        [_city, !_power] spawn apagon;
+        _city call AS_fnc_location_updateMarker;
+        [0,-5] call AS_fnc_changeForeignSupport;
+        [_city, !_power] spawn AS_fnc_changeStreetLights;
     };
 } forEach call AS_fnc_location_cities;
 
@@ -133,7 +124,7 @@ if (_FIAnewHR > 0) then {
     _FIAnewHR = _FIAnewHR min (["HR"] call fnc_BE_permission);
 };
 
-[[petros,"taxRep",_texto],"commsMP"] call BIS_fnc_MP;
+[[petros,"income",_texto],"commsMP"] call BIS_fnc_MP;
 
 AS_Pset("hr",_FIAnewHR);
 AS_Pset("resourcesFIA",_FIAnewMoney);

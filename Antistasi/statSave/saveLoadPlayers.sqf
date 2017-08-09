@@ -17,10 +17,10 @@ AS_profileID_data = [];
 // client function. Maps local data into an array.
 AS_fnc_serializeLocalPlayer = {
 	private _result = [];
-	if (isMultiplayer) then {
+	if isMultiplayer then {
 		private _score = player getVariable "score";
-		private _rank = rank player;
-		private _money = player getVariable "dinero";
+		private _rank = player getVariable "rank";
+		private _money = player getVariable "money";
 		{
 		private _hired = _x;
 		if ((!isPlayer _hired) and (alive _hired)) then {
@@ -120,11 +120,11 @@ AS_fnc_setPlayerData = {
 // client function. Maps an array to local data.
 AS_fnc_deserializeLocalPlayer = {
     params ["_data"];
-	if (isMultiplayer) then {
+	if isMultiplayer then {
 		player setVariable ["score", _data select 0, true];
-		player setRank (_data select 1);
-		[player, (_data select 1)] remoteExec ["ranksMP"];
-		player setVariable ["dinero", _data select 2, true];
+		player setVariable ["rank", _data select 1, true];
+		player setUnitRank (_data select 1);
+		player setVariable ["money", _data select 2, true];
 		personalGarage = _data select 3;
         hint "Profile loaded."
 	};

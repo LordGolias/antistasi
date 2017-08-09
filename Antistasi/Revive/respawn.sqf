@@ -3,7 +3,7 @@ params ["_unit"];
 
 if (!local _unit) exitWith {};
 if (_unit getVariable "respawning") exitWith {};
-if (!( _unit getVariable "inconsciente")) exitWith {};
+if (!( _unit call AS_fnc_isUnconscious)) exitWith {};
 if (_unit != _unit getVariable ["owner",_unit]) exitWith {};
 if (!isPlayer _unit) exitWith {};
 _unit setVariable ["respawning",true];
@@ -28,13 +28,15 @@ if (isMultiplayer) exitWith {
 	};
 	(findDisplay 46) displayRemoveEventHandler ["KeyDown", respawnMenu];
 	_unit setCaptive false;
-	_unit setVariable ["inconsciente",false,true];
+	[_unit,false] call AS_fnc_setUnconscious;
 	_unit setVariable ["respawning",false];
 	_unit setDamage 1;
 };
 private ["_posicion","_tam","_roads","_road","_pos"];
 _posicion = getMarkerPos "FIA_HQ";
-if (_unit getVariable "inconsciente") then {_unit setVariable ["inconsciente",false,true]};
+if (_unit call AS_fnc_isUnconscious) then {
+	[_unit, false] call AS_fnc_setUnconscious;
+};
 _unit setVariable ["ayudado",nil];
 _unit setVariable ["ayudando",nil];
 _unit setDamage 0;
@@ -67,7 +69,7 @@ if (_x != vehicle _x) then
 	}
 else
 	{
-	if ((!(_x getVariable "inconsciente")) and (alive _x)) then
+	if ((!(_x call AS_fnc_isUnconscious)) and (alive _x)) then
 		{
 		_x setPosATL _posicion;
 		_x setVariable ["rearming",false];

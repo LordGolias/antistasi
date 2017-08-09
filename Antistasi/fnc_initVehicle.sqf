@@ -51,7 +51,7 @@ private _aaf_veh_EHkilled = {
 				_xpEffect = "des_arm";
 			};
 			case "trucks": {
-				// these are unlimited, so they cost money but no prestige
+				// these are unlimited, so they cost money but no support
 				[-1000] remoteExec ["resourcesAAF", 2];
 				_xpEffect = "des_veh";
 			};
@@ -82,11 +82,11 @@ if (_side == "AAF" and _tipo == AS_AAFarsenal_uav) then {
 
 // static weapons can be stolen by FIA from AAF and CSAT
 if (_side in ["AAF","CSAT"] and (_veh isKindOf "StaticWeapon")) then {
-    [[_veh,"steal"], "flagaction"] call BIS_fnc_MP;
+    [[_veh,"steal"], "AS_fnc_addAction"] call BIS_fnc_MP;
 };
 
 if (_tipo in allStatMortars) then {
-	// mortars denounce position for every shot fired.
+	// mortars may denounce position for every shot fired.
 	_veh addEventHandler ["Fired", {
 		params ["_mortar"];
 		private _side = side gunner _mortar;
@@ -94,12 +94,10 @@ if (_tipo in allStatMortars) then {
 		if (_side == side_blue) then {
 			if (random 8 < 1) then {
 				if (_mortar distance (getMarkerPos "FIA_HQ") < 200) then {
-					if !("DEF_HQ" in misiones) then {
+					if (count ("aaf_attack_hq" call AS_fnc_active_missions) == 0) then {
 						private _lider = leader (gunner _mortar);
-						if (!isPlayer _lider) then {
+						if (!isPlayer _lider or {[_lider] call isMember}) then {
 							[] remoteExec ["ataqueHQ",HCattack];
-						} else {
-							if ([_lider] call isMember) then {[] remoteExec ["ataqueHQ",HCattack]};
 						};
 					};
 				} else {
@@ -151,7 +149,7 @@ if (_veh isKindOf "Car") then {
 	}];
 };
 
-// NATO vehicles are locked and take prestige on destruction.
+// NATO vehicles are locked and take support on destruction.
 if (_side == "NATO") then {
     _veh lock 3;  // locked for players
 
@@ -162,9 +160,9 @@ if (_side == "NATO") then {
             moveOut _unit;
         };
     }];
-    // lose prestige when vehicle is destroyed
+    // lose support when vehicle is destroyed
     _veh addEventHandler ["killed", {
-        [-2,0] remoteExec ["prestige",2];
+        [-2,0] remoteExec ["AS_fnc_changeForeignSupport",2];
         [2,-2,position (_this select 0)] remoteExec ["citySupportChange",2];
     }];
 };

@@ -22,7 +22,6 @@ _vehiculos append _vehicles;
 // create flag
 private _bandera = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
 _bandera allowDamage false;
-[[_bandera,"take"],"flagaction"] call BIS_fnc_MP;
 _vehiculos pushBack _bandera;
 private _caja = "I_supplyCrate_F" createVehicle _posicion;
 _vehiculos pushBack _caja;
@@ -91,7 +90,7 @@ waitUntil {sleep 1;
 
 // all other conditions were fulfilled => captured
 if ((_location call AS_fnc_location_spawned) and (_location call AS_fnc_location_side == "AAF")) then {
-	[_bandera] remoteExec ["mrkWIN",2];
+	[_location] remoteExec ["AS_fnc_location_win",2];
 };
 
 waitUntil {sleep 1; !(_location call AS_fnc_location_spawned)};

@@ -11,8 +11,7 @@ if (_type == "camp") then {
 private _hq_garrison = "FIA_HQ" call AS_fnc_location_garrison;
 _hq_garrison append (_this call AS_fnc_location_garrison);
 ["FIA_HQ","garrison",_hq_garrison] call AS_fnc_location_set;
-"FIA_HQ" call AS_fnc_location_updateMarker;
 
-_this call AS_fnc_location_delete;
+_this call AS_fnc_location_remove;
 
 hint "Location abandoned";

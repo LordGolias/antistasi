@@ -4,6 +4,7 @@
 #include "dialogs\recruitSquad.hpp"
 #include "dialogs\recruitGarrison.hpp"
 #include "dialogs\manageLocations.hpp"
+#include "dialogs\manageMissions.hpp"
 #include "dialogs\buyVehicle.hpp"
 #include "dialogs\HQmenu.hpp"
 
@@ -19,35 +20,6 @@ AS_DIALOG(3,"Building Options", "closeDialog 0; if (player == AS_commander) then
 BTN_M(1,-1,"Manage Locations", "", "closeDialog 0; [] spawn AS_fncUI_ManageLocationsMenu;");
 BTN_M(2,-1,"Build Minefield", "", "closeDialog 0; createDialog ""AS_createMinefield"";");
 BTN_M(3, -1, "HQ Fortifications", "", "closeDialog 0; nul= createDialog ""HQ_fort_dialog"";");
-	};
-};
-
-class mission_menu
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(4,"Available Missions",A_CLOSE);
-
-#define STR_MIS_MIL "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""FND_M""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_CIV "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""FND_C""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_EXP "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""FND_E""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_LOG	"closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""LOG""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_DES	"closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""DES""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_RES "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""RES""],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-#define STR_MIS_PRO "closeDialog 0; if ((player == AS_commander) or (not(isPlayer AS_commander))) then {[[""PR"",false,true],""missionrequest""] call BIS_fnc_MP} else {hint ""Only Player Commander has access to this function""};"
-
-BTN_L(1,-1,"Military Contact", "", STR_MIS_MIL);
-BTN_L(2,-1,"Civilian Contact", "", STR_MIS_CIV);
-BTN_L(3,-1,"Sketchy Irishman", "", STR_MIS_EXP);
-
-BTN_R(1,-1,"Logistics Mission", "", STR_MIS_LOG);
-BTN_R(2,-1,"Destroy Mission", "", STR_MIS_DES);
-BTN_R(3,-1,"Rescue Mission", "", STR_MIS_RES);
-
-BTN_M(4, -1, "Propaganda", "", STR_MIS_PRO);
 	};
 };
 
@@ -118,8 +90,8 @@ AS_DIALOG(2,"Player and Money Interaction", "closeDialog 0; if (player == AS_com
 BTN_L(1,-1, "Add Server Member", "", "if (isMultiplayer) then {closeDialog 0; nul = [""add""] call memberAdd;} else {hint ""This function is MP only""};");
 BTN_L(2,-1, "Remove Server Member", "", "if (isMultiplayer) then {closeDialog 0; nul = [""remove""] call memberAdd;} else {hint ""This function is MP only""};");
 
-BTN_R(1,-1, "Donate 100 € to player", "", "[true] call donateMoney;");
-BTN_R(2,-1, "Donate 100 € to FIA", "", "[] call donateMoney;");
+BTN_R(1,-1, "Donate 100 € to player in front of you", "", "true call AS_fncUI_donateMoney;");
+BTN_R(2,-1, "Donate 100 € to FIA", "", "call AS_fncUI_donateMoney;");
 
 	};
 };
@@ -195,8 +167,8 @@ class AI_management
 	{
 AS_DIALOG(2,"AI Management","closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
 
-BTN_L(1,-1, "Temp. AI Control", "", "closeDialog 0; if ((count groupselectedUnits player > 0) and (count hcSelected player > 0)) exitWith {hint ""You must select from HC or Squad Bars, not both""}; if (count groupselectedUnits player == 1) then {nul = [groupselectedUnits player] execVM ""REINF\controlunit.sqf""}; if (count hcSelected player == 1) then {nul = [hcSelected player] execVM ""REINF\controlHCsquad.sqf"";};");
-BTN_L(2,-1, "Auto Heal", "", "if (autoHeal) then {autoHeal = false; hint ""Auto Healing disabled"";} else {autoHeal = true; hint ""Auto Heal enabled""; nul = [] execVM ""AI\autoHealFnc.sqf""}");
+BTN_L(1,-1, "Control selected AI", "", "[] spawn AS_fncUI_controlUnit;");
+BTN_L(2,-1, "Auto Heal", "", "[] execVM ""AI\autoHealFnc.sqf""}");
 
 BTN_R(1,-1, "Auto Rearm", "", "closeDialog 0; if (count groupselectedUnits player == 0) then {nul = (units group player) execVM ""AI\rearmCall.sqf""} else {nul = (groupselectedUnits player) execVM ""AI\rearmCall.sqf""};");
 BTN_R(2,-1, "Dismiss Units/Squads", "", "closeDialog 0; if (count groupselectedUnits player > 0) then {nul = [groupselectedUnits player] execVM ""REINF\dismissFIAinfantry.sqf""} else {if (count (hcSelected player) > 0) then {nul = [hcSelected player] execVM ""REINF\dismissFIAsquad.sqf""}}; if ((count groupselectedUnits player == 0) and (count hcSelected player == 0)) then {hint ""No units or squads selected""}");
@@ -307,7 +279,7 @@ class commander_menu // 360
 	};
 };
 
-class boost_menu // 390
+class set_difficulty_menu // 390
 {
 	idd=-1;
 	movingenable=false;
@@ -317,55 +289,11 @@ class boost_menu // 390
 	AS_BOX(1);
 	AS_FRAME(1, "Is the start too hard for you?");
 
-	#define STR_BST_YES "closeDialog 0; if (player == AS_commander) then {[[], ""boost.sqf""] remoteExec [""execVM"", 2];};if ((player == AS_commander) and (isNil ""placementDone"")) then {[] spawn placementselection};"
-	#define STR_BST_NO "closeDialog 0; [false] remoteExec [""fnc_MAINT_arsenal"", 2]; [] call fnc_BE_refresh; if ((player == AS_commander) and (isNil ""placementDone"")) then {[] spawn placementselection};"
+	#define STR_BST_YES "closeDialog 0; [] remoteExec [""fnc_setEasy"", 2];"
+	#define STR_BST_NO "closeDialog 0;"
 
-	BTN_L(1,-1, "YES", "You'll get some resources, and basic gear will be unlocked", STR_BST_YES);
-	BTN_R(1,-1, "NO", "Pea shooters, iron sights and plain clothes it is", STR_BST_NO);
-	};
-};
-
-class misCiv_menu // 400
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-    AS_DIALOG(2,"Available Missions",A_CLOSE);
-
-	#define STR_CIV_ASS "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""ASS""],""misReqCiv""] call BIS_fnc_MP} else {hint ""Stranger does not trust you.""};"
-	#define STR_CIV_CVY "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""CONVOY""],""misReqCiv""] call BIS_fnc_MP} else {hint ""Stranger does not trust you.""};"
-	#define STR_CIV_CON "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""CON""],""misReqCiv""] call BIS_fnc_MP} else {hint ""Stranger does not trust you.""};"
-
-	BTN_L(1,-1, "Assassination Mission", "", STR_CIV_ASS);
-	BTN_R(1,-1, "Convoy Ambush", "", STR_CIV_CVY);
-
-	BTN_M(2, -1, "Conquest Missions", "", STR_CIV_CON);
-
-	};
-};
-
-class misMil_menu // 410
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-    AS_DIALOG(2,"Available Missions",A_CLOSE);
-
-	#define STR_MIL_ASS "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""AS""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
-	#define STR_MIL_CVY "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""CONVOY""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
-	#define STR_MIL_CON "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""CON""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
-	#define STR_MIL_DES "closeDialog 0; if (((getPlayerUID player) in miembros) || (player == AS_commander)) then {[[""DES""],""misReqMil""] call BIS_fnc_MP} else {hint ""Nomad does not trust you.""};"
-
-	BTN_L(1,-1, "Assassination Mission", "", STR_MIL_ASS);
-	BTN_L(2,-1, "Convoy Ambush", "", STR_MIL_CVY);
-
-	BTN_R(1,-1, "Conquest Missions", "", STR_MIL_CON);
-	BTN_R(2,-1, "Destroy Missions", "", STR_MIL_DES);
-
+	BTN_L(1,-1, "YES", "FIA starts with some NATO weapons", STR_BST_YES);
+	BTN_R(1,-1, "NO", "FIA starts only with basic gear", STR_BST_NO);
 	};
 };
 
@@ -432,11 +360,11 @@ class HQ_fort_dialog // 440
 	{
     AS_DIALOG(3,"HQ Fortifications","closeDialog 0; createDialog ""radio_comm_commander"";");
 
-	#define STR_HQ_CMO "closeDialog 0; [""net""] remoteExec [""HQ_adds"",2];"
-	#define STR_HQ_LAN "closeDialog 0; [""lantern""] remoteExec [""HQ_adds"",2];"
-	#define STR_HQ_SND "closeDialog 0; [""sandbag""] remoteExec [""HQ_adds"",2];"
-	#define STR_HQ_PAD "closeDialog 0; [""pad"", position player] remoteExec [""HQ_adds"",2];"
-	#define STR_HQ_DEL "closeDialog 0; [""delete""] remoteExec [""HQ_adds"",2];"
+	#define STR_HQ_CMO "closeDialog 0; [""net""] remoteExec [""AS_fnc_HQaddObject"",2];"
+	#define STR_HQ_LAN "closeDialog 0; [""lantern""] remoteExec [""AS_fnc_HQaddObject"",2];"
+	#define STR_HQ_SND "closeDialog 0; [""sandbag""] remoteExec [""AS_fnc_HQaddObject"",2];"
+	#define STR_HQ_PAD "closeDialog 0; [""pad"", position player] remoteExec [""AS_fnc_HQaddObject"",2];"
+	#define STR_HQ_DEL "closeDialog 0; [""delete""] remoteExec [""AS_fnc_HQaddObject"",2];"
 
 	BTN_L(1,-1, "Camo Net", "", STR_HQ_CMO);
 	BTN_L(2,-1, "Lantern", "", STR_HQ_LAN);
@@ -531,7 +459,7 @@ BTN_R(2,-1, "Recruit Squad", "", "closeDialog 0; call AS_fncUI_RecruitSquadMenu;
 BTN_R(3,-1, "Building Options", "", "closeDialog 0; nul=CreateDialog ""build_menu"";");
 BTN_R(4,-1, "Player and Money", "", "closeDialog 0; if (isMultiPlayer) then {nul = createDialog ""player_money""} else {hint ""MP Only Menu""};");
 
-BTN_M(5, -1, "Resign Commander", "", "closedialog 0; if (isMultiplayer) then {execVM ""orgPlayers\commResign.sqf""} else {hint ""This feature is MP Only""};");
+BTN_M(5, -1, "Resign Commander", "", "closeDialog 0; call AS_fncUI_toggleElegibility;");
 
 	};
 };
@@ -547,7 +475,7 @@ AS_DIALOG(3,"Battle Options",A_CLOSE);
 
 BTN_L(1,-1, "Fast Travel", "", "closeDialog 0; [] spawn AS_fnc_fastTravel;");
 BTN_L(2,-1, "Disguise Yourself", "", "closeDialog 0; nul = [] spawn undercover");
-BTN_L(3,-1, "Resign Commander", "", "closedialog 0; if (isMultiplayer) then {execVM ""orgPlayers\commResign.sqf""} else {hint ""This feature is MP Only""};");
+BTN_L(3,-1, "Toggle your eligiblily for commanding", "", "closeDialog 0; call AS_fncUI_toggleElegibility;");
 
 BTN_R(1,-1, "AI Management", "", "if (player == leader group player) then {closeDialog 0; nul = createDialog ""AI_management""} else {hint ""Only group leaders may access to this option""};");
 BTN_R(2,-1, "Player and Money", "", "closeDialog 0; if (isMultiPlayer) then {nul = createDialog ""player_money""} else {hint ""MP Only Menu""};");
@@ -565,7 +493,7 @@ class HQ_reset_menu
 	{
 AS_DIALOG(1,"Do you want to reset HQ?",A_CLOSE);
 
-BTN_L(1,-1, "Yes", "", "closeDialog 0; [] spawn buildHQ");
+BTN_L(1,-1, "Yes", "", "closeDialog 0; [] remoteExec [""AS_fnc_HQdeploy"", 2]");
 BTN_R(1,-1, "No", "", A_CLOSE);
 
 	};

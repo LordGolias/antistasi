@@ -1,7 +1,4 @@
-private ["_unit"];
-//esto habrá que meterlo en onplayerrespawn también
-_unit = _this select 0;
-_unit setVariable ["inconsciente",false,true];
-
+params ["_unit"];
+[_unit,false] call AS_fnc_setUnconscious;
 _unit setVariable ["respawning",false];
 _unit addEventHandler ["HandleDamage", handleDamage];

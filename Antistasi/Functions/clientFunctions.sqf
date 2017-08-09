@@ -1,3 +1,5 @@
+#include "../macros.hpp"
+
 // select a group from a collection of groups
 fnc_pickGroup = {
 	params ["_groupType", "_affiliation"];
@@ -11,7 +13,7 @@ fnc_pickGroup = {
 			_cfgPath = AAFConfigGroupInf;
 		};
 		case side_red: {
-			_cfgPath = opCfgInf;
+			_cfgPath = CSATConfigGroupInf;
 		};
 		case side_blue: {
 			_cfgPath = NATOConfigGroupInf;
@@ -97,8 +99,7 @@ fnc_addMoveObjAction = {
    		};
 	} forEach nearestObjects [getPos fuego, [], 60];
 	{
-		removeAllActions _x;
-		_x addAction [localize "STR_act_moveAsset", "moveObject.sqf","static",0,false,true,"","(_this == AS_commander)", 5];
+		[[_x,"moveObject"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	} forEach AS_P("vehicles") + _objs;
 };
 
@@ -131,55 +132,29 @@ fnc_protectVehicle = {
 };
 
 fnc_updateProgressBar = {
-	params [["_type", "Rank"], ["_parameters", [], []]];
-	private ["_colour", "_PBar", "_p", "_varName", "_value"];
+	params ["_type", "_formatData", "_percentage", "_varName"];
 
-	_p = [];
-	_varName = "";
-	_PBar = "";
-
-	_colour = "#1DA81D";
-	_colourDef = "#C1C0BB";
-
-	if (_type == "Rank") then {
-		private ["_current", "_rankData", "_multiplier", "_needed", "_nextRank"];
-
-		if (player getVariable ["rango","PRIVATE"] == "COLONEL") exitWith {player setVariable ["Rank_PBar", "COLONEL", true]};
-		_current = player getVariable ["score",0];
-		_rankData = [player] call numericRank;
-		_multiplier = _rankData select 0;
-		_needed = 50*_multiplier;
-		_nextRank = _rankData select 2;
-
-		_value = (_current / _needed) max 0;
-		_p = [_colour, _colourDef, player getVariable ["rango","PRIVATE"], _nextRank, _type];
-		_varName = "Rank_PBar";
-	};
-
-	if (count _parameters > 0) then {
-		_p = _parameters select 0;
-		_value = _parameters select 1;
-		_varName = _parameters select 2;
-	};
+	private _PBar = "";
 
 	call {
-		if (_value > 0.80) exitWith {
-			_PBar = format (["%5: %3 (<t color='%1'>>>>></t><t color='%2'></t>%4)"] + _p);
+		if (_percentage > 0.80) exitWith {
+			_PBar = format (["%5: %3 (<t color='%1'>>>>></t><t color='%2'></t>%4)"] + _formatData);
 		};
-		if (_value > 0.60) exitWith {
-			_PBar = format (["%5: %3 (<t color='%1'>>>></t><t color='%2'>></t>%4)"] + _p);
+		if (_percentage > 0.60) exitWith {
+			_PBar = format (["%5: %3 (<t color='%1'>>>></t><t color='%2'>></t>%4)"] + _formatData);
 		};
-		if (_value > 0.40) exitWith {
-			_PBar = format (["%5: %3 (<t color='%1'>>></t><t color='%2'>>></t>%4)"] + _p);
+		if (_percentage > 0.40) exitWith {
+			_PBar = format (["%5: %3 (<t color='%1'>>></t><t color='%2'>>></t>%4)"] + _formatData);
 		};
-		if (_value > 0.20) exitWith {
-			_PBar = format (["%5: %3 (<t color='%1'>></t><t color='%2'>>>></t>%4)"] + _p);
+		if (_percentage > 0.20) exitWith {
+			_PBar = format (["%5: %3 (<t color='%1'>></t><t color='%2'>>>></t>%4)"] + _formatData);
 		};
-		if (_value <= 0.20) exitWith {
-			_PBar = format (["%5: %3 (<t color='%2'>>>>></t>%4)"] + _p);
+		if (_percentage <= 0.20) exitWith {
+			_PBar = format (["%5: %3 (<t color='%2'>>>>></t>%4)"] + _formatData);
 		};
 	};
 
+	// store the result (the actual showing is not called here)
 	if (_type == "Rank") exitWith {
 		player setVariable [_varName, _PBar, true];
 	};
@@ -236,19 +211,4 @@ fnc_saveTFARsettings = {
 	};
 
 	hint _text;
-};
-
-AS_fnc_callServerAndWait = {
-	params ["_functionName", "_params"];
-	AS_sharedvariable = nil;
-	// ask the server to run a function and store the result in "AS_sharedvariable".
-	[[_functionName, _params], {
-		params ["_functionName", "_params"];
-		AS_sharedvariable = _params call _functionName;
-		publicVariable "AS_sharedvariable";
-	}] remoteExec ["call", 2];
-	waitUntil {!isNil "AS_savedGames"};  // wait for server to populate
-	private _result = +AS_sharedvariable;
-	AS_sharedvariable = nil;  // delete in the end
-	_result
 };

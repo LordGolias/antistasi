@@ -23,7 +23,7 @@ waitUntil {sleep 1; !(_location call AS_fnc_location_spawned)};
 
 if ({!isNull _x} count _mines == 0) then {
 	// if no mines left, delete location
-	_location call AS_fnc_location_delete;
+	_location call AS_fnc_location_remove;
 } else {
 	// else, remove the missing mines
 	for "_i" from 0 to (count _minesData - 1) do {
