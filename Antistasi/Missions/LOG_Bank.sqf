@@ -5,7 +5,7 @@ private _location = _mission call AS_fnc_mission_location;
 private _position = _location call AS_fnc_location_position;
 
 private _bankPosition = [AS_bankPositions, _position] call BIS_fnc_nearestPosition;
-private _bank = (nearestObjects [_bankPosition, AS_bankTypes, 25]) select 0;
+private _bank = (nearestObjects [_bankPosition, [], 25]) select 0;
 
 private _posbase = getMarkerPos "FIA_HQ";
 

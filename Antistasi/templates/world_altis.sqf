@@ -50,7 +50,6 @@ AS_antenasPos_dead = [];  // list of antennas destroyed
 publicVariable "AS_antenasPos_alive";
 publicVariable "AS_antenasPos_dead";
 
-AS_bankTypes = ["Land_Offices_01_V1_F"];
 AS_bankPositions = [[16633.3,12807,-0.635017],[3717.34,13391.2,-0.164862],[3692.49,13158.3,-0.0462093],[3664.31,12826.5,-0.379545]];//same as RT for Bank buildings, select the biggest buildings in your island, and make a DB with their positions.
 //the following is the console code snippet I use to pick positions of any kind of building. You may do this for gas stations, banks, radios etc.. markerPos "Base_4" is because it's in the middle of the island, and inside the array you may find the type of building I am searching for. Paste the result in a txt and add it to the corresponding arrays.
 /*
