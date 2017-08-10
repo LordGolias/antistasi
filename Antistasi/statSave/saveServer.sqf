@@ -22,8 +22,8 @@ private _savingPlayersHandle = ([_saveName] spawn {
 
 [_saveName] call AS_fnc_saveAAFarsenal;
 
-[_saveName, "antennas", antenas] call fn_SaveStat;
-[_saveName, "deadAntennas", antenasmuertas] call fn_SaveStat;
+[_saveName, "AS_antenasPos_alive", AS_antenasPos_alive] call fn_SaveStat;
+[_saveName, "AS_antenasPos_dead", AS_antenasPos_dead] call fn_SaveStat;
 
 [_saveName] call AS_fnc_location_save;
 [_saveName] call AS_fnc_saveHQ;

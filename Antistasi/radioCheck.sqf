@@ -8,5 +8,5 @@ private _ok = false;
 		};
 	};
 	if (_ok) exitWith {};  // shortcircuit loop
-} forEach antenas;
+} forEach AS_antenasPos_alive;
 _ok

@@ -1,6 +1,6 @@
 params ["_mission"];
 private _location = _mission call AS_fnc_mission_location;
-private _position = [antenas,_location call AS_fnc_location_position] call BIS_fnc_nearestPosition;
+private _position = [AS_antenasPos_alive,_location call AS_fnc_location_position] call BIS_fnc_nearestPosition;
 
 private _antenna = nearestBuilding _position;
 private _nombredest = [_location] call localizar;

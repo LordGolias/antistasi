@@ -141,7 +141,7 @@ AS_fnc_mission_updateAvailable = {
                 not(_location call AS_fnc_location_spawned)) then {
                 _possible pushBack ["destroy_antenna", _location];
             };
-        } forEach antenas;
+        } forEach AS_antenasPos_alive;
 
         {
             private _location = _x call AS_fnc_location_nearest;

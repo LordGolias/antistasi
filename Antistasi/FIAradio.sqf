@@ -7,7 +7,7 @@ private _chance = 5;
 	if ((_location call AS_fnc_location_side == "FIA") and (alive _x)) then {
 		_chance = _chance + 2.25;
 	};
-} forEach antenas;
+} forEach AS_antenasPos_alive;
 
 if (random 100 < _chance) then {
 	if !(AS_S("revealFromRadio")) then {

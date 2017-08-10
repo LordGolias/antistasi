@@ -8,21 +8,21 @@ petros allowdamage false;
 [_saveName] call AS_fnc_loadArsenal;
 [true] call fnc_MAINT_arsenal;
 
-antenasmuertas = [_saveName, "deadAntennas"] call fn_LoadStat;
-antenas = [_saveName, "antennas"] call fn_LoadStat;
+AS_antenasPos_dead = [_saveName, "AS_antenasPos_dead"] call fn_LoadStat;
+AS_antenasPos_alive = [_saveName, "AS_antenasPos_alive"] call fn_LoadStat;
 {
 	private _antenna = nearestBuilding _x;
 	_antenna removeAllEventHandlers "Killed";
 	_antenna setDamage 1;
-} forEach antenasmuertas;
+} forEach AS_antenasPos_dead;
 {
 	private _antenna = nearestBuilding _x;
 	_antenna removeAllEventHandlers "Killed";
 	_antenna setDamage 0;
 	_antenna addEventHandler ["Killed", AS_fnc_antennaKilledEH];
-} forEach antenas;
-publicVariable "antenas";
-publicVariable "antenasmuertas";
+} forEach AS_antenasPos_alive;
+publicVariable "AS_antenasPos_alive";
+publicVariable "AS_antenasPos_dead";
 
 [_saveName, "fecha"] call fn_LoadStat;
 [_saveName, "smallCAmrk"] call fn_LoadStat;
