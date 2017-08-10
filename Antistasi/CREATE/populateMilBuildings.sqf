@@ -2,7 +2,7 @@ params ["_location", "_side", "_grupo"];
 
 private _posicion = _location call AS_fnc_location_position;
 private _size = _location call AS_fnc_location_size;
-private _buildings = nearestObjects [_posicion, listMilBld, _size*1.5];
+private _buildings = nearestObjects [_posicion, AS_destroyable_buildings, _size*1.5];
 private _addChopper = (_side == side_green) and !([_location] call isFrontline);
 
 // FIA
@@ -64,7 +64,7 @@ private _vehiculos = [];
 			sleep 1;
 		};
 	};
-	if (_tipoB in listbld) then {
+	if (_tipoB in AS_MGbuildings) then {
 		private _veh = createVehicle [_staticMG, (_building buildingPos 13), [], 0, "CAN_COLLIDE"];
 		private _unit = _grupo createUnit [_gunnerCrew, _posicion, [], 0, "NONE"];
 		_unit moveInGunner _veh;

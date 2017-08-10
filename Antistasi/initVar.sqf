@@ -211,7 +211,7 @@ AS_Pset("destroyedLocations", []); // Locations that are destroyed (can be repai
 AS_Pset("vehicles", []);  // list of vehicles that are saved in the map
 
 // list of positions where closest building is destroyed.
-// The buildings that belong to this are in `listMilBld`.
+// The buildings that belong to this are in `AS_destroyable_buildings`.
 AS_Pset("destroyedBuildings", []);
 
 // todo: make this random

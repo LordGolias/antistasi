@@ -46,7 +46,7 @@ if (_type != "fia_hq") then {
 
 if (_type == "outpost") then {
 	// populate military buildings
-	_buildings append (nearestObjects [_posicion, listMilBld, _size*1.5]);
+	_buildings append (nearestObjects [_posicion, AS_destroyable_buildings, _size*1.5]);
 
 	// if close to an antenna, add jam option
 	private _antennaPos = [AS_antenasPos_alive,_posicion] call BIS_fnc_nearestPosition;

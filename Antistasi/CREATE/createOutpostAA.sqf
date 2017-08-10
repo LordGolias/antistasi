@@ -12,7 +12,7 @@ private _posicion = _location call AS_fnc_location_position;
 private _size = _location call AS_fnc_location_size;
 private _frontera = _location call isFrontline;
 
-private _buildings = nearestObjects [_posicion, listMilBld, _size*1.5];
+private _buildings = nearestObjects [_posicion, AS_destroyable_buildings, _size*1.5];
 
 private _grupo = createGroup side_green;
 _grupos pushBack _grupo;

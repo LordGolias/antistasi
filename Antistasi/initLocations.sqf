@@ -3,11 +3,73 @@ AS_SERVER_ONLY("initLocations.sqf");
 
 ["location"] call AS_fnc_container_add;
 
-call {
-    if (worldName == "Altis") exitwith {
-        call compile preprocessFileLineNumbers "templates\world_altis.sqf";
-    };
+AS_antenasTypes = [];
+AS_antenasPos_alive = [];
+AS_antenasPos_dead = [];
+
+// tower buiuldings where MGs are placed. If no towers, no MGs are placed.
+AS_MGbuildings = [
+    "Land_Cargo_Tower_V1_F",
+    "Land_Cargo_Tower_V1_No1_F",
+    "Land_Cargo_Tower_V1_No2_F",
+    "Land_Cargo_Tower_V1_No3_F",
+    "Land_Cargo_Tower_V1_No4_F",
+    "Land_Cargo_Tower_V1_No5_F",
+    "Land_Cargo_Tower_V1_No6_F",
+    "Land_Cargo_Tower_V1_No7_F",
+    "Land_Cargo_Tower_V2_F",
+    "Land_Cargo_Tower_V3_F"
+];
+// building types whose destruction is saved persistently
+AS_destroyable_buildings = AS_MGbuildings + [
+    "Land_Cargo_HQ_V1_F",
+    "Land_Cargo_HQ_V2_F",
+    "Land_Cargo_HQ_V3_F",
+    "Land_Cargo_Patrol_V1_F",
+    "Land_Cargo_Patrol_V2_F",
+    "Land_Cargo_Patrol_V3_F",
+    "Land_HelipadSquare_F",
+    "Land_Cargo_Tower_V1_ruins_F",
+    "Land_Cargo_Tower_V2_ruins_F",
+    "Land_Cargo_Tower_V3_ruins_F"
+];
+
+// these are the lamps that are shut-off when the city loses power.
+// if empty, no lamps are turned off
+AS_lampTypes = [
+    "Lamps_Base_F",
+    "PowerLines_base_F",
+    "Land_LampDecor_F",
+    "Land_LampHalogen_F",
+    "Land_LampHarbour_F",
+    "Land_LampShabby_F",
+    "Land_NavigLight",
+    "Land_runway_edgelight",
+    "Land_PowerPoleWooden_L_F"
+];
+// positions of the banks. If empty, there are no bank missions.
+AS_bankPositions = [];
+
+if (worldName == "Altis") then {
+    call compile preprocessFileLineNumbers "templates\world_altis.sqf";
 };
+
+
+// exclude from `AS_antenasPos_alive` positions whose antenas are not found
+{
+    private _antenaProv = nearestObjects [_x, AS_antenasTypes, 25];
+    if (count _antenaProv > 0) then {
+        (_antenaProv select 0) addEventHandler ["Killed", AS_fnc_antennaKilledEH];
+    } else {
+        AS_antenasPos_alive = AS_antenasPos_alive - [_x];
+    };
+} forEach +AS_antenasPos_alive;
+
+AS_antenasTypes = nil;  // this was only needed for list above.
+publicVariable "AS_antenasPos_alive";
+publicVariable "AS_antenasPos_dead";
+publicVariable "AS_destroyable_buildings";
+publicVariable "AS_MGbuildings";
 
 // This searches through all the markers in the mission.sqm and adds them.
 {

@@ -13,7 +13,7 @@ private _size = _location call AS_fnc_location_size;
 private _prestigio = AS_P("NATOsupport")/100;
 private _estaticas = AS_P("vehicles") select {_x distance _posicion < _size};
 
-private _buildings = nearestObjects [_posicion, listMilBld, _size*1.5];
+private _buildings = nearestObjects [_posicion, AS_destroyable_buildings, _size*1.5];
 
 _grupo = createGroup side_blue;
 _grupos = _grupos + [_grupo];

@@ -39,7 +39,7 @@ publicVariable "AS_antenasPos_dead";
 	private _buildings = [];
 	private _dist = 5;
 	while {count _buildings == 0} do {
-		_buildings = nearestObjects [_x, listMilBld, _dist];
+		_buildings = nearestObjects [_x, AS_destroyable_buildings, _dist];
 		_dist = _dist + 5;
 	};
 	(_buildings select 0) setDamage 1;
