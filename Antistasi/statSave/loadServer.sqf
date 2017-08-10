@@ -31,7 +31,7 @@ publicVariable "AS_antenasPos_dead";
 [_saveName] call AS_fnc_location_load;
 
 {
-	[_x] call AS_fnc_location_destroy;
+	[_x, false] call AS_fnc_location_destroy;
 } forEach AS_P("destroyedLocations");
 
 // destroy the buildings.

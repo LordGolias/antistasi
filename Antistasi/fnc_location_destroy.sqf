@@ -1,10 +1,11 @@
 #include "macros.hpp"
 AS_SERVER_ONLY("fnc_location_destroy.sqf");
 
-params ["_location"];
+params ["_location", ["_add", true]];
 
 private _posicion = _location call AS_fnc_location_position;
 private _size = _location call AS_fnc_location_size;
+private _side = _location call AS_fnc_location_size;
 
 private _buildings = _posicion nearObjects ["house",_size];
 
@@ -18,3 +19,15 @@ private _buildings = _posicion nearObjects ["house",_size];
 		_x setDamage 1;
 	};
 } forEach _buildings;
+
+if (_location call AS_fnc_location_type == "powerplant") then {
+	[_location] remoteExec ["powerReorg", 2];
+};
+
+if _add then {
+	AS_Pset("destroyedLocations", AS_P("destroyedLocations") + [_location]);
+};
+
+if (count (AS_P("destroyedLocations") arrayIntersect (call AS_fnc_location_cities)) > 7) then {
+	 ["destroyedCities",false,true] remoteExec ["BIS_fnc_endMission",0];
+};

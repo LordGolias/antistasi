@@ -285,11 +285,7 @@ AS_fnc_mission_fail_get = {
         [-100, 0, [0, 0], [0, 0], [-10, -20, _position], 120*60, [
             ["City is destroyed", {
                 params ["_location"];
-                AS_Pset("destroyedLocations", AS_P("destroyedLocations") + [_location]);
                 [_location] call AS_fnc_location_destroy;
-            	if (count AS_P("destroyedLocations") > 7) then {
-            		 ["destroyedCities",false,true] remoteExec ["BIS_fnc_endMission",0];
-            	};
             }, [_location]],
             ["FIA loses 5 support in all cities", {[0,-5,_x] call citySupportChange} forEach (call AS_fnc_location_cities)]
         ]]
