@@ -23,7 +23,8 @@ The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 
 
 * ACE
 * VCOM
-* RHS
+* [RHS](http://www.rhsmods.org/)
+* [CUP](http://cup-arma3.org/)
 
 # Replacing Factions
 
@@ -116,7 +117,7 @@ Regardless of the game mode (SP or MP), `server.sqf` is called on the server sid
 and `client.sqf` or `headlessClient.sqf` are called on non-server.
 
 The code that has to be called on every machine running AS is `initFuncs.sqf` and `initVar.sqf`.
-`initFuncs.sqf` defines all functions and components. 
+`initFuncs.sqf` defines all functions and components.
 
 `server.sqf` call `serverMP.sqf` or `serverSP.sqf` depending
 

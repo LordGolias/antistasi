@@ -79,6 +79,12 @@ if ("rhs_weap_akms" in AS_allWeapons) then {
 	hayRHS = true;
 };
 
+// todo: do not rely on AS_allWeapons to check for mods.
+hasCUP = false;
+if ("CUP_arifle_AKS74U" in AS_allWeapons) then {
+	hasCUP = true;
+};
+
 // This is needed to find the sounds of dog's barking, so it is in every client
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 
@@ -132,6 +138,12 @@ call {
 		call compile preprocessFileLineNumbers "templates\CSAT_RHS.sqf";
 		call compile preprocessFileLineNumbers "templates\NATO_RHS.sqf";
 		call compile preprocessFileLineNumbers "templates\FIA_RHS.sqf";
+	};
+	if hasCUP exitWith {
+		call compile preprocessFileLineNumbers "templates\AAF_CUP.sqf";
+		call compile preprocessFileLineNumbers "templates\CSAT_CUP.sqf";
+		call compile preprocessFileLineNumbers "templates\NATO_CUP.sqf";
+		call compile preprocessFileLineNumbers "templates\FIA_CUP.sqf";
 	};
 	// fallback to the default template
 	call compile preprocessFileLineNumbers "templates\AAF.sqf";
@@ -255,6 +267,7 @@ AS_spawnLoopTime = 1; // seconds between each check of spawn/despawn locations (
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_special;
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_NCO;
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_sniper;
+{AS_data_allCosts setVariable [_x,300,true]} forEach infList_officers;
 
 // list of vehicles (objects) that can no longer be used for undercover
 // This is non-persistent as it is a temporary component

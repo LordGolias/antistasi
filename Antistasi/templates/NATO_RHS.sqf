@@ -6,9 +6,6 @@ bluHeliArmed = 		["RHS_MELB_AH6M_H","RHS_MELB_AH6M_M"];
 bluHeliGunship = 	["RHS_AH64D_AA","RHS_AH64D_GS","RHS_AH64D"];
 bluCASFW = 			["RHS_A10"];
 
-bluAS = 			["rhsusf_f22"];
-bluC130 = 			["RHS_C130J"];
-
 bluUAV = 			["B_UAV_02_F"];
 
 planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
