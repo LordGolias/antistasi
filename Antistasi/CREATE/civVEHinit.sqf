@@ -29,7 +29,7 @@ if (count crew _veh == 0) then {
 		if (!simulationEnabled _veh) then {
 			_veh enableSimulationGlobal true
 		};
-		[_veh] spawn VEHdespawner;
+		[_veh] spawn vehicle_despawn;
 	}];
 
 	_veh addEventHandler ["HandleDamage", {

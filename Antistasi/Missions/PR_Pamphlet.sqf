@@ -77,17 +77,11 @@ for "_i" from 0 to 1 do {
 } forEach _grupos;
 
 private _fnc_clean = {
-	[_grupos, _vehicles] call AS_fnc_cleanResources;
+	[_grupos, [_truck], _vehicles] call AS_fnc_cleanResources;
 
 	sleep 30;
 	[_task] call BIS_fnc_deleteTask;
 	_mission call AS_fnc_mission_completed;
-
-	waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,_truck,"BLUFORSpawn"] call distanceUnits)) or ((_truck distance (getMarkerPos "FIA_HQ") < 60) and (speed _truck < 1))};
-	if ((_truck distance (getMarkerPos "FIA_HQ") < 60) and (speed _truck < 1)) then {
-		[_truck] call vaciar;
-	};
-	deleteVehicle _truck;
 };
 
 

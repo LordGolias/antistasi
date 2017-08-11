@@ -93,35 +93,22 @@ AS_DEBUG_initVehicle = {
     private _mrk = createMarker [format ["AS_DEBUG_flag_%1", count AS_DEBUG_flag_all], position _veh];
     AS_DEBUG_flag_all pushBack _mrk;
 
-    private _color = "ColorUNKNOWN";
-    private _type = "c_unknown";
-    switch (side _veh) do {
-		case side_green: {
-			_color = "ColorGUER";
-            _type = "n_unknown";
-		};
-		case side_red: {
-			_color = "ColorOPFOR";
-            _type = "o_unknown";
-		};
-		case side_blue: {
-			_color = "ColorWEST";
-            _type = "b_unknown";
-        };
-        case civilian: {
-            _color = "ColorCIV";
-            _type = "c_unknown";
-        }
-	};
-    _mrk setMarkerShape "ICON";
-    _mrk setMarkerType _type;
-    _mrk setMarkerColor _color;
-    _mrk setMarkerText (typeOf _veh);
+    _mrk setMarkerSize [5, 10];
+    _mrk setMarkerShape "RECTANGLE";
 
     [_veh, _mrk] spawn {
         params ["_veh", "_mrk"];
         private _sleep = 2 + 2*(random 100)/100; // so it is not called at the same time to a whole group
         while {AS_DEBUG_flag and alive _veh} do {
+            private _color = "ColorGreen";
+            if (_veh getVariable ["inDespawner", false]) then {
+                _color = "ColorRed";
+                if ((_veh in AS_P("vehicles")) or {_veh distance getMarkerPos "FIA_HQ" < 50}) then {
+                    _color = "ColorBlack";
+                };
+            };
+            _mrk setMarkerColor _color;
+            _mrk setMarkerDir (getDir _veh);
             _mrk setMarkerPos position _veh;
             sleep _sleep;
         };

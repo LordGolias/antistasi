@@ -168,13 +168,3 @@ if (_side == "NATO") then {
 };
 
 [_veh] spawn cleanserVeh;
-
-// todo: explain in comments what this does
-if ((count crew _veh) > 0) then {
-	[_veh] spawn VEHdespawner;
-} else {
-	_veh addEventHandler ["GetIn", {
-		_veh = _this select 0;
-		[_veh] spawn VEHdespawner;
-	}];
-};

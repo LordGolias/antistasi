@@ -20,9 +20,7 @@ private _truck = "C_Van_01_box_F" createVehicle _pos;
 [_truck,"Mission Vehicle"] spawn inmuneConvoy;
 
 private _fnc_clean = {
-	waitUntil {sleep 1; (not([AS_P("spawnDistance"),1,_truck,"BLUFORSpawn"] call distanceUnits)) or ((_truck distance (getMarkerPos "FIA_HQ") < 60) && (speed _truck < 1))};
-	[_truck] call vaciar;
-	deleteVehicle _truck;
+	[[], [_truck], []] call AS_fnc_cleanResources;
 
 	sleep 30;
     [_task] call BIS_fnc_deleteTask;

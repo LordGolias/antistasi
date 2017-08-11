@@ -25,9 +25,5 @@ params [["_groups", []], ["_vehicles", []], ["_markers", []]];
 } forEach _groups;
 
 {
-    _x spawn {
-        params ["_vehicle"];
-        waitUntil {sleep (5 + random 5); not ([AS_P("spawnDistance"), 1, _vehicle, "BLUFORSpawn"] call distanceUnits)};
-        deleteVehicle _vehicle;
-    };
+    [_x] spawn vehicle_despawn;
 } forEach _vehicles;

@@ -13,6 +13,10 @@ if (_add) then {
     AS_Pset("vehicles", AS_P("vehicles") + _vehicles);
 } else {
     AS_Pset("vehicles", AS_P("vehicles") - _vehicles);
+    // set the vehicles back to the despawner
+    {
+        [_x] spawn vehicle_despawn;
+    } forEach _vehicles;
 };
 
 AS_vehiclesChanging = nil;
