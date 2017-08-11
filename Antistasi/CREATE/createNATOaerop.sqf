@@ -31,7 +31,7 @@ if (count _buildings > 1) then {
 		_vehiculos pushBack _veh;
 
 		_unit = ([_posicion, 0, bluPilot, _grupo] call bis_fnc_spawnvehicle) select 0;
-		[_unit] call NATOinit;
+		[_unit] call AS_fnc_initUnitNATO;
 		_soldados pushBack _unit;
 
 		// new position
@@ -79,7 +79,7 @@ for "_i" from 1 to _nVeh do {
 	};
 	private _grupo = [_pos, side_blue, [bluSquad, side_blue] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 	_grupos pushBack _grupo;
-	{[_x] call NATOinit; _soldados pushBack _x} forEach units _grupo;
+	{[_x] call AS_fnc_initUnitNATO; _soldados pushBack _x} forEach units _grupo;
 	[leader _grupo, _location, "SAFE","SPAWNED", "RANDOM","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 	sleep 1;
 };

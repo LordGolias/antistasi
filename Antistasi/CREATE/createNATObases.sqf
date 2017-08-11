@@ -41,7 +41,7 @@ for "_i" from 1 to _nVeh do {
 	[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 	private _unit = ([_posicion, 0, bluGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
 	_unit moveInGunner _veh;
-	[_unit] call NATOinit;
+	[_unit] call AS_fnc_initUnitNATO;
 
 	_soldados pushBack _unit;
 	_vehiculos pushBack _veh;
@@ -68,7 +68,7 @@ private _tipoGrupo = [bluSquad, side_blue] call fnc_pickGroup;
 private _grupo = [_posicion, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 [leader _grupo, _location, "SAFE", "RANDOMUP","SPAWNED", "NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 _grupos pushBack _grupo;
-{[_x] spawn NATOinit; _soldados pushBack _x} forEach units _grupo;
+{[_x] spawn AS_fnc_initUnitNATO; _soldados pushBack _x} forEach units _grupo;
 
 for "_i" from 1 to _nVeh do {
 	if (!(_location call AS_fnc_location_spawned) or diag_fps < AS_P("minimumFPS")) exitWith {};
@@ -85,7 +85,7 @@ for "_i" from 1 to _nVeh do {
 		[leader _grupo, _location, "SAFE","SPAWNED", "RANDOM","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 	};
 	_grupos pushBack _grupo;
-	{[_x] spawn NATOinit; _soldados pushBack _x} forEach units _grupo;
+	{[_x] spawn AS_fnc_initUnitNATO; _soldados pushBack _x} forEach units _grupo;
 };
 
 // Create FIA garrison
