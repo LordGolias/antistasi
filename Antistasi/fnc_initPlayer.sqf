@@ -10,27 +10,6 @@ if (!hayACEMedical) then {
 
 player setPos ((getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)]);
 
-
-player addEventHandler ["HandleHeal", {
-	private _player = _this select 0;
-	if (captive _player) then {
-		if ({((side _x== side_red) or (side _x== side_green)) and (_x knowsAbout player > 1.4)} count allUnits > 0) then {
-			_player setCaptive false;
-		} else {
-			private _ciudad = [call AS_fnc_location_cities,_player] call BIS_fnc_nearestPosition;
-			private _size = _ciudad call AS_fnc_location_size;
-            private _position = _ciudad call AS_fnc_location_position;
-            private _AAFsupport = [_ciudad, "AAFsupport"] call AS_fnc_location_get;
-
-			if (random 100 < _AAFsupport) then {
-				if (_player distance _position < _size * 1.5) then {
-					_player setCaptive false;
-				};
-			};
-		};
-	};
-}];
-
 player addEventHandler ["WeaponAssembled", {
 	params ["_EHunit", "_EHobj"];
 	if (_EHobj isKindOf "StaticWeapon") then {
