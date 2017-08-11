@@ -250,4 +250,3 @@ teleport = compile preprocessFileLineNumbers "teleport.sqf";
 
 rankCheck = compile preprocessFileLineNumbers "Scripts\rankCheck.sqf";
 skillAdjustments = compile preprocessFileLineNumbers "Scripts\skillAdjustments.sqf";
-localSupport = compile preprocessFileLineNumbers "Scripts\localSupport.sqf";

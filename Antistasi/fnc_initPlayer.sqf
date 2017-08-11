@@ -89,5 +89,4 @@ if (isMultiplayer) then {
 [] execVM "statistics.sqf";
 
 [player] execVM "OrgPlayers\unitTraits.sqf";
-[player] spawn rankCheck;
-[player] spawn localSupport;  // show local support when close to city.
+[] spawn rankCheck;
