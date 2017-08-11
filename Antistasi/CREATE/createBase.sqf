@@ -24,7 +24,7 @@ _vehiculos append _vehicles;
 // spawn flag and crate
 private _bandera = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
 _bandera allowDamage false;
-_veh = "I_supplyCrate_F" createVehicle _posicion;
+private _veh = "I_supplyCrate_F" createVehicle _posicion;
 [_veh, "Watchpost"] call AS_fnc_fillCrateAAF;
 _vehiculos append [_bandera, _veh];
 
@@ -108,15 +108,4 @@ waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 
 [_buildings] remoteExec ["AS_fnc_updateDestroyedBuildings", 2];
 
-{if (alive _x) then {deleteVehicle _x}} forEach _soldados;
-{if (alive _x) then {deleteVehicle _x}} forEach _spatrol;
-if (!isNull _journalist) then {deleteVehicle _journalist};
-{deleteGroup _x} forEach _grupos;
-{
-	if (not(_x in AS_P("vehicles"))) then {
-		if (!([(AS_P("spawnDistance")-_size),1,_x,"BLUFORSpawn"] call distanceUnits)) then {
-			deleteVehicle _x
-		};
-	};
-} forEach _vehiculos;
-deleteMarker _mrk;
+[_grupos, _vehiculos, [_mrk]] call AS_fnc_cleanResources;

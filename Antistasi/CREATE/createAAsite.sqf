@@ -30,9 +30,7 @@ private _AAVeh = objNull;
 		if (typeOf _x == opFlag) exitWith {_vehiculos pushBack _x;};
 	};
 } forEach _objs;
-// todo: because of the below, this truck will not be despawned.
-// todo: make the truck independent of this code if someone enters it.
-_objs = _objs - [_truck]; // remove truck so it is not despawned
+_vehiculos append _objs;
 
 // init the AA
 if !(isNull _AAVeh) then {
@@ -67,6 +65,7 @@ private _uav = objNull;
 if (!isNil opUAVsmall) then {
 	_uav = createVehicle [opUAVsmall, _posCmp, [], 0, "FLY"];
 	[_uav,"CSAT"] call AS_fnc_initVehicle;
+	_vehiculos pushBack _uav;
 	createVehicleCrew _uav;
 	_grupoUAV = group (crew _uav select 1);
 	[leader _grupoUAV, _mrkfin, "SAFE", "SPAWNED","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
@@ -128,12 +127,4 @@ if ((call _fnc_isAADestroyed) and (call _fnc_isCleaned)) then {
 
 waitUntil {sleep 1; !(_location call AS_fnc_location_spawned)};
 
-{if (alive _x) then {deleteVehicle _x}} forEach _soldados;
-{deleteGroup _x} forEach _grupos;
-{deleteVehicle _x} forEach units _grupoUAV;
-deleteVehicle _uav;
-deleteGroup _grupoUAV;
-deleteMarker _mrkfin;
-{if (!([AS_P("spawnDistance")-100,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x}} forEach _vehiculos;
-
-{deleteVehicle _x} forEach _objs;
+[_grupos, _vehiculos, [_mrkfin]] call AS_fnc_cleanResources;

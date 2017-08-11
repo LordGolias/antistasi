@@ -51,7 +51,7 @@ _vehiculos pushBack _veh;
 {[_x, "AAF"] call AS_fnc_initVehicle} forEach _vehiculos;
 
 // create the patrol group
-_grupo = [_posicion, side_green, [infAT, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+private _grupo = [_posicion, side_green, [infAT, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 {[_x] join _grupo} forEach units _grupoE;
 private _soldier = ([_posicion, 0, sol_MED, _grupo] call bis_fnc_spawnvehicle) select 0;
 _grupo selectLeader (units _grupo select 1);
@@ -84,18 +84,13 @@ if !(_location call AS_fnc_location_spawned) then {
 
 waitUntil {sleep 1;not (_location call AS_fnc_location_spawned)};
 
-{
-	if (not(_x in AS_P("vehicles"))) then {
-		deleteVehicle _x;
-	};
-} forEach _vehiculos;
-{if (alive _x) then {deleteVehicle _x}} forEach _soldados;
-deleteGroup _grupo;
+[[_grupo], _vehiculos, []] call AS_fnc_cleanResources;
+
 
 if (_conquistado) then {
-	_tiempolim = 120;//120
+	private _tiempolim = 120;//120
 	private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
-	_fechalimnum = dateToNumber _fechalim;
+	private _fechalimnum = dateToNumber _fechalim;
 	waitUntil {sleep 60; (dateToNumber date > _fechalimnum)};
 	if (_location call AS_fnc_location_side == "AAF") then {
 		// todo: delete this marker

@@ -107,7 +107,6 @@ if (_location call AS_fnc_location_spawned) then {
 
 waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 
-if (!isNull _journalist) then {deleteVehicle _journalist};
 {
 	if (_location call AS_fnc_location_side == "FIA") then {
 		([_x, true] call AS_fnc_getUnitArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
@@ -119,6 +118,4 @@ if (!isNull _journalist) then {deleteVehicle _journalist};
 } forEach _soldadosFIA;
 {deleteGroup _x} forEach _gruposFIA;
 
-{if (alive _x) then {deleteVehicle _x}} forEach _soldados;
-{deleteGroup _x} forEach _grupos;
-{if (!(_x in AS_P("vehicles"))) then {deleteVehicle _x}} forEach _vehiculos;
+[_grupos, _vehiculos, []] call AS_fnc_cleanResources;

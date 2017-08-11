@@ -124,7 +124,7 @@ for "_i" from 1 to _numVeh do {
 waitUntil {sleep 1;not (_location call AS_fnc_location_spawned)};
 
 {deleteVehicle _x} forEach _civs;
-if (!isNull _journalist) then {deleteVehicle _journalist};
+
 {deleteGroup _x} forEach _grupos;
 {
 if (!([AS_P("spawnDistance")-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then

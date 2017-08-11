@@ -101,9 +101,4 @@ waitUntil {sleep 1;
 	!(_location call AS_fnc_location_exists)
 };
 
-{deleteVehicle _x} forEach _objs;
-{deleteVehicle _x} forEach units _grupo;
-deleteGroup _grupo;
-
-{deleteVehicle _x} forEach units _grupoInf;
-deleteGroup _grupoInf;
+[[_grupo, _grupoInf], _objs, []] call AS_fnc_cleanResources;

@@ -286,17 +286,4 @@ else {
 
 waitUntil {sleep 10; (dateToNumber date > _endTime) or ({alive _x} count _soldados == 0)};
 
-// remove the remains
-{
-	_soldado = _x;
-	waitUntil {sleep 1; {_x distance _soldado < AS_P("spawnDistance")} count (allPlayers - hcArray) == 0};
-	deleteVehicle _soldado;
-} forEach _soldados;
-
-{deleteGroup _x} forEach _grupos;
-
-{
-	_vehiculo = _x;
-	waitUntil {sleep 1; {_x distance _vehiculo < AS_P("spawnDistance")/2} count (allPlayers - hcArray) == 0};
-	deleteVehicle _x
-} forEach _vehiculos;
+[_grupos, _vehiculos, []] call AS_fnc_cleanResources;

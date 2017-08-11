@@ -24,7 +24,7 @@ _vehiculos pushBack _veh;
 
 // spawn AT road block
 private _grupo = createGroup side_green;
-_grupos append _grupo;
+_grupos pushBack _grupo;
 if ((_location call AS_fnc_location_spawned) and _frontera) then {
 	([_posicion, _grupo] call AS_fnc_spawnAAF_roadAT) params ["_units1", "_vehicles1"];
 	_soldados append _units1;
@@ -110,8 +110,4 @@ if ((_location call AS_fnc_location_spawned) and (_location call AS_fnc_location
 
 waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 
-deleteMarker _mrk;
-{if (alive _x) then {deleteVehicle _x}} forEach _soldados;
-if (!isNull _journalist) then {deleteVehicle _journalist};
-{deleteGroup _x} forEach _grupos;
-{if (!([AS_P("spawnDistance")-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x}} forEach _vehiculos;
+[_grupos, _vehiculos, [_mrk]] call AS_fnc_cleanResources;

@@ -65,8 +65,4 @@ if (call _fnc_isDestroyed) then {
 
 waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 
-{if (alive _x) then {deleteVehicle _x}} forEach _soldados;
-{deleteGroup _x} forEach _grupos;
-{
-	if (!([AS_P("spawnDistance")-100,1,_x,"BLUFORSpawn"] call distanceUnits)) then {deleteVehicle _x}
-} forEach _vehiculos;
+[_grupos, _vehiculos, []] call AS_fnc_cleanResources;

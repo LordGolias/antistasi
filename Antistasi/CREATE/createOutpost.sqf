@@ -97,13 +97,4 @@ waitUntil {sleep 1; !(_location call AS_fnc_location_spawned)};
 
 [_buildings] remoteExec ["AS_fnc_updateDestroyedBuildings", 2];
 
-{if (alive _x) then {deleteVehicle _x}} forEach _soldados;
-if (!isNull _journalist) then {deleteVehicle _journalist};
-{deleteGroup _x} forEach _grupos;
-{
-	if !(_x in AS_P("vehicles")) then {
-		if !([AS_P("spawnDistance")-_size,1,_x,"BLUFORSpawn"] call distanceUnits) then {
-			deleteVehicle _x;
-		};
-	};
-} forEach _vehiculos;
+[_grupos, _vehiculos, []] call AS_fnc_cleanResources;

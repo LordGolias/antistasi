@@ -118,9 +118,6 @@ waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 		deleteVehicle _x;
 	};
 } forEach _soldadosFIA;
-
-if (!isNull _journalist) then {deleteVehicle _journalist};
 {deleteGroup _x} forEach _gruposFIA;
-{if (not(_x in AS_P("vehicles"))) then {deleteVehicle _x}} forEach _vehiculos;
-{if (alive _x) then {deleteVehicle _x}} forEach _soldados;
-{deleteGroup _x} forEach _grupos;
+
+[_grupos, _vehiculos, []] call AS_fnc_cleanResources;

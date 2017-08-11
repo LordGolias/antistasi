@@ -29,7 +29,7 @@ if !(_isDestroyed) then {
 		_grupos pushBack _grupo;
 
 		for "_i" from 1 to 8 do {
-			_civ = _grupo createUnit ["C_man_w_worker_F", _posicion, [],0, "NONE"];
+			private _civ = _grupo createUnit ["C_man_w_worker_F", _posicion, [],0, "NONE"];
 			[_civ] call AS_fnc_initUnitCIV;
 			_civs pushBack _civ;
 		};
@@ -69,13 +69,4 @@ if ((_location call AS_fnc_location_spawned) and (_location call AS_fnc_location
 
 waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 
-deleteMarker _mrk;
-{if (alive _x) then {deleteVehicle _x}} forEach _soldados;
-{deleteVehicle _x} forEach _civs;
-if (!isNull _journalist) then {deleteVehicle _journalist};
-{deleteGroup _x} forEach _grupos;
-{
-	if (!([AS_P("spawnDistance")-_size,1,_x,"BLUFORSpawn"] call distanceUnits)) then {
-		deleteVehicle _x
-	};
-} forEach _vehiculos;
+[_grupos, _vehiculos, [_mrk]] call AS_fnc_cleanResources;
