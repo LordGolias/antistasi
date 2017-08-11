@@ -5,8 +5,8 @@ params ["_veh"];
 // do not allow wheels to break when AI is driving
 if (_veh isKindOf "Car") then {
 	_veh addEventHandler ["HandleDamage", {
-		params ["_veh", "_part", "_damage", "_injurer"];
-		if ((_part find "wheel" != -1) and (_injurer == "") and (!isPlayer driver _veh)) then {
+		params ["_veh", "_part", "_damage", "_injurer", "_projectile"];
+		if ((_part find "wheel" != -1) and (_projectile == "") and (!isPlayer driver _veh)) then {
 			0
 		} else {
 			_damage
