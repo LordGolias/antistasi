@@ -17,7 +17,7 @@ if (_side == side_green) then {
 };
 if (_side == side_blue) then {
 	_staticAA = selectRandom bluStatAA;
-	_staticMG = bluStatHMG;
+	_staticMG = selectRandom bluStatHMG;
 	_gunnerCrew = bluGunner;
 };
 
