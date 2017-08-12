@@ -30,6 +30,7 @@ if (isServer) then {
 	AS_FIArecruitment setVariable ["rhs_Mi8amt_civilian", 6000, true];
 };
 
+AS_FIA_vans = ["rhs_Ural_Open_Civ_01", "rhs_Ural_Open_Civ_02", "rhs_Ural_Open_Civ_03"];
 
 AS_FIACustomSquad_types = ["Mobile AA", "Mobile AT", "Mobile Mortar"];
 

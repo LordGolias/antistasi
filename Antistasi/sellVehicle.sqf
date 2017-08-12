@@ -19,7 +19,6 @@ call {
 	if (_tipoVeh in vehNATO) exitWith {};
 	if (_tipoVeh in AS_FIArecruitment_all) exitWith {
 		_cost = [_tipoVeh, true] call FIAvehiclePrice};
-	if (_tipoveh == "C_Van_01_fuel_F") exitWith {_cost = 50};
 	if (_tipoVeh in arrayCivVeh) exitWith {_cost = 25};
 
 	private _category = [_tipoVeh] call AS_fnc_AAFarsenal_category;

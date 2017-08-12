@@ -22,7 +22,8 @@ private _taskDesc = format [localize "STR_tskDesc_logBank",_nombredest,numberToD
 
 private _task = [_mission,[side_blue,civilian],[_taskDesc,_taskTitle,_mrkfin],_position,"CREATED",5,true,true,"Interact"] call BIS_fnc_setTask;
 
-private _truck = "C_Van_01_box_F" createVehicle ((getMarkerPos "FIA_HQ") findEmptyPosition [1,50,"C_Van_01_box_F"]);
+private _truckType = selectRandom AS_FIA_vans;
+private _truck = _truckType createVehicle ((getMarkerPos "FIA_HQ") findEmptyPosition [1,50,_truckType]);
 {_x reveal _truck} forEach (allPlayers - hcArray);
 [_truck] spawn vehInit;
 _truck setVariable ["destino",_nombredest,true];

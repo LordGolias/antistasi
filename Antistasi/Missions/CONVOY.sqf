@@ -25,13 +25,13 @@ call {
 		_tskTitle = localize "STR_tsk_CVY_Money";
 		_tskDesc = localize "STR_tskDesc_CVY_Money";
 		_tskIcon = "move";
-		_mainVehicleType = "C_VAN_01_BOX_F";
+		_mainVehicleType = selectRandom AS_FIA_vans;
 	};
 	if (_missionType == "convoy_supplies") exitWith {
 		_tskTitle = localize "STR_tsk_CVY_Supply";
 		_tskDesc = localize "STR_tskDesc_CVY_Supply";
 		_tskIcon = "heal";
-		_mainVehicleType = "C_VAN_01_BOX_F";
+		_mainVehicleType = selectRandom AS_FIA_vans;
 	};
 	if (_missionType == "convoy_armor") exitWith {
 		_tskTitle = localize "STR_tsk_CVY_Armor";

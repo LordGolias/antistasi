@@ -117,7 +117,6 @@ private _arrayEst = [];
             !(_veh isKindOf "Building") and
             !(_tipoVeh in planesNATO) and
             !(_tipoVeh in vehNATO) and
-            !(_tipoVeh == "C_Van_01_box_F") and
             (count attachedObjects _veh == 0) and
             (alive _veh) and
             ({(alive _x) and (!isPlayer _x)} count crew _veh == 0) and

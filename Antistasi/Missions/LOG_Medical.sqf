@@ -58,7 +58,7 @@ private _tskDesc = format [localize "STR_tskDesc_logMedical", [_location] call l
 	_nombreOrig, A3_STR_INDEP
 ];
 
-private _tipoVeh = "C_Van_01_transport_F";
+private _tipoVeh = selectRandom AS_FIA_vans;
 
 private _posCrashMrk = [_poscrash,random 200,random 360] call BIS_fnc_relPos;
 _poscrash = _poscrash findEmptyPosition [0,100,_tipoVeh];

@@ -12,9 +12,10 @@ private _taskDesc = format [localize "STR_tskDesc_logSupply",[_location] call lo
 
 private _task = [_mission,[side_blue,civilian],[_taskDesc,_taskTitle,_location],_position,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
 
-private _pos = (getMarkerPos "FIA_HQ") findEmptyPosition [1,50,"C_Van_01_box_F"];
+private _truckType = selectRandom AS_FIA_vans;
+private _pos = (getMarkerPos "FIA_HQ") findEmptyPosition [1,50,_truckType];
 
-private _truck = "C_Van_01_box_F" createVehicle _pos;
+private _truck = _truckType createVehicle _pos;
 [_truck, "FIA"] call AS_fnc_initVehicle;
 {_x reveal _truck} forEach (allPlayers - hcArray);
 [_truck,"Mission Vehicle"] spawn inmuneConvoy;

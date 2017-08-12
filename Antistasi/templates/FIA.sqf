@@ -83,6 +83,8 @@ AS_FIAsoldiersMapping = [
     "B_G_Survivor_F", "Survivor"
 ];
 
+AS_FIA_vans = ["C_Van_01_box_F"];
+
 // maps standard classes to AS squad types.
 // 	To modders: squad types are 1) recruitable and 2) spawned in cities, etc.
 AS_FIAsquadsMapping = [
