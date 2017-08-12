@@ -144,14 +144,16 @@ AS_fnc_mission_updateAvailable = {
         } forEach AS_antenasPos_alive;
 
         {
-            private _location = _x call AS_fnc_location_nearest;
-            if ((_x distance (getMarkerPos "FIA_HQ") < AS_missions_MAX_DISTANCE) and
-                (_location call AS_fnc_location_side == "AAF") and
-                not(_location call AS_fnc_location_spawned) and
-                {_x distance (_location call AS_fnc_location_position) < (_location call AS_fnc_location_size)}) then {
-                _possible pushBack ["rob_bank", _location];
+            private _position = _x call AS_fnc_location_position;
+            if (not (["rob_bank", _x] in _possible) and {_position distance (getMarkerPos "FIA_HQ") < AS_missions_MAX_DISTANCE} and
+                {
+                    private _bank_position = [AS_bankPositions, _position] call BIS_fnc_nearestPosition;
+                    (_position distance _bank_position) < (_x call AS_fnc_location_size)} and
+                {_x call AS_fnc_location_side == "AAF"} and
+                {not(_x call AS_fnc_location_spawned)}) then {
+                _possible pushBack ["rob_bank", _x];
             };
-        } forEach AS_bankPositions;
+        } forEach (call AS_fnc_location_cities);
 
         // it uses exitWith so there is only one possible mission at the time.
         {
