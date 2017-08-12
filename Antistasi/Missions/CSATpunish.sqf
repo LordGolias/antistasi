@@ -82,7 +82,7 @@ for "_i" from 1 to 3 do {
 			_wp2 setWaypointStatements ["true", "{deleteVehicle _x} forEach crew this; deleteVehicle this"];
 			[_grupoheli,1] setWaypointBehaviour "AWARE";
 		} else {
-			[_heli,_grupo,_position,_posorigen,_grupoheli] spawn fastropeCSAT;
+			[_grupoheli, _pos, _position, _location, [_grupo], 25*60] call fnc_QRF_fastrope;
 		};
 	};
 	sleep 20;

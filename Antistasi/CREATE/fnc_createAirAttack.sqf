@@ -80,7 +80,6 @@ if (_airType in ["planes","armedHelis"]) then {
 		_grupo1 = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 		{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldiers = _soldiers + [_x]} forEach units _grupo1;
 		_groups pushBack _grupo;
-		//[_veh,_grupo,_grupo1,_posdestino,_posorigen,_grupoVeh] spawn fastropeAAF;
 		[_grupoVeh, _pos, _posdestino, _location, [_grupo, _grupo1], 25*60] call fnc_QRF_fastrope;
 	};
 };

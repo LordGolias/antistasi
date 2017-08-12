@@ -245,7 +245,7 @@ if (_hayCSAT) then {
 					[_grupoheli,1] setWaypointBehaviour "AWARE";
 					}
 				else {
-					[_heli,_grupo,_position,_posorigen,_grupoheli] spawn fastropeCSAT;
+					[_grupoheli, _pos, _position, _location, [_grupo], 25*60] call fnc_QRF_fastrope;
 				};
 			};
 		};

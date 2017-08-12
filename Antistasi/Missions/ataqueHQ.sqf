@@ -47,7 +47,7 @@ for "_i" from 1 to (1 + round random 2) do {
 	{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] spawn CSATinit} forEach units _grupo;
 	_grupos pushBack _grupo;
 	[_heli,"CSAT Air Transport"] spawn inmuneConvoy;
-	[_heli,_grupo,_position,_pos,_grupoheli] spawn fastropeCSAT;
+	[_grupoheli, _pos, _position, _location, [_grupo], 25*60] call fnc_QRF_fastrope;
 	sleep 10;
 };
 

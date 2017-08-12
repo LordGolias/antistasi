@@ -180,9 +180,6 @@ ataqueAAF = compile preProcessFileLineNumbers "ataqueAAF.sqf";
 AS_fnc_spawnLoop = compile preProcessFileLineNumbers "spawnLoop.sqf";
 inmuneConvoy = compile preProcessFileLineNumbers "AI\inmuneConvoy.sqf";
 smokeCover = compile preProcessFileLineNumbers "AI\smokeCover.sqf";
-fastropeAAF = compile preProcessFileLineNumbers "AI\fastropeAAF.sqf";
-fastropeCSAT = compile preProcessFileLineNumbers "AI\fastropeCSAT.sqf";
-fastropeNATO = compile preProcessFileLineNumbers "AI\fastropeNATO.sqf";
 airdrop = compile preProcessFileLineNumbers "AI\airdrop.sqf";
 airstrike = compile preProcessFileLineNumbers "AI\airstrike.sqf";
 artilleria = compile preProcessFileLineNumbers "AI\artilleria.sqf";
@@ -217,3 +214,5 @@ teleport = compile preprocessFileLineNumbers "teleport.sqf";
 
 rankCheck = compile preprocessFileLineNumbers "Scripts\rankCheck.sqf";
 skillAdjustments = compile preprocessFileLineNumbers "Scripts\skillAdjustments.sqf";
+
+#include "Scripts\SHK_Fastrope.sqf"

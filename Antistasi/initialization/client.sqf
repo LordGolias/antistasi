@@ -11,7 +11,6 @@ diag_log "[AS] client: starting";
 
 
 [] execVM "briefing.sqf";
-#include "..\Scripts\SHK_Fastrope.sqf"
 
 if not isServer then {
     call compile preprocessFileLineNumbers "initFuncs.sqf";

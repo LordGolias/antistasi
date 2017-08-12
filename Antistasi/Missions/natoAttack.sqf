@@ -59,7 +59,7 @@ for "_i" from 1 to _group_count do {
 			[_heli,_group,_position,_threatEval] spawn airdrop;
 		} else {
 			if ((_location call AS_location_type) in ["base","watchpost"]) then {
-				[_heli,_group,_position,_origpos,_groupheli] spawn fastropeNATO;
+				[_groupheli, _origpos, _position, _location, [_group], 25*60] call fnc_QRF_fastrope;
 			};
 			if ((_location call AS_location_type) in ["resource","factory", "powerplant"]) then {
 				{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _groupheli;
