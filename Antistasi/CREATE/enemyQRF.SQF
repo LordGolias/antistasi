@@ -18,20 +18,20 @@ params ["_orig", "_dest", "_mrk", "_duration", "_composition", "_size", ["_sourc
 // FIA bases/airports
 private _bases = ["base", "AAF"] call AS_fnc_location_TS;
 
-_posComp = ["transport", "destroy", "mixed"];
+private _posComp = ["transport", "destroy", "mixed"];
 if !(_composition in _posComp) exitWith {};
 
 // define type of QRF and vehicles by type of origin, plus method of troop insertion by air (rope or land)
-_type = "air";
-_method = "rope";
-_side = side_red;
-_lead = opHeliSD;
-_transport = opHeliFR;
-_dismountGroup = [opGroup_Recon_Team, "CSAT"] call fnc_pickGroup;
+private _type = "air";
+private _method = "rope";
+private _side = side_red;
+private _lead = opHeliSD;
+private _transport = opHeliFR;
+private _dismountGroup = [opGroup_Recon_Team, "CSAT"] call fnc_pickGroup;
 if (_size == "large") then {
 	_dismountGroup = [opGroup_Squad, "CSAT"] call fnc_pickGroup;
 };
-_dismountGroupEscort = [infTeam, "AAF"] call fnc_pickGroup;
+private _dismountGroupEscort = [infTeam, "AAF"] call fnc_pickGroup;
 if !(_orig == "spawnCSAT") then {
 	_method = "land";
 	_side = side_red;
@@ -58,11 +58,6 @@ if !(_orig == "spawnCSAT") then {
 	};
 };
 
-private _origMarker = _orig;
-if (typeName _orig == "ARRAY") then {
-	_origMarker = _orig call AS_fnc_location_nearest;
-};
-
 // get the position of the target marker
 if !(typeName _orig == "ARRAY") then {
 	_orig = _orig call AS_fnc_location_position;
@@ -79,34 +74,33 @@ if (_mrk == "none") then {
     _mrk setMarkerAlpha 0;
 };
 
-_endTime = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _duration];
-_endTime = dateToNumber _endTime;
+private _endTime = dateToNumber [date select 0, date select 1, date select 2, date select 3, (date select 4) + _duration];
 
 // arrays of all spawned units/groups
-_grupos = [];
-_soldados = [];
-_vehiculos = [];
+private _grupos = [];
+private _soldados = [];
+private _vehiculos = [];
 
 // initialise groups, two for vehicles, three for dismounts
-_grpVeh1 = createGroup _side;
+private _grpVeh1 = createGroup _side;
 _grupos pushBack _grpVeh1;
 
-_grpVeh2 = createGroup _side;
+private _grpVeh2 = createGroup _side;
 _grupos pushBack _grpVeh2;
 
-_grpDis1 = createGroup _side;
+private _grpDis1 = createGroup _side;
 _grupos pushBack _grpDis1;
 
-_grpDis2 = createGroup _side;
+private _grpDis2 = createGroup _side;
 _grupos pushBack _grpDis2;
 
-_grpDisEsc = createGroup _side;
+private _grpDisEsc = createGroup _side;
 _grupos pushBack _grpDisEsc;
 
 private _dir = [_orig, _dest] call BIS_fnc_dirTo;
 
 // initialisation of vehicles
-_initVehs = {
+private _initVehs = {
 	params ["_specs"];
 	_specs = _specs + [_dir, _side, _vehiculos, _grupos, _soldados, true];
 	_specs call fnc_initialiseVehicle;
@@ -123,7 +117,7 @@ if (_type == "air") then {
 		_grupos = _vehData select 1;
 		_soldados = _vehData select 2;
 
-		_heli1 = (_vehData select 3) select 0;
+		private _heli1 = (_vehData select 3) select 0;
 		_grpVeh1 = (_vehData select 3) select 1;
 
 		_heli1 lock 3;
@@ -139,7 +133,7 @@ if (_type == "air") then {
 
 	if ((_composition == "transport") || (_composition == "mixed")) then {
 		// landing pad, to allow for dismounts
-		_landpos1 = [];
+		private _landpos1 = [];
 		if (_source == "campQRF") then {
 			_landpos1 = [_dest, 300, 500, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
 		}
@@ -147,12 +141,12 @@ if (_type == "air") then {
 			_landpos1 = [_dest, 50, 300, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
 		};
 		_landpos1 set [2, 0];
-		_pad1 = createVehicle ["Land_HelipadEmpty_F", _landpos1, [], 0, "NONE"];
-		_vehiculos = _vehiculos + [_pad1];
+		private _pad1 = createVehicle ["Land_HelipadEmpty_F", _landpos1, [], 0, "NONE"];
+		_vehiculos pushBack _pad1;
 
 		// shift the spawn position of second chopper to avoid crash
-		_pos2 = _orig;
-		_zshift2 = (_orig select 2) + 50;
+		private _pos2 = _orig;
+		private _zshift2 = (_orig select 2) + 50;
 		_pos2 set [2, _zshift2];
 
 		// troop transport chopper
@@ -161,7 +155,7 @@ if (_type == "air") then {
 		_grupos = _vehData select 1;
 		_soldados = _vehData select 2;
 
-		_heli2 = (_vehData select 3) select 0;
+		private _heli2 = (_vehData select 3) select 0;
 		_grpVeh2 = (_vehData select 3) select 1;
 
 		_heli2 lock 3;
@@ -210,8 +204,8 @@ if (_type == "air") then {
 // ground QRF
 else {
 	// find spawn positions on a road
-	_posData = [_orig, _dest] call fnc_findSpawnSpots;
-	_posRoad = _posData select 0;
+	private _posData = [_orig, _dest] call fnc_findSpawnSpots;
+	private _posRoad = _posData select 0;
 	_dir = _posData select 1;
 
 	if ((_composition == "destroy") || (_composition == "mixed")) then {
@@ -221,7 +215,7 @@ else {
 		_grupos = _vehData select 1;
 		_soldados = _vehData select 2;
 
-		_veh1 = (_vehData select 3) select 0;
+		private _veh1 = (_vehData select 3) select 0;
 		_grpVeh1 = (_vehData select 3) select 1;
 		_grpDisEsc = [];
 
@@ -247,7 +241,7 @@ else {
 
 	if ((_composition == "transport") || (_composition == "mixed")) then {
 		// dismount position
-		_landpos1 = [_dest, _posRoad, 0] call findSafeRoadToUnload;
+		private _landpos1 = [_dest, _posRoad, 0] call findSafeRoadToUnload;
 
 		// second vehicle
 		private _vehData = [[_posRoad, _transport]] call _initVehs;
@@ -255,7 +249,7 @@ else {
 		_grupos = _vehData select 1;
 		_soldados = _vehData select 2;
 
-		_veh2 = (_vehData select 3) select 0;
+		private _veh2 = (_vehData select 3) select 0;
 		_grpVeh2 = (_vehData select 3) select 1;
 
 		// add dismounts
