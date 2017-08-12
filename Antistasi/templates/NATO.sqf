@@ -14,6 +14,7 @@ bluUAV = 			["B_UAV_02_F"];
 planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 planesNATOTrans = bluHeliTrans;
 
+bluRoadblock = "Compositions\cmpNATO_RB.sqf";
 
 bluMBT = 		["B_MBT_01_cannon_F","B_MBT_01_TUSK_F"];
 bluAPC = 		["B_APC_Wheeled_01_cannon_F"];

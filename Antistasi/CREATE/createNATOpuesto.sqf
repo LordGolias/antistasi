@@ -20,11 +20,7 @@ private _road = (_roads select 0);
 private _dirveh = [_road, (roadsConnectedto _road) select 0] call BIS_fnc_DirTo;
 
 // spawn the structures
-private _composition = "Compositions\cmpNATO_RB.sqf";
-if (hayRHS) then {
-	_composition = "Compositions\cmpUSAF_RB.sqf";
-};
-private _objs = [getpos _road, _dirveh, call compile preprocessFileLineNumbers _composition] call BIS_fnc_ObjectsMapper;
+private _objs = [getpos _road, _dirveh, call compile preprocessFileLineNumbers bluRoadblock] call BIS_fnc_ObjectsMapper;
 
 private _vehArray = [];
 private _turretArray = [];
@@ -65,10 +61,9 @@ private _tempPos = [];
 {[_x] spawn NATOinitCA} forEach units _grupo;
 
 // spawn infantry group
-private _grupoInf = [getpos _tempPos, side_blue,
-	[bluATTeam, side_blue] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+private _grupoInf = [getpos _tempPos, side_blue, [bluATTeam, side_blue] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 
-_infdir = _dirveh + 180;
+private _infdir = _dirveh + 180;
 if (_infdir >= 360) then {_infdir = _infdir - 360};
 _grupoInf setFormDir _infdir;
 
