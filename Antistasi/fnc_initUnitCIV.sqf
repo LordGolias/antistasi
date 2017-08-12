@@ -28,14 +28,9 @@ _EHkilledIdx = _unit addEventHandler ["killed", {
 			[-1*_multiplicador,0] remoteExec ["AS_fnc_changeForeignSupport",2];
 			[1,0,getPos _muerto] remoteExec ["citySupportChange",2];
 		} else {
-			if (side _killer == side_green) then {
+			if (side _killer == side_red) then {
 				[1*_multiplicador,0] remoteExec ["AS_fnc_changeForeignSupport",2];
 				[0,1,getPos _muerto] remoteExec ["citySupportChange",2];
-			} else {
-				if (side _killer == side_red) then {
-					[2*_multiplicador,0] remoteExec ["AS_fnc_changeForeignSupport",2];
-					[-1,1,getPos _muerto] remoteExec ["citySupportChange",2];
-				};
 			};
 		};
 	};

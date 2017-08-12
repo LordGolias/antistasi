@@ -202,7 +202,7 @@ _truck engineOn false;
 		[_amigo,false] remoteExec ["setCaptive",_amigo];
 	};
 	{
-		if ((side _x == side_green) and (_x distance _truck < AS_P("spawnDistance"))) then {
+		if ((side _x == side_red) and (_x distance _truck < AS_P("spawnDistance"))) then {
 			if (_x distance _truck < 300) then {_x doMove position _truck} else {_x reveal [_amigo,4]};
 		};
 	} forEach allUnits;
@@ -244,7 +244,7 @@ private _fnc_continueCounterCondition = {
 private _fnc_increaseCounterCondition = {
 	{_x call AS_fnc_isUnconscious} count ([300,0, _truck,"BLUFORSpawn"] call distanceUnits) !=
 	 count ([300,0, _truck,"BLUFORSpawn"] call distanceUnits) and
-	({((side _x == side_green) || (side _x == side_red)) and (_x distance _truck < 50)} count allUnits == 0)
+	({(side _x == side_red) and (_x distance _truck < 50)} count allUnits == 0)
 };
 
 /*

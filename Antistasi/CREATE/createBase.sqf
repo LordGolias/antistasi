@@ -14,10 +14,10 @@ private _frontera = _location call isFrontline;
 private _busy = _location call AS_fnc_location_busy;
 private _buildings = nearestObjects [_posicion, AS_destroyable_buildings, _size*1.5];
 
-private _grupo = createGroup side_green;
+private _grupo = createGroup side_red;
 _grupos pushBack _grupo;
 
-([_location, side_green, _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
+([_location, side_red, _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
 _soldados append _gunners;
 _vehiculos append _vehicles;
 

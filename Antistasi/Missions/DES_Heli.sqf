@@ -37,7 +37,7 @@ _heli setDamage 0.9;
 _heli lock 2;
 _vehiculos append [_heli, _crater];
 
-private _grpcrash = createGroup side_green;
+private _grpcrash = createGroup side_red;
 _grupos pushBack _grpcrash;
 
 private _unit = ([_poscrash, 0, infPilot, _grpcrash] call bis_fnc_spawnvehicle) select 0;
@@ -54,7 +54,7 @@ while {count _roads == 0} do {
 private _road = _roads select 0;
 
 private _vehType = selectRandom (["apcs"] call AS_fnc_AAFarsenal_valid);
-private _vehicle = [position _road, 0,_vehType, side_green] call bis_fnc_spawnvehicle;
+private _vehicle = [position _road, 0,_vehType, side_red] call bis_fnc_spawnvehicle;
 private _veh = _vehicle select 0;
 [_veh, "AAF"] call AS_fnc_initVehicle;
 [_veh,"AAF Escort"] spawn inmuneConvoy;
@@ -68,7 +68,7 @@ _vehiculos pushBack _veh;
 sleep 1;
 
 private _tipoGrupo = [infPatrol, "AAF"] call fnc_pickGroup;
-private _grupo = [_position, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+private _grupo = [_position, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 
 {
 	_x assignAsCargo _veh;
@@ -89,7 +89,7 @@ _Vwp0 synchronizeWaypoint [_Gwp0];
 
 sleep 15;
 
-private _vehicleT = [position _road, 0, selectRandom vehTruckBox, side_green] call bis_fnc_spawnvehicle;
+private _vehicleT = [position _road, 0, selectRandom vehTruckBox, side_red] call bis_fnc_spawnvehicle;
 private _vehT = _vehicleT select 0;
 [_vehT, "AAF"] call AS_fnc_initVehicle;
 [_vehT,"AAF Recover Truck"] spawn inmuneConvoy;

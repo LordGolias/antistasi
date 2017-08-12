@@ -12,7 +12,7 @@ if (player != leader group player) exitWith {hint "You cannot recruit units as y
 
 _enemiesClose = false;
 {
-	if (((side _x == side_red) or (side _x == side_green)) and (_x distance player < 500) and (not(captive _x))) exitWith {_enemiesClose = true};
+	if ((side _x == side_red) and (_x distance player < 500) and (not(captive _x))) exitWith {_enemiesClose = true};
 } forEach allUnits;
 if (_enemiesClose) exitWith {Hint "You cannot recruit units with enemies nearby"};
 

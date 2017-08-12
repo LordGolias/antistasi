@@ -5,7 +5,7 @@ _unit = _this select 0;
 if (typeOf _unit == "Fin_random_F") exitWith {};
 
 _unit setVariable ["surrendered",true];
-if ((side _unit == side_green) or (side _unit == side_red)) then
+if (side _unit == side_red) then
 	{
 	[[_unit,"interrogar"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	[[_unit,"capturar"],"AS_fnc_addAction"] call BIS_fnc_MP;

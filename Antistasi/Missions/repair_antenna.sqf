@@ -61,7 +61,7 @@ _veh allowDamage true;
 [_veh, "AAF"] call AS_fnc_initVehicle;
 
 // repair soldiers
-private _group = createGroup side_green;
+private _group = createGroup side_red;
 for "_i" from 1 to 3 do {
 	private _unit = ([_pos, 0, sol_CREW, _group] call bis_fnc_spawnvehicle) select 0;
 	[_unit] call AS_fnc_initUnitAAF;

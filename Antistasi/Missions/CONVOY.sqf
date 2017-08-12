@@ -86,7 +86,7 @@ private _hvt = objNull;
 
 [_origin,30] call AS_fnc_location_increaseBusy;
 
-private _group = createGroup side_green;
+private _group = createGroup side_red;
 _groups pushBack _group;
 
 ([_posbase, _position] call fnc_findSpawnSpots) params ["_posRoad", "_dir"];
@@ -123,7 +123,7 @@ for "_i" from 1 to _escortSize do {
 		_tipoGrupo = [infSquad, "AAF"] call fnc_pickGroup;
 	};
 
-	private _grupoEsc = [_posbase, side_green, _tipoGrupo] call BIS_Fnc_spawnGroup;
+	private _grupoEsc = [_posbase, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
 	{[_x] call AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; [_x] join _group} forEach units _grupoEsc;
 	deleteGroup _grupoEsc;
 };

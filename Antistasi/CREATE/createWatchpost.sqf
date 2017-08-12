@@ -29,7 +29,7 @@ _vehiculos append _vehicles1;
 // create a mortar
 private _veh = statMortar createVehicle ([_posicion] call mortarPos);
 [_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
-private _grupo = createGroup side_green;
+private _grupo = createGroup side_red;
 _unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
 [_unit, false] spawn AS_fnc_initUnitAAF;
 _unit moveInGunner _veh;
@@ -41,7 +41,7 @@ sleep 1;
 {[_x] spawn cleanserVeh} forEach _vehiculos;
 
 // create the AT group
-private _grupo = [_posicion, side_green, [infTeamATAA, "AAF"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+private _grupo = [_posicion, side_red, [infTeamATAA, "AAF"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 [leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
 {[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 _grupos pushBack _grupo;

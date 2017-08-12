@@ -109,7 +109,7 @@ _crate3 addItemCargoGlobal ["Medikit", 10];
 _crate4 addItemCargoGlobal ["Medikit", 10];
 
 private _tipoGrupo = [infGarrisonSmall, "AAF"] call fnc_pickGroup;
-private _grupo = [_poscrash, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+private _grupo = [_poscrash, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 _grupos pushBack _grupo;
 
 {[_x] call AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
@@ -124,7 +124,7 @@ while {true} do {
 	_tam = _tam + 50;
 };
 
-private _vehicle = [position _road, 0, selectRandom (["trucks"] call AS_fnc_AAFarsenal_valid), side_green] call bis_fnc_spawnvehicle;
+private _vehicle = [position _road, 0, selectRandom (["trucks"] call AS_fnc_AAFarsenal_valid), side_red] call bis_fnc_spawnvehicle;
 private _veh = _vehicle select 0;
 [_veh, "AAF"] call AS_fnc_initVehicle;
 [_veh,"AAF Escort"] spawn inmuneConvoy;
@@ -138,7 +138,7 @@ _vehiculos pushBack _veh;
 sleep 1;
 
 _tipoGrupo = [infSquad, "AAF"] call fnc_pickGroup;
-_grupo = [_posbase, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+_grupo = [_posbase, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 
 {_x assignAsCargo _veh; _x moveInCargo _veh; _soldados pushBack _x; [_x] call AS_fnc_initUnitAAF} forEach units _grupo;
 _grupos pushBack _grupo;
@@ -194,7 +194,7 @@ private _fnc_loadCratesCondition = {
 	// The condition to allow loading the crates into the truck
 	(_truck distance _poscrash < 20) and {speed _truck < 1} and
 	{{alive _x and not (_x call AS_fnc_isUnconscious)} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) > 0} and
-	{{(side _x == side_green) or (side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
+	{{(side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
 };
 
 private _str_unloadStopped = "Stop the truck closeby, have someone close to the truck and no enemies around";

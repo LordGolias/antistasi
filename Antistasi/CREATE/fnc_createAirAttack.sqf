@@ -23,7 +23,7 @@ while {_timeOut < 60} do {
 if (count _pos == 0) then {_pos = _posorigen};
 
 // spawn and init vehicle and crew
-([_pos, random 360, _tipoVeh, side_green] call bis_fnc_spawnvehicle) params ["_veh", "_vehCrew", "_grupoVeh"];
+([_pos, random 360, _tipoVeh, side_red] call bis_fnc_spawnvehicle) params ["_veh", "_vehCrew", "_grupoVeh"];
 _soldiers = _soldiers + _vehCrew;
 _groups pushBack _grupoVeh;
 _vehicles pushBack _veh;
@@ -45,7 +45,7 @@ if (_airType in ["planes","armedHelis"]) then {
 		else {
 			_tipoGrupo = [infSquad, "AAF"] call fnc_pickGroup;
 		};
-		_grupo = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+		_grupo = [_posorigen, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 		{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldiers = _soldiers + [_x]} forEach units _grupo;
 		//[_mrkDestino,_grupo] spawn attackDrill;
 		_groups pushBack _grupo;
@@ -74,10 +74,10 @@ if (_airType in ["planes","armedHelis"]) then {
 
 	} else {
 		_tipoGrupo = [infSquad, "AAF"] call fnc_pickGroup;
-		_grupo = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+		_grupo = [_posorigen, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 		{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldiers = _soldiers + [_x]} forEach units _grupo;
 		_groups pushBack _grupo;
-		_grupo1 = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+		_grupo1 = [_posorigen, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 		{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldiers = _soldiers + [_x]} forEach units _grupo1;
 		_groups pushBack _grupo;
 		[_grupoVeh, _pos, _posdestino, _location, [_grupo, _grupo1], 25*60] call fnc_QRF_fastrope;

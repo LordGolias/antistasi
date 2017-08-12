@@ -6,7 +6,7 @@ if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventor
 
 private _enemiesClose = false;
 {
-	if (((side _x == side_red) or (side _x == side_green)) and (_x distance petros < 500) and (not(captive _x))) exitWith {_enemiesClose = true};
+	if ((side _x == side_red) and (_x distance petros < 500) and (not(captive _x))) exitWith {_enemiesClose = true};
 } forEach allUnits;
 
 //if (_enemiesClose) exitWith {Hint "You cannot Recruit Squads with enemies near your HQ"};

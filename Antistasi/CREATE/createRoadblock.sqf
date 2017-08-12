@@ -20,7 +20,7 @@ _veh setPosATL (getPosATL _bunker);
 _veh setDir _dirVeh;
 _vehiculos pushBack _veh;
 
-private _grupoE = createGroup side_green;  // temp group
+private _grupoE = createGroup side_red;  // temp group
 
 private _unit = ([_posicion, 0, infGunner, _grupoE] call bis_fnc_spawnvehicle) select 0;
 _unit moveInGunner _veh;
@@ -51,7 +51,7 @@ _vehiculos pushBack _veh;
 {[_x, "AAF"] call AS_fnc_initVehicle} forEach _vehiculos;
 
 // create the patrol group
-private _grupo = [_posicion, side_green, [infAT, "AAF"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+private _grupo = [_posicion, side_red, [infAT, "AAF"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 {[_x] join _grupo} forEach units _grupoE;
 private _soldier = ([_posicion, 0, sol_MED, _grupo] call bis_fnc_spawnvehicle) select 0;
 _grupo selectLeader (units _grupo select 1);

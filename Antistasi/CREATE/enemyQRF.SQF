@@ -34,7 +34,7 @@ if (_size == "large") then {
 _dismountGroupEscort = [infTeam, "AAF"] call fnc_pickGroup;
 if !(_orig == "spawnCSAT") then {
 	_method = "land";
-	_side = side_green;
+	_side = side_red;
 	_lead = selectRandom (["armedHelis"] call AS_fnc_AAFarsenal_valid);
 	if (_size == "small") then {
 		_transport = selectRandom (["transportHelis"] call AS_fnc_AAFarsenal_valid);

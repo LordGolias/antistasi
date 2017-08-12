@@ -24,7 +24,7 @@ private _road = _roads select 0;
 private _pos = (position _road) findEmptyPosition [0,100,_tipoVeh];
 if (count _pos == 0) then {_pos = (position _road)};
 
-([_pos, random 360,_tipoVeh, side_green] call bis_fnc_spawnvehicle) params ["_veh", "_vehCrew", "_grupoVeh"];
+([_pos, random 360,_tipoVeh, side_red] call bis_fnc_spawnvehicle) params ["_veh", "_vehCrew", "_grupoVeh"];
 _soldiers append _vehCrew;
 _groups pushBack _grupoVeh;
 _vehicles pushBack _veh;
@@ -48,7 +48,7 @@ if (_toUse == "tanks") then {
 	};
 
 	if (_toUse == "apcs") then {
-		private _group = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+		private _group = [_posorigen, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 		{[_x] spawn AS_fnc_initUnitAAF; _x assignAsCargo _veh; _x moveInCargo _veh; _soldiers pushBack _x} forEach units _group;
 		_groups pushBack _group;
 		private _Vwp0 = _grupoVeh addWaypoint [_landPos, 0];
@@ -67,7 +67,7 @@ if (_toUse == "tanks") then {
 		_veh allowCrewInImmobile true;
 	}
 	else {  // is truck
-		private _group = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+		private _group = [_posorigen, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 
 		// extend group to fill truck
 		private _gSize = (_veh emptyPositions "cargo") - (count units _group);

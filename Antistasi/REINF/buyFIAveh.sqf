@@ -3,7 +3,7 @@ if (player != player getVariable ["owner",player]) exitWith {hint "You cannot bu
 
 private _enemiesNearby = false;
 {
-	if (((side _x == side_red) or (side _x == side_green)) and (_x distance player < 500) and (not(captive _x))) exitWith {_enemiesNearby = true};
+	if ((side _x == side_red) and (_x distance player < 500) and (not(captive _x))) exitWith {_enemiesNearby = true};
 } forEach allUnits;
 
 if (_enemiesNearby) exitWith {

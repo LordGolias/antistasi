@@ -62,7 +62,7 @@ _allBuildings = _allBuildings call AS_fnc_shuffle;
 
 for "_i" from 0 to 1 do {
 	private _tipoGrupo = [infGarrisonSmall, "AAF"] call fnc_pickGroup;
-	private _grupo = [_position, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+	private _grupo = [_position, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 	private _perro = _grupo createUnit ["Fin_random_F",_position,[],0,"FORM"];
 	[_perro] call guardDog;
 	[leader _grupo, _location, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
@@ -131,7 +131,7 @@ private _fnc_loadCratesCondition = {
 	// The condition to allow loading the crates into the truck
 	(_truck distance _currentDrop < 20) and {speed _truck < 1} and
 	{{alive _x and not (_x call AS_fnc_isUnconscious)} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) > 0} and
-	{{(side _x == side_green) or (side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
+	{{(side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
 };
 
 private _str_unloadStopped = "Stop the truck closeby, have someone close to the truck and no enemies around";

@@ -4,7 +4,7 @@ params ["_location"];
 
 private ["_unit","_AAVeh","_vehiculos","_grupos","_soldados","_stcs"];
 
-private _grupo = createGroup side_green;
+private _grupo = createGroup side_red;
 private _grupoCSAT = createGroup side_red;
 private _gns = [];
 private _stcs = [];
@@ -82,7 +82,7 @@ _grupos pushBack _grupoCSAT;
 
 // AAF teams
 {
-	_grupo = [_posicion, side_green, _x] call BIS_Fnc_spawnGroup;
+	_grupo = [_posicion, side_red, _x] call BIS_Fnc_spawnGroup;
 	_grupos pushBack _grupo;
 	{[_x, false] call AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 	[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";

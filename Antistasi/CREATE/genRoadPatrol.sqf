@@ -94,7 +94,7 @@ if (!_isFlying) then
 		};
 	};
 
-_vehicle=[_posbase, 0,_type, side_green] call bis_fnc_spawnvehicle;
+_vehicle=[_posbase, 0,_type, side_red] call bis_fnc_spawnvehicle;
 _veh = _vehicle select 0;
 [_veh, "AAF"] call AS_fnc_initVehicle;
 [_veh,"Patrol"] spawn inmuneConvoy;
@@ -109,8 +109,8 @@ _vehiculos = _vehiculos + [_veh];
 if (_type isKindOf "Car") then
 	{
 	sleep 1;
-	_tipoGrupo = [infGarrisonSmall, "AAF"] call fnc_pickGroup;
-	_grupo = [_posbase, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+	private _tipoGrupo = [infGarrisonSmall, "AAF"] call fnc_pickGroup;
+	_grupo = [_posbase, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 	{_x assignAsCargo _veh; _x moveInCargo _veh; _soldados = _soldados + [_x]; [_x] join _grupoveh; [_x] spawn AS_fnc_initUnitAAF} forEach units _grupo;
 	deleteGroup _grupo;
 	[_veh] spawn smokeCover;

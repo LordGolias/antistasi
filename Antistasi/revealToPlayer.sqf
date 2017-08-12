@@ -2,7 +2,7 @@ while {AS_S("revealFromRadio")} do {
 	if ((player == leader group player) and ([player] call hasRadio)) then {
 		{
 			private _lider = leader _x;
-			if ((side _lider in [side_red, side_green]) and
+			if ((side _lider == side_red) and
 				(vehicle _lider != _lider) and
 				(player knowsAbout _lider < 1.5)) then {
 				player reveal [_lider,4];

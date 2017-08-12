@@ -12,10 +12,10 @@ private _frontera = _location call isFrontline;
 
 private _buildings = nearestObjects [_posicion, AS_destroyable_buildings, _size*1.5];
 
-private _grupo = createGroup side_green;
+private _grupo = createGroup side_red;
 _grupos pushBack _grupo;
 
-([_location, side_green, _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
+([_location, side_red, _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
 _soldados append _gunners;
 _vehiculos append _vehicles;
 
@@ -29,7 +29,7 @@ _vehiculos pushBack _caja;
 
 if (_location call AS_fnc_location_type == "seaport") then {
 	private _pos = [_posicion,_size,_size*3,10,2,0,0] call BIS_Fnc_findSafePos;
-	([_pos, 0,"I_Boat_Armed_01_minigun_F", side_green] call bis_fnc_spawnvehicle) params ["_veh", "_vehCrew", "_grupoVeh"];
+	([_pos, 0,"I_Boat_Armed_01_minigun_F", side_red] call bis_fnc_spawnvehicle) params ["_veh", "_vehCrew", "_grupoVeh"];
 	[_veh, "AAF"] call AS_fnc_initVehicle;
 	{[_x, false] spawn AS_fnc_initUnitAAF} forEach _vehCrew;
 	_soldados append _vehCrew;

@@ -19,7 +19,7 @@ AS_DEBUG_init = {
         } forEach vehicles;
 
         {
-            if (side _x in [side_green,side_red,side_blue,civilian]) then {
+            if (side _x in [side_red,side_blue,civilian]) then {
                 [_x] call AS_DEBUG_initUnit;
             };
         } forEach allUnits;
@@ -53,10 +53,6 @@ AS_DEBUG_initUnit = {
     private _color = "ColorUNKNOWN";
     private _type = "c_unknown";
     switch (side _unit) do {
-		case side_green: {
-			_color = "ColorGUER";
-            _type = "n_inf";
-		};
 		case side_red: {
 			_color = "ColorOPFOR";
             _type = "o_inf";

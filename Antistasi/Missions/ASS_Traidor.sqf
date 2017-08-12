@@ -70,7 +70,7 @@ _mrk setMarkerBrushLocal "DiagGrid";
 _mrk setMarkerAlphaLocal 0;
 
 private _tipoGrupo = [infSquad, "AAF"] call fnc_pickGroup;
-private _grupo = [_position, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+private _grupo = [_position, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 if (random 10 < 2.5) then {
 	private _perro = _grupo createUnit ["Fin_random_F",_position,[],0,"FORM"];
 	[_perro] spawn guardDog;

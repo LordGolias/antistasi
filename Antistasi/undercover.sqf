@@ -20,7 +20,7 @@ _isMilitaryDressed = (primaryWeapon player != "") or
 				 (!(headgear player in AS_FIAhelmets_undercover)) or
 				 (hmd player != "") or
 				 (!(uniform player in AS_FIAuniforms_undercover));
-_detectedCondition = {((side _x == side_red) or (side _x == side_green)) and
+_detectedCondition = {(side _x == side_red) and
 					  (
 						((_x knowsAbout player > 1.4) and (_x distance player < 500)) or
 						(_x distance player < 350)
@@ -102,10 +102,10 @@ while {_reason == ""} do {
 							_reason = "awayFromRoad"
 						};
 						if (hayACE) then {
-			  				if (((position player nearObjects ["DemoCharge_Remote_Ammo", 5]) select 0) mineDetectedBy side_green) then {
+			  				if (((position player nearObjects ["DemoCharge_Remote_Ammo", 5]) select 0) mineDetectedBy side_red) then {
 								_reason = "vehicleWithExplosives";
 							};
-							if (((position player nearObjects ["SatchelCharge_Remote_Ammo", 5]) select 0) mineDetectedBy side_green) then {
+							if (((position player nearObjects ["SatchelCharge_Remote_Ammo", 5]) select 0) mineDetectedBy side_red) then {
 								_reason = "vehicleWithExplosives";
 							};
 						};

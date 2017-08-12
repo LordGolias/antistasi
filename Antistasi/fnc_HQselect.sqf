@@ -67,7 +67,7 @@ while {true} do {
 	// check if there is any enemy in the surroundings.
 	if (_validLocation and _hqDestroyed) then {
 		{
-            if ((side _x == side_green) or (side _x == side_red) and {_x distance _position < _minDistanceToEnemy}) exitWith {
+            if ((side _x == side_red) and {_x distance _position < _minDistanceToEnemy}) exitWith {
 				_validLocation = false;
 				hint "There are enemies in the surroundings. Select another place.";
 			};

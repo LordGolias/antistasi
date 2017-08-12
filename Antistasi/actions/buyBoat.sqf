@@ -3,7 +3,7 @@ private ["_chequeo","_pos","_veh","_newPos","_coste"];
 
 _chequeo = false;
 {
-	if (((side _x == side_red) or (side _x == side_green)) and (_x distance player < 500) and (not(captive _x))) then {_chequeo = true};
+	if ((side _x == side_red) and (_x distance player < 500) and (not(captive _x))) then {_chequeo = true};
 } forEach allUnits;
 
 if (_chequeo) exitWith {Hint "You cannot buy vehicles with enemies nearby"};

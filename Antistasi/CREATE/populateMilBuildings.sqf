@@ -3,14 +3,14 @@ params ["_location", "_side", "_grupo"];
 private _posicion = _location call AS_fnc_location_position;
 private _size = _location call AS_fnc_location_size;
 private _buildings = nearestObjects [_posicion, AS_destroyable_buildings, _size*1.5];
-private _addChopper = (_side == side_green) and !([_location] call isFrontline);
+private _addChopper = (_side == side_red) and !([_location] call isFrontline);
 
 // FIA
 private _staticAA = "B_static_AA_F";
 private _staticMG = "B_HMG_01_high_F";
 private _gunnerCrew = ["Crew"] call AS_fnc_getFIAUnitClass;
 // AAF
-if (_side == side_green) then {
+if (_side == side_red) then {
 	_staticAA = statAA;
 	_staticMG = statMGtower;
 	_gunnerCrew = infGunner;
@@ -33,7 +33,7 @@ private _vehiculos = [];
 		_veh setDir (getDir _building);
 		private _unit = _grupo createUnit [_gunnerCrew, _posicion, [], 0, "NONE"];
 		_unit moveInGunner _veh;
-		if (_side == side_green) then {
+		if (_side == side_red) then {
 			[_unit, false] spawn AS_fnc_initUnitAAF;
 		};
 		_soldadosMG pushback _unit;
@@ -48,7 +48,7 @@ private _vehiculos = [];
 		_veh setDir (getDir _building) - 180;
 		private _unit = _grupo createUnit [_gunnerCrew, _posicion, [], 0, "NONE"];
 		_unit moveInGunner _veh;
-		if (_side == side_green) then {
+		if (_side == side_red) then {
 			[_unit, false] spawn AS_fnc_initUnitAAF;
 		};
 		_soldadosMG pushback _unit;
@@ -68,7 +68,7 @@ private _vehiculos = [];
 		private _veh = createVehicle [_staticMG, (_building buildingPos 13), [], 0, "CAN_COLLIDE"];
 		private _unit = _grupo createUnit [_gunnerCrew, _posicion, [], 0, "NONE"];
 		_unit moveInGunner _veh;
-		if (_side == side_green) then {
+		if (_side == side_red) then {
 			[_unit, false] spawn AS_fnc_initUnitAAF;
 		};
 		_soldadosMG pushback _unit;
@@ -78,7 +78,7 @@ private _vehiculos = [];
 		_veh = createVehicle [_staticMG, (_building buildingPos 17), [], 0, "CAN_COLLIDE"];
 		_unit = _grupo createUnit [_gunnerCrew, _posicion, [], 0, "NONE"];
 		_unit moveInGunner _veh;
-		if (_side == side_green) then {
+		if (_side == side_red) then {
 			[_unit, false] spawn AS_fnc_initUnitAAF;
 		};
 		_soldadosMG pushback _unit;

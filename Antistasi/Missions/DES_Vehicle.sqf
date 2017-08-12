@@ -66,7 +66,7 @@ _veh = createVehicle [_tipoVeh, _pos, [], 0, "NONE"];
 _veh setDir random 360;
 [_veh, "AAF"] call AS_fnc_initVehicle;
 
-_group = createGroup side_green;
+_group = createGroup side_red;
 for "_i" from 1 to 3 do {
 	private _unit = ([_pos, 0, sol_CREW, _group] call bis_fnc_spawnvehicle) select 0;
 	[_unit] spawn AS_fnc_initUnitAAF;

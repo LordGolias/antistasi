@@ -15,7 +15,7 @@ private _mines = [];
 		side_blue revealMine _mine;
 	};
 	if (_side == "AAF") then {
-		side_green revealMine _mine;
+		side_red revealMine _mine;
 	};
 } forEach _minesData;
 

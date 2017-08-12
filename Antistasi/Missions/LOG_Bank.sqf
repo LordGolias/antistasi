@@ -44,7 +44,7 @@ _mrk setMarkerBrushLocal "DiagGrid";
 _mrk setMarkerAlphaLocal 0;
 
 private _tipoGrupo = [infSquad, "AAF"] call fnc_pickGroup;
-private _grupo = [_position, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
+private _grupo = [_position, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 sleep 1;
 [leader _grupo, _mrk, "SAFE","SPAWNED", "NOVEH2", "FORTIFY"] execVM "scripts\UPSMON.sqf";
 {[_x, false] spawn AS_fnc_initUnitAAF} forEach units _grupo;
@@ -98,7 +98,7 @@ private _fnc_loadCondition = {
 	// The condition to allow loading the crates into the truck
 	(_truck distance _position < 7) and {speed _truck < 1} and
 	{{alive _x and not (_x call AS_fnc_isUnconscious)} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) > 0} and
-	{{(side _x == side_green) or (side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
+	{{(side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
 };
 
 private _str_unloadStopped = "Stop the truck closeby, have someone close to the truck and no enemies around";
