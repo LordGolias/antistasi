@@ -31,6 +31,18 @@ if (_type == "vest") then {
 	_allItems = AS_allVests;
 	_allItemsAttrs = AS_allVestsAttrs;
 	_unlockedItems = unlockedItems;
+
+	_sortingFunction = {
+		private _index = _input0 find _x;
+		private _weight = (_input1 select _index) select 0;
+		private _armor = (_input1 select _index) select 1;
+		private _capacity = (_input1 select _index) select 2;
+		private _amount = (_input1 select _index) select 3;
+
+		private _w_factor = 1.0/(1 + exp (-2*(_amount - 5)));  // 0 => 0; 5 => 0.5; 10 => 1
+
+		_w_factor*(0.1 + _armor)*(0.1 + _capacity)/(1 + _weight/200)
+	};
 };
 if (_type == "helmet") then {
 	_allItems = AS_allHelmets;

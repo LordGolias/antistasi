@@ -168,7 +168,9 @@ _allVests = (format [_itemFilter, 701]) configClasses ( configFile >> "cfgWeapon
 	AS_allVests pushBack _name;
 	_weight = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "mass"));
 	_armor = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "HitpointsProtectionInfo" >> "Chest" >> "armor"));
-	AS_allVestsAttrs pushBack [_weight, _armor];
+    _capacity = getText (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "containerClass");
+    _capacity = parseNumber (_capacity select [6, (count _capacity) - 6]); // Supply360
+	AS_allVestsAttrs pushBack [_weight, _armor, _capacity];
 } forEach _allVests;
 
 // all helmets. Used to compute the best helmet to be used by FIA soldiers.
