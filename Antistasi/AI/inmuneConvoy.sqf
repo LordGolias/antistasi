@@ -1,99 +1,17 @@
-if (!isServer and hasInterface) exitWith{};
+params ["_veh","_text"];
 
-private ["_veh","_text","_mrkfin","_pos","_side","_tipo","_newPos","_road","_amigos"];
+waitUntil {sleep 5; (alive _veh) and !(isNull driver _veh)};
+private _side = side (driver _veh);
 
-_veh = _this select 0;
-_text = _this select 1;
-_enemigo = true;
-_convoy = false;
-
-waitUntil {sleep 1; (not(isNull driver _veh))};
-
-_side = side (driver _veh);
-_tipo = "hd_destroy";
-if ((_side == side_blue) or (_side == civilian)) then {_enemigo = false};
-
-if (_side == side_green) then {
-	private _category = [(typeOf _veh)] call AS_fnc_AAFarsenal_category;
-	call {
-		if (_category == "trucks") exitWith {_tipo = "n_motor_inf"};
-		if (_category == "apcs") exitWith {_tipo = "n_mech_inf"};
-		if (_category == "tanks") exitWith {_tipo = "n_armor"};
-		if (_category == "planes") exitWith {_tipo = "n_plane"};
-		if (_category in ["armedHelis", "transportHelis"]) exitWith {_tipo = "n_air"};
-		if (_veh isKindOf "UAV_02_base_F") exitWith {_tipo = "n_uav"};
-		if (_veh isKindOf "Boat_F") exitWith {_tipo = "n_naval"};
-	};
-};
-
-if (_side == side_red) then {
-	_tipo = "o_air";
-};
-
-if ((_side == side_blue) or (_side == civilian)) then
-	{
-	if ((typeOf _veh == "B_G_Van_01_transport_F") or (typeOf _veh == "C_Van_01_box_F")) then {_tipo = "b_motor_inf"}
-	else
-		{
-		if (typeOf _veh in bluMBT) then {_tipo = "b_armor"}
-		else
-			{
-			if (typeOf _veh in bluCASFW) then {_tipo = "b_plane"}
-			else
-				{
-				if ((typeOf _veh) in planesNATO) then {_tipo = "b_air"}
-				else {_tipo = "b_unknown"};
-				};
-			};
-		};
-	};
-if ((_text == "AAF Convoy Objective") or (_text == "Mission Vehicle")) then {_convoy = true;};
-
-if (!_convoy) exitWith {};
-
-waitUntil {sleep 1;(not alive _veh) or ({(_x knowsAbout _veh > 1.4) and (side _x == side_blue)} count allUnits >0) or (!_enemigo)};
-
-if (!alive _veh) exitWith {};
-
-if (_enemigo) then {[["TaskSucceeded", ["", format ["%1 Spotted",_text]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;};
-_mrkfin = createMarker [format ["%2%1", random 100,_text], position _veh];
-_mrkfin setMarkerShape "ICON";
-_mrkfin setMarkerType _tipo;
-if (_tipo == "hd_destroy") then
-	{
-	if (_enemigo) then {_mrkfin setMarkerColor "ColorRed"} else {_mrkfin setMarkerColor "ColorBlue"};
-	};
-_mrkfin setMarkerText _text;
-while {(alive _veh) and ((side (driver _veh) == _side) or _convoy)} do
-	{
-	_pos = getPos _veh;
-	_mrkfin setMarkerPos _pos;
+while {(alive _veh) and (side (driver _veh) == _side)} do {
+	private _pos = getPos _veh;
 	sleep 60;
-	_newPos = getPos _veh;
-	if (_newPos distance _pos < 5) then
-		{
-		if (_veh isKindOf "Air") then
-			{
-			if (isTouchingGround _veh) then
-				{
-				{
-				unAssignVehicle _x;
-	   			moveOut _x;
-	   			sleep 1.5;
-				} forEach assignedCargo _veh;
-				};
-			}
-		else
-			{
-			if ({_x distance _newPos < 500} count (allPlayers - hcArray) == 0) then
-				{
-				_road = [_newPos,100] call BIS_fnc_nearestRoad;
-				if (!isNull _road) then
-					{
-					_veh setPos getPos _road;
-					};
-				};
-			};
+	private _newPos = getPos _veh;
+	// in case it stopped, give vehicles a nodge to continue
+	if (_newPos distance _pos < 5 and {{_x distance _newPos < 500} count (allPlayers - hcArray) == 0}) then {
+		private _road = [_newPos,100] call BIS_fnc_nearestRoad;
+		if (!isNull _road) then {
+			_veh setPos getPos _road;
 		};
 	};
-deleteMarker _mrkfin;
+};

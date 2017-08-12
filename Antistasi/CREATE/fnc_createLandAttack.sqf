@@ -36,7 +36,7 @@ private _landPos = [_posdestino, position _road,_threatEval] call findSafeRoadTo
 if (_toUse == "tanks") then {
 	private _Vwp0 = _grupoVeh addWaypoint [_landPos, 0];
 	_Vwp0 setWaypointBehaviour "SAFE";
-	[_veh,"Tank"] call inmuneConvoy;
+	[_veh,"Tank"] spawn inmuneConvoy;
 	_Vwp0 setWaypointType "SAD";
 	_veh allowCrewInImmobile true;
 } else {
