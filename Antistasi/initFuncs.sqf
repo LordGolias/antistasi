@@ -173,6 +173,7 @@ CSATinit = compile preProcessFileLineNumbers "CREATE\CSATinit.sqf";
 NATOinitCA = compile preProcessFileLineNumbers "CREATE\NATOinitCA.sqf";
 AS_fnc_createJournalist = compile preProcessFileLineNumbers "CREATE\createJournalist.sqf";
 patrolCA = compile preProcessFileLineNumbers "CREATE\patrolCA.sqf";
+AS_fnc_AAFpatrol = compile preProcessFileLineNumbers "CREATE\fnc_AAFpatrol.sqf";
 findBasesForCA = compile preProcessFileLineNumbers "findBasesForCA.sqf";
 findBasesForConvoy = compile preProcessFileLineNumbers "findBasesForConvoy.sqf";
 findAirportsForCA = compile preProcessFileLineNumbers "findAirportsForCA.sqf";

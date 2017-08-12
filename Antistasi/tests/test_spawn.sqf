@@ -21,4 +21,9 @@
         } forEach ["FIA", "AAF"];
     } forEach ["city", "resource", "powerplant", "factory", "airfield", "base", "airfield", "outpost", "roadblock"];
     diag_log "[AS] test spawn: done";
-}
+};
+
+// test spawn of patrol
+[true] call AS_debug_init;
+private _location = ("city" call AS_fnc_location_T) select 0;
+[_location, _location] spawn AS_fnc_AAFpatrol;
