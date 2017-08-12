@@ -69,7 +69,7 @@ _mrk setMarkerColorLocal "ColorRed";
 _mrk setMarkerBrushLocal "DiagGrid";
 _mrk setMarkerAlphaLocal 0;
 
-private _tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
+private _tipoGrupo = [infSquad, "AAF"] call fnc_pickGroup;
 private _grupo = [_position, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 if (random 10 < 2.5) then {
 	private _perro = _grupo createUnit ["Fin_random_F",_position,[],0,"FORM"];

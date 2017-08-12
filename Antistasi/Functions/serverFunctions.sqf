@@ -73,7 +73,7 @@ AS_fnc_spawnAAF_patrol = {
 			_pos = [_position, 150 + (random 350) ,random 360] call BIS_fnc_relPos;
 			if (!surfaceIsWater _pos) exitWith {};
 		};
-		private _group = [_pos, side_green, [infPatrol, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+		private _group = [_pos, side_green, [infPatrol, "AAF"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 
 		if (random 10 < 2.5) then {
 			[_group createUnit ["Fin_random_F",_pos,[],0,"FORM"]] spawn guardDog;
@@ -102,7 +102,7 @@ AS_fnc_spawnAAF_patrolSquad = {
 			_pos = [_position, random _size,random 360] call BIS_fnc_relPos;
 			if (!surfaceIsWater _pos) exitWith {};
 		};
-		private _group = [_pos, side_green, [infSquad, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+		private _group = [_pos, side_green, [infSquad, "AAF"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 		if (hayRHS) then {_group = [_group, _position] call expandGroup};
 
 		private _stance = "RANDOM";

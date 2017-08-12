@@ -9,13 +9,13 @@ fnc_pickGroup = {
 	private _cfgPath = "";
 
 	switch (_affiliation) do {
-		case side_green: {
+		case "AAF": {
 			_cfgPath = AAFConfigGroupInf;
 		};
-		case side_red: {
+		case "CSAT": {
 			_cfgPath = CSATConfigGroupInf;
 		};
-		case side_blue: {
+		case "NATO": {
 			_cfgPath = NATOConfigGroupInf;
 		};
 		default {
@@ -23,7 +23,7 @@ fnc_pickGroup = {
 		};
 	};
 
-	_fnc_pickGroupSingle = {
+	private _fnc_pickGroupSingle = {
 		params ["_input"];
 		private _output = "";
 

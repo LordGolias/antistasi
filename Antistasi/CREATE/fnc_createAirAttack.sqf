@@ -40,10 +40,10 @@ if (_airType in ["planes","armedHelis"]) then {
 	private _seats = ([_tipoVeh,true] call BIS_fnc_crewCount) - ([_tipoVeh,false] call BIS_fnc_crewCount);
 	if (_seats <= 15) then {
 		if (_seats <= 7) then {
-			_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
+			_tipoGrupo = [infTeam, "AAF"] call fnc_pickGroup;
 		}
 		else {
-			_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
+			_tipoGrupo = [infSquad, "AAF"] call fnc_pickGroup;
 		};
 		_grupo = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 		{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldiers = _soldiers + [_x]} forEach units _grupo;
@@ -73,7 +73,7 @@ if (_airType in ["planes","armedHelis"]) then {
 		[_veh,"Air Transport"] spawn inmuneConvoy;
 
 	} else {
-		_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
+		_tipoGrupo = [infSquad, "AAF"] call fnc_pickGroup;
 		_grupo = [_posorigen, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 		{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; _soldiers = _soldiers + [_x]} forEach units _grupo;
 		_groups pushBack _grupo;

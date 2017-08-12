@@ -67,7 +67,7 @@ _vehiculos pushBack _veh;
 
 sleep 1;
 
-private _tipoGrupo = [infPatrol, side_green] call fnc_pickGroup;
+private _tipoGrupo = [infPatrol, "AAF"] call fnc_pickGroup;
 private _grupo = [_position, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 
 {

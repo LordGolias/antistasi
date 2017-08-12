@@ -42,9 +42,9 @@ if (_toUse == "tanks") then {
 } else {
 	// todo: to a better job at selecting groups/units here: they may not fit.
 	private _seats = ([_tipoVeh,true] call BIS_fnc_crewCount) - ([_tipoVeh,false] call BIS_fnc_crewCount);
-	private _tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
+	private _tipoGrupo = [infSquad, "AAF"] call fnc_pickGroup;
 	if (_seats <= 7) then {
-		_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
+		_tipoGrupo = [infTeam, "AAF"] call fnc_pickGroup;
 	};
 
 	if (_toUse == "apcs") then {

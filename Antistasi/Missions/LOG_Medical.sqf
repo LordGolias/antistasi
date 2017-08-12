@@ -108,7 +108,7 @@ _crate2 addItemCargoGlobal ["FirstAidKit", 40];
 _crate3 addItemCargoGlobal ["Medikit", 10];
 _crate4 addItemCargoGlobal ["Medikit", 10];
 
-private _tipoGrupo = [infGarrisonSmall, side_green] call fnc_pickGroup;
+private _tipoGrupo = [infGarrisonSmall, "AAF"] call fnc_pickGroup;
 private _grupo = [_poscrash, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 _grupos pushBack _grupo;
 
@@ -137,7 +137,7 @@ _vehiculos pushBack _veh;
 
 sleep 1;
 
-_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
+_tipoGrupo = [infSquad, "AAF"] call fnc_pickGroup;
 _grupo = [_posbase, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 
 {_x assignAsCargo _veh; _x moveInCargo _veh; _soldados pushBack _x; [_x] call AS_fnc_initUnitAAF} forEach units _grupo;

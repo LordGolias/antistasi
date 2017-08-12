@@ -22,7 +22,7 @@ private _tskDesc = format ["NATO is dispatching a team from %1 to establish a te
 
 private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrk],_position,"CREATED",5,true,true,"Move"] call BIS_fnc_setTask;
 
-private _tipoGrupo = [bluATTeam, side_blue] call fnc_pickGroup;
+private _tipoGrupo = [bluATTeam, "NATO"] call fnc_pickGroup;
 
 private _vehicles = [];
 private _groups = [];

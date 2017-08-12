@@ -61,7 +61,7 @@ private _tempPos = [];
 {[_x] spawn NATOinitCA} forEach units _grupo;
 
 // spawn infantry group
-private _grupoInf = [getpos _tempPos, side_blue, [bluATTeam, side_blue] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+private _grupoInf = [getpos _tempPos, side_blue, [bluATTeam, "NATO"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 
 private _infdir = _dirveh + 180;
 if (_infdir >= 360) then {_infdir = _infdir - 360};

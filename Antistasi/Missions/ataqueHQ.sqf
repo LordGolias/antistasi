@@ -42,7 +42,7 @@ for "_i" from 1 to (1 + round random 2) do {
 	_vehiculos pushBack _heli;
 
 	{_x setBehaviour "CARELESS";} forEach units _grupoheli;
-	private _tipoGrupo = [opGroup_SpecOps, side_red] call fnc_pickGroup;
+	private _tipoGrupo = [opGroup_SpecOps, "CSAT"] call fnc_pickGroup;
 	private _grupo = [_pos, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
 	{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] spawn CSATinit} forEach units _grupo;
 	_grupos pushBack _grupo;

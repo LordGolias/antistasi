@@ -109,7 +109,7 @@ _vehiculos = _vehiculos + [_veh];
 if (_type isKindOf "Car") then
 	{
 	sleep 1;
-	_tipoGrupo = [infGarrisonSmall, side_green] call fnc_pickGroup;
+	_tipoGrupo = [infGarrisonSmall, "AAF"] call fnc_pickGroup;
 	_grupo = [_posbase, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 	{_x assignAsCargo _veh; _x moveInCargo _veh; _soldados = _soldados + [_x]; [_x] join _grupoveh; [_x] spawn AS_fnc_initUnitAAF} forEach units _grupo;
 	deleteGroup _grupo;

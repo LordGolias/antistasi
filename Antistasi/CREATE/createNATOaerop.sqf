@@ -77,7 +77,7 @@ for "_i" from 1 to _nVeh do {
 		_pos = [_posicion, random _size,random 360] call BIS_fnc_relPos;
 		if (!surfaceIsWater _pos) exitWith {};
 	};
-	private _grupo = [_pos, side_blue, [bluSquad, side_blue] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+	private _grupo = [_pos, side_blue, [bluSquad, "NATO"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 	_grupos pushBack _grupo;
 	{[_x] call AS_fnc_initUnitNATO; _soldados pushBack _x} forEach units _grupo;
 	[leader _grupo, _location, "SAFE","SPAWNED", "RANDOM","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";

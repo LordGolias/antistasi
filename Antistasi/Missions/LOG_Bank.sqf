@@ -43,7 +43,7 @@ _mrk setMarkerColorLocal "ColorRed";
 _mrk setMarkerBrushLocal "DiagGrid";
 _mrk setMarkerAlphaLocal 0;
 
-private _tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
+private _tipoGrupo = [infSquad, "AAF"] call fnc_pickGroup;
 private _grupo = [_position, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 sleep 1;
 [leader _grupo, _mrk, "SAFE","SPAWNED", "NOVEH2", "FORTIFY"] execVM "scripts\UPSMON.sqf";

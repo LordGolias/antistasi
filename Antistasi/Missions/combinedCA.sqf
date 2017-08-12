@@ -122,7 +122,7 @@ if (_CSAT) then {
 		} else {
 			{_x setBehaviour "CARELESS"} forEach units _grupoheli;
 
-			private _tipogrupo = [opGroup_Squad, side_red] call fnc_pickGroup;
+			private _tipogrupo = [opGroup_Squad, "CSAT"] call fnc_pickGroup;
 			private _grupo = [_posorigen, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 			{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] spawn CSATinit} forEach units _grupo;
 			_grupos pushBack _grupo;

@@ -55,7 +55,7 @@ for "_i" from 1 to 3 do {
 		[_heli,"CSAT Air Attack"] spawn inmuneConvoy;
 	} else {
 		{_x setBehaviour "CARELESS";} forEach units _grupoheli;
-		private _tipoGrupo = [opGroup_Squad, side_red] call fnc_pickGroup;
+		private _tipoGrupo = [opGroup_Squad, "CSAT"] call fnc_pickGroup;
 		private _grupo = [_posorigen, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
 		{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] spawn CSATinit} forEach units _grupo;
 		_grupos pushBack _grupo;

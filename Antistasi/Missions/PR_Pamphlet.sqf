@@ -61,7 +61,7 @@ private _allBuildings = nearestObjects [_position, ["Building"], _size];
 _allBuildings = _allBuildings call AS_fnc_shuffle;
 
 for "_i" from 0 to 1 do {
-	private _tipoGrupo = [infGarrisonSmall, side_green] call fnc_pickGroup;
+	private _tipoGrupo = [infGarrisonSmall, "AAF"] call fnc_pickGroup;
 	private _grupo = [_position, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 	private _perro = _grupo createUnit ["Fin_random_F",_position,[],0,"FORM"];
 	[_perro] call guardDog;

@@ -64,7 +64,7 @@ for "_i" from 1 to _nVeh do {
 	_vehiculos pushBack _veh;
 };
 
-private _tipoGrupo = [bluSquad, side_blue] call fnc_pickGroup;
+private _tipoGrupo = [bluSquad, "NATO"] call fnc_pickGroup;
 private _grupo = [_posicion, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 [leader _grupo, _location, "SAFE", "RANDOMUP","SPAWNED", "NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 _grupos pushBack _grupo;
@@ -76,7 +76,7 @@ for "_i" from 1 to _nVeh do {
 		_pos = [_posicion, random _size,random 360] call BIS_fnc_relPos;
 		if (!surfaceIsWater _pos) exitWith {};
 	};
-	_tipoGrupo = [bluSquad, side_blue] call fnc_pickGroup;
+	_tipoGrupo = [bluSquad, "NATO"] call fnc_pickGroup;
 	_grupo = [_pos,side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 	sleep 1;
 	if (_i == 0) then {

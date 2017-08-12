@@ -50,7 +50,7 @@ call {
 		_mrkfin setMarkerBrushLocal "DiagGrid";
 		_mrkfin setMarkerAlphaLocal 0;
 
-		private _group = [_position, side_red, [opGroup_SpecOps, side_red] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+		private _group = [_position, side_red, [opGroup_SpecOps, "CSAT"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 		private _uav = createVehicle [opUAVsmall, _position, [], 0, "FLY"];
 		createVehicleCrew _uav;
 		[leader _group, _mrkfin, "RANDOM", "SPAWNED", "NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";

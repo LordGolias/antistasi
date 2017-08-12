@@ -41,7 +41,7 @@ sleep 1;
 {[_x] spawn cleanserVeh} forEach _vehiculos;
 
 // create the AT group
-private _grupo = [_posicion, side_green, [infTeamATAA, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+private _grupo = [_posicion, side_green, [infTeamATAA, "AAF"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 [leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
 {[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 _grupos pushBack _grupo;

@@ -57,7 +57,7 @@ _mrk setMarkerAlphaLocal 0;
 
 // patrol groups
 for "_i" from 1 to (2 + floor random 3) do {
-	private _tipoGrupo = [infGarrisonSmall, side_green] call fnc_pickGroup;
+	private _tipoGrupo = [infGarrisonSmall, "AAF"] call fnc_pickGroup;
 	private _group = [_pos, side_green, _tipogrupo] call BIS_Fnc_spawnGroup;
 	_groups append _group;
 	if (random 10 < 33) then {

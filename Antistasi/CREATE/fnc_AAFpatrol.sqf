@@ -94,7 +94,7 @@ if _useCSAT then {
 			[_heli,"CSAT Air Attack"] spawn inmuneConvoy;
 		} else {  // transport heli
 			{_x setBehaviour "CARELESS";} forEach units _grupoheli;
-			private _tipoGrupo = [opGroup_Squad, side_red] call fnc_pickGroup;
+			private _tipoGrupo = [opGroup_Squad, "CSAT"] call fnc_pickGroup;
 			private _grupo = [_posorigen, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
 			{_x assignAsCargo _heli; _x moveInCargo _heli; _soldados = _soldados + [_x]; [_x] spawn CSATinit} forEach units _grupo;
 			_grupos pushBack _grupo;

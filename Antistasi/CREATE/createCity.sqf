@@ -17,7 +17,7 @@ if (_num < 1) then {_num = 1};
 // generate _num patrols.
 for "_i" from 1 to _num do {
 	if !(_location call AS_fnc_location_spawned) exitWith {};
-	private _grupo = [_posicion, side_green, [infGarrisonSmall, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+	private _grupo = [_posicion, side_green, [infGarrisonSmall, "AAF"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 
 	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 

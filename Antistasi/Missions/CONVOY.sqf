@@ -118,9 +118,9 @@ for "_i" from 1 to _escortSize do {
 
 	private _tipoGrupo = "";
 	if (_escortVehicleType call AS_fnc_AAFarsenal_category == "apcs") then {
-		_tipoGrupo = [infTeam, side_green] call fnc_pickGroup;
+		_tipoGrupo = [infTeam, "AAF"] call fnc_pickGroup;
 	} else {
-		_tipoGrupo = [infSquad, side_green] call fnc_pickGroup;
+		_tipoGrupo = [infSquad, "AAF"] call fnc_pickGroup;
 	};
 
 	private _grupoEsc = [_posbase, side_green, _tipoGrupo] call BIS_Fnc_spawnGroup;

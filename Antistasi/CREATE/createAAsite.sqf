@@ -88,9 +88,9 @@ _grupos pushBack _grupoCSAT;
 	[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
 	sleep 1;
 } forEach [
-	[infTeamATAA, side_green] call fnc_pickGroup,
-	[infAA, side_green] call fnc_pickGroup,
-	[infTeam, side_green] call fnc_pickGroup
+	[infTeamATAA, "AAF"] call fnc_pickGroup,
+	[infAA, "AAF"] call fnc_pickGroup,
+	[infTeam, "AAF"] call fnc_pickGroup
 ];
 
 //////////////////////////////////////////////////////////////////

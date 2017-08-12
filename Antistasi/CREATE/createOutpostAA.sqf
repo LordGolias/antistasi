@@ -59,7 +59,7 @@ if (_frontera) then {
 _vehiculos append _vehicles1;
 
 // Create an AA team
-_grupo = [_posicion, side_green, [infAA, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+_grupo = [_posicion, side_green, [infAA, "AAF"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 _grupos pushBack _grupo;
 {[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x;} forEach units _grupo;
 [leader _grupo, _location, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
@@ -70,7 +70,7 @@ if (_frontera) then {_groupsCount = _groupsCount * 2};
 if !(_location in _pLarge) then {
 	_groupsCount = (round _groupsCount/2) max 1;
 
-	_grupo = [_posicion, side_green, [infAA, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+	_grupo = [_posicion, side_green, [infAA, "AAF"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 	_grupos pushBack _grupo;
 	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x;} forEach units _grupo;
 	[leader _grupo, _location, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
@@ -79,7 +79,7 @@ if !(_location in _pLarge) then {
 for "_i" from 1 to _groupsCount do {
 	if (!(_location call AS_fnc_location_spawned) or
 		(diag_fps < AS_P("minimumFPS") and _i != 1)) exitWith {};
-	_grupo = [_posicion, side_green, [infTeam, side_green] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
+	_grupo = [_posicion, side_green, [infTeam, "AAF"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 	private _stance = "RANDOM";
 	if (_i == 1) then {_stance = "RANDOMUP"};
 	[leader _grupo, _location, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
