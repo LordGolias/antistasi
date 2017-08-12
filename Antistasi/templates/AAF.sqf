@@ -110,6 +110,7 @@ vehPatrol = ["I_MRAP_03_F","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F","I_Heli_light_03_
 vehAmmo = "I_Truck_02_ammo_F";
 vehLead = ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"];  // lead of convoy
 vehTruckBox = ["I_Truck_02_box_F"];
+vehBoat = "I_Boat_Armed_01_minigun_F";
 
 AS_AAFarsenal_uav = "I_UAV_02_F";  // Set to `""` to AAF not use UAVs.
 

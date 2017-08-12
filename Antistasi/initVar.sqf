@@ -246,7 +246,6 @@ AS_Sset("enableWpnProf",false); // class-based weapon proficiences, MP only
 AS_spawnLoopTime = 1; // seconds between each check of spawn/despawn locations (expensive loop).
 
 // Pricing values for soldiers, vehicles of AAF
-{AS_data_allCosts setVariable [_x,100,true]} forEach ["I_crew_F","O_crew_F","C_man_1"];
 {AS_data_allCosts setVariable [_x,100,true]} forEach infList_regular;
 {AS_data_allCosts setVariable [_x,150,true]} forEach infList_auto;
 {AS_data_allCosts setVariable [_x,150,true]} forEach infList_crew;

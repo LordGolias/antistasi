@@ -90,9 +90,10 @@ if (isServer) then {
 AS_AAFarsenal_uav = "";
 
 vehPatrol = ["rhs_tigr_m_vdv","RHS_Mi8mt_vvsc"];
-vehAmmo = "I_Truck_02_ammo_F";
+vehAmmo = "rhsgref_ins_gaz66_ammo";
 vehLead = ["rhs_tigr_sts_3camo_vdv"];
 vehTruckBox = ["rhs_gaz66_repair_vdv"];
+vehBoat = "I_Boat_Armed_01_minigun_F";
 
 // FIA Vehicles
 vehTruckAA = "rhsgref_cdf_b_gaz66_zu23";

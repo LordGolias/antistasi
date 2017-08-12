@@ -6,7 +6,7 @@ private _vehiculos = [];
 private _grupos = [];
 private _roads = [];
 
-private _validTypes = vehPatrol + ["I_Boat_Armed_01_minigun_F"];
+private _validTypes = vehPatrol + [vehBoat];
 
 private _base = "";
 private _type = "";
@@ -16,7 +16,7 @@ while {count _validTypes != 0} do {
 	if (_type in (["armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all)) then {
 		_arrayBases = [["airfield"], "AAF"] call AS_fnc_location_TS;
 	};
-	if (_type == "I_Boat_Armed_01_minigun_F") then {
+	if (_type == vehBoat) then {
 		_arrayBases = [["searport"], "AAF"] call AS_fnc_location_TS;
 	};
 
@@ -63,7 +63,7 @@ if (_isFlying) then {
 	_arrayDestinos = "AAF" call AS_fnc_location_S;
 	_distancia = 200;
 };
-if (_type == "I_Boat_Armed_01_minigun_F") then {
+if (_type == vehBoat) then {
 	_arraydestinos = ([["searport"], "AAF"] call AS_fnc_location_TS) select {(_x call AS_fnc_location_position) distance _posbase < 2500};
 	_distancia = 100;
 };
@@ -76,7 +76,7 @@ AAFpatrols = AAFpatrols + 1; publicVariableServer "AAFpatrols";
 
 if (!_isFlying) then
 	{
-	if (_type == "I_Boat_Armed_01_minigun_F") then
+	if (_type == vehBoat) then
 		{
 		_posbase = [_posbase,50,150,10,2,0,0] call BIS_Fnc_findSafePos;
 		}
@@ -153,7 +153,7 @@ while {alive _veh} do
 		}
 	else
 		{
-		if (_type == "I_Boat_Armed_01_minigun_F") then
+		if (_type == vehBoat) then
 			{
 			_arraydestinos = ([["searport"], "AAF"] call AS_fnc_location_TS) select {(_x call AS_fnc_location_position) distance (position _veh) < 2500};
 			}

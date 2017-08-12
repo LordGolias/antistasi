@@ -184,7 +184,7 @@ private _PRsite = [
 	["SignAd_SponsorS_F",[6.84619,-0.0651855,6.67572e-006],130.045,1,0,[0,-0],"","",true,false]
 ];
 
-private _posSiteBackup = (position _truck) findEmptyPosition [1,25,"I_MBT_03_cannon_F"];
+private _posSiteBackup = (position _truck) findEmptyPosition [1,25,typeOf _truck];
 private _posSite = [position _truck, 0, 20, 2, 0, 0.3, 0, [], [_posSiteBackup,[]]] call BIS_Fnc_findSafePos;
 _objectsToDelete = [_posSite, random 360, _PRsite] call BIS_fnc_ObjectsMapper;
 
