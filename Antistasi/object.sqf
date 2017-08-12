@@ -237,7 +237,7 @@ AS_fnc_object_remove = {
 
     // its properties
     {
-        SET_PROPERTY(_container, _object + "_" + _property, nil, _isGlobal);
+        SET_PROPERTY(_container, _object + "_" + _x, nil, _isGlobal);
     } forEach GET_OBJECT_PROPERTY(_container, _object, "_properties");
 
     // itself
