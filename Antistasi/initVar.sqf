@@ -128,10 +128,10 @@ allStatMortars = 	["B_G_Mortar_01_F"];
 // For clients, they only initialize non-public globals.
 call {
 	if (hayRHS) exitWith {
-		call compile preprocessFileLineNumbers "templates\RHS_VDV.sqf";
-		call compile preprocessFileLineNumbers "templates\RHS_VMF.sqf";
-		call compile preprocessFileLineNumbers "templates\RHS_USAF.sqf";
-		call compile preprocessFileLineNumbers "templates\RHS_FIA.sqf";
+		call compile preprocessFileLineNumbers "templates\AAF_RHS.sqf";
+		call compile preprocessFileLineNumbers "templates\CSAT_RHS.sqf";
+		call compile preprocessFileLineNumbers "templates\NATO_RHS.sqf";
+		call compile preprocessFileLineNumbers "templates\FIA_RHS.sqf";
 	};
 	// fallback to the default template
 	call compile preprocessFileLineNumbers "templates\AAF.sqf";
