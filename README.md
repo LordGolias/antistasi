@@ -28,7 +28,7 @@ The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 
 
 # Replacing Factions
 
-This version supports easy replacement of modded factions. Use the following steps:
+This version supports easy replacement of factions. Use the following steps:
 
 1. Duplicate the file `templates/AAF.sqf` (for independents), `templates/NATO.sqf` (for NATO)
 or `templates/CSAT.sqf` (for CSAT)
@@ -39,8 +39,6 @@ or `templates/CSAT.sqf` (for CSAT)
 Essentially, our code detects every unit from that faction, and populates
 the correct lists with the equipment (weapons, items, vests, etc.) that the units use.
 This way, you only need to focus on adding vehicles, groups and units; the remaining is automatic.
-
-Everything related to the faction AAF is defined only in `templates/AAF.sqf`.
 
 # Replacing Worlds
 
@@ -58,7 +56,7 @@ Development of this mission is easy. We currently only use the following softwar
 
 * Arma 3
 * A text editor. We recommend [Atom](https://atom.io/) with plugins [language-arma-atom](https://atom.io/packages/language-arma-atom) and [linter-sqf](https://atom.io/packages/linter-sqf) but any will do.
-* [DSynchronize](https://dsynchronize.en.softonic.com/), so the development does not occur on an Arma user, but on any computer.
+* [DSynchronize](https://dsynchronize.en.softonic.com/), so the development does not occur on an Arma user, but on a directory.
 * The version control system [git](https://en.wikipedia.org/wiki/Git)
 
 Steps after installing the software above:
@@ -94,7 +92,7 @@ you load it again. To change this behavior, tick the box `Bidirectional sync` in
 Run
 
 ```
-[true] AS_DEBUG_init;
+[true] call AS_DEBUG_init;
 ```
 
 to show in the map all units (dead or alive) and locations that are currently spawned.
@@ -103,10 +101,12 @@ reverse it.
 
 # Code structure
 
-- `Municion/` -> scripts related with weapons, arsenal and boxes.
-- `CREATE/` -> scripts related with spawing places, units and convoys.
-- `statSave/` -> scripts related with loading and saving the game.
-- `location.sqf`: contains all the code for interacting with locations
+- `Municion/`: scripts related with weapons, arsenal and boxes.
+- `CREATE/`: scripts related with spawing places, units and convoys.
+- `statSave/`: scripts related with loading and saving the game.
+- `location.sqf`: contains all the code for interacting with locations.
+- `Missions/`: everything related to missions. Core module is `Missions/mission.sqf`.
+- `initialization/`: scripts that initialize the mission.
 
 ## Initialization
 
