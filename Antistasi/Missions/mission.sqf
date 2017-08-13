@@ -100,7 +100,7 @@ AS_fnc_mission_updateAvailable = {
             "convoy_money", "convoy_supplies"
         ];
         private _baseMissions = [
-            "destroy_vehicle", "convoy_armor", "convoy_ammo",
+            "destroy_vehicle", "convoy_armor", "convoy_ammo", "convoy_prisoners", "convoy_hvt",
             "kill_officer", "rescue_prisioners", "steal_ammo"
         ];
         private _conquerableLocations = [
@@ -175,10 +175,10 @@ AS_fnc_mission_updateAvailable = {
         if (_mission call AS_fnc_mission_status == "active") exitWith {false};
 
         False or
-        {not (_missionType in ["pamphlets", "broadcast", "convoy_money", "convoy_supplies", "convoy_armor", "convoy_ammo"])} or
+        {not (_missionType in ["pamphlets", "broadcast", "convoy_money", "convoy_supplies", "convoy_armor", "convoy_ammo", "convoy_prisoners", "convoy_hvt"])} or
         {_missionType == "pamphlets" and [_location, "AAFsupport"] call AS_fnc_location_get > 0} or
         {_missionType == "broadcast" and [_location, "FIAsupport"] call AS_fnc_location_get > 10} or
-        {_missionType in ["convoy_money", "convoy_supplies", "convoy_armor", "convoy_ammo"] and {
+        {_missionType in ["convoy_money", "convoy_supplies", "convoy_armor", "convoy_ammo", "convoy_prisoners", "convoy_hvt"] and {
             // needs a base around
             private _base = [_location call AS_fnc_location_position] call findBasesForConvoy;
 
@@ -249,7 +249,7 @@ AS_fnc_mission_activate = {
         if (_missionType == "black_market") exitWith {[_mission] spawn AS_mis_black_market};
         if (_missionType == "pamphlets") exitWith {[_mission] spawn PR_Pamphlet};
         if (_missionType == "broadcast") exitWith {[_mission] spawn PR_Brainwash};
-        if (_missionType in ["convoy_armor", "convoy_ammo","convoy_money", "convoy_supplies"]) exitWith {[_mission] spawn AS_mis_convoy};
+        if (_missionType in ["convoy_armor", "convoy_ammo","convoy_money", "convoy_supplies", "convoy_prisoners", "convoy_hvt"]) exitWith {[_mission] spawn AS_mis_convoy};
         if (_missionType == "rescue_prisioners") exitWith {[_mission] spawn RES_Prisioneros};
         if (_missionType == "rescue_refugees") exitWith {[_mission] spawn RES_Refugiados};
         if (_missionType == "rob_bank") exitWith {[_mission] spawn LOG_Bank};
