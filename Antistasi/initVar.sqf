@@ -235,9 +235,11 @@ AS_Pset("maxAISkill",0.9); // The maximum skill of the AAF/FIA AI (at highest sk
 // S of [s]hared. These variables are not saved persistently.
 AS_Sset("revealFromRadio",false);
 
-// todo: document these variables...
+// This sets whether the CSAT can attack or not. The FIA has an option to block
+// attacks by jamming radio signals (close to flags with towers)
 AS_Sset("blockCSAT", false);
-AS_Sset("jTime", false);
+
+// todo: document these variables...
 AS_Sset("lockTransfer", false);
 
 // todo: this option is not being saved, so it is irrelevant. Consider removing.
