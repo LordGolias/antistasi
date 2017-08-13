@@ -4,9 +4,7 @@ waitUntil {player == player};
 
 if hayACEhearing then {player addItem "ACE_EarPlugs"};
 
-if (!hayACEMedical) then {
-    player call initRevive;
-};
+player call AS_fnc_initMedical;
 
 player setPos ((getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)]);
 

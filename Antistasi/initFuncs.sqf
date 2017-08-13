@@ -122,14 +122,9 @@ memberAdd = compile preProcessFileLineNumbers "OrgPlayers\memberAdd.sqf";
 resourcesPlayer = compile preProcessFileLineNumbers "OrgPlayers\resourcesPlayer.sqf";
 
 // Revive system
-inconsciente = compile preProcessFileLineNumbers "Revive\inconsciente.sqf";
 respawn = compile preProcessFileLineNumbers "Revive\respawn.sqf";
 handleDamage = compile preProcessFileLineNumbers "Revive\handleDamage.sqf";
-AS_fnc_isUnconscious = compile preProcessFileLineNumbers "Revive\fnc_isUnconscious.sqf";
-AS_fnc_setUnconscious = compile preProcessFileLineNumbers "Revive\fnc_setUnconscious.sqf";
-initRevive = compile preProcessFileLineNumbers "Revive\initRevive.sqf";
-pedirAyuda = compile preProcessFileLineNumbers "Revive\pedirAyuda.sqf";
-ayudar = compile preProcessFileLineNumbers "Revive\ayudar.sqf";
+call compile preProcessFileLineNumbers "Revive\medical.sqf";
 
 cubrirConHumo = compile preProcessFileLineNumbers "AI\cubrirConHumo.sqf";
 autoRearm = compile preProcessFileLineNumbers "AI\autoRearm.sqf";

@@ -10,7 +10,7 @@ else {
 	if (!isNil "_place") then {_unit setVariable ["marcador", _place]};
 };
 
-[_unit] call initRevive;
+[_unit] call AS_fnc_initMedical;
 _unit allowFleeing 0;
 
 [_unit, AS_P("skillFIA")] call AS_fnc_setDefaultSkill;
