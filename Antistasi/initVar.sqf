@@ -101,6 +101,7 @@ if (isServer) then {
 		"ItemMap",
 		"ItemWatch",
 		"ItemCompass",
+		"FirstAidKit",
 		"Medikit"
 	];
 
