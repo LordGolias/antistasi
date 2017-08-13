@@ -7,24 +7,20 @@ private _tiempolim = 60;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
 
-private _tskTitle = "";
+private _tskTitle = _mission call AS_fnc_mission_title;
 private _tskDesc = "";
 
 switch _type do {
     case "powerplant": {
-        _tskTitle = localize "STR_tsk_CONPower";
-        _tskDesc = localize "STR_tskDesc_CONPower"
+        _tskDesc = localize "STR_tskDesc_CONPower";
     };
     case "hillAA": {
-        _tskTitle = localize "STR_tsk_CONOPAA";
-        _tskDesc = localize "STR_tskDesc_CONOPAA"
+        _tskDesc = localize "STR_tskDesc_CONOPAA";
     };
     case "outpost": {
-        _tskTitle = localize "STR_tsk_CONOP";
         _tskDesc = localize "STR_tskDesc_CONOP";
     };
 	default {
-		_tskTitle = "Take location";
 		_tskDesc = "Clear enemy presence in %1 and capture it before %2:%3.";
 	};
 };

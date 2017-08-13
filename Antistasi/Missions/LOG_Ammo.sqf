@@ -8,7 +8,7 @@ private _tiempolim = 60;  // 1h
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
 
-private _tskTitle = localize "STR_tsk_logAmmo";
+private _tskTitle = _mission call AS_fnc_mission_title;
 private _tskDesc = format [localize "STR_tskDesc_logAmmo", [_location] call localizar, numberToDate [2035,_fechalimnum] select 3, numberToDate [2035,_fechalimnum] select 4];
 
 private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"CREATED",5,true,true,"rearm"] call BIS_fnc_setTask;

@@ -51,7 +51,7 @@ if (_poscrash isEqualTo []) exitWith {
 	hint "There are no supplies missing.";
 };
 
-private _tskTitle = localize "STR_tsk_logMedical";
+private _tskTitle = _mission call AS_fnc_mission_title;
 private _tskDesc = format [localize "STR_tskDesc_logMedical", [_location] call localizar,
 	numberToDate [2035,_fechalimnum] select 3,
 	numberToDate [2035,_fechalimnum] select 4,

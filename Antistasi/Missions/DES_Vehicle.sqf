@@ -19,7 +19,7 @@ if (count _tanks > 0) then {
 	_texto = "Enemy APC";
 };
 
-private _tskTitle = localize "STR_tsk_DesVehicle";
+private _tskTitle = _mission call AS_fnc_mission_title;
 private _tskDesc = format [localize "STR_tskDesc_DesVehicle",[_location] call localizar,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,_texto];
 
 private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_position,"CREATED",5,true,true,"Destroy"] call BIS_fnc_setTask;

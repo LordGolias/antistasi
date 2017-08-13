@@ -35,7 +35,7 @@ private _fechalimnum = dateToNumber _fechalim;
 
 private _nombredest = [_location] call localizar;
 
-private _tskTitle = localize "Str_tsk_fndExp";
+private _tskTitle = _mission call AS_fnc_mission_title;
 private _tskDesc = format [localize "Str_tskDesc_fndExp",_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
 
 private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_posCmp,"CREATED",5,true,true,"Find"] call BIS_fnc_setTask;

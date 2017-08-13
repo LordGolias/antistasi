@@ -8,15 +8,13 @@ private _tiempolim = 120;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
 
-private _tskTitle = "";
+private _tskTitle = _mission call AS_fnc_mission_title;
 private _tskDesc = "";
 call {
 	if (_missionType == "kill_officer") exitWith {
-		_tskTitle = localize "STR_tsk_ASOfficer";
 		_tskDesc = localize "STR_tskDesc_ASOfficer"
 	};
 	if (_missionType == "kill_specops") exitWith {
-		_tskTitle = localize "STR_tsk_ASSpecOp";
 		_tskDesc = localize "STR_tskDesc_ASSpecOp";
 	};
 };

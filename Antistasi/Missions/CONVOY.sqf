@@ -16,25 +16,22 @@ private _tiempolim = 120;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
 
-private _tskTitle = "";
+private _tskTitle = _mission call AS_fnc_mission_title;
 private _tskDesc = "";
 private _tskIcon = "";
 private _mainVehicleType = "";
 call {
 	if (_missionType == "convoy_money") exitWith {
-		_tskTitle = localize "STR_tsk_CVY_Money";
 		_tskDesc = localize "STR_tskDesc_CVY_Money";
 		_tskIcon = "move";
 		_mainVehicleType = selectRandom AS_FIA_vans;
 	};
 	if (_missionType == "convoy_supplies") exitWith {
-		_tskTitle = localize "STR_tsk_CVY_Supply";
 		_tskDesc = localize "STR_tskDesc_CVY_Supply";
 		_tskIcon = "heal";
 		_mainVehicleType = selectRandom AS_FIA_vans;
 	};
 	if (_missionType == "convoy_armor") exitWith {
-		_tskTitle = localize "STR_tsk_CVY_Armor";
 		_tskDesc = localize "STR_tskDesc_CVY_Armor";
 		_tskIcon = "destroy";
 		private _tanks = ["tanks"] call AS_fnc_AAFarsenal_all;
@@ -45,7 +42,6 @@ call {
 		_mainVehicleType = selectRandom _tanks;
 	};
 	if (_missionType == "convoy_ammo") exitWith {
-		_tskTitle = localize "STR_tsk_CVY_Ammo";
 		_tskDesc = localize "STR_tskDesc_CVY_Ammo";
 		_tskIcon = "rearm";
 		if (["supplies"] call AS_fnc_AAFarsenal_count == 0) then {
@@ -54,12 +50,10 @@ call {
 		_mainVehicleType = vehAmmo;
 	};
 	if (_missionType == "convoy_hvt") exitWith {
-		_tskTitle = localize "STR_tsk_CVY_HVT";
 		_tskDesc = localize "STR_tskDesc_CVY_HVT";
 		_tskIcon = "destroy";
 	};
 	if (_missionType == "convoy_prisoners") exitWith {
-		_tskTitle = localize "STR_tsk_CVY_Pris";
 		_tskDesc = localize "STR_tskDesc_CVY_Pris";
 		_tskIcon = "run";
 		private _trucks = ["trucks"] call AS_fnc_AAFarsenal_all;

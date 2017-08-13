@@ -4,7 +4,7 @@ private _position = _location call AS_fnc_location_position;
 
 private _nombredest = [_location] call localizar;
 
-private _tskTitle = localize "STR_tsk_DesHeli";
+private _tskTitle = _mission call AS_fnc_mission_title;
 private _tskDesc = format [localize "STR_tskDesc_DesHeli",_nombredest];
 
 private _posHQ = getMarkerPos "FIA_HQ";
@@ -18,7 +18,7 @@ while {surfaceIsWater _poscrash or (_poscrash distance _posHQ) < 4000} do {
 private _tipoVeh = (["planes", "armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all) call BIS_fnc_selectRandom;
 
 private _posCrashMrk = [_poscrash,random 500,random 360] call BIS_fnc_relPos;
-private _posCrash = _poscrash findEmptyPosition [0,100,_tipoVeh];
+_posCrash = _poscrash findEmptyPosition [0,100,_tipoVeh];
 private _mrkfin = createMarker [format ["DES%1", random 100], _posCrashMrk];
 _mrkfin setMarkerShape "ICON";
 

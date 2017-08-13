@@ -10,7 +10,7 @@ private _tiempolim = 60;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
 
-private _tskTitle = localize "STR_tsk_PRBrain";
+private _tskTitle = _mission call AS_fnc_mission_title;
 private _tskDesc = localize "STR_tskDesc_PRBrain";
 private _tskDesc_fail = format [localize "STR_tskDesc_PRBrain_fail",_targetName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
 private _tskDesc_fail2 = format [localize "STR_tskDesc_PRBrain_fail2",_targetName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];

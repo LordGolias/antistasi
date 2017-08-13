@@ -11,7 +11,7 @@ private _tiempolim = 60;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
 
-private _tskTitle = localize "STR_tsk_PRPamphlet";
+private _tskTitle = _mission call AS_fnc_mission_title;
 private _tskDesc = format [localize "STR_tskDesc_PRPamphlet",_locationName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
 private _tskDesc_fail = format [localize "STR_tskDesc_PRPamphlet_fail", _locationName];
 private _tskDesc_drop = format [localize "STR_tskDesc_PRPamphlet_drop",_locationName,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];

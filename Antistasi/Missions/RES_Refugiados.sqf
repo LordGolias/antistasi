@@ -4,7 +4,7 @@ private _position = _location call AS_fnc_location_position;
 
 private _size = _location call AS_fnc_location_size;
 
-private _tskTitle = localize "STR_tsk_resRefugees";
+private _tskTitle = _mission call AS_fnc_mission_title;
 private _tskDesc = format [localize "STR_tskDesc_resRefugees", [_location] call localizar, A3_STR_INDEP];
 
 private _POWs = [];

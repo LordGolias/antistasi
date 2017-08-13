@@ -80,7 +80,7 @@ if (random 10 < 2.5) then {
 
 
 private _posTsk = (position _casa) getPos [random 100, random 360];
-private _tskTitle = localize "STR_tsk_ASSTraitor";
+private _tskTitle = _mission call AS_fnc_mission_title;
 private _tskDesc = format [localize "STR_tskDesc_ASSTraitor",[_location] call localizar,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
 
 private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_location],_posTsk,"CREATED",5,true,true,"Kill"] call BIS_fnc_setTask;
