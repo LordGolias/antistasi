@@ -95,7 +95,7 @@ if (isServer) then {
 		"ItemMap",
 		"ItemWatch",
 		"ItemCompass",
-		"ToolKit"
+		"Medikit"
 	];
 
 	// add content to the unlocked items depending on the ACE.
