@@ -5,7 +5,7 @@ private _position = _location call AS_fnc_location_position;
 
 private _missionType = _mission call AS_fnc_mission_type;
 
-private _origin = _position call findBasesForConvoy;
+private _origin = [_position] call findBasesForConvoy;
 if (_origin == "") exitWith {
 	hint "mission is no longer available";
 	_mission call AS_fnc_mission_remove;
