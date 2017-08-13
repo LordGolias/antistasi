@@ -61,7 +61,7 @@ while {_counter < _numVeh} do {
 			private _veh = _type createVehicle _pos;
 			_veh setDir _dirveh;
 			_vehiculos pushBack _veh;
-			[_veh] spawn civVEHinit;
+			[_veh] spawn AS_fnc_initVehicleCiv;
 			_counter = _counter + 1;
 		};
 	};
@@ -86,7 +86,7 @@ for "_i" from 1 to _numVeh do {
 	private _dirveh = [_p1,_p2] call BIS_fnc_DirTo;
 
 	private _veh = (arrayCivVeh call BIS_Fnc_selectRandom) createVehicle _p1;
-	[_veh] spawn civVEHinit;
+	[_veh] spawn AS_fnc_initVehicleCiv;
 	_veh setDir _dirveh;
 	_vehiculos pushBack _veh;
 

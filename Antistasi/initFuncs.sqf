@@ -41,6 +41,7 @@ AS_fnc_dismissFIAgarrison = compile preProcessFileLineNumbers "REINF\dismissFIAg
 AS_fnc_createAirAttack = compile preProcessFileLineNumbers "CREATE\fnc_createAirAttack.sqf";
 as_fnc_createlandattack = compile preProcessFileLineNumbers "CREATE\fnc_createLandAttack.sqf";
 AS_fnc_initVehicle = compile preProcessFileLineNumbers "fnc_initVehicle.sqf";
+AS_fnc_initVehicleCiv = compile preProcessFileLineNumbers "fnc_initVehicleCiv.sqf";
 
 AS_fnc_HQselect = compile preProcessFileLineNumbers "fnc_HQselect.sqf";
 
@@ -96,7 +97,6 @@ AS_fnc_antennaKilledEH = compile preProcessFileLineNumbers "Functions\fnc_antenn
 hasRadio = compile preProcessFileLineNumbers "AI\hasRadio.sqf";
 powerCheck = compile preProcessFileLineNumbers "powerCheck.sqf";
 AAFKilledEH = compile preProcessFileLineNumbers "AI\AAFKilledEH.sqf";
-civVEHinit = compile preProcessFileLineNumbers "CREATE\civVEHinit.sqf";
 smokeCoverAuto = compile preProcessFileLineNumbers "AI\smokeCoverAuto.sqf";
 landThreatEval = compile preProcessFileLineNumbers "AI\landThreatEval.sqf";
 mortarPos = compile preProcessFileLineNumbers "CREATE\mortarPos.sqf";
