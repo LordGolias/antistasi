@@ -236,7 +236,7 @@ AS_fnc_mission_updateAvailable = {
 };
 
 AS_fnc_mission_activate = {
-    params ["_mission", ["_forced", false]];
+    params ["_mission"];
 
     [_mission, "status", "active"] call AS_fnc_mission_set;
 
