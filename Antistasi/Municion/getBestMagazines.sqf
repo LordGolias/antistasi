@@ -1,7 +1,5 @@
 params ["_box", "_weapon", "_maxAmount"];
 
-private _availableMags = getMagazineCargo _box;
-
 private _index = AS_allWeapons find _weapon;
 if (_index == -1) exitWith {};
 
@@ -11,10 +9,18 @@ private _suitableMags = (AS_allWeaponsAttrs select _index) select 2;
 // all magazines of this weapon that are unlocked.
 private _alwaysAvailable = _suitableMags arrayIntersect unlockedMagazines;
 
+// check if mags are unlimited. If yes, exit with then
+if (count _alwaysAvailable > 0) exitWith {
+	// todo: choose best?
+	private _mag = _alwaysAvailable select 0;
+
+	[[_mag], [_maxAmount]]
+};
+
+// else, fill result with the mags from the box
+private _availableMags = getMagazineCargo _box;
 private _result = [[], []];  // magazines names, magazines count
 private _totalMags = 0;  // sum of the second list of _result.
-
-private _i = 0;
 private _count = count (_availableMags select 0);
 for "_i" from 0 to _count - 1 do {
 	if (_totalMags == _maxAmount) exitWith {};
@@ -31,16 +37,6 @@ for "_i" from 0 to _count - 1 do {
 		(_result select 1) pushBack _amount;
 
 		_totalMags = _totalMags + _amount;
-	};
-
-	// after last _i
-	if ((_i == _count - 1) and (_totalMags < _maxAmount) and (count _alwaysAvailable > 0)) then {
-		// todo: choose best?
-		_mag = _alwaysAvailable select 0;
-
-		(_result select 0) pushBack _mag;
-		(_result select 1) pushBack (_maxAmount - _totalMags);
-		_totalMags = _maxAmount;
 	};
 };
 _result
