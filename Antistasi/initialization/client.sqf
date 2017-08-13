@@ -9,55 +9,61 @@ if _isJip then {
 };
 diag_log "[AS] client: starting";
 
-
-[] execVM "briefing.sqf";
+call compile preprocessFileLineNumbers "briefing.sqf";
 
 if not isServer then {
+    call compile preprocessFileLineNumbers "debug\init.sqf";
     call compile preprocessFileLineNumbers "initFuncs.sqf";
     call compile preprocessFileLineNumbers "initVar.sqf";
+} else {
+    waitUntil {(!isNil "serverInitVarsDone")};
 };
 
-private _colorWest = west call BIS_fnc_sideColor;
-private _colorEast = east call BIS_fnc_sideColor;
-{
-_x set [3, 0.33]
-} forEach [_colorWest, _colorEast];
+private _introShot = 0 spawn {};
+private _titulo = 0 spawn {};
 
-private _introShot =
-	[
-    getMarkerPos "FIA_HQ", // Target position
-    worldName + " Island", // SITREP text
-    50, //  altitude
-    50, //  radius
-    90, //  degrees viewing angle
-    0, // clockwise movement
-    [
-    	["\a3\ui_f\data\map\markers\nato\o_inf.paa", _colorWest, markerPos "insertMrk", 1, 1, 0, "Insertion Point", 0],
-        ["\a3\ui_f\data\map\markers\nato\o_inf.paa", _colorEast, markerPos "towerBaseMrk", 1, 1, 0, "Radio Towers", 0]
-    ]
-    ] spawn BIS_fnc_establishingShot;
+// the fancy starting script, called outside debug mode
+if not AS_DEBUG_flag then {
+    private _colorWest = west call BIS_fnc_sideColor;
+    private _colorEast = east call BIS_fnc_sideColor;
+    {
+    _x set [3, 0.33]
+    } forEach [_colorWest, _colorEast];
 
-// wait for the server to be ready to receive players (see initServer.sqf)
-diag_log "[AS] client: waiting for serverInitVarsDone";
-waitUntil {!isNil "serverInitVarsDone"};
-diag_log "[AS] client: serverInitVarsDone";
+    _introShot =
+    	[
+        getMarkerPos "FIA_HQ", // Target position
+        worldName + " Island", // SITREP text
+        50, //  altitude
+        50, //  radius
+        90, //  degrees viewing angle
+        0, // clockwise movement
+        [
+        	["\a3\ui_f\data\map\markers\nato\o_inf.paa", _colorWest, markerPos "insertMrk", 1, 1, 0, "Insertion Point", 0],
+            ["\a3\ui_f\data\map\markers\nato\o_inf.paa", _colorEast, markerPos "towerBaseMrk", 1, 1, 0, "Radio Towers", 0]
+        ]
+        ] spawn BIS_fnc_establishingShot;
+
+    _titulo = ["Antistasi", "by Golias"] spawn BIS_fnc_infoText;
+};
+
+waitUntil {scriptdone _introshot and scriptDone _titulo};
+
+if (isNil "serverInitDone") then {
+    disableUserInput true;
+    cutText ["Waiting for Players and Server Init","BLACK",0];
+    diag_log "[AS] client: waiting for serverInitDone";
+    waitUntil {(!isNil "serverInitDone")};
+    cutText ["Starting Mission","BLACK IN",0];
+    disableUserInput false;
+};
+diag_log "[AS] client: initialized";
 
 musicON = true;
 [] execVM "musica.sqf";
 
-private _titulo = ["A3 - Antistasi","by Barbolani",antistasiVersion] spawn BIS_fnc_infoText;
-
 [player] call AS_fnc_emptyUnit;
 if isMultiplayer then {
-	player setVariable ["elegible",true,true];
-	musicON = false;
-	waitUntil {scriptdone _introshot};
-	disableUserInput true;
-	cutText ["Waiting for Players and Server Init","BLACK",0];
-	diag_log "[AS] client: waiting for serverInitDone";
-	waitUntil {(!isNil "serverInitDone")};
-	cutText ["Starting Mission","BLACK IN",0];
-	diag_log "[AS] client: serverInitDone";
 	diag_log format ["[AS] client: isJIP: %1", _isJip];
 } else {
 	AS_commander = player;
@@ -66,11 +72,9 @@ if isMultiplayer then {
 	player setIdentity "protagonista";
 	player setUnitRank "COLONEL";
 	player hcSetGroup [_group];
-	waitUntil {(scriptdone _introshot) and (!isNil "serverInitDone")};
 };
 
-(group player) enableAttack false;
-if (!hayACE) then {
+if not hayACE then {
 	tags = [] execVM "tags.sqf";
 	if ((cadetMode) and (isMultiplayer)) then {
         [] execVM "playerMarkers.sqf"
@@ -81,7 +85,6 @@ if (!hayACE) then {
 
 autoHeal = true;
 
-disableUserInput false;
 MIASquadUnits = creategroup WEST;  // units that are not in the squad because they lost communication with the player (no radio).
 player setvariable ["compromised", 0];  // Used by undercover mechanics
 player setVariable ["punish",0,true];  // punish time for Team kill
@@ -94,6 +97,8 @@ if (player == AS_commander) then {_score = 25}; // so the commander does not los
 player setVariable ["score", _score, true];
 
 if isMultiplayer then {
+    musicON = false;
+    player setVariable ["elegible",true,true];
 	["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;//Exec on client
 
     personalGarage = [];
@@ -143,7 +148,6 @@ player addEventHandler ["GetOutMan", {
 }];
 
 if (_isJip) then {
-	waitUntil {scriptdone _introshot};
 	[] execVM "modBlacklist.sqf";
 
 	if (not([player] call isMember)) then {
@@ -199,17 +203,7 @@ if (_isJip) then {
 
 	// sync the inventory content to the JIP.
 	remoteExec ["fnc_MAINT_refillArsenal", 2];
-} else {  // not JIP
-	if (isNil "placementDone") then {
-		waitUntil {!isNil "AS_commander"};
-		if (player == AS_commander) then {
-            HC_comandante synchronizeObjectsAdd [player];
-            player synchronizeObjectsAdd [HC_comandante];
-            [] spawn AS_fncUI_LoadSaveMenu;
-		};
-	};
 };
-waitUntil {scriptDone _titulo};
 
 private _texto = "";
 
@@ -261,5 +255,18 @@ fuego addAction [localize "str_act_rest", "actions\skiptime.sqf",nil,0,false,tru
 {
     [_x,"moveObject"] call AS_fnc_addAction;
 } forEach [caja, mapa, bandera, cajaVeh, fuego];
+
+if (isNil "placementDone") then {
+    waitUntil {!isNil "AS_commander"};
+    if (player == AS_commander) then {
+        HC_comandante synchronizeObjectsAdd [player];
+        player synchronizeObjectsAdd [HC_comandante];
+        if not AS_DEBUG_flag then {
+            [] spawn AS_fncUI_LoadSaveMenu;
+        } else {
+            [getMarkerPos "FIA_HQ"] remoteExec ["AS_fnc_HQplace", 2];
+        };
+    };
+};
 
 diag_log "[AS] client: ready";

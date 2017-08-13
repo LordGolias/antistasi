@@ -1,7 +1,5 @@
 #include "..\macros.hpp"
-AS_SERVER_ONLY("debug/init.sqf");
 AS_DEBUG_flag = false;
-publicVariable "AS_DEBUG_flag"; // clients may spawn things, and this flag will affect spawning scripts.
 
 AS_DEBUG_init = {
     params [["_on", false]];
