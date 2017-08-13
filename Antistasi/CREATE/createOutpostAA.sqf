@@ -87,7 +87,7 @@ for "_i" from 1 to _groupsCount do {
 	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 };
 
-private _journalist = [_location, _grupos] call AS_fnc_createJournalist;
+[_location, _grupos] call AS_fnc_createJournalist;
 
 //////////////////////////////////////////////////////////////////
 ////////////////////////// END SPAWNING //////////////////////////

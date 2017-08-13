@@ -75,7 +75,7 @@ _groupCount = _groupCount max 1;
 _soldados append _units1;
 _grupos append _groups1;
 
-private _journalist = [_location, _grupos] call AS_fnc_createJournalist;
+[_location, _grupos] call AS_fnc_createJournalist;
 
 //////////////////////////////////////////////////////////////////
 ////////////////////////// END SPAWNING //////////////////////////

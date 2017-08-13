@@ -90,7 +90,7 @@ _soldadosFIA append _soldados1;
 _gruposFIA append _grupos1;
 _vehiculos append _vehiculos1;
 
-private _journalist = [_location, _grupos] call AS_fnc_createJournalist;
+[_location, _grupos] call AS_fnc_createJournalist;
 
 //////////////////////////////////////////////////////////////////
 ////////////////////////// END SPAWNING //////////////////////////

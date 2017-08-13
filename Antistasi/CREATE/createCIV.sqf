@@ -67,7 +67,7 @@ while {_counter < _numVeh} do {
 	};
 };
 
-private _journalist = [_location, _grupos] call AS_fnc_createJournalist;
+[_location, _grupos] call AS_fnc_createJournalist;
 
 [leader _grupo, _location, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";
 
