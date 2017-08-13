@@ -22,19 +22,21 @@ if (count _equipment == 0) then {
 
 if (player == leader _unit) then {
 	if ([_unit] call AS_fnc_getFIAUnitType != "Survivor") then {
-		_idUnit = namesFIASoldiers call BIS_Fnc_selectRandom;
+		private _idUnit = selectRandom namesFIASoldiers;
 		namesFIASoldiers = namesFIASoldiers - [_idunit];
 		_unit setIdentity _idUnit;
 		if (captive player) then {[_unit] spawn undercoverAI};
 	};
 
 	_unit addEventHandler ["killed", {
-		_muerto = _this select 0;
-		[_muerto] remoteExec ["postmortem",2];
+		params ["_unit"];
+		[_unit] remoteExec ["postmortem",2];
 
-		if ([_muerto] call AS_fnc_getFIAUnitType != "Survivor") then {namesFIASoldiers = namesFIASoldiers + [name _muerto]};
-		[0.25,0,getPos _muerto] remoteExec ["citySupportChange",2];
-		_muerto setVariable ["BLUFORSpawn",nil,true];
+		if ([_unit] call AS_fnc_getFIAUnitType != "Survivor") then {
+			namesFIASoldiers = namesFIASoldiers + [name _unit];
+		};
+		[0.25,0,getPos _unit] remoteExec ["citySupportChange",2];
+		_unit setVariable ["BLUFORSpawn",nil,true];
 	}];
 
 	_unit setVariable ["rearming",false];
@@ -48,7 +50,7 @@ if (player == leader _unit) then {
 					[_unit] join MIASquadUnits;
 					if ((vehicle _unit isKindOf "StaticWeapon") or (isNull (driver (vehicle _unit)))) then {unassignVehicle _unit; [_unit] orderGetIn false};
 					_unit doMove position player;
-					_tiempo = time + 900;
+					private _tiempo = time + 900;
 					waitUntil {sleep 1;(!alive _unit) or (_unit distance player < 500) or (time > _tiempo)};
 					if ((_unit distance player >= 500) and (alive _unit)) then {_unit setPos (getMarkerPos "FIA_HQ")};
 					[_unit] join group player;
@@ -68,29 +70,27 @@ if (player == leader _unit) then {
 			};
 		};
 	}];
-}
-else {
+} else {
 	_unit addEventHandler ["killed", {
-		_muerto = _this select 0;
-		_killer = _this select 1;
-		[_muerto] remoteExec ["postmortem",2];
+		params ["_unit", "_killer"];
+		[_unit] remoteExec ["postmortem",2];
 
 		// player team-kill
 		if (isPlayer _killer) then {
 			[-20,_killer,false] remoteExec ["AS_fnc_changePlayerScore", 2];
 		};
-		[0,-0.25,getPos _muerto] remoteExec ["citySupportChange",2];
+		[0,-0.25,getPos _unit] remoteExec ["citySupportChange",2];
 
-		if (_spawned) then {
-			_muerto setVariable ["BLUFORSpawn",nil,true];
+		if (_unit getVariable ["BLUFORSpawn",false]) then {
+			_unit setVariable ["BLUFORSpawn",nil,true];
 		};
 
-		private _location = _muerto getVariable "marcador";
+		private _location = _unit getVariable "marcador";
 		if (!isNil "_location") then {
 			if (_location call AS_fnc_location_side == "FIA") then {
 				private _garrison = _location call AS_fnc_location_garrison;
 				for "_i" from 0 to (count _garrison -1) do {
-					if (typeOf _muerto == (_garrison select _i)) exitWith {_garrison deleteAt _i};
+					if (typeOf _unit == (_garrison select _i)) exitWith {_garrison deleteAt _i};
 				};
 				[_location, "garrison", _garrison] call AS_fnc_location_set;
 			};
