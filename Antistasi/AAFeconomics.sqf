@@ -6,8 +6,8 @@ AS_resourcesIsChanging = true;
 
 private _resourcesAAF = AS_P("resourcesAAF");
 
-private _debug_prefix = "AAFeconomics: ";
-private _debug_message = format ["Starting to buy with %1", _resourcesAAF];
+private _debug_prefix = "[AS] Debug AAFeconomics: ";
+private _debug_message = format ["buying with %1", _resourcesAAF];
 AS_ISDEBUG(_debug_prefix + _debug_message);
 
 // This is needed only before AAF buys equipment.
