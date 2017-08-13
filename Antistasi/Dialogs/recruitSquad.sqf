@@ -29,7 +29,7 @@ AS_fncUI_recruitSquad = {
     private _squadName = lbData [0, _id];
 
     if (_squadName != "") then {
-        [_squadName] call recruitFIAsquad;
+        [_squadName] spawn recruitFIAsquad;
     } else {
         hint "no squad selected";
     };

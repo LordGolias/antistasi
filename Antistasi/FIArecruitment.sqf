@@ -74,10 +74,10 @@ AS_fnc_getFIASquadCost = {
     private _cost = 0;
     private _hr = 0;
     for "_i" from 0 to (count _config) - 1 do {
-    	_item = _config select _i;
+    	private _item = _config select _i;
     	if (isClass _item) then {
             private _unitName = [getText(_item >> "vehicle")] call AS_fnc_getFIAUnitNameType;
-            _coste = _coste + (AS_data_allCosts getVariable _unitName);
+            _cost = _cost + (AS_data_allCosts getVariable _unitName);
             _hr = _hr + 1;
     	};
     };
