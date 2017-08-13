@@ -4,7 +4,7 @@ AS_SERVER_ONLY("FIAradio.sqf");
 private _chance = 5;
 {
 	private _location = [call AS_fnc_locations, _x] call BIS_fnc_nearestPosition;
-	if ((_location call AS_fnc_location_side == "FIA") and (alive _x)) then {
+	if ((_location call AS_fnc_location_side == "FIA") and (alive nearestBuilding _x)) then {
 		_chance = _chance + 2.25;
 	};
 } forEach AS_antenasPos_alive;

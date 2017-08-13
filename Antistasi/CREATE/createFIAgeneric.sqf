@@ -51,7 +51,7 @@ if (_type == "outpost") then {
 	// if close to an antenna, add jam option
 	private _antennaPos = [AS_antenasPos_alive,_posicion] call BIS_fnc_nearestPosition;
 	if (_antennaPos distance _posicion < 100) then {
-		[[nearestBuilding _pos,"jam"],"AS_fnc_addAction"] call BIS_fnc_MP;
+		[[nearestBuilding _antennaPos,"jam"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	};
 };
 
