@@ -8,7 +8,7 @@ private _fechalim = [date select 0, date select 1, date select 2, date select 3,
 private _fechalimnum = dateToNumber _fechalim;
 
 private _taskTitle = _mission call AS_fnc_mission_title;
-private _taskDesc = format [localize "STR_tskDesc_logSupply",[_location] call localizar,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
+private _taskDesc = format [localize "STR_tskDesc_logSupply",[_location] call localizar, _location, numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
 
 private _task = [_mission,[side_blue,civilian],[_taskDesc,_taskTitle,_location],_position,"CREATED",5,true,true,"Heal"] call BIS_fnc_setTask;
 

@@ -30,8 +30,6 @@ if (_base == "") exitWith {
 	hint "There are no supplies missing.";
 };
 
-private _nombreOrig = [_base] call localizar;
-
 // find a suitable position for the medical supplies
 // try 20 times, if fail, the mission does not start
 private _poscrash = [];
@@ -52,10 +50,12 @@ if (_poscrash isEqualTo []) exitWith {
 };
 
 private _tskTitle = _mission call AS_fnc_mission_title;
-private _tskDesc = format [localize "STR_tskDesc_logMedical", [_location] call localizar,
+private _tskDesc = format [localize "STR_tskDesc_logMedical",
+	[_location] call localizar, _location,
+	[_base] call localizar, _base,
 	numberToDate [2035,_fechalimnum] select 3,
 	numberToDate [2035,_fechalimnum] select 4,
-	_nombreOrig, A3_STR_INDEP
+	A3_STR_INDEP
 ];
 
 private _tipoVeh = selectRandom AS_FIA_vans;

@@ -65,7 +65,9 @@ call {
 	};
 };
 
-_tskDesc = format [_tskDesc,[_origin] call localizar,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4,[_location] call localizar];
+_tskDesc = format [_tskDesc,
+	[_origin] call localizar, _origin,
+	[_location] call localizar, _location];
 _tskTitle = format [_tskTitle, A3_STR_INDEP];
 
 private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_position],_position,"CREATED",5,true,true,_tskIcon] call BIS_fnc_setTask;
@@ -92,14 +94,11 @@ private _initVehs = {
 	_specs call fnc_initialiseVehicle;
 };
 
-sleep (2 * 60);
-
 private _escortSize = 1;
 if ([_location] call isFrontline) then {_escortSize = (round random 2) + 1};
 
 // spawn escorts
 for "_i" from 1 to _escortSize do {
-	sleep 20;
 	private _apcs = ["trucks", "apcs"] call AS_fnc_AAFarsenal_all;
 	private _escortVehicleType = selectRandom _apcs;
 
@@ -121,8 +120,6 @@ for "_i" from 1 to _escortSize do {
 	{[_x] call AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; [_x] join _group} forEach units _grupoEsc;
 	deleteGroup _grupoEsc;
 };
-
-sleep 20;
 
 private _vehObj = _mainVehicleType createVehicle _posRoad;
 _vehicles pushBack _vehObj;

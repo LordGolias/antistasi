@@ -18,7 +18,7 @@ private _nombredest = [_location] call localizar;
 _mrkfin setMarkerShape "ICON";
 
 private _taskTitle = _mission call AS_fnc_mission_title;
-private _taskDesc = format [localize "STR_tskDesc_logBank",_nombredest,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP];
+private _taskDesc = format [localize "STR_tskDesc_logBank",_nombredest, _location,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4, A3_STR_INDEP];
 
 private _task = [_mission,[side_blue,civilian],[_taskDesc,_taskTitle,_mrkfin],_position,"CREATED",5,true,true,"Interact"] call BIS_fnc_setTask;
 

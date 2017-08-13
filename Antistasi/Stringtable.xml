@@ -149,42 +149,42 @@
 				<Original>Attack ammo convoy</Original>
 			</Key>
 			<Key ID="STR_tskDesc_CVY_Ammo">
-				<Original>A convoy from %1 is about to depart at %2:%3. It will provide ammunition to %4. Try to intercept it. Steal or destroy that truck before it reaches it's destination. Be careful, the enemy may provide an armoured escort.</Original>
+				<Original>An ammo convoy is departing from &lt;marker name='%2'&gt;%1&lt;/marker&gt; to &lt;marker name='%4'&gt;%3&lt;/marker&gt;. Try to intercept it. Steal or destroy that truck before it reaches it's destination. Be careful, the enemy may provide an armoured escort.</Original>
 			</Key>
 
 			<Key ID="STR_tsk_CVY_Armor">
 				<Original>Attack armored convoy</Original>
 			</Key>
 			<Key ID="STR_tskDesc_CVY_Armor">
-				<Original>A convoy from %1 is about to depart at %2:%3. It will reinforce %4 with armored vehicles. Try to intercept it. Steal or destroy the main Armoured Vehicle before it reaches it's destination.</Original>
+				<Original>An armor convoy is departing from &lt;marker name='%2'&gt;%1&lt;/marker&gt; to &lt;marker name='%4'&gt;%3&lt;/marker&gt;. Try to intercept it. Destroy the main vehicle before it reaches it's destination.</Original>
 			</Key>
 
 			<Key ID="STR_tsk_CVY_Pris">
 				<Original>Attack prisoner convoy</Original>
 			</Key>
 			<Key ID="STR_tskDesc_CVY_Pris">
-				<Original>A group of POW's is being transported from %1 to %4, departing at %2:%3. Sadly, it seems the enemy are planning their execution. We must intercept it and rescue them. Kill the driver or capture the truck to make them join you and bring them to HQ. </Original>
+				<Original>A POW convoy is departing from &lt;marker name='%2'&gt;%1&lt;/marker&gt; to &lt;marker name='%4'&gt;%3&lt;/marker&gt;. Sadly, it seems the enemy are planning their execution. We must intercept it and rescue them. Kill the driver or capture the truck to make them join you and bring them to HQ.</Original>
 			</Key>
 
 			<Key ID="STR_tsk_CVY_Money">
 				<Original>Attack Money Convoy</Original>
 			</Key>
 			<Key ID="STR_tskDesc_CVY_Money">
-				<Original>The enemy have been spotted moving large amounts of money from %1 to %4 departing at %2:%3. Steal that truck and bring it to HQ. There aren't many better opportunities to acquire the funds we will need to build up our army, don't screw up! </Original>
+				<Original>A money convoy is departing from &lt;marker name='%2'&gt;%1&lt;/marker&gt; to &lt;marker name='%4'&gt;%3&lt;/marker&gt;. Steal that truck and bring it to HQ. There aren't many better opportunities to acquire the funds we will need to build up our army, don't screw up! </Original>
 			</Key>
 
 			<Key ID="STR_tsk_CVY_Supply">
 				<Original>Attack supply convoy</Original>
 			</Key>
 			<Key ID="STR_tskDesc_CVY_Supply">
-				<Original>A truck with medical supplies is about to depart from %1 to %4 at %2:%3. Steal the truck and bring it to %4 . Let the people there know of the FIA's 'benevolence' .</Original>
+				<Original>A medical convoy is departing from &lt;marker name='%2'&gt;%1&lt;/marker&gt; to &lt;marker name='%4'&gt;%3&lt;/marker&gt;. Steal the truck and bring it to %4. Let the people there know of the FIA's 'benevolence' .</Original>
 			</Key>
 
 			<Key ID="STR_tsk_CVY_HVT">
 				<Original>Attack HVT Convoy</Original>
 			</Key>
 			<Key ID="STR_tskDesc_CVY_HVT">
-				<Original>From what we know, a high-value target will travel from %1 to %4. His departure is scheduled for %2:%3. Seize the opportunity and take him out! We believe he will use a decoy to obscure his exact vehicle.</Original>
+				<Original>A convoy with a high valuable target is departing from &lt;marker name='%2'&gt;%1&lt;/marker&gt; to &lt;marker name='%4'&gt;%3&lt;/marker&gt;. Seize the opportunity and take him out! We believe he will use a decoy to obscure his exact vehicle.</Original>
 			</Key>
 
 			<Key ID="STR_tsk_DefCamp">
@@ -232,21 +232,21 @@
 				<Original>Rob bank</Original>
 			</Key>
 			<Key ID="STR_tskDesc_logBank">
-				<Original>We know %4 is guarding a large amount of money in the bank of %1. Take this getaway vehicle and go there before %2:%3, hold the truck close to thw bank's main entrance for 2 minutes and the money will be transferred to the truck. Bring it back to HQ and the money will be ours.</Original>
+				<Original>We know %5 is guarding a large amount of money in the bank of &lt;marker name='%2'&gt;%1&lt;/marker&gt;. Take this getaway vehicle and go there before %3:%4, hold the truck close to thw bank's main entrance for 2 minutes and the money will be transferred to the truck. Bring it back to HQ and the money will be ours.</Original>
 			</Key>
 
 			<Key ID="STR_tsk_logMedical">
 				<Original>Recover supplies</Original>
 			</Key>
 			<Key ID="STR_tskDesc_logMedical">
-				<Original>We've had word from our informant that a sympathetic cell has sent supplies to %1. They ran into an %5 patrol and had to abandon the truck. Find and secure the vehicle, then deliver the supplies to the people in %1 before %2:%3. %5 command has probably dispatched a patrol from %4 to retrieve the goods, so you better hurry. </Original>
+				<Original>We've had word from our informant that a sympathetic cell has sent supplies to &lt;marker name='%2'&gt;%1&lt;/marker&gt;. They ran into an %5 patrol and had to abandon the truck. Find and secure the vehicle, then deliver the supplies to the people in &lt;marker name='%2'&gt;%1&lt;/marker&gt; before %5:%6. %7 command has probably dispatched a patrol from &lt;marker name='%4'&gt;%3&lt;/marker&gt; to retrieve the goods, so you better hurry. </Original>
 			</Key>
 
 			<Key ID="STR_tsk_logSupply">
 				<Original>Supply city</Original>
 			</Key>
 			<Key ID="STR_tskDesc_logSupply">
-				<Original>%1 population is in need of supplies. As it happens, we have just what they need and it may improve our relationship with them. I reserved a transport truck with supplies near our HQ. Drive the transport truck to %1 city center. Hold it there for 2 minutes before %2:%3.</Original>
+				<Original>&lt;marker name='%2'&gt;%1&lt;/marker&gt; population is in need of supplies. As it happens, we have just what they need and it may improve our relationship with them. I reserved a transport truck with supplies near our HQ. Drive the transport truck to &lt;marker name='%2'&gt;%1&lt;/marker&gt; city center. Hold it there for 2 minutes before %3:%4.</Original>
 			</Key>
 
 			<Key ID="STR_tsk_NATOSupply">
