@@ -51,7 +51,7 @@ for "_i" from 1 to _units do {
 	[_unit] call NATOinitCA;
 	private _pos = [_position] call fnc_findSpawnSpots;
 	private _veh = createVehicle [_tipoVeh, _pos, [], _spread, "NONE"];
-	[_veh] call NATOvehInit;
+	[_veh, "NATO"] call AS_fnc_initVehicle;
 	_unit moveInGunner _veh;
 	_vehicles pushBack _veh;
 };

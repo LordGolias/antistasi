@@ -28,7 +28,7 @@ _soldiers = _soldiers + _vehCrew;
 _groups pushBack _grupoVeh;
 _vehicles pushBack _veh;
 {[_x] call AS_fnc_initUnitAAF} forEach units _grupoVeh;
-[_veh] call genVEHinit;
+[_veh, "AAF"] call AS_fnc_initVehicle;
 
 // create waypoints and cargo depending on the type
 if (_airType in ["planes","armedHelis"]) then {

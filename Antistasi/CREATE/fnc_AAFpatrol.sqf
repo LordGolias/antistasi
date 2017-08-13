@@ -86,7 +86,7 @@ if _useCSAT then {
 		_soldados = _soldados + _heliCrew;
 		_grupos = _grupos + [_grupoheli];
 		_vehiculos = _vehiculos + [_heli];
-		[_heli] spawn CSATVEHinit;
+		[_heli, "CSAT"] spawn AS_fnc_initVehicle;
 		{[_x] call AS_fnc_initUnitCSAT} forEach _heliCrew;
 		if (!(_tipoVeh in opHeliTrans)) then {  // attack heli
 			private _wp1 = _grupoheli addWaypoint [_position, 0];
