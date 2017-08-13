@@ -289,7 +289,7 @@ class set_difficulty_menu // 390
 	AS_BOX(1);
 	AS_FRAME(1, "Is the start too hard for you?");
 
-	#define STR_BST_YES "closeDialog 0; [] remoteExec [""fnc_setEasy"", 2];"
+	#define STR_BST_YES "closeDialog 0; [] remoteExec [""AS_fnc_setEasy"", 2];"
 	#define STR_BST_NO "closeDialog 0;"
 
 	BTN_L(1,-1, "YES", "FIA starts with some NATO weapons", STR_BST_YES);
@@ -455,7 +455,7 @@ BTN_L(3,-1, "Vehicle Manager", "", "closeDialog 0; nul = createDialog ""vehicle_
 BTN_L(4,-1, "AI Management", "", "if (player == leader group player) then {closeDialog 0; nul = createDialog ""AI_management""} else {hint ""Only group leaders may access to this option""};");
 
 BTN_R(1,-1, "NATO Options", "", "closeDialog 0; nul=CreateDialog ""NATO_Options"";");
-BTN_R(2,-1, "Recruit Squad", "", "closeDialog 0; call AS_fncUI_RecruitSquadMenu;");
+BTN_R(2,-1, "Recruit Squad", "", "closeDialog 0; [] spawn AS_fncUI_RecruitSquadMenu;");
 BTN_R(3,-1, "Building Options", "", "closeDialog 0; nul=CreateDialog ""build_menu"";");
 BTN_R(4,-1, "Player and Money", "", "closeDialog 0; if (isMultiPlayer) then {nul = createDialog ""player_money""} else {hint ""MP Only Menu""};");
 
