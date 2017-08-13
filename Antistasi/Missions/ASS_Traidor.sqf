@@ -36,7 +36,7 @@ _traidor allowDamage false;
 ([_posSol2, 0, opI_RFL1, _grptraidor] call bis_fnc_spawnvehicle) select 0;
 _grptraidor selectLeader _traidor;
 
-{[_x] call CSATinit; _x allowFleeing 0} forEach units _grptraidor;
+{_x call AS_fnc_initUnitCSAT; _x allowFleeing 0} forEach units _grptraidor;
 private _posVeh = [];
 private _dirVeh = 0;
 private _roads = [];

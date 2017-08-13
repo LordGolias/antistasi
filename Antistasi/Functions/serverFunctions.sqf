@@ -197,10 +197,10 @@ fnc_initialiseUnits = {
 
     if (_initSide == side_red) then {
     	if (typeName _soldiersToInit == "ARRAY") then {
-    		{[_x] spawn CSATinit} forEach _soldiersToInit;
+    		{_x call AS_fnc_initUnitCSAT} forEach _soldiersToInit;
     	}
     	else {
-    		{[_x] spawn CSATinit} forEach units _soldiersToInit;
+    		{_x call AS_fnc_initUnitCSAT} forEach units _soldiersToInit;
     	};
         if !(_vehicleToInit isEqualTo "none") then {
 			[_vehicleToInit, "CSAT"] call AS_fnc_initVehicle;

@@ -44,7 +44,7 @@ for "_i" from 1 to (1 + round random 2) do {
 	{_x setBehaviour "CARELESS";} forEach units _grupoheli;
 	private _tipoGrupo = [opGroup_SpecOps, "CSAT"] call fnc_pickGroup;
 	private _grupo = [_pos, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
-	{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] spawn CSATinit} forEach units _grupo;
+	{_x assignAsCargo _heli; _x moveInCargo _heli; _x call AS_fnc_initUnitCSAT} forEach units _grupo;
 	_grupos pushBack _grupo;
 	[_heli,"CSAT Air Transport"] spawn inmuneConvoy;
 	[_grupoheli, _pos, _position, _location, [_grupo], 25*60] call fnc_QRF_fastrope;

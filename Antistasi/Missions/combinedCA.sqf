@@ -110,7 +110,7 @@ if (_CSAT) then {
 		private _heli = _vehicle select 0;
 		private _heliCrew = _vehicle select 1;
 		private _grupoheli = _vehicle select 2;
-		{[_x] spawn CSATinit} forEach _heliCrew;
+		{_x call AS_fnc_initUnitCSAT} forEach _heliCrew;
 		_grupos pushBack _grupoheli;
 		_vehiculos pushBack _heli;
 		[_heli, "CSAT"] call AS_fnc_initVehicle;
@@ -124,7 +124,7 @@ if (_CSAT) then {
 
 			private _tipogrupo = [opGroup_Squad, "CSAT"] call fnc_pickGroup;
 			private _grupo = [_posorigen, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
-			{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] spawn CSATinit} forEach units _grupo;
+			{_x assignAsCargo _heli; _x moveInCargo _heli; _x call AS_fnc_initUnitCSAT} forEach units _grupo;
 			_grupos pushBack _grupo;
 			[_heli,"CSAT Air Transport"] spawn inmuneConvoy;
 			if (((_position call AS_location_type) in ["base","airfield"]) or (random 10 < _threatEvalAir)) then {

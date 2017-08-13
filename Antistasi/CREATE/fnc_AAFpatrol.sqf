@@ -87,7 +87,7 @@ if _useCSAT then {
 		_grupos = _grupos + [_grupoheli];
 		_vehiculos = _vehiculos + [_heli];
 		[_heli] spawn CSATVEHinit;
-		{[_x] spawn CSATinit} forEach _heliCrew;
+		{[_x] call AS_fnc_initUnitCSAT} forEach _heliCrew;
 		if (!(_tipoVeh in opHeliTrans)) then {  // attack heli
 			private _wp1 = _grupoheli addWaypoint [_position, 0];
 			_wp1 setWaypointType "SAD";
@@ -96,7 +96,7 @@ if _useCSAT then {
 			{_x setBehaviour "CARELESS";} forEach units _grupoheli;
 			private _tipoGrupo = [opGroup_Squad, "CSAT"] call fnc_pickGroup;
 			private _grupo = [_posorigen, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
-			{_x assignAsCargo _heli; _x moveInCargo _heli; _soldados = _soldados + [_x]; [_x] spawn CSATinit} forEach units _grupo;
+			{_x assignAsCargo _heli; _x moveInCargo _heli; _soldados = _soldados + [_x]; _x call AS_fnc_initUnitCSAT} forEach units _grupo;
 			_grupos pushBack _grupo;
 			[_heli,"CSAT Air Transport"] spawn inmuneConvoy;
 

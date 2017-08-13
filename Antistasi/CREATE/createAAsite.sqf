@@ -70,13 +70,13 @@ if (!isNil opUAVsmall) then {
 	_grupoUAV = group (crew _uav select 1);
 	[leader _grupoUAV, _mrkfin, "SAFE", "SPAWNED","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 	[_uav,"CSAT"] call AS_fnc_initVehicle;
-	{[_x] spawn CSATinit; _soldados pushBack _x} forEach units _grupoUAV;
+	{_x call AS_fnc_initUnitCSAT; _soldados pushBack _x} forEach units _grupoUAV;
 	_grupos pushBack _grupoUAV;
 };
 
 {[_x,"CSAT"] call AS_fnc_initVehicle} forEach _vehiculos;
 
-{[_x] spawn CSATinit; _soldados pushBack _x} forEach units _grupoCSAT;
+{_x call AS_fnc_initUnitCSAT; _soldados pushBack _x} forEach units _grupoCSAT;
 _grupos pushBack _grupoCSAT;
 [leader _grupoCSAT, _mrkfin, "AWARE", "SPAWNED","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 

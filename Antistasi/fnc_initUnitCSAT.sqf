@@ -1,5 +1,4 @@
 params ["_unit"];
-private ["_tipo"];
 
 _unit setVariable ["OPFORSpawn",true,true];
 

@@ -37,7 +37,7 @@ call {
 		_group selectLeader _target;
 		[leader _group, _location, "SAFE", "SPAWNED", "NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 
-		{[_x] spawn CSATinit; _x allowFleeing 0} forEach units _group;
+		{_x call AS_fnc_initUnitCSAT; _x allowFleeing 0} forEach units _group;
 
 		_resources = [[_group]];
 	};
@@ -54,7 +54,7 @@ call {
 		private _uav = createVehicle [opUAVsmall, _position, [], 0, "FLY"];
 		createVehicleCrew _uav;
 		[leader _group, _mrkfin, "RANDOM", "SPAWNED", "NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
-		{[_x] spawn CSATinit; _x allowFleeing 0} forEach units _group;
+		{_x call AS_fnc_initUnitCSAT; _x allowFleeing 0} forEach units _group;
 
 		private _groupUAV = group (crew _uav select 1);
 		[leader _groupUAV, _mrkfin, "SAFE", "SPAWNED","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
