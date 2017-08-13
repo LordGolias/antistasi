@@ -1,11 +1,10 @@
 params ["_box", ["_restrict", false]];
-private ["_magazines", "_weapons", "_backpacks", "_items", "_weaponsItemsCargo", "_box"];
 
-_weapons = [];
-_magazines = magazineCargo _box;
-_items = itemCargo _box;
-_backpacks = [];
-_weaponsItemsCargo = weaponsItemsCargo _box;
+private _weapons = [];
+private _magazines = magazineCargo _box;
+private _items = itemCargo _box;
+private _backpacks = [];
+private _weaponsItemsCargo = weaponsItemsCargo _box;
 
 if (count backpackCargo _box > 0) then {
 	{
@@ -22,7 +21,7 @@ if (count backpackCargo _box > 0) then {
 
 
 // get stuff inside the _weaponsItems
-_result = [_weaponsItemsCargo] call AS_fnc_getWeaponItemsCargo;
+private _result = [_weaponsItemsCargo] call AS_fnc_getWeaponItemsCargo;
 _weapons = _weapons + (_result select 0);
 _magazines = _magazines + (_result select 1);
 _items = _items + (_result select 2);
@@ -36,40 +35,40 @@ if (_restrict) then {
 };
 
 // build the vectors.
-_weaponsFinal = [];
-_weaponsFinalCount = [];
+private _weaponsFinal = [];
+private _weaponsFinalCount = [];
 {
-	_weapon = _x;
+	private _weapon = _x;
 	if (not(_weapon in _weaponsFinal)) then {
 		_weaponsFinal pushBack _weapon;
 		_weaponsFinalCount pushBack ({_x == _weapon} count _weapons);
 	};
 } forEach _weapons;
 
-_magazinesFinal = [];
-_magazinesFinalCount = [];
+private _magazinesFinal = [];
+private _magazinesFinalCount = [];
 {
-	_magazine = _x;
+	private _magazine = _x;
 	if (not(_magazine in _magazinesFinal)) then {
 		_magazinesFinal pushBack _magazine;
 		_magazinesFinalCount pushBack ({_x == _magazine} count _magazines);
 	};
 } forEach  _magazines;
 
-_itemsFinal = [];
-_itemsFinalCount = [];
+private _itemsFinal = [];
+private _itemsFinalCount = [];
 {
-	_item = _x;
+	private _item = _x;
 	if (not(_item in _itemsFinal)) then {
 		_itemsFinal pushBack _item;
 		_itemsFinalCount pushBack ({_x == _item} count _items);
 	};
 } forEach _items;
 
-_backpacksFinal = [];
-_backpacksFinalCount = [];
+private _backpacksFinal = [];
+private _backpacksFinalCount = [];
 {
-	_backpack = _x;
+	private _backpack = _x;
 	if (not(_backpack in _backpacksFinal)) then {
 		_backpacksFinal pushBack _backpack;
 		_backpacksFinalCount pushBack ({_x == _backpack} count _backpacks);
