@@ -21,8 +21,7 @@ private _units = units group _unit;
 	if ((!isPlayer _x) and {[_x] call AS_fnc_getFIAUnitType == "Medic"}) then {
 		if (_x call _canHeal) then {
 			_hasMedic = true;
-			private _ayudando = _x getVariable "ayudando";
-			if ((isNil "_ayudando") and (!(_x getVariable "rearming"))) then {
+			if (not (_x getVariable ["ayudando", false]) and (!(_x getVariable "rearming"))) then {
 				_medic = _x;
 				_bestDistance = _x distance _unit;
 			};
@@ -31,12 +30,11 @@ private _units = units group _unit;
 	if not isNull _medic exitWith {}; // medic found, short circuit loop
 } forEach _units;
 
-if ((!_hasMedic) or (_unit call AS_fnc_isUnconscious)) then {
+if not _hasMedic then {
 	{
 		if ((!isPlayer _x) and {[_x] call AS_fnc_getFIAUnitType != "Medic"}) then {
 			if (_x call _canHeal) then {
-				private _ayudando = _x getVariable "ayudando";
-				if ((isNil "_ayudando") and (!(_x getVariable "rearming"))) then {
+				if (not (_x getVariable ["ayudando", false]) and (!(_x getVariable "rearming"))) then {
 					_medic = _x;
 					_bestDistance = _x distance _unit;
 				};
@@ -46,7 +44,7 @@ if ((!_hasMedic) or (_unit call AS_fnc_isUnconscious)) then {
 	} forEach _units;
 };
 
-if not isNull _medic then {
+if (not isNull _medic and (_unit call AS_fnc_isUnconscious)) then {
 	[_unit,_medic] spawn ayudar;
 };
 

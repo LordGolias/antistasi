@@ -59,8 +59,7 @@ if (_part == "") then {
 			if (isPlayer (leader group _unit)) then {
 				if autoheal then {
 					_unit groupChat "Injured!";
-					private _ayudado = _unit getVariable "ayudado";
-					if (isNil "_ayudado") then {
+					if (_unit getVariable ["ayudado", false]) then {
 						[_unit] call pedirAyuda;
 					};
 				};

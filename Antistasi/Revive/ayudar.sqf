@@ -29,7 +29,7 @@ if (_medic == _unit) exitWith {
 	true
 };
 
-if ((not (_unit call AS_fnc_isUnconscious)) and (not(_unit getVariable ["ayudado",false]))) then {
+if ((_unit call AS_fnc_isUnconscious) and (not(_unit getVariable ["ayudado",false]))) then {
 	_unit groupChat format ["Comrades, this is %1. I'm hurt",name _unit];
 	sleep 2;
 	_medic groupChat format ["Wait a minute comrade %1, I will patch you up",name _unit];

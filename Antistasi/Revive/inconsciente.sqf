@@ -62,11 +62,10 @@ while {(time < _bleedOut) and (damage _unit > 0.25) and (alive _unit) and (_unit
 		playSound3D [(injuredSounds call BIS_fnc_selectRandom),_unit,false, getPosASL _unit, 1, 1, 50];
 	};
 	if _isPlayer then {
-		private _ayudado = _unit getVariable "ayudado";
 		private _camTarget = player;
 		private _texto = "";
-		if (isNil "_ayudado") then {
-			private _medic = [_unit] call pedirAyuda;
+		if not (_unit getVariable ["ayudado",false]) then {
+			_medic = [_unit] call pedirAyuda;
 			if (isNull _medic) then {
 				_texto = format ["<t size='0.6'>There is no AI near to help you.<t size='0.5'><br/>Hit SPACE to Respawn"];
 				_camTarget = player;
@@ -89,8 +88,7 @@ while {(time < _bleedOut) and (damage _unit > 0.25) and (alive _unit) and (_unit
 		deadCam camCommit _tiempo;
 	} else {
 		if (isPlayer (leader group _unit) and autoheal) then {
-			private _ayudado = _unit getVariable "ayudado";
-			if (isNil "_ayudado") then {
+			if not (_unit getVariable ["ayudado",false]) then {
 				[_unit] call pedirAyuda;
 			};
 		};
@@ -113,8 +111,7 @@ if _isPlayer then {
 if (time > _bleedOut) exitWith {
 	if _isPlayer then {
 		_unit playMoveNow "AmovPpneMstpSnonWnonDnon_healed";
-		private _ayudado = _unit getVariable "ayudado";
-		if (!isNil "_ayudado") then {
+		if not (_unit getVariable ["ayudado",false]) then {
 			private _medic = [_unit] call pedirAyuda;
 			if (!isNull _medic) then {
 				_unit setdamage 0.2;
