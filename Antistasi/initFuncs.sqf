@@ -196,10 +196,10 @@ createCity = compile preProcessFileLineNumbers "CREATE\createCity.sqf";
 createOutpost = compile preProcessFileLineNumbers "CREATE\createOutpost.sqf";
 createOutpostAA = compile preProcessFileLineNumbers "CREATE\createOutpostAA.sqf";
 AS_fnc_createAAFgeneric = compile preProcessFileLineNumbers "CREATE\createAAFgeneric.sqf";
-createRoadblock = compile preProcessFileLineNumbers "CREATE\createRoadblock.sqf";
+AS_fnc_createRoadblock = compile preProcessFileLineNumbers "CREATE\createRoadblock.sqf";
 createWatchpost = compile preProcessFileLineNumbers "CREATE\createWatchpost.sqf";
 createAAsite = compile preProcessFileLineNumbers "CREATE\createAAsite.sqf";
-genRoadPatrol = compile preProcessFileLineNumbers "CREATE\genRoadPatrol.sqf";
+fnc_createRoadPatrol = compile preProcessFileLineNumbers "CREATE\createRoadPatrol.sqf";
 
 unlockVehicle = compile preProcessFileLineNumbers "unlockVehicle.sqf";
 AS_fnc_fastTravel = compile preProcessFileLineNumbers "fnc_fastTravel.sqf";

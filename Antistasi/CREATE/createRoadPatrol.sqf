@@ -1,10 +1,7 @@
 #include "../macros.hpp"
-private ["_tam","_road","_veh","_vehCrew","_grupoVeh","_grupo","_grupoP"];
-
 private _soldados = [];
 private _vehiculos = [];
 private _grupos = [];
-private _roads = [];
 
 private _validTypes = vehPatrol + [vehBoat];
 
@@ -34,10 +31,13 @@ while {count _validTypes != 0} do {
 	};
 };
 
-if (count _validTypes == 0) exitWith {};
+
+if (count _validTypes == 0) exitWith {
+	AS_ISDEBUG("[AS] debug: fnc_createRoadPatrol cancelled: no valid types");
+};
 
 
-private _groundDestinies = {
+private _groundDestinations = {
 	private _posHQ = getMarkerPos "FIA_HQ";
 
 	private _validLocations = [];
@@ -55,7 +55,7 @@ private _groundDestinies = {
 private _posbase = _base call AS_fnc_location_position;
 private _category = [_type] call AS_fnc_AAFarsenal_category;
 
-private _arraydestinos = call _groundDestinies;
+private _arraydestinos = call _groundDestinations;
 private _distancia = 50;
 
 private _isFlying = _category in ["armedHelis","transportHelis", "planes"];
@@ -68,11 +68,14 @@ if (_type == vehBoat) then {
 	_distancia = 100;
 };
 
-if (count _arraydestinos < 1) exitWith {};
+if (count _arraydestinos < 1) exitWith {
+	AS_ISDEBUG("[AS] debug: fnc_createRoadPatrol cancelled: no valid destinations");
+};
 
 ///////////// CHECKS COMPLETED -> CREATE PATROL /////////////
 
-AAFpatrols = AAFpatrols + 1; publicVariableServer "AAFpatrols";
+AAFpatrols = AAFpatrols + 1;
+publicVariableServer "AAFpatrols";
 
 if (!_isFlying) then
 	{
@@ -82,93 +85,83 @@ if (!_isFlying) then
 		}
 	else
 		{
-		_tam = 10;
-		while {true} do
-			{
+		private _tam = 10;
+		private _roads = [];
+		while {count _roads == 0} do {
 			_roads = _posbase nearRoads _tam;
-			if (count _roads > 0) exitWith {};
 			_tam = _tam + 10;
-			};
-		_road = _roads select 0;
+		};
+		private _road = _roads select 0;
 		_posbase = position _road;
 		};
 	};
 
-_vehicle=[_posbase, 0,_type, side_red] call bis_fnc_spawnvehicle;
-_veh = _vehicle select 0;
+private _vehicle = [_posbase, 0,_type, side_red] call bis_fnc_spawnvehicle;
+private _veh = _vehicle select 0;
 [_veh, "AAF"] call AS_fnc_initVehicle;
 [_veh,"Patrol"] spawn inmuneConvoy;
-_vehCrew = _vehicle select 1;
-{[_x] spawn AS_fnc_initUnitAAF} forEach _vehCrew;
-_grupoVeh = _vehicle select 2;
-_soldados = _soldados + _vehCrew;
-_grupos = _grupos + [_grupoVeh];
-_vehiculos = _vehiculos + [_veh];
+private _vehCrew = _vehicle select 1;
+{_x call AS_fnc_initUnitAAF} forEach _vehCrew;
+private _grupoVeh = _vehicle select 2;
+_soldados append _vehCrew;
+_grupos pushBack _grupoVeh;
+_vehiculos pushBack _veh;
 
 
-if (_type isKindOf "Car") then
-	{
+if (_type isKindOf "Car") then {
 	sleep 1;
 	private _tipoGrupo = [infGarrisonSmall, "AAF"] call fnc_pickGroup;
-	_grupo = [_posbase, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
-	{_x assignAsCargo _veh; _x moveInCargo _veh; _soldados = _soldados + [_x]; [_x] join _grupoveh; [_x] spawn AS_fnc_initUnitAAF} forEach units _grupo;
+	private _grupo = [_posbase, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
+	{
+		_x assignAsCargo _veh;
+		_x moveInCargo _veh;
+		_soldados pushBack _x;
+		[_x] join _grupoveh;
+		_x call AS_fnc_initUnitAAF
+	} forEach units _grupo;
 	deleteGroup _grupo;
 	[_veh] spawn smokeCover;
-	};
+};
 
-while {alive _veh} do
-	{
-	_destino = _arraydestinos call bis_Fnc_selectRandom;
-	_posdestino = _destino call AS_fnc_location_position;
-	_Vwp0 = _grupoVeh addWaypoint [_posdestino, 0];
+private _continue_condition = {
+	(canMove _veh) and {alive _veh} and {count _arraydestinos > 0} and {{alive _x} count _soldados != 0} and
+	{{fleeing _x} count _soldados != {alive _x} count _soldados}
+};
+
+while _continue_condition do {
+	private _destino = selectRandom _arraydestinos;
+	private _posdestino = _destino call AS_fnc_location_position;
+	private _Vwp0 = _grupoVeh addWaypoint [_posdestino, 0];
 	_Vwp0 setWaypointType "MOVE";
 	_Vwp0 setWaypointBehaviour "SAFE";
 	_Vwp0 setWaypointSpeed "LIMITED";
 	_veh setFuel 1;
-	while {true} do
-		{
+	while {(_veh distance _posdestino > _distancia) and _continue_condition} do {
 		sleep 20;
 		{
-		if (_x select 2 == side_blue) then
-			{
-			//hint format ["%1",_x];
-			_arevelar = _x select 4;
-			_nivel = (driver _veh) knowsAbout _arevelar;
-			if (_nivel > 1.4) then
-				{
-				{
-				_grupoP = _x;
-				if (leader _grupoP distance _veh < AS_P("spawnDistance")) then {_grupoP reveal [_arevelar,_nivel]};
-				} forEach allGroups;
+			if (_x select 2 == side_blue) then {
+				private _arevelar = _x select 4;
+				private _nivel = (driver _veh) knowsAbout _arevelar;
+				if (_nivel > 1.4) then {
+					{
+						if (leader _x distance _veh < AS_P("spawnDistance")) then {_x reveal [_arevelar,_nivel]};
+					} forEach allGroups;
 				};
 			};
 		} forEach (driver _veh nearTargets AS_P("spawnDistance"));
-		if ((_veh distance _posdestino < _distancia) or ({alive _x} count _soldados == 0) or ({fleeing _x} count _soldados == {alive _x} count _soldados) or (!canMove _veh)) exitWith {};
-		};
-
-	if (({alive _x} count _soldados == 0) or ({fleeing _x} count _soldados == {alive _x} count _soldados) or (!canMove _veh)) exitWith {};
-	if (_isFlying) then
-		{
-		_arrayDestinos = "AAF" call AS_fnc_location_S;
-		}
-	else
-		{
-		if (_type == vehBoat) then
-			{
-			_arraydestinos = ([["searport"], "AAF"] call AS_fnc_location_TS) select {(_x call AS_fnc_location_position) distance (position _veh) < 2500};
-			}
-		else
-			{
-			_arraydestinos = call _groundDestinies;
-			};
-		};
 	};
 
+	if _isFlying then {
+		_arrayDestinos = "AAF" call AS_fnc_location_S;
+	} else {
+		if (_type == vehBoat) then {
+			_arraydestinos = ([["searport"], "AAF"] call AS_fnc_location_TS) select {(_x call AS_fnc_location_position) distance (position _veh) < 2500};
+		} else {
+			_arraydestinos = call _groundDestinations;
+		};
+	};
+};
 
-AAFpatrols = AAFpatrols - 1;publicVariableServer "AAFpatrols";
-{_unit = _x;
-waitUntil {sleep 1;!([AS_P("spawnDistance"), _unit, "BLUFORSpawn", "boolean"] call AS_fnc_unitsAtDistance)};deleteVehicle _unit} forEach _soldados;
-
-{_veh = _x;
-if !([AS_P("spawnDistance"), _veh, "BLUFORSpawn", "boolean"] call AS_fnc_unitsAtDistance) then {deleteVehicle _veh}} forEach _vehiculos;
-{deleteGroup _x} forEach _grupos;
+AAFpatrols = AAFpatrols - 1;
+publicVariableServer "AAFpatrols";
+[_grupos, _vehiculos, []] call AS_fnc_cleanResources;

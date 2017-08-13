@@ -15,7 +15,7 @@ while {true} do {
 	if isMultiplayer then {[] spawn AS_fnc_chooseCommander;};
 
 	// if too little patrols, generate new patrols.
-	if (AAFpatrols < 3) then {[] remoteExec ["genRoadPatrol",hcAttack]};
+	if (AAFpatrols < 3) then {[] remoteExec ["AS_fnc_createRoadPatrol",hcAttack]};
 
 	// repair and re-arm all statics.
 	{
