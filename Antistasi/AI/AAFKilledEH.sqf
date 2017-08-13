@@ -43,7 +43,7 @@ if ((side _killer == side_blue) || (captive _killer)) then {
 		if (alive _x) then {
 			if (fleeing _x) then {
 				if !(_x getVariable ["surrendered",false]) then {
-					if (([100,1,_x,"BLUFORSpawn"] call distanceUnits) and (vehicle _x == _x)) then {
+					if ((vehicle _x == _x) and {[100, _x, "BLUFORSpawn", "boolean"] call AS_fnc_unitsAtDistance}) then {
 						[_x] spawn surrenderAction;
 					} else {
 						if (_x == leader group _x) then {

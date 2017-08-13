@@ -75,7 +75,7 @@ for "_i" from 1 to 3 do {
 
 private _fnc_becomeAwareCondition = {
 	// condition for the crew to become aware of danger
-	({leader _group knowsAbout _x > 1.4} count ([AS_P("spawnDistance"),0,leader _group,"BLUFORSpawn"] call distanceUnits) > 0)
+	({leader _group knowsAbout _x > 1.4} count ([AS_P("spawnDistance"), leader _group, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) > 0)
 };
 
 waitUntil {sleep 1;

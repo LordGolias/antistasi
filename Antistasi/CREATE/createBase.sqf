@@ -96,7 +96,7 @@ private _journalist = [_location, _grupos] call AS_fnc_createJournalist;
 
 waitUntil {sleep 1;
 	(not (_location call AS_fnc_location_spawned)) or
-	(({(not(vehicle _x isKindOf "Air"))} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)) >
+	(({(not(vehicle _x isKindOf "Air"))} count ([_size, _posicion, "BLUFORSpawn"] call AS_fnc_unitsAtDistance)) >
 	 3*({(alive _x) and !(captive _x) and (_x distance _posicion < _size)} count _soldados))
 };
 

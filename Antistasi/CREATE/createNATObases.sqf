@@ -98,8 +98,8 @@ private _journalist = [_location, _grupos] call AS_fnc_createJournalist;
 
 waitUntil {sleep 1;
 	(not (_location call AS_fnc_location_spawned)) or
-	(({not(vehicle _x isKindOf "Air")} count ([_size,0,_posicion,"OPFORSpawn"] call distanceUnits)) >
-	3*(({alive _x} count _soldados) + count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)))};
+	(({not(vehicle _x isKindOf "Air")} count ([_size, _posicion,"OPFORSpawn"] call AS_fnc_unitsAtDistance)) >
+	3*(({alive _x} count _soldados) + count ([_size, _posicion, "BLUFORSpawn"] call AS_fnc_unitsAtDistance)))};
 
 if (_location call AS_fnc_location_spawned) then {
 	[_location] remoteExec ["AS_fnc_location_lose",2];

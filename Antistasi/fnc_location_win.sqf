@@ -15,7 +15,7 @@ private _size = _location call AS_fnc_location_size;
 		[[_location], "intelFound.sqf"] remoteExec ["execVM", _x];
 		if (captive _x) then {[_x,false] remoteExec ["setCaptive",_x]};
 	}
-} forEach ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits);
+} forEach ([_size, _posicion, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 
 private _flag = objNull;
 private _dist = 10;
@@ -88,8 +88,8 @@ if (_type in ["factory", "resource"]) then {
 
 waitUntil {sleep 1;
 	(not (_location call AS_fnc_location_spawned)) or
-	(({(not(vehicle _x isKindOf "Air")) and (alive _x) and (!fleeing _x)} count ([_size,0,_posicion,"OPFORSpawn"] call distanceUnits)) >
-	 3*({(alive _x)} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)))};
+	(({(not(vehicle _x isKindOf "Air")) and (alive _x) and (!fleeing _x)} count ([_size, _posicion, "OPFORSpawn"] call AS_fnc_unitsAtDistance)) >
+	 3*({(alive _x)} count ([_size, _posicion, "BLUFORSpawn"] call AS_fnc_unitsAtDistance)))};
 
 if (_location call AS_fnc_location_spawned) then {
 	[_location] spawn AS_fnc_location_lose;

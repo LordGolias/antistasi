@@ -182,7 +182,7 @@ _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_poscrash,"A
 	if (captive _x) then {
 		[_x,false] remoteExec ["setCaptive",_x];
 	};
-} forEach ([300,0,_truck,"BLUFORSpawn"] call distanceUnits);
+} forEach ([300, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 
 // make all enemies rush to the truck
 {
@@ -193,7 +193,7 @@ _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_mrkfin],_poscrash,"A
 private _fnc_loadCratesCondition = {
 	// The condition to allow loading the crates into the truck
 	(_truck distance _poscrash < 20) and {speed _truck < 1} and
-	{{alive _x and not (_x call AS_fnc_isUnconscious)} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) > 0} and
+	{{alive _x and not (_x call AS_fnc_isUnconscious)} count ([80, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) > 0} and
 	{{(side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
 };
 
@@ -205,7 +205,7 @@ private _str_unloadStopped = "Stop the truck closeby, have someone close to the 
 if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 
 private _formato = format ["Good to go. Deliver these supplies to %1 on the double.",[_location] call localizar];
-{if (isPlayer _x) then {[petros,"hint",_formato] remoteExec ["commsMP",_x]}} forEach ([80,0,_truck,"BLUFORSpawn"] call distanceUnits);
+{if (isPlayer _x) then {[petros,"hint",_formato] remoteExec ["commsMP",_x]}} forEach ([80, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 _crate1 attachTo [_truck, [0.3,-1.0,-0.4]];
 _crate2 attachTo [_truck, [-0.3,-1.0,-0.4]];
 _crate3 attachTo [_truck, [0,-1.6,-0.4]];
@@ -229,6 +229,6 @@ _truck setFuel 0;
 } forEach (crew _truck);
 sleep 1;
 _truck lock 2;
-{if (isPlayer _x) then {[_truck,true] remoteExec ["fnc_lockVehicle",_x];}} forEach ([100,0,_truck,"BLUFORSpawn"] call distanceUnits);
+{if (isPlayer _x) then {[_truck,true] remoteExec ["fnc_lockVehicle",_x];}} forEach ([100, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 
 call _fnc_missionSuccessful;

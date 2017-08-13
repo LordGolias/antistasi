@@ -70,8 +70,8 @@ if !(_type in ["fia_hq","city"]) then {
 	// wait for successful attack to lose the marker
 	private _wasCaptured = false;
 	waitUntil {sleep 1;
-		private _AAFcount = ({not(vehicle _x isKindOf "Air")} count ([_size,0,_posicion,"OPFORSpawn"] call distanceUnits));
-		private _FIAcount = (({alive _x} count _soldados) + count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits));
+		private _AAFcount = ({not(vehicle _x isKindOf "Air")} count ([_size, _posicion, "OPFORSpawn"] call AS_fnc_unitsAtDistance));
+		private _FIAcount = (({alive _x} count _soldados) + count ([_size, _posicion, "BLUFORSpawn"] call AS_fnc_unitsAtDistance));
 
 		_wasCaptured = (_AAFcount > 3*_FIAcount);
 

@@ -167,8 +167,8 @@ while {alive _veh} do
 
 AAFpatrols = AAFpatrols - 1;publicVariableServer "AAFpatrols";
 {_unit = _x;
-waitUntil {sleep 1;!([AS_P("spawnDistance"),1,_unit,"BLUFORSpawn"] call distanceUnits)};deleteVehicle _unit} forEach _soldados;
+waitUntil {sleep 1;!([AS_P("spawnDistance"), _unit, "BLUFORSpawn", "boolean"] call AS_fnc_unitsAtDistance)};deleteVehicle _unit} forEach _soldados;
 
 {_veh = _x;
-if !([AS_P("spawnDistance"),1,_veh,"BLUFORSpawn"] call distanceUnits) then {deleteVehicle _veh}} forEach _vehiculos;
+if !([AS_P("spawnDistance"), _veh, "BLUFORSpawn", "boolean"] call AS_fnc_unitsAtDistance) then {deleteVehicle _veh}} forEach _vehiculos;
 {deleteGroup _x} forEach _grupos;

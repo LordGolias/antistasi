@@ -93,12 +93,12 @@ if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 			_x reveal [_fiaSoldier, 4];
 		} forEach units _grupo;
 	};
-} forEach ([AS_P("spawnDistance"),0,_position,"BLUFORSpawn"] call distanceUnits);
+} forEach ([AS_P("spawnDistance"), _position, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 
 private _fnc_loadCondition = {
 	// The condition to allow loading the crates into the truck
 	(_truck distance _position < 7) and {speed _truck < 1} and
-	{{alive _x and not (_x call AS_fnc_isUnconscious)} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) > 0} and
+	{{alive _x and not (_x call AS_fnc_isUnconscious)} count ([80, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) > 0} and
 	{{(side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
 };
 
@@ -113,7 +113,7 @@ if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 	if (isPlayer _x) then {
 		[petros,"hint","Park the truck in the base to finish this mission"] remoteExec ["commsMP",_x]
 	};
-} forEach ([80,0,_truck,"BLUFORSpawn"] call distanceUnits);
+} forEach ([80, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 
 waitUntil {sleep 1; (_truck distance _posbase < 50) and speed _truck == 0 or _fnc_missionFailedCondition};
 

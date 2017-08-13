@@ -130,7 +130,7 @@ private _currentDrop = _allBuildings select 0;
 private _fnc_loadCratesCondition = {
 	// The condition to allow loading the crates into the truck
 	(_truck distance _currentDrop < 20) and {speed _truck < 1} and
-	{{alive _x and not (_x call AS_fnc_isUnconscious)} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) > 0} and
+	{{alive _x and not (_x call AS_fnc_isUnconscious)} count ([80, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) > 0} and
 	{{(side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
 };
 
@@ -170,7 +170,7 @@ while {(_currentDropCount < _totalDropCounts) and {not call _fnc_missionFailedCo
 	if (_currentDropCount < _totalDropCounts) then {
 		{
 			if (isPlayer _x) then {[petros,"hint","Head to the next location."] remoteExec ["commsMP",_x]};
-		} forEach ([150,0,_truck, "BLUFORSpawn"] call distanceUnits);
+		} forEach ([150, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 	};
 	sleep 1;
 };

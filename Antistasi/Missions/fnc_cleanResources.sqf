@@ -11,7 +11,7 @@ params [["_groups", []], ["_vehicles", []], ["_markers", []]];
     {
         _x spawn {
             params ["_unit"];
-            waitUntil {sleep (5 + random 5); not ([AS_P("spawnDistance"), 1, _unit, "BLUFORSpawn"] call distanceUnits)};
+            waitUntil {sleep (5 + random 5); not ([AS_P("spawnDistance"), _unit, "BLUFORSpawn", "boolean"] call AS_fnc_unitsAtDistance)};
 
             if (count units group _unit == 1) then {
                 // clean group after last unit

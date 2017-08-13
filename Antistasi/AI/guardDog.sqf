@@ -21,7 +21,7 @@ while {alive _perro} do
 			{
 			[_spotted,false] remoteExec ["setCaptive",_spotted];
 			};
-		} forEach ([50,0,position _perro,"BLUFORSpawn"] call distanceUnits);
+		} forEach ([50, position _perro, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 
 		if ((random 10 < 1) and (isNull _spotted)) then
 			{

@@ -55,7 +55,7 @@ if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 private _fnc_unloadCondition = {
 	// The condition to allow loading the crates into the truck
 	(_truck distance _position < 20) and {speed _truck < 1} and
-	{{alive _x and not (_x call AS_fnc_isUnconscious)} count ([80,0,_truck,"BLUFORSpawn"] call distanceUnits) > 0} and
+	{{alive _x and not (_x call AS_fnc_isUnconscious)} count ([80, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) > 0} and
 	{{(side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
 };
 
@@ -67,7 +67,7 @@ private _str_unloadStopped = "Stop the truck closeby, have someone close to the 
 	if (captive _soldierFIA) then {
 		[_soldierFIA,false] remoteExec ["setCaptive",_soldierFIA];
 	};
-} forEach ([300,0,_truck,"BLUFORSpawn"] call distanceUnits);
+} forEach ([300, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 
 {
 	// make all enemies around notice the truck
@@ -88,7 +88,7 @@ private _str_unloadStopped = "Stop the truck closeby, have someone close to the 
 } forEach (crew _truck);
 sleep 1;
 _truck lock 2;
-{if (isPlayer _x) then {[_truck,true] remoteExec ["fnc_lockVehicle",_x];}} forEach ([100,0,_truck,"BLUFORSpawn"] call distanceUnits);
+{if (isPlayer _x) then {[_truck,true] remoteExec ["fnc_lockVehicle",_x];}} forEach ([100, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 _truck engineOn false;
 
 // wait for the truck to unload (2m) or the mission to fail

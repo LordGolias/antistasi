@@ -140,7 +140,7 @@ if _isLocation then {
 
 	waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 } else {
-	waitUntil {sleep 1; !([AS_P("spawnDistance"),1,_position,"BLUFORSpawn"] call distanceUnits)};
+	waitUntil {sleep 1; !([AS_P("spawnDistance"), _position, "BLUFORSpawn", "boolean"] call AS_fnc_unitsAtDistance)};
 	smallCApos = smallCApos - [_position];
 	publicVariable "smallCApos";
 };

@@ -110,7 +110,7 @@ private _fnc_missionSuccessful = {
 	call _fnc_clean;
 };
 
-waitUntil {sleep 5; ({_traidor knowsAbout _x > 1.4} count ([500,0,_traidor,"BLUFORSpawn"] call distanceUnits) > 0) or _fnc_missionFailedCondition or _fnc_missionSuccessfulCondition};
+waitUntil {sleep 5; ({_traidor knowsAbout _x > 1.4} count ([500, _traidor, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) > 0) or _fnc_missionFailedCondition or _fnc_missionSuccessfulCondition};
 
 if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 if (call _fnc_missionSuccessfulCondition) exitWith _fnc_missionSuccessful;

@@ -84,7 +84,7 @@ private _journalist = [_location, _grupos] call AS_fnc_createJournalist;
 // AAF units (alive, not far and not captive) are not 3 times more than FIA units
 waitUntil {sleep 1;
 	!(_location call AS_fnc_location_spawned) or
-	(({(!(vehicle _x isKindOf "Air"))} count ([_size,0,_posicion,"BLUFORSpawn"] call distanceUnits)) >
+	(({(!(vehicle _x isKindOf "Air"))} count ([_size, _posicion, "BLUFORSpawn"] call AS_fnc_unitsAtDistance)) >
 	 3*({(alive _x) and !(captive _x) and (_x distance _posicion < _size)} count _soldados))
 };
 

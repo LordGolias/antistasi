@@ -206,7 +206,7 @@ _truck engineOn false;
 			if (_x distance _truck < 300) then {_x doMove position _truck} else {_x reveal [_amigo,4]};
 		};
 	} forEach allUnits;
-} forEach ([300,0,_truck,"BLUFORSpawn"] call distanceUnits);
+} forEach ([300, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 
 /*
 trigger the attack waves
@@ -242,8 +242,8 @@ private _fnc_continueCounterCondition = {
 
 // counter increases when no enemy within 50m and anyone conscious
 private _fnc_increaseCounterCondition = {
-	{_x call AS_fnc_isUnconscious} count ([300,0, _truck,"BLUFORSpawn"] call distanceUnits) !=
-	 count ([300,0, _truck,"BLUFORSpawn"] call distanceUnits) and
+	{_x call AS_fnc_isUnconscious} count ([300, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) !=
+	 count ([300, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) and
 	({(side _x == side_red) and (_x distance _truck < 50)} count allUnits == 0)
 };
 
@@ -303,7 +303,7 @@ private _info = format ["You held the area clear for %1 minutes and %2 seconds."
 if (_prestige == 0) then {
 	_info = format ["You only held the area for %1 minutes and %2 seconds. That is unacceptable.", floor (_counter / 60), _counter mod 60];
 };
-{if (isPlayer _x) then {[petros,"globalChat", _info] remoteExec ["commsMP",_x]}} forEach ([300,0,_truck,"BLUFORSpawn"] call distanceUnits);
+{if (isPlayer _x) then {[petros,"globalChat", _info] remoteExec ["commsMP",_x]}} forEach ([300, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 
 
 // failure if you held out for less than 10 minutes

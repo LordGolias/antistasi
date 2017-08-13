@@ -17,7 +17,7 @@ AS_fnc_mission_execute = {
         params ["_size", "_position", "_value"];
         {
             if (isPlayer _x) then {[_value,_x] call AS_fnc_changePlayerScore;};
-    	} forEach ([_size,0,_position,"BLUFORSpawn"] call distanceUnits);
+    	} forEach ([_size, _position, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
     };
 
     if not (_commander_score == 0) then {

@@ -14,7 +14,7 @@ waitUntil {
 	sleep (5 + random 5);
 	not (_vehicle in AS_P("vehicles")) and
 	{_vehicle distance getMarkerPos "FIA_HQ" > 50} and
-	{not ([AS_P("spawnDistance"), 1, _vehicle, "BLUFORSpawn"] call distanceUnits)}
+	{not ([AS_P("spawnDistance"), _vehicle, "BLUFORSpawn", "boolean"] call AS_fnc_unitsAtDistance)}
 };
 
 if (_vehicle in reportedVehs) then {
