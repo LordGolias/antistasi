@@ -1,6 +1,7 @@
 params ["_unit"];
 [_unit] call AS_DEBUG_initUnit;
 
+[_unit] call AS_fnc_initMedical;
 _unit allowFleeing 0;
 
 [_unit] call AS_fnc_setDefaultSkill;

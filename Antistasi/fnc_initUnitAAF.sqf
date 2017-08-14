@@ -5,6 +5,7 @@ params ["_unit", ["_spawned", true]];
 
 if (typeOf _unit == "Fin_random_F") exitWith {};  // dog
 
+[_unit] call AS_fnc_initMedical;
 if (_spawned) then {
 	_unit setVariable ["OPFORSpawn",true,true];
 };
