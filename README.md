@@ -12,7 +12,9 @@ This modified version has the same mechanics and the same features but improves 
 * There is no unlocking mechanism: everything is always finite. You lose half of every item if the HQ is destroyed.
 * Camps gives access to the arsenal: everything available in the HQ is available in camps (and you can store things there without having them lost).
 * All game and performance options, including AI skill and cleanup time, are now modifiable by the commander.
+* Revive system works as intended (with or without ACE) and for all factions
 * There is no "petros cavalary": this is the commander's responsibility.
+
 * Menus were remade from scratch to better accommodate more buttons and other layouts.
 * Locations backend was rewritten from scratch.
 * Missions backend was rewritten from scratch.
@@ -21,8 +23,8 @@ The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 
 
 # Mod support
 
-* ACE
-* VCOM
+* [ACE](https://ace3mod.com/)
+* [VCOM](https://forums.bistudio.com/forums/topic/166374-vcom-ai-v20-ai-overhaul/)
 * [RHS](http://www.rhsmods.org/)
 * [CUP](http://cup-arma3.org/)
 
@@ -107,6 +109,7 @@ reverse it.
 - `location.sqf`: contains all the code for interacting with locations.
 - `Missions/`: everything related to missions. Core module is `Missions/mission.sqf`.
 - `initialization/`: scripts that initialize the mission.
+- `Revive/`: scripts used for the revive system
 
 ## Initialization
 
