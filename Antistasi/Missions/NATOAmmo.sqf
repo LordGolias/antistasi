@@ -2,7 +2,7 @@
 params ["_mission"];
 
 private _position = [_mission, "position"] call AS_fnc_mission_get;
-private _support = [_mission, "support"] call AS_fnc_mission_get;
+private _support = [_mission, "NATOsupport"] call AS_fnc_mission_get;
 
 private _tskTitle = localize "STR_tsk_NATOSupply";
 private _tskDesc = localize "STR_tskDesc_NATOSupply";
@@ -25,9 +25,7 @@ private _fnc_clean = {
     _mission call AS_fnc_mission_completed;
 };
 
-private _aeropuertos = (["airfield","FIA"] call AS_fnc_location_TS) + ["spawnNATO"];
-
-private _origen = [_aeropuertos,_position] call BIS_fnc_nearestPosition;
+private _origen = "spawnNATO";
 private _orig = _origen call AS_fnc_location_position;
 
 

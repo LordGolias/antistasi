@@ -1,15 +1,16 @@
 #include "../macros.hpp"
 params ["_mission"];
-private _location = _mission call AS_fnc_mission_location;
+private _location = [_mission, "origin"] call AS_fnc_mission_get;
 private _position = _location call AS_fnc_location_position;
-private _power = [_mission, "power"] call AS_fnc_mission_get;
+private _support = [_mission, "NATOsupport"] call AS_fnc_mission_get;
 
-private _tiempolim = _power;
+private _tiempolim = _support;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
 
 private _tskTitle = "NATO Artillery support";
-private _tskDesc = format ["We have NATO Artillery support from %1. They will be under our command until %2:%3.",[_location] call localizar,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
+private _tskDesc = format ["We have NATO artillery support from %1. They will be under our command until %2:%3.",
+	[_location] call localizar,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
 
 private _task = [_mission,[west,civilian],[_tskDesc,_tskTitle,_location],_position,"CREATED",5,true,true,"target"] call BIS_fnc_setTask;
 
@@ -33,11 +34,11 @@ _group setVariable ["isHCgroup", true, true];
 private _tipoVeh = selectRandom bluStatMortar;
 private _units = 1;
 private _spread = 0;
-if (_power < 33) then {
+if (_support < 33) then {
 	_units = 4;
 	_spread = 15;
 } else {
-	if (_power < 66) then {
+	if (_support < 66) then {
 		_tipoVeh = selectRandom bluArty;
 	} else {
 		_units = 2;

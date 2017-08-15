@@ -10,6 +10,7 @@ This API handles the following mission `status`:
 * active
 * completed
 */
+#include "../macros.hpp"
 // maximum distance from HQ for a mission to be available
 AS_missions_MAX_DISTANCE = 4000;
 // maximum number of missions available or active.
@@ -47,6 +48,19 @@ AS_fnc_mission_add = {
     [_name, "type", _type] call AS_fnc_mission_set;
     [_name, "location", _location] call AS_fnc_mission_set;
     _name
+};
+
+AS_fnc_mission_create = {
+    AS_SERVER_ONLY("AS_fnc_mission_create");
+    params ["_type", "_NATOsupport", ["_params", []]];
+    private _mission = [_type, ""] call AS_fnc_mission_add;
+    [-_NATOsupport, 0] call AS_fnc_changeForeignSupport;
+    [_mission, "NATOsupport", AS_P("NATOsupport")] call AS_fnc_mission_set;
+    {
+        _x params ["_name", "_value"];
+        [_mission, _name, _value] call AS_fnc_mission_set;
+    } forEach _params;
+    _mission call AS_fnc_mission_activate;
 };
 
 AS_fnc_mission_remove = {["mission",_this] call AS_fnc_object_remove};
@@ -290,6 +304,15 @@ AS_fnc_mission_activate = {
         if (_missionType == "destroy_antenna") exitWith {[_mission] spawn DES_Antena};
         if (_missionType == "repair_antenna") exitWith {[_mission] spawn AS_mis_repair_antenna};
         if (_missionType == "conquer") exitWith {[_mission] spawn AS_mis_conquer};
+
+        if (_missionType == "nato_ammo") exitWith {[_mission] spawn AS_mis_natoAmmo};
+        if (_missionType == "nato_armor") exitWith {[_mission] spawn AS_mis_natoArmor};
+        if (_missionType == "nato_artillery") exitWith {[_mission] spawn AS_mis_natoArtillery};
+        if (_missionType == "nato_uav") exitWith {[_mission] spawn AS_mis_natoUAV};
+        if (_missionType == "nato_qrf") exitWith {[_mission] spawn AS_mis_natoQRF};
+        if (_missionType == "nato_attack") exitWith {[_mission] spawn AS_mis_natoAttack};
+        if (_missionType == "nato_roadblock") exitWith {[_mission] spawn AS_mis_natoRoadblock};
+        if (_missionType == "nato_cas") exitWith {[_mission] spawn AS_mis_natoCAS};
         diag_log format ["[AS] Error: AS_fnc_mission_activate: mission type '%1' does not have script", _missionType];
     };
 };
