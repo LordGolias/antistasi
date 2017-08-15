@@ -1,3 +1,4 @@
+#include "macros.hpp"
 while {AS_S("revealFromRadio")} do {
 	if ((player == leader group player) and ([player] call hasRadio)) then {
 		{
