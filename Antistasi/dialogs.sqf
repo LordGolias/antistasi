@@ -101,7 +101,7 @@ AS_fncUI_donateMoney = {
     hint format ["You donated 100 € to %1", name _target];
 };
 
-
+AS_fncUI_natoMissions = compile preProcessFileLineNumbers "dialogs\natoMissions.sqf";
 call compile preProcessFileLineNumbers "dialogs\recruitUnit.sqf";
 call compile preProcessFileLineNumbers "dialogs\recruitSquad.sqf";
 call compile preProcessFileLineNumbers "dialogs\recruitGarrison.sqf";

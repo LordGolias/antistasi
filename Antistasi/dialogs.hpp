@@ -7,6 +7,7 @@
 #include "dialogs\manageMissions.hpp"
 #include "dialogs\buyVehicle.hpp"
 #include "dialogs\HQmenu.hpp"
+#include "dialogs\natoMissions.hpp"
 
 class build_menu
 {
@@ -20,29 +21,6 @@ AS_DIALOG(3,"Building Options", "closeDialog 0; if (player == AS_commander) then
 BTN_M(1,-1,"Manage Locations", "", "closeDialog 0; [] spawn AS_fncUI_ManageLocationsMenu;");
 BTN_M(2,-1,"Build Minefield", "", "closeDialog 0; createDialog ""AS_createMinefield"";");
 BTN_M(3, -1, "HQ Fortifications", "", "closeDialog 0; nul= createDialog ""HQ_fort_dialog"";");
-	};
-};
-
-class NATO_Options
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(5,"NATO support", "closeDialog 0; createDialog ""radio_comm_commander"";");
-
-BTN_L(1,-1,"Attack Mission", "Cost: 20 points", "closeDialog 0; [""NATOCA""] execVM ""NatoDialog.sqf"";");
-BTN_L(2,-1,"Armored Column", "Cost: 20 points", "closeDialog 0; [""NATOArmor""] execVM ""NatoDialog.sqf"";");
-BTN_L(3,-1,"Artillery", "Cost: 10 points", "closeDialog 0; [""NATOArty""] execVM ""NatoDialog.sqf"";");
-BTN_L(4,-1,"Roadblock", "Cost: 10 points", "closeDialog 0; [""NATORoadblock""] execVM ""NatoDialog.sqf"";");
-
-BTN_R(1,-1,"NATO UAV", "Cost: 10 points", "closeDialog 0; [""NATOUAV""] execVM ""NatoDialog.sqf"";");
-BTN_R(2,-1,"Ammodrop", "Cost: 5 points", "closeDialog 0; [""NATOAmmo""] execVM ""NatoDialog.sqf"";");
-BTN_R(3,-1,"CAS Support", "Cost: 10 points", "closeDialog 0; [""NATOCAS""] execVM ""NatoDialog.sqf"";");
-BTN_R(4,-1,"Bomb Run", "Cost: 10 points", "closeDialog 0; createDialog ""carpet_bombing"";");
-
-BTN_M(5, -1, "NATO QRF", "Cost: 10 points", "closeDialog 0; [""NATOQRF""] execVM ""NatoDialog.sqf"";");
 	};
 };
 
@@ -148,7 +126,7 @@ class carpet_bombing
 
 	class controls
 	{
-AS_DIALOG(2,"Carpet Bombing Strike","closeDialog 0; nul = createDialog ""NATO_Options"";");
+AS_DIALOG(2,"Carpet Bombing Strike","closeDialog 0; nul = createDialog ""NATO_Missions"";");
 
 BTN_L(1,-1, "HE Bombs", "Cost: 10 points", "closeDialog 0; [""HE""] execVM ""REINF\NATObomb.sqf"";");
 BTN_R(1,-1, "Carpet Bombing", "Cost: 10 points", "closeDialog 0; [""CARPET""] execVM ""REINF\NATObomb.sqf"";");
@@ -454,7 +432,7 @@ BTN_L(2,-1, "Disguise Yourself", "", "closeDialog 0; nul = [] spawn undercover")
 BTN_L(3,-1, "Vehicle Manager", "", "closeDialog 0; nul = createDialog ""vehicle_manager"";");
 BTN_L(4,-1, "AI Management", "", "if (player == leader group player) then {closeDialog 0; nul = createDialog ""AI_management""} else {hint ""Only group leaders may access to this option""};");
 
-BTN_R(1,-1, "NATO Options", "", "closeDialog 0; nul=CreateDialog ""NATO_Options"";");
+BTN_R(1,-1, "NATO Support", "", "closeDialog 0; createDialog ""NATO_Missions"";");
 BTN_R(2,-1, "Recruit Squad", "", "closeDialog 0; [] spawn AS_fncUI_RecruitSquadMenu;");
 BTN_R(3,-1, "Building Options", "", "closeDialog 0; nul=CreateDialog ""build_menu"";");
 BTN_R(4,-1, "Player and Money", "", "closeDialog 0; if (isMultiPlayer) then {nul = createDialog ""player_money""} else {hint ""MP Only Menu""};");
