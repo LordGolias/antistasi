@@ -43,7 +43,7 @@ AS_fnc_mission_location = {
 AS_fnc_mission_add = {
     params ["_type", "_location"];
     private _name = format ["%1_%2", _type, _location];
-    ["mission", _name, true] call AS_fnc_object_add;
+    ["mission", _name] call AS_fnc_object_add;
     [_name, "status", "possible"] call AS_fnc_mission_set;
     [_name, "type", _type] call AS_fnc_mission_set;
     [_name, "location", _location] call AS_fnc_mission_set;

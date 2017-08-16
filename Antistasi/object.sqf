@@ -4,10 +4,10 @@ This API uses atomic read/write/delete.
 The first level is named "containers", the second "objects". I.e. containers contain objects.
 
 How to use:
-    * add container: AS_fnc_container_add(container)
+    * add container: AS_fnc_container_add(container, isGlobal)
     * remove container: AS_fnc_container_remove(container)
 
-    * add object: `AS_fnc_object_add(container, name, isGlobal=false)`
+    * add object: `AS_fnc_object_add(container, name)`
     * remove object: `AS_fnc_object_remove(container, name)`
     * set property: `AS_fnc_object_set(container, name, property, value)`
     * get property: `AS_fnc_object_get(container, name, property)`
@@ -21,7 +21,7 @@ How to use:
 
     Rules:
     1. container, object, and property names must be unique and cannot start with `_`.
-    2. `isGlobal` defines whether the object is global or local
+    2. `isGlobal` defines whether the container (and its objects) is global or local
 */
 
 // These defines are used for atomicity:
@@ -100,7 +100,7 @@ AS_fnc_object_properties = {
 ////////////////////////////////// Setters ////////////////////////////////
 
 AS_fnc_container_add = {
-    params ["_container"];
+    params ["_container", "_isGlobal"];
     READ;
     WRITE;
 
@@ -124,9 +124,10 @@ AS_fnc_container_add = {
     _containers pushBack _container;
     AS_containers setVariable ["_all", _containers, true];
     private _containerObj = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
-    AS_containers setVariable [_container, _containerObj, true];
+    AS_containers setVariable [_container, _containerObj, _isGlobal];
     private _all = [];
     SET_PROPERTY(_container, "_all", _all, true);
+    SET_PROPERTY(_container, "_isGlobal", _isGlobal, true);
     END_WRITE;
 };
 
@@ -144,11 +145,12 @@ AS_fnc_container_remove = {
 // adds an object to a container. The second argument must be a unique name for that container
 // Third argument (_isGlobal) makes the object either local or global (default is local).
 AS_fnc_object_add = {
-    params ["_container", "_object", ["_isGlobal", false]];
+    params ["_container", "_object"];
     READ;
     WRITE;
 
     private _objects = GET_PROPERTY(_container, "_all");
+    private _isGlobal = GET_PROPERTY(_container, "_isGlobal");
 
     if (_object in _objects) exitWith {
         diag_log format ["[AS] Error: object_add: object '%1' already exists in container '%2'.", _object, _container];
@@ -164,8 +166,6 @@ AS_fnc_object_add = {
     SET_PROPERTY(_container, "_all", _objects, _isGlobal);
     SET_PROPERTY(_container, _object + "_" + "_properties", _properties, _isGlobal);
     END_WRITE;
-    // _isGlobal has to be the first property set so next ones are already set correctly.
-    [_container, _object, "_isGlobal", _isGlobal] call AS_fnc_object_set;
 };
 
 // Sets a property of an object
@@ -174,7 +174,7 @@ AS_fnc_object_set = {
     READ;
     WRITE;
 
-    if (_property != "_isGlobal" and (_property find "_") == 0) exitWith {
+    if ((_property find "_") == 0) exitWith {
         diag_log format ["[AS] Error: object_set: properties cannot start with '_' but '%1' does (%2, %3, %4).", _property, _container, _object, _value];
         END_WRITE;
     };
@@ -184,13 +184,7 @@ AS_fnc_object_set = {
         END_WRITE;
     };
 
-    // when isGlobal is set itself, we need to be careful:
-    private _isGlobal = false;
-    if (_property == "_isGlobal") then {
-        _isGlobal = _value;
-    } else {
-        _isGlobal = GET_OBJECT_PROPERTY(_container, _object, "_isGlobal");
-    };
+    private _isGlobal = GET_PROPERTY(_container, "_isGlobal");
 
     private _properties = GET_OBJECT_PROPERTY(_container, _object, "_properties");
     _properties pushBack _property;
@@ -212,7 +206,7 @@ AS_fnc_object_del = {
         diag_log format ["[AS] Error: AS_fnc_object_del: object '%1' does not exist in container '%2'", _object, _container];
         END_WRITE;
     };
-    private _isGlobal = GET_OBJECT_PROPERTY(_container, _object, "_isGlobal");
+    private _isGlobal = GET_PROPERTY(_container, "_isGlobal");
 
     private _properties = GET_OBJECT_PROPERTY(_container, _object, "_properties");
     _properties = _properties - [_property];
@@ -233,7 +227,7 @@ AS_fnc_object_remove = {
         diag_log format ["[AS] Error: object_remove: object '%1' cannot be removed from container '%2' because it does not exist.", _object, _container];
         END_WRITE;
     };
-    private _isGlobal = GET_OBJECT_PROPERTY(_container, _object, "_isGlobal");
+    private _isGlobal = GET_PROPERTY(_container, "_isGlobal");
 
     // its properties
     {
@@ -273,8 +267,7 @@ AS_fnc_object_load = {
     private _objects = [_saveName, "AS_containers_" + _container] call fn_LoadStat;
     {
         private _object = _x;
-        private _isGlobal = [_saveName, format[_key, _container, _object, "_isGlobal"]] call fn_LoadStat;
-        [_container, _object, _isGlobal] call AS_fnc_object_add;
+        [_container, _object] call AS_fnc_object_add;
 
         private _properties = [_saveName, format[_key, _container, _object, "_properties"]] call fn_LoadStat;
         {

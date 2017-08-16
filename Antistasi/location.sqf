@@ -145,7 +145,7 @@ AS_fnc_location_cities = {
 // taks ownership of it. Every location requires a different marker.
 AS_fnc_location_add = {
     params ["_marker", "_type"];
-    ["location", _marker, true] call AS_fnc_object_add;
+    ["location", _marker] call AS_fnc_object_add;
     [_marker, "type", _type, false] call AS_fnc_location_set;
     [_marker, "position", getMarkerPos _marker, false] call AS_fnc_location_set;
     _marker call AS_fnc_location_init;
