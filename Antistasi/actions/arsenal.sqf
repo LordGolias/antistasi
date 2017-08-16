@@ -1,7 +1,4 @@
-private ["_box","_unit","_computeAll"];
-
-_box = _this select 0;
-_unit = _this select 1;
+params ["_box", "_unit"];
 
 // if the box is not "caja", then transfer everything to caja.
 // This guarantees that the player still has access to everything.
@@ -10,13 +7,12 @@ if (_box != caja) then {
 };
 
 // Get all stuff in the unit before going to the arsenal
-_old_cargo = [_unit, true] call AS_fnc_getUnitArsenal;
+private _old_cargo = [_unit, true] call AS_fnc_getUnitArsenal;
 
 // specify what is available in the arsenal.
 ([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 
 // add allowed stuff.
-//["AmmoboxInit",[caja, false,{true}]] call BIS_fnc_arsenal;
 caja setvariable ["bis_addVirtualWeaponCargo_cargo",nil,true];  // see http://stackoverflow.com/a/43194611/7808917
 [caja,(_cargo_w select 0) + unlockedWeapons, true] call BIS_fnc_addVirtualWeaponCargo;
 [caja,(_cargo_m select 0) + unlockedMagazines, true] call BIS_fnc_addVirtualMagazineCargo;
@@ -28,7 +24,7 @@ caja setvariable ["bis_addVirtualWeaponCargo_cargo",nil,true];  // see http://st
 // wait for the arsenal to close.
 waitUntil {isnull ( uinamespace getvariable "RSCDisplayArsenal" )};
 
-_new_cargo = [_unit, true] call AS_fnc_getUnitArsenal;
+private _new_cargo = [_unit, true] call AS_fnc_getUnitArsenal;
 
 // we update the value since during the wait someone may have removed the last weapon.
 ([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
