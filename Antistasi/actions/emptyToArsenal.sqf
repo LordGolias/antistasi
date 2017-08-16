@@ -34,6 +34,6 @@ if AS_S("lockTransfer") exitWith {
 };
 
 "Unloading ammobox..." call _hint;
-[_truck, caja] remoteExec ["munitionTransfer", 2];
+[_truck, caja] remoteExec ["AS_fnc_transferToBox", 2];
 waitUntil {not AS_S("lockTransfer", false)};  // lockTransfer is false once the transfer is completed
 "Ammobox Loaded" call _hint;

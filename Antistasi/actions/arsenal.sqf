@@ -3,7 +3,7 @@ params ["_box", "_unit"];
 // if the box is not "caja", then transfer everything to caja.
 // This guarantees that the player still has access to everything.
 if (_box != caja) then {
-    [_box, caja] call munitionTransfer;
+    [_box, caja] call AS_fnc_transferToBox;
 };
 
 // Get all stuff in the unit before going to the arsenal

@@ -117,7 +117,7 @@ if (_wasDestroyed) then {
 	};
 } else {
 	if (_type == "camp") then {
-		[_campBox, caja] call munitionTransfer;
+		[_campBox, caja] call AS_fnc_transferToBox;
 	};
 };
 

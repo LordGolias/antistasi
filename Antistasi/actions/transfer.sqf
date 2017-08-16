@@ -60,7 +60,7 @@ if (_cuenta > 0) then {
   			sleep 0.1;
 		if !(_cuenta > _counter) then
 			{
-			[_caja,_camion] remoteExec ["munitionTransfer",2];
+			[_caja,_camion] remoteExec ["AS_fnc_transferToBox",2];
             [petros,"hint","Truck Loaded"] remoteExec ["commsMP", driver _camion];
 			_proceder = true;
 			};
