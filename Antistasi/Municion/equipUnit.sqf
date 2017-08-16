@@ -12,8 +12,8 @@ private _fnc_equipUnit = {
         [_unit, _weapon, 0, 0] call BIS_fnc_addWeapon;
 
         for "_i" from 0 to (count (_mags select 0) - 1) do {
-            _name = (_mags select 0) select _i;
-            _amount = (_mags select 1) select _i;
+            private _name = (_mags select 0) select _i;
+            private _amount = (_mags select 1) select _i;
             _unit addMagazines [_name, _amount];
         };
     };
@@ -42,8 +42,8 @@ if (_backpack != "") then {
 
         private _j = 0;
         while {!_isFull and _j < _amount} do {
-            _fits = _unit canAddItemToBackpack _name;
-            if (_fits) then {
+            private _fits = _unit canAddItemToBackpack _name;
+            if _fits then {
                 _unit addItemToBackpack _name;
             } else {
                 _isFull = true;
@@ -63,8 +63,8 @@ while {!_isFull and _i < count _uniformItems} do {
 
     private _j = 0;
     while {!_isFull and _j < _amount} do {
-        _fits = _unit canAddItemToUniform _name;
-        if (_fits) then {
+        private _fits = _unit canAddItemToUniform _name;
+        if _fits then {
             _unit addItemToUniform _name;
         } else {
             _isFull = true;
@@ -96,12 +96,15 @@ if (_scope != "") then {
 
 // remove from box stuff that was used.
 private _cargo = [_unit, true] call AS_fnc_getUnitArsenal;
+waitUntil {not AS_S("lockTransfer")};
+AS_Sset("lockTransfer", true);
 ([caja] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 private _cargo_w = [_cargo_w, _cargo select 0, false] call AS_fnc_mergeCargoLists;
 private _cargo_m = [_cargo_m, _cargo select 1, false] call AS_fnc_mergeCargoLists;
 private _cargo_i = [_cargo_i, _cargo select 2, false] call AS_fnc_mergeCargoLists;
 private _cargo_b = [_cargo_b, _cargo select 3, false] call AS_fnc_mergeCargoLists;
 [caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true, true] call AS_fnc_populateBox;
+AS_Sset("lockTransfer", false);
 
 
 if (hayTFAR) then {

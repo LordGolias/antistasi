@@ -248,6 +248,9 @@ AS_Pset("maxAISkill",0.9); // The maximum skill of the AAF/FIA AI (at highest sk
 // S of [s]hared. These variables are not saved persistently.
 AS_Sset("revealFromRadio",false);
 
+// Used to make a transfer to `caja` atomic
+AS_Sset("lockTransfer", false);
+
 // This sets whether the CSAT can attack or not. The FIA has an option to block
 // attacks by jamming radio signals (close to flags with towers)
 AS_Sset("blockCSAT", false);

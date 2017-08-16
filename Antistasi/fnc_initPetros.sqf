@@ -64,6 +64,8 @@ petros addMPEventHandler ["mpkilled", {
                 ["FIA_HQ", "garrison", []] call AS_fnc_location_set;
 
 				// remove 1/2 of every item.
+                waitUntil {not AS_S("lockTransfer")};
+                AS_Sset("lockTransfer", true);
 				([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 				{
 					private _values = _x select 1;
@@ -74,6 +76,7 @@ petros addMPEventHandler ["mpkilled", {
 				} forEach [_cargo_w, _cargo_m, _cargo_i, _cargo_b];
 
 				[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true, true] call AS_fnc_populateBox;
+                AS_Sset("lockTransfer", false);
 
                 [] remoteExec ["fnc_MAINT_arsenal", 2];
 

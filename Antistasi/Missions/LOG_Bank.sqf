@@ -53,8 +53,7 @@ sleep 1;
 _position = _bank buildingPos 1;
 
 private _fnc_clean = {
-	[_truck, caja] remoteExec ["AS_fnc_transferToBox", 2];
-	waitUntil {not AS_S("lockTransfer")};
+	[_truck, caja] call AS_fnc_transferToBox;
 	[[_grupo], [_truck], [_mrk, _mrkfin]] call AS_fnc_cleanResources;
 
 	sleep 30;

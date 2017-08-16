@@ -4,7 +4,7 @@ params ["_origin", "_destination"];
 private _restrict_to_locked = false;
 if (_destination == caja) then {
 	_restrict_to_locked = true;
-	waitUntil {not AS_S("lockTransfer", false)};
+	waitUntil {not AS_S("lockTransfer")};
 	AS_Sset("lockTransfer", true);
 };
 

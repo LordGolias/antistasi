@@ -53,8 +53,7 @@ if (_veh in reportedVehs) then {
 	publicVariable "reportedVehs"
 };
 [_veh, false] remoteExec ["AS_fnc_changePersistentVehicles", 2];
-[_veh, caja] remoteExec ["AS_fnc_transferToBox", 2];
-waitUntil {not AS_S("lockTransfer")};
+[_veh, caja] call AS_fnc_transferToBox;
 deleteVehicle _veh;
 
 if ((count FIA_texturedVehicles > 0) && !(_type in FIA_texturedVehicles)) then {

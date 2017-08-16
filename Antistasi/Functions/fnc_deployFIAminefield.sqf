@@ -130,9 +130,12 @@ private _vehType = (AS_FIArecruitment getVariable "land_vehicles") select 0;
 private _cost = (2*(AS_data_allCosts getVariable "Explosives Specialist")) + ([_vehType] call FIAvehiclePrice);
 [-2,-_cost] remoteExec ["resourcesFIA",2];
 
+waitUntil {not AS_S("lockTransfer")};
+AS_Sset("lockTransfer", true);
 ([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 _cargo_m = [_cargo_m, [[_type call AS_fnc_mineMag], [count _positions]], true] call AS_fnc_mergeCargoLists;  // true -> remove from _cargo_m
 [caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true, true] call AS_fnc_populateBox;
+AS_Sset("lockTransfer", false);
 
 // create the mission
 private _mission = ["fia_minefield", ""] call AS_fnc_mission_add;

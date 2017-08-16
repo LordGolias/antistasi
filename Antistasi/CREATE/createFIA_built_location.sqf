@@ -102,7 +102,7 @@ if (_wasAbandoned or _wasDestroyed) then {
 if (_wasDestroyed) then {
 	if (_type == "camp") then {
 		// remove 10% of every item (rounded up) from caja
-		waitUntil {not AS_S("lockTransfer", false)};
+		waitUntil {not AS_S("lockTransfer")};
 		AS_Sset("lockTransfer", true);
 	    ([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 	    {

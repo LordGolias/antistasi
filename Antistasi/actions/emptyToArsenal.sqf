@@ -29,11 +29,6 @@ private _hint = {
 	};
 };
 
-if AS_S("lockTransfer") exitWith {
-	"Currently unloading another box. Please wait a few seconds." call _hint;
-};
-
 "Unloading ammobox..." call _hint;
-[_truck, caja] remoteExec ["AS_fnc_transferToBox", 2];
-waitUntil {not AS_S("lockTransfer", false)};  // lockTransfer is false once the transfer is completed
+[_truck, caja] call AS_fnc_transferToBox;
 "Ammobox Loaded" call _hint;

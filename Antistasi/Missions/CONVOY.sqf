@@ -185,8 +185,7 @@ private _fnc_clean = {
 
 	// before calling cleanResources
 	if (_missionType in ["convoy_money", "convoy_supplies"]) then {
-		[_vehObj, caja] remoteExec ["AS_fnc_transferToBox", 2];
-		waitUntil {not AS_S("lockTransfer")};
+		[_vehObj, caja] call AS_fnc_transferToBox;
 		reportedVehs = reportedVehs - [_vehObj];
 		publicVariable "reportedVehs";
 	};
