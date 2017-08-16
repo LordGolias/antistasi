@@ -183,16 +183,18 @@ private _fnc_clean = {
 	_wp0 setWaypointSpeed "LIMITED";
 	_wp0 setWaypointFormation "COLUMN";
 
+	// before calling cleanResources
+	if (_missionType in ["convoy_money", "convoy_supplies"]) then {
+		[_vehObj, caja] remoteExec ["munitionTransfer", 2];
+		waitUntil {not AS_S("lockTransfer")};
+		reportedVehs = reportedVehs - [_vehObj];
+		publicVariable "reportedVehs";
+	};
+
 	[_groups, _vehicles] call AS_fnc_cleanResources;
     sleep 30;
     [_task] call BIS_fnc_deleteTask;
     _mission call AS_fnc_mission_completed;
-
-	if (_missionType in ["convoy_money", "convoy_supplies"]) then {
-		[_vehObj] call vaciar;
-		reportedVehs = reportedVehs - [_vehObj];
-		publicVariable "reportedVehs";
-	};
 };
 private _fnc_missionFailedCondition = call {
 	if (_missionType in ["convoy_money", "convoy_armor", "convoy_ammo", "convoy_supplies"]) exitWith {

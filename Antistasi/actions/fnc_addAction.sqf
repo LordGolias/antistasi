@@ -40,7 +40,7 @@ switch _type do {
 	case "moveObject" : {_object addAction [localize "STR_act_moveAsset", "actions\moveObject.sqf",nil,0,false,true,"",IS_COMMANDER]};
 	case "deploy" : {_object addAction [localize "STR_act_buildPad", {[_this select 0, _this select 1] remoteExec ["fnc_deployPad", 2]},nil,0,false,true,"",IS_COMMANDER]};
 	case "arsenal" : {_object addAction [localize "STR_act_arsenal", "actions\arsenal.sqf",nil,0,false,true,"","(isPlayer _this)"]};
-	case "emptyCrate" : {_object addAction [localize "STR_act_unloadCargo", {[] call vaciar},nil,0,false,true,"","(isPlayer _this)"]};
+	case "emptyCrate" : {_object addAction [localize "STR_act_unloadCargo", "actions\emptyToArsenal.sqf",nil,0,false,true,"","(isPlayer _this)"]};
 
 	default {
 		diag_log format ["[AS] Error: AS_fnc_addAction: invalid action type '%1'", _type];

@@ -46,20 +46,16 @@ if _hasPermission then {
 
 if not _hasPermission exitWith {hint _text};
 
-if AS_S("lockTransfer") exitWith {
-	hint "this vehicle is currently being loaded or unloaded";
-};
-
 //////////// Checks completed ////////////
 
-[_veh, false] remoteExec ["AS_fnc_changePersistentVehicles", 2];
-
-[_veh] call vaciar;
-deleteVehicle _veh;
 if (_veh in reportedVehs) then {
 	reportedVehs = reportedVehs - [_veh];
 	publicVariable "reportedVehs"
 };
+[_veh, false] remoteExec ["AS_fnc_changePersistentVehicles", 2];
+[_veh, caja] remoteExec ["munitionTransfer", 2];
+waitUntil {not AS_S("lockTransfer")};
+deleteVehicle _veh;
 
 if ((count FIA_texturedVehicles > 0) && !(_type in FIA_texturedVehicles)) then {
 	for "_i" from 0 to (count FIA_texturedVehicleConfigs - 1) do {

@@ -102,6 +102,8 @@ if (_wasAbandoned or _wasDestroyed) then {
 if (_wasDestroyed) then {
 	if (_type == "camp") then {
 		// remove 10% of every item (rounded up) from caja
+		waitUntil {not AS_S("lockTransfer", false)};
+		AS_Sset("lockTransfer", true);
 	    ([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 	    {
 	        _values = _x select 1;
@@ -111,6 +113,7 @@ if (_wasDestroyed) then {
 	        };
 	    } forEach [_cargo_w, _cargo_m, _cargo_i, _cargo_b];
 	    [caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true, true] call AS_fnc_populateBox;
+		AS_Sset("lockTransfer", false);
 	};
 } else {
 	if (_type == "camp") then {

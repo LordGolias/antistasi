@@ -101,7 +101,6 @@ smokeCoverAuto = compile preProcessFileLineNumbers "AI\smokeCoverAuto.sqf";
 landThreatEval = compile preProcessFileLineNumbers "AI\landThreatEval.sqf";
 mortarPos = compile preProcessFileLineNumbers "CREATE\mortarPos.sqf";
 isMember = compile preProcessFileLineNumbers "orgPlayers\isMember.sqf";
-vaciar = compile preProcessFileLineNumbers "Municion\vaciar.sqf";
 artySupport = compile preProcessFileLineNumbers "AI\artySupport.sqf";
 teclas = compile preProcessFileLineNumbers "teclas.sqf";
 AS_fnc_unitsAtDistance = compile preProcessFileLineNumbers "fnc_unitsAtDistance.sqf";
@@ -204,7 +203,6 @@ expandGroup = compile preProcessFileLineNumbers "CREATE\expandGroup.sqf";
 enemyQRF = compile preprocessFileLineNumbers "CREATE\enemyQRF.sqf";
 compNATORoadblock = compile preprocessFileLineNumbers "Compositions\cmpNATO_RB.sqf";
 pBarMP = compile preProcessFileLineNumbers "pBarMP.sqf";
-suspendTransfer = compile preProcessFileLineNumbers "Municion\suspendTransfer.sqf";
 attackWaves = compile preprocessFileLineNumbers "Scripts\attackWaves.sqf";
 teleport = compile preprocessFileLineNumbers "teleport.sqf";
 

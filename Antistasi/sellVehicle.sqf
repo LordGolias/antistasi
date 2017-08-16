@@ -34,12 +34,13 @@ _cost = _cost * (1 - damage _veh);
 
 [0,_cost] remoteExec ["resourcesFIA", 2];
 
-[_veh, false] remoteExec ["AS_fnc_changePersistentVehicles", 2];
 if (_veh in reportedVehs) then {
-	reportedVehs = reportedVehs - [_veh]; publicVariable "reportedVehs"
+	reportedVehs = reportedVehs - [_veh];
+	publicVariable "reportedVehs"
 };
-
-[_veh] call vaciar;
+[_veh, false] remoteExec ["AS_fnc_changePersistentVehicles", 2];
+[_veh, caja] remoteExec ["munitionTransfer", 2];
+waitUntil {not AS_S("lockTransfer")};
 deleteVehicle _veh;
 
 hint "Vehicle Sold";

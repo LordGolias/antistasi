@@ -1,15 +1,17 @@
 #include "../macros.hpp"
-AS_SERVER_ONLY("municionTransfer.sqf");
-private ["_subCosa","_municion"];
-_origin = _this select 0;
-_destiny = _this select 1;
+params ["_origin", "_destination"];
+
+private _restrict_to_locked = false;
+if (_destination == caja) then {
+	_restrict_to_locked = true;
+	waitUntil {not AS_S("lockTransfer", false)};
+	AS_Sset("lockTransfer", true);
+};
 
 ([_origin] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
-
-_restrict_to_locked = false;
-if (_destiny == caja) then {
-	_restrict_to_locked = true;
-};
-[_destiny, _cargo_w, _cargo_m, _cargo_i, _cargo_b, _restrict_to_locked] call AS_fnc_populateBox;
-
+[_destination, _cargo_w, _cargo_m, _cargo_i, _cargo_b, _restrict_to_locked] call AS_fnc_populateBox;
 [_origin] call emptyCrate;
+
+if (_destination == caja) then {
+	AS_Sset("lockTransfer", false);
+};

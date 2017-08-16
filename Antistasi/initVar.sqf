@@ -252,9 +252,6 @@ AS_Sset("revealFromRadio",false);
 // attacks by jamming radio signals (close to flags with towers)
 AS_Sset("blockCSAT", false);
 
-// todo: document these variables...
-AS_Sset("lockTransfer", false);
-
 // todo: this option is not being saved, so it is irrelevant. Consider removing.
 AS_Sset("enableWpnProf",false); // class-based weapon proficiences, MP only
 

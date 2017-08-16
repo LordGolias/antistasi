@@ -53,7 +53,8 @@ sleep 1;
 _position = _bank buildingPos 1;
 
 private _fnc_clean = {
-	[_truck] call vaciar;
+	[_truck, caja] remoteExec ["munitionTransfer", 2];
+	waitUntil {not AS_S("lockTransfer")};
 	[[_grupo], [_truck], [_mrk, _mrkfin]] call AS_fnc_cleanResources;
 
 	sleep 30;
