@@ -7,9 +7,9 @@ if (_veh distance getMarkerPos "FIA_HQ" > 50) exitWith {hint "Vehicle must be cl
 
 if ({isPlayer _x} count crew _veh > 0) exitWith {hint "Vehicle must be empty (people)."};
 
-private _owner = _veh getVariable "duenyo";
+private _owner = _veh getVariable "AS_vehOwner";
 if ((!isNil "_owner") and {_owner isEqualType ""} and {getPlayerUID player != _owner}) exitWith {
-	hint "You are not owner of this vehicle and you cannot sell it"
+	hint "You do not own this vehicle";
 };
 
 private _tipoVeh = typeOf _veh;

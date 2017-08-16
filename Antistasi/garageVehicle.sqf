@@ -16,14 +16,9 @@ if (_veh isKindOf "Man") exitWith {hint "Are you kidding?"};
 
 if (not(_veh isKindOf "AllVehicles")) exitWith {hint "The vehicle you are looking cannot be kept in our Garage"};
 
-private _exit = false;
-if not _toFIAgarage then {
-	private _owner = _veh getVariable "duenyo";
-	if ((not isNil "_owner") and {_owner isEqualType ""} and {getPlayerUID player != _owner}) then {
-		_exit = true
-	};
+if (not _toFIAgarage and {private _owner = _veh getVariable "AS_vehOwner"; (not isNil "_owner") and {getPlayerUID player != _owner}}) exitWith {
+	hint "You do not own this vehicle"
 };
-if _exit exitWith {hint "You do not own this vehicle"};
 
 private _hasPermission = true;
 private _checkText = "";

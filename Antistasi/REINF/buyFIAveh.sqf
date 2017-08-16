@@ -29,7 +29,7 @@ private _veh = _type createVehicle _pos;
 
 if (isMultiPlayer and player != AS_commander) then {
 	[-_coste] call resourcesPlayer;
-	_veh setVariable ["duenyo", getPlayerUID player, true];
+	_veh setVariable ["AS_vehOwner", getPlayerUID player, true];
 } else {
 	[0,-_coste] remoteExec ["resourcesFIA",2];
 };

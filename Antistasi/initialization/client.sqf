@@ -111,19 +111,16 @@ player addEventHandler ["GetInMan", {
 	private _unit = _this select 0;
 	private _veh = _this select 2;
 	private _exit = false;
-	if (isMultiplayer) then {
-		private _owner = _veh getVariable "duenyo";
-		if (!isNil "_owner") then {
-			if (_owner isEqualType "") then {
-				if ({getPlayerUID _x == _owner} count (units group player) == 0) then {
-					hint "You cannot board other player vehicle if you are not in the same group";
-					moveOut _unit;
-					_exit = true;
-				};
-			};
+	if isMultiplayer then {
+		private _owner = _veh getVariable "AS_vehOwner";
+		if (!isNil "_owner" and
+            {{getPlayerUID _x == _owner} count (units group player) == 0}) then {
+			hint "You can only enter in other's vehicle if you are in its group";
+			moveOut _unit;
+			_exit = true;
 		};
 	};
-	if (!_exit) then {
+	if not _exit then {
 		if (((typeOf _veh) in arrayCivVeh) or ((typeOf _veh) == civHeli)) then {
 			if (!(_veh in reportedVehs)) then {
 				[] spawn undercover;

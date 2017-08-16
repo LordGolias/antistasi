@@ -118,7 +118,7 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown",
 					if ((_x != (vehInGarageShow select cuentaGarage)) or (_found)) then {_newArr pushBack _x} else {_found = true};
 					} forEach personalGarage;
 					personalGarage = _newArr;
-					garageVeh setVariable ["duenyo",getPlayerUID player,true];
+					garageVeh setVariable ["AS_vehOwner", getPlayerUID player, true];
 					};
 				if (garageVeh isKindOf "StaticWeapon") then {
 					[garageVeh] remoteExec ["AS_fnc_changePersistentVehicles", 2];
