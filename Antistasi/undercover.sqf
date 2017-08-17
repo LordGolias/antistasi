@@ -1,4 +1,4 @@
-if (player != player getVariable ["owner",player]) exitWith {hint "You cannot go Undercover while you are controlling AI"};
+if (call AS_fnc_controlsAI) exitWith {hint "You cannot go Undercover while you are controlling AI"};
 if (captive player) exitWith {hint "You are in Undercover already"};
 
 // bases spots non-heli

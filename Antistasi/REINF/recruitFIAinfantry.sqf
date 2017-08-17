@@ -6,7 +6,7 @@ if (not([player] call isMember)) exitWith {hint "Only server members can recruit
 
 if (!allowPlayerRecruit) exitWith {hint "Server is very loaded. \nWait one minute or change FPS settings in order to fulfill this request"};
 
-if (player != player getVariable ["owner",player]) exitWith {hint "You cannot buy units while you are controlling AI"};
+if (call AS_fnc_controlsAI) exitWith {hint "You cannot buy units while you are controlling AI"};
 
 if (player != leader group player) exitWith {hint "You cannot recruit units as you are not your group leader"};
 

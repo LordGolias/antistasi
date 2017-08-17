@@ -71,7 +71,7 @@ AS_fncUI_toggleElegibility = {
 AS_fncUI_donateMoney = {
     params [["_toCursorTarget", false]];
 
-    if (player != player getVariable ["owner", player]) exitWith {
+    if (call AS_fnc_controlsAI) exitWith {
     	hint "You can't donate when you are controlling an AI";
     };
 

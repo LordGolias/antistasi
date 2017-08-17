@@ -1,10 +1,8 @@
 #include "macros.hpp"
-private ["_pool","_vehInGarage","_chequeo"];
+params [["_pool", false]];
 
-_pool = true;
-if (_this select 0) then {_pool = false};
 if (_pool and (not([player] call isMember))) exitWith {hint "You cannot access the Garage as you are guest in this server"};
-if (player != player getVariable "owner") exitWith {hint "You cannot access the Garage while you are controlling AI"};
+if (call AS_fnc_controlsAI) exitWith {hint "You cannot access the Garage while you are controlling AI"};
 _chequeo = false;
 {
 	if ((side _x == side_red) and (_x distance player < 500) and (not(captive _x))) then {_chequeo = true};
