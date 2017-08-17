@@ -2,7 +2,7 @@
 params ["_location", ["_fromBase", ""]];
 
 private _debug_prefix = format ["patrolCA from '%1' to '%2' cancelled: ", _fromBase, _location];
-if (server getVariable "blockCSAT") exitWith {
+if AS_S("blockCSAT") exitWith {
 	private _message = " blocked";
 	AS_ISDEBUG(_debug_prefix + _message);
 };

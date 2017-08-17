@@ -132,7 +132,7 @@ fnc_protectVehicle = {
 };
 
 fnc_updateProgressBar = {
-	params ["_type", "_formatData", "_percentage", "_varName"];
+	params ["_type", "_formatData", "_percentage"];
 
 	private _PBar = "";
 
@@ -156,11 +156,11 @@ fnc_updateProgressBar = {
 
 	// store the result (the actual showing is not called here)
 	if (_type == "Rank") exitWith {
-		player setVariable [_varName, _PBar, true];
+		player setVariable ["Rank_PBar", _PBar, true];
 	};
 
 	if (_type == "Army XP") exitWith {
-		server setVariable [_varName, _PBar, true];
+		AS_Sset("BE_PBar", _PBar);
 	};
 };
 

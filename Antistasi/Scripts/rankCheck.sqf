@@ -41,7 +41,7 @@ while {true} do {
 	// update the top bar information.
 	private _percentage = (_currentScore / _scoreToPromotion) max 0;
 	private _formatData = ["#1DA81D", "#C1C0BB", _abbreviation, AS_rank_abbreviations select _next_index, "Rank"];
-	["Rank", _formatData, _percentage, "Rank_PBar"] call fnc_updateProgressBar;
+	["Rank", _formatData, _percentage] call fnc_updateProgressBar;
 
 	sleep 60;
 };

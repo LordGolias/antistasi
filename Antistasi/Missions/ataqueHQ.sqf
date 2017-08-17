@@ -8,7 +8,7 @@ private _position = _location call AS_fnc_location_position;
 private _origin = getMarkerPos "spawnCSAT";
 
 private _debug_prefix = "ataqueHQ cancelled: ";
-if (server getVariable "blockCSAT") exitWith {
+if AS_S("blockCSAT") exitWith {
 	private _message = "blocked";
 	AS_ISDEBUG(_debug_prefix + _message);
 };

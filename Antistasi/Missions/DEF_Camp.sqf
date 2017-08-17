@@ -5,7 +5,7 @@ private _position = _location call AS_fnc_location_position;
 
 // only one defence mission at a time, no camp attacks while CSAT coms are being jammed
 private _debug_prefix = format ["DEF_Camp from '%1' to '%2' cancelled: ", _location];
-if (server getVariable "blockCSAT") exitWith {
+if AS_S("blockCSAT") exitWith {
 	private _message = "blocked";
 	AS_ISDEBUG(_debug_prefix + _message);
 };

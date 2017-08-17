@@ -1,8 +1,9 @@
-if (server getVariable "blockCSAT") exitWith {
+#include "../macros.h"
+if AS_S("blockCSAT") exitWith {
 	hint "CSAT frequencies already jammed.";
 };
-if ((server getVariable ["timeToNextJam", 0]) > dateToNumber date) exitWith {
-	hint format ["No technicians available. Wait more %1 minutes", server getVariable "timeToNextJam"];
+if (AS_S("timeToNextJam") > dateToNumber date) exitWith {
+	hint format ["No technicians available. Wait more %1 minutes", AS_S("timeToNextJam")];
 };
 
 private _antenasFIA = 0;
@@ -20,9 +21,7 @@ hint format ["CSAT has lost radio signal and will not be able to attack in the n
 
 private _jtime = dateToNumber [date select 0, date select 1, date select 2, date select 3, (date select 4) + _cd];
 
-server setVariable ["timeToNextJam", _jtime, true];
-server setVariable ["blockCSAT", true, true];
-
+AS_Sset("timeToNextJam", _jtime);
+AS_Sset("blockCSAT", true);
 sleep (_jDuration * 60);
-
-server setVariable ["blockCSAT", false, true];
+AS_Sset("blockCSAT", false);

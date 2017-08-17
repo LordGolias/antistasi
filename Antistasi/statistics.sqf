@@ -27,7 +27,7 @@ if (isMultiplayer) then
 							 player getVariable "money",
 							 AS_P("NATOsupport"),
 							 AS_P("CSATsupport"),
-							 server getVariable "BE_PBar",
+							 AS_S("BE_PBar"),
 							 ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)
 							];
 		}
@@ -39,7 +39,7 @@ if (isMultiplayer) then
 							 AS_P("CSATsupport"),
 							 player getVariable ["Rank_PBar", "Init"],
 							 player getVariable "money",
-							 server getVariable "BE_PBar",
+							 AS_S("BE_PBar"),
 							 ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)
 							];
 		};

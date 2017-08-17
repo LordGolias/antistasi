@@ -13,7 +13,7 @@ private _useCSAT = true;
 private _validTypes = ["base", "airfield", "outpost", "city", "roadblock", "powerplant", "factory", "resource"];
 
 // only attack cities and use CSAT if FIA controls a base or airfield
-if ((random 100 > AS_P("CSATsupport")) or (count _FIAbases == 0) or (server getVariable "blockCSAT")) then {
+if ((random 100 > AS_P("CSATsupport")) or (count _FIAbases == 0) or AS_S("blockCSAT")) then {
 	_validTypes = _validTypes - ["city"];
 	_useCSAT = false;
 };

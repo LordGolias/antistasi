@@ -176,7 +176,7 @@ fnc_BE_updateProgressBar = {
 	if (BE_progressLock) exitWith {
 		_pV = [BE_COLOR_LOCK, BE_COLOR_LOCK, BE_current_FIA_Skill_Cap, BE_current_FIA_Skill_Cap+1, "Army XP"];
 		BE_currentXP = 0;
-		["Army XP", _pV, _cV, "BE_PBar"] call fnc_updateProgressBar;
+		["Army XP", _pV, _cV] call fnc_updateProgressBar;
 	};
 
 	_pV = [BE_COLOR_DONE, BE_COLOR_DEF, _v, _v+1, "Army XP"];
@@ -193,7 +193,7 @@ fnc_BE_updateProgressBar = {
 		[] spawn {sleep 2; [] call fnc_BE_updateProgressBar};
 	};
 
-	["Army XP", _pV, _cV, "BE_PBar"] call fnc_updateProgressBar;
+	["Army XP", _pV, _cV] call fnc_updateProgressBar;
 };
 
 fnc_BE_REQs = {

@@ -2,7 +2,7 @@
 params ["_location"];
 
 private _debug_prefix = format ["combinedCA from '%1' to '%2' cancelled: ", _location];
-if (server getVariable "blockCSAT") exitWith {
+if AS_S("blockCSAT") exitWith {
 	private _message = "blocked";
 	AS_ISDEBUG(_debug_prefix + _message);
 };
@@ -35,7 +35,7 @@ if ((_base=="") and (_aeropuerto=="")) exitWith {
 // check whether CSAT will support
 private _CSAT = false;
 private _prestigeCSAT = AS_P("CSATsupport");
-if ((random 100 < _prestigeCSAT) and (_prestigeCSAT >= 20) and !(server getVariable "blockCSAT")) then {
+if ((random 100 < _prestigeCSAT) and (_prestigeCSAT >= 20) and not AS_S("blockCSAT")) then {
 	_CSAT = true;
 };
 
