@@ -185,10 +185,6 @@ lrRadio = "";
 // as clients will be able to spawn stuff.
 AAFpatrols = 0;
 
-// List of markers and positions that are being patrolled.
-smallCAmrk = [];
-smallCApos = [];
-
 // Names of camps used when the camp is spawned.
 campNames = ["Spaulding","Wagstaff","Firefly","Loophole","Quale","Driftwood","Flywheel","Grunion","Kornblow","Chicolini","Pinky",
 			"Fieramosca","Bulldozer","Bambino","Pedersoli"];
@@ -210,6 +206,10 @@ publicVariable "server";
 
 // AS_Pset(a,b) is a macro to `(AS_persistent setVariable (a,b,true))`.
 // P from persistent as these variables are saved persistently.
+
+// List of locations that are being patrolled.
+AS_Pset("patrollingLocations", []);
+AS_Pset("patrollingPositions", []);
 
 // These are default values for the start.
 AS_Pset("hr",8); //initial HR value

@@ -13,11 +13,9 @@ if (typeName _location == typeName "") then {
 
 // save the marker or position
 if _isLocation then {
-	smallCAmrk pushBackUnique _location;
-	publicVariable "smallCAmrk";
+	AS_Pset("patrollingLocations", AS_P("patrollingLocations") + [_location]);
 } else {
-	smallCApos pushBack _position;
-	publicVariable "smallCApos";
+	AS_Pset("patrollingPositions", AS_P("patrollingPositions") + [_position]);
 };
 
 // lists of spawned stuff to delete in the end.
@@ -135,14 +133,11 @@ if _isLocation then {
 		(time > _tiempo)
 	};
 
-	smallCAmrk = smallCAmrk - [_location];
-	publicVariable "smallCAmrk";
-
+	AS_Pset("patrollingLocations", AS_P("patrollingLocations") - [_location]);
 	waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 } else {
 	waitUntil {sleep 1; !([AS_P("spawnDistance"), _position, "BLUFORSpawn", "boolean"] call AS_fnc_unitsAtDistance)};
-	smallCApos = smallCApos - [_position];
-	publicVariable "smallCApos";
+	AS_Pset("patrollingPositions", AS_P("patrollingPositions") - [_position]);
 };
 
 [_grupos, _vehiculos] call AS_fnc_cleanResources;

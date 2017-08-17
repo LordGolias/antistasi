@@ -21,7 +21,6 @@ petros allowdamage false;
 } forEach AS_P("antenasPos_alive");
 
 [_saveName, "fecha"] call fn_LoadStat;
-[_saveName, "smallCAmrk"] call fn_LoadStat;
 [_saveName, "miembros"] call fn_LoadStat;
 
 [_saveName] call AS_fnc_location_load;
@@ -83,16 +82,10 @@ petros allowdamage true;
  // resume existing attacks in 25 seconds.
 [] spawn {
     sleep 25;
-    private _tmpCAmrk = + smallCAmrk;
-    smallCAmrk = [];
     {
-		private _position = (_x call AS_fnc_location_position);
-    	private _base = [_position] call findBasesForCA;
-    	private _radio = _position call radioCheck;
-    	if ((_base != "") and (_radio) and (_x in mrkFIA) and (not(_x in smallCAmrk))) then {
-        	[_x] remoteExec ["patrolCA",HCattack];
-        	smallCAmrk pushBackUnique _x;
-        };
-    } forEach _tmpCAmrk;
-    publicVariable "smallCAmrk";
+		[_x] remoteExec ["patrolCA",HCattack];
+    } forEach AS_P("patrollingLocations");
+	{
+		[_x] remoteExec ["patrolCA",HCattack];
+    } forEach AS_P("patrollingPositions");
 };

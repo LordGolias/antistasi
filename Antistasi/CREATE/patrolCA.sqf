@@ -41,7 +41,7 @@ if (!_isDirectAttack and !(_position call radioCheck)) exitWith {
 	AS_ISDEBUG(_debug_prefix + _message);
 };
 
-if (_isLocation and !_isDirectAttack and (_location in smallCAmrk)) exitWith {
+if (_isLocation and !_isDirectAttack and (_location in AS_P("patrollingLocations"))) exitWith {
 	private _message = "location being patrolled";
 	AS_ISDEBUG(_debug_prefix + _message);
 };
@@ -49,12 +49,12 @@ if (_isLocation and !_isDirectAttack and (_location in smallCAmrk)) exitWith {
 private _exit = false;
 if (!_isLocation) then {
 	// do not patrol closeby patrol locations.
-	private _closestPatrolPosition = [smallCApos, _position] call BIS_fnc_nearestPosition;
+	private _closestPatrolPosition = [AS_P("patrollingPositions"), _position] call BIS_fnc_nearestPosition;
 	if (_closestPatrolPosition distance _position < (AS_P("spawnDistance")/2)) exitWith {_exit = true;};
 
 	// do not patrol closeby to patrolled markers.
-	if (count smallCAmrk > 0) then {
-		private _closestPatrolMarker = [smallCAmrk, _position] call BIS_fnc_nearestPosition;
+	if (count AS_P("patrollingLocations") > 0) then {
+		private _closestPatrolMarker = [AS_P("patrollingLocations"), _position] call BIS_fnc_nearestPosition;
 		if ((_closestPatrolMarker call AS_fnc_location_position) distance _position < (AS_P("spawnDistance")/2)) then {_exit = true;};
 	};
 };

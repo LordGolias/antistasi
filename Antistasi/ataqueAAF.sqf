@@ -69,7 +69,7 @@ if (_useCSAT) then {
 				_base = "";
 			} else {  // if it is easy,
 				if (_isEasy and (_base != "") and (_count_easy < 4)) then {
-					if !(_location in smallCAmrk) then {
+					if !(_location in AS_P("patrollingLocations")) then {
 						_count_easy = _count_easy + 2;
 						[_location,_base] remoteExec ["patrolCA",HCattack];
 						sleep 15;
@@ -81,7 +81,7 @@ if (_useCSAT) then {
 			}
 			else {
 				if (_isEasy and (_base == "") and (_aeropuerto != "") and (_count_easy < 4)) then {
-					if !(_location in smallCAmrk) then {
+					if !(_location in AS_P("patrollingLocations")) then {
 						_count_easy = _count_easy + 1;
 						[_location,_aeropuerto] remoteExec ["patrolCA",HCattack];
 						sleep 15;

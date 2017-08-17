@@ -16,7 +16,6 @@ private _savingPlayersHandle = ([_saveName] spawn {
 
 [_saveName, "BE_data", ([] call fnc_BE_save)] call fn_SaveStat;
 
-[_saveName, "smallCAmrk", smallCAmrk] call fn_SaveStat;
 [_saveName, "miembros", miembros] call fn_SaveStat;
 [_saveName, "fecha", date] call fn_SaveStat;
 
