@@ -43,9 +43,8 @@ if not _hasPermission exitWith {hint _text};
 
 //////////// Checks completed ////////////
 
-if (_veh in reportedVehs) then {
-	reportedVehs = reportedVehs - [_veh];
-	publicVariable "reportedVehs"
+if (_veh in AS_S("reportedVehs")) then {
+	AS_Sset("reportedVehs", AS_S("reportedVehs") - [_veh]);
 };
 [_veh, false] remoteExec ["AS_fnc_changePersistentVehicles", 2];
 [_veh, caja] call AS_fnc_transferToBox;

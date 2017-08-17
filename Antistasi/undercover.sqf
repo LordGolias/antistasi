@@ -1,3 +1,4 @@
+#include "macros.hpp"
 if (call AS_fnc_controlsAI) exitWith {hint "You cannot go Undercover while you are controlling AI"};
 if (captive player) exitWith {hint "You are in Undercover already"};
 
@@ -32,7 +33,7 @@ if (vehicle player != player) then {
 		hint "You cannot go undercover in a non-civilian vehicle.";
 		_reason = "Init"
 	};
-	if (vehicle player in reportedVehs) then {
+	if (vehicle player in AS_S("reportedVehs")) then {
 		hint "You cannot go undercover in a reported vehicle. Change your vehicle or renew it in the Garage to become undercover.";
 		_reason = "Init";
 	};
@@ -53,7 +54,10 @@ if (call _detectedCondition) exitWith {
 	hint "You cannot become undercover while enemies are spotting you.";
 	if (vehicle player != player) then {
 		{
-		if ((isPlayer _x) and (captive _x)) then {[_x,false] remoteExec ["setCaptive",_x]; reportedVehs pushBackUnique (vehicle player); publicVariable "reportedVehs"}
+			if ((isPlayer _x) and (captive _x)) then {
+				[_x,false] remoteExec ["setCaptive",_x];
+				AS_Sset("reportedVehs", AS_S("reportedVehs") + [vehicle player]);
+			};
 		} forEach ((crew (vehicle player)) + (assignedCargo (vehicle player)) - [player]);
 	};
 };
@@ -92,7 +96,7 @@ while {_reason == ""} do {
 			if (not(_type in _arrayCivVeh)) exitWith {
 				"militaryVehicle"
 			};
-			if (_veh in reportedVehs) exitWith {
+			if (_veh in AS_S("reportedVehs")) exitWith {
 				"compromisedVehicle"
 			};
 			if (_type != civHeli and
@@ -147,8 +151,7 @@ switch _reason do {
 	case "reported": {
 		hint "You have been reported or spotted by the enemy";
 		if (vehicle _player != _player) then {
-			reportedVehs pushBackUnique (vehicle _player);
-			publicVariable "reportedVehs";
+			AS_Sset("reportedVehs", AS_S("reportedVehs") + [vehicle _player]);
 		}
 		else {
 			call _setPlayerCompromised;
@@ -158,13 +161,11 @@ switch _reason do {
 	case "compromisedVehicle": {hint "You entered in a reported vehicle"};
 	case "vehicleWithExplosives": {
 		hint "Explosives spotted on your vehicle";
-		reportedVehs pushBackUnique (vehicle _player);
-		publicVariable "reportedVehs";
+		AS_Sset("reportedVehs", AS_S("reportedVehs") + [vehicle _player]);
 	};
 	case "awayFromRoad": {
 		hint "You went far from roads and have been spotted";
-		reportedVehs pushBackUnique (vehicle _player);
-		publicVariable "reportedVehs";
+		AS_Sset("reportedVehs", AS_S("reportedVehs") + [vehicle _player]);
 	};
 	case "militaryDressed": {
 		hint "You cannot stay undercover with military gear:\n\nweapon in hand\nVest\nHelmet\nNV Googles\nGuerrilla Uniform";
@@ -177,8 +178,7 @@ switch _reason do {
 	case "distanceToLocation": {
 		hint "You went too close to an enemy facility and were spotted.";
 		if (vehicle _player != _player) then {
-			reportedVehs pushBackUnique (vehicle _player);
-			publicVariable "reportedVehs";
+			AS_Sset("reportedVehs", AS_S("reportedVehs") + [vehicle _player]);
 		}
 		else {
 			call _setPlayerCompromised;

@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 private _isJip = false;
 if isNull player then {
     _isJip = true;
@@ -122,7 +123,7 @@ player addEventHandler ["GetInMan", {
 	};
 	if not _exit then {
 		if (((typeOf _veh) in arrayCivVeh) or ((typeOf _veh) == civHeli)) then {
-			if (!(_veh in reportedVehs)) then {
+			if (!(_veh in AS_S("reportedVehs"))) then {
 				[] spawn undercover;
 			};
 		};

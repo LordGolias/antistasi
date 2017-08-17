@@ -17,9 +17,8 @@ waitUntil {
 	{not ([AS_P("spawnDistance"), _vehicle, "BLUFORSpawn", "boolean"] call AS_fnc_unitsAtDistance)}
 };
 
-if (_vehicle in reportedVehs) then {
-	reportedVehs = reportedVehs - [_vehicle];
-	publicVariable "reportedVehs";
+if (_vehicle in AS_S("reportedVehs")) then {
+	AS_Sset("reportedVehs", AS_S("reportedVehs") - [_vehicle]);
 };
 if (_vehicle in AS_P("vehicles")) then {
 	[_vehicle, false] remoteExec ["AS_fnc_changePersistentVehicles", 2];

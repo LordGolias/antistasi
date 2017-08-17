@@ -80,7 +80,7 @@ private _fnc_clean = {
 
 private _truck = createVehicle [_tipoVeh, _poscrash, [], 0, "CAN_COLLIDE"];
 [_truck,"Mission Vehicle"] spawn inmuneConvoy;
-reportedVehs pushBack _truck; publicVariable "reportedVehs";
+AS_Sset("reportedVehs", AS_S("reportedVehs") + [_truck]);
 _vehiculos pushBack _truck;
 
 private _crate1 = "Box_IND_Support_F" createVehicle _poscrash;

@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 params ["_unit"];
 
 _unit setCaptive true;
@@ -30,7 +31,7 @@ while {(captive player) and (captive _unit)} do {
 	sleep 1;
 	private _type = typeOf vehicle _unit;
 	// vehicle reported.
-	if ((vehicle _unit != _unit) and (not(_type in arrayCivVeh) || vehicle _unit in reportedVehs)) exitWith {};
+	if ((vehicle _unit != _unit) and (not(_type in arrayCivVeh) || vehicle _unit in AS_S("reportedVehs"))) exitWith {};
 
 	private _location = [_detectingLocations, _unit] call BIS_fnc_nearestPosition;
 	private _position = _location call AS_fnc_location_position;

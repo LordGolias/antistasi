@@ -255,6 +255,9 @@ AS_Sset("lockTransfer", false);
 // attacks by jamming radio signals (close to flags with towers)
 AS_Sset("blockCSAT", false);
 
+// list of vehicles (objects) that can no longer be used while undercover
+AS_Sset("reportedVehs", []);
+
 // todo: this option is not being saved, so it is irrelevant. Consider removing.
 AS_Sset("enableWpnProf",false); // class-based weapon proficiences, MP only
 
@@ -269,11 +272,6 @@ AS_spawnLoopTime = 1; // seconds between each check of spawn/despawn locations (
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_NCO;
 {AS_data_allCosts setVariable [_x,200,true]} forEach infList_sniper;
 {AS_data_allCosts setVariable [_x,300,true]} forEach infList_officers;
-
-// list of vehicles (objects) that can no longer be used for undercover
-// This is non-persistent as it is a temporary component
-reportedVehs = [];
-publicVariable "reportedVehs";
 
 //TFAR detection and config.
 hayTFAR = false;

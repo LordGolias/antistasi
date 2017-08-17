@@ -164,8 +164,7 @@ if (_missionType == "convoy_prisoners") then {
 	};
 };
 if (_missionType in ["convoy_money", "convoy_supplies"]) then {
-	reportedVehs pushBack _vehObj;
-	publicVariable "reportedVehs";
+	AS_Sset("reportedVehs", AS_S("reportedVehs") + [_vehObj]);
 };
 
 // set everyone in motion
@@ -186,8 +185,7 @@ private _fnc_clean = {
 	// before calling cleanResources
 	if (_missionType in ["convoy_money", "convoy_supplies"]) then {
 		[_vehObj, caja] call AS_fnc_transferToBox;
-		reportedVehs = reportedVehs - [_vehObj];
-		publicVariable "reportedVehs";
+		AS_Sset("reportedVehs", AS_S("reportedVehs") - [_vehObj]);
 	};
 
 	[_groups, _vehicles] call AS_fnc_cleanResources;

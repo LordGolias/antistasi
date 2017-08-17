@@ -1,3 +1,4 @@
+#include "macros.hpp"
 private ["_veh", "_cost"];
 _veh = cursortarget;
 
@@ -34,9 +35,8 @@ _cost = _cost * (1 - damage _veh);
 
 [0,_cost] remoteExec ["resourcesFIA", 2];
 
-if (_veh in reportedVehs) then {
-	reportedVehs = reportedVehs - [_veh];
-	publicVariable "reportedVehs"
+if (_veh in AS_S("reportedVehs")) then {
+	AS_Sset("reportedVehs", AS_S("reportedVehs") - [_veh]);
 };
 [_veh, false] remoteExec ["AS_fnc_changePersistentVehicles", 2];
 [_veh, caja] call AS_fnc_transferToBox;

@@ -65,7 +65,7 @@ if (player == leader _unit) then {
 		_veh = _this select 2;
 
 		if (((typeOf _veh) in arrayCivVeh) || ((typeOf _veh) == civHeli)) then {
-			if !(_veh in reportedVehs) then {
+			if !(_veh in AS_S("reportedVehs")) then {
 				[_soldier] spawn undercoverAI;
 			};
 		};
