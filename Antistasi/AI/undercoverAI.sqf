@@ -1,6 +1,5 @@
-private ["_unit","_behaviour","_primaryWeapon","_secondaryWeapon","_handGunWeapon","_headgear","_hmd","_list","_primaryWeaponItems","_secondaryWeaponItems","_handgunItems"];
+params ["_unit"];
 
-_unit = _this select 0;
 _unit setCaptive true;
 
 _unit disableAI "TARGET";
@@ -8,15 +7,15 @@ _unit disableAI "AUTOTARGET";
 _unit setUnitPos "UP";
 
 // save and remove gear:
-_behaviour = behaviour _unit;
-_primaryWeapon = primaryWeapon _unit call BIS_fnc_baseWeapon;
-_primaryWeaponItems = primaryWeaponItems _unit;
-_secondaryWeapon = secondaryWeapon _unit;
-_secondaryWeaponItems = secondaryWeaponItems _unit;
-_handGunWeapon = handGunWeapon _unit call BIS_fnc_baseWeapon;
-_handgunItems = handgunItems _unit;
-_headgear = headgear _unit;
-_hmd = hmd _unit;
+private _behaviour = behaviour _unit;
+private _primaryWeapon = primaryWeapon _unit call BIS_fnc_baseWeapon;
+private _primaryWeaponItems = primaryWeaponItems _unit;
+private _secondaryWeapon = secondaryWeapon _unit;
+private _secondaryWeaponItems = secondaryWeaponItems _unit;
+private _handGunWeapon = handGunWeapon _unit call BIS_fnc_baseWeapon;
+private _handgunItems = handgunItems _unit;
+private _headgear = headgear _unit;
+private _hmd = hmd _unit;
 
 // remove equipment
 _unit setBehaviour "CARELESS";
@@ -29,7 +28,7 @@ _unit unlinkItem _hmd;
 private _detectingLocations = [["base","roadblock","outpost","outpostAA"], "AAF"] call AS_fnc_location_TS;
 while {(captive player) and (captive _unit)} do {
 	sleep 1;
-	_type = typeOf vehicle _unit;
+	private _type = typeOf vehicle _unit;
 	// vehicle reported.
 	if ((vehicle _unit != _unit) and (not(_type in arrayCivVeh) || vehicle _unit in reportedVehs)) exitWith {};
 
@@ -47,7 +46,7 @@ _unit enableAI "AUTOTARGET";
 _unit setUnitPos "AUTO";
 
 // load and add gear.
-_sinMochi = false;
+private _sinMochi = false;
 if ((backpack _unit == "") and (_secondaryWeapon == "")) then {
 	_sinMochi = true;
 	_unit addbackpack "B_AssaultPack_blk";
