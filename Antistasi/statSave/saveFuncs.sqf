@@ -7,7 +7,8 @@ call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 AS_serverVariables = [
 	"NATOsupport", "CSATsupport", "resourcesAAF", "resourcesFIA", "skillFIA", "skillAAF", "hr",  // FIA attributes
 	"civPerc", "spawnDistance", "minimumFPS", "cleantime",  // game options
-	"secondsForAAFAttack", "destroyedLocations", "vehiclesInGarage", "destroyedBuildings"
+	"secondsForAAFAttack", "destroyedLocations", "vehiclesInGarage", "destroyedBuildings",
+	"antenasPos_alive", "antenasPos_dead"
 ];
 
 // function that saves all AS_serverVariables. The two parameters overwrite the AS_persistent variable value to save.

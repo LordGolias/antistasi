@@ -36,7 +36,7 @@ if (_resourcesAAF > 5000) then {
 		AS_Pset("destroyedLocations", _destroyedCities - _repaired);
 	} else {
 		private _fnc_isNotRepairing = {"repair_antenna" call AS_fnc_active_missions == 0};
-		if ((count AS_antenasPos_dead > 0) and _fnc_isnotRepairing) then {
+		if (call _fnc_isnotRepairing) then {
 			// try to rebuild one antenna.
 			{
 				private _location = _x call AS_fnc_location_nearest;
@@ -48,7 +48,7 @@ if (_resourcesAAF > 5000) then {
 						private _mission = ["repair_antenna", _location] call AS_fnc_mission_add;
 						_mission call AS_fnc_mission_activate;
 				};
-			} forEach AS_antenasPos_dead;
+			} forEach AS_P("antenasPos_dead");
 		};
 	};
 };

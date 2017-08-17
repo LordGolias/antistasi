@@ -5,7 +5,6 @@ AS_SERVER_ONLY("initLocations.sqf");
 
 AS_antenasTypes = [];
 AS_antenasPos_alive = [];
-AS_antenasPos_dead = [];
 
 // tower buiuldings where MGs are placed. If no towers, no MGs are placed.
 AS_MGbuildings = [
@@ -65,9 +64,11 @@ if (worldName == "Altis") then {
     };
 } forEach +AS_antenasPos_alive;
 
-AS_antenasTypes = nil;  // this was only needed for list above.
-publicVariable "AS_antenasPos_alive";
-publicVariable "AS_antenasPos_dead";
+AS_Pset("antenasPos_alive", AS_antenasPos_alive);
+AS_Pset("antenasPos_dead", []);
+// these were only needed for the list above.
+AS_antenasTypes = nil;
+AS_antenasPos_alive = nil;
 publicVariable "AS_destroyable_buildings";
 publicVariable "AS_MGbuildings";
 

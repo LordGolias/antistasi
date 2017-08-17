@@ -310,10 +310,8 @@ AS_fnc_mission_fail_get = {
         [-20, 0, [0, 0], [0, 0], [0, 0, []], -10*60,
             [["AAF antenna is repaired", {
                 params ["_antennaPos"];
-                AS_antenasPos_dead = AS_antenasPos_dead - [_antennaPos];
-            	AS_antenasPos_alive = AS_antenasPos_alive + [_antennaPos];
-            	publicVariable "AS_antenasPos_alive";
-            	publicVariable "AS_antenasPos_dead";
+                AS_Pset("antenasPos_alive", AS_P("antenasPos_alive") + [_antennaPos]);
+                AS_Pset("antenasPos_dead", AS_P("antenasPos_dead") - [_antennaPos]);
                 private _antenna = nearestBuilding _antennaPos;
                 _antenna setDammage 0;
             	_antenna addEventHandler ["Killed", AS_fnc_antennaKilledEH];

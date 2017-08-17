@@ -12,7 +12,7 @@ private _antenasFIA = 0;
 	if (_location call AS_fnc_location_side == "FIA") then {
 		_antenasFIA = _antenasFIA + 1
 	};
-} forEach AS_antenasPos_alive;
+} forEach AS_P("antenasPos_alive");
 
 private _jDuration = 20 + (_antenasFIA * 10);
 private _cd = 20 + (_antenasFIA * 20);

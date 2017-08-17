@@ -1,3 +1,4 @@
+#include "macros.hpp"
 // _this: a location
 private _ok = false;
 {
@@ -8,5 +9,5 @@ private _ok = false;
 		};
 	};
 	if _ok exitWith {};  // shortcircuit loop
-} forEach AS_antenasPos_alive;
+} forEach AS_P("antenasPos_alive");
 _ok

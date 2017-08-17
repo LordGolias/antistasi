@@ -49,7 +49,7 @@ if (_type == "outpost") then {
 	_buildings append (nearestObjects [_posicion, AS_destroyable_buildings, _size*1.5]);
 
 	// if close to an antenna, add jam option
-	private _antennaPos = [AS_antenasPos_alive,_posicion] call BIS_fnc_nearestPosition;
+	private _antennaPos = [AS_P("antenasPos_alive"),_posicion] call BIS_fnc_nearestPosition;
 	if (_antennaPos distance _posicion < 100) then {
 		[[nearestBuilding _antennaPos,"jam"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	};
