@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 params ["_unit", "_arsenal"];
 
 [_unit] call AS_fnc_emptyUnit;

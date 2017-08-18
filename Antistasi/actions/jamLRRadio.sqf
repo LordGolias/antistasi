@@ -1,4 +1,4 @@
-#include "../macros.h"
+#include "../macros.hpp"
 if AS_S("blockCSAT") exitWith {
 	hint "CSAT frequencies already jammed.";
 };

@@ -9,7 +9,7 @@ AS_serverVariables = [
 	"civPerc", "spawnDistance", "minimumFPS", "cleantime",  // game options
 	"secondsForAAFAttack", "destroyedLocations", "vehiclesInGarage", "destroyedBuildings",
 	"antenasPos_alive", "antenasPos_dead",
-	"patrollingLocations",
+	"patrollingLocations"
 ];
 
 // function that saves all AS_serverVariables. The two parameters overwrite the AS_persistent variable value to save.

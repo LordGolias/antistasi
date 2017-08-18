@@ -35,7 +35,7 @@ if (_resourcesAAF > 5000) then {
 		} forEach _destroyedCities;
 		AS_Pset("destroyedLocations", _destroyedCities - _repaired);
 	} else {
-		private _fnc_isNotRepairing = {"repair_antenna" call AS_fnc_active_missions == 0};
+		private _fnc_isNotRepairing = {count ("repair_antenna" call AS_fnc_active_missions) == 0};
 		if (call _fnc_isnotRepairing) then {
 			// try to rebuild one antenna.
 			{

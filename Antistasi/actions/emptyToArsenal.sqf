@@ -1,4 +1,4 @@
-#include "..\macros.hpp"
+#include "../macros.hpp"
 params [["_truck", objNull]];
 
 if (not isNull _truck and {_truck isKindOf "StaticWeapon"}) exitWith {};
