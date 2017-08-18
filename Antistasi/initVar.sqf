@@ -198,12 +198,6 @@ publicVariable "switchCom";
 
 ///////////////////////// PERSISTENTS /////////////////////////
 
-// AS_persistent are server-side variables. They are all published.
-AS_persistent = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
-publicVariable "AS_persistent";
-server = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
-publicVariable "server";
-
 // AS_Pset(a,b) is a macro to `(AS_persistent setVariable (a,b,true))`.
 // P from persistent as these variables are saved persistently.
 

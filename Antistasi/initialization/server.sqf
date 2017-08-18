@@ -3,6 +3,12 @@ AS_SERVER_ONLY("server.sqf");
 
 call compile preprocessFileLineNumbers "debug\init.sqf";
 
+// AS_persistent are server-side variables. They are all published.
+AS_persistent = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
+publicVariable "AS_persistent";
+server = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
+publicVariable "server";
+
 diag_log "[AS] Server: starting";
 call compile preprocessFileLineNumbers "initialization\server_functions.sqf";
 call compile preprocessFileLineNumbers "initFuncs.sqf";
