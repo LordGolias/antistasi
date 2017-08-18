@@ -29,8 +29,6 @@ AS_fnc_updateAll = compile preProcessFileLineNumbers "fnc_updateAll.sqf";
 
 powerReorg = compile preProcessFileLineNumbers "powerReorg.sqf";
 
-fpsChange = compile preProcessFileLineNumbers "fpsChange.sqf";
-
 AS_fnc_addMinefield = compile preProcessFileLineNumbers "Functions\fnc_addMinefield.sqf";
 
 AS_fnc_changePersistentVehicles = compile preProcessFileLineNumbers "Functions\fnc_changePersistentVehicles.sqf";

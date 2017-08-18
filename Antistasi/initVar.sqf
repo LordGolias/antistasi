@@ -17,11 +17,6 @@ servidoresOficiales = [
 	"Antistasi:Altis Official"
 ];
 
-// This variable is changed by the server to forbid the recruitment of units
-// when the FPS is low.
-// todo: remove this system by a shared system.
-allowPlayerRecruit = true;
-
 // Whether the autoHeal system is activated for this client.
 autoHeal = false;
 

@@ -1,7 +1,6 @@
 #include "../macros.hpp"
 
 if (player != AS_commander) exitWith {hint "Only the commander has access to this function"};
-if (!allowPlayerRecruit) exitWith {hint "Server is very loaded. \nWait one minute or change FPS settings in order to fulfill this request"};
 if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
 
 private _enemiesClose = false;

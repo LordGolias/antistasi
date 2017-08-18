@@ -42,7 +42,6 @@ publicVariable "miembros";
 
 waitUntil {!isNil "AS_commander" and {isPlayer AS_commander}};
 
-fpsCheck = [] execVM "fpsCheck.sqf";
 waitUntil {!(isNil "placementDone")};
 [] spawn AS_fnc_spawnLoop;
 resourcecheck = [] execVM "resourcecheck.sqf";

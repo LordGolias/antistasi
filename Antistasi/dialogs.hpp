@@ -379,7 +379,7 @@ class performance_menu {
 
 	class controls
 	{
-AS_DIALOG(5,"Performance","closeDialog 0; createDialog ""game_options_commander"";");
+AS_DIALOG(4,"Performance","closeDialog 0; createDialog ""game_options_commander"";");
 
 #define _code "['spawnDistance', 100, 2500, 'Spawn distance set to %1 meters.'] call AS_UIfnc_change_var;"
 BTN_L(1,-1, "+100 Spawn Dist.", "The distance from places that triggers its spawn", _code);
@@ -393,12 +393,8 @@ BTN_R(2,-1, "-1m cleanup time", "Minutes for dead bodies/vehicles to disappear."
 BTN_L(3,-1, "+1% Civ Spawn.", "The percentage of the population that appears in the city.", _code);
 #define _code "[""civPerc"", -0.01, 0.01, ""Civilian percentage set to %1 percent.""] call AS_UIfnc_change_var;"
 BTN_R(3,-1, "-1% Civ Spawn.", "The percentage of the population that appears in the city.", _code);
-#define _code "[[1],""fpsChange""] call BIS_fnc_MP;"
-BTN_L(4,-1, "+1 FPS limit", "The limit on which the game does a dramatic reduction of stuff", _code);
-#define _code "[[-1],""fpsChange""] call BIS_fnc_MP;"
-BTN_R(4,-1, "-1 FPS limit", "The limit on which the game does a dramatic reduction of stuff", _code);
 #define _code "[[], ""garbageCleaner.sqf""] remoteExec [""execVM"", 2];"
-BTN_M(5,-1, "Clean garbage", "Remove dead bodies and others.", _code);
+BTN_M(4,-1, "Clean garbage", "Remove dead bodies and others.", _code);
 #undef _code
 	};
 };

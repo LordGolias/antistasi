@@ -1,9 +1,6 @@
 #include "../macros.hpp"
 params ["_missionType"];
 
-if not allowPlayerRecruit exitWith {
-	hint "Server is very loaded. \nWait one minute or change FPS settings in order to fulfill this request";
-};
 if (count (_missionType call AS_fnc_active_missions) != 0) exitWith {
 	hint "NATO is already busy with this kind of mission";
 };
