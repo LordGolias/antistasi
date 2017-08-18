@@ -77,7 +77,7 @@ _grafArray pushBack _graf4;
 
 // initialize mission vehicle
 [propTruck, "FIA"] call AS_fnc_initVehicle;
-{_x reveal propTruck} forEach (allPlayers - hcArray);
+{_x reveal propTruck} forEach (allPlayers - (entities "HeadlessClient_F"));
 propTruck setVariable ["destino", _targetName, true];
 propTruck addEventHandler ["GetIn", {
 	if (_this select 1 == "driver") then {
@@ -95,12 +95,11 @@ server setVariable ["activeItem", propTruck, true];
 server setVariable ["BCactive", false, true];
 
 // dispatch a small QRF
+private _qrf_specs = [_base, _position, _location, _tiempolim, "transport", "small"];
 if !(_airport == "") then {
-	[_airport, _position, _location, _tiempolim, "transport", "small"] remoteExec ["enemyQRF",HCattack];
-}
-else {
-	[_base, _position, _location, _tiempolim, "transport", "small"] remoteExec ["enemyQRF",HCattack];
+	_qrf_specs set [0, _airport];
 };
+[_qrf_specs, "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2];
 
 private _fnc_clean = {
 	[[], _objectsToDelete + _grafArray + [propTruck]] call AS_fnc_cleanResources;
@@ -270,7 +269,7 @@ while _fnc_continueCounterCondition do {
 			if (_distance > 250 and _distance < 350) then {
 				[petros,"hint", "stay within 250m of the station!"] remoteExec ["commsMP", _x];
 			};
-		} forEach (allPlayers - hcArray);
+		} forEach (allPlayers - (entities "HeadlessClient_F"));
 
 		_counter = _counter + 1;
 		sleep 1;

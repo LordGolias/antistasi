@@ -44,7 +44,9 @@ for "_i" from 0 to _num - 1 do {
 [_position, _mission] spawn {
 	params ["_position", "_mission"];
 	sleep (5*60 + random (30*60));
-	if (_mission call AS_fnc_mission_status == "active") then {[_position] remoteExec ["patrolCA",HCattack]};
+	if (_mission call AS_fnc_mission_status == "active") then {
+		[[_position], "patrolCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
+	};
 };
 
 private _fnc_clean = {

@@ -83,9 +83,9 @@ petros allowdamage true;
 [] spawn {
     sleep 25;
     {
-		[_x] remoteExec ["patrolCA",HCattack];
+		[[_x], "patrolCA"] call AS_scheduler_fnc_execute;
     } forEach AS_P("patrollingLocations");
 	{
-		[_x] remoteExec ["patrolCA",HCattack];
+		[[_x], "patrolCA"] call AS_scheduler_fnc_execute;
     } forEach AS_P("patrollingPositions");
 };

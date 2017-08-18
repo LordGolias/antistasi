@@ -89,13 +89,13 @@ private _fnc_missionSuccessful = {
 };
 
 private _missionStartCondition = {
-	{_x distance _dealer < 200} count (allPlayers - hcArray) > 0
+	{_x distance _dealer < 200} count (allPlayers - (entities "HeadlessClient_F")) > 0
 };
 
 waitUntil {sleep 1; False or _missionStartCondition or _fnc_missionFailedCondition};
 
 _dealer allowDamage true;
-["spawnCSAT", _posCmp, _location, 15, "transport", "small"] remoteExec ["enemyQRF",HCattack];
+[["spawnCSAT", _posCmp, _location, 15, "transport", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2];
 
 [_fnc_missionFailedCondition, _fnc_missionFailed, _fnc_missionSuccessfulCondition, _fnc_missionSuccessful] call AS_fnc_oneStepMission;
 

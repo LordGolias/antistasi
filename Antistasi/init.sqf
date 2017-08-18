@@ -8,6 +8,9 @@ if(isNil "AS_profileID") then {
 	profileNameSpace setVariable ["AS_profileID", AS_profileID];
 };
 
+call compile preprocessFileLineNumbers "scheduler.sqf";
+[] spawn AS_scheduler_fnc_initialize;
+
 if (not isDedicated) then {
     // this has to be scheduled because the server is waiting for clients.
 	[] execVM "initialization\client.sqf";

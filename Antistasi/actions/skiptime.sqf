@@ -16,7 +16,7 @@ private _all_around = false;
 private _posHQ = getMarkerPos "FIA_HQ";
 {
 	if (_x distance _posHQ > 200) exitWith {_all_around = true};
-} forEach (allPlayers - hcArray);
+} forEach (allPlayers - (entities "HeadlessClient_F"));
 
 if _all_around exitWith {hint "All players must be around the HQ to rest"};
 

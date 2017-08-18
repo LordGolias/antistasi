@@ -18,6 +18,7 @@ This modified version has the same mechanics and the same features but improves 
 * Menus were remade from scratch to better accommodate more buttons and other layouts.
 * Locations backend was rewritten from scratch.
 * Missions backend was rewritten from scratch.
+* Spawning is distributed between the server and clients
 
 The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 line added, 2 lines were deleted, I have +4 years experience as professional programmer).
 
@@ -110,6 +111,7 @@ reverse it.
 - `Missions/`: everything related to missions. Core module is `Missions/mission.sqf`.
 - `initialization/`: scripts that initialize the mission.
 - `Revive/`: scripts used for the revive system
+- `scheduler.sqf`: contains all functions for distributed execution
 
 ## Initialization
 
@@ -127,10 +129,27 @@ The code that has to be called on every machine running AS is `initFuncs.sqf` an
 `client.sqf` is responsible for initializing a player. This includes
 Event Handling, available actions, etc.
 
-## Memory management
+## distributed execution
 
-- Scripts that create stuff are responsible for cleaning them in the end, by tracking everything they created.
-- Other units are managed by the client or server.
+This mission has parts (missions and spawning) that can be run by any client independently.
+For these parts, the server acts as a scheduler and load balancer and each client
+(headless or not) acts as a worker.
+Clients send their FPS rate to the server, `AS_scheduler_fnc_sendStatus`, and the server
+balances which worker runs the scheduled script based on this information.
+To execute a script within this scheduler, use
+
+```
+[arguments, "scriptName"] remoteExec ["AS_scheduler_fnc_execute", 2];
+```
+
+This will make the server to call `arguments remoteExec ["scriptName", clientID];`
+where `clientID` is selected by the load balancer via `AS_scheduler_fnc_getWorker`.
+
+### Memory management
+
+The scripts that are run by the scheduler must manage their own memory. Specifically,
+the script must delete or schedule the deletion of all the resources
+it spawned (groups, vehicles, markers, etc.).
 
 ## Persistent saving
 

@@ -33,7 +33,7 @@ sleep 5;
 
 [_location,"side","FIA"] call AS_fnc_location_set;
 
-[_location] remoteExec ["patrolCA", HCattack];
+[[_location], "patrolCA"] call AS_scheduler_fnc_execute;
 
 if (_type == "airfield") then {
 	[0,10,_posicion] remoteExec ["citySupportChange",2];

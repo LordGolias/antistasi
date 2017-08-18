@@ -121,7 +121,7 @@ if ((call _fnc_isAADestroyed) and (call _fnc_isCleaned)) then {
 
 	[_location,"side","FIA"] call AS_fnc_location_set;
 
-	[_posicion] remoteExec ["patrolCA",HCattack];
+	[[_posicion], "patrolCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
 	["cl_loc"] remoteExec ["fnc_BE_XP", 2];
 };
 

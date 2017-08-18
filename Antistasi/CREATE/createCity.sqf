@@ -40,7 +40,7 @@ waitUntil {sleep 1;
 
 // send patrol
 if ({alive _x and !fleeing _x} count _soldados == 0) then {
-	[_posicion] remoteExec ["patrolCA",HCattack];
+	[[_posicion], "patrolCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
 };
 
 // cleanup everything when de-spawn marker.

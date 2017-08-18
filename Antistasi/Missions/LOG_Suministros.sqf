@@ -17,7 +17,7 @@ private _pos = (getMarkerPos "FIA_HQ") findEmptyPosition [1,50,_truckType];
 
 private _truck = _truckType createVehicle _pos;
 [_truck, "FIA"] call AS_fnc_initVehicle;
-{_x reveal _truck} forEach (allPlayers - hcArray);
+{_x reveal _truck} forEach (allPlayers - (entities "HeadlessClient_F"));
 [_truck,"Mission Vehicle"] spawn inmuneConvoy;
 
 private _fnc_clean = {
@@ -50,7 +50,7 @@ waitUntil {sleep 1; (_truck distance _position < 40) and (speed _truck < 1) or _
 
 if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 
-[_position] remoteExec ["patrolCA", HCattack];
+[[_position], "patrolCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
 
 private _fnc_unloadCondition = {
 	// The condition to allow loading the crates into the truck

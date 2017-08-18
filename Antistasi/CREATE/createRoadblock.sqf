@@ -76,7 +76,7 @@ if !(_location call AS_fnc_location_spawned) then {
 	_conquistado = true;
 	[-5,0,_posicion] remoteExec ["citySupportChange",2];
 	[["TaskSucceeded", ["", "Roadblock Cleared"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-	[_posicion] remoteExec ["patrolCA", HCattack];
+	[[_posicion], "patrolCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
 
 	[_location,"side","FIA"] call AS_fnc_location_set;
 	["cl_loc"] remoteExec ["fnc_BE_XP", 2];

@@ -88,119 +88,119 @@ _triggerWave = {
     	// QRF, air, small
     	case "QRF_air_mixed_small": {
    			if !(_airport == "") then {
-   				[_airport, _targetLocation, _targetMarker, _duration, "mixed", "small"] remoteExec ["enemyQRF",HCattack];
+   				[[_airport, _targetLocation, _targetMarker, _duration, "mixed", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
    			}
    			else {
-   				["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"] remoteExec ["enemyQRF",HCattack];
+   				[["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
    			};
     	};
     	case "QRF_air_transport_small": {
    			if !(_airport == "") then {
-   				[_airport, _targetLocation, _targetMarker, _duration, "transport", "small"] remoteExec ["enemyQRF",HCattack];
+   				[[_airport, _targetLocation, _targetMarker, _duration, "transport", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
    			}
    			else {
-   				["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"] remoteExec ["enemyQRF",HCattack];
+   				[["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
    			};
     	};
     	case "QRF_air_destroy_small": {
    			if !(_airport == "") then {
-   				[_airport, _targetLocation, _targetMarker, _duration, "destroy", "small"] remoteExec ["enemyQRF",HCattack];
+   				[[_airport, _targetLocation, _targetMarker, _duration, "destroy", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
    			}
    			else {
-   				["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"] remoteExec ["enemyQRF",HCattack];
+   				[["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
    			};
     	};
 
       // QRF, air, large
       case "QRF_air_mixed_large": {
         if !(_airport == "") then {
-          [_airport, _targetLocation, _targetMarker, _duration, "mixed", "large"] remoteExec ["enemyQRF",HCattack];
+          [[_airport, _targetLocation, _targetMarker, _duration, "mixed", "large"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
         }
         else {
-          ["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "large"] remoteExec ["enemyQRF",HCattack];
+          [["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "large"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
         };
       };
       case "QRF_air_transport_large": {
         if !(_airport == "") then {
-          [_airport, _targetLocation, _targetMarker, _duration, "transport", "large"] remoteExec ["enemyQRF",HCattack];
+          [[_airport, _targetLocation, _targetMarker, _duration, "transport", "large"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
         }
         else {
-          ["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "large"] remoteExec ["enemyQRF",HCattack];
+          [["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "large"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
         };
       };
       case "QRF_air_destroy_large": {
         if !(_airport == "") then {
-          [_airport, _targetLocation, _targetMarker, _duration, "destroy", "large"] remoteExec ["enemyQRF",HCattack];
+          [[_airport, _targetLocation, _targetMarker, _duration, "destroy", "large"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
         }
         else {
-          ["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "large"] remoteExec ["enemyQRF",HCattack];
+          [["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "large"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
         };
       };
 
     	// QRF, land, small
     	case "QRF_land_mixed_small": {
    			if !(_base == "") then {
-   				[_base, _targetLocation, _targetMarker, _duration, "mixed", "small"] remoteExec ["enemyQRF",HCattack];
+   				[[_base, _targetLocation, _targetMarker, _duration, "mixed", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
    			}
    			else {
-   				["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"] remoteExec ["enemyQRF",HCattack];
+   				[["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
    			};
     	};
     	case "QRF_land_transport_small": {
    			if !(_base == "") then {
-   				[_base, _targetLocation, _targetMarker, _duration, "transport", "small"] remoteExec ["enemyQRF",HCattack];
+   				[[_base, _targetLocation, _targetMarker, _duration, "transport", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
    			}
    			else {
-   				["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"] remoteExec ["enemyQRF",HCattack];
+   				[["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
    			};
     	};
     	case "QRF_land_destroy_small": {
    			if !(_base == "") then {
-   				[_base, _targetLocation, _targetMarker, _duration, "destroy", "small"] remoteExec ["enemyQRF",HCattack];
+   				[[_base, _targetLocation, _targetMarker, _duration, "destroy", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
    			}
    			else {
-   				["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"] remoteExec ["enemyQRF",HCattack];
+   				[["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
    			};
     	};
 
       // QRF, land, large
       case "QRF_land_mixed_large": {
         if !(_base == "") then {
-          [_base, _targetLocation, _targetMarker, _duration, "mixed", "large"] remoteExec ["enemyQRF",HCattack];
+          [[_base, _targetLocation, _targetMarker, _duration, "mixed", "large"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
         }
         else {
-          ["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "large"] remoteExec ["enemyQRF",HCattack];
+          [["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "large"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
         };
       };
       case "QRF_land_transport_large": {
         if !(_base == "") then {
-          [_base, _targetLocation, _targetMarker, _duration, "transport", "large"] remoteExec ["enemyQRF",HCattack];
+          [[_base, _targetLocation, _targetMarker, _duration, "transport", "large"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
         }
         else {
-          ["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "large"] remoteExec ["enemyQRF",HCattack];
+          [["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "large"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
         };
       };
       case "QRF_land_destroy_large": {
         if !(_base == "") then {
-          [_base, _targetLocation, _targetMarker, _duration, "destroy", "large"] remoteExec ["enemyQRF",HCattack];
+          [[_base, _targetLocation, _targetMarker, _duration, "destroy", "large"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
         }
         else {
-          ["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "large"] remoteExec ["enemyQRF",HCattack];
+          [["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "large"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
         };
       };
 
     	// CSAT
       case "CSAT_small": {
-        ["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"] remoteExec ["enemyQRF",HCattack];
+        [["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
       };
       case "CSAT_large": {
-        ["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "large"] remoteExec ["enemyQRF",HCattack];
+        [["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "large"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
       };
 
       // default: CSAT, small
     	default {
         diag_log format ["Incorrect call of QRF. Details: %1; %2; %3; %4", _targetLocation, _duration, _waveIntervals, _waveSpecs];
-    		["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"] remoteExec ["enemyQRF",HCattack];
+    		[["spawnCSAT", _targetLocation, _targetMarker, _duration, "transport", "small"], "enemyQRF"] remoteExec ["AS_scheduler_fnc_execute", 2]
     	};
     };
 };

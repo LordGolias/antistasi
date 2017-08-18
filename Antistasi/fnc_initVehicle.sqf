@@ -97,11 +97,11 @@ if (_tipo in allStatMortars) then {
 					if (count ("aaf_attack_hq" call AS_fnc_active_missions) == 0) then {
 						private _lider = leader (gunner _mortar);
 						if (!isPlayer _lider or {[_lider] call isMember}) then {
-							[] remoteExec ["ataqueHQ",HCattack];
+							[[], "ataqueHQ"] remoteExec ["AS_scheduler_fnc_execute", 2];
 						};
 					};
 				} else {
-					[position _mortar] remoteExec ["patrolCA",HCattack];
+					[[position _mortar], "patrolCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
 				};
 			};
 		} else {

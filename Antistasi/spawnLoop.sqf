@@ -40,21 +40,21 @@ while {true} do {
 				_x call AS_fnc_location_spawn;
 				private _type = _x call AS_fnc_location_type;
 				switch (true) do {
-					case (_type == "hill"): {[_x] remoteExec ["createWatchpost",HCGarrisons]};
-					case (_type == "hillAA"): {[_x] remoteExec ["createAAsite",HCGarrisons]};
+					case (_type == "hill"): {[[_x], "createWatchpost"] call AS_scheduler_fnc_execute};
+					case (_type == "hillAA"): {[[_x], "createAAsite"] call AS_scheduler_fnc_execute};
 					case (_type == "city"): {
-						[_x] remoteExec ["createCIV",HCciviles];
-						[_x] remoteExec ["createCity",HCGarrisons]
+						[[_x], "createCIV"] call AS_scheduler_fnc_execute;
+						[[_x], "createCity"] call AS_scheduler_fnc_execute;
 					};
 					case (_type in ["resource", "powerplant", "factory"]): {
-						[_x] remoteExec ["AS_fnc_createAAFgeneric",HCGarrisons];
+						[[_x], "AS_fnc_createAAFgeneric"] call AS_scheduler_fnc_execute;
 					};
-					case (_type == "base"): {[_x] remoteExec ["createBase",HCGarrisons]};
-					case (_type == "roadblock"): {[_x] remoteExec ["createRoadblock",HCGarrisons]};
-					case (_type == "airfield"): {[_x] remoteExec ["createAirbase",HCGarrisons]};
-					case (_type in ["outpost", "seaport"]): {[_x] remoteExec ["createOutpost",HCGarrisons]};
-					case (_type == "outpostAA"): {[_x] remoteExec ["createOutpostAA",HCGarrisons]};
-					case (_type == "minefield"): {[_x] remoteExec ["AS_fnc_createMinefield",HCGarrisons]};
+					case (_type == "base"): {[[_x], "createBase"] call AS_scheduler_fnc_execute};
+					case (_type == "roadblock"): {[[_x], "createRoadblock"] call AS_scheduler_fnc_execute};
+					case (_type == "airfield"): {[[_x], "createAirbase"] call AS_scheduler_fnc_execute};
+					case (_type in ["outpost", "seaport"]): {[[_x], "createOutpost"] call AS_scheduler_fnc_execute};
+					case (_type == "outpostAA"): {[[_x], "createOutpostAA"] call AS_scheduler_fnc_execute};
+					case (_type == "minefield"): {[[_x], "AS_fnc_createMinefield"] call AS_scheduler_fnc_execute};
 				};
 			};
 			if (_isSpawned and !_spawnCondition) then {
@@ -74,20 +74,18 @@ while {true} do {
 				switch (true) do {
 					case (_type == "city"): {
 						if (_playerIsClose) then {
-							[_x] remoteExec ["createCIV",HCciviles];
+							[[_x], "createCIV"] call AS_scheduler_fnc_execute;
 						};
-						[_x] remoteExec ["AS_fnc_createFIAgeneric",HCGarrisons]
+						[[_x], "AS_fnc_createFIAgeneric"] call AS_scheduler_fnc_execute;
 					};
 					case (_type in ["resource","powerplant","factory","fia_hq","outpost","outpostAA"]): {
-						[_x] remoteExec ["AS_fnc_createFIAgeneric",HCGarrisons]
+						[[_x], "AS_fnc_createFIAgeneric"] call AS_scheduler_fnc_execute;
 					};
-					case (_type == "airfield"): {[_x] remoteExec ["createNATOaerop",HCGarrisons]};
-					case (_type == "base"): {[_x] remoteExec ["createNATObases",HCGarrisons]};
-					case (_type in ["roadblock","watchpost","camp"]): {
-						[_x] remoteExec ["AS_fnc_createFIA_built_location",HCGarrisons];
-					};
-					case (_type == "NATOwatchpost"): {[_x] remoteExec ["createNATOpuesto",HCGarrisons]};
-					case (_type == "minefield"): {[_x] remoteExec ["AS_fnc_createMinefield",HCGarrisons]};
+					case (_type == "airfield"): {[[_x], "createNATOaerop"] call AS_scheduler_fnc_execute};
+					case (_type == "base"): {[[_x], "createNATObases"] call AS_scheduler_fnc_execute};
+					case (_type in ["roadblock","watchpost","camp"]): {[[_x], "AS_fnc_createFIA_built_location"] call AS_scheduler_fnc_execute};
+					case (_type == "NATOwatchpost"): {[[_x], "createNATOpuesto"] call AS_scheduler_fnc_execute};
+					case (_type == "minefield"): {[[_x], "AS_fnc_createMinefield"] call AS_scheduler_fnc_execute};
 				};
 			};
 			if (_isSpawned and !_spawnCondition) then {

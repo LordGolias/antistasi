@@ -24,7 +24,7 @@ private _task = [_mission,[side_blue,civilian],[_taskDesc,_taskTitle,_mrkfin],_p
 
 private _truckType = selectRandom AS_FIA_vans;
 private _truck = _truckType createVehicle ((getMarkerPos "FIA_HQ") findEmptyPosition [1,50,_truckType]);
-{_x reveal _truck} forEach (allPlayers - hcArray);
+{_x reveal _truck} forEach (allPlayers - (entities "HeadlessClient_F"));
 [_truck, "FIA"] spawn AS_fnc_initVehicle;
 _truck setVariable ["destino",_nombredest,true];
 _truck addEventHandler ["GetIn", {
@@ -81,7 +81,7 @@ waitUntil {sleep 1; (_truck distance _position < 7) or _fnc_missionFailedConditi
 if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 
 // once the truck arrives there, send a patrol and make AAF aware of the truck
-[_position] remoteExec ["patrolCA",HCattack];
+[[_position], "patrolCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
 
 {
 	private _fiaSoldier = _x;

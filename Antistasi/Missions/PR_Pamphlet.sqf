@@ -44,7 +44,7 @@ _vehicles pushBack _crate1;
 
 // initialize mission vehicle
 [_truck, "FIA"] call AS_fnc_initVehicle;
-{_x reveal _truck} forEach (allPlayers - hcArray);
+{_x reveal _truck} forEach (allPlayers - (entities "HeadlessClient_F"));
 _truck setVariable ["destino",_locationName,true];
 _truck addEventHandler ["GetIn",
 	{

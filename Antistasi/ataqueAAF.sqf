@@ -71,7 +71,7 @@ if (_useCSAT) then {
 				if (_isEasy and (_base != "") and (_count_easy < 4)) then {
 					if !(_location in AS_P("patrollingLocations")) then {
 						_count_easy = _count_easy + 2;
-						[_location,_base] remoteExec ["patrolCA",HCattack];
+						[[_location,_base], "patrolCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
 						sleep 15;
 					};
 				};
@@ -83,7 +83,7 @@ if (_useCSAT) then {
 				if (_isEasy and (_base == "") and (_aeropuerto != "") and (_count_easy < 4)) then {
 					if !(_location in AS_P("patrollingLocations")) then {
 						_count_easy = _count_easy + 1;
-						[_location,_aeropuerto] remoteExec ["patrolCA",HCattack];
+						[[_location,_aeropuerto], "patrolCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
 						sleep 15;
 					};
 				};
@@ -116,8 +116,8 @@ if (_useCSAT) then {
 if ((count _objectives > 0) and (_count_easy < 3)) then {
 	private _location = selectRandom _objectives;
 	if (_location call AS_fnc_location_type != "city") then {
-		[_location] remoteExec ["combinedCA",HCattack]
+		[[_location], "combinedCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
 	} else {
-		[_location] remoteExec ["CSATpunish",HCattack]
+		[[_location], "CSATpunish"] remoteExec ["AS_scheduler_fnc_execute", 2];
 	};
 };
