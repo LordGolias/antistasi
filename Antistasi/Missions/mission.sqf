@@ -283,38 +283,42 @@ AS_fnc_mission_activate = {
 
     [_mission, "status", "active"] call AS_fnc_mission_set;
 
-    call {
+    private _script = call {
         private _missionType = _mission call AS_fnc_mission_type;
 
-        if (_missionType == "kill_officer") exitWith {[_mission] spawn AS_mis_assassinate};
-        if (_missionType == "kill_specops") exitWith {[_mission] spawn AS_mis_assassinate};
-        if (_missionType == "kill_traitor") exitWith {[_mission] spawn ASS_Traidor};
-        if (_missionType == "black_market") exitWith {[_mission] spawn AS_mis_black_market};
-        if (_missionType == "pamphlets") exitWith {[_mission] spawn PR_Pamphlet};
-        if (_missionType == "broadcast") exitWith {[_mission] spawn PR_Brainwash};
-        if (_missionType in ["convoy_armor", "convoy_ammo","convoy_money", "convoy_supplies", "convoy_prisoners", "convoy_hvt"]) exitWith {[_mission] spawn AS_mis_convoy};
-        if (_missionType == "rescue_prisioners") exitWith {[_mission] spawn RES_Prisioneros};
-        if (_missionType == "rescue_refugees") exitWith {[_mission] spawn RES_Refugiados};
-        if (_missionType == "rob_bank") exitWith {[_mission] spawn LOG_Bank};
-        if (_missionType == "help_meds") exitWith {[_mission] spawn LOG_Suministros};
-        if (_missionType == "send_meds") exitWith {[_mission] spawn LOG_Medical};
-        if (_missionType == "steal_ammo") exitWith {[_mission] spawn LOG_Ammo};
-        if (_missionType == "destroy_vehicle") exitWith {[_mission] spawn DES_Vehicle};
-        if (_missionType == "destroy_helicopter") exitWith {[_mission] spawn DES_Heli};
-        if (_missionType == "destroy_antenna") exitWith {[_mission] spawn DES_Antena};
-        if (_missionType == "repair_antenna") exitWith {[_mission] spawn AS_mis_repair_antenna};
-        if (_missionType == "conquer") exitWith {[_mission] spawn AS_mis_conquer};
+        if (_missionType == "kill_officer") exitWith {"AS_mis_assassinate"};
+        if (_missionType == "kill_specops") exitWith {"AS_mis_assassinate"};
+        if (_missionType == "kill_traitor") exitWith {"ASS_Traidor"};
+        if (_missionType == "black_market") exitWith {"AS_mis_black_market"};
+        if (_missionType == "pamphlets") exitWith {"PR_Pamphlet"};
+        if (_missionType == "broadcast") exitWith {"PR_Brainwash"};
+        if (_missionType in ["convoy_armor", "convoy_ammo","convoy_money", "convoy_supplies", "convoy_prisoners", "convoy_hvt"]) exitWith {"AS_mis_convoy"};
+        if (_missionType == "rescue_prisioners") exitWith {"RES_Prisioneros"};
+        if (_missionType == "rescue_refugees") exitWith {"RES_Refugiados"};
+        if (_missionType == "rob_bank") exitWith {"LOG_Bank"};
+        if (_missionType == "help_meds") exitWith {"LOG_Suministros"};
+        if (_missionType == "send_meds") exitWith {"LOG_Medical"};
+        if (_missionType == "steal_ammo") exitWith {"LOG_Ammo"};
+        if (_missionType == "destroy_vehicle") exitWith {"DES_Vehicle"};
+        if (_missionType == "destroy_helicopter") exitWith {"DES_Heli"};
+        if (_missionType == "destroy_antenna") exitWith {"DES_Antena"};
+        if (_missionType == "repair_antenna") exitWith {"AS_mis_repair_antenna"};
+        if (_missionType == "conquer") exitWith {"AS_mis_conquer"};
 
-        if (_missionType == "nato_ammo") exitWith {[_mission] spawn AS_mis_natoAmmo};
-        if (_missionType == "nato_armor") exitWith {[_mission] spawn AS_mis_natoArmor};
-        if (_missionType == "nato_artillery") exitWith {[_mission] spawn AS_mis_natoArtillery};
-        if (_missionType == "nato_uav") exitWith {[_mission] spawn AS_mis_natoUAV};
-        if (_missionType == "nato_qrf") exitWith {[_mission] spawn AS_mis_natoQRF};
-        if (_missionType == "nato_attack") exitWith {[_mission] spawn AS_mis_natoAttack};
-        if (_missionType == "nato_roadblock") exitWith {[_mission] spawn AS_mis_natoRoadblock};
-        if (_missionType == "nato_cas") exitWith {[_mission] spawn AS_mis_natoCAS};
-        diag_log format ["[AS] Error: AS_fnc_mission_activate: mission type '%1' does not have script", _missionType];
+        if (_missionType == "nato_ammo") exitWith {"AS_mis_natoAmmo"};
+        if (_missionType == "nato_armor") exitWith {"AS_mis_natoArmor"};
+        if (_missionType == "nato_artillery") exitWith {"AS_mis_natoArtillery"};
+        if (_missionType == "nato_uav") exitWith {"AS_mis_natoUAV"};
+        if (_missionType == "nato_qrf") exitWith {"AS_mis_natoQRF"};
+        if (_missionType == "nato_attack") exitWith {"AS_mis_natoAttack"};
+        if (_missionType == "nato_roadblock") exitWith {"AS_mis_natoRoadblock"};
+        if (_missionType == "nato_cas") exitWith {"AS_mis_natoCAS"};
+        ""
     };
+    if (_script == "") exitWith {
+        diag_log format ["[AS] Error: AS_fnc_mission_activate: mission '%1' does not have script", _mission];
+    };
+    [_mission, _script] call AS_scheduler_fnc_execute;
 };
 
 AS_fnc_mission_dismiss = {
