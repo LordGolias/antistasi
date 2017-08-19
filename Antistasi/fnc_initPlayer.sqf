@@ -50,16 +50,6 @@ if (isMultiplayer) then {
 			};
 		};
 	}];
-
-    player addEventHandler ["InventoryClosed", {
-		[] spawn skillAdjustments;
-	}];
-
-	player addEventHandler ["Take", {
-	    [] spawn skillAdjustments;
-	}];
-
-	[missionNamespace, "arsenalClosed", {[] spawn skillAdjustments;}] call BIS_fnc_addScriptedEventHandler;
 };
 
 [] execVM "reinitY.sqf";

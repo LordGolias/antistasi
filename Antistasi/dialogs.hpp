@@ -501,7 +501,7 @@ class gameplay_options
 
 	class controls
 	{
-    AS_DIALOG(3,"Gameplay options","closeDialog 0; createDialog ""game_options_commander"";");
+    AS_DIALOG(2,"Gameplay options","closeDialog 0; createDialog ""game_options_commander"";");
 
     #define _code "[""minAISkill"", -0.1, 0, """"] call AS_UIfnc_change_var;"
 	BTN_L(1,-1, "-0.1 min AI skill", "Decreases lowest AI skill (default=0.6).", _code);
@@ -512,10 +512,6 @@ class gameplay_options
 	BTN_L(2,-1, "-0.1 max AI skill", "Decreases highest skill AI (default=0.9)", _code);
     #define _code "[""maxAISkill"", 0.1, 1, """"] call AS_UIfnc_change_var;"
 	BTN_R(2,-1, "+0.1 max AI skill", "Increases highest skill AI (default=0.9)", _code);
-
-    #define _code "if (server getVariable [""enableWpnProf"",false]) then {server setVariable [""enableWpnProf"",false,true]; [] remoteExec [""fnc_resetSkills"", [0,-2] select isDedicated,true]} else {server setVariable [""enableWpnProf"",true,true]}; hint format [""Current setting: %1"", [""off"", ""on""] select (server getVariable [""enableWpnProf"",false])];"
-	BTN_M(3,-1, "Weapon Proficiencies", "Turn the extended weapon proficiencies system on/off (MP exclusive)", _code);
-    #undef _code
 	};
 };
 

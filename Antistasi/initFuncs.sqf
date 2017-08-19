@@ -207,6 +207,5 @@ attackWaves = compile preprocessFileLineNumbers "Scripts\attackWaves.sqf";
 teleport = compile preprocessFileLineNumbers "teleport.sqf";
 
 rankCheck = compile preprocessFileLineNumbers "Scripts\rankCheck.sqf";
-skillAdjustments = compile preprocessFileLineNumbers "Scripts\skillAdjustments.sqf";
 
 #include "Scripts\SHK_Fastrope.sqf"

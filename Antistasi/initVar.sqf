@@ -247,9 +247,6 @@ AS_Sset("blockCSAT", false);
 // list of vehicles (objects) that can no longer be used while undercover
 AS_Sset("reportedVehs", []);
 
-// todo: this option is not being saved, so it is irrelevant. Consider removing.
-AS_Sset("enableWpnProf",false); // class-based weapon proficiences, MP only
-
 AS_spawnLoopTime = 1; // seconds between each check of spawn/despawn locations (expensive loop).
 
 // Pricing values for soldiers, vehicles of AAF
