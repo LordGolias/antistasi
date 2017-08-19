@@ -53,7 +53,7 @@ if (_nVeh < 1) then {_nVeh = 1};
 
 private _pos = _posicion;
 for "_i" from 1 to _nVeh do {
-	if (!(_location call AS_fnc_location_spawned) or diag_fps < AS_P("minimumFPS")) exitWith {};
+	if !(_location call AS_fnc_location_spawned) exitWith {};
 
 	_pos = [_posicion, 10, _size/2, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
 
@@ -71,7 +71,7 @@ _grupos pushBack _grupo;
 {[_x] spawn AS_fnc_initUnitNATO; _soldados pushBack _x} forEach units _grupo;
 
 for "_i" from 1 to _nVeh do {
-	if (!(_location call AS_fnc_location_spawned) or diag_fps < AS_P("minimumFPS")) exitWith {};
+	if !(_location call AS_fnc_location_spawned) exitWith {};
 	while {true} do {
 		_pos = [_posicion, random _size,random 360] call BIS_fnc_relPos;
 		if (!surfaceIsWater _pos) exitWith {};

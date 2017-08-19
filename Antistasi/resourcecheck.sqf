@@ -33,7 +33,7 @@ while {true} do {
 	[-_timeBetweenResources] call AS_fnc_changeSecondsforAAFattack;
 
 	// start AAF attacks under certain conditions.
-	if ((AS_P("secondsForAAFAttack") < 1) and (diag_fps > AS_P("minimumFPS"))) then {
+	if (AS_P("secondsForAAFAttack") < 1) then {
 		private _awActive = server getVariable ["waves_active",false];
 		if ((count ("aaf_attack" call AS_fnc_active_missions) == 0) and !_awActive) then {
 			private _script = [] spawn ataqueAAF;

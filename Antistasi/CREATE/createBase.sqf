@@ -58,7 +58,7 @@ if (!_busy) then {
 	private _pos = _posicion;
 
 	for "_i" from 1 to _groupCount do {
-		if (!(_location call AS_fnc_location_spawned) or diag_fps < AS_P("minimumFPS")) exitWith {};
+		if !(_location call AS_fnc_location_spawned) exitWith {};
 		if (count _possible_vehicles == 0) exitWith {};
 		private _tipoVeh = selectRandom _possible_vehicles;
 		_possible_vehicles deleteAt (_possible_vehicles find _tipoVeh);

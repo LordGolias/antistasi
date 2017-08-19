@@ -34,8 +34,6 @@ private _grupo = createGroup civilian;
 _grupos pushBack _grupo;
 
 for "_i" from 1 to _numCiv do {
-	if (diag_fps < AS_P("minimumFPS")) exitWith {};
-
 	private _pos = [];
 	while {true} do {
 		_pos = [_posicion, round (random _size), random 360] call BIS_Fnc_relPos;
@@ -48,8 +46,6 @@ for "_i" from 1 to _numCiv do {
 // spawn parked cars
 private _counter = 0;  // how many vehicles were already spawned.
 while {_counter < _numVeh} do {
-	if (diag_fps < AS_P("minimumFPS")) exitWith {};
-
 	private _p1 = selectRandom _roads;
 	private _road = (_p1 nearRoads 5) select 0;
 	if (!isNil "_road") then {

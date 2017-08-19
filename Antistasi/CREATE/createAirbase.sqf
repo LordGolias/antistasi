@@ -74,7 +74,7 @@ if (!_busy) then {
 private _groupCount = round (_size/60);
 private _possible_vehicles = (["trucks", "apcs"] call AS_fnc_AAFarsenal_all);
 for "_i" from 1 to _groupCount do {
-	if (!(_location call AS_fnc_location_spawned) or diag_fps < AS_P("minimumFPS")) exitWith {};
+	if !(_location call AS_fnc_location_spawned) exitWith {};
 	if (count _possible_vehicles == 0) exitWith {};
 
 	private _tipoveh = selectRandom _possible_vehicles;

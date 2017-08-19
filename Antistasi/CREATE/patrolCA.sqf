@@ -21,11 +21,6 @@ if (_fromBase != "") then {
 	};
 };
 
-if ((!_isDirectAttack) and (diag_fps < AS_P("minimumFPS"))) exitWith {
-	private _message = "minimumFPS";
-	AS_ISDEBUG(_debug_prefix + _message);
-};
-
 private _isLocation = false;
 private _exit = false;
 private _position = "";

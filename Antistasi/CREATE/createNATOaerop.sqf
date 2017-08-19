@@ -55,7 +55,7 @@ private _nVeh = (round ((_size/100)*_prestigio)) max 1;
 
 // create vehicles
 for "_i" from 1 to _nVeh do {
-	if (!(_location call AS_fnc_location_spawned) or (diag_fps < AS_P("minimumFPS"))) exitWith {};
+	if !(_location call AS_fnc_location_spawned) exitWith {};
 
 	private _tipoVeh = vehNATO call BIS_fnc_selectRandom;
 	private _pos = [_posicion, 10, _size/2, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
@@ -69,7 +69,7 @@ for "_i" from 1 to _nVeh do {
 
 // create NATO garrison (creates at least 1)
 for "_i" from 1 to _nVeh do {
-	if (!(_location call AS_fnc_location_spawned) or (_i != 1 and diag_fps < AS_P("minimumFPS"))) exitWith {};
+	if !(_location call AS_fnc_location_spawned) exitWith {};
 
 	// get random pos
 	private _pos = [];

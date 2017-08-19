@@ -96,7 +96,7 @@ AS_fnc_spawnAAF_patrolSquad = {
 	private _groups = [];
 
 	for "_i" from 1 to _amount do {
-		if (!(_location call AS_fnc_location_spawned) or (_i != 1 and diag_fps < AS_P("minimumFPS"))) exitWith {};
+		if !(_location call AS_fnc_location_spawned) exitWith {};
 		private _pos = [];
 		while {true} do {
 			_pos = [_position, random _size,random 360] call BIS_fnc_relPos;

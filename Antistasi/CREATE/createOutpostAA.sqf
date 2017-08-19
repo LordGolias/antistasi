@@ -77,8 +77,7 @@ if !(_location in _pLarge) then {
 };
 
 for "_i" from 1 to _groupsCount do {
-	if (!(_location call AS_fnc_location_spawned) or
-		(diag_fps < AS_P("minimumFPS") and _i != 1)) exitWith {};
+	if !(_location call AS_fnc_location_spawned) exitWith {};
 	_grupo = [_posicion, side_red, [infTeam, "AAF"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
 	private _stance = "RANDOM";
 	if (_i == 1) then {_stance = "RANDOMUP"};
