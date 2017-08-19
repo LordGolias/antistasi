@@ -56,7 +56,6 @@ if (_type in ["resource", "factory"]) then {
 if (_type in ["base", "airfield"]) then {
 	[20,-20,_posicion] remoteExec ["citySupportChange",2];
 	[0,-10] call AS_fnc_changeForeignSupport;
-	server setVariable [_location,dateToNumber date,true];
 	[_location,60] call AS_fnc_location_increaseBusy;
 
 	if (_type == "base") then {
