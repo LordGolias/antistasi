@@ -91,8 +91,8 @@ private _objectsToDelete = [];
 [propTruck,"Mission Vehicle"] spawn inmuneConvoy;
 
 // set the flags for active item and active broadcast
-server setVariable ["activeItem", propTruck, true];
-server setVariable ["BCactive", false, true];
+AS_Sset("activeItem", propTruck);
+AS_Sset("BCactive", false);
 
 // dispatch a small QRF
 private _qrf_specs = [_base, _position, _location, _tiempolim, "transport", "small"];
@@ -104,9 +104,9 @@ if !(_airport == "") then {
 private _fnc_clean = {
 	[[], _objectsToDelete + _grafArray + [propTruck]] call AS_fnc_cleanResources;
 
-	// reset the flag for active attack-spawning objects
-	server setVariable ["activeItem", nil, true];
-
+	AS_Sset("activeItem", nil);
+	AS_Sset("BCactive", nil);
+	AS_Sset("BCdisabled", nil);
 	sleep 30;
     [_task] call BIS_fnc_deleteTask;
     _mission call AS_fnc_mission_completed;
@@ -136,21 +136,21 @@ waitUntil {sleep 1; (_truck distance _position < 150) or _fnc_missionFailedCondi
 if (call _fnc_missionFailedCondition) exitWith _fnc_missionFailed;
 
 
-while {not ((server getVariable "BCactive") or _fnc_missionFailedCondition)} do {
+while {not (AS_S("BCactive") or _fnc_missionFailedCondition)} do {
 	private _active = false;
 	while {(_truck distance _position < 150) and
-		not ((server getVariable "BCactive") or _fnc_missionFailedCondition)} do {
+		not (AS_S("BCactive") or _fnc_missionFailedCondition)} do {
 		// activate if it is not moving
 		if (not _active and (speed _truck < 1)) then {
 			_active = true;
 			[[_truck,"toggle_device"],"AS_fnc_addAction"] call BIS_fnc_MP;
-			server setVariable ["BCdisabled", false, true];
+			AS_Sset("BCdisabled", false);
 		};
 		// deactivate if it moves
 		if (_active and (speed _truck > 1)) then {
 			_active = false;
 			[[_truck,"remove"],"AS_fnc_addAction"] call BIS_fnc_MP;
-			server setVariable ["BCdisabled", true, true];
+			AS_Sset("BCdisabled", true);
 		};
 		sleep 1;
 	};
@@ -235,7 +235,7 @@ _fnc_missionFailedCondition = {not (alive _truck)};
 
 // counter stops forever when no player within 300m or car deactivated
 private _fnc_continueCounterCondition = {
-	(server getVariable "BCactive") and
+	AS_S("BCactive") and
 	({(side _x isEqualTo side_blue) and (_x distance _truck < 300)} count allPlayers > 0) and {not call _fnc_missionFailedCondition}
 };
 
@@ -288,8 +288,7 @@ while _fnc_continueCounterCondition do {
 };
 
 // stop the attack script from spawning additional waves
-server setVariable ["waves_active", false, true];
-
+AS_Sset("waves_active", false);
 
 // 10 city support for 10 minutes plus 1 for every additional 60 seconds
 private _prestige = 0;

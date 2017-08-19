@@ -273,7 +273,7 @@ fnc_deployPad = {
 		deleteVehicle _obj;
 	};
 
-	server setVariable ["AS_vehicleOrientation", [_caller, _obj] call BIS_fnc_dirTo, true];
+	AS_Sset("AS_vehicleOrientation", [_caller, _obj] call BIS_fnc_dirTo);
 	vehiclePad = createVehicle ["Land_JumpTarget_F", _pos, [], 0, "CAN_COLLIDE"];
 	publicVariable "vehiclePad";
 
@@ -286,7 +286,7 @@ fnc_deletePad = {
 		vehiclePad = nil;
 		publicVariable "vehiclePad";
 	};
-	server setVariable ["AS_vehicleOrientation", nil, true];
+	AS_Sset("AS_vehicleOrientation", 0);
 };
 
 fnc_selectCMPData = {

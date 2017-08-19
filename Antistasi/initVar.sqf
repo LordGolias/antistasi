@@ -247,6 +247,8 @@ AS_Sset("blockCSAT", false);
 // list of vehicles (objects) that can no longer be used while undercover
 AS_Sset("reportedVehs", []);
 
+AS_Sset("AS_vehicleOrientation", 0);
+
 AS_spawnLoopTime = 1; // seconds between each check of spawn/despawn locations (expensive loop).
 
 // Pricing values for soldiers, vehicles of AAF

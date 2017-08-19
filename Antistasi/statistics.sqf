@@ -63,7 +63,7 @@ else
 	while {showStatistics} do
 		{
 		waitUntil {sleep 0.5; player == player getVariable ["owner",player]};
-		_texto = format ["<t size='0.55'>" + "HR: %1 | FIA Money: %2 € | NATO Support: %3 | CSAT Support: %4 | %5 | %6", AS_P("hr"), AS_P("resourcesFIA"), AS_P("NATOsupport"), AS_P("CSATsupport"), server getVariable "BE_PBar", ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)];
+		_texto = format ["<t size='0.55'>" + "HR: %1 | FIA Money: %2 € | NATO Support: %3 | CSAT Support: %4 | %5 | %6", AS_P("hr"), AS_P("resourcesFIA"), AS_P("NATOsupport"), AS_P("CSATsupport"), AS_S("BE_PBar"), ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)];
 		//if (captive player) then {_texto = format ["%1 ON",_texto]} else {_texto = format ["%1 OFF",_texto]};
 		if (_texto != _viejoTexto) then
 			{

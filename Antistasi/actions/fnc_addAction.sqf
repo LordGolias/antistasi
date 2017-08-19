@@ -37,7 +37,6 @@ switch _type do {
 	case "buy_exp": {_object addAction [localize "STR_act_buy", {CreateDialog "exp_menu";},nil,0,false,true,"",IS_PLAYER]};
 	case "jam": {_object addAction [localize "STR_act_jamCSAT", "actions\jamLRRAdio.sqf",nil,0,false,true,"",IS_PLAYER]};
 	case "toggle_device": {_object addAction [localize "STR_act_toggleDevice", "Scripts\toggleDevice.sqf",nil,0,false,true,"",IS_PLAYER]};
-	case "unload_pamphlets": {_object addAction [localize "STR_act_pamphlets", {server setVariable ["pr_unloading_pamphlets", true, true]; [[_this select 0,"remove"],"AS_fnc_addAction"] call BIS_fnc_MP;},nil,0,false,true,"",IS_PLAYER]};
 	case "moveObject" : {_object addAction [localize "STR_act_moveAsset", "actions\moveObject.sqf",nil,0,false,true,"",IS_COMMANDER]};
 	case "deploy" : {_object addAction [localize "STR_act_buildPad", {[_this select 0, _this select 1] remoteExec ["fnc_deployPad", 2]},nil,0,false,true,"",IS_COMMANDER]};
 	case "arsenal" : {_object addAction [localize "STR_act_arsenal", "actions\arsenal.sqf",nil,0,false,true,"","(isPlayer _this)"]};

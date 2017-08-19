@@ -1,21 +1,21 @@
-if (isNil {server getVariable "activeItem"}) exitWith {};
+#include "../macros.hpp"
+if isNil AS_S("activeItem") exitWith {};
 
-_object = server getVariable "activeItem";
+private _object = AS_S("activeItem");
 
-if (server getVariable "BCdisabled") exitWith {
+if AS_S("BCdisabled") exitWith {
 	{if (isPlayer _x) then {[petros,"hint","The device can only be activated once."] remoteExec ["commsMP",_x]}} forEach ([20, _object, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 };
 
-if !(server getVariable "BCactive") then {
+if not AS_S("BCactive") then {
 	{if (isPlayer _x) then {[petros,"hint","Device activated."] remoteExec ["commsMP",_x]}} forEach ([20, _object, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
-	server setVariable ["BCactive", true, true];
+	AS_Sset("BCactive", true);
 	sleep 2700;
-	server setVariable ["BCactive", false, true];
+	AS_Sset("BCactive", false);
 	{if (isPlayer _x) then {[petros,"hint","Device deactivated."] remoteExec ["commsMP",_x]}} forEach ([20, _object, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
-}
-else {
-	server setVariable ["BCactive", false, true];
-	server setVariable ["BCdisabled", true, true];
+} else {
+	AS_Sset("BCactive", false);
+	AS_Sset("BCdisabled", true);
 	{if (isPlayer _x) then {[petros,"hint","Device turned off."] remoteExec ["commsMP",_x]}} forEach ([20, _object, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 	[[propTruck,"remove"],"AS_fnc_addAction"] call BIS_fnc_MP;
 };

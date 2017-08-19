@@ -37,7 +37,7 @@ cuentaGarage = 0;
 
 // the selected as a vehicle
 garageVeh = createVehicle [(vehInGarageShow select cuentaGarage), garagePos, [], 0, "NONE"];
-garageVeh setDir (server getVariable ["AS_vehicleOrientation", 0]);
+garageVeh setDir AS_S("AS_vehicleOrientation");
 garageVeh allowDamage false;
 garageVeh enableSimulationGlobal false;
 
@@ -93,7 +93,7 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown", {
 		if (typeName _tipo != typeName "") then {_exitGarage = true};
 		if (!_exitGarage) then {
 			garageVeh = _tipo createVehicle garagePos;
-			garageVeh setDir (server getVariable ["AS_vehicleOrientation", 0]);
+			garageVeh setDir AS_S("AS_vehicleOrientation");
 			garageVeh allowDamage false;
 			garageVeh enableSimulationGlobal false;
 		};
