@@ -72,7 +72,7 @@ private _FIAResIncomeMultiplier = 1;
         [["TaskSucceeded", ["", format ["%1 joined FIA",[_city, false] call AS_fnc_getLocationName]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
         _city call AS_fnc_location_updateMarker;
 
-        ["con_cit"] remoteExec ["fnc_BE_XP", 2];
+        ["con_cit"] call fnc_BE_XP;
 
         [0,5] call AS_fnc_changeForeignSupport;
         [_city, !_power] spawn AS_fnc_changeStreetLights;

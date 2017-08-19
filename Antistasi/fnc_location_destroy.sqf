@@ -21,7 +21,7 @@ private _buildings = _posicion nearObjects ["house",_size];
 } forEach _buildings;
 
 if (_location call AS_fnc_location_type == "powerplant") then {
-	[_location] remoteExec ["powerReorg", 2];
+	[_location] call powerReorg;
 };
 
 if _add then {

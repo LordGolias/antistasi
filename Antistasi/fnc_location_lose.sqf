@@ -12,7 +12,7 @@ private _size = _location call AS_fnc_location_size;
 
 [_location,"side","AAF"] call AS_fnc_location_set;
 
-["territory", -1] remoteExec ["fnc_BE_update", 2];
+["territory", -1] call fnc_BE_update;
 
 
 // remove all garrison
@@ -31,7 +31,7 @@ private _staticsRemoved = [];
 
 
 if (_type in ["outpost", "seaport"]) then {
-	[10,-10,_posicion] remoteExec ["citySupportChange",2];
+	[10,-10,_posicion] call citySupportChange;
 	if (_type == "outpost") then {
 		[["TaskFailed", ["", "Outpost Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 	} else {
@@ -41,10 +41,10 @@ if (_type in ["outpost", "seaport"]) then {
 if (_type == "powerplant") then {
 	[0,-5] call AS_fnc_changeForeignSupport;
 	[["TaskFailed", ["", "Powerplant Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
-	[_location] remoteExec ["powerReorg",2];
+	[_location] call powerReorg;
 };
 if (_type in ["resource", "factory"]) then {
-	[10,-10,_posicion] remoteExec ["citySupportChange",2];
+	[10,-10,_posicion] call citySupportChange;
 	[0,-5] call AS_fnc_changeForeignSupport;
 
 	if (_type == "resource") then {
@@ -54,7 +54,7 @@ if (_type in ["resource", "factory"]) then {
 	};
 };
 if (_type in ["base", "airfield"]) then {
-	[20,-20,_posicion] remoteExec ["citySupportChange",2];
+	[20,-20,_posicion] call citySupportChange;
 	[0,-10] call AS_fnc_changeForeignSupport;
 	[_location,60] call AS_fnc_location_increaseBusy;
 
