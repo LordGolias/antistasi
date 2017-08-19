@@ -10,6 +10,7 @@ If origin is an airport/carrier, the QRF will consist of air cavalry. Otherwise 
 
 Example: 0 = ["Paros", 15, [2, 3, 10], ["QRF_air_transport_small", "QRF_land_mixed_large", "Attack"]] spawn attackWaves;
 */
+#include "../macros.hpp"
 params ["_targetMarker", "_duration", "_waveIntervals", "_waveSpecs"];
 
 private _targetLocation = _targetMarker call AS_fnc_location_position;
@@ -17,61 +18,46 @@ private _targetLocation = _targetMarker call AS_fnc_location_position;
 // break if timing and specs of waves don't match
 if !(count _waveIntervals == count _waveSpecs) exitWith {diag_log format ["Script failure: number and type of waves do not match -- intervals: %1; types: %2", _waveIntervals, _waveSpecs]};
 
-if (server getVariable "waves_active") exitWith {diag_log "Script failure: attack waves already active."};
+if not isNil AS_S("waves_active") exitWith {diag_log "Script failure: attack waves already active."};
 
-_startTime = dateToNumber date;
-_endTime = dateToNumber ([date select 0, date select 1, date select 2, date select 3, (date select 4) + _duration]);
+private _endTime = dateToNumber ([date select 0, date select 1, date select 2, date select 3, (date select 4) + _duration]);
 
-server setVariable ["waves_start", _startTime, true];
-server setVariable ["waves_active", true, true];
-
-// check if a stop action is requested
-if (count _this > 4) then {
-	_breakCondition = _this select 3 select 4;
-	_action = _breakCondition addAction ["Stop Attack Waves", {
-	server setVariable ["waves_active", false, true];
-	server setVariable ["waves_duration", (dateToNumber date) - (server getVariable "waves_start")];
-	},nil,0,false,true,"",""];
-};
+AS_Sset("waves_active", true);
 
 // find closest base
 private _bases = [];
 {
-	_posBase = _x call AS_fnc_location_position;
+	private _posBase = _x call AS_fnc_location_position;
 	if ((_targetLocation distance _posBase < 7500) and
 		(_targetLocation distance _posBase > 1500) and
 		!(_x call AS_fnc_location_spawned)) then {
-			_bases pushBack _base
+			_bases pushBack _x
 		};
 } forEach (["base", "AAF"] call AS_fnc_location_TS);
 
-_base = "";
-_posBase = [];
+private _base = "";
 if (count _bases > 0) then {
 	_base = [_bases, _targetLocation] call BIS_fnc_nearestPosition;
-	_posBase = _base call AS_fnc_location_position;
 };
 
 // find closest airport
 private _airports = [];
 {
-	_posAirport = _x call AS_fnc_location_position;
+	private _posAirport = _x call AS_fnc_location_position;
 	if ((_targetLocation distance _posAirport < 7500) and
 		(_targetLocation distance _posAirport > 1500) and
-		!(_airport call AS_fnc_location_spawned)) then {
-			_airports pushBack _airport
+		!(_x call AS_fnc_location_spawned)) then {
+			_airports pushBack _x;
 		};
 } forEach (["airfield", "AAF"] call AS_fnc_location_TS);
 
-_airport = "";
-_posAirport = [];
+private _airport = "";
 if (count _airports > 0) then {
 	_airport = [_airports, _targetLocation] call BIS_fnc_nearestPosition;
-	_posAirport = _airport call AS_fnc_location_position;
 };
 
 // create marker at target location
-_mrk = createMarkerLocal [format ["Attack-%1", random 100],_targetLocation];
+private _mrk = createMarkerLocal [format ["Attack-%1", random 100], _targetLocation];
 _mrk setMarkerShapeLocal "RECTANGLE";
 _mrk setMarkerSizeLocal [150,150];
 _mrk setMarkerTypeLocal "hd_warning";
@@ -80,10 +66,10 @@ _mrk setMarkerBrushLocal "DiagGrid";
 _mrk setMarkerAlpha 0;
 
 // trigger of wave types
-_triggerWave = {
-    private _waveType = _this select 0;
+private _triggerWave = {
+	params ["_waveType"];
 
-    switch (_waveType) do {
+    switch _waveType do {
 
     	// QRF, air, small
     	case "QRF_air_mixed_small": {
@@ -206,47 +192,32 @@ _triggerWave = {
 };
 
 // times at which the waves will be dispatched
-_waveTimes = [];
+private _waveTimes = [];
 for "_i" from 0 to (count _waveIntervals - 1) do {
 	_waveTimes pushBack dateToNumber ([date select 0, date select 1, date select 2, date select 3, (date select 4) + (_waveIntervals select _i)]);
 };
 
-_break = false;
-_nrOfWaves = count _waveTimes;
-_waveIndex = 0;
-_currentWave = 0;
-
-_manualStop = false;
+private _nrOfWaves = count _waveTimes;
+private _waveIndex = 0;
+private _currentWave = 0;
 
 // while attacks are going on
-while {(server getVariable "waves_active") && (dateToNumber date < _endTime) && !(_break)} do {
+while {(dateToNumber date < _endTime) and AS_S("waves_active") and {_waveIndex < _nrOfWaves}} do {
 	_currentWave = _waveTimes select _waveIndex;
 
-	// while the current wave is active
-	while {(server getVariable "waves_active") && (dateToNumber date < _endTime)} do {
-		if (_waveIndex == _nrOfWaves) exitWith {
-			_break = true;
-		};
-
+	// wait until it is time to send the next wave
+	while {(dateToNumber date < _endTime) and AS_S("waves_active") and {_waveIndex < _nrOfWaves}} do {
 		if (dateToNumber date > _currentWave) exitWith {
 			_waveIndex = _waveIndex + 1;
 		};
-
 		sleep 10;
 	};
-	if (!(_break) && (server getVariable "waves_active")) then {
+	if (AS_S("waves_active") and {_waveIndex < _nrOfWaves}) then {
 		[_waveSpecs select (_waveIndex - 1)] call _triggerWave;
-		diag_log format ["Wave triggered: %1", _waveSpecs select (_waveIndex - 1)];
 	};
 	sleep 1;
 };
 
-if !(server getVariable "waves_active") then {
-	_manualStop = true;
-	// make the duration available externally
-	server setVariable ["waves_duration", (dateToNumber date) - (server getVariable "waves_start")];
-};
-
-server setVariable ["waves_active", false, true];
+AS_Sset("waves_active", false);
 
 deleteMarker _mrk;
