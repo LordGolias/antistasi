@@ -93,6 +93,7 @@ AS_fnc_medicLoop = {
             private _canHeal = {
                 params ["_candidate"];
                 (alive _candidate) and
+                {not isPlayer _candidate} and
                 {not (_candidate call AS_fnc_isUnconscious)} and
                 {_candidate call AS_fnc_canHeal} and
                 {vehicle _candidate == _candidate} and
