@@ -144,7 +144,7 @@ if (_veh isKindOf "Car") then {
 		if ((_part find "wheel" != -1) and (_proj == "") and (!isPlayer driver _unit)) then {
 			0
 		} else {
-			"_dam"
+			_dam
 		};
 	}];
 };
