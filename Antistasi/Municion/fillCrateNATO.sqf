@@ -2,6 +2,7 @@ params ["_crate", "_NATOSupp"];
 private ["_intNATOSupp", "_weapons","_magazines","_items","_backpacks","_addWeapon"];
 
 _intNATOSupp = floor (_NATOSupp/10);
+_intNATOSupp = _intNATOSupp max 1;
 
 _weapons = [[],[]];
 _magazines = [[],[]];
@@ -11,7 +12,7 @@ _backpacks = [[],[]];
 _addWeapon = {
 	params ["_weapon", "_amount", "_mags"];
 	if (_amount < 1) exitWith {};
-	_mag = selectRandom (getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines"));
+	private _mag = selectRandom (getArray (configFile >> "CfgWeapons" >> _weapon >> "magazines"));
 
 	(_weapons select 0) pushBack _weapon;
 	(_weapons select 1) pushBack _amount;

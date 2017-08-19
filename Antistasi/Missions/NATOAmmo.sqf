@@ -26,7 +26,7 @@ private _fnc_clean = {
 };
 
 private _origen = "spawnNATO";
-private _orig = _origen call AS_fnc_location_position;
+private _orig = getMarkerPos _origen;
 
 
 private _helifn = [_orig, 0, selectRandom bluHeliDis, side_blue] call bis_fnc_spawnvehicle;

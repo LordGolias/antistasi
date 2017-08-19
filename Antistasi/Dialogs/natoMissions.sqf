@@ -69,11 +69,12 @@ if (AS_P("NATOsupport") < _requiredSupport) exitWith {
 };
 
 if (_missionType == "nato_uav") exitWith {
-	[_missionType, _requiredSupport] remoteExec ["AS_fnc_create_mission", 2];
+	[_missionType, _requiredSupport] remoteExec ["AS_fnc_mission_create", 2];
 };
 
 hint format ["%1",_textohint];
 private _posicionTel = call _get_mapPosition;
+hint "";
 if (count _posicionTel == 0) exitWith {};
 
 // roadblock only allowed on roads
@@ -81,11 +82,11 @@ if (_missionType == "nato_roadblock") exitWith {
 	if not isOnRoad _posicionTel exitWith {
 		hint "Roadblocks can only be placed on roads.";
 	};
-	[_missionType, _requiredSupport, [["position", _posiciontel]]] remoteExec ["AS_fnc_create_mission", 2];
+	[_missionType, _requiredSupport, [["position", _posiciontel]]] remoteExec ["AS_fnc_mission_create", 2];
 };
 
 if (_missionType == "nato_ammo") exitWith {
-	[_missionType, _requiredSupport, [["position", _posiciontel]]] remoteExec ["AS_fnc_create_mission", 2];
+	[_missionType, _requiredSupport, [["position", _posiciontel]]] remoteExec ["AS_fnc_mission_create", 2];
 };
 
 // below this point all missions require the location nearby the chosen position
@@ -103,14 +104,14 @@ if (_missionType == "nato_qrf") exitWith {
 	private _destination = call _get_mapPosition;
 	if (count _destination == 0) exitWith {};
 
-	[_missionType, _requiredSupport, [["origin", _location], ["destinationPos", _destination]]] remoteExec ["AS_fnc_create_mission", 2];
+	[_missionType, _requiredSupport, [["origin", _location], ["destinationPos", _destination]]] remoteExec ["AS_fnc_mission_create", 2];
 };
 
 if (_missionType == "nato_artillery") exitWith {
 	if (_type != "base") exitWith {
 		hint "Artillery support can only be obtained from bases.";
 	};
-	[_missionType, _requiredSupport, [["origin", _location]]] remoteExec ["AS_fnc_create_mission", 2];
+	[_missionType, _requiredSupport, [["origin", _location]]] remoteExec ["AS_fnc_mission_create", 2];
 };
 
 hint "Click on a position to position the column on";
@@ -122,7 +123,7 @@ if (_missionType == "nato_armor") exitWith {
 	if not (_location in _bases) exitWith {
 		hint "You must select a friendly base";
 	};
-	[_missionType, _requiredSupport, [["origin", _location], ["destinationPos", _posicionTel]]] remoteExec ["AS_fnc_create_mission", 2];
+	[_missionType, _requiredSupport, [["origin", _location], ["destinationPos", _posicionTel]]] remoteExec ["AS_fnc_mission_create", 2];
 };
 
 if (_missionType == "nato_attack") exitWith {
@@ -136,5 +137,5 @@ if (_missionType == "nato_attack") exitWith {
 	if (_side == "FIA") exitWith {
 		hint "NATO Attacks may be only ordered on AAF locations"
 	};
-	[_missionType, _requiredSupport, [["origin", _location], ["destination", _destination]]] remoteExec ["AS_fnc_create_mission", 2];
+	[_missionType, _requiredSupport, [["origin", _location], ["destination", _destination]]] remoteExec ["AS_fnc_mission_create", 2];
 };
