@@ -109,11 +109,10 @@ call AS_fnc_loadLocalPlayer;
 call AS_fnc_initPlayer;
 
 player addEventHandler ["GetInMan", {
-	private _unit = _this select 0;
-	private _veh = _this select 2;
+    params ["_unit", "_seat", "_vehicle"];
 	private _exit = false;
 	if isMultiplayer then {
-		private _owner = _veh getVariable "AS_vehOwner";
+		private _owner = _vehicle getVariable "AS_vehOwner";
 		if (!isNil "_owner" and
             {{getPlayerUID _x == _owner} count (units group player) == 0}) then {
 			hint "You can only enter in other's vehicle if you are in its group";
@@ -122,26 +121,25 @@ player addEventHandler ["GetInMan", {
 		};
 	};
 	if not _exit then {
-		if (((typeOf _veh) in arrayCivVeh) or ((typeOf _veh) == civHeli)) then {
-			if (!(_veh in AS_S("reportedVehs"))) then {
+		if (((typeOf _vehicle) in arrayCivVeh) or ((typeOf _vehicle) == civHeli)) then {
+			if (!(_vehicle in AS_S("reportedVehs"))) then {
 				[] spawn undercover;
 			};
 		};
-		if (_veh isKindOf "Truck_F") then {
-			if ((not (_veh isKindOf "C_Van_01_fuel_F")) and (not (_veh isKindOf "I_Truck_02_fuel_F")) and (not (_veh isKindOf "B_G_Van_01_fuel_F"))) then {
-				if (_this select 1 == "driver") then {
-					private _EHid = _unit addAction [localize "STR_act_loadAmmobox", "Municion\transfer.sqf",nil,0,false,true];
-					_unit setVariable ["transferID", _EHid, true];
-				};
+		if (_seat == "driver" and _vehicle isKindOf "Truck_F") then {
+			if ((not (_vehicle isKindOf "C_Van_01_fuel_F")) and (not (_vehicle isKindOf "I_Truck_02_fuel_F")) and (not (_vehicle isKindOf "B_G_Van_01_fuel_F"))) then {
+				private _EHid = [_vehicle, "transferFrom"] call AS_fnc_addAction;
+				player setVariable ["transferID", _EHid];
 			};
 		};
 	};
 }];
 
 player addEventHandler ["GetOutMan", {
-	if !((player getVariable ["transferID", -1]) == -1) then {
-		player removeaction (player getVariable "transferID");
-		player setVariable ["transferID", nil, true];
+    params ["_unit", "_seat", "_vehicle"];
+	if ((player getVariable ["transferID", -1]) != -1) then {
+		_vehicle removeAction (player getVariable "transferID");
+		player setVariable ["transferID", nil];
 	};
 }];
 
@@ -229,7 +227,7 @@ if (hayTFAR or hayACE or hayRHS) then {
 
 removeAllActions caja;
 [caja,"arsenal"] call AS_fnc_addAction;
-[caja,"emptyCrate"] call AS_fnc_addAction;
+[caja,"transferFrom"] call AS_fnc_addAction;
 
 removeAllActions mapa;
 mapa addAction [localize "str_act_gameOptions", {CreateDialog "game_options_commander";},nil,0,false,true,"","(isPlayer _this) and (_this == AS_commander) and (_this == _this getVariable ['owner',_this])"];

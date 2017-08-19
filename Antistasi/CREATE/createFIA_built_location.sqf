@@ -62,7 +62,7 @@ if (_type == "camp") then {
 	// adds options to access the box
 	[[_campBox,"heal_camp"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	[[_campBox,"arsenal"],"AS_fnc_addAction"] call BIS_fnc_MP;
-	[[_campBox,"emptyCrate"],"AS_fnc_addAction"] call BIS_fnc_MP;
+	[[_campBox,"transferFrom"],"AS_fnc_addAction"] call BIS_fnc_MP;
 };
 
 private _wasDestroyed = false;
