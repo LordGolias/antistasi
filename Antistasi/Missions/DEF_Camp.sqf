@@ -9,7 +9,7 @@ if AS_S("blockCSAT") exitWith {
 	private _message = "blocked";
 	AS_ISDEBUG(_debug_prefix + _message);
 };
-if (server getVariable "campQRF") exitWith {
+if not isNil AS_S("campQRF") exitWith {
 	private _message = "another attack already in progress";
 	AS_ISDEBUG(_debug_prefix + _message);
 };
@@ -55,15 +55,13 @@ if (isMultiplayer) then {
 
 // call the QRF, single transport helicopter
 [_airport, _position, _location, _duration, "transport", _QRFsize, "campQRF"] remoteExec ["enemyQRF", 2];
-
-// wait for the QRF script to be loaded
-sleep 10;
+waitUntil {sleep 1; not isNil AS_S("campQRF")};
 
 // infantry group of the QRF, to determine success/failure
 private _soldados = [];
 {
 	_soldados append (units _x);
-} forEach (server getVariable "campQRF");
+} forEach AS_S("campQRF");
 
 private _fnc_clean = {
 	// troops are despawned by the QRF script

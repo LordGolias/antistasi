@@ -190,12 +190,9 @@ if (_type == "air") then {
 		// if the QRF is dispatched to an FIA camp, provide the group
 		if (_source == "campQRF") then {
 			if (_size == "large") then {
-				server setVariable ["campQRF", [_grpDis1,_grpDis2], true];
-				[format ["DefCamp -- QRF -- group 1: %1; group 2: %2", _grpDis1, _grpDis2, server getVariable ["campQRF", "none"]]] remoteExec ["fnc_logOutput", 2];
-			}
-			else {
-				server setVariable ["campQRF", [_grpDis2], true];
-				[format ["DefCamp -- QRF -- group 1: %1", _grpDis2, server getVariable ["campQRF", "none"]]] remoteExec ["fnc_logOutput", 2];
+				AS_Sset("campQRF", [_grpDis1,_grpDis2]);
+			} else {
+				AS_Sset("campQRF", [_grpDis2]);
 			};
 		};
 	};

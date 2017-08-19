@@ -259,12 +259,6 @@ fnc_rearmPetros = {
 	petros selectweapon primaryWeapon petros;
 };
 
-fnc_logOutput = {
-	params ["_text"];
-	diag_log format ["Client-side log entry: %1", _text];
-};
-publicVariable "fnc_logOutput";
-
 fnc_deployPad = {
 	// _obj is the paint
 	params ["_obj", "_caller"];
