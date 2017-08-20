@@ -47,24 +47,24 @@ Cam cameraEffect ["internal", "BACK"];
 //Cam camCommand "Manual On";
 Cam camCommit 0;
 
-["<t size='0.6'>Garage Keys.<t size='0.5'><br/>A-D Navigate<br/>SPACE to Select<br/>ENTER to Exit",0,0,5,0,0,4] spawn bis_fnc_dynamicText;
+["<t size='0.6'>Garage Keys.<t size='0.5'><br/>A-D Navigate<br/>SPACE to Select<br/>ESCAPE to Exit",0,0,5,0,0,4] spawn bis_fnc_dynamicText;
 
 garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown", {
 	private _key = _this select 1;
-	if not (_key in [57, 28, 32, 30]) exitWith {
+	if not (_key in [57, 1, 32, 30]) exitWith {
 		false
 	};
 	private _exitGarage = false;
 	private _changeVehicle = false;
 	private _takeVehicle = false;
-	["<t size='0.6'>Garage Keys.<t size='0.5'><br/>A-D Navigate<br/>SPACE to Select<br/>ENTER to Exit",0,0,5,0,0,4] spawn bis_fnc_dynamicText;
+	["<t size='0.6'>Garage Keys.<t size='0.5'><br/>A-D Navigate<br/>SPACE to Select<br/>ESCAPE to Exit",0,0,5,0,0,4] spawn bis_fnc_dynamicText;
 	if (_this select 1 == 57) then {
 		// space: take and leave
 		_exitGarage = true;
 		_takeVehicle = true;
 	};
-	if (_key == 28) then {
-		// space: leave
+	if (_key == 1) then {
+		// escape: leave
 		_exitGarage = true;
 		deleteVehicle garageVeh;
 	};
