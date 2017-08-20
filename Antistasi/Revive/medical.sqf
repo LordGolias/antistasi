@@ -72,7 +72,6 @@ AS_fnc_medicLoop = {
 
         if (not _wasUnconscious and _isUnconscious) then {
             // became unconscious
-            diag_log format ["[AS] Debug: %1 became unconscious", name _unit];
             _unit setCaptive true;
             if not isPlayer _unit then {
                 _unit stop true;
@@ -108,15 +107,18 @@ AS_fnc_medicLoop = {
                 };
             } forEach units group _unit;
             if not isNull _medic then {
-                diag_log format ["[AS] Debug: %1 became conscious", name _unit];
                 [_medic, _unit] call AS_fnc_healUnit;
             };
         };
         if _isUnconscious then {
-            // this would not be needed, but currently the medic does not use epipen.
-            // See https://github.com/acemod/ACE3/pull/5433
-            // So, we just do it ourselves (without animations and stuff)
-            if hayACEMedical then {
+            if not hayACEmedical then {
+                if (_unit call AS_fnc_isHealed) then {
+                    [_unit, false] call AS_fnc_setUnconscious;
+                };
+            } else {
+                // this would not be needed, but currently the medic does not use epipen.
+                // See https://github.com/acemod/ACE3/pull/5433
+                // So, we just do it ourselves (without animations and stuff)
                 private _hasBandaging = ([_unit] call ACE_medical_fnc_getBloodLoss) == 0;
                 private _hasMorphine  = (_unit getVariable ["ACE_medical_pain", 0]) <= 0.2;
                 if (_hasBandaging and _hasMorphine) then {
@@ -127,7 +129,6 @@ AS_fnc_medicLoop = {
 
         if (_wasUnconscious and not _isUnconscious) then {
             // became conscious
-            diag_log format ["[AS] Debug: %1 became conscious", name _unit];
             _unit setCaptive false;
             if not isPlayer _unit then {
                 _unit stop false;
@@ -200,7 +201,7 @@ AS_fnc_medicEffectsLoop = {
 
 AS_fnc_setUnconscious = {
     params ["_unit", "_unconscious"];
-    if (not hayACEMedical) then {
+    if not hayACEMedical then {
         if _unconscious then {
             _unit switchMove "";
             _unit playActionNow "Unconscious";
@@ -256,4 +257,13 @@ AS_fnc_healAction = {
     // release the units so others can help
     [_unit, _medic] call AS_fnc_clearAssigned;
     _unit groupChat "I am ready";
+};
+
+// Used by non-ACE to test whether the unit is healed or not
+AS_fnc_isHealed = {
+    params ["_unit"];
+    {
+        if ((_unit getHit _x) > 0.8) exitWith {false};
+        true
+    } forEach ["neck","head","pelvis","spine1","spine2","spine3","body",""]
 };
