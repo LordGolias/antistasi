@@ -18,8 +18,6 @@ if (_tipo == vehAmmo and _side == "AAF") then {[_veh, "Convoy"] call AS_fnc_fill
 if (_tipo == opCrate and _side == "AAF") then {[_veh, "AA"] call AS_fnc_fillCrateAAF};
 // todo: add more equipment depending on spawing side / vehicle
 
-if ((hayACE) && !(random 8 < 1)) then {_veh setVariable ["ace_cookoff_enable", false, true]};
-
 _veh addEventHandler ["Killed", {[_this select 0] spawn postmortem}];
 
 private _aaf_veh_EHkilled = {
@@ -51,8 +49,6 @@ private _aaf_veh_EHkilled = {
 				_xpEffect = "des_arm";
 			};
 			case "trucks": {
-				// these are unlimited, so they cost money but no support
-				[-1000] remoteExec ["resourcesAAF", 2];
 				_xpEffect = "des_veh";
 			};
 			default {
@@ -125,9 +121,9 @@ if !(_veh isKindOf "StaticWeapon") then {
 // air units can only be piloted by humans
 if (_type in ["planes", "armedHelis", "transportHelis"]) then {
 	_veh addEventHandler ["GetIn", {
-		_posicion = _this select 1;
+		private _posicion = _this select 1;
 		if (_posicion == "driver") then {
-			_unit = _this select 2;
+			private _unit = _this select 2;
 			if ((!isPlayer _unit) and (_unit getVariable ["BLUFORSpawn",false])) then {
 				moveOut _unit;
 				hint "Only Humans can pilot an air vehicle";
@@ -155,7 +151,7 @@ if (_side == "NATO") then {
 
     // do not accept AIs from players groups to enter.
     _veh addEventHandler ["GetIn", {
-        _unit = _this select 2;
+        private _unit = _this select 2;
         if ({isPlayer _x} count units group _unit > 0) then {
             moveOut _unit;
         };
