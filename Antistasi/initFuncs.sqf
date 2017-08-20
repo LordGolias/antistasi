@@ -193,7 +193,11 @@ AS_fnc_createAAFgeneric = compile preProcessFileLineNumbers "CREATE\createAAFgen
 AS_fnc_createRoadblock = compile preProcessFileLineNumbers "CREATE\createRoadblock.sqf";
 createWatchpost = compile preProcessFileLineNumbers "CREATE\createWatchpost.sqf";
 createAAsite = compile preProcessFileLineNumbers "CREATE\createAAsite.sqf";
-AS_fnc_createRoadPatrol = compile preProcessFileLineNumbers "CREATE\createRoadPatrol.sqf";
+AS_fnc_AAFroadPatrol = compile preProcessFileLineNumbers "CREATE\fnc_AAFroadPatrol.sqf";
+
+AS_fnc_availableSeats = compile preProcessFileLineNumbers "Functions\fnc_availableSeats.sqf";
+AS_fnc_createGroup = compile preProcessFileLineNumbers "Functions\fnc_createGroup.sqf";
+AS_fnc_groupCfgToComposition = compile preProcessFileLineNumbers "Functions\fnc_groupCfgToComposition.sqf";
 
 unlockVehicle = compile preProcessFileLineNumbers "unlockVehicle.sqf";
 AS_fnc_fastTravel = compile preProcessFileLineNumbers "fnc_fastTravel.sqf";

@@ -17,7 +17,7 @@ while {true} do {
 
 	// if too little patrols, generate new patrols.
 	if (AAFpatrols < 3) then {
-		[[], "AS_fnc_createRoadPatrol"] call AS_scheduler_fnc_execute;
+		[[], "AS_fnc_AAFroadPatrol"] call AS_scheduler_fnc_execute;
 	};
 
 	// repair and re-arm all statics.

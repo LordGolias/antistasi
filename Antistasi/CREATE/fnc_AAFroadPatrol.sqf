@@ -4,68 +4,61 @@ private _vehiculos = [];
 private _grupos = [];
 
 private _validTypes = vehPatrol + [vehBoat];
+_validTypes = _validTypes arrayIntersect (AS_AAFarsenal_categories call AS_fnc_AAFarsenal_all);
+_validTypes = _validTypes arrayIntersect _validTypes;
 
-private _base = "";
+private _origin = "";
 private _type = "";
-while {count _validTypes != 0} do {
-	_type = selectRandom _validTypes;
-	private _arrayBases = [["base"], "AAF"] call AS_fnc_location_TS;
-	if (_type in (["armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all)) then {
-		_arrayBases = [["airfield"], "AAF"] call AS_fnc_location_TS;
+{
+	private _candidate = selectRandom _validTypes;
+	private _category = _candidate call AS_fnc_AAFarsenal_category;
+
+	private _validOrigins = ["base"];
+	if (_category == "trucks") then {
+		_validOrigins = ["base", "outpost"];
+	};
+	if (_category in ["armedHelis", "transportHelis", "planes"]) then {
+		_validOrigins = ["airfield"];
 	};
 	if (_type == vehBoat) then {
-		_arrayBases = [["searport"], "AAF"] call AS_fnc_location_TS;
+		_validOrigins = ["searport"];
 	};
+	_validOrigins = [_validOrigins, "AAF"] call AS_fnc_location_TS;
 
-	// get a valid starting base
-	while {count _arraybases != 0} do {
-		private _potential_base = [_arraybases, getMarkerPos "FIA_HQ"] call BIS_fnc_nearestPosition;
-		if !(_potential_base call AS_fnc_location_spawned) exitWith {
-			_base = _potential_base;  // suitable base gound.
-		};
-		_arraybases = _arraybases - [_potential_base];
+	_validOrigins = _validOrigins select {!(_x call AS_fnc_location_spawned)};
+	if (count _validOrigins > 0) exitWith {
+		_origin = [_validOrigins, getMarkerPos "FIA_HQ"] call BIS_fnc_nearestPosition;
+		_type = _candidate;
 	};
-	if (_base != "") exitWith {};
-	// no suitable base => type is not suitable
-	_validTypes = _validTypes - [_type]
-};
+} forEach (_validTypes call AS_fnc_shuffle);
 
-
-if (count _validTypes == 0) exitWith {
+if (_type == "") exitWith {
 	AS_ISDEBUG("[AS] debug: fnc_createRoadPatrol cancelled: no valid types");
 };
 
-
-private _groundDestinations = {
-	private _posHQ = getMarkerPos "FIA_HQ";
-
-	private _validLocations = [];
-	private _allLocations = [
-		["base", "airfield", "resource", "factory", "powerplant", "outpost", "outpostAA"],
-		"AAF"] call AS_fnc_location_TS;
-	{
-		private _pos = _x call AS_fnc_location_position;
-		if (_posHQ distance _pos < 3000) then {_validLocations pushBack _x};
-	} forEach _allLocations;
-	_validLocations
-};
-
-
-private _posbase = _base call AS_fnc_location_position;
+private _posbase = _origin call AS_fnc_location_position;
 private _category = [_type] call AS_fnc_AAFarsenal_category;
-
-private _arraydestinos = call _groundDestinations;
-private _distancia = 50;
-
 private _isFlying = _category in ["armedHelis","transportHelis", "planes"];
-if (_isFlying) then {
-	_arrayDestinos = "AAF" call AS_fnc_location_S;
-	_distancia = 200;
+
+private _fnc_destinations = {
+
+	private _potentialLocations = call {
+		if _isFlying exitWith {
+			"AAF" call AS_fnc_location_S
+		};
+		if (_type == vehBoat) exitWith {
+			[["searport"], "AAF"] call AS_fnc_location_TS
+		};
+		[["base", "airfield", "resource", "factory", "powerplant", "outpost", "outpostAA"],
+		"AAF"] call AS_fnc_location_TS
+	};
+
+	private _posHQ = getMarkerPos "FIA_HQ";
+	_potentialLocations select {_posHQ distance (_x call AS_fnc_location_position) < 3000}
 };
-if (_type == vehBoat) then {
-	_arraydestinos = ([["searport"], "AAF"] call AS_fnc_location_TS) select {(_x call AS_fnc_location_position) distance _posbase < 2500};
-	_distancia = 100;
-};
+
+private _arraydestinos = call _fnc_destinations;
+private _distancia = 200;
 
 if (count _arraydestinos < 1) exitWith {
 	AS_ISDEBUG("[AS] debug: fnc_createRoadPatrol cancelled: no valid destinations");
@@ -102,19 +95,18 @@ _soldados append _vehCrew;
 _grupos pushBack _grupoVeh;
 _vehiculos pushBack _veh;
 
-
 if (_type isKindOf "Car") then {
-	sleep 1;
-	private _tipoGrupo = [infGarrisonSmall, "AAF"] call fnc_pickGroup;
-	private _grupo = [_posbase, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
+	private _groupType = [selectRandom infGarrisonSmall, "AAF"] call fnc_pickGroup;
+	private _tempGroup = createGroup side_red;
+	[_groupType call AS_fnc_groupCfgToComposition, _tempGroup, _posbase, _veh call AS_fnc_availableSeats] call AS_fnc_createGroup;
 	{
 		_x assignAsCargo _veh;
 		_x moveInCargo _veh;
 		_soldados pushBack _x;
-		[_x] join _grupoveh;
+		[_x] joinsilent _grupoveh;
 		_x call AS_fnc_initUnitAAF;
-	} forEach units _grupo;
-	deleteGroup _grupo;
+	} forEach units _tempGroup;
+	deleteGroup _tempGroup;
 	[_veh] spawn smokeCover;
 };
 
@@ -152,7 +144,7 @@ while _continue_condition do {
 		if (_type == vehBoat) then {
 			_arraydestinos = ([["searport"], "AAF"] call AS_fnc_location_TS) select {(_x call AS_fnc_location_position) distance (position _veh) < 2500};
 		} else {
-			_arraydestinos = call _groundDestinations;
+			_arraydestinos = call _fnc_destinations;
 		};
 	};
 };
