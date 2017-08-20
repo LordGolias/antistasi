@@ -43,9 +43,6 @@
 			<Key ID="STR_act_buyVehicle">
 				<Original>&lt;img size='1.75' image='\A3\ui_f\data\IGUI\Cfg\MPTable\soft_ca.paa' /&gt; Buy Vehicle</Original>
 			</Key>
-			<Key ID="STR_act_loadAmmobox">
-				<Original>&lt;img size='1.2' image='\A3\ui_f\data\igui\cfg\VehicleToggles\VehicleCargoIconOn2_ca.paa' /&gt; Load Ammobox to Truck</Original>
-			</Key>
 			<Key ID="STR_act_unloadCargo">
 				<Original>&lt;img size='1.2' image='\A3\ui_f\data\igui\cfg\VehicleToggles\VehicleCargoIconOn_ca.paa' /&gt; Unload Vehicle Cargo to Ammobox</Original>
 			</Key>
@@ -54,6 +51,9 @@
 			</Key>
 			<Key ID="STR_act_persGarage">
 				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\rsc\rscdisplaysinglemission\source\backup\large_64x64\locked_ca.paa' /&gt; Personal Garage</Original>
+			</Key>
+			<Key ID="STR_act_FIAGarage">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\igui\cfg\VehicleToggles\VehicleCargoIconOn2_ca.paa' /&gt; FIA Garage</Original>
 			</Key>
 			<Key ID="STR_act_refuel">
 				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\Cfg\Actions\refuel_ca.paa' /&gt; Refuel Vehicle</Original>

@@ -28,9 +28,8 @@ switch _type do {
 	case "garage": {
 		if isMultiplayer then {
 			_object addAction [localize "STR_act_persGarage", {[true] spawn garage},nil,0,false,true,"",IS_PLAYER]
-		} else {
-			_object addAction ["FIA Garage", {[false] spawn garage},nil,0,false,true,"",IS_PLAYER]
-		}
+		};
+		_object addAction [localize "STR_act_FIAGarage", {[false] spawn garage},nil,0,false,true,"",IS_COMMANDER]
 	};
 	case "heal_camp": {_object addAction [localize "STR_act_useMed", "actions\heal.sqf",nil,0,false,true,"",IS_PLAYER]};
 	case "refuel": {_object addAction [localize "STR_act_refuel", "actions\refuel.sqf",nil,0,false,true,"",IS_PLAYER]};
