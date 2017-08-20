@@ -1,5 +1,5 @@
 #include "../macros.hpp"
-AS_CLIENT_ONLY("AS_fnc_addAction.sqf");
+if not hasInterface exitWith {};
 
 params ["_object","_type"];
 
