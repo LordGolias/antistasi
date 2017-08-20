@@ -62,7 +62,7 @@ _mrkfin setMarkerBrushLocal "DiagGrid";
 
 private _grupoUAV = grpNull;
 private _uav = objNull;
-if (!isNil opUAVsmall) then {
+if (!isNil "opUAVsmall") then {
 	_uav = createVehicle [opUAVsmall, _posCmp, [], 0, "FLY"];
 	[_uav,"CSAT"] call AS_fnc_initVehicle;
 	_vehiculos pushBack _uav;

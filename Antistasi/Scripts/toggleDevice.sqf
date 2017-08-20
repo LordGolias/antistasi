@@ -1,5 +1,5 @@
 #include "../macros.hpp"
-if isNil AS_S("activeItem") exitWith {};
+if isNil {AS_S("activeItem")} exitWith {};
 
 private _object = AS_S("activeItem");
 

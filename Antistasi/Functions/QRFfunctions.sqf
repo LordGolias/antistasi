@@ -96,7 +96,7 @@ fnc_QRF_groundAssault = {
 	sleep _duration;
 
 	[_vehGroup, _origin] spawn fnc_QRF_RTB;
-	if (!isNil _infGroup) then {
+	if (!isNil "_infGroup") then {
 		[_infGroup, _origin] spawn fnc_QRF_RTB;
 	};
 };

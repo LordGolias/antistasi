@@ -34,7 +34,7 @@ while {true} do {
 
 	// start AAF attacks under certain conditions.
 	if (AS_P("secondsForAAFAttack") < 1) then {
-		private _noWaves = isNil AS_S("waves_active");
+		private _noWaves = isNil {AS_S("waves_active")};
 		if ((count ("aaf_attack" call AS_fnc_active_missions) == 0) and _noWaves) then {
 			private _script = [] spawn ataqueAAF;
 			waitUntil {sleep 5; scriptDone _script};

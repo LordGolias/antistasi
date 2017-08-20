@@ -18,7 +18,7 @@ private _targetLocation = _targetMarker call AS_fnc_location_position;
 // break if timing and specs of waves don't match
 if !(count _waveIntervals == count _waveSpecs) exitWith {diag_log format ["Script failure: number and type of waves do not match -- intervals: %1; types: %2", _waveIntervals, _waveSpecs]};
 
-if not isNil AS_S("waves_active") exitWith {diag_log "Script failure: attack waves already active."};
+if not isNil {AS_S("waves_active")} exitWith {diag_log "Script failure: attack waves already active."};
 
 private _endTime = dateToNumber ([date select 0, date select 1, date select 2, date select 3, (date select 4) + _duration]);
 
