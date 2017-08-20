@@ -2,7 +2,6 @@
 params ["_location", "_base", ["_aeropuerto", ""], ["_useCSAT", false], ["_isDirectAttack", true], ["_threatEval", 0]];
 
 private _isLocation = false;
-private _exit = false;
 private _position = "";
 if (typeName _location == typeName "") then {
 	_isLocation = true;
@@ -92,15 +91,21 @@ if _useCSAT then {
 			[_heli,"CSAT Air Attack"] spawn inmuneConvoy;
 		} else {  // transport heli
 			{_x setBehaviour "CARELESS";} forEach units _grupoheli;
-			private _tipoGrupo = [opGroup_Squad, "CSAT"] call fnc_pickGroup;
-			private _grupo = [_posorigen, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
-			{_x assignAsCargo _heli; _x moveInCargo _heli; _soldados = _soldados + [_x]; _x call AS_fnc_initUnitCSAT} forEach units _grupo;
-			_grupos pushBack _grupo;
+			private _groupType = [opGroup_Squad, "CSAT"] call fnc_pickGroup;
+			private _group = createGroup side_red;
+			[_groupType call AS_fnc_groupCfgToComposition, _group, _posorigen, _heli call AS_fnc_availableSeats] call AS_fnc_createGroup;
+			{
+				_x assignAsCargo _heli;
+				_x moveInCargo _heli;
+				_soldados pushBack _x;
+				_x call AS_fnc_initUnitCSAT;
+			} forEach units _group;
+			_grupos pushBack _group;
 			[_heli,"CSAT Air Transport"] spawn inmuneConvoy;
 
 			if (((_location call AS_fnc_location_type) in ["base", "airfield"]) or
 			    (random 10 < _threatEval)) then {
-				[_heli,_grupo,_position,_threatEval] spawn airdrop;
+				[_heli,_group,_position,_threatEval] spawn airdrop;
 			} else {
 				if ((random 100 < 50) or (_tipoVeh == opHeliDismount)) then {
 					{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _grupoheli;
@@ -110,9 +115,9 @@ if _useCSAT then {
 					private _pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
 					_vehiculos = _vehiculos + [_pad];
 
-					[_grupoheli, _posorigen, _landpos, _location, _grupo, 25*60, "air"] call fnc_QRF_dismountTroops;
+					[_grupoheli, _posorigen, _landpos, _location, _group, 25*60, "air"] call fnc_QRF_dismountTroops;
 				} else {
-					[_grupoheli, _pos, _position, _location, [_grupo], 25*60] call fnc_QRF_fastrope;
+					[_grupoheli, _pos, _position, _location, [_group], 25*60] call fnc_QRF_fastrope;
 				};
 			};
 		};
