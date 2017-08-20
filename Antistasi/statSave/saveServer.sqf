@@ -41,7 +41,7 @@ private _cargo_b = _cargoArray select 3;
             {not(group _x getVariable ["esNATO",false])}) then {
         if (isPlayer (leader group _x)) then {
             if (!isMultiplayer) then {
-                private _precio = AS_data_allCosts getVariable ([_x] call AS_fnc_getFIAUnitNameType);
+                private _precio = AS_data_allCosts getVariable (_x call AS_fnc_getFIAUnitName);
                 if (!(isNil "_precio")) then {_resfondo = _resfondo + _precio};
             };
             private _arsenal = [_x, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons

@@ -16,7 +16,7 @@ if (_unit == AS_commander) then {
 		   {!isPlayer leader _x}) then {
 			{
 				if (alive _x) then {
-					_recursos = _recursos + (AS_data_allCosts getVariable ([_x] call AS_fnc_getFIAUnitNameType));
+					_recursos = _recursos + (AS_data_allCosts getVariable (_x call AS_fnc_getFIAUnitType));
 					_hr = _hr + 1;
 				};
 				// check for vehicles

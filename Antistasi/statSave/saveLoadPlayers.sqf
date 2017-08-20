@@ -24,7 +24,7 @@ AS_fnc_serializeLocalPlayer = {
 		{
 		private _hired = _x;
 		if ((!isPlayer _hired) and (alive _hired)) then {
-			_money = _money + (AS_data_allCosts getVariable ([_x] call AS_fnc_getFIAUnitNameType));
+			_money = _money + (AS_data_allCosts getVariable (_x call AS_fnc_getFIAUnitName));
 			if (vehicle _hired != _hired) then {
 				private _veh = vehicle _hired;
 				private _tipoVeh = typeOf _veh;
