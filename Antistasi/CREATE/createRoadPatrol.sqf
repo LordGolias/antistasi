@@ -25,10 +25,9 @@ while {count _validTypes != 0} do {
 		};
 		_arraybases = _arraybases - [_potential_base];
 	};
-	// if no suitable base was found, the type is not suitable
-	if (count _arraybases == 0) then {
-		_validTypes = _validTypes - [_type]
-	};
+	if (_base != "") exitWith {};
+	// no suitable base => type is not suitable
+	_validTypes = _validTypes - [_type]
 };
 
 
@@ -75,16 +74,12 @@ if (count _arraydestinos < 1) exitWith {
 ///////////// CHECKS COMPLETED -> CREATE PATROL /////////////
 
 AAFpatrols = AAFpatrols + 1;
-publicVariableServer "AAFpatrols";
+publicVariable "AAFpatrols";
 
-if (!_isFlying) then
-	{
-	if (_type == vehBoat) then
-		{
+if not _isFlying then {
+	if (_type == vehBoat) then {
 		_posbase = [_posbase,50,150,10,2,0,0] call BIS_Fnc_findSafePos;
-		}
-	else
-		{
+	} else {
 		private _tam = 10;
 		private _roads = [];
 		while {count _roads == 0} do {
@@ -93,8 +88,8 @@ if (!_isFlying) then
 		};
 		private _road = _roads select 0;
 		_posbase = position _road;
-		};
 	};
+};
 
 private _vehicle = [_posbase, 0,_type, side_red] call bis_fnc_spawnvehicle;
 private _veh = _vehicle select 0;
@@ -117,7 +112,7 @@ if (_type isKindOf "Car") then {
 		_x moveInCargo _veh;
 		_soldados pushBack _x;
 		[_x] join _grupoveh;
-		_x call AS_fnc_initUnitAAF
+		_x call AS_fnc_initUnitAAF;
 	} forEach units _grupo;
 	deleteGroup _grupo;
 	[_veh] spawn smokeCover;
@@ -162,6 +157,6 @@ while _continue_condition do {
 	};
 };
 
-AAFpatrols = AAFpatrols - 1;
-publicVariableServer "AAFpatrols";
 [_grupos, _vehiculos, []] call AS_fnc_cleanResources;
+AAFpatrols = AAFpatrols - 1;
+publicVariable "AAFpatrols";
