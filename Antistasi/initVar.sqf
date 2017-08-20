@@ -106,14 +106,14 @@ if (isServer) then {
 	};
 
 	// This variable stores what vehicles the AAF can spawn and for how much.
-	AS_AAFArsenal = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
+	AS_AAFArsenal = createSimpleObject ["Static", [0, 0, 0]];
 	publicVariable "AS_AAFArsenal";
 	call AS_fnc_AAFarsenal_init;  // sets default prices and other variables.
 
 	// Stores everything related to what units and squads the FIA can recruit (and costs)
-	AS_FIArecruitment = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
+	AS_FIArecruitment = createSimpleObject ["Static", [0, 0, 0]];
 	publicVariable "AS_FIArecruitment";
-	AS_data_allCosts = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
+	AS_data_allCosts = createSimpleObject ["Static", [0, 0, 0]];
 	publicVariable "AS_data_allCosts";
 };
 

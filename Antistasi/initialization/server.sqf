@@ -4,10 +4,12 @@ AS_SERVER_ONLY("server.sqf");
 call compile preprocessFileLineNumbers "debug\init.sqf";
 
 // AS_persistent are server-side variables. They are all published.
-AS_persistent = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
+AS_persistent = createSimpleObject ["Static", [0, 0, 0]];
 publicVariable "AS_persistent";
-AS_shared = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
+AS_shared = createSimpleObject ["Static", [0, 0, 0]];
 publicVariable "AS_shared";
+AS_containers = createSimpleObject ["Static", [0, 0, 0]];
+publicVariable "AS_containers";
 
 diag_log "[AS] Server: starting";
 call compile preprocessFileLineNumbers "initialization\server_functions.sqf";

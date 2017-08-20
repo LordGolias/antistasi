@@ -104,12 +104,6 @@ AS_fnc_container_add = {
     READ;
     WRITE;
 
-    if (isNil "AS_containers") then {
-        // create container to store containers
-        AS_containers = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
-        publicVariable "AS_containers";
-    };
-
     private _containers = call AS_fnc_containers;
     if (_container in _containers) exitWith {
         diag_log format ["[AS] Error: AS_fnc_container_add: container '%1' already exists", _container];
@@ -123,7 +117,7 @@ AS_fnc_container_add = {
 
     _containers pushBack _container;
     AS_containers setVariable ["_all", _containers, true];
-    private _containerObj = (createGroup sideLogic) createUnit ["LOGIC",[0, 0, 0] , [], 0, ""];
+    private _containerObj = createSimpleObject ["Static", [0, 0, 0]];
     AS_containers setVariable [_container, _containerObj, _isGlobal];
     private _all = [];
     SET_PROPERTY(_container, "_all", _all, true);

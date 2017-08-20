@@ -13,7 +13,7 @@ AS_scheduler_fnc_initialize = {
 
     if isServer then {
         // the server stores status of the clients
-        AS_workers = (createGroup sideLogic) createUnit ["Logic", [0,0,0], [], 0, "NONE"];
+        AS_workers = createSimpleObject ["Static", [0, 0, 0]];
         AS_workers setVariable ["_all", []];
     } else {
         // clients send status to the server

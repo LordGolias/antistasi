@@ -62,8 +62,7 @@ private _FIAcontrolledLocations = count (
 private _FIAcontrolledBases = count (
 	[["airfield", "base"], "FIA"] call AS_fnc_location_TS);
 
-private _logicGroup = createGroup (createCenter sideLogic);
-private _extra_conditions = _logicGroup createUnit ["Logic", [0,0,0], [], 0, "NONE"];
+private _extra_conditions = createSimpleObject ["Static", [0, 0, 0]];
 _extra_conditions setVariable ["transportHelis", _FIAcontrolledLocations >= 1];
 _extra_conditions setVariable ["tanks", _FIAcontrolledLocations >= 3];
 _extra_conditions setVariable ["armedHelis", _FIAcontrolledLocations >= 3];
@@ -86,7 +85,6 @@ _extra_conditions setVariable ["planes", _FIAcontrolledBases >= 1];
 } forEach AS_AAFarsenal_categories;
 
 deleteVehicle _extra_conditions;
-deleteGroup _logicGroup;
 
 //////////////// try to upgrade skills ////////////////
 private _skillFIA = AS_P("skillFIA");
