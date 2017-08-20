@@ -36,7 +36,8 @@ How to use:
 // notation. They have to be used before a READ to guarantee atomicity.
 #define GET_PROPERTY(_container, _property) ((AS_containers getVariable _container) getVariable _property)
 #define GET_OBJECT_PROPERTY(_container, _object, _property) (GET_PROPERTY(_container, (_object + "_" + _property)))
-#define GET_OBJECT_EXISTS(_container, _object) (_object in GET_PROPERTY(_container, "_all"))
+#define GET_OBJECT_EXISTS(_container, _object) (not isNil {GET_PROPERTY(_container, _object + "_" + "_properties")})
+#define GET_PROPERTY_EXISTS(_container, _object, _property) (not isNil {GET_OBJECT_PROPERTY(_container, _object, _property)})
 
 #define SET_PROPERTY(_container, _property, _value, _isGlobal) ((AS_containers getVariable _container) setVariable [_property, _value, _isGlobal])
 
@@ -59,12 +60,13 @@ AS_fnc_object_get = {
     params ["_container", "_object", "_property"];
     READ;
 
-    if not (GET_OBJECT_EXISTS(_container, _object)) exitWith {
-        diag_log format ["[AS] Error: object_get(%1,%2,%3): object '%2' does not exist in container '%1'. Valid objects: %4", _container, _object, _property, _container call AS_fnc_objects];
+    if not GET_OBJECT_EXISTS(_container, _object) exitWith {
+        private _objects = _container call AS_fnc_objects;
+        diag_log format ["[AS] Error: object_get(%1,%2,%3): object '%2' does not exist in container '%1'. Valid objects: %4, %5", _container, _object, _property, count _objects, _objects];
     };
 
-    private _properties = GET_OBJECT_PROPERTY(_container, _object, "_properties");
-    if not (_property in _properties) exitWith {
+    if not GET_PROPERTY_EXISTS(_container, _object, _property) exitWith {
+        private _properties = GET_OBJECT_PROPERTY(_container, _object, "_properties");
         diag_log format ["[AS] Error: object_get(%1,%2,%3): property '%3' does not exist for object '%2' in container '%1'. Valid properties: %4", _container, _object, _property, _properties];
     };
 
@@ -90,7 +92,7 @@ AS_fnc_object_properties = {
     params ["_container", "_object"];
     READ;
 
-    if not (GET_OBJECT_EXISTS(_container, _object)) exitWith {
+    if not GET_OBJECT_EXISTS(_container, _object) exitWith {
         diag_log format ["[AS] Error: object_properties: object '%1' does not exist in container %2", _object, _container];
         []
     };
@@ -119,8 +121,7 @@ AS_fnc_container_add = {
     AS_containers setVariable ["_all", _containers, true];
     private _containerObj = createSimpleObject ["Static", [0, 0, 0]];
     AS_containers setVariable [_container, _containerObj, _isGlobal];
-    private _all = [];
-    SET_PROPERTY(_container, "_all", _all, true);
+    SET_PROPERTY(_container, "_all", [], true);
     SET_PROPERTY(_container, "_isGlobal", _isGlobal, true);
     END_WRITE;
 };
@@ -143,10 +144,7 @@ AS_fnc_object_add = {
     READ;
     WRITE;
 
-    private _objects = GET_PROPERTY(_container, "_all");
-    private _isGlobal = GET_PROPERTY(_container, "_isGlobal");
-
-    if (_object in _objects) exitWith {
+    if GET_OBJECT_EXISTS(_container, _object) exitWith {
         diag_log format ["[AS] Error: object_add: object '%1' already exists in container '%2'.", _object, _container];
         END_WRITE;
     };
@@ -155,6 +153,8 @@ AS_fnc_object_add = {
         END_WRITE;
     };
 
+    private _objects = GET_PROPERTY(_container, "_all");
+    private _isGlobal = GET_PROPERTY(_container, "_isGlobal");
     _objects pushBack _object;
     private _properties = ["_properties"];
     SET_PROPERTY(_container, "_all", _objects, _isGlobal);
@@ -168,13 +168,16 @@ AS_fnc_object_set = {
     READ;
     WRITE;
 
+    if not GET_OBJECT_EXISTS(_container, _object) exitWith {
+        diag_log format ["[AS] Error: AS_fnc_object_set: object '%1' does not exist in container '%2'", _object, _container];
+        END_WRITE;
+    };
     if ((_property find "_") == 0) exitWith {
         diag_log format ["[AS] Error: object_set: properties cannot start with '_' but '%1' does (%2, %3, %4).", _property, _container, _object, _value];
         END_WRITE;
     };
-
-    if not (GET_OBJECT_EXISTS(_container, _object)) exitWith {
-        diag_log format ["[AS] Error: AS_fnc_object_set: object '%1' does not exist in container '%2'", _object, _container];
+    if isNil "_value" exitWith {
+        diag_log format ["[AS] Error: object_set(%1, %2, %3, %4): values cannot be nil but it does.", _container, _object, _property, _value];
         END_WRITE;
     };
 
@@ -196,9 +199,13 @@ AS_fnc_object_del = {
     if (_property find "_" == 0) exitWith {
         diag_log format ["[AS] Error: object_del: properties cannot start with '_' but '%1' does.", _property];
     };
-    if not (GET_OBJECT_EXISTS(_container, _object)) exitWith {
+    if not GET_OBJECT_EXISTS(_container, _object) exitWith {
         diag_log format ["[AS] Error: AS_fnc_object_del: object '%1' does not exist in container '%2'", _object, _container];
         END_WRITE;
+    };
+    if not GET_PROPERTY_EXISTS(_container, _object, _property) exitWith {
+        private _properties = GET_OBJECT_PROPERTY(_container, _object, "_properties");
+        diag_log format ["[AS] Error: object_del(%1,%2,%3): property '%3' does not exist for object '%2' in container '%1'. Valid properties: %4", _container, _object, _property, _properties];
     };
     private _isGlobal = GET_PROPERTY(_container, "_isGlobal");
 
@@ -215,20 +222,18 @@ AS_fnc_object_remove = {
     READ;
     WRITE;
 
-    private _objects = GET_PROPERTY(_container, "_all");
-
-    if !(_object in _objects) exitWith {
+    if not GET_OBJECT_EXISTS(_container, _object) exitWith {
         diag_log format ["[AS] Error: object_remove: object '%1' cannot be removed from container '%2' because it does not exist.", _object, _container];
         END_WRITE;
     };
     private _isGlobal = GET_PROPERTY(_container, "_isGlobal");
-
     // its properties
     {
         SET_PROPERTY(_container, _object + "_" + _x, nil, _isGlobal);
     } forEach GET_OBJECT_PROPERTY(_container, _object, "_properties");
 
     // itself
+    private _objects = GET_PROPERTY(_container, "_all");
     _objects = _objects - [_object];
     SET_PROPERTY(_container, _object + "_" + "_properties", nil, _isGlobal);
     SET_PROPERTY(_container, "_all", _objects, _isGlobal);
