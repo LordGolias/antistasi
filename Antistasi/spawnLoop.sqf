@@ -35,7 +35,7 @@ while {true} do {
 		private _isSpawned = _x call AS_fnc_location_spawned;
 
 		if (_x call AS_fnc_location_side == "AAF") then {
-			private _spawnCondition = (_x call AS_fnc_location_forced_spawned) or {{(_x distance _position < AS_P("spawnDistance"))} count _spawningBLUFORunits > 0};			                          ;
+			private _spawnCondition = (_x call AS_fnc_location_forced_spawned) or {{(_x distance _position < AS_P("spawnDistance"))} count _spawningBLUFORunits > 0};
 			if (!_isSpawned and _spawnCondition) then {
 				_x call AS_fnc_location_spawn;
 				private _type = _x call AS_fnc_location_type;
