@@ -3,13 +3,14 @@ params ["_mission"];
 
 private _origin = [_mission, "origin"] call AS_fnc_mission_get;
 private _destination = [_mission, "destination"] call AS_fnc_mission_get;
-private _support = [_mission, "support"] call AS_fnc_mission_get;
+private _support = [_mission, "NATOsupport"] call AS_fnc_mission_get;
 
 private _destPos = _destination call AS_fnc_location_position;
-private _origPos = _origin call AS_fnc_location_position;
+private _origPos = getMarkerPos "spawnNATO";
 private _origname = "the NATO Carrier";
 if (_origin != "spawnNATO") then {
-	_origname = [_origin] call localizar
+	_origname = [_origin] call localizar;
+	_origPos = _origin call AS_fnc_location_position;
 };
 
 private _tskTitle = "NATO Attack";
@@ -31,7 +32,7 @@ private _fnc_clean = {
 
 private _threatEval = [_destPos] call AAthreatEval;
 
-if ((_origin call AS_location_type) in ["base", "airfield"]) then {
+if (_origin != "spawnNATO" and {(_origin call AS_fnc_location_type) in ["base", "airfield"]}) then {
 	[_destination] spawn artilleriaNATO;
 };
 
@@ -55,13 +56,13 @@ for "_i" from 1 to _group_count do {
 		private _group = [_origin, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 		{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] spawn AS_fnc_initUnitNATO} forEach units _group;
 		_groups pushBack _group;
-		if ((_origin call AS_location_type == "airfield") or (random 10 < _threatEval)) then {
+		if ((_origin call AS_fnc_location_type == "airfield") or (random 10 < _threatEval)) then {
 			[_heli, _group, _destPos, _threatEval] spawn airdrop;
 		} else {
-			if ((_destination call AS_location_type) in ["base","watchpost"]) then {
+			if ((_destination call AS_fnc_location_type) in ["base","watchpost"]) then {
 				[_groupheli, _origPos, _destPos, _destination, [_group], 25*60] call fnc_QRF_fastrope;
 			};
-			if ((_destination call AS_location_type) in ["resource","factory", "powerplant"]) then {
+			if ((_destination call AS_fnc_location_type) in ["resource","factory", "powerplant"]) then {
 				{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _groupheli;
 				private _landpos = [];
 				_landpos = [_destPos, 0, 500, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
@@ -117,7 +118,7 @@ for "_i" from 1 to _group_count do {
 		private _group = [_origPos, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 		{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] call AS_fnc_initUnitNATO} forEach units _group;
 		_groups pushBack _group;
-		if ((_destination call AS_location_type) in ["airfield","base", "watchpost"] or (random 10 < _threatEval)) then {
+		if ((_destination call AS_fnc_location_type) in ["airfield","base", "watchpost"] or (random 10 < _threatEval)) then {
 			[_heli,_group,_destPos,_threatEval] spawn airdrop;
 		} else {
 			private _landpos = [];

@@ -1,6 +1,8 @@
 #include "../macros.hpp"
 params ["_missionType"];
 
+#define MIN_DISTANCE_FOR_SELECTION 200
+
 if (count (_missionType call AS_fnc_active_missions) != 0) exitWith {
 	hint "NATO is already busy with this kind of mission";
 };
@@ -36,11 +38,11 @@ switch _missionType do {
 	};
 	case "nato_attack": {
 		_requiredSupport = 30;
-		_textohint = "Click on the base or airport you want NATO to attack";
+		_textohint = "Click on location you want NATO to attack";
 	};
 	case "nato_armor": {
 		_requiredSupport = 30;
-		_textohint = "Click on the base from which you want NATO to attack";
+		_textohint = "Click on the location you want the armor to stay";
 	};
 	case "nato_ammo": {
 		_requiredSupport = 5;
@@ -93,7 +95,9 @@ if (_missionType == "nato_ammo") exitWith {
 private _location = _posicionTel call AS_fnc_location_nearest;
 private _position = _location call AS_fnc_location_position;
 private _type = _location call AS_fnc_location_type;
-if (_posicionTel distance _position > 50) exitWith {hint "You must click near a map marker"};
+if (_posicionTel distance _position > MIN_DISTANCE_FOR_SELECTION) exitWith {
+	hint "You must select a location";
+};
 
 if (_missionType == "nato_qrf") exitWith {
 	// default origin
@@ -114,28 +118,51 @@ if (_missionType == "nato_artillery") exitWith {
 	[_missionType, _requiredSupport, [["origin", _location]]] remoteExec ["AS_fnc_mission_create", 2];
 };
 
-hint "Click on a position to position the column on";
-private _posicionTel = call _get_mapPosition;
+
+private _exit = false;
+if (_missionType == "nato_attack") then {
+	if (_location call AS_fnc_location_side == "FIA") exitWith {
+		_exit = true;
+		hint "The location to attack must not be controlled by FIA";
+	};
+	if !(_type in ["base", "outpost", "airfield", "outpostAA"]) exitWith {
+		_exit = true;
+		hint "NATO will not attack this type of location."
+	};
+};
+if _exit exitWith {};
+
+private _origin = "";
+if (_missionType == "nato_attack" and (count _airfields + count _bases == 0)) then {
+	// we can only attack from spawnNATO, so we skip the choice
+	_origin = "spawnNATO";
+	_posicionTel = getMarkerPos _origin;
+} else {
+	hint "Click on a location for the NATO to start from";
+	_posicionTel = call _get_mapPosition;
+	if (count _posicionTel != 0 and {_posicionTel distance (getMarkerPos "spawnNATO") < MIN_DISTANCE_FOR_SELECTION}) then {
+		_origin = "spawnNATO";
+	};
+};
 if (count _posicionTel == 0) exitWith {};
-private _destination = _posicionTel call AS_fnc_location_nearest;
+if (_origin == "") then {
+	_origin = _posicionTel call AS_fnc_location_nearest;
+};
+
+if (_origin != "spawnNATO" and {_origin call AS_fnc_location_side != "FIA"}) exitWith {
+	hint "You must select a friendly location";
+};
 
 if (_missionType == "nato_armor") exitWith {
-	if not (_location in _bases) exitWith {
-		hint "You must select a friendly base";
+	if not (_origin in _bases) exitWith {
+		hint "You must select a base";
 	};
-	[_missionType, _requiredSupport, [["origin", _location], ["destinationPos", _posicionTel]]] remoteExec ["AS_fnc_mission_create", 2];
+	[_missionType, _requiredSupport, [["origin", _origin], ["destinationPos", _position]]] remoteExec ["AS_fnc_mission_create", 2];
 };
 
 if (_missionType == "nato_attack") exitWith {
-	if (_posicionTel distance (_destination call AS_fnc_location_position) > 50) exitWith {
-		hint "You must click near a map marker";
+	if not (_origin in (_bases+_airfields+["spawnNATO"])) exitWith {
+		hint "You must select a base or airfield";
 	};
-	if !(_type in ["base", "outpost", "airfield", "outpostAA"]) exitWith {
-		hint "NATO will not attack this type of location."
-	};
-	private _side = _destination call AS_fnc_location_side;
-	if (_side == "FIA") exitWith {
-		hint "NATO Attacks may be only ordered on AAF locations"
-	};
-	[_missionType, _requiredSupport, [["origin", _location], ["destination", _destination]]] remoteExec ["AS_fnc_mission_create", 2];
+	[_missionType, _requiredSupport, [["origin", _origin], ["destination", _location]]] remoteExec ["AS_fnc_mission_create", 2];
 };

@@ -127,7 +127,7 @@ if (_CSAT) then {
 			{_x assignAsCargo _heli; _x moveInCargo _heli; _x call AS_fnc_initUnitCSAT} forEach units _grupo;
 			_grupos pushBack _grupo;
 			[_heli,"CSAT Air Transport"] spawn inmuneConvoy;
-			if (((_position call AS_location_type) in ["base","airfield"]) or (random 10 < _threatEvalAir)) then {
+			if (((_position call AS_fnc_location_type) in ["base","airfield"]) or (random 10 < _threatEvalAir)) then {
 				[_heli,_grupo,_position,_threatEvalAir] spawn airdrop;
 			} else {
 				if ((random 100 < 50) or (_tipoVeh == opHeliDismount)) then {
