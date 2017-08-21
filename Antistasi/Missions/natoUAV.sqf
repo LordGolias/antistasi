@@ -3,14 +3,17 @@ params ["_mission"];
 private _airports = (["airfield", "FIA"] call AS_fnc_location_TS) + ["spawnNATO"];
 
 private _origin = [_airports, AS_commander] call BIS_fnc_nearestPosition;
-private _originPos = _origin call AS_fnc_location_position;
 
 private _tiempolim = 30;
 private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 private _fechalimnum = dateToNumber _fechalim;
 
 private _nombreorig = "the NATO Carrier";
-if (_origin != "spawnNATO") then {_nombreorig = [_origin] call localizar};
+private _originPos = getMarkerPos _origin;
+if (_origin != "spawnNATO") then {
+	_nombreorig = [_origin] call localizar;
+	_originPos = _origin call AS_fnc_location_position;
+};
 
 private _tskDesc = format ["NATO is providing a UAV from %1. It will be under our command in a few seconds and until %2:%3.",_nombreorig,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
 private _tskTitle = "NATO UAV";

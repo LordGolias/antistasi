@@ -32,7 +32,7 @@ private _textoHint = "";
 
 switch _missionType do {
 	case "nato_uav": {
-		_requiredSupport = 5
+		_requiredSupport = 10
 	};
 	case "nato_attack": {
 		_requiredSupport = 30;
