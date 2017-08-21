@@ -8,15 +8,6 @@ must be initialized only in the server (using `if (isServer)`).
 */
 #include "macros.hpp"
 
-// todo: remove this variable
-antistasiVersion = "v 1.7 -- modded";
-
-servidoresOficiales = [
-	"Antistasi Official EU",
-	"Antistasi Official EU - TEST",
-	"Antistasi:Altis Official"
-];
-
 // Whether the autoHeal system is activated for this client.
 autoHeal = false;
 

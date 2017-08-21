@@ -47,6 +47,3 @@ waitUntil {!isNil "AS_commander" and {isPlayer AS_commander}};
 waitUntil {!(isNil "placementDone")};
 [] spawn AS_fnc_spawnLoop;
 resourcecheck = [] execVM "resourcecheck.sqf";
-if (serverName in servidoresOficiales) then {
-    [] execVM "orgPlayers\mList.sqf";
-};

@@ -154,19 +154,10 @@ if (_isJip) then {
 		}
 		else {
 			hint "Welcome Guest\n\nYou have joined this server as guest";
-			//if ((count playableUnits == maxPlayers) and (({[_x] call isMember} count playableUnits) < count miembros) and (serverName in servidoresOficiales)) then {["serverFull",false,1,false,false] call BIS_fnc_endMission};
 		};
 	}
 	else {
 		hint format ["Welcome back %1", name player];
-
-		if (serverName in servidoresOficiales) then {
-			if ((count playableUnits == maxPlayers) and (({[_x] call isMember} count playableUnits) < count miembros)) then {
-				{
-				if (not([_x] call isMember)) exitWith {["serverFull",false,1,false,false] remoteExec ["BIS_fnc_endMission",_x]};
-				} forEach playableUnits;
-			};
-		};
 		if ({[_x] call isMember} count playableUnits == 1) then {
 			[] remoteExec ["AS_fnc_chooseCommander", 2];
 		};
