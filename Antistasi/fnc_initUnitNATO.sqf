@@ -6,6 +6,8 @@ _unit allowFleeing 0;
 
 [_unit] call AS_fnc_setDefaultSkill;
 
+_unit setVariable ["BLUFORSpawn",true,true];
+
 _unit addEventHandler ["killed", {
 	private _muerto = _this select 0;
 	[0.25,0,getPos _muerto] remoteExec ["citySupportChange",2];

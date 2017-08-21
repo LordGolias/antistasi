@@ -40,7 +40,7 @@ private _helifn = [_originPos, 0, selectRandom bluUAV, side_blue] call bis_fnc_s
 private _heli = _helifn select 0;
 _vehicles pushBack _heli;
 createVehicleCrew _heli;
-{[_x] call NATOinitCA; [_x] join _grupoHeli} forEach (crew _heli);
+{[_x] call AS_fnc_initUnitNATO; [_x] join _grupoHeli} forEach (crew _heli);
 _heli setPosATL [getPosATL _heli select 0, getPosATL _heli select 1, 1000];
 _heli flyInHeight 300;
 

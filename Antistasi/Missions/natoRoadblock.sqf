@@ -60,7 +60,7 @@ _group addVehicle _transport;
 	_x moveInCargo _transport;
 } forEach units _group;
 
-{[_x] call NATOinitCA} forEach units _group;
+{[_x] call AS_fnc_initUnitNATO} forEach units _group;
 leader _group setBehaviour "SAFE";
 
 waitUntil {sleep 1;

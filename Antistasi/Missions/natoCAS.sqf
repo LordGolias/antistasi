@@ -52,7 +52,7 @@ for "_i" from 1 to 3 do {
 	_vehicles pushBack _heli;
 	private _heliCrew = _helifn select 1;
 	private _grupoheliTmp = _helifn select 2;
-	{[_x] spawn NATOinitCA; [_x] join _grupoHeli} forEach _heliCrew;
+	{[_x] spawn AS_fnc_initUnitNATO; [_x] join _grupoHeli} forEach _heliCrew;
 	deleteGroup _grupoheliTmp;
 	[_heli, "NATO"] call AS_fnc_initVehicle;
 	_heli setPosATL [getPosATL _heli select 0, getPosATL _heli select 1, 1000];

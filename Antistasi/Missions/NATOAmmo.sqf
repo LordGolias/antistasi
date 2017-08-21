@@ -33,7 +33,7 @@ private _helifn = [_orig, 0, selectRandom bluHeliDis, side_blue] call bis_fnc_sp
 private _heli = _helifn select 0;
 private _grupoHeli = _helifn select 2;
 _groups pushBack _grupoHeli;
-{[_x] spawn NATOinitCA} forEach units _grupoHeli;
+{[_x] spawn AS_fnc_initUnitNATO} forEach units _grupoHeli;
 [_heli, "NATO"] call AS_fnc_initVehicle;
 _vehicles pushBack _heli;
 _heli setPosATL [getPosATL _heli select 0, getPosATL _heli select 1, 1000];

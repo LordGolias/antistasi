@@ -42,7 +42,7 @@ for "_i" from 1 to _group_count do {
 	private _heli = _vehicle select 0;
 	private _heliCrew = _vehicle select 1;
 	private _groupheli = _vehicle select 2;
-	{[_x] spawn NATOinitCA} forEach _heliCrew;
+	{[_x] spawn AS_fnc_initUnitNATO} forEach _heliCrew;
 	[_heli, "NATO"] call AS_fnc_initVehicle;
 	_groups pushBack _groupheli;
 	_vehicles pushBack _heli;
@@ -53,7 +53,7 @@ for "_i" from 1 to _group_count do {
 	if (_tipoveh in bluHeliDis) then {
 		private _tipoGrupo = [bluSquadWeapons, "NATO"] call fnc_pickGroup;
 		private _group = [_origin, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
-		{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] spawn NATOinitCA} forEach units _group;
+		{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] spawn AS_fnc_initUnitNATO} forEach units _group;
 		_groups pushBack _group;
 		if ((_origin call AS_location_type == "airfield") or (random 10 < _threatEval)) then {
 			[_heli, _group, _destPos, _threatEval] spawn airdrop;
@@ -89,7 +89,7 @@ for "_i" from 1 to _group_count do {
 		{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _groupheli;
 		private _tipoGrupo = [bluTeam, "NATO"] call fnc_pickGroup;
 		private _group = [_origPos, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
-		{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] call NATOinitCA} forEach units _group;
+		{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] call AS_fnc_initUnitNATO} forEach units _group;
 		_groups pushBack _group;
 		private _landpos = [];
 		_landpos = [_destPos, 0, 500, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
@@ -115,7 +115,7 @@ for "_i" from 1 to _group_count do {
 		{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _groupheli;
 		private _tipoGrupo = [bluSquad, "NATO"] call fnc_pickGroup;
 		private _group = [_origPos, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
-		{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] call NATOinitCA} forEach units _group;
+		{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] call AS_fnc_initUnitNATO} forEach units _group;
 		_groups pushBack _group;
 		if ((_destination call AS_location_type) in ["airfield","base", "watchpost"] or (random 10 < _threatEval)) then {
 			[_heli,_group,_destPos,_threatEval] spawn airdrop;

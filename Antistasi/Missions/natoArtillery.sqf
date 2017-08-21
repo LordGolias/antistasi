@@ -49,7 +49,7 @@ if (_support < 33) then {
 
 for "_i" from 1 to _units do {
 	private _unit = ([_position, 0, bluGunner, _group] call bis_fnc_spawnvehicle) select 0;
-	[_unit] call NATOinitCA;
+	[_unit] call AS_fnc_initUnitNATO;
 	private _pos = [_position] call fnc_findSpawnSpots;
 	private _veh = createVehicle [_tipoVeh, _pos, [], _spread, "NONE"];
 	[_veh, "NATO"] call AS_fnc_initVehicle;

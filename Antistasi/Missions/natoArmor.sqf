@@ -49,7 +49,7 @@ for "_i" from 1 to _tanks do {
 	[_veh, "NATO"] call AS_fnc_initVehicle;
 	[_veh, "NATO Armor"] call inmuneConvoy;
 	private _vehCrew = _vehicle select 1;
-	{[_x] call NATOinitCA} forEach _vehCrew;
+	{[_x] call AS_fnc_initUnitNATO} forEach _vehCrew;
 	_vehicles pushBack _veh;
 	_veh allowCrewInImmobile true;
 	sleep 1;

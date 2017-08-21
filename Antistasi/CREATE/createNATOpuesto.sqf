@@ -58,7 +58,7 @@ private _tempPos = [];
 } forEach _vehArray;
 
 // init units
-{[_x] spawn NATOinitCA} forEach units _grupo;
+{[_x] spawn AS_fnc_initUnitNATO} forEach units _grupo;
 
 // spawn infantry group
 private _grupoInf = [getpos _tempPos, side_blue, [bluATTeam, "NATO"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
@@ -67,7 +67,7 @@ private _infdir = _dirveh + 180;
 if (_infdir >= 360) then {_infdir = _infdir - 360};
 _grupoInf setFormDir _infdir;
 
-{[_x] spawn NATOinitCA} forEach units _grupoInf;
+{[_x] spawn AS_fnc_initUnitNATO} forEach units _grupoInf;
 
 //////////////////////////////////////////////////////////////////
 ////////////////////////// END SPAWNING //////////////////////////

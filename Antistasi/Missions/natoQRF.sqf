@@ -54,7 +54,7 @@ private _vehicle = [_posOrig, 0, selectRandom bluHeliArmed, side_blue] call bis_
 private _heli1 = _vehicle select 0;
 private _heliCrew1 = _vehicle select 1;
 private _grpVeh1 = _vehicle select 2;
-{[_x] spawn NATOinitCA} forEach _heliCrew1;
+{[_x] spawn AS_fnc_initUnitNATO} forEach _heliCrew1;
 [_heli1, "NATO"] call AS_fnc_initVehicle;
 _groups pushBack _grpVeh1;
 _vehicles pushBack _heli1;
@@ -72,7 +72,7 @@ private _vehicle2 = [_pos2, 0, selectRandom bluHeliTS, side_blue] call bis_fnc_s
 private _heli2 = _vehicle2 select 0;
 private _heliCrew2 = _vehicle2 select 1;
 private _grpVeh2 = _vehicle2 select 2;
-{[_x] call NATOinitCA} forEach _heliCrew2;
+{[_x] call AS_fnc_initUnitNATO} forEach _heliCrew2;
 [_heli2, "NATO"] call AS_fnc_initVehicle;
 _groups pushBack _grpVeh2;
 _vehicles pushBack _heli2;
@@ -83,7 +83,7 @@ _vehicles pushBack _heli2;
 	_soldier assignAsCargo _heli2;
 	_soldier moveInCargo _heli2;
 
-	[_soldier] call NATOinitCA;
+	[_soldier] call AS_fnc_initUnitNATO;
 } forEach bluAirCav;
 _grpDis2 selectLeader (units _grpDis2 select 0);
 
