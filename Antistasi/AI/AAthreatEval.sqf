@@ -1,6 +1,8 @@
 #include "../macros.hpp"
 params ["_position"];
 
+private _location = _position call AS_fnc_location_nearest;
+
 private _threat = 0;
 
 {if (_x in unlockedWeapons) then {_threat = 5};} forEach genAALaunchers;
@@ -23,7 +25,7 @@ if (_location call AS_fnc_location_side == "AAF") then {
 		private _size = _x call AS_fnc_location_size;
 		if (_positionOther distance _position < AS_P("spawnDistance")) then {
 			_threat = _threat + (floor((count _garrison)/4));
-			_estaticas = AS_P("vehicles") select {_x distance _positionOther < _size};
+			private _estaticas = AS_P("vehicles") select {_x distance _positionOther < _size};
 			if (count _estaticas > 0) then {
 				_threat = _threat + ({typeOf _x in allStatMGs} count _estaticas) + (5*({typeOf _x in allStatAAs} count _estaticas));
 			};
