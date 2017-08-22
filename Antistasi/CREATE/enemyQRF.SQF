@@ -1,5 +1,4 @@
 #include "../macros.hpp"
-if (!isServer and hasInterface) exitWith{};
 
 /*
 parameters

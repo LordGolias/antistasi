@@ -1,5 +1,4 @@
 // usage: Activate via radio trigger, on act: [] execVM "airstrike.sqf";
-if (!isServer) exitWith{};
 params ["_location", "_tipoavion"];
 
 private ["_wp1","_wp2","_wp3","_tipoavion","_lado"];

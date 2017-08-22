@@ -1,5 +1,4 @@
 #include "../macros.hpp"
-if (!isServer and hasInterface) exitWith {};
 params ["_location"];
 
 private ["_unit","_AAVeh","_vehiculos","_grupos","_soldados","_stcs"];

@@ -1,4 +1,3 @@
-//if (!isServer) exitWith{};
 private ["_groups","_hr","_resourcesFIA","_wp","_grupo","_veh","_salir"];
 
 _groups = _this select 0;

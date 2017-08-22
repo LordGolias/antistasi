@@ -1,5 +1,4 @@
 #include "../macros.hpp"
-if (!isServer and hasInterface) exitWith {};
 
 #define BE_XP_KILL 0.5
 #define BE_XP_MIS 10

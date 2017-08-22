@@ -1,6 +1,5 @@
 #include "../macros.hpp"
 params ["_location"];
-if (!isServer and hasInterface) exitWith{};
 
 private _pLarge = ["puesto_2","puesto_6","puesto_11","puesto_17","puesto_23"];
 

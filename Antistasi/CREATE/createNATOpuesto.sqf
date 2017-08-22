@@ -1,6 +1,5 @@
 #include "../macros.hpp"
 params ["_location"];
-if (!isServer and hasInterface) exitWith {};
 
 private ["_escarretera","_tam","_road","_veh","_grupo","_unit","_roadcon"];
 

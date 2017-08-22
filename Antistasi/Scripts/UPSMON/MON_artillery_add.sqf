@@ -26,8 +26,6 @@
 	For more info:
 	http://dev-heaven.net/projects/upsmon/wiki/Artillery_module
  =====================================================================================================*/
-//if (!isserver) exitWith {};
-if (!isServer and hasInterface) exitWith {};
 
 //Waits until UPSMON is init
 waitUntil {!isNil("UPSMON_INIT")};

@@ -1,5 +1,3 @@
-if (not isServer) exitWith {};
-
 _plane = _this select 0;
 
 _ammo = "Bomb_03_F";

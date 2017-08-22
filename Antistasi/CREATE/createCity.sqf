@@ -1,4 +1,3 @@
-if (!isServer and hasInterface) exitWith{};
 params ["_location"];
 
 private _grupos = [];

@@ -1,5 +1,3 @@
-if (!isServer and hasInterface) exitWith {};
-
 fnc_QRF_gunship = {
 	params ["_vehGroup", "_origin", "_dest", "_duration"];
 

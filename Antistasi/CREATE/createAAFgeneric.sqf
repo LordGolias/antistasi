@@ -1,6 +1,5 @@
 #include "../macros.hpp"
 params ["_location"];
-if (!isServer and hasInterface) exitWith{};
 
 private _soldados = [];
 private _grupos = [];

@@ -1,6 +1,5 @@
 #include "../macros.hpp"
 params ["_location"];
-if (!isServer and hasInterface) exitWith{};
 
 if (_location call AS_fnc_location_type != "city") exitWith {
 	diag_log format ["[AS] ERROR: createCIV called with non-city: '%1'", _location];
