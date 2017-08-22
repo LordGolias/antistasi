@@ -32,8 +32,12 @@ private _fnc_clean = {
 
 private _threatEval = [_destPos] call AAthreatEval;
 
-if (_origin != "spawnNATO" and {(_origin call AS_fnc_location_type) in ["base", "airfield"]}) then {
+private _isAirfield = true;
+if (_origin != "spawnNATO") then {
 	[_destination] spawn artilleriaNATO;
+	if (_origin call AS_fnc_location_type == "base") then {
+		_isAirfield = false;
+	}
 };
 
 private _group_count = round(_support/20) min 4;
@@ -53,10 +57,10 @@ for "_i" from 1 to _group_count do {
 
 	if (_tipoveh in bluHeliDis) then {
 		private _tipoGrupo = [bluSquadWeapons, "NATO"] call fnc_pickGroup;
-		private _group = [_origin, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
+		private _group = [_origPos, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 		{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] spawn AS_fnc_initUnitNATO} forEach units _group;
 		_groups pushBack _group;
-		if ((_origin call AS_fnc_location_type == "airfield") or (random 10 < _threatEval)) then {
+		if (_isAirfield or (random 10 < _threatEval)) then {
 			[_heli, _group, _destPos, _threatEval] spawn airdrop;
 		} else {
 			if ((_destination call AS_fnc_location_type) in ["base","watchpost"]) then {
