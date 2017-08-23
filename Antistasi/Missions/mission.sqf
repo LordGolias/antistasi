@@ -352,3 +352,22 @@ AS_fnc_mission_load = {
     ["mission", _saveName] call AS_fnc_object_load;
     {_x call AS_fnc_mission_activate} forEach (call AS_fnc_active_missions);
 };
+
+AS_mission_fnc_spawn_wait_spawn = {
+    params ["_mission"];
+
+	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+
+	[_mission, "resources", [_task, [], [], []]] call AS_spawn_fnc_set;
+};
+
+AS_mission_fnc_clean = {
+	params ["_mission"];
+	([_mission, "resources"] call AS_spawn_fnc_get) params ["_task", "_groups", "_vehicles", "_markers"];
+
+    {AS_commander hcRemoveGroup _x} forEach _groups;
+	[_groups, _vehicles, _markers] call AS_fnc_cleanResources;
+	sleep 30;
+	[_task] call BIS_fnc_deleteTask;
+	_mission call AS_fnc_mission_completed;
+};

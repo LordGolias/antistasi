@@ -1,23 +1,23 @@
 #include "../macros.hpp"
-params ["_mission"];
 
-AS_mission_natoArmor_fnc_initialize = {
+private _fnc_initialize = {
+	params ["_mission"];
 	private _origin = [_mission, "origin"] call AS_fnc_mission_get;
 	private _position = _origin call AS_fnc_location_position;
 
 	private _tiempolim = 60;
 	private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
-	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
-	[_mission, "position", _position] call AS_spawn_fnc_set;
 
 	private _tskTitle = "NATO Armor";
 	private _tskDesc = format ["NATO is sending an armored section departing from %1. They will stay until %2:%3.",
 		[_origin] call localizar,numberToDate [2035, dateToNumber _fechalim] select 3,numberToDate [2035, dateToNumber _fechalim] select 4];
 
+	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
+	[_mission, "position", _position] call AS_spawn_fnc_set;
 	[_mission, [_tskDesc,_tskTitle,_origin], _position, "Attack"] call AS_spawn_fnc_saveTask;
 };
 
-AS_mission_natoArmor_fnc_spawn = {
+private _fnc_spawn = {
 	params ["_mission"];
 	private _position = [_mission, "position"] call AS_spawn_fnc_get;
 	private _destinationPos = [_mission, "destinationPos"] call AS_fnc_mission_get;
@@ -59,7 +59,7 @@ AS_mission_natoArmor_fnc_spawn = {
 	[_mission, "resources", [_task, [_group], _vehicles, []]] call AS_spawn_fnc_set;
 };
 
-AS_mission_natoArmor_fnc_run = {
+private _fnc_run = {
 	params ["_mission"];
 	private _max_date = [_mission, "max_date"] call AS_spawn_fnc_get;
 	private _vehicles = ([_mission, "resources"] call AS_spawn_fnc_get) select 2;
@@ -78,20 +78,10 @@ AS_mission_natoArmor_fnc_run = {
 	};
 };
 
-AS_mission_natoArmor_fnc_clean = {
-	params ["_mission"];
-	([_mission, "resources"] call AS_spawn_fnc_get) params ["_task", "_groups", "_vehicles", "_markers"];
-
-	[_groups, _vehicles, _markers] call AS_fnc_cleanResources;
-	sleep 30;
-	[_task] call BIS_fnc_deleteTask;
-	_mission call AS_fnc_mission_completed;
-};
-
 AS_mission_natoArmor_states = ["initialize", "spawn", "run", "clean"];
 AS_mission_natoArmor_state_functions = [
-	AS_mission_natoArmor_fnc_initialize,
-	AS_mission_natoArmor_fnc_spawn,
-	AS_mission_natoArmor_fnc_run,
-	AS_mission_natoArmor_fnc_clean
+	_fnc_initialize,
+	_fnc_spawn,
+	_fnc_run,
+	AS_mission_fnc_clean
 ];

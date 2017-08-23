@@ -104,16 +104,6 @@ private _fnc_run = {
 	[[position _truck], "patrolCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
 };
 
-AS_mission_stealAmmo_fnc_clean = {
-	params ["_mission"];
-	([_mission, "resources"] call AS_spawn_fnc_get) params ["_task", "_groups", "_vehicles", "_markers"];
-
-	[_groups, _vehicles, _markers] call AS_fnc_cleanResources;
-	sleep 30;
-	[_task] call BIS_fnc_deleteTask;
-	_mission call AS_fnc_mission_completed;
-};
-
 AS_mission_stealAmmo_states = ["initialize", "spawn_wait_spawn", "wait_spawn", "spawn", "run", "clean"];
 AS_mission_stealAmmo_state_functions = [
 	_fnc_initialize,

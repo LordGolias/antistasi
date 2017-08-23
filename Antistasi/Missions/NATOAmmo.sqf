@@ -1,6 +1,6 @@
 #include "../macros.hpp"
 
-AS_mission_natoAmmo_fnc_initialize = {
+private _fnc_initialize = {
 	params ["_mission"];
 	private _position = [_mission, "position"] call AS_fnc_mission_get;
 
@@ -16,7 +16,7 @@ AS_mission_natoAmmo_fnc_initialize = {
 	[_mission, "resources", [taskNull, [], [], [_mrkfin]]] call AS_spawn_fnc_set;
 };
 
-AS_mission_natoAmmo_fnc_spawn = {
+private _fnc_spawn = {
 	params ["_mission"];
 
 	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
@@ -46,7 +46,7 @@ AS_mission_natoAmmo_fnc_spawn = {
 	[_mission, "resources", [_task, [_grupoHeli], _vehicles, _markers]] call AS_spawn_fnc_set;
 };
 
-AS_mission_natoAmmo_fnc_run = {
+private _fnc_run = {
 	params ["_mission"];
 	private _position = [_mission, "position"] call AS_fnc_mission_get;
 	private _max_date = [_mission, "max_date"] call AS_spawn_fnc_get;
@@ -83,21 +83,10 @@ AS_mission_natoAmmo_fnc_run = {
 	};
 };
 
-AS_mission_natoAmmo_fnc_clean = {
-	params ["_mission"];
-	([_mission, "resources"] call AS_spawn_fnc_get) params ["_task", "_groups", "_vehicles", "_markers"];
-
-	{AS_commander hcRemoveGroup _x} forEach _groups;
-	[_groups, _vehicles, _markers] call AS_fnc_cleanResources;
-	sleep 30;
-	[_task] call BIS_fnc_deleteTask;
-	_mission call AS_fnc_mission_completed;
-};
-
 AS_mission_natoAmmo_states = ["initialize", "spawn", "run", "clean"];
 AS_mission_natoAmmo_state_functions = [
-	AS_mission_natoAmmo_fnc_initialize,
-	AS_mission_natoAmmo_fnc_spawn,
-	AS_mission_natoAmmo_fnc_run,
-	AS_mission_natoAmmo_fnc_clean
+	_fnc_initialize,
+	_fnc_spawn,
+	_fnc_run,
+	AS_mission_fnc_clean
 ];
