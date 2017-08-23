@@ -72,7 +72,7 @@ AS_mis_natoRoadblock = compile preProcessFileLineNumbers "Missions\natoRoadblock
 AS_mis_natoQRF = compile preProcessFileLineNumbers "Missions\natoQRF.sqf";
 AS_mis_black_market = compile preProcessFileLineNumbers "Missions\black_market.sqf";
 AS_mis_establishFIALocation = compile preProcessFileLineNumbers "Missions\establishFIALocation.sqf";
-AS_mis_repair_antenna = compile preProcessFileLineNumbers "Missions\repair_antenna.sqf";
+call compile preProcessFileLineNumbers "Missions\repair_antenna.sqf";
 ASS_Traidor = compile preProcessFileLineNumbers "Missions\ASS_Traidor.sqf";
 RES_Prisioneros = compile preProcessFileLineNumbers "Missions\RES_Prisioneros.sqf";
 RES_Refugiados = compile preProcessFileLineNumbers "Missions\RES_Refugiados.sqf";
