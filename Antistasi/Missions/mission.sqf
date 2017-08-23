@@ -306,9 +306,8 @@ AS_fnc_mission_activate = {
         if (_missionType == "repair_antenna") exitWith {"AS_mis_repair_antenna"};
         if (_missionType == "conquer") exitWith {"AS_mis_conquer"};
 
-        if (_missionType == "nato_ammo") exitWith {"AS_mis_natoAmmo"};
         if (_missionType == "nato_artillery") exitWith {"AS_mis_natoArtillery"};
-        if (_missionType in ["nato_uav", "nato_armor"]) exitWith {
+        if (_missionType in ["nato_uav", "nato_armor", "nato_ammo"]) exitWith {
             _arguments = ["mission", _mission]; "AS_spawn_fnc_start"
         };
         if (_missionType == "nato_qrf") exitWith {"AS_mis_natoQRF"};
