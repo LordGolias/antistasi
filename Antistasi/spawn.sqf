@@ -9,6 +9,9 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn == "nato_cas") exitWith {
         [AS_mission_natoCAS_states, AS_mission_natoCAS_state_functions]
     };
+    if (_type == "mission" and _spawn == "nato_artillery") exitWith {
+        [AS_mission_natoArtillery_states, AS_mission_natoArtillery_state_functions]
+    };
     if (_type == "mission" and _spawn == "nato_ammo") exitWith {
         [AS_mission_natoAmmo_states, AS_mission_natoAmmo_state_functions]
     };

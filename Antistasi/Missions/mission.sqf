@@ -298,8 +298,7 @@ AS_fnc_mission_activate = {
         if (_missionType == "destroy_helicopter") exitWith {"DES_Heli"};
         if (_missionType == "conquer") exitWith {"AS_mis_conquer"};
 
-        if (_missionType == "nato_artillery") exitWith {"AS_mis_natoArtillery"};
-        if (_missionType in ["nato_uav", "nato_armor", "nato_ammo", "nato_cas",
+        if (_missionType in ["nato_uav", "nato_armor", "nato_ammo", "nato_cas", "nato_artillery",
                              "steal_ammo", "repair_antenna",
                              "kill_specops", "kill_officer", "destroy_vehicle", "destroy_antenna",
                              "rescue_prisioners", "rescue_refugees"]) exitWith {

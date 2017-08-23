@@ -64,7 +64,7 @@ AS_mis_convoy = compile preProcessFileLineNumbers "Missions\convoy.sqf";
 AS_mis_conquer = compile preProcessFileLineNumbers "Missions\conquer.sqf";
 call compile preProcessFileLineNumbers "Missions\natoCAS.sqf";
 call compile preProcessFileLineNumbers "Missions\natoArmor.sqf";
-AS_mis_natoArtillery = compile preProcessFileLineNumbers "Missions\natoArtillery.sqf";
+call compile preProcessFileLineNumbers "Missions\natoArtillery.sqf";
 call compile preProcessFileLineNumbers "Missions\natoAmmo.sqf";
 AS_mis_natoAttack = compile preProcessFileLineNumbers "Missions\natoAttack.sqf";
 call compile preProcessFileLineNumbers "Missions\natoUAV.sqf";
