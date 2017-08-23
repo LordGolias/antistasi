@@ -6,6 +6,12 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn == "nato_armor") exitWith {
         [AS_mission_natoArmor_states, AS_mission_natoArmor_state_functions]
     };
+    if (_type == "mission" and _spawn == "nato_ammo") exitWith {
+        [AS_mission_natoAmmo_states, AS_mission_natoAmmo_state_functions]
+    };
+    if (_type == "mission" and _spawn == "steal_ammo") exitWith {
+        [AS_mission_stealAmmo_states, AS_mission_stealAmmo_state_functions]
+    };
 };
 
 AS_spawn_fnc_spawns = {
@@ -66,12 +72,13 @@ AS_spawn_fnc_start = {
     };
     // else, it is an existing spawn: pick from where it was left
 
-    private _last_index = [_spawn, "state_index"] call AS_spawn_fnc_get;
-    for "_state_index" from _last_index to (count _functions - 1) do {
+    private _state_index = [_spawn, "state_index"] call AS_spawn_fnc_get;
+    while {_state_index < (count _functions - 1)} do {
         diag_log ["[AS] %1: spawn '%2' started state '%3'", clientOwner, _spawn, _states select _state_index];
         _spawn call (_functions select _state_index);
         _spawn call AS_spawn_fnc_checkpoint;
         diag_log ["[AS] %1: spawn '%2' finished state '%3'", clientOwner, _spawn, _states select _state_index];
+        _state_index = [_spawn, "state_index"] call AS_spawn_fnc_get;
     };
     _spawn call AS_spawn_fnc_remove;
 };
