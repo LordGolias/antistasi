@@ -80,7 +80,7 @@ LOG_Bank = compile preProcessFileLineNumbers "Missions\LOG_Bank.sqf";
 LOG_Suministros = compile preProcessFileLineNumbers "Missions\LOG_Suministros.sqf";
 call compile preProcessFileLineNumbers "Missions\stealAmmo.sqf";
 LOG_Medical = compile preProcessFileLineNumbers "Missions\LOG_Medical.sqf";
-DES_Vehicle = compile preProcessFileLineNumbers "Missions\DES_Vehicle.sqf";
+call compile preProcessFileLineNumbers "Missions\destroy_vehicle.sqf";
 DES_Heli = compile preProcessFileLineNumbers "Missions\DES_Heli.sqf";
 DES_Antena = compile preProcessFileLineNumbers "Missions\DES_Antena.sqf";
 PR_Pamphlet = compile preProcessFileLineNumbers "Missions\PR_Pamphlet.sqf";

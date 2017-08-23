@@ -18,6 +18,9 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn == "assassinate") exitWith {
         [AS_mission_assassinate_states, AS_mission_assassinate_state_functions]
     };
+    if (_type == "mission" and _spawn == "destroy_vehicle") exitWith {
+        [AS_mission_destroy_vehicle_states, AS_mission_destroy_vehicle_state_functions]
+    };
 };
 
 AS_spawn_fnc_spawns = {

@@ -297,14 +297,13 @@ AS_fnc_mission_activate = {
         if (_missionType == "rob_bank") exitWith {"LOG_Bank"};
         if (_missionType == "help_meds") exitWith {"LOG_Suministros"};
         if (_missionType == "send_meds") exitWith {"LOG_Medical"};
-        if (_missionType == "destroy_vehicle") exitWith {"DES_Vehicle"};
         if (_missionType == "destroy_helicopter") exitWith {"DES_Heli"};
         if (_missionType == "destroy_antenna") exitWith {"DES_Antena"};
         if (_missionType == "conquer") exitWith {"AS_mis_conquer"};
 
         if (_missionType == "nato_artillery") exitWith {"AS_mis_natoArtillery"};
         if (_missionType in ["nato_uav", "nato_armor", "nato_ammo", "steal_ammo", "repair_antenna",
-                             "kill_specops", "kill_officer"]) exitWith {
+                             "kill_specops", "kill_officer", "destroy_vehicle"]) exitWith {
             _arguments = ["mission", _mission]; "AS_spawn_fnc_start"
         };
         if (_missionType == "nato_qrf") exitWith {"AS_mis_natoQRF"};
