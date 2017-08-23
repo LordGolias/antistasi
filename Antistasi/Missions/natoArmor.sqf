@@ -1,68 +1,97 @@
 #include "../macros.hpp"
 params ["_mission"];
 
-private _origin = [_mission, "origin"] call AS_fnc_mission_get;
-private _destinationPos = [_mission, "destinationPos"] call AS_fnc_mission_get;
-private _support = [_mission, "NATOsupport"] call AS_fnc_mission_get;
+AS_mission_natoArmor_fnc_initialize = {
+	private _origin = [_mission, "origin"] call AS_fnc_mission_get;
+	private _position = _origin call AS_fnc_location_position;
 
-private _originPos = _origin call AS_fnc_location_position;
+	private _tiempolim = 60;
+	private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
+	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
+	[_mission, "position", _position] call AS_spawn_fnc_set;
 
-private _tiempolim = 60;
-private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
-private _fechalimnum = dateToNumber _fechalim;
+	private _tskTitle = "NATO Armor";
+	private _tskDesc = format ["NATO is sending an armored section departing from %1. They will stay until %2:%3.",
+		[_origin] call localizar,numberToDate [2035, dateToNumber _fechalim] select 3,numberToDate [2035, dateToNumber _fechalim] select 4];
 
-private _tskTitle = "NATO Armor";
-private _tskDesc = format ["NATO is sending an armored section departing from %1. They will stay until %2:%3.",
-	[_origin] call localizar,numberToDate [2035,_fechalimnum] select 3,numberToDate [2035,_fechalimnum] select 4];
-
-private _task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_origin],_originPos,"CREATED",5,true,true,"Attack"] call BIS_fnc_setTask;
-
-private _group = createGroup side_blue;
-private _vehicles = [];
-
-private _fnc_clean = {
-	[[_group], _vehicles] call AS_fnc_cleanResources;
-	sleep 30;
-    [_task] call BIS_fnc_deleteTask;
-    _mission call AS_fnc_mission_completed;
+	[_mission, [_tskDesc,_tskTitle,_origin], _position, "Attack"] call AS_spawn_fnc_saveTask;
 };
 
-_group setVariable ["esNATO",true,true];
+AS_mission_natoArmor_fnc_spawn = {
+	params ["_mission"];
+	private _position = [_mission, "position"] call AS_spawn_fnc_get;
+	private _destinationPos = [_mission, "destinationPos"] call AS_fnc_mission_get;
+	private _support = [_mission, "NATOsupport"] call AS_fnc_mission_get;
 
-private _wp0 = _group addWaypoint [_destinationPos, 0];
-_wp0 setWaypointType "SAD";
-_wp0 setWaypointBehaviour "SAFE";
-_wp0 setWaypointSpeed "LIMITED";
-_wp0 setWaypointFormation "COLUMN";
+	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
-private _tanks = (round(_support/20)) min 4;
-for "_i" from 1 to _tanks do {
-	private _tam = 10;
-	private _roads = [];
-	while {count _roads == 0} do {
-		_roads = _originPos nearRoads _tam;
-		_tam = _tam + 10;
+	private _group = createGroup side_blue;
+	private _vehicles = [];
+
+	_group setVariable ["esNATO",true,true];
+
+	private _wp0 = _group addWaypoint [_destinationPos, 0];
+	_wp0 setWaypointType "SAD";
+	_wp0 setWaypointBehaviour "SAFE";
+	_wp0 setWaypointSpeed "LIMITED";
+	_wp0 setWaypointFormation "COLUMN";
+
+	private _tanks = (round(_support/20)) min 4;
+	for "_i" from 1 to _tanks do {
+		private _tam = 10;
+		private _roads = [];
+		while {count _roads == 0} do {
+			_roads = _position nearRoads _tam;
+			_tam = _tam + 10;
+		};
+
+		private _vehicle = [position (_roads select 0), 0, selectRandom bluMBT, _group] call bis_fnc_spawnvehicle;
+		private _veh = _vehicle select 0;
+		[_veh, "NATO"] call AS_fnc_initVehicle;
+		[_veh, "NATO Armor"] call inmuneConvoy;
+		private _vehCrew = _vehicle select 1;
+		{[_x] call AS_fnc_initUnitNATO} forEach _vehCrew;
+		_vehicles pushBack _veh;
+		_veh allowCrewInImmobile true;
+		sleep 1;
 	};
 
-	private _vehicle = [position (_roads select 0), 0, selectRandom bluMBT, _group] call bis_fnc_spawnvehicle;
-	private _veh = _vehicle select 0;
-	[_veh, "NATO"] call AS_fnc_initVehicle;
-	[_veh, "NATO Armor"] call inmuneConvoy;
-	private _vehCrew = _vehicle select 1;
-	{[_x] call AS_fnc_initUnitNATO} forEach _vehCrew;
-	_vehicles pushBack _veh;
-	_veh allowCrewInImmobile true;
-	sleep 1;
+	[_mission, "resources", [_task, [_group], _vehicles, []]] call AS_spawn_fnc_set;
 };
 
-waitUntil {sleep 10; (dateToNumber date > _fechalimnum) or {alive _x and canMove _x} count _vehicles == 0};
+AS_mission_natoArmor_fnc_run = {
+	params ["_mission"];
+	private _max_date = [_mission, "max_date"] call AS_spawn_fnc_get;
+	private _vehicles = ([_mission, "resources"] call AS_spawn_fnc_get) select 2;
 
-if ({alive _x and canMove _x} count _vehicles == 0) then {
-	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_origin],_originPos,"FAILED",5,true,true,"Attack"] call BIS_fnc_setTask;
-	[_mission] remoteExec ["AS_fnc_mission_fail", 2];
-} else {
-	_task = [_mission,[side_blue,civilian],[_tskDesc,_tskTitle,_origin],_originPos,"SUCCEEDED",5,true,true,"Attack"] call BIS_fnc_setTask;
-	[_mission] remoteExec ["AS_fnc_mission_success", 2];
+	waitUntil {sleep 10;
+		(dateToNumber date > _max_date) or
+		{alive _x and canMove _x} count _vehicles == 0
+	};
+
+	if (dateToNumber date > _max_date) then {
+		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		[_mission] remoteExec ["AS_fnc_mission_success", 2];
+	} else {
+		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
+	};
 };
 
-call _fnc_clean;
+AS_mission_natoArmor_fnc_clean = {
+	params ["_mission"];
+	([_mission, "resources"] call AS_spawn_fnc_get) params ["_task", "_groups", "_vehicles"];
+
+	[_groups, _vehicles] call AS_fnc_cleanResources;
+	sleep 30;
+	[_task] call BIS_fnc_deleteTask;
+	_mission call AS_fnc_mission_completed;
+};
+
+AS_mission_natoArmor_states = ["initialize", "spawn", "run", "clean"];
+AS_mission_natoArmor_state_functions = [
+	AS_mission_natoArmor_fnc_initialize,
+	AS_mission_natoArmor_fnc_spawn,
+	AS_mission_natoArmor_fnc_run,
+	AS_mission_natoArmor_fnc_clean
+];

@@ -3,6 +3,9 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn == "nato_uav") exitWith {
         [AS_mission_natoUAV_states, AS_mission_natoUAV_state_functions]
     };
+    if (_type == "mission" and _spawn == "nato_armor") exitWith {
+        [AS_mission_natoArmor_states, AS_mission_natoArmor_state_functions]
+    };
 };
 
 AS_spawn_fnc_spawns = {
