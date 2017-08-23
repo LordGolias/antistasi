@@ -299,7 +299,8 @@ AS_fnc_mission_activate = {
         if (_missionType == "conquer") exitWith {"AS_mis_conquer"};
 
         if (_missionType == "nato_artillery") exitWith {"AS_mis_natoArtillery"};
-        if (_missionType in ["nato_uav", "nato_armor", "nato_ammo", "steal_ammo", "repair_antenna",
+        if (_missionType in ["nato_uav", "nato_armor", "nato_ammo", "nato_cas",
+                             "steal_ammo", "repair_antenna",
                              "kill_specops", "kill_officer", "destroy_vehicle", "destroy_antenna",
                              "rescue_prisioners", "rescue_refugees"]) exitWith {
             _arguments = ["mission", _mission]; "AS_spawn_fnc_start"
@@ -307,7 +308,6 @@ AS_fnc_mission_activate = {
         if (_missionType == "nato_qrf") exitWith {"AS_mis_natoQRF"};
         if (_missionType == "nato_attack") exitWith {"AS_mis_natoAttack"};
         if (_missionType == "nato_roadblock") exitWith {"AS_mis_natoRoadblock"};
-        if (_missionType == "nato_cas") exitWith {"AS_mis_natoCAS"};
         ""
     };
     if (_script == "") exitWith {

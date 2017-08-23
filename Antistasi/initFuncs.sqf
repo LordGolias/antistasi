@@ -62,7 +62,7 @@ AS_fnc_cleanResources = compile preProcessFileLineNumbers "Missions\fnc_cleanRes
 call compile preProcessFileLineNumbers "Missions\assassinate.sqf";
 AS_mis_convoy = compile preProcessFileLineNumbers "Missions\convoy.sqf";
 AS_mis_conquer = compile preProcessFileLineNumbers "Missions\conquer.sqf";
-AS_mis_natoCAS = compile preProcessFileLineNumbers "Missions\natoCAS.sqf";
+call compile preProcessFileLineNumbers "Missions\natoCAS.sqf";
 call compile preProcessFileLineNumbers "Missions\natoArmor.sqf";
 AS_mis_natoArtillery = compile preProcessFileLineNumbers "Missions\natoArtillery.sqf";
 call compile preProcessFileLineNumbers "Missions\natoAmmo.sqf";
