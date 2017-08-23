@@ -82,7 +82,7 @@ call compile preProcessFileLineNumbers "Missions\stealAmmo.sqf";
 LOG_Medical = compile preProcessFileLineNumbers "Missions\LOG_Medical.sqf";
 call compile preProcessFileLineNumbers "Missions\destroy_vehicle.sqf";
 DES_Heli = compile preProcessFileLineNumbers "Missions\DES_Heli.sqf";
-DES_Antena = compile preProcessFileLineNumbers "Missions\DES_Antena.sqf";
+call compile preProcessFileLineNumbers "Missions\destroy_antenna.sqf";
 PR_Pamphlet = compile preProcessFileLineNumbers "Missions\PR_Pamphlet.sqf";
 PR_Brainwash = compile preProcessFileLineNumbers "Missions\PR_Brainwash.sqf";
 DEF_Camp = compile preProcessFileLineNumbers "Missions\DEF_Camp.sqf";

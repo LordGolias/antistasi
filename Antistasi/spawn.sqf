@@ -19,7 +19,10 @@ AS_spawn_fnc_states = {
         [AS_mission_assassinate_states, AS_mission_assassinate_state_functions]
     };
     if (_type == "mission" and _spawn == "destroy_vehicle") exitWith {
-        [AS_mission_destroy_vehicle_states, AS_mission_destroy_vehicle_state_functions]
+        [AS_mission_destroyVehicle_states, AS_mission_destroyVehicle_state_functions]
+    };
+    if (_type == "mission" and _spawn == "destroy_antenna") exitWith {
+        [AS_mission_destroyAntenna_states, AS_mission_destroyAntenna_state_functions]
     };
 };
 
