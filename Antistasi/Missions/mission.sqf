@@ -282,6 +282,8 @@ AS_fnc_mission_activate = {
 
     [_mission, "status", "active"] call AS_fnc_mission_set;
 
+    private _arguments = _mission;
+
     private _script = call {
         private _missionType = _mission call AS_fnc_mission_type;
 
@@ -307,7 +309,7 @@ AS_fnc_mission_activate = {
         if (_missionType == "nato_ammo") exitWith {"AS_mis_natoAmmo"};
         if (_missionType == "nato_armor") exitWith {"AS_mis_natoArmor"};
         if (_missionType == "nato_artillery") exitWith {"AS_mis_natoArtillery"};
-        if (_missionType == "nato_uav") exitWith {"AS_mis_natoUAV"};
+        if (_missionType == "nato_uav") exitWith {_arguments = ["mission", _mission]; "AS_spawn_fnc_start"};
         if (_missionType == "nato_qrf") exitWith {"AS_mis_natoQRF"};
         if (_missionType == "nato_attack") exitWith {"AS_mis_natoAttack"};
         if (_missionType == "nato_roadblock") exitWith {"AS_mis_natoRoadblock"};
@@ -317,7 +319,7 @@ AS_fnc_mission_activate = {
     if (_script == "") exitWith {
         diag_log format ["[AS] Error: AS_fnc_mission_activate: mission '%1' does not have script", _mission];
     };
-    [_mission, _script] call AS_scheduler_fnc_execute;
+    [_arguments, _script] call AS_scheduler_fnc_execute;
 };
 
 AS_fnc_mission_dismiss = {

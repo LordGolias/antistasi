@@ -110,3 +110,10 @@ AS_scheduler_fnc_measureFPS = {
     	};
     };
 };
+
+AS_scheduler_fnc_drop = {
+    // Send the local state of the spawns to the server since the server
+    // will take over all the units managed by the client
+    // Called when a client drops (local call).
+    params ["_id", "_uid", "_name", "_jip", "_owner"];
+};
