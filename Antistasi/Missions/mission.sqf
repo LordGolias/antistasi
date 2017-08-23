@@ -287,8 +287,6 @@ AS_fnc_mission_activate = {
     private _script = call {
         private _missionType = _mission call AS_fnc_mission_type;
 
-        if (_missionType == "kill_officer") exitWith {"AS_mis_assassinate"};
-        if (_missionType == "kill_specops") exitWith {"AS_mis_assassinate"};
         if (_missionType == "kill_traitor") exitWith {"ASS_Traidor"};
         if (_missionType == "black_market") exitWith {"AS_mis_black_market"};
         if (_missionType == "pamphlets") exitWith {"PR_Pamphlet"};
@@ -305,7 +303,8 @@ AS_fnc_mission_activate = {
         if (_missionType == "conquer") exitWith {"AS_mis_conquer"};
 
         if (_missionType == "nato_artillery") exitWith {"AS_mis_natoArtillery"};
-        if (_missionType in ["nato_uav", "nato_armor", "nato_ammo", "steal_ammo", "repair_antenna"]) exitWith {
+        if (_missionType in ["nato_uav", "nato_armor", "nato_ammo", "steal_ammo", "repair_antenna",
+                             "kill_specops", "kill_officer"]) exitWith {
             _arguments = ["mission", _mission]; "AS_spawn_fnc_start"
         };
         if (_missionType == "nato_qrf") exitWith {"AS_mis_natoQRF"};

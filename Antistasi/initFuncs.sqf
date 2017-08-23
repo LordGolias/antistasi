@@ -59,7 +59,7 @@ call compile preProcessFileLineNumbers "Missions\outcomes.sqf";
 AS_fnc_oneStepMission = compile preProcessFileLineNumbers "Missions\fnc_oneStepMission.sqf";
 AS_fnc_cleanResources = compile preProcessFileLineNumbers "Missions\fnc_cleanResources.sqf";
 // missions
-AS_mis_assassinate = compile preProcessFileLineNumbers "Missions\assassinate.sqf";
+call compile preProcessFileLineNumbers "Missions\assassinate.sqf";
 AS_mis_convoy = compile preProcessFileLineNumbers "Missions\convoy.sqf";
 AS_mis_conquer = compile preProcessFileLineNumbers "Missions\conquer.sqf";
 AS_mis_natoCAS = compile preProcessFileLineNumbers "Missions\natoCAS.sqf";
