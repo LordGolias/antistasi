@@ -74,8 +74,7 @@ AS_mis_black_market = compile preProcessFileLineNumbers "Missions\black_market.s
 AS_mis_establishFIALocation = compile preProcessFileLineNumbers "Missions\establishFIALocation.sqf";
 call compile preProcessFileLineNumbers "Missions\repair_antenna.sqf";
 ASS_Traidor = compile preProcessFileLineNumbers "Missions\ASS_Traidor.sqf";
-RES_Prisioneros = compile preProcessFileLineNumbers "Missions\RES_Prisioneros.sqf";
-RES_Refugiados = compile preProcessFileLineNumbers "Missions\RES_Refugiados.sqf";
+call compile preProcessFileLineNumbers "Missions\rescue.sqf";
 LOG_Bank = compile preProcessFileLineNumbers "Missions\LOG_Bank.sqf";
 LOG_Suministros = compile preProcessFileLineNumbers "Missions\LOG_Suministros.sqf";
 call compile preProcessFileLineNumbers "Missions\stealAmmo.sqf";

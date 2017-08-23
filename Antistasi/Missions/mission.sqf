@@ -292,8 +292,6 @@ AS_fnc_mission_activate = {
         if (_missionType == "pamphlets") exitWith {"PR_Pamphlet"};
         if (_missionType == "broadcast") exitWith {"PR_Brainwash"};
         if (_missionType in ["convoy_armor", "convoy_ammo","convoy_money", "convoy_supplies", "convoy_prisoners", "convoy_hvt"]) exitWith {"AS_mis_convoy"};
-        if (_missionType == "rescue_prisioners") exitWith {"RES_Prisioneros"};
-        if (_missionType == "rescue_refugees") exitWith {"RES_Refugiados"};
         if (_missionType == "rob_bank") exitWith {"LOG_Bank"};
         if (_missionType == "help_meds") exitWith {"LOG_Suministros"};
         if (_missionType == "send_meds") exitWith {"LOG_Medical"};
@@ -302,7 +300,8 @@ AS_fnc_mission_activate = {
 
         if (_missionType == "nato_artillery") exitWith {"AS_mis_natoArtillery"};
         if (_missionType in ["nato_uav", "nato_armor", "nato_ammo", "steal_ammo", "repair_antenna",
-                             "kill_specops", "kill_officer", "destroy_vehicle", "destroy_antenna"]) exitWith {
+                             "kill_specops", "kill_officer", "destroy_vehicle", "destroy_antenna",
+                             "rescue_prisioners", "rescue_refugees"]) exitWith {
             _arguments = ["mission", _mission]; "AS_spawn_fnc_start"
         };
         if (_missionType == "nato_qrf") exitWith {"AS_mis_natoQRF"};
