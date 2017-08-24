@@ -76,7 +76,7 @@ call compile preProcessFileLineNumbers "Missions\repair_antenna.sqf";
 call compile preProcessFileLineNumbers "Missions\kill_traitor.sqf";
 call compile preProcessFileLineNumbers "Missions\rescue.sqf";
 call compile preProcessFileLineNumbers "Missions\rob_bank.sqf";
-LOG_Suministros = compile preProcessFileLineNumbers "Missions\LOG_Suministros.sqf";
+call compile preProcessFileLineNumbers "Missions\send_meds.sqf";
 call compile preProcessFileLineNumbers "Missions\stealAmmo.sqf";
 LOG_Medical = compile preProcessFileLineNumbers "Missions\LOG_Medical.sqf";
 call compile preProcessFileLineNumbers "Missions\destroy_vehicle.sqf";
