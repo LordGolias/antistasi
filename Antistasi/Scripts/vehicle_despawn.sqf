@@ -23,4 +23,7 @@ if (_vehicle in AS_S("reportedVehs")) then {
 if (_vehicle in AS_P("vehicles")) then {
 	[_vehicle, false] remoteExec ["AS_fnc_changePersistentVehicles", 2];
 };
+if (_vehicle isKindOf "test_EmptyObjectForSmoke") then {
+	{deleteVehicle _x} forEach (_vehicle getVariable ["effects", []]);
+};
 deleteVehicle _vehicle;

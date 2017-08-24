@@ -30,6 +30,9 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn == "destroy_antenna") exitWith {
         [AS_mission_destroyAntenna_states, AS_mission_destroyAntenna_state_functions]
     };
+    if (_type == "mission" and _spawn == "destroy_helicopter") exitWith {
+        [AS_mission_destroyHelicopter_states, AS_mission_destroyHelicopter_state_functions]
+    };
     if (_type == "mission" and _spawn in ["rescue_prisioners", "rescue_refugees"]) exitWith {
         [AS_mission_rescue_states, AS_mission_rescue_state_functions]
     };
