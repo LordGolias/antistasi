@@ -33,6 +33,9 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn in ["rescue_prisioners", "rescue_refugees"]) exitWith {
         [AS_mission_rescue_states, AS_mission_rescue_state_functions]
     };
+    if (_type == "mission" and _spawn == "nato_roadblock") exitWith {
+        [AS_mission_natoRoadblock_states, AS_mission_natoRoadblock_state_functions]
+    };
 };
 
 AS_spawn_fnc_spawns = {
