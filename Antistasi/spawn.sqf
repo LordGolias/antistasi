@@ -30,8 +30,11 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn == "repair_antenna") exitWith {
         [AS_mission_repairAntenna_states, AS_mission_repairAntenna_state_functions]
     };
-    if (_type == "mission" and _spawn == "assassinate") exitWith {
+    if (_type == "mission" and _spawn in ["kill_specops", "kill_officer"]) exitWith {
         [AS_mission_assassinate_states, AS_mission_assassinate_state_functions]
+    };
+    if (_type == "mission" and _spawn == "kill_traitor") exitWith {
+        [AS_mission_killTraitor_states, AS_mission_killTraitor_state_functions]
     };
     if (_type == "mission" and _spawn == "destroy_vehicle") exitWith {
         [AS_mission_destroyVehicle_states, AS_mission_destroyVehicle_state_functions]

@@ -287,7 +287,6 @@ AS_fnc_mission_activate = {
     private _script = call {
         private _missionType = _mission call AS_fnc_mission_type;
 
-        if (_missionType == "kill_traitor") exitWith {"ASS_Traidor"};
         if (_missionType == "black_market") exitWith {"AS_mis_black_market"};
         if (_missionType == "pamphlets") exitWith {"PR_Pamphlet"};
         if (_missionType == "broadcast") exitWith {"PR_Brainwash"};
@@ -298,7 +297,7 @@ AS_fnc_mission_activate = {
         if (_missionType in ["nato_uav", "nato_armor", "nato_ammo", "nato_cas", "nato_artillery",
                              "nato_roadblock", "nato_qrf", "nato_attack",
                              "steal_ammo", "repair_antenna",
-                             "kill_specops", "kill_officer",
+                             "kill_specops", "kill_officer", "kill_traitor",
                              "destroy_vehicle", "destroy_antenna", "destroy_helicopter",
                              "rescue_prisioners", "rescue_refugees", "conquer",
                              "rob_bank"]) exitWith {
