@@ -66,7 +66,7 @@ call compile preProcessFileLineNumbers "Missions\natoCAS.sqf";
 call compile preProcessFileLineNumbers "Missions\natoArmor.sqf";
 call compile preProcessFileLineNumbers "Missions\natoArtillery.sqf";
 call compile preProcessFileLineNumbers "Missions\natoAmmo.sqf";
-AS_mis_natoAttack = compile preProcessFileLineNumbers "Missions\natoAttack.sqf";
+call compile preProcessFileLineNumbers "Missions\natoAttack.sqf";
 call compile preProcessFileLineNumbers "Missions\natoUAV.sqf";
 call compile preProcessFileLineNumbers "Missions\natoRoadblock.sqf";
 call compile preProcessFileLineNumbers "Missions\natoQRF.sqf";

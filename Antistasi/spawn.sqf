@@ -12,6 +12,9 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn == "nato_qrf") exitWith {
         [AS_mission_natoQRF_states, AS_mission_natoQRF_state_functions]
     };
+    if (_type == "mission" and _spawn == "nato_qrf") exitWith {
+        [AS_mission_natoAttack_states, AS_mission_natoAttack_state_functions]
+    };
     if (_type == "mission" and _spawn == "nato_artillery") exitWith {
         [AS_mission_natoArtillery_states, AS_mission_natoArtillery_state_functions]
     };
@@ -42,6 +45,8 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn == "nato_roadblock") exitWith {
         [AS_mission_natoRoadblock_states, AS_mission_natoRoadblock_state_functions]
     };
+    diag_log format ["[AS] Error: spawn_states: invalid arguments [%1, %2]", _type, _spawn];
+    [[], []]  // default is to not do anything (no states)
 };
 
 AS_spawn_fnc_spawns = {
