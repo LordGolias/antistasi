@@ -7,13 +7,13 @@ private _fnc_initialize = {
 	private _mrkfin = createMarker [_mission, _position];
 	_mrkfin setMarkerShape "ICON";
 	private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + 60];
-	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 
 	private _tskTitle = localize "STR_tsk_NATOSupply";
 	private _tskDesc = localize "STR_tskDesc_NATOSupply";
 
 	[_mission, [_tskDesc,_tskTitle,_mrkfin], _position, "rifle"] call AS_spawn_fnc_saveTask;
 	[_mission, "resources", [taskNull, [], [], [_mrkfin]]] call AS_spawn_fnc_set;
+	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 };
 
 private _fnc_spawn = {

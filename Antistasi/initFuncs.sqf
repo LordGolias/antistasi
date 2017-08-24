@@ -69,7 +69,7 @@ call compile preProcessFileLineNumbers "Missions\natoAmmo.sqf";
 AS_mis_natoAttack = compile preProcessFileLineNumbers "Missions\natoAttack.sqf";
 call compile preProcessFileLineNumbers "Missions\natoUAV.sqf";
 call compile preProcessFileLineNumbers "Missions\natoRoadblock.sqf";
-AS_mis_natoQRF = compile preProcessFileLineNumbers "Missions\natoQRF.sqf";
+call compile preProcessFileLineNumbers "Missions\natoQRF.sqf";
 AS_mis_black_market = compile preProcessFileLineNumbers "Missions\black_market.sqf";
 AS_mis_establishFIALocation = compile preProcessFileLineNumbers "Missions\establishFIALocation.sqf";
 call compile preProcessFileLineNumbers "Missions\repair_antenna.sqf";
