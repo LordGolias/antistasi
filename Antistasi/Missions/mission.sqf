@@ -295,14 +295,13 @@ AS_fnc_mission_activate = {
         if (_missionType == "rob_bank") exitWith {"LOG_Bank"};
         if (_missionType == "help_meds") exitWith {"LOG_Suministros"};
         if (_missionType == "send_meds") exitWith {"LOG_Medical"};
-        if (_missionType == "conquer") exitWith {"AS_mis_conquer"};
 
         if (_missionType in ["nato_uav", "nato_armor", "nato_ammo", "nato_cas", "nato_artillery",
                              "nato_roadblock", "nato_qrf", "nato_attack",
                              "steal_ammo", "repair_antenna",
                              "kill_specops", "kill_officer",
                              "destroy_vehicle", "destroy_antenna", "destroy_helicopter",
-                             "rescue_prisioners", "rescue_refugees"]) exitWith {
+                             "rescue_prisioners", "rescue_refugees", "conquer"]) exitWith {
             _arguments = ["mission", _mission]; "AS_spawn_fnc_start"
         };
         ""

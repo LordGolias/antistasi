@@ -18,6 +18,9 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn == "nato_artillery") exitWith {
         [AS_mission_natoArtillery_states, AS_mission_natoArtillery_state_functions]
     };
+    if (_type == "mission" and _spawn == "nato_roadblock") exitWith {
+        [AS_mission_natoRoadblock_states, AS_mission_natoRoadblock_state_functions]
+    };
     if (_type == "mission" and _spawn == "nato_ammo") exitWith {
         [AS_mission_natoAmmo_states, AS_mission_natoAmmo_state_functions]
     };
@@ -42,8 +45,8 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn in ["rescue_prisioners", "rescue_refugees"]) exitWith {
         [AS_mission_rescue_states, AS_mission_rescue_state_functions]
     };
-    if (_type == "mission" and _spawn == "nato_roadblock") exitWith {
-        [AS_mission_natoRoadblock_states, AS_mission_natoRoadblock_state_functions]
+    if (_type == "mission" and _spawn == "conquer") exitWith {
+        [AS_mission_conquer_states, AS_mission_conquer_state_functions]
     };
     diag_log format ["[AS] Error: spawn_states: invalid arguments [%1, %2]", _type, _spawn];
     [[], []]  // default is to not do anything (no states)
