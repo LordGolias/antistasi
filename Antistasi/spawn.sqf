@@ -48,6 +48,9 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn == "conquer") exitWith {
         [AS_mission_conquer_states, AS_mission_conquer_state_functions]
     };
+    if (_type == "mission" and _spawn == "rob_bank") exitWith {
+        [AS_mission_robBank_states, AS_mission_robBank_state_functions]
+    };
     diag_log format ["[AS] Error: spawn_states: invalid arguments [%1, %2]", _type, _spawn];
     [[], []]  // default is to not do anything (no states)
 };
