@@ -95,8 +95,6 @@ private _fnc_spawn = {
 	_Gwp0 setWaypointType "GETOUT";
 	_Vwp0 synchronizeWaypoint [_Gwp0];
 
-	sleep 10;
-
 	// spawn repair truck going there
 	private _vehicleT = [position _road, 0, selectRandom vehTruckBox, side_red] call bis_fnc_spawnvehicle;
 	private _recoveryVehicle = _vehicleT select 0;

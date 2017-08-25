@@ -103,12 +103,6 @@ AS_spawn_fnc_loadTask = {
      _params select 3]
 };
 
-AS_spawn_fnc_checkpoint = {
-    params ["_name"];
-    private _state_index = [_name, "state_index"] call AS_spawn_fnc_get;
-    [_name, "state_index", _state_index + 1] call AS_spawn_fnc_set;
-};
-
 AS_spawn_fnc_remove = {
     params ["_name"];
     ["spawn", _name] call AS_fnc_object_remove;
@@ -130,9 +124,10 @@ AS_spawn_fnc_start = {
     while {_state_index < (count _functions - 1)} do {
         diag_log ["[AS] %1: spawn '%2' started state '%3'", clientOwner, _spawn, _states select _state_index];
         _spawn call (_functions select _state_index);
-        _spawn call AS_spawn_fnc_checkpoint;
+        // the function above can change the `state_index` to a new one.
         diag_log ["[AS] %1: spawn '%2' finished state '%3'", clientOwner, _spawn, _states select _state_index];
         _state_index = [_spawn, "state_index"] call AS_spawn_fnc_get;
+        [_spawn, "state_index", _state_index + 1] call AS_spawn_fnc_set;
     };
     _spawn call AS_spawn_fnc_remove;
 };

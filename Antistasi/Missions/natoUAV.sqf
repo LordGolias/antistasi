@@ -1,4 +1,4 @@
-AS_mission_natoUAV_fnc_initialize = {
+private _fnc_initialize = {
 	params ["_mission"]; // spawn name = mission name
 	private _airports = (["airfield", "FIA"] call AS_fnc_location_TS) + ["spawnNATO"];
 
@@ -25,7 +25,7 @@ AS_mission_natoUAV_fnc_initialize = {
 	[_mission, [_tskDesc,_tskTitle,_origin], _position, "Attack"] call AS_spawn_fnc_saveTask;
 };
 
-AS_mission_natoUAV_fnc_spawn = {
+private _fnc_spawn = {
 	params ["_mission"];
 	private _position = [_mission, "position"] call AS_spawn_fnc_get;
 
@@ -55,7 +55,7 @@ AS_mission_natoUAV_fnc_spawn = {
 	[_mission, "resources", [_task, _groups, _vehicles, []]] call AS_spawn_fnc_set;
 };
 
-AS_mission_natoUAV_fnc_run = {
+private _fnc_run = {
 	params ["_mission"];
 	private _max_date = [_mission, "max_date"] call AS_spawn_fnc_get;
 	private _vehicles = ([_mission, "resources"] call AS_spawn_fnc_get) select 2;
@@ -73,21 +73,10 @@ AS_mission_natoUAV_fnc_run = {
 	};
 };
 
-AS_mission_natoUAV_fnc_clean = {
-	params ["_mission"];
-	([_mission, "resources"] call AS_spawn_fnc_get) params ["_task", "_groups", "_vehicles", "_markers"];
-
-	{AS_commander hcRemoveGroup _x} forEach _groups;
-	[_groups, _vehicles, _markers] call AS_fnc_cleanResources;
-	sleep 30;
-	[_task] call BIS_fnc_deleteTask;
-	_mission call AS_fnc_mission_completed;
-};
-
 AS_mission_natoUAV_states = ["initialize", "spawn", "run", "clean"];
 AS_mission_natoUAV_state_functions = [
-	AS_mission_natoUAV_fnc_initialize,
-	AS_mission_natoUAV_fnc_spawn,
-	AS_mission_natoUAV_fnc_run,
-	AS_mission_natoUAV_fnc_clean
+	_fnc_initialize,
+	_fnc_spawn,
+	_fnc_run,
+	AS_mission_fnc_clean
 ];
