@@ -57,6 +57,10 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn == "send_meds") exitWith {
         [AS_mission_sendMeds_states, AS_mission_sendMeds_state_functions]
     };
+    if (_type == "mission" and _spawn == "help_meds") exitWith {
+        [AS_mission_helpMeds_states, AS_mission_helpMeds_state_functions]
+    };
+
     diag_log format ["[AS] Error: spawn_states: invalid arguments [%1, %2]", _type, _spawn];
     [[], []]  // default is to not do anything (no states)
 };
