@@ -287,7 +287,6 @@ AS_fnc_mission_activate = {
     private _script = call {
         private _missionType = _mission call AS_fnc_mission_type;
 
-        if (_missionType == "black_market") exitWith {"AS_mis_black_market"};
         if (_missionType == "pamphlets") exitWith {"PR_Pamphlet"};
         if (_missionType == "broadcast") exitWith {"PR_Brainwash"};
         if (_missionType in ["convoy_armor", "convoy_ammo","convoy_money", "convoy_supplies", "convoy_prisoners", "convoy_hvt"]) exitWith {"AS_mis_convoy"};
@@ -298,7 +297,7 @@ AS_fnc_mission_activate = {
                              "kill_specops", "kill_officer", "kill_traitor",
                              "destroy_vehicle", "destroy_antenna", "destroy_helicopter",
                              "rescue_prisioners", "rescue_refugees", "conquer",
-                             "send_meds", "help_meds",
+                             "send_meds", "help_meds", "black_market",
                              "rob_bank"]) exitWith {
             _arguments = ["mission", _mission]; "AS_spawn_fnc_start"
         };
