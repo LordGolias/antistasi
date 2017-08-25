@@ -288,7 +288,6 @@ AS_fnc_mission_activate = {
         private _missionType = _mission call AS_fnc_mission_type;
 
         if (_missionType == "pamphlets") exitWith {"PR_Pamphlet"};
-        if (_missionType == "broadcast") exitWith {"PR_Brainwash"};
         if (_missionType in ["convoy_armor", "convoy_ammo","convoy_money", "convoy_supplies", "convoy_prisoners", "convoy_hvt"]) exitWith {"AS_mis_convoy"};
 
         if (_missionType in ["nato_uav", "nato_armor", "nato_ammo", "nato_cas", "nato_artillery",
@@ -298,7 +297,8 @@ AS_fnc_mission_activate = {
                              "destroy_vehicle", "destroy_antenna", "destroy_helicopter",
                              "rescue_prisioners", "rescue_refugees", "conquer",
                              "send_meds", "help_meds", "black_market",
-                             "rob_bank"]) exitWith {
+                             "rob_bank", "broadcast"
+                             ]) exitWith {
             _arguments = ["mission", _mission]; "AS_spawn_fnc_start"
         };
         ""

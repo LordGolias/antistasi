@@ -63,6 +63,9 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn == "black_market") exitWith {
         [AS_mission_blackMarket_states, AS_mission_blackMarket_state_functions]
     };
+    if (_type == "mission" and _spawn == "broadcast") exitWith {
+        [AS_mission_broadcast_states, AS_mission_broadcast_state_functions]
+    };
 
     diag_log format ["[AS] Error: spawn_states: invalid arguments [%1, %2]", _type, _spawn];
     [[], []]  // default is to not do anything (no states)

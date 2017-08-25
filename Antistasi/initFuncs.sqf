@@ -83,7 +83,7 @@ call compile preProcessFileLineNumbers "Missions\destroy_vehicle.sqf";
 call compile preProcessFileLineNumbers "Missions\destroy_helicopter.sqf";
 call compile preProcessFileLineNumbers "Missions\destroy_antenna.sqf";
 PR_Pamphlet = compile preProcessFileLineNumbers "Missions\PR_Pamphlet.sqf";
-PR_Brainwash = compile preProcessFileLineNumbers "Missions\PR_Brainwash.sqf";
+call compile preProcessFileLineNumbers "Missions\broadcast.sqf";
 DEF_Camp = compile preProcessFileLineNumbers "Missions\DEF_Camp.sqf";
 CSATpunish = compile preProcessFileLineNumbers "Missions\CSATpunish.sqf";
 combinedCA = compile preProcessFileLineNumbers "Missions\combinedCA.sqf";
