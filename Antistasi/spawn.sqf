@@ -69,6 +69,9 @@ AS_spawn_fnc_states = {
     if (_type == "mission" and _spawn == "pamphlets") exitWith {
         [AS_mission_pamphlets_states, AS_mission_pamphlets_state_functions]
     };
+    if (_type == "mission" and _spawn == "convoy") exitWith {
+        [AS_mission_convoy_states, AS_mission_convoy_state_functions]
+    };
 
     diag_log format ["[AS] Error: spawn_states: invalid arguments [%1, %2]", _type, _spawn];
     [[], []]  // default is to not do anything (no states)
@@ -138,8 +141,8 @@ AS_spawn_fnc_start = {
     while {_state_index < (count _functions - 1)} do {
         diag_log ["[AS] %1: spawn '%2' started state '%3'", clientOwner, _spawn, _states select _state_index];
         _spawn call (_functions select _state_index);
-        // the function above can change the `state_index` to a new one.
         diag_log ["[AS] %1: spawn '%2' finished state '%3'", clientOwner, _spawn, _states select _state_index];
+        // the function above can change the `state_index` to a new one. We load it and use it
         _state_index = [_spawn, "state_index"] call AS_spawn_fnc_get;
         [_spawn, "state_index", _state_index + 1] call AS_spawn_fnc_set;
     };

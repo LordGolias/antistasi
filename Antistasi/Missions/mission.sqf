@@ -279,33 +279,8 @@ AS_fnc_mission_updateAvailable = {
 
 AS_fnc_mission_activate = {
     params ["_mission"];
-
     [_mission, "status", "active"] call AS_fnc_mission_set;
-
-    private _arguments = _mission;
-
-    private _script = call {
-        private _missionType = _mission call AS_fnc_mission_type;
-
-        if (_missionType in ["convoy_armor", "convoy_ammo","convoy_money", "convoy_supplies", "convoy_prisoners", "convoy_hvt"]) exitWith {"AS_mis_convoy"};
-
-        if (_missionType in ["nato_uav", "nato_armor", "nato_ammo", "nato_cas", "nato_artillery",
-                             "nato_roadblock", "nato_qrf", "nato_attack",
-                             "steal_ammo", "repair_antenna",
-                             "kill_specops", "kill_officer", "kill_traitor",
-                             "destroy_vehicle", "destroy_antenna", "destroy_helicopter",
-                             "rescue_prisioners", "rescue_refugees", "conquer",
-                             "send_meds", "help_meds", "black_market",
-                             "rob_bank", "broadcast", "pamphlets"
-                             ]) exitWith {
-            _arguments = ["mission", _mission]; "AS_spawn_fnc_start"
-        };
-        ""
-    };
-    if (_script == "") exitWith {
-        diag_log format ["[AS] Error: AS_fnc_mission_activate: mission '%1' does not have script", _mission];
-    };
-    [_arguments, _script] call AS_scheduler_fnc_execute;
+    [["mission", _mission], "AS_spawn_fnc_start"] call AS_scheduler_fnc_execute;
 };
 
 AS_fnc_mission_dismiss = {
