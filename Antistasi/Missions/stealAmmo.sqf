@@ -13,7 +13,7 @@ private _fnc_initialize = {
 		numberToDate [2035,dateToNumber _fechalim] select 3,
 		numberToDate [2035,dateToNumber _fechalim] select 4];
 
-	[_mission, [_tskDesc,_tskTitle,_location], _position, "rearm"] call AS_spawn_fnc_saveTask;
+	[_mission, [_tskDesc,_tskTitle,_location], _position, "rearm"] call AS_mission_spawn_fnc_saveTask;
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 };
 
@@ -25,7 +25,7 @@ private _fnc_wait_spawn = {
 	waitUntil {sleep 1;False or {dateToNumber date > _max_date} or (_location call AS_fnc_location_spawned)};
 
 	if (dateToNumber date > _max_date) then {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
 		// we set the spawn state to `run` so that the next one is `clean`, since this ends the mission
@@ -89,14 +89,14 @@ private _fnc_run = {
 	private _fnc_missionSuccessfulCondition = {({_x getVariable ["BLUFORSpawn",false]} count crew _truck > 0)};
 
 	private _fnc_missionSuccessful = {
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission, getPos _truck] remoteExec ["AS_fnc_mission_success", 2];
 	};
 
 	private _fnc_missionFailedCondition = {(not alive _truck) or {dateToNumber date > _max_date}};
 
 	private _fnc_missionFailed = {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	};
 

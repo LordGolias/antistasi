@@ -394,10 +394,11 @@ AS_fnc_mission_load = {
     {_x call AS_fnc_mission_activate} forEach (call AS_fnc_active_missions);
 };
 
+/// below are auxiliar functions for spawning missions
 AS_mission_fnc_spawn_wait_spawn = {
     params ["_mission"];
 
-	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	[_mission, "resources", [_task, [], [], []]] call AS_spawn_fnc_set;
 };
@@ -411,4 +412,27 @@ AS_mission_fnc_clean = {
 	sleep 30;
 	[_task] call BIS_fnc_deleteTask;
 	_mission call AS_fnc_mission_completed;
+};
+
+AS_mission_spawn_fnc_saveTask = {
+    [_this select 0, "task", _this] call AS_spawn_fnc_set;
+};
+
+AS_mission_spawn_fnc_loadTask = {
+    params ["_mission", "_status", ["_description", ""], ["_position", []]];
+    private _params = [_mission, "task"] call AS_spawn_fnc_get;
+
+    private _settings = _params select 1;
+    if (_description != "") then {
+        _settings set [1, _description];
+    };
+    if (count _position == 0) then {
+        _position = _params select 2;
+    };
+
+    [_params select 0,[side_blue,civilian],
+     _settings,
+     _position,
+     _status, 5,true,true,
+     _params select 3]
 };

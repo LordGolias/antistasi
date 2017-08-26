@@ -15,7 +15,7 @@ private _fnc_initialize = {
 		[_destination] call localizar,
 		_origname];
 
-	[_mission, [_tskDesc,_tskTitle, _destination], _destPos, "Attack"] call AS_spawn_fnc_saveTask;
+	[_mission, [_tskDesc,_tskTitle, _destination], _destPos, "Attack"] call AS_mission_spawn_fnc_saveTask;
 };
 
 private _fnc_spawn = {
@@ -25,7 +25,7 @@ private _fnc_spawn = {
 	private _destination = [_mission, "destination"] call AS_fnc_mission_get;
 	private _destPos = _destination call AS_fnc_location_position;
 
-	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	private _groups = [];
 	private _vehicles = [];
@@ -167,12 +167,12 @@ private _fnc_run = {
 		({not alive _x or fleeing _x or captive _x} count _soldiers) >= 3./4*(count _soldiers)
 	};
 	private _fnc_missionFailed = {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	};
 	private _fnc_missionSuccessfulCondition = {_destination call AS_fnc_location_side == "FIA"};
 	private _fnc_missionSuccessful = {
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_success", 2];
 	};
 

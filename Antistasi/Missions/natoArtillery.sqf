@@ -16,7 +16,7 @@ private _fnc_initialize = {
 
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 	[_mission, "position", _position] call AS_spawn_fnc_set;
-	[_mission, [_tskDesc,_tskTitle,_location], _position, "target"] call AS_spawn_fnc_saveTask;
+	[_mission, [_tskDesc,_tskTitle,_location], _position, "target"] call AS_mission_spawn_fnc_saveTask;
 };
 
 private _fnc_spawn = {
@@ -24,7 +24,7 @@ private _fnc_spawn = {
 	private _position = [_mission, "position"] call AS_spawn_fnc_get;
 	private _support = [_mission, "NATOsupport"] call AS_fnc_mission_get;
 
-	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	private _group = createGroup WEST;
 	private _vehicles = [];
@@ -72,10 +72,10 @@ private _fnc_run = {
 	waitUntil {sleep 10; (dateToNumber date > _max_date) or ({alive _x} count _vehicles == 0)};
 
 	if ({alive _x} count _vehicles == 0) then {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	} else {
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_success", 2];
 	};
 };

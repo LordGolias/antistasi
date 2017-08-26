@@ -22,14 +22,14 @@ private _fnc_initialize = {
 							   numberToDate [2035,dateToNumber _fechalim] select 4];
 	private _tskTitle = "NATO UAV";
 
-	[_mission, [_tskDesc,_tskTitle,_origin], _position, "Attack"] call AS_spawn_fnc_saveTask;
+	[_mission, [_tskDesc,_tskTitle,_origin], _position, "Attack"] call AS_mission_spawn_fnc_saveTask;
 };
 
 private _fnc_spawn = {
 	params ["_mission"];
 	private _position = [_mission, "position"] call AS_spawn_fnc_get;
 
-	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	private _groups = [];
 	private _vehicles = [];
@@ -65,10 +65,10 @@ private _fnc_run = {
 	};
 
 	if (dateToNumber date > _max_date) then {
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_success", 2];
 	} else {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	};
 };

@@ -24,7 +24,7 @@ private _fnc_initialize = {
 	[_mission, "vehicleType", _vehicleType] call AS_spawn_fnc_set;
 	[_mission, "crashPosition", _posCrash] call AS_spawn_fnc_set;
 	[_mission, "resources", [taskNull, [], [], [_mrk]]] call AS_spawn_fnc_set;
-	[_mission, [_tskDesc,_tskTitle,_mrk], _position, "Destroy"] call AS_spawn_fnc_saveTask;
+	[_mission, [_tskDesc,_tskTitle,_mrk], _position, "Destroy"] call AS_mission_spawn_fnc_saveTask;
 };
 
 private _fnc_spawn = {
@@ -34,7 +34,7 @@ private _fnc_spawn = {
 	private _crashPosition = [_mission, "crashPosition"] call AS_spawn_fnc_get;
 	private _vehicleType = [_mission, "vehicleType"] call AS_spawn_fnc_get;
 
-	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	private _vehicles = [];
 	private _groups = [];
@@ -145,14 +145,14 @@ private _fnc_run = {
 		_Vwp0 setWaypointType "MOVE";
 		_Vwp0 setWaypointBehaviour "SAFE";
 
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	};
 
 	private _fnc_missionSuccessfulCondition = {not alive _heli};
 
 	private _fnc_missionSuccessful = {
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission, getPos _heli] remoteExec ["AS_fnc_mission_success", 2];
 	};
 

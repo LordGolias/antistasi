@@ -11,7 +11,7 @@ private _fnc_initialize = {
 	private _tskTitle = localize "STR_tsk_NATOSupply";
 	private _tskDesc = localize "STR_tskDesc_NATOSupply";
 
-	[_mission, [_tskDesc,_tskTitle,_mrkfin], _position, "rifle"] call AS_spawn_fnc_saveTask;
+	[_mission, [_tskDesc,_tskTitle,_mrkfin], _position, "rifle"] call AS_mission_spawn_fnc_saveTask;
 	[_mission, "resources", [taskNull, [], [], [_mrkfin]]] call AS_spawn_fnc_set;
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 };
@@ -19,7 +19,7 @@ private _fnc_initialize = {
 private _fnc_spawn = {
 	params ["_mission"];
 
-	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	private _vehicles = [];
 	private _groups = [];
@@ -75,10 +75,10 @@ private _fnc_run = {
 		private _humo = "SmokeShellBlue" createVehicle position _crate;
 		_vehicles pushBack _humo;
 
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_success", 2];
 	} else {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	};
 };

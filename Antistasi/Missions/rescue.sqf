@@ -25,7 +25,7 @@ private _fnc_initialize = {
 
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 	[_mission, "position", _position] call AS_spawn_fnc_set;
-	[_mission, [_tskDesc,_tskTitle,_location], _position, "run"] call AS_spawn_fnc_saveTask;
+	[_mission, [_tskDesc,_tskTitle,_location], _position, "run"] call AS_mission_spawn_fnc_saveTask;
 };
 
 private _fnc_spawn = {
@@ -108,7 +108,7 @@ private _fnc_run = {
 	private _fnc_missionFailedCondition = {{alive _x} count _pows < (count _pows)/2};
 
 	private _fnc_missionFailed = {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission,  {not alive _x or captive _x} count _pows] remoteExec ["AS_fnc_mission_fail", 2];
 
 		{_x setCaptive false} forEach _pows;
@@ -120,7 +120,7 @@ private _fnc_run = {
 	 };
 
 	private _fnc_missionSuccessful = {
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission,  {alive _x} count _pows] remoteExec ["AS_fnc_mission_success", 2];
 
 		{[_x] join _grpPOW; [_x] orderGetin false} forEach _pows;

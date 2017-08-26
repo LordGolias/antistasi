@@ -16,7 +16,7 @@ private _fnc_initialize = {
 
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 	[_mission, "position", _position] call AS_spawn_fnc_set;
-	[_mission, [_tskDesc,_tskTitle,_location], _position, "Destroy"] call AS_spawn_fnc_saveTask;
+	[_mission, [_tskDesc,_tskTitle,_location], _position, "Destroy"] call AS_mission_spawn_fnc_saveTask;
 };
 
 private _fnc_spawn = {
@@ -39,7 +39,7 @@ private _fnc_run = {
 	private _fnc_missionFailedCondition = {dateToNumber date > _max_date};
 
 	private _fnc_missionFailed = {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	};
 
@@ -48,7 +48,7 @@ private _fnc_run = {
 	private _fnc_missionSuccessfulCondition = {(not alive _antenna) or (_location call AS_fnc_location_side == "FIA")};
 
 	private _fnc_missionSuccessful = {
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission, _position] remoteExec ["AS_fnc_mission_success", 2];
 	};
 

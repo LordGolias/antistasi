@@ -29,7 +29,7 @@ private _fnc_initialize = {
 
 	[_mission, "house", _casa] call AS_spawn_fnc_set;
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
-	[_mission, [_tskDesc,_tskTitle,_location], _posTsk, "Kill"] call AS_spawn_fnc_saveTask;
+	[_mission, [_tskDesc,_tskTitle,_location], _posTsk, "Kill"] call AS_mission_spawn_fnc_saveTask;
 };
 
 private _fnc_spawn = {
@@ -38,7 +38,7 @@ private _fnc_spawn = {
 	private _position = _location call AS_fnc_location_position;
 	private _casa = [_mission, "house"] call AS_spawn_fnc_get;
 
-	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	private _poscasa = [_casa] call BIS_fnc_buildingPositions;
 
@@ -114,20 +114,20 @@ private _fnc_wait = {
 
 	waitUntil {sleep 5; ({_target knowsAbout _x > 1.4} count ([500, _target, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) > 0) or _fnc_missionFailedCondition or _fnc_missionSuccessfulCondition};
 	if (call _fnc_missionFailedCondition) exitWith {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		_mission remoteExec ["AS_fnc_mission_fail", 2];
 
 		// set the spawn state to `run` so that the next one is `clean`, since this ends the mission
 		[_mission, "state_index", 3] call AS_spawn_fnc_set;
 	};
 	if (call _fnc_missionSuccessfulCondition) exitWith {
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		_mission remoteExec ["AS_fnc_mission_success", 2];
 
 		// set the spawn state to `run` so that the next one is `clean`, since this ends the mission
 		[_mission, "state_index", 3] call AS_spawn_fnc_set;
 	};
-	([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 };
 
 private _fnc_run = {
@@ -153,7 +153,7 @@ private _fnc_run = {
 	_wp1 setWaypointSpeed "FULL";
 
 	private _fnc_missionFailed = {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		_mission remoteExec ["AS_fnc_mission_fail", 2];
 	};
 
@@ -162,7 +162,7 @@ private _fnc_run = {
 	private _fnc_missionSuccessfulCondition = {not alive _target};
 
 	private _fnc_missionSuccessful = {
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		_mission remoteExec ["AS_fnc_mission_success", 2];
 	};
 

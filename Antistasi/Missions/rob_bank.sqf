@@ -23,7 +23,7 @@ private _fnc_initialize = {
 		A3_STR_INDEP
 	];
 
-	[_mission, [_taskDesc,_taskTitle,_mrkfin], _position, "Interact"] call AS_spawn_fnc_saveTask;
+	[_mission, [_taskDesc,_taskTitle,_mrkfin], _position, "Interact"] call AS_mission_spawn_fnc_saveTask;
 	[_mission, "resources", [taskNull, [], [], [_mrkfin]]] call AS_spawn_fnc_set;
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 	[_mission, "bankPosition", _bankPosition] call AS_spawn_fnc_set;
@@ -37,7 +37,7 @@ private _fnc_spawn = {
 
 	private _bank = (nearestObjects [_bankPosition, [], 25]) select 0;
 
-	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 	private _markers = (([_mission, "resources"] call AS_spawn_fnc_get) select 3);
 
 	private _truckType = selectRandom AS_FIA_vans;
@@ -86,7 +86,7 @@ private _fnc_wait_to_arrive = {
 	waitUntil {sleep 1; (_truck distance _position < 7) or _fnc_missionFailedCondition};
 
 	if (call _fnc_missionFailedCondition) then {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
 		// set the spawn state to `run` so that the next one is `clean`, since this ends the mission
@@ -132,7 +132,7 @@ private _fnc_wait_to_load = {
 	[_truck, 120, _fnc_loadCondition, _fnc_missionFailedCondition, _str_unloadStopped] call AS_fnc_wait_or_fail;
 
 	if (call _fnc_missionFailedCondition) then {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
 		// set the spawn state to `run` so that the next one is `clean`, since this ends the mission
@@ -156,10 +156,10 @@ private _fnc_wait_to_return = {
 	waitUntil {sleep 1; (_truck distance (getMarkerPos "FIA_HQ") < 50) and speed _truck == 0 or _fnc_missionFailedCondition};
 
 	if (call _fnc_missionFailedCondition) then {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	} else {
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_success", 2];
 	};
 	if (alive _truck) then {

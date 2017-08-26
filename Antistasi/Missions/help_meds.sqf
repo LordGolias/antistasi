@@ -71,7 +71,7 @@ private _fnc_initialize = {
 	[_mission, "vehicleType", _vehicleType] call AS_spawn_fnc_set;
 	[_mission, "basePosition", _basePosition] call AS_spawn_fnc_set;
 	[_mission, "resources", [taskNull, [], [], [_mrkfin]]] call AS_spawn_fnc_set;
-	[_mission, [_tskDesc,_tskTitle,_mrkfin], _crashPositionMrk, "Heal"] call AS_spawn_fnc_saveTask;
+	[_mission, [_tskDesc,_tskTitle,_mrkfin], _crashPositionMrk, "Heal"] call AS_mission_spawn_fnc_saveTask;
 };
 
 private _fnc_spawn = {
@@ -80,7 +80,7 @@ private _fnc_spawn = {
 	private _basePosition = [_mission, "basePosition"] call AS_spawn_fnc_get;
 	private _vehicleType = [_mission, "vehicleType"] call AS_spawn_fnc_get;
 
-	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	private _vehiculos = [];
 	private _grupos = [];
@@ -173,7 +173,7 @@ private _fnc_wait_to_arrive = {
 	};
 
 	if (call _fnc_missionFailedCondition) then {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
 		// set the spawn state to `run` so that the next one is `clean`, since this ends the mission
@@ -191,7 +191,7 @@ private _fnc_wait_to_unload = {
 
 	private _crashPosition = [_mission, "crashPosition"] call AS_spawn_fnc_get;
 
-	([_mission, "AUTOASSIGNED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	([_mission, "AUTOASSIGNED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	// make all FIA around the truck non-captive
 	{
@@ -222,13 +222,13 @@ private _fnc_wait_to_unload = {
 	[_truck, 120, _fnc_loadCratesCondition, _fnc_missionFailedCondition, _str_unloadStopped] call AS_fnc_wait_or_fail;
 
 	if (call _fnc_missionFailedCondition) then {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
 		// set the spawn state to `run` so that the next one is `clean`, since this ends the mission
 		[_mission, "state_index", 3] call AS_spawn_fnc_set;
 	} else {
-		([_mission, "AUTOASSIGNED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "AUTOASSIGNED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 		private _message = format ["Good to go. Deliver these supplies to %1 on the double.",[_location] call localizar];
 		{
@@ -258,7 +258,7 @@ private _fnc_wait_to_deliver = {
 	waitUntil {sleep 1; (_truck distance _position < 40 and (speed _truck == 0)) or _fnc_missionFailedCondition};
 
 	if (_truck distance _position < 40 and (speed _truck == 0)) then {
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_success", 2];
 
 		private _message = "Leave the vehicle here, they'll come to pick it up.";
@@ -281,7 +281,7 @@ private _fnc_wait_to_deliver = {
 			};
 		} forEach ([100, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 	} else {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	};
 };

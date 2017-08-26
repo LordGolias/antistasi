@@ -75,7 +75,7 @@ private _fnc_initialize = {
 	[_mission, "origin", _origin] call AS_spawn_fnc_set;
 	[_mission, "mainVehicleType", _mainVehicleType] call AS_spawn_fnc_set;
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
-	[_mission, [_tskDesc,_tskTitle,_location], _position, _tskIcon] call AS_spawn_fnc_saveTask;
+	[_mission, [_tskDesc,_tskTitle,_location], _position, _tskIcon] call AS_mission_spawn_fnc_saveTask;
 };
 
 private _fnc_spawn = {
@@ -87,7 +87,7 @@ private _fnc_spawn = {
 	private _posbase = _origin call AS_fnc_location_position;
 	private _mainVehicleType = [_mission, "mainVehicleType"] call AS_spawn_fnc_get;
 
-	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	private _groups = [];
 	private _vehicles = [];
@@ -222,7 +222,7 @@ private _fnc_run = {
 	};
 
 	private _fnc_missionFailed = {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
 		if (_missionType == "convoy_ammo") then {
@@ -252,7 +252,7 @@ private _fnc_run = {
 			{
 				private _fnc_missionFailedCondition = {not alive _mainVehicle or (dateToNumber date > _max_date)};
 				private _fnc_missionFailed = {
-					([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+					([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 					[-5000] remoteExec ["resourcesAAF",2];
 					[1800] remoteExec ["AS_fnc_changeSecondsforAAFattack",2];
 				};
@@ -263,7 +263,7 @@ private _fnc_run = {
 
 				private _fnc_missionSuccessfulCondition = {(_mainVehicle distance _destination < 50) and {speed _mainVehicle < 1}};
 				private _fnc_missionSuccessful = {
-					([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+					([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 					[_mission, getPos _mainVehicle] remoteExec ["AS_fnc_mission_success", 2];
 				};
 				[_fnc_missionFailedCondition, _fnc_missionFailed, _fnc_missionSuccessfulCondition, _fnc_missionSuccessful] call AS_fnc_oneStepMission;
@@ -271,7 +271,7 @@ private _fnc_run = {
 		};
 		if (_missionType == "convoy_armor") exitWith {
 			{
-				([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+				([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 				[_mission, getPos _mainVehicle] remoteExec ["AS_fnc_mission_success", 2];
 
 				[position _mainVehicle] spawn patrolCA;
@@ -280,7 +280,7 @@ private _fnc_run = {
 		if (_missionType == "convoy_hvt") exitWith {
 			{
 				private _hvt = [_mission, "hvt"] call AS_spawn_fnc_get;
-				([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+				([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 				[_mission, getPos _mainVehicle] remoteExec ["AS_fnc_mission_success", 2];
 
 				[position _hvt] spawn patrolCA;

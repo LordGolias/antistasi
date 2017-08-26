@@ -25,7 +25,7 @@ private _fnc_initialize = {
 	[_mission, "buildings", _buildings select [0, DROP_COUNT]] call AS_spawn_fnc_set;
 	[_mission, "currentDrop", 0] call AS_spawn_fnc_set;
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
-	[_mission, [_tskDesc,_tskTitle,_location], _position, "Heal"] call AS_spawn_fnc_saveTask;
+	[_mission, [_tskDesc,_tskTitle,_location], _position, "Heal"] call AS_mission_spawn_fnc_saveTask;
 };
 
 private _fnc_spawn = {
@@ -33,7 +33,7 @@ private _fnc_spawn = {
 	private _location = _mission call AS_fnc_mission_location;
 	private _position = _location call AS_fnc_location_position;
 
-	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	// spawn two additional patrols with dogs
 	private _grupos = [];
@@ -105,7 +105,7 @@ private _fnc_wait_arrival = {
 
 	if (call _fnc_missionFailedCondition) then {
 		private _tskDesc_fail = format [localize "STR_tskDesc_PRPamphlet_fail", [_location] call localizar];
-		([_mission, "FAILED", _tskDesc_fail] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED", _tskDesc_fail] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
 		[_mission, "state_index", 4] call AS_fnc_spawn_set;
@@ -137,7 +137,7 @@ private _fnc_deliver = {
 
 	// refresh task
 	private _tskDesc_drop = format [localize "STR_tskDesc_PRPamphlet_drop", [_location] call localizar];
-	([_mission, "ASSIGNED", _tskDesc_drop, position _currentDrop] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	([_mission, "ASSIGNED", _tskDesc_drop, position _currentDrop] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	// send patrol to the location
 	{
@@ -163,7 +163,7 @@ private _fnc_deliver = {
 	if (call _fnc_missionFailedCondition) then {
 		// exits the while loop, not the mission
 		private _tskDesc_fail = format [localize "STR_tskDesc_PRPamphlet_fail", [_location] call localizar];
-		([_mission, "FAILED", _tskDesc_fail] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED", _tskDesc_fail] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	} else {
 		private _posUnload = (position _truck) findEmptyPosition [1,10,"C_Van_01_transport_F"];
@@ -187,7 +187,7 @@ private _fnc_deliver = {
 				numberToDate [2035,_max_date] select 3,
 				numberToDate [2035,_max_date] select 4
 			];
-			([_mission, "SUCCEEDED", _tskDesc_success] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+			([_mission, "SUCCEEDED", _tskDesc_success] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 			[_mission] remoteExec ["AS_fnc_mission_success", 2];
 		};
 	};

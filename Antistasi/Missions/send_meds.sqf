@@ -18,13 +18,13 @@ private _fnc_initialize = {
 
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 	[_mission, "position", _position] call AS_spawn_fnc_set;
-	[_mission, [_taskDesc,_taskTitle,_location], _position, "Heal"] call AS_spawn_fnc_saveTask;
+	[_mission, [_taskDesc,_taskTitle,_location], _position, "Heal"] call AS_mission_spawn_fnc_saveTask;
 };
 
 private _fnc_spawn = {
 	params ["_mission"];
 
-	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	private _truckType = selectRandom AS_FIA_vans;
 	private _pos = (getMarkerPos "FIA_HQ") findEmptyPosition [1,50,_truckType];
@@ -51,7 +51,7 @@ private _fnc_wait = {
 	waitUntil {sleep 1; (_truck distance _position < 40) and (speed _truck < 1) or _fnc_missionFailedCondition};
 
 	if (call _fnc_missionFailedCondition) exitWith {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
 		// set the spawn state to `run` so that the next one is `clean`, since this ends the mission
@@ -114,10 +114,10 @@ private _fnc_run = {
 	[_truck, 120, _fnc_unloadCondition, _fnc_missionFailedCondition, _str_unloadStopped] call AS_fnc_wait_or_fail;
 
 	if (call _fnc_missionFailedCondition) then {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	} else {
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_success", 2];
 	};
 };

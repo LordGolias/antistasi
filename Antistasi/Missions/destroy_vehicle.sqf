@@ -29,7 +29,7 @@ private _fnc_initialize = {
 		_texto
 	];
 
-	[_mission, [_tskDesc,_tskTitle,_location], _position, "Destroy"] call AS_spawn_fnc_saveTask;
+	[_mission, [_tskDesc,_tskTitle,_location], _position, "Destroy"] call AS_mission_spawn_fnc_saveTask;
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 	[_mission, "vehicleType", _vehicleType] call AS_spawn_fnc_set;
 };
@@ -44,7 +44,7 @@ private _fnc_wait_spawn = {
 	waitUntil {sleep 1; False or _fnc_missionFailedCondition or (_location call AS_fnc_location_spawned)};
 
 	if (dateToNumber date > _max_date) then {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
 		// we set the spawn state to `run` so that the next one is `clean`, since this ends the mission
@@ -85,7 +85,7 @@ private _fnc_run = {
 	private _fnc_missionFailedCondition = {dateToNumber date > _max_date};
 
 	private _fnc_missionFailed = {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	};
 
@@ -94,7 +94,7 @@ private _fnc_run = {
 	};
 
 	private _fnc_missionSuccessful = {
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission, getPos _veh] remoteExec ["AS_fnc_mission_success", 2];
 	};
 

@@ -15,7 +15,7 @@ private _fnc_initialize = {
 
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 	[_mission, "position", _position] call AS_spawn_fnc_set;
-	[_mission, [_tskDesc,_tskTitle,_location], _position, "Heal"] call AS_spawn_fnc_saveTask;
+	[_mission, [_tskDesc,_tskTitle,_location], _position, "Heal"] call AS_mission_spawn_fnc_saveTask;
 };
 
 private _fnc_spawn = {
@@ -23,7 +23,7 @@ private _fnc_spawn = {
 	private _location = _mission call AS_fnc_mission_location;
 	private _position = [_mission, "position"] call AS_spawn_fnc_get;
 
-	private _task = ([_mission, "CREATED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	// find bases and airports to serve as spawnpoints for reinforcements
 	private _bases = [];
@@ -128,7 +128,7 @@ private _fnc_wait_to_arrive = {
 	waitUntil {sleep 1; (propTruck distance _position < 150) or _fnc_missionFailedCondition};
 
 	if (call _fnc_missionFailedCondition) then {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
 		// we set the spawn state to `run` so that the next one is `clean`, since this ends the mission
@@ -165,7 +165,7 @@ private _fnc_wait_to_activate = {
 	};
 
 	if (call _fnc_missionFailedCondition) then {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 
 		// we set the spawn state to `run` so that the next one is `clean`, since this ends the mission
@@ -245,7 +245,7 @@ private _fnc_spawn_activator = {
 	};
 	[_location, 30, _timing, _comp] spawn attackWaves;
 
-	([_mission, "ASSIGNED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	([_mission, "ASSIGNED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	private _resources = [_mission, "resources"] call AS_spawn_fnc_get;
 	(_resources select 2) append _objectsToDelete;
@@ -333,10 +333,10 @@ private _fnc_run = {
 
 	// failure if you held out for less than 10 minutes
 	if (_prestige == 0) then {
-		([_mission, "FAILED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_fnc_mission_fail", 2];
 	} else {
-		([_mission, "SUCCEEDED"] call AS_spawn_fnc_loadTask) call BIS_fnc_setTask;
+		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission, _prestige] remoteExec ["AS_fnc_mission_success", 2];
 	};
 };
