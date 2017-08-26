@@ -359,7 +359,7 @@ AS_fnc_mission_spawn_states = {
 AS_fnc_mission_activate = {
     params ["_mission"];
     [_mission, "status", "active"] call AS_fnc_mission_set;
-    [["mission", _mission], "AS_spawn_fnc_start"] call AS_scheduler_fnc_execute;
+    [["mission", _mission], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
 };
 
 AS_fnc_mission_dismiss = {

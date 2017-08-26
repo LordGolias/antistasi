@@ -129,14 +129,14 @@ The code that has to be called on every machine running AS is `initFuncs.sqf` an
 `client.sqf` is responsible for initializing a player. This includes
 Event Handling, available actions, etc.
 
-## distributed execution
+## Distributed execution
 
-This mission has parts (missions and spawning) that can be run by any client independently.
+This mission has parts (missions and locations) that can be run by any client independently.
 For these parts, the server acts as a scheduler and load balancer and each client
 (headless or not) acts as a worker.
 Clients send their FPS rate to the server, `AS_scheduler_fnc_sendStatus`, and the server
 balances which worker runs the scheduled script based on this information.
-To execute a script within this scheduler, use
+To execute a script with the scheduler, use
 
 ```
 [arguments, "scriptName"] remoteExec ["AS_scheduler_fnc_execute", 2];
@@ -150,6 +150,23 @@ where `clientID` is selected by the load balancer via `AS_scheduler_fnc_getWorke
 The scripts that are run by the scheduler must manage their own memory. Specifically,
 the script must delete or schedule the deletion of all the resources
 it spawned (groups, vehicles, markers, etc.).
+
+## Spawn state and execution
+
+Clients can spawn missions and locations. When a client disconnects and nothing
+is done about it, a mission would be broken, as its resources would be transferred
+to the server (Arma internals) but the memory management (what should be deleted when)
+would be lost.
+
+To solve this issue, this mission has a spawn API that locally stores the current state of
+the spawn, transfers it to the server whenever the client disconnects, and
+makes the server continue its execution.
+
+This is achieved by having each spawn divided into execution blocks
+(the whole is denoted as a `spawn`), where each block can be picked by the server.
+
+The code responsible for this is defined in `spawn.sqf`. The spawn API has
+functions to modify the state `add/set/get/remove`, and a state to run a new spawn, `execute`.
 
 ## Persistent saving
 
@@ -278,10 +295,12 @@ Related globals:
 
 A mission is a persistent data structure that has a `type` (e.g. `kill_officer`),
 a `status` (e.g. `available`), and other properties. These properties are used
-to call scripts that start a scripted set of events with tasks for the players.
-Every script is stored in the directory `Missions/`, and the API to
+to initialize its own spawn (see above).
+Each mission is defined by a set of states (e.g. `"initialize"`, `"wait_to_deliver"`)
+and functions that execute those states.
+Every mission is stored in the directory `Missions/`, and the API to
 create, start, and cancel missions is defined in `Missions/mission.sqf`.
-For example, to create the mission to `kill_officer` in city `_cityName`, use
+For example, to create the mission to `"kill_officer"` in city `_cityName`, use
 
 ```
 // create and save it persistently
@@ -292,6 +311,10 @@ For example, to create the mission to `kill_officer` in city `_cityName`, use
 // delete it (do not do it until the script finishes):
 "kill_officer" call AS_fnc_mission_remove;
 ```
+
+`AS_fnc_mission_activate` sends the scheduler a request to spawn itself. The scheduler
+uses the load balancer to select the best client to run the mission, and the client
+uses the spawn API to execute the mission.
 
 ## Player's score, rank and eligibility to command
 

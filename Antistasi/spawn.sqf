@@ -1,3 +1,10 @@
+/*
+An API to manage spawns. A spawn is a set of steps with memory that
+are executed sequentially.
+This API is *local*: the memory is not shared across machines.
+
+*/
+// given a spawn type and its name, returns its states and functions
 AS_spawn_fnc_states = {
     params ["_type", "_spawn"];
     if (_type == "mission") exitWith {
@@ -32,7 +39,10 @@ AS_spawn_fnc_remove = {
     ["spawn", _name] call AS_fnc_object_remove;
 };
 
-AS_spawn_fnc_start = {
+// Function to execute a spawn. If the spawn does not exist, it initializes
+// a new spawn and executes its steps from the beginning. Otherwise, it
+// starts from the state where it was left.
+AS_spawn_fnc_execute = {
     params ["_type", "_spawn"];
 
     ([_spawn, _type] call AS_spawn_fnc_states) params ["_states", "_functions"];
