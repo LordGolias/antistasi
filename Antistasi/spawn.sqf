@@ -1,78 +1,8 @@
 AS_spawn_fnc_states = {
     params ["_type", "_spawn"];
-    if (_type == "mission" and _spawn == "nato_uav") exitWith {
-        [AS_mission_natoUAV_states, AS_mission_natoUAV_state_functions]
+    if (_type == "mission") exitWith {
+        _spawn call AS_fnc_mission_spawn_states
     };
-    if (_type == "mission" and _spawn == "nato_armor") exitWith {
-        [AS_mission_natoArmor_states, AS_mission_natoArmor_state_functions]
-    };
-    if (_type == "mission" and _spawn == "nato_cas") exitWith {
-        [AS_mission_natoCAS_states, AS_mission_natoCAS_state_functions]
-    };
-    if (_type == "mission" and _spawn == "nato_qrf") exitWith {
-        [AS_mission_natoQRF_states, AS_mission_natoQRF_state_functions]
-    };
-    if (_type == "mission" and _spawn == "nato_qrf") exitWith {
-        [AS_mission_natoAttack_states, AS_mission_natoAttack_state_functions]
-    };
-    if (_type == "mission" and _spawn == "nato_artillery") exitWith {
-        [AS_mission_natoArtillery_states, AS_mission_natoArtillery_state_functions]
-    };
-    if (_type == "mission" and _spawn == "nato_roadblock") exitWith {
-        [AS_mission_natoRoadblock_states, AS_mission_natoRoadblock_state_functions]
-    };
-    if (_type == "mission" and _spawn == "nato_ammo") exitWith {
-        [AS_mission_natoAmmo_states, AS_mission_natoAmmo_state_functions]
-    };
-    if (_type == "mission" and _spawn == "steal_ammo") exitWith {
-        [AS_mission_stealAmmo_states, AS_mission_stealAmmo_state_functions]
-    };
-    if (_type == "mission" and _spawn == "repair_antenna") exitWith {
-        [AS_mission_repairAntenna_states, AS_mission_repairAntenna_state_functions]
-    };
-    if (_type == "mission" and _spawn in ["kill_specops", "kill_officer"]) exitWith {
-        [AS_mission_assassinate_states, AS_mission_assassinate_state_functions]
-    };
-    if (_type == "mission" and _spawn == "kill_traitor") exitWith {
-        [AS_mission_killTraitor_states, AS_mission_killTraitor_state_functions]
-    };
-    if (_type == "mission" and _spawn == "destroy_vehicle") exitWith {
-        [AS_mission_destroyVehicle_states, AS_mission_destroyVehicle_state_functions]
-    };
-    if (_type == "mission" and _spawn == "destroy_antenna") exitWith {
-        [AS_mission_destroyAntenna_states, AS_mission_destroyAntenna_state_functions]
-    };
-    if (_type == "mission" and _spawn == "destroy_helicopter") exitWith {
-        [AS_mission_destroyHelicopter_states, AS_mission_destroyHelicopter_state_functions]
-    };
-    if (_type == "mission" and _spawn in ["rescue_prisioners", "rescue_refugees"]) exitWith {
-        [AS_mission_rescue_states, AS_mission_rescue_state_functions]
-    };
-    if (_type == "mission" and _spawn == "conquer") exitWith {
-        [AS_mission_conquer_states, AS_mission_conquer_state_functions]
-    };
-    if (_type == "mission" and _spawn == "rob_bank") exitWith {
-        [AS_mission_robBank_states, AS_mission_robBank_state_functions]
-    };
-    if (_type == "mission" and _spawn == "send_meds") exitWith {
-        [AS_mission_sendMeds_states, AS_mission_sendMeds_state_functions]
-    };
-    if (_type == "mission" and _spawn == "help_meds") exitWith {
-        [AS_mission_helpMeds_states, AS_mission_helpMeds_state_functions]
-    };
-    if (_type == "mission" and _spawn == "black_market") exitWith {
-        [AS_mission_blackMarket_states, AS_mission_blackMarket_state_functions]
-    };
-    if (_type == "mission" and _spawn == "broadcast") exitWith {
-        [AS_mission_broadcast_states, AS_mission_broadcast_state_functions]
-    };
-    if (_type == "mission" and _spawn == "pamphlets") exitWith {
-        [AS_mission_pamphlets_states, AS_mission_pamphlets_state_functions]
-    };
-    if (_type == "mission" and _spawn == "convoy") exitWith {
-        [AS_mission_convoy_states, AS_mission_convoy_state_functions]
-    };
-
     diag_log format ["[AS] Error: spawn_states: invalid arguments [%1, %2]", _type, _spawn];
     [[], []]  // default is to not do anything (no states)
 };
