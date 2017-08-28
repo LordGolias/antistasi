@@ -120,7 +120,16 @@ if ((_base == "") and (_aeropuerto == "") and (!_hayCSAT)) exitWith {
 };
 
 /////////////////////////////////////////////////////////////////////////////
-////////////////////// Checks passed. Build the patrol //////////////////////
+////////////////////// Checks passed. spawn the patrol //////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
-[_location, _base, _aeropuerto, _hayCSAT, _isDirectAttack, _threatEval] call AS_fnc_AAFpatrol;
+private _spawnName = format ["AAFpatrol", floor random 100];
+[_spawnName] call AS_spawn_fnc_add;
+[_spawnName, "location", _location] call AS_spawn_fnc_set;
+[_spawnName, "base", _base] call AS_spawn_fnc_set;
+[_spawnName, "airfield", _aeropuerto] call AS_spawn_fnc_set;
+[_spawnName, "useCSAT", _hayCSAT] call AS_spawn_fnc_set;
+[_spawnName, "isDirectAttack", _isDirectAttack] call AS_spawn_fnc_set;
+[_spawnName, "threatEval", _threatEval] call AS_spawn_fnc_set;
+
+["AAFpatrol", _spawnName] call AS_spawn_fnc_execute;

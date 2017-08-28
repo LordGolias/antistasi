@@ -15,6 +15,9 @@ AS_spawn_fnc_states = {
     if (_type == "mission") exitWith {
         _spawn call AS_fnc_mission_spawn_states
     };
+    if (_type == "AAFpatrol") exitWith {
+        [AS_spawn_patrolAAF_states, AS_spawn_patrolAAF_state_functions]
+    };
     diag_log format ["[AS] Error: spawn_states: invalid arguments [%1, %2]", _type, _spawn];
     [[], []]  // default is to not do anything (no states)
 };
@@ -35,6 +38,7 @@ AS_spawn_fnc_set = {
 
 AS_spawn_fnc_add = {
     params ["_name"];
+    diag_log ["[AS] %1: new spawn '%2'", clientOwner, _name];
     ["spawn", _name] call AS_fnc_object_add;
     [_name, "state_index", 0] call AS_spawn_fnc_set;
 };
@@ -54,7 +58,6 @@ AS_spawn_fnc_execute = {
 
     // it is a new spawn: initialize its current state
     if not (_spawn in (call AS_spawn_fnc_spawns)) then {
-        diag_log ["[AS] %1: new spawn '%2'", clientOwner, _spawn];
         [_spawn] call AS_spawn_fnc_add;
     };
     // else, it is an existing spawn: pick from where it was left
