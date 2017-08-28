@@ -156,14 +156,14 @@ it spawned (groups, vehicles, markers, etc.).
 Clients can spawn missions and locations. When a client disconnects and nothing
 is done about it, a mission would be broken, as its resources would be transferred
 to the server (Arma internals) but the memory management (what should be deleted when)
-would be lost.
+would not.
 
-To solve this issue, this mission has a spawn API that locally stores the current state of
-the spawn, transfers it to the server whenever the client disconnects, and
-makes the server continue its execution.
+To solve this issue, this mission has a spawn API that stores the current state of
+the spawn.
 
 This is achieved by having each spawn divided into execution blocks
-(the whole is denoted as a `spawn`), where each block can be picked by the server.
+(the whole is denoted as a `spawn`), where each block can be picked in case
+it is lost.
 
 The code responsible for this is defined in `spawn.sqf`. The spawn API has
 functions to modify the state `add/set/get/remove`, and a state to run a new spawn, `execute`.

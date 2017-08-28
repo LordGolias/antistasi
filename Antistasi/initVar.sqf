@@ -158,6 +158,9 @@ if (!isServer) exitWith {};
 
 // Below this point, everything defined only belongs to the server
 
+// create container to store spawns
+call AS_spawn_fnc_initialize;
+
 // create container to store missions
 ["mission", true] call AS_fnc_container_add;
 

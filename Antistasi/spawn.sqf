@@ -1,9 +1,14 @@
 /*
 An API to manage spawns. A spawn is a set of steps with memory that
 are executed sequentially.
-This API is *local*: the memory is not shared across machines.
-
 */
+#include "macros.hpp"
+
+AS_spawn_fnc_initialize = {
+    AS_SERVER_ONLY("spawn_fnc_initialize");
+    ["spawn", true] call AS_fnc_container_add;
+};
+
 // given a spawn type and its name, returns its states and functions
 AS_spawn_fnc_states = {
     params ["_type", "_spawn"];
