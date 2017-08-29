@@ -124,7 +124,7 @@ if ((_base == "") and (_aeropuerto == "") and (!_hayCSAT)) exitWith {
 /////////////////////////////////////////////////////////////////////////////
 
 private _spawnName = format ["AAFpatrol", floor random 100];
-[_spawnName] call AS_spawn_fnc_add;
+[_spawnName, "AAFpatrol"] call AS_spawn_fnc_add;
 [_spawnName, "location", _location] call AS_spawn_fnc_set;
 [_spawnName, "base", _base] call AS_spawn_fnc_set;
 [_spawnName, "airfield", _aeropuerto] call AS_spawn_fnc_set;

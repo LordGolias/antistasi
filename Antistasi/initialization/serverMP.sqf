@@ -4,7 +4,17 @@ waitUntil {({(isPlayer _x) and (!isNull _x) and (_x == _x)} count allUnits) == (
 [] execVM "Scripts\fn_advancedTowingInit.sqf"; // the installation is done for all clients by this
 [] execVM "modBlacklist.sqf";
 
-addMissionEventHandler ["HandleDisconnect", {[_this select 0] call onPlayerDisconnect;false}];
+addMissionEventHandler ["HandleDisconnect", {
+    [_this select 0] call onPlayerDisconnect;
+    false
+}];
+
+// for the spawns
+addMissionEventHandler ["HandleDisconnect", {
+    private _owner = _this select 4;
+    _owner call AS_spawn_fnc_drop;
+    false
+}];
 
 maxPlayers = playableSlotsNumber west;
 publicVariable "maxPlayers";

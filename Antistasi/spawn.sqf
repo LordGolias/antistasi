@@ -37,10 +37,11 @@ AS_spawn_fnc_set = {
 };
 
 AS_spawn_fnc_add = {
-    params ["_name"];
+    params ["_name", "_type"];
     diag_log format ["[AS] %1: new spawn '%2'", clientOwner, _name];
     ["spawn", _name] call AS_fnc_object_add;
     [_name, "state_index", 0] call AS_spawn_fnc_set;
+    [_name, "spawn_type", _type] call AS_spawn_fnc_set;
 };
 
 AS_spawn_fnc_remove = {
@@ -48,19 +49,21 @@ AS_spawn_fnc_remove = {
     ["spawn", _name] call AS_fnc_object_remove;
 };
 
-// Function to execute a spawn. If the spawn does not exist, it initializes
-// a new spawn and executes its steps from the beginning. Otherwise, it
-// starts from the state where it was left.
+// Function to execute a spawn. It
+// starts from the state where the spawn was left.
 AS_spawn_fnc_execute = {
     params ["_type", "_spawn"];
 
+    if not (_spawn in (call AS_spawn_fnc_spawns)) exitWith {
+        diag_log format ["[AS] Error: spawn_fnc_execute: spawn '%1' does not exist", _spawn];
+    };
+
+    private _type = [_spawn, "spawn_type"] call AS_spawn_fnc_get;
+
     ([_type, _spawn] call AS_spawn_fnc_states) params ["_states", "_functions"];
 
-    // it is a new spawn: initialize its current state
-    if not (_spawn in (call AS_spawn_fnc_spawns)) then {
-        [_spawn] call AS_spawn_fnc_add;
-    };
-    // else, it is an existing spawn: pick from where it was left
+    // take ownership of this spawn
+    [_spawn, "spawnOwner", clientOwner] call AS_spawn_fnc_set;
 
     private _state_index = [_spawn, "state_index"] call AS_spawn_fnc_get;
     while {_state_index < (count _functions - 1)} do {
@@ -73,4 +76,18 @@ AS_spawn_fnc_execute = {
         [_spawn, "state_index", _state_index] call AS_spawn_fnc_set;
     };
     _spawn call AS_spawn_fnc_remove;
+};
+
+// called when a client (owner) drops.
+AS_spawn_fnc_drop = {
+    AS_SERVER_ONLY("spawn_fnc_drop");
+    params ["_owner"];
+    private _spawns = call AS_spawn_fnc_spawns;
+    // all spawns from the dropped owner
+    _spawns = _spawns select {([_x, "spawnOwner"] call AS_spawn_fnc_get) == _owner};
+
+    // delegate the spawns to the server
+    {
+        [_x] spawn AS_spawn_fnc_execute;
+    } forEach _spawns;
 };
