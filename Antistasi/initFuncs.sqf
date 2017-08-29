@@ -13,6 +13,8 @@ call compile preProcessFileLineNumbers "FIArecruitment.sqf";
 call compile preProcessFileLineNumbers "object.sqf";
 call compile preProcessFileLineNumbers "location.sqf";
 
+call compile preProcessFileLineNumbers "spawn.sqf";
+
 call compile preprocessFileLineNumbers "Functions\clientFunctions.sqf";
 call compile preprocessFileLineNumbers "Functions\QRFfunctions.sqf";
 call compile preprocessFileLineNumbers "features\controlAI.sqf";
