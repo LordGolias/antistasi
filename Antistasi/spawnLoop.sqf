@@ -53,7 +53,10 @@ while {true} do {
 						[_x, "AAFgeneric"] call AS_spawn_fnc_add;
 						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
 					};
-					case (_type == "base"): {[[_x], "createBase"] call AS_scheduler_fnc_execute};
+					case (_type == "base"): {
+						[_x, "AAFbase"] call AS_spawn_fnc_add;
+						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
+					};
 					case (_type == "roadblock"): {[[_x], "createRoadblock"] call AS_scheduler_fnc_execute};
 					case (_type == "airfield"): {[[_x], "createAirbase"] call AS_scheduler_fnc_execute};
 					case (_type in ["outpost", "seaport"]): {[[_x], "createOutpost"] call AS_scheduler_fnc_execute};

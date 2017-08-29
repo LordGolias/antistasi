@@ -185,7 +185,7 @@ AS_fnc_changeStreetLights = compile preProcessFileLineNumbers "fnc_changeStreetL
 Generics
 */
 createAirbase= compile preProcessFileLineNumbers "CREATE\createAirbase.sqf";
-createBase = compile preProcessFileLineNumbers "CREATE\createBase.sqf";
+call compile preProcessFileLineNumbers "CREATE\createAAFbase.sqf";
 createCity = compile preProcessFileLineNumbers "CREATE\createCity.sqf";
 createOutpost = compile preProcessFileLineNumbers "CREATE\createOutpost.sqf";
 createOutpostAA = compile preProcessFileLineNumbers "CREATE\createOutpostAA.sqf";
