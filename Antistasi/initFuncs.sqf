@@ -191,7 +191,7 @@ createOutpost = compile preProcessFileLineNumbers "CREATE\createOutpost.sqf";
 createOutpostAA = compile preProcessFileLineNumbers "CREATE\createOutpostAA.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFgeneric.sqf";
 AS_fnc_createRoadblock = compile preProcessFileLineNumbers "CREATE\createRoadblock.sqf";
-createWatchpost = compile preProcessFileLineNumbers "CREATE\createWatchpost.sqf";
+call compile preProcessFileLineNumbers "CREATE\createAAFhill.sqf";
 createAAsite = compile preProcessFileLineNumbers "CREATE\createAAsite.sqf";
 AS_fnc_AAFroadPatrol = compile preProcessFileLineNumbers "CREATE\fnc_AAFroadPatrol.sqf";
 

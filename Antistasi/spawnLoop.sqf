@@ -40,7 +40,10 @@ while {true} do {
 				_x call AS_fnc_location_spawn;
 				private _type = _x call AS_fnc_location_type;
 				switch (true) do {
-					case (_type == "hill"): {[[_x], "createWatchpost"] call AS_scheduler_fnc_execute};
+					case (_type == "hill"): {
+						[_x, "AAFhill"] call AS_spawn_fnc_add;
+						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
+					};
 					case (_type == "hillAA"): {[[_x], "createAAsite"] call AS_scheduler_fnc_execute};
 					case (_type == "city"): {
 						[[_x], "createCIV"] call AS_scheduler_fnc_execute;
