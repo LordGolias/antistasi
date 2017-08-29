@@ -88,10 +88,12 @@ while {true} do {
 						if (_playerIsClose) then {
 							[[_x], "createCIV"] call AS_scheduler_fnc_execute;
 						};
-						[[_x], "AS_fnc_createFIAgeneric"] call AS_scheduler_fnc_execute;
+						[_x, "FIAgeneric"] call AS_spawn_fnc_add;
+						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
 					};
 					case (_type in ["resource","powerplant","factory","fia_hq","outpost","outpostAA"]): {
-						[[_x], "AS_fnc_createFIAgeneric"] call AS_scheduler_fnc_execute;
+						[_x, "FIAgeneric"] call AS_spawn_fnc_add;
+						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
 					};
 					case (_type == "airfield"): {[[_x], "createNATOaerop"] call AS_scheduler_fnc_execute};
 					case (_type == "base"): {[[_x], "createNATObases"] call AS_scheduler_fnc_execute};

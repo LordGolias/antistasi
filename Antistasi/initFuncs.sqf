@@ -157,7 +157,7 @@ AS_fnc_addAction = compile preProcessFileLineNumbers "actions\fnc_addAction.sqf"
 createCIV = compile preProcessFileLineNumbers "CREATE\createCIV.sqf";
 AS_fnc_populateMilBuildings = compile preProcessFileLineNumbers "CREATE\populateMilBuildings.sqf";
 AS_fnc_createFIAgarrison = compile preProcessFileLineNumbers "CREATE\createFIAgarrison.sqf";
-AS_fnc_createFIAgeneric = compile preProcessFileLineNumbers "CREATE\createFIAgeneric.sqf";
+call compile preProcessFileLineNumbers "CREATE\createFIAgeneric.sqf";
 AS_fnc_createFIA_built_location = compile preProcessFileLineNumbers "CREATE\createFIA_built_location.sqf";
 createNATObases = compile preProcessFileLineNumbers "CREATE\createNATObases.sqf";
 createNATOaerop = compile preProcessFileLineNumbers "CREATE\createNATOaerop.sqf";
