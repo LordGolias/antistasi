@@ -1,71 +1,91 @@
 #include "../macros.hpp"
-params ["_location"];
 
-private _soldados = [];
-private _grupos = [];
-private _vehiculos = [];
-private _civs = [];
+private _fnc_spawn = {
+	params ["_location"];
+	private _soldados = [];
+	private _grupos = [];
+	private _vehiculos = [];
 
-private _posicion = _location call AS_fnc_location_position;
-private _size = _location call AS_fnc_location_size;
-private _isDestroyed = _location in AS_P("destroyedLocations");
+	private _posicion = _location call AS_fnc_location_position;
+	private _size = _location call AS_fnc_location_size;
+	private _isDestroyed = _location in AS_P("destroyedLocations");
 
-// spawn flag
-private _flag = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
-_flag allowDamage false;
-_vehiculos pushBack _flag;
+	// spawn flag
+	private _flag = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
+	_flag allowDamage false;
+	_vehiculos pushBack _flag;
 
-// spawn 2 patrols
-// _mrk => to be deleted at the end
-([_location, 2] call AS_fnc_spawnAAF_patrol) params ["_units1", "_groups1", "_mrk"];
-_soldados append _units1;
-_grupos append _groups1;
+	// spawn 2 patrols
+	// _mrk => to be deleted at the end
+	([_location, 2] call AS_fnc_spawnAAF_patrol) params ["_units1", "_groups1", "_mrk"];
+	_soldados append _units1;
+	_grupos append _groups1;
 
-// spawn workers
-if !(_isDestroyed) then {
-	if ((daytime > 8) and (daytime < 18)) then {
-		private _grupo = createGroup civilian;
-		_grupos pushBack _grupo;
+	// spawn workers
+	if !(_isDestroyed) then {
+		if ((daytime > 8) and (daytime < 18)) then {
+			private _grupo = createGroup civilian;
+			_grupos pushBack _grupo;
 
-		for "_i" from 1 to 8 do {
-			private _civ = _grupo createUnit ["C_man_w_worker_F", _posicion, [],0, "NONE"];
-			[_civ] call AS_fnc_initUnitCIV;
-			_civs pushBack _civ;
+			private _civs = [];
+			for "_i" from 1 to 8 do {
+				private _civ = _grupo createUnit ["C_man_w_worker_F", _posicion, [],0, "NONE"];
+				[_civ] call AS_fnc_initUnitCIV;
+				_civs pushBack _civ;
+			};
+			[_location, _civs] spawn destroyCheck;
+			[leader _grupo, _location, "SAFE", "SPAWNED","NOFOLLOW", "NOSHARE","DORELAX","NOVEH2"] execVM "scripts\UPSMON.sqf";
 		};
-		[_location, _civs] spawn destroyCheck;
-		[leader _grupo, _location, "SAFE", "SPAWNED","NOFOLLOW", "NOSHARE","DORELAX","NOVEH2"] execVM "scripts\UPSMON.sqf";
+	};
+
+	// spawn truck
+	([_location] call AS_fnc_spawnAAF_truck) params ["_vehicles1"];
+	_vehiculos append _vehicles1;
+
+	// spawn guarding squads
+	private _groupCount = round (_size/50);
+	if (_location call isFrontline) then {_groupCount = _groupCount * 2};
+	_groupCount = _groupCount max 1;
+
+	([_location, _groupCount] call AS_fnc_spawnAAF_patrolSquad) params ["_units1", "_groups1"];
+	_soldados append _units1;
+	_grupos append _groups1;
+
+	[_location, _grupos] call AS_fnc_createJournalist;
+
+	[_location, "resources", [taskNull, _grupos, _vehiculos, [_mrk]]] call AS_spawn_fnc_set;
+	[_location, "soldiers", _soldados] call AS_spawn_fnc_set;
+};
+
+private _fnc_run = {
+	params ["_location"];
+	private _posicion = _location call AS_fnc_location_position;
+	private _size = _location call AS_fnc_location_size;
+
+	private _soldados = [_location, "soldiers"] call AS_spawn_fnc_get;
+
+	waitUntil {sleep 1;
+		!(_location call AS_fnc_location_spawned) or
+		(({(not(vehicle _x isKindOf "Air"))} count ([_size, _posicion, "BLUFORSpawn"] call AS_fnc_unitsAtDistance)) >
+		3*({(alive _x) and (!(captive _x)) and (_x distance _posicion < _size)} count _soldados))
+	};
+
+	if ((_location call AS_fnc_location_spawned) and (_location call AS_fnc_location_side == "AAF")) then {
+		[_location] remoteExec ["AS_fnc_location_win", 2];
 	};
 };
 
-// spawn truck
-([_location] call AS_fnc_spawnAAF_truck) params ["_vehicles1"];
-_vehiculos append _vehicles1;
+private _fnc_clean = {
+	params ["_location"];
+	waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 
-// spawn guarding squads
-private _groupCount = round (_size/50);
-if (_location call isFrontline) then {_groupCount = _groupCount * 2};
-_groupCount = _groupCount max 1;
-
-([_location, _groupCount] call AS_fnc_spawnAAF_patrolSquad) params ["_units1", "_groups1"];
-_soldados append _units1;
-_grupos append _groups1;
-
-[_location, _grupos] call AS_fnc_createJournalist;
-
-//////////////////////////////////////////////////////////////////
-////////////////////////// END SPAWNING //////////////////////////
-//////////////////////////////////////////////////////////////////
-
-waitUntil {sleep 1;
-	!(_location call AS_fnc_location_spawned) or
-	(({(not(vehicle _x isKindOf "Air"))} count ([_size, _posicion, "BLUFORSpawn"] call AS_fnc_unitsAtDistance)) >
-	3*({(alive _x) and (!(captive _x)) and (_x distance _posicion < _size)} count _soldados))
+	([_location, "resources"] call AS_spawn_fnc_get) params ["_task", "_groups", "_vehicles", "_markers"];
+	[_groups, _vehicles, _markers] call AS_fnc_cleanResources;
 };
 
-if ((_location call AS_fnc_location_spawned) and (_location call AS_fnc_location_side == "AAF")) then {
-	[_location] remoteExec ["AS_fnc_location_win", 2];
-};
-
-waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
-
-[_grupos, _vehiculos, [_mrk]] call AS_fnc_cleanResources;
+AS_spawn_AAFgeneric_states = ["spawn", "run", "clean"];
+AS_spawn_AAFgeneric_state_functions = [
+	_fnc_spawn,
+	_fnc_run,
+	_fnc_clean
+];

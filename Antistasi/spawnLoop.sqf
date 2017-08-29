@@ -47,7 +47,8 @@ while {true} do {
 						[[_x], "createCity"] call AS_scheduler_fnc_execute;
 					};
 					case (_type in ["resource", "powerplant", "factory"]): {
-						[[_x], "AS_fnc_createAAFgeneric"] call AS_scheduler_fnc_execute;
+						[_x, "AAFgeneric"] call AS_spawn_fnc_add;
+						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
 					};
 					case (_type == "base"): {[[_x], "createBase"] call AS_scheduler_fnc_execute};
 					case (_type == "roadblock"): {[[_x], "createRoadblock"] call AS_scheduler_fnc_execute};
