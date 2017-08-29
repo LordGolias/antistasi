@@ -186,7 +186,7 @@ Generics
 */
 call compile preProcessFileLineNumbers "CREATE\createAAFairfield.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFbase.sqf";
-createCity = compile preProcessFileLineNumbers "CREATE\createCity.sqf";
+call compile preProcessFileLineNumbers "CREATE\createAAFcity.sqf";
 createOutpost = compile preProcessFileLineNumbers "CREATE\createOutpost.sqf";
 createOutpostAA = compile preProcessFileLineNumbers "CREATE\createOutpostAA.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFgeneric.sqf";

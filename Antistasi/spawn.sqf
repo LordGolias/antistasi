@@ -30,6 +30,10 @@ AS_spawn_fnc_states = {
     if (_type == "AAFairfield") exitWith {
         [AS_spawn_createAAFairfield_states, AS_spawn_createAAFairfield_state_functions]
     };
+    if (_type == "AAFcity") exitWith {
+        [AS_spawn_createAAFcity_states, AS_spawn_createAAFcity_state_functions]
+    };
+
 
     diag_log format ["[AS] Error: spawn_states: invalid arguments [%1, %2]", _type, _spawn];
     [[], []]  // default is to not do anything (no states)
