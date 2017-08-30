@@ -38,19 +38,21 @@ private _fnc_spawn = {
 	} else {
 		if (_frontera) then {
 			private _validBases = [["base"], "FIA"] call AS_fnc_location_TS;
-			private _base = [_validBases,_posicion] call BIS_fnc_nearestPosition;
-			private _position = _base call AS_fnc_location_position;
-			if (_position distance _posicion > 1000) then {
-				private _pos = [_posicion] call mortarPos;
-				private _veh = statMortar createVehicle _pos;
-				[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
-				private _unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
-				[_unit, false] spawn AS_fnc_initUnitAAF;
-				[_veh, "AAF"] call AS_fnc_initVehicle;
-				_unit moveInGunner _veh;
-				_soldados pushBack _unit;
-				_vehiculos pushBack _veh;
-				sleep 1;
+			if (count _validBases > 0) then {
+				private _base = [_validBases,_posicion] call BIS_fnc_nearestPosition;
+				private _position = _base call AS_fnc_location_position;
+				if (_position distance _posicion > 1000) then {
+					private _pos = [_posicion] call mortarPos;
+					private _veh = statMortar createVehicle _pos;
+					[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
+					private _unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
+					[_unit, false] spawn AS_fnc_initUnitAAF;
+					[_veh, "AAF"] call AS_fnc_initVehicle;
+					_unit moveInGunner _veh;
+					_soldados pushBack _unit;
+					_vehiculos pushBack _veh;
+					sleep 1;
+				};
 			};
 		};
 

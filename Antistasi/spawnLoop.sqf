@@ -68,7 +68,10 @@ while {true} do {
 						[_x, "AAFoutpost"] call AS_spawn_fnc_add;
 						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
 					};
-					case (_type == "outpostAA"): {[[_x], "createOutpostAA"] call AS_scheduler_fnc_execute};
+					case (_type == "outpostAA"): {
+						[_x, "AAFoutpostAA"] call AS_spawn_fnc_add;
+						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
+					};
 					case (_type == "minefield"): {[[_x], "AS_fnc_createMinefield"] call AS_scheduler_fnc_execute};
 				};
 			};

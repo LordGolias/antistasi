@@ -27,6 +27,9 @@ AS_spawn_fnc_states = {
     if (_type == "AAFoutpost") exitWith {
         [AS_spawn_createAAFoutpost_states, AS_spawn_createAAFoutpost_state_functions]
     };
+    if (_type == "AAFoutpostAA") exitWith {
+        [AS_spawn_createAAFoutpostAA_states, AS_spawn_createAAFoutpostAA_state_functions]
+    };
     if (_type == "AAFbase") exitWith {
         [AS_spawn_createAAFbase_states, AS_spawn_createAAFbase_state_functions]
     };
