@@ -78,7 +78,10 @@ while {true} do {
 						[_x, "AAFoutpostAA"] call AS_spawn_fnc_add;
 						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
 					};
-					case (_type == "minefield"): {[[_x], "AS_fnc_createMinefield"] call AS_scheduler_fnc_execute};
+					case (_type == "minefield"): {
+						[_x, "minefield"] call AS_spawn_fnc_add;
+						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
+					};
 				};
 			};
 			if (_isSpawned and !_spawnCondition) then {
@@ -117,7 +120,10 @@ while {true} do {
 					};
 					case (_type in ["roadblock","watchpost","camp"]): {[[_x], "AS_fnc_createFIA_built_location"] call AS_scheduler_fnc_execute};
 					case (_type == "NATOwatchpost"): {[[_x], "createNATOpuesto"] call AS_scheduler_fnc_execute};
-					case (_type == "minefield"): {[[_x], "AS_fnc_createMinefield"] call AS_scheduler_fnc_execute};
+					case (_type == "minefield"): {
+						[_x, "minefield"] call AS_spawn_fnc_add;
+						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
+					};
 				};
 			};
 			if (_isSpawned and !_spawnCondition) then {

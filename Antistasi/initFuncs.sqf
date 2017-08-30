@@ -50,10 +50,8 @@ AS_fnc_HQselect = compile preProcessFileLineNumbers "fnc_HQselect.sqf";
 AS_fnc_AAFattackScore = compile preProcessFileLineNumbers "Functions\fnc_AAFattackScore.sqf";
 AS_fnc_wait_or_fail = compile preProcessFileLineNumbers "Functions\fnc_wait_or_fail.sqf";
 
-// everything related with minefields is here
 AS_fnc_deployFIAminefield = compile preProcessFileLineNumbers "Functions\fnc_deployFIAminefield.sqf";
 AS_missionFIAminefield = compile preProcessFileLineNumbers "Missions\FIAminefield.sqf";
-AS_fnc_createMinefield = compile preProcessFileLineNumbers "CREATE\minefield.sqf";
 
 // auxiliars to missions
 call compile preProcessFileLineNumbers "Missions\mission.sqf";
@@ -195,6 +193,7 @@ call compile preProcessFileLineNumbers "CREATE\createAAFgeneric.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFroadblock.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFhill.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFhillAA.sqf";
+call compile preProcessFileLineNumbers "CREATE\createMinefield.sqf";
 AS_fnc_AAFroadPatrol = compile preProcessFileLineNumbers "CREATE\fnc_AAFroadPatrol.sqf";
 
 AS_fnc_availableSeats = compile preProcessFileLineNumbers "Functions\fnc_availableSeats.sqf";
