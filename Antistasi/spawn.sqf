@@ -36,7 +36,9 @@ AS_spawn_fnc_states = {
     if (_type == "FIAgeneric") exitWith {
         [AS_spawn_createFIAgeneric_states, AS_spawn_createFIAgeneric_state_functions]
     };
-
+    if (_type == "FIAairfield") exitWith {
+        [AS_spawn_createFIAairfield_states, AS_spawn_createFIAairfield_state_functions]
+    };
 
     diag_log format ["[AS] Error: spawn_states: invalid arguments [%1, %2]", _type, _spawn];
     [[], []]  // default is to not do anything (no states)
