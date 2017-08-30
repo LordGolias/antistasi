@@ -94,23 +94,9 @@ private _fnc_spawn = {
 	[_location, "soldiers", _soldados] call AS_spawn_fnc_set;
 };
 
-private _fnc_clean = {
-	params ["_location"];
-	private _posicion = _location call AS_fnc_location_position;
-	private _size = _location call AS_fnc_location_size;
-
-	waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
-
-	private _buildings = nearestObjects [_posicion, AS_destroyable_buildings, _size*1.5];
-	[_buildings] remoteExec ["AS_fnc_updateDestroyedBuildings", 2];
-
-	([_location, "resources"] call AS_spawn_fnc_get) params ["_task", "_groups", "_vehicles", "_markers"];
-	[_groups, _vehicles, _markers] call AS_fnc_cleanResources;
-};
-
 AS_spawn_createAAFbase_states = ["spawn", "wait_capture", "clean"];
 AS_spawn_createAAFbase_state_functions = [
 	_fnc_spawn,
 	AS_spawn_fnc_AAFwait_capture,
-	_fnc_clean
+	AS_spawn_fnc_AAFlocation_clean
 ];

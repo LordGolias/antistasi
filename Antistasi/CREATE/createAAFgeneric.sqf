@@ -57,17 +57,9 @@ private _fnc_spawn = {
 	[_location, "soldiers", _soldados] call AS_spawn_fnc_set;
 };
 
-private _fnc_clean = {
-	params ["_location"];
-	waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
-
-	([_location, "resources"] call AS_spawn_fnc_get) params ["_task", "_groups", "_vehicles", "_markers"];
-	[_groups, _vehicles, _markers] call AS_fnc_cleanResources;
-};
-
 AS_spawn_AAFgeneric_states = ["spawn", "wait_capture", "clean"];
 AS_spawn_AAFgeneric_state_functions = [
 	_fnc_spawn,
 	AS_spawn_fnc_AAFwait_capture,
-	_fnc_clean
+	AS_spawn_fnc_AAFlocation_clean
 ];

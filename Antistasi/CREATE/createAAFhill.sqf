@@ -73,17 +73,9 @@ private _fnc_run = {
 	};
 };
 
-private _fnc_clean = {
-	params ["_location"];
-	waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
-
-	([_location, "resources"] call AS_spawn_fnc_get) params ["_task", "_groups", "_vehicles", "_markers"];
-	[_groups, _vehicles, _markers] call AS_fnc_cleanResources;
-};
-
 AS_spawn_createAAFhill_states = ["spawn", "run", "clean"];
 AS_spawn_createAAFhill_state_functions = [
 	_fnc_spawn,
 	_fnc_run,
-	_fnc_clean
+	AS_spawn_fnc_AAFlocation_clean
 ];
