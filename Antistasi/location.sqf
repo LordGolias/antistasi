@@ -78,6 +78,7 @@ AS_fnc_location_forced_spawned = {
 
 AS_fnc_location_side = {
     params ["_location"];
+    if !(_location call AS_fnc_location_exists) exitWith {""};
     private _type = _location call AS_fnc_location_type;
     if (_type != "city") exitWith {
         [_location, "side"] call AS_fnc_location_get

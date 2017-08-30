@@ -152,10 +152,8 @@ ataqueHQ = compile preProcessFileLineNumbers "Missions\ataqueHQ.sqf";
 localizar = compile preProcessFileLineNumbers "localizar.sqf";
 AS_fnc_fillCrateAAF = compile preProcessFileLineNumbers "Municion\fillCrateAAF.sqf";
 AS_fnc_addAction = compile preProcessFileLineNumbers "actions\fnc_addAction.sqf";
-createCIV = compile preProcessFileLineNumbers "CREATE\createCIV.sqf";
 AS_fnc_populateMilBuildings = compile preProcessFileLineNumbers "CREATE\populateMilBuildings.sqf";
 AS_fnc_createFIAgarrison = compile preProcessFileLineNumbers "CREATE\createFIAgarrison.sqf";
-AS_fnc_createFIA_built_location = compile preProcessFileLineNumbers "CREATE\createFIA_built_location.sqf";
 
 recruitFIAinfantry = compile preProcessFileLineNumbers "REINF\recruitFIAinfantry.sqf";
 recruitFIAsquad = compile preProcessFileLineNumbers "REINF\recruitFIAsquad.sqf";
@@ -177,9 +175,8 @@ artilleria = compile preProcessFileLineNumbers "AI\artilleria.sqf";
 artilleriaNATO = compile preProcessFileLineNumbers "AI\artilleriaNATO.sqf";
 dismountFIA = compile preProcessFileLineNumbers "AI\dismountFIA.sqf";
 AS_fnc_changeStreetLights = compile preProcessFileLineNumbers "fnc_changeStreetLights.sqf";
-/*
-Generics
-*/
+
+// Spawn locations
 call compile preProcessFileLineNumbers "CREATE\auxiliar_spawn_location.sqf";
 call compile preProcessFileLineNumbers "CREATE\createFIAairfield.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFairfield.sqf";
@@ -187,6 +184,7 @@ call compile preProcessFileLineNumbers "CREATE\createFIAbase.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFbase.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFcity.sqf";
 call compile preProcessFileLineNumbers "CREATE\createFIAgeneric.sqf";
+call compile preProcessFileLineNumbers "CREATE\createFIAbuilt_location.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFoutpost.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFoutpostAA.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFgeneric.sqf";
@@ -194,6 +192,8 @@ call compile preProcessFileLineNumbers "CREATE\createAAFroadblock.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFhill.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFhillAA.sqf";
 call compile preProcessFileLineNumbers "CREATE\createMinefield.sqf";
+createCIV = compile preProcessFileLineNumbers "CREATE\createCIV.sqf";
+
 AS_fnc_AAFroadPatrol = compile preProcessFileLineNumbers "CREATE\fnc_AAFroadPatrol.sqf";
 
 AS_fnc_availableSeats = compile preProcessFileLineNumbers "Functions\fnc_availableSeats.sqf";

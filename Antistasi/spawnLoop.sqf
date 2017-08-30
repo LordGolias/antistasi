@@ -98,7 +98,10 @@ while {true} do {
 						[_x, "FIAbase"] call AS_spawn_fnc_add;
 						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
 					};
-					case (_type in ["roadblock","watchpost","camp"]): {[[_x], "AS_fnc_createFIA_built_location"] call AS_scheduler_fnc_execute};
+					case (_type in ["roadblock","watchpost","camp"]): {
+						[_x, "FIAbuilt_location"] call AS_spawn_fnc_add;
+						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
+					};
 					case (_type == "NATOwatchpost"): {[[_x], "createNATOpuesto"] call AS_scheduler_fnc_execute};
 					case (_type == "minefield"): {
 						[_x, "minefield"] call AS_spawn_fnc_add;

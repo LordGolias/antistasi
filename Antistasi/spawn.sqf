@@ -54,6 +54,9 @@ AS_spawn_fnc_states = {
     if (_type == "FIAbase") exitWith {
         [AS_spawn_createFIAbase_states, AS_spawn_createFIAbase_state_functions]
     };
+    if (_type == "FIAbuilt_location") exitWith {
+        [AS_spawn_createFIAbuilt_location_states, AS_spawn_createFIAbuilt_location_state_functions]
+    };
     if (_type == "minefield") exitWith {
         [AS_spawn_createMinefield_states, AS_spawn_createMinefield_state_functions]
     };
