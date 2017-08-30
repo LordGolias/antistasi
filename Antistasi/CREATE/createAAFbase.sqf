@@ -94,24 +94,6 @@ private _fnc_spawn = {
 	[_location, "soldiers", _soldados] call AS_spawn_fnc_set;
 };
 
-private _fnc_run = {
-	params ["_location"];
-	private _posicion = _location call AS_fnc_location_position;
-	private _size = _location call AS_fnc_location_size;
-
-	private _soldados = [_location, "soldiers"] call AS_spawn_fnc_get;
-
-	waitUntil {sleep 1;
-		(not (_location call AS_fnc_location_spawned)) or
-		(({(not(vehicle _x isKindOf "Air"))} count ([_size, _posicion, "BLUFORSpawn"] call AS_fnc_unitsAtDistance)) >
-		 3*({(alive _x) and !(captive _x) and (_x distance _posicion < _size)} count _soldados))
-	};
-
-	if ((_location call AS_fnc_location_spawned) and (_location call AS_fnc_location_side == "AAF")) then {
-		[_location] remoteExec ["AS_fnc_location_win",2];
-	};
-};
-
 private _fnc_clean = {
 	params ["_location"];
 	private _posicion = _location call AS_fnc_location_position;
@@ -126,9 +108,9 @@ private _fnc_clean = {
 	[_groups, _vehicles, _markers] call AS_fnc_cleanResources;
 };
 
-AS_spawn_createAAFbase_states = ["spawn", "run", "clean"];
+AS_spawn_createAAFbase_states = ["spawn", "wait_capture", "clean"];
 AS_spawn_createAAFbase_state_functions = [
 	_fnc_spawn,
-	_fnc_run,
+	AS_spawn_fnc_AAFwait_capture,
 	_fnc_clean
 ];
