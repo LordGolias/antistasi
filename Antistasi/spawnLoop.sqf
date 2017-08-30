@@ -44,7 +44,10 @@ while {true} do {
 						[_x, "AAFhill"] call AS_spawn_fnc_add;
 						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
 					};
-					case (_type == "hillAA"): {[[_x], "createAAsite"] call AS_scheduler_fnc_execute};
+					case (_type == "hillAA"): {
+						[_x, "AAFhillAA"] call AS_spawn_fnc_add;
+						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
+					};
 					case (_type == "city"): {
 						[[_x], "createCIV"] call AS_scheduler_fnc_execute;
 
