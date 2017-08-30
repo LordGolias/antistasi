@@ -189,7 +189,7 @@ call compile preProcessFileLineNumbers "CREATE\createFIAbase.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFbase.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFcity.sqf";
 call compile preProcessFileLineNumbers "CREATE\createFIAgeneric.sqf";
-createOutpost = compile preProcessFileLineNumbers "CREATE\createOutpost.sqf";
+call compile preProcessFileLineNumbers "CREATE\createAAFoutpost.sqf";
 createOutpostAA = compile preProcessFileLineNumbers "CREATE\createOutpostAA.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFgeneric.sqf";
 AS_fnc_createRoadblock = compile preProcessFileLineNumbers "CREATE\createRoadblock.sqf";
