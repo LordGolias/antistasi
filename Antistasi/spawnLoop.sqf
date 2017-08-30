@@ -39,49 +39,29 @@ while {true} do {
 			if (!_isSpawned and _spawnCondition) then {
 				_x call AS_fnc_location_spawn;
 				private _type = _x call AS_fnc_location_type;
-				switch (true) do {
-					case (_type == "hill"): {
-						[_x, "AAFhill"] call AS_spawn_fnc_add;
-						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
+				private _spawnType = call {
+					if (_type in ["hill", "hillAA", "city", "base", "roadblock", "airfield", "outpostAA"]) exitWith {
+						"AAF" + _type;
 					};
-					case (_type == "hillAA"): {
-						[_x, "AAFhillAA"] call AS_spawn_fnc_add;
-						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
+					if (_type in ["outpost", "seaport"]) exitWith {
+						"AAFoutpost"
 					};
-					case (_type == "city"): {
+					if (_type in ["resource", "powerplant", "factory"]) exitWith {
+						"AAFgeneric"
+					};
+					if (_type == "minefield") exitWith {
+						"minefield"
+					};
+					""
+				};
+				if (_spawnType != "") then {
+					if (_spawnType == "AAFcity") then {
 						[[_x], "createCIV"] call AS_scheduler_fnc_execute;
-
-						[_x, "AAFcity"] call AS_spawn_fnc_add;
-						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
 					};
-					case (_type in ["resource", "powerplant", "factory"]): {
-						[_x, "AAFgeneric"] call AS_spawn_fnc_add;
-						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
-					};
-					case (_type == "base"): {
-						[_x, "AAFbase"] call AS_spawn_fnc_add;
-						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
-					};
-					case (_type == "roadblock"): {
-						[_x, "AAFroadblock"] call AS_spawn_fnc_add;
-						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
-					};
-					case (_type == "airfield"): {
-						[_x, "AAFairfield"] call AS_spawn_fnc_add;
-						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
-					};
-					case (_type in ["outpost", "seaport"]): {
-						[_x, "AAFoutpost"] call AS_spawn_fnc_add;
-						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
-					};
-					case (_type == "outpostAA"): {
-						[_x, "AAFoutpostAA"] call AS_spawn_fnc_add;
-						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
-					};
-					case (_type == "minefield"): {
-						[_x, "minefield"] call AS_spawn_fnc_add;
-						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
-					};
+					[_x, _spawnType] call AS_spawn_fnc_add;
+					[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
+				} else {
+					diag_log format ["[AS] Error: spawnLoop tried to spawn location of type '%s' but that has no spawn type", _type];
 				};
 			};
 			if (_isSpawned and !_spawnCondition) then {
