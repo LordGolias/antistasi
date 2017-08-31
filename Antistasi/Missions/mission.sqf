@@ -307,6 +307,9 @@ AS_fnc_mission_spawn_states = {
     if (_missionType == "establish_fia_location") exitWith {
         [AS_mission_establishFIAlocation_states, AS_mission_establishFIAlocation_state_functions]
     };
+    if (_missionType == "establish_fia_minefield") exitWith {
+        [AS_mission_establishFIAminefield_states, AS_mission_establishFIAminefield_state_functions]
+    };
     if (_missionType == "steal_ammo") exitWith {
         [AS_mission_stealAmmo_states, AS_mission_stealAmmo_state_functions]
     };

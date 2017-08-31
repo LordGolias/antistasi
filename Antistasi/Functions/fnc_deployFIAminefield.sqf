@@ -138,7 +138,7 @@ _cargo_m = [_cargo_m, [[_type call AS_fnc_mineMag], [count _positions]], true] c
 AS_Sset("lockTransfer", false);
 
 // create the mission
-private _mission = ["fia_minefield", ""] call AS_fnc_mission_add;
+private _mission = ["establish_fia_minefield", ""] call AS_fnc_mission_add;
 [_mission, "status", "active"] call AS_fnc_mission_set;
 [_mission, "mine_type", _type] call AS_fnc_mission_set;
 [_mission, "position", _locationPosition] call AS_fnc_mission_set;
@@ -147,4 +147,4 @@ private _mission = ["fia_minefield", ""] call AS_fnc_mission_add;
 [_mission, "cost", _cost] call AS_fnc_mission_set;
 
 // create the mission that will build the minefield.
-[_mission] remoteExec ["AS_FIAminefield",2];
+[_mission] remoteExec ["AS_fnc_mission_activate", 2];

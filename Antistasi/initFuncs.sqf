@@ -51,7 +51,6 @@ AS_fnc_AAFattackScore = compile preProcessFileLineNumbers "Functions\fnc_AAFatta
 AS_fnc_wait_or_fail = compile preProcessFileLineNumbers "Functions\fnc_wait_or_fail.sqf";
 
 AS_fnc_deployFIAminefield = compile preProcessFileLineNumbers "Functions\fnc_deployFIAminefield.sqf";
-AS_missionFIAminefield = compile preProcessFileLineNumbers "Missions\FIAminefield.sqf";
 
 // auxiliars to missions
 call compile preProcessFileLineNumbers "Missions\mission.sqf";
@@ -72,6 +71,7 @@ call compile preProcessFileLineNumbers "Missions\natoRoadblock.sqf";
 call compile preProcessFileLineNumbers "Missions\natoQRF.sqf";
 call compile preProcessFileLineNumbers "Missions\black_market.sqf";
 call compile preProcessFileLineNumbers "Missions\establishFIALocation.sqf";
+call compile preProcessFileLineNumbers "Missions\establishFIAminefield.sqf";
 call compile preProcessFileLineNumbers "Missions\repair_antenna.sqf";
 call compile preProcessFileLineNumbers "Missions\kill_traitor.sqf";
 call compile preProcessFileLineNumbers "Missions\rescue.sqf";

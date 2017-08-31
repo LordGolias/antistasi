@@ -388,7 +388,7 @@ Relevant scripts:
 * `Functions/fnc_addMinefield.sqf`: adds a new minefield
 * `Functions/fnc_deployAAFminefield.sqf`: tries to find a suitable position and creates an AAF minefield (called by `AAFeconomics.sqf`).
 * `Functions/fnc_deployFIAminefield.sqf`: interface for the player to choose a position and mine positions to place a minefield (it creates a mission).
-* `Missions\missionFIAminefield.sqf`: the mission that creates a FIA minefield
+* `Missions\establishFIAminefield.sqf`: the mission that creates a FIA minefield
 
 ## Actions
 
