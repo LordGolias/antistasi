@@ -86,7 +86,7 @@ call compile preProcessFileLineNumbers "Missions\pamphlets.sqf";
 call compile preProcessFileLineNumbers "Missions\broadcast.sqf";
 call compile preProcessFileLineNumbers "Missions\defend_camp.sqf";
 call compile preProcessFileLineNumbers "Missions\defend_city.sqf";
-combinedCA = compile preProcessFileLineNumbers "Missions\combinedCA.sqf";
+call compile preProcessFileLineNumbers "Missions\defend_location.sqf";
 
 
 AS_fnc_setCommander = compile preProcessFileLineNumbers "orgPlayers\fnc_setCommander.sqf";
