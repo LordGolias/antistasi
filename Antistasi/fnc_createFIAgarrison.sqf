@@ -1,4 +1,4 @@
-#include "../macros.hpp"
+#include "macros.hpp"
 private _location = _this;
 
 private _soldados = [];

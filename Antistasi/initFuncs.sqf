@@ -19,7 +19,7 @@ call compile preprocessFileLineNumbers "Functions\clientFunctions.sqf";
 call compile preprocessFileLineNumbers "Functions\QRFfunctions.sqf";
 call compile preprocessFileLineNumbers "features\controlAI.sqf";
 
-AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "CREATE\setDefaultSkill.sqf";
+AS_fnc_setDefaultSkill = compile preProcessFileLineNumbers "fnc_setDefaultSkill.sqf";
 AS_fnc_getWeaponItemsCargo = compile preProcessFileLineNumbers "municion\getWeaponItemsCargo.sqf";
 AS_fnc_getBestEquipment = compile preProcessFileLineNumbers "municion\getBestEquipment.sqf";
 AS_fnc_equipUnit = compile preProcessFileLineNumbers "municion\equipUnit.sqf";
@@ -152,8 +152,8 @@ resourceCheckSkipTime = compile preProcessFileLineNumbers "resourcecheckSkipTime
 localizar = compile preProcessFileLineNumbers "localizar.sqf";
 AS_fnc_fillCrateAAF = compile preProcessFileLineNumbers "Municion\fillCrateAAF.sqf";
 AS_fnc_addAction = compile preProcessFileLineNumbers "actions\fnc_addAction.sqf";
-AS_fnc_populateMilBuildings = compile preProcessFileLineNumbers "CREATE\populateMilBuildings.sqf";
-AS_fnc_createFIAgarrison = compile preProcessFileLineNumbers "CREATE\createFIAgarrison.sqf";
+AS_fnc_populateMilBuildings = compile preProcessFileLineNumbers "fnc_populateMilBuildings.sqf";
+AS_fnc_createFIAgarrison = compile preProcessFileLineNumbers "fnc_createFIAgarrison.sqf";
 
 recruitFIAinfantry = compile preProcessFileLineNumbers "REINF\recruitFIAinfantry.sqf";
 recruitFIAsquad = compile preProcessFileLineNumbers "REINF\recruitFIAsquad.sqf";
