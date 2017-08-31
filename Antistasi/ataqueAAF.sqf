@@ -10,7 +10,7 @@ private _FIAbases = [["base","airfield"], "FIA"] call AS_fnc_location_TS;
 
 private _useCSAT = true;
 
-private _validTypes = ["base", "airfield", "outpost", "city", "roadblock", "powerplant", "factory", "resource"];
+private _validTypes = ["base", "airfield", "outpost", "city", "roadblock", "powerplant", "factory", "resource", "camp"];
 
 // only attack cities and use CSAT if FIA controls a base or airfield
 if ((random 100 > AS_P("CSATsupport")) or (count _FIAbases == 0) or AS_S("blockCSAT")) then {
@@ -40,16 +40,19 @@ if (_useCSAT) then {
 	private _position = _location call AS_fnc_location_position;
 	private _garrison = _location call AS_fnc_location_garrison;
 
-	if (_type == "_city") then {
-		// cities are attacked by CSAT, so no need to compute anything
-		private _FIAsupport = [_x, "FIAsupport"] call AS_fnc_location_get;
-		private _AAFsupport = [_x, "AAFsupport"] call AS_fnc_location_get;
+	call {
+		if (_type == "city") exitWith {
+			// cities are attacked by CSAT, so no need to compute anything
+			private _FIAsupport = [_x, "FIAsupport"] call AS_fnc_location_get;
+			private _AAFsupport = [_x, "AAFsupport"] call AS_fnc_location_get;
 
-		// only attack cities that have high FIA and low AAF support
-		if ((_AAFsupport < 5) and (_FIAsupport > 70)) then {
-			_objectives pushBack _x
+			// only attack cities that have high FIA and low AAF support
+			if ((_AAFsupport < 5) and (_FIAsupport > 70)) then {
+				_objectives append [_x, _x, _x, _x, _x];
+			};
 		};
-	} else {  // non-city
+		// todo: make a camp discoverable by AAF before being attackable...
+		if (_type == "camp") exitWith {_objectives append [_x, _x, _x, _x, _x]};
 		private _base = [_position, true] call findBasesForCA;
 		private _aeropuerto = [_position, true] call findAirportsForCA;
 
@@ -115,9 +118,13 @@ if (_useCSAT) then {
 
 if ((count _objectives > 0) and (_count_easy < 3)) then {
 	private _location = selectRandom _objectives;
-	if (_location call AS_fnc_location_type != "city") then {
+	call {
+		if (_location call AS_fnc_location_type == "camp") exitWith {
+			_location call AS_fnc_defendCamp;
+		};
+		if (_location call AS_fnc_location_type == "city") exitWith {
+			[[_location], "CSATpunish"] remoteExec ["AS_scheduler_fnc_execute", 2];
+		};
 		[[_location], "combinedCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
-	} else {
-		[[_location], "CSATpunish"] remoteExec ["AS_scheduler_fnc_execute", 2];
 	};
 };

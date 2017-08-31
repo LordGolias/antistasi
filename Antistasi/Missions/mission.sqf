@@ -352,6 +352,9 @@ AS_fnc_mission_spawn_states = {
     if (_missionType == "pamphlets") exitWith {
         [AS_mission_pamphlets_states, AS_mission_pamphlets_state_functions]
     };
+    if (_missionType == "defend_camp") exitWith {
+        [AS_mission_defendCamp_states, AS_mission_defendCamp_state_functions]
+    };
     if (_missionType == "convoy") exitWith {
         [AS_mission_convoy_states, AS_mission_convoy_state_functions]
     };
