@@ -160,12 +160,10 @@ recruitFIAsquad = compile preProcessFileLineNumbers "REINF\recruitFIAsquad.sqf";
 buyFIAveh = compile preProcessFileLineNumbers "REINF\buyFIAveh.sqf";
 FIAskillAdd = compile preProcessFileLineNumbers "REINF\FIAskillAdd.sqf";
 AS_fnc_createJournalist = compile preProcessFileLineNumbers "CREATE\createJournalist.sqf";
-patrolCA = compile preProcessFileLineNumbers "CREATE\patrolCA.sqf";
-call compile preProcessFileLineNumbers "CREATE\AAFpatrol.sqf";
 findBasesForCA = compile preProcessFileLineNumbers "findBasesForCA.sqf";
 findBasesForConvoy = compile preProcessFileLineNumbers "findBasesForConvoy.sqf";
 findAirportsForCA = compile preProcessFileLineNumbers "findAirportsForCA.sqf";
-ataqueAAF = compile preProcessFileLineNumbers "ataqueAAF.sqf";
+
 AS_fnc_spawnLoop = compile preProcessFileLineNumbers "spawnLoop.sqf";
 inmuneConvoy = compile preProcessFileLineNumbers "AI\inmuneConvoy.sqf";
 smokeCover = compile preProcessFileLineNumbers "AI\smokeCover.sqf";
@@ -189,11 +187,16 @@ call compile preProcessFileLineNumbers "CREATE\createAAFoutpost.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFoutpostAA.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFgeneric.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFroadblock.sqf";
-call compile preProcessFileLineNumbers "CREATE\createAAFroadPatrol.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFhill.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFhillAA.sqf";
 call compile preProcessFileLineNumbers "CREATE\createMinefield.sqf";
 call compile preProcessFileLineNumbers "CREATE\createCIVcity.sqf";
+
+// spawn of AAF actions
+call compile preProcessFileLineNumbers "CREATE\createAAFpatrol.sqf";
+call compile preProcessFileLineNumbers "CREATE\createAAFroadPatrol.sqf";
+patrolCA = compile preProcessFileLineNumbers "CREATE\patrolCA.sqf";
+ataqueAAF = compile preProcessFileLineNumbers "ataqueAAF.sqf";
 
 AS_fnc_availableSeats = compile preProcessFileLineNumbers "Functions\fnc_availableSeats.sqf";
 AS_fnc_createGroup = compile preProcessFileLineNumbers "Functions\fnc_createGroup.sqf";
