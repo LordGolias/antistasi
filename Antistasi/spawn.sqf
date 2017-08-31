@@ -18,6 +18,9 @@ AS_spawn_fnc_states = {
     if (_type == "AAFpatrol") exitWith {
         [AS_spawn_patrolAAF_states, AS_spawn_patrolAAF_state_functions]
     };
+    if (_type == "AAFroadPatrol") exitWith {
+        [AS_spawn_AAFroadPatrol_states, AS_spawn_AAFroadPatrol_state_functions]
+    };
     if (_type == "AAFgeneric") exitWith {
         [AS_spawn_AAFgeneric_states, AS_spawn_AAFgeneric_state_functions]
     };
