@@ -361,6 +361,9 @@ AS_fnc_mission_spawn_states = {
     if (_missionType == "defend_location") exitWith {
         [AS_mission_defendLocation_states, AS_mission_defendLocation_state_functions]
     };
+    if (_missionType == "defend_hq") exitWith {
+        [AS_mission_defendHQ_states, AS_mission_defendHQ_state_functions]
+    };
     if (_missionType == "convoy") exitWith {
         [AS_mission_convoy_states, AS_mission_convoy_state_functions]
     };

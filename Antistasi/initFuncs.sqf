@@ -87,6 +87,7 @@ call compile preProcessFileLineNumbers "Missions\broadcast.sqf";
 call compile preProcessFileLineNumbers "Missions\defend_camp.sqf";
 call compile preProcessFileLineNumbers "Missions\defend_city.sqf";
 call compile preProcessFileLineNumbers "Missions\defend_location.sqf";
+call compile preProcessFileLineNumbers "Missions\defend_hq.sqf";
 
 
 AS_fnc_setCommander = compile preProcessFileLineNumbers "orgPlayers\fnc_setCommander.sqf";
@@ -148,7 +149,6 @@ radioCheck = compile preProcessFileLineNumbers "radioCheck.sqf";
 sellVehicle = compile preProcessFileLineNumbers "sellVehicle.sqf";
 resourceCheckSkipTime = compile preProcessFileLineNumbers "resourcecheckSkipTime.sqf";
 
-ataqueHQ = compile preProcessFileLineNumbers "Missions\ataqueHQ.sqf";
 localizar = compile preProcessFileLineNumbers "localizar.sqf";
 AS_fnc_fillCrateAAF = compile preProcessFileLineNumbers "Municion\fillCrateAAF.sqf";
 AS_fnc_addAction = compile preProcessFileLineNumbers "actions\fnc_addAction.sqf";
