@@ -370,8 +370,8 @@ The AAF attacks from time to time. The relevant variable that controls this is t
 `AS_P("secondsForAAFattack")`. This variable is modified via `fnc_changeSecondsForAAFattack`.
 The script that starts attacks is the `ataqueAAF.sqf`. It is run from the loop in `resourcecheck.sqf`
 when `AS_P("secondsForAAFattack") == 0`. `ataqueAAF.sqf` checks whether it is worth to attack
-a given location, and, if yes, it spawns the attack accordingly using `CSATpunish.sqf` (for cities)
-and `combinedCA.sqf` (for other locations).
+a given location, and, if yes, it spawns the attack accordingly using the missions
+`defend_city.sqf`, `defend_camp.sqf` or `combinedCA.sqf` (for other locations).
 
 ## Minefields
 

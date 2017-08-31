@@ -159,7 +159,7 @@ AS_fnc_mission_success_get = {
             [["Variable number of resources, foreign support and city support", {}]]
         ]
     };
-    if (_type == "csat_attack") exitWith {
+    if (_type == "defend_city") exitWith {
         [10, [500, _position, 10], [10, 0], [0, 0], [-5, 20, _position], 120*60, [
             ["AAF lose 5 support in all cities", {[-5,0,_x] call citySupportChange} forEach (call AS_fnc_location_cities)]
         ]]
@@ -281,7 +281,7 @@ AS_fnc_mission_fail_get = {
     if (_type == "convoy_prisoners") exitWith {
         [-20, 0, [0, 0], [0, 0], [0, -10, _position], -10*60]
     };
-    if (_type == "csat_attack") exitWith {
+    if (_type == "defend_city") exitWith {
         [-100, 0, [0, 0], [0, 0], [-10, -20, _position], 120*60, [
             ["City is destroyed", {
                 params ["_location"];

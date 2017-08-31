@@ -85,7 +85,7 @@ call compile preProcessFileLineNumbers "Missions\destroy_antenna.sqf";
 call compile preProcessFileLineNumbers "Missions\pamphlets.sqf";
 call compile preProcessFileLineNumbers "Missions\broadcast.sqf";
 call compile preProcessFileLineNumbers "Missions\defend_camp.sqf";
-CSATpunish = compile preProcessFileLineNumbers "Missions\CSATpunish.sqf";
+call compile preProcessFileLineNumbers "Missions\defend_city.sqf";
 combinedCA = compile preProcessFileLineNumbers "Missions\combinedCA.sqf";
 
 

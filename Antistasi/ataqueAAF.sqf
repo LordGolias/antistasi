@@ -123,7 +123,7 @@ if ((count _objectives > 0) and (_count_easy < 3)) then {
 			_location call AS_fnc_defendCamp;
 		};
 		if (_location call AS_fnc_location_type == "city") exitWith {
-			[[_location], "CSATpunish"] remoteExec ["AS_scheduler_fnc_execute", 2];
+			_location call AS_fnc_defendCity;
 		};
 		[[_location], "combinedCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
 	};
