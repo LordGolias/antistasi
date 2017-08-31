@@ -48,6 +48,9 @@ AS_spawn_fnc_states = {
     if (_type == "AAFcity") exitWith {
         [AS_spawn_createAAFcity_states, AS_spawn_createAAFcity_state_functions]
     };
+    if (_type == "CIVcity") exitWith {
+        [AS_spawn_createCIVcity_states, AS_spawn_createCIVcity_state_functions]
+    };
     if (_type == "FIAgeneric") exitWith {
         [AS_spawn_createFIAgeneric_states, AS_spawn_createFIAgeneric_state_functions]
     };

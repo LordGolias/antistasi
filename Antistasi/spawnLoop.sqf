@@ -56,7 +56,9 @@ while {true} do {
 				};
 				if (_spawnType != "") then {
 					if (_spawnType == "AAFcity") then {
-						[[_x], "createCIV"] call AS_scheduler_fnc_execute;
+						[_x + "_civ", "CIVcity"] call AS_spawn_fnc_add;
+						[_x + "_civ", "location", _x] call AS_spawn_fnc_set;
+						[[_x + "_civ"], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
 					};
 					[_x, _spawnType] call AS_spawn_fnc_add;
 					[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
@@ -81,7 +83,9 @@ while {true} do {
 				switch (true) do {
 					case (_type == "city"): {
 						if (_playerIsClose) then {
-							[[_x], "createCIV"] call AS_scheduler_fnc_execute;
+							[_x + "_civ", "CIVcity"] call AS_spawn_fnc_add;
+							[_x + "_civ", "location", _x] call AS_spawn_fnc_set;
+							[[_x + "_civ"], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
 						};
 						[_x, "FIAgeneric"] call AS_spawn_fnc_add;
 						[[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;

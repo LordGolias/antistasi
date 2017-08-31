@@ -193,7 +193,7 @@ call compile preProcessFileLineNumbers "CREATE\createAAFroadPatrol.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFhill.sqf";
 call compile preProcessFileLineNumbers "CREATE\createAAFhillAA.sqf";
 call compile preProcessFileLineNumbers "CREATE\createMinefield.sqf";
-createCIV = compile preProcessFileLineNumbers "CREATE\createCIV.sqf";
+call compile preProcessFileLineNumbers "CREATE\createCIVcity.sqf";
 
 AS_fnc_availableSeats = compile preProcessFileLineNumbers "Functions\fnc_availableSeats.sqf";
 AS_fnc_createGroup = compile preProcessFileLineNumbers "Functions\fnc_createGroup.sqf";
