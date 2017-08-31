@@ -202,7 +202,6 @@ unlockVehicle = compile preProcessFileLineNumbers "unlockVehicle.sqf";
 AS_fnc_fastTravel = compile preProcessFileLineNumbers "fnc_fastTravel.sqf";
 emptyCrate = compile preProcessFileLineNumbers "Municion\emptyCrate.sqf";
 createNATOpuesto = compile preProcessFileLineNumbers "CREATE\createNATOpuesto.sqf";
-expandGroup = compile preProcessFileLineNumbers "CREATE\expandGroup.sqf";
 enemyQRF = compile preprocessFileLineNumbers "CREATE\enemyQRF.sqf";
 compNATORoadblock = compile preprocessFileLineNumbers "Compositions\cmpNATO_RB.sqf";
 pBarMP = compile preProcessFileLineNumbers "pBarMP.sqf";

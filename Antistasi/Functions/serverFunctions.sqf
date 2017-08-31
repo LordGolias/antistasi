@@ -102,7 +102,6 @@ AS_fnc_spawnAAF_patrolSquad = {
 			if (!surfaceIsWater _pos) exitWith {};
 		};
 		private _group = [_pos, side_red, [infSquad, "AAF"] call fnc_pickGroup] call BIS_Fnc_spawnGroup;
-		if (hayRHS) then {_group = [_group, _position] call expandGroup};
 
 		private _stance = "RANDOM";
 		if (_i == 1) then {_stance = "RANDOMUP"};
