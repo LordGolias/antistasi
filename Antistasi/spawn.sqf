@@ -115,7 +115,7 @@ AS_spawn_fnc_execute = {
     [_spawn, "spawnOwner", clientOwner] call AS_spawn_fnc_set;
 
     private _state_index = [_spawn, "state_index"] call AS_spawn_fnc_get;
-    while {_state_index < (count _functions - 1)} do {
+    while {_state_index < count _functions} do {
         diag_log format ["[AS] %1: spawn '%2' started state '%3'", clientOwner, _spawn, _states select _state_index];
         _spawn call (_functions select _state_index);
         diag_log format ["[AS] %1: spawn '%2' finished state '%3'", clientOwner, _spawn, _states select _state_index];
