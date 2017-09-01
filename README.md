@@ -112,6 +112,7 @@ reverse it.
 - `initialization/`: scripts that initialize the mission.
 - `Revive/`: scripts used for the revive system
 - `scheduler.sqf`: contains all functions for distributed execution
+- `spawn.sqf`: contains all functions for spawn execution
 
 ## Initialization
 
@@ -131,7 +132,7 @@ Event Handling, available actions, etc.
 
 ## Distributed execution
 
-This mission has parts (missions and locations) that can be run by any client independently.
+This mission has parts (`spawn`s, see below) that can be run by any client.
 For these parts, the server acts as a scheduler and load balancer and each client
 (headless or not) acts as a worker.
 Clients send their FPS rate to the server, `AS_scheduler_fnc_sendStatus`, and the server
@@ -145,28 +146,31 @@ To execute a script with the scheduler, use
 This will make the server to call `arguments remoteExec ["scriptName", clientID];`
 where `clientID` is selected by the load balancer via `AS_scheduler_fnc_getWorker`.
 
-### Memory management
-
-The scripts that are run by the scheduler must manage their own memory. Specifically,
-the script must delete or schedule the deletion of all the resources
-it spawned (groups, vehicles, markers, etc.).
-
 ## Spawn state and execution
 
-Clients can spawn missions and locations. When a client disconnects and nothing
-is done about it, a mission would be broken, as its resources would be transferred
-to the server (Arma internals) but the memory management (what should be deleted when)
-would not.
-
-To solve this issue, this mission has a spawn API that stores the current state of
-the spawn.
-
-This is achieved by having each spawn divided into execution blocks
-(the whole is denoted as a `spawn`), where each block can be picked in case
-it is lost.
+A `spawn` is a list of execution blocks that are to be executed sequentially.
+Between blocks, the state of the spawn is saved globally, which makes spawns
+fail-tolerant against client disconnections.
 
 The code responsible for this is defined in `spawn.sqf`. The spawn API has
 functions to modify the state `add/set/get/remove`, and a state to run a new spawn, `execute`.
+
+Every spawn has a unique `"name"` and a `"type"`.
+The spawn type is used to get the list of execution blocks (defined at `AS_spawn_fnc_states`).
+To track on which state the spawn is, every spawn has a property `"state_index"` that
+identifies on which state it currently is.
+When a spawn is executed, its `"spawnOwner"` becomes the local `clientOwner`, which
+is used to track which clients are running what.
+Whenever a client disconnects, the server takes over the spawns of that client (since
+the resources are also taken over by the server).
+
+The current spawns are:
+* locations
+* missions
+* patrols
+
+In the directory `CREATE` will can find location and patrol spawns. In the directory
+`Missions` you can find the mission spawns.
 
 ## Persistent saving
 
