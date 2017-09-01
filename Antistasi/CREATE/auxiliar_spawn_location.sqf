@@ -20,7 +20,7 @@ AS_spawn_fnc_FIAlocation_clean = {
     private _posicion = _location call AS_fnc_location_position;
 	private _size = _location call AS_fnc_location_size;
 
-    private _soldadosFIA = [_location, "FIAsoldiers"] call AS_spawn_fnc_set;
+    private _soldadosFIA = [_location, "FIAsoldiers"] call AS_spawn_fnc_get;
 
     waitUntil {sleep 1; not (_location call AS_fnc_location_spawned)};
 

@@ -77,7 +77,7 @@ private _fnc_wait_for_destruction = {
 	private _position = _location call AS_fnc_location_position;
 	private _type = _location call AS_fnc_location_type;
 
-	private _soldiers = [_location, "FIAsoldiers"] call AS_spawn_fnc_set;
+	private _soldiers = [_location, "FIAsoldiers"] call AS_spawn_fnc_get;
 
 	private _wasDestroyed = false;
 	private _wasAbandoned = (count _soldiers) == 0;  // abandoned when it has no garrison
@@ -112,8 +112,8 @@ private _fnc_wait_to_abandon = {
 	params ["_location"];
 	private _type = _location call AS_fnc_location_type;
 
-	private _soldiers = [_location, "FIAsoldiers"] call AS_spawn_fnc_set;
-	private _wasDestroyed = [_location, "wasDestroyed"] call AS_spawn_fnc_set;
+	private _soldiers = [_location, "FIAsoldiers"] call AS_spawn_fnc_get;
+	private _wasDestroyed = [_location, "wasDestroyed"] call AS_spawn_fnc_get;
 
 	private _wasAbandoned = (count _soldiers) == 0;  // abandoned when it has no garrison
 
