@@ -101,7 +101,7 @@ AS_spawn_fnc_remove = {
 // Function to execute a spawn. It
 // starts from the state where the spawn was left.
 AS_spawn_fnc_execute = {
-    params ["_type", "_spawn"];
+    params ["_spawn"];
 
     if not (_spawn in (call AS_spawn_fnc_spawns)) exitWith {
         diag_log format ["[AS] Error: spawn_fnc_execute: spawn '%1' does not exist", _spawn];

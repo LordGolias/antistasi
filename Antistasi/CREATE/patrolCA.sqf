@@ -132,4 +132,4 @@ private _spawnName = format ["AAFpatrol", floor random 100];
 [_spawnName, "isDirectAttack", _isDirectAttack] call AS_spawn_fnc_set;
 [_spawnName, "threatEval", _threatEval] call AS_spawn_fnc_set;
 
-["AAFpatrol", _spawnName] call AS_spawn_fnc_execute;
+[_spawnName] call AS_spawn_fnc_execute;

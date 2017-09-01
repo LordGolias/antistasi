@@ -42,12 +42,12 @@ AS_fnc_AAFroadPatrol = {
 	};
 
 	private _spawnName = format ["AAFroadPatrol", floor random 100];
-	[_spawnName, "AAFpatrol"] call AS_spawn_fnc_add;
+	[_spawnName, "AAFroadPatrol"] call AS_spawn_fnc_add;
 	[_spawnName, "type", _type] call AS_spawn_fnc_set;
 	[_spawnName, "isFlying", _category in ["armedHelis","transportHelis", "planes"]] call AS_spawn_fnc_set;
 	[_spawnName, "origin", _origin] call AS_spawn_fnc_set;
 
-	[["AAFroadPatrol", _spawnName], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
+	[[_spawnName], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
 };
 
 private _fnc_spawn = {
