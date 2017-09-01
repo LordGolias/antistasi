@@ -60,6 +60,9 @@ _grp setVariable ["UPSMON_Ucthis", _Ucthis, false];
 _grp setVariable ["UPSMON_grpid", _grpid, false];
 _grp setvariable ["UPSMON_Origin",[_currpos,_behaviour,_speed,_formation,_members,_side]];
 
+// tell everyone that this group is under UPSMON
+_grp setVariable ["AS_UPSMON_controlled", _this, true];
+
 // == get the name of area marker ==============================================
 _areamarker = _this select 1;
 if (typename _areamarker != "STRING" || isNil ("_areamarker")) exitWith

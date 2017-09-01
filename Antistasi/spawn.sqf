@@ -137,6 +137,18 @@ AS_spawn_fnc_drop = {
 
     // delegate the spawns to the server
     {
+        // start the UPSMON on all groups that are UPSMON controlled (UPSMON is local)
+        private _properties = ["spawn", _x] call AS_fnc_object_properties;
+        if ("resources" in _properties) then {
+             private _groups = ([_x, "resources"] call AS_spawn_fnc_get) select 1;
+            {
+                private _upsmon_params = _x getVariable ["AS_UPSMON_controlled", []];
+                if (count _upsmon_params != 0) then {
+                    _upsmon_params execVM "scripts\UPSMON.sqf";
+                };
+            } forEach _groups;
+        };
+
         [_x] spawn AS_spawn_fnc_execute;
     } forEach _spawns;
 };
