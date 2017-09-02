@@ -388,9 +388,13 @@ AS_fnc_location_addHills = {
         private _hill = text _x;
         private _position = getPos _x;
         private _size = [_hill, _minSize] call AS_fnc_location_getNameSize;
-        if !(_hill == "" or (_hill in _excluded)) then {
+        if !((_hill in _excluded) or {_position in _excluded}) then {
             // creates hidden marker
-            private _mrk = createmarker [_hill, _position];
+            private _name = _hill;
+            if (_hill == "") then {
+                _name = format ["hill_%1", _position];
+            };
+            private _mrk = createmarker [_name, _position];
             _mrk setMarkerSize [_size, _size];
             _mrk setMarkerShape "ELLIPSE";
             _mrk setMarkerBrush "SOLID";
