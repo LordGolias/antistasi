@@ -22,10 +22,10 @@ AS_spawn_fnc_states = {
         [AS_spawn_AAFroadPatrol_states, AS_spawn_AAFroadPatrol_state_functions]
     };
     if (_type == "AAFgeneric") exitWith {
-        [AS_spawn_AAFgeneric_states, AS_spawn_AAFgeneric_state_functions]
+        [AS_spawn_createAAFgeneric_states, AS_spawn_createAAFgeneric_state_functions]
     };
     if (_type == "AAFroadblock") exitWith {
-        [AS_spawn_AAFroadblock_states, AS_spawn_AAFroadblock_state_functions]
+        [AS_spawn_createAAFroadblock_states, AS_spawn_createAAFroadblock_state_functions]
     };
     if (_type == "AAFhill") exitWith {
         [AS_spawn_createAAFhill_states, AS_spawn_createAAFhill_state_functions]

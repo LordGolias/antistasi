@@ -57,8 +57,8 @@ private _fnc_spawn = {
 	[_location, "soldiers", _soldados] call AS_spawn_fnc_set;
 };
 
-AS_spawn_AAFgeneric_states = ["spawn", "wait_capture", "clean"];
-AS_spawn_AAFgeneric_state_functions = [
+AS_spawn_createAAFgeneric_states = ["spawn", "wait_capture", "clean"];
+AS_spawn_createAAFgeneric_state_functions = [
 	_fnc_spawn,
 	AS_spawn_fnc_AAFwait_capture,
 	AS_spawn_fnc_AAFlocation_clean
