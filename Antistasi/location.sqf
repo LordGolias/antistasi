@@ -301,12 +301,14 @@ AS_fnc_location_addRoadblocks = {
 
     	if (_posroad distance _position > 400 and {count roadsConnectedto _road > 1}) then {
         	private _otherLocation = [_controlPoints, _posroad] call BIS_fnc_nearestPosition;
-            private _otherPosition = _otherLocation call AS_fnc_location_position;
-        	if (_otherPosition distance _posroad > 500) then {
-				private _marker = [_location, _posroad] call AS_fnc_location_addRoadblock;
-                _count = _count + 1;
-                _controlPoints pushBack _marker;
-			};
+            if (_otherLocation isEqualType "") then {
+                private _otherPosition = _otherLocation call AS_fnc_location_position;
+            	if (_otherPosition distance _posroad > 500) then {
+    				private _marker = [_location, _posroad] call AS_fnc_location_addRoadblock;
+                    _count = _count + 1;
+                    _controlPoints pushBack _marker;
+    			};
+            };
     	};
     };
 };
@@ -354,24 +356,26 @@ AS_fnc_location_addCities = {
                 };
             } forEach (_position nearRoads _size);
 
-            // get population
-            private _population = (count (nearestObjects [_position, ["house"], _size]));
+            if (count _roads != 0) then {
+                // get population
+                private _population = (count (nearestObjects [_position, ["house"], _size]));
 
-            // adjust position to be in a road
-            private _sortedRoads = [_roads, [], {_position distance _x}, "ASCEND"] call BIS_fnc_sortBy;
-            _position = getPos (_sortedRoads select 0);
+                // adjust position to be in a road
+                private _sortedRoads = [_roads, [], {_position distance _x}, "ASCEND"] call BIS_fnc_sortBy;
+                _position = getPos (_sortedRoads select 0);
 
-            // creates hidden marker
-            private _mrk = createmarker [_city, _position];
-            _mrk setMarkerSize [_size, _size];
-            _mrk setMarkerShape "ELLIPSE";
-            _mrk setMarkerBrush "SOLID";
-            _mrk setMarkerColor "ColorGUER";
-            [_mrk, "city"] call AS_fnc_location_add;
+                // creates hidden marker
+                private _mrk = createmarker [_city, _position];
+                _mrk setMarkerSize [_size, _size];
+                _mrk setMarkerShape "ELLIPSE";
+                _mrk setMarkerBrush "SOLID";
+                _mrk setMarkerColor "ColorGUER";
+                [_mrk, "city"] call AS_fnc_location_add;
 
-            // stores everything
-            [_city, "population", _population] call AS_fnc_location_set;
-            [_city, "roads", _roads] call AS_fnc_location_set;
+                // stores everything
+                [_city, "population", _population] call AS_fnc_location_set;
+                [_city, "roads", _roads] call AS_fnc_location_set;
+            };
         };
     } forEach (nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"),
         ["NameCityCapital","NameCity","NameVillage","CityCenter"], 25000]);
