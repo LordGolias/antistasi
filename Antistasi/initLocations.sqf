@@ -52,6 +52,9 @@ AS_bankPositions = [];
 if (worldName == "Altis") then {
     call compile preprocessFileLineNumbers "templates\world_altis.sqf";
 };
+if (worldName == "Tanoa") then {
+    call compile preprocessFileLineNumbers "templates\world_tanoa.sqf";
+};
 
 
 // exclude from `AS_antenasPos_alive` positions whose antenas are not found
