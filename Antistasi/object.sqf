@@ -244,15 +244,17 @@ AS_fnc_object_remove = {
 
 AS_fnc_object_save = {
     params ["_container", "_saveName"];
-    WRITE;
-    private _objects = _container call AS_fnc_objects;
+    READ;
+    WRITE;  // make atomic so that the save is complete
+
+    private _objects = GET_PROPERTY(_container, "_all");
     [_saveName, "AS_containers_" + _container, _objects] call fn_SaveStat;
     {
         private _object = _x;
-        private _properties = [_container, _object] call AS_fnc_object_properties;
+        private _properties = GET_OBJECT_PROPERTY(_container, _object, "_properties");
         // saves both "_" and non-"_" properties.
         {
-            [_saveName, format ["AS_containers_%1_%2_%3", _container, _object, _x], [_container, _object, _x] call AS_fnc_object_get] call fn_SaveStat;
+            [_saveName, format ["AS_containers_%1_%2_%3", _container, _object, _x], GET_OBJECT_PROPERTY(_container, _object, _x)] call fn_SaveStat;
         } forEach _properties;
     } forEach _objects;
     END_WRITE;
