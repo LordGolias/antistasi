@@ -383,7 +383,7 @@ AS_fnc_location_addCities = {
 
 // Initializes hills from CfgWorlds.
 AS_fnc_location_addHills = {
-    params ["_minSize", ["_excluded", []], ["_hills", []]];
+    params ["_minSize", ["_excluded", []], ["_hillsAA", []]];
     {
         private _hill = text _x;
         private _position = getPos _x;
@@ -399,10 +399,10 @@ AS_fnc_location_addHills = {
             _mrk setMarkerShape "ELLIPSE";
             _mrk setMarkerBrush "SOLID";
             _mrk setMarkerColor "ColorRed";
-            if (_hill in _hills) then {
-                [_mrk, "hill"] call AS_fnc_location_add;
-            } else {
+            if (_hill in _hillsAA) then {
                 [_mrk, "hillAA"] call AS_fnc_location_add;
+            } else {
+                [_mrk, "hill"] call AS_fnc_location_add;
             };
         };
     } foreach (nearestLocations [getArray (configFile >> "CfgWorlds" >> worldName >> "centerPosition"),
