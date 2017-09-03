@@ -28,7 +28,7 @@ private _FIAResIncomeMultiplier = 1;
     _AAFtotalPop = _AAFtotalPop + _popAAF;
 
     if !(_city in AS_P("destroyedLocations")) then {
-        _incomeMultiplier = 0.33;
+        private _incomeMultiplier = 0.33;
         if (not _power) then {_incomeMultiplier = 0.5*0.33};
 
         _incomeAAF = _incomeMultiplier*_popAAF;
@@ -37,7 +37,7 @@ private _FIAResIncomeMultiplier = 1;
 
         if (_side == "FIA") then {
             _incomeAAF = _incomeAAF/2;
-            if (_power) then {
+            if _power then {
                 if (_FIAsupport + _AAFsupport + 1 <= 100) then {[0,1,_city] spawn citySupportChange};
             }
             else {
@@ -50,7 +50,7 @@ private _FIAResIncomeMultiplier = 1;
         } else {
             _incomeFIA = (_incomeFIA/2);
             _HRincomeFIA = (_HRincomeFIA/2);
-            if (_power) then {
+            if _power then {
                 if (_AAFsupport + _FIAsupport + 1 <= 100) then {[1,0,_city] call citySupportChange};
             }
             else {
@@ -93,7 +93,7 @@ if ((_FIAtotalPop > _AAFtotalPop) and ("AS_airfield_3" call AS_fnc_location_side
 // forEach factory, add to multiplier
 {
     private _side = _x call AS_fnc_location_side;
-    _power = [_x] call powerCheck;
+    private _power = [_x] call powerCheck;
     if ((_power) and (not(_x in AS_P("destroyedLocations")))) then {
         if (_side == "FIA") then {_FIAResIncomeMultiplier = _FIAResIncomeMultiplier + 0.25};
         if (_side == "AAF") then {_AAFResIncomeMultiplier = _AAFResIncomeMultiplier + 0.25};
@@ -103,10 +103,10 @@ if ((_FIAtotalPop > _AAFtotalPop) and ("AS_airfield_3" call AS_fnc_location_side
 // forEach resource, add to money
 {
     private _side = _x call AS_fnc_location_side;
-    _power = [_x] call powerCheck;
+    private _power = [_x] call powerCheck;
     if !(_x in AS_P("destroyedLocations")) then {
-        _powerMultiplier = 1;
-        if (_power) then {
+        private _powerMultiplier = 1;
+        if _power then {
             _powerMultiplier = 3;
         };
         if (_side == "FIA") then {_FIAnewMoney = _FIAnewMoney + (100 * _powerMultiplier * _FIAResIncomeMultiplier)};
