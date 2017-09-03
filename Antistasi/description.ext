@@ -1,8 +1,8 @@
 #include "defines.hpp"
 #include "dialogs.hpp"
 
-author="Barbolani";
-OnLoadName = "Antistasi - modified";
+author="Golias";
+OnLoadName = "Antistasi on steroids";
 OnLoadMission = "Be a Resistance Leader - Be a Hero";
 loadScreen = "pic.jpg";
 
@@ -55,44 +55,6 @@ class CfgSounds
         sound[]={"Music\fire.ogg",db+12,1.0};
         titles[]={};
     };
-    /*
-    class dog_bark01 {
-        sound[] = {"Music\dog_bark01.wss", 0.8, 1};
-        titles[] = {};
-    };
-    class dog_bark02 {
-        sound[] = {"Music\dog_bark02.wss", 0.8, 1};
-        titles[] = {};
-    };
-    class dog_bark03 {
-        sound[] = {"Music\dog_bark03.wss", 0.8, 1};
-        titles[] = {};
-    };
-    class dog_bark04 {
-        sound[] = {"Music\dog_bark04.wss", 0.8, 1};
-        titles[] = {};
-    };
-    class dog_bark05 {
-        sound[] = {"Music\dog_bark05.wss", 0.8, 1};
-        titles[] = {};
-    };
-    class dog_maul01 {
-        sound[] = {"Music\dog_maul01.wss", 0.8, 1};
-        titles[] = {};
-    };
-    class dog_yelp01 {
-        sound[] = {"Music\dog_yelp01.wss", 0.8, 1};
-        titles[] = {};
-    };
-    class dog_yelp02 {
-        sound[] = {"Music\dog_yelp02.wss", 0.8, 1};
-        titles[] = {};
-    };
-        class dog_yelp03 {
-        sound[] = {"Music\dog_yelp03.wss", 0.8, 1};
-        titles[] = {};
-    };
-    */
 };
 class CfgIdentities
 {
@@ -268,20 +230,6 @@ class CfgIdentities
     pitch = 1.0;
     };
 };
-
-/*
-class CfgMusic
-{
-	tracks[]={};
-
-	class DBS
-	{
-		name = "";
-		sound[] = {"\music\dbs.ogg", db+5, 1.0};
-	};
-
-};
-*/
 
 class CfgDebriefing
 {
