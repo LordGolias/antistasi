@@ -34,8 +34,8 @@ while {visibleMap} do {
 			_texto = format ["FIA HQ%1",[_location] call garrisonInfo];
 		};
 		if (_type == "city") then {
-			_texto = format ["%1\n\nPop %2\nAAF Support: %3 %5\nFIA Support: %4 %5",
-				[_location,false] call AS_fnc_getLocationName,
+			_texto = format ["%1\nPopulation: %2\nAAF Support: %3 %5\nFIA Support: %4 %5",
+				_location call localizar,
 				[_location, "population"] call AS_fnc_location_get,
 				[_location, "AAFsupport"] call AS_fnc_location_get,
 				[_location, "FIAsupport"] call AS_fnc_location_get,
@@ -44,15 +44,19 @@ while {visibleMap} do {
 			if ([_location] call powerCheck) then {_texto = format ["%1\nPowered",_texto]} else {_texto = format ["%1\nNot Powered",_texto]};
 			if (_side == "AAF") then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
 			if (_location in AS_P("destroyedLocations")) then {_texto = format ["%1\nDESTROYED",_texto]};
+
+			private _description = "Cities provide money and recruits proportional to its population.
+				They contribute to the faction supported the most.";
+			_texto = format ["%1\n\n%2",_texto, _description];
 		};
 		if (_type == "airfield") then {
 			if (_side == "AAF") then {
-				_texto = "AAF Airport";
+				_texto = format ["AAF %1", _location call localizar];
 				private _busy = _location call AS_fnc_location_busy;
 				if (_position call radioCheck) then {_texto = format ["%1\n\nRadio Comms ON",_texto]} else {_texto = format ["%1\n\nRadio Comms OFF",_texto]};
 				if (!_busy) then {_texto = format ["%1\nStatus: Idle",_texto]} else {_texto = format ["%1\nStatus: Busy",_texto]};
 			} else {
-				_texto = format ["FIA Airport%1",[_location] call garrisonInfo];
+				_texto = format ["FIA %1\n%2", _location call localizar, [_location] call garrisonInfo];
 			};
 		};
 		if (_type == "base") then {
@@ -75,25 +79,23 @@ while {visibleMap} do {
 			if (_location in AS_P("destroyedLocations")) then {_texto = format ["%1\nDESTROYED",_texto]};
 		};
 		if (_type == "resource") then {
-			if (_side == "AAF") then {
-				_texto = "AAF Resources";
-			} else {
-				_texto = format ["FIA Resources%1",[_location] call garrisonInfo];
-			};
+			_texto = _location call localizar;
 			if ([_location] call powerCheck) then {_texto = format ["%1\n\nPowered",_texto]} else {_texto = format ["%1\n\nNo Powered",_texto]};
 			if (_side == "AAF") then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
 			if (_location in AS_P("destroyedLocations")) then {_texto = format ["%1\nDESTROYED",_texto]};
+
+			private _description = "Resource locations double the money income when unpowered, and 4x when powered.";
+			_texto = format ["%1\n\n%2",_texto, _description];
 		};
 		if (_type == "factory") then {
-			if (_side == "AAF") then {
-				_texto = "AAF Factory";
-			} else {
-				_texto = format ["FIA Factory%1",[_location] call garrisonInfo];
-			};
+			_texto = _location call localizar;
 			if ([_location] call powerCheck) then {_texto = format ["%1\n\nPowered",_texto]} else {_texto = format ["%1\n\nNo Powered",_texto]};
 			if (_side == "AAF") then {if (_position call radioCheck) then {_texto = format ["%1\nRadio Comms ON",_texto]} else {_texto = format ["%1\nRadio Comms OFF",_texto]}};
 			if (_location in AS_P("destroyedLocations")) then {_texto = format ["%1\nDESTROYED",_texto]};
-			};
+
+			private _description = "Each factory increases money income by 25% when powered.";
+			_texto = format ["%1\n\n%2",_texto, _description];
+		};
 		if (_type in ["outpost", "outpostAA"]) then {
 			if (_side == "AAF") then {
 				_texto = "AAF Outpost";
@@ -113,6 +115,9 @@ while {visibleMap} do {
 			} else {
 				_texto = format ["FIA Seaport%1",[_location] call garrisonInfo];
 			};
+
+			private _description = "Each seaport reduces the price of vehicles by 10%";
+			_texto = format ["%1\n\n%2",_texto, _description];
 		};
 		hint format ["%1",_texto];
 		};
