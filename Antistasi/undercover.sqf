@@ -12,13 +12,34 @@ private _arrayCivVeh = arrayCivVeh + [civHeli];
 private _compromised = player getVariable "compromised";
 private _reason = "";
 
-private _isMilitaryDressed = (primaryWeapon player != "") or
-				 (secondaryWeapon player != "") or
-				 (handgunWeapon player != "") or
-				 (!(vest player in AS_FIAvests_undercover)) or
-				 (!(headgear player in AS_FIAhelmets_undercover)) or
-				 (hmd player != "") or
-				 (!(uniform player in AS_FIAuniforms_undercover));
+private _isMilitaryDressedConditions = [
+	{primaryWeapon player != ""},
+	{secondaryWeapon player != ""},
+	{handgunWeapon player != ""},
+	{!(vest player in AS_FIAvests_undercover)},
+	{!(headgear player in AS_FIAhelmets_undercover)},
+	{hmd player != ""},
+	{!(uniform player in AS_FIAuniforms_undercover)}
+];
+private _isMilitaryHints = [
+	"a weapon",
+	"a weapon",
+	"a handgun",
+	"a military vest",
+	"a military helmet",
+	"a military head set",
+	"a military uniform"
+];
+
+private _isMilitaryDressed = {
+	{
+		if (call _x) exitWith {
+			true
+		};
+	} forEach _isMilitaryDressedConditions;
+	false
+};
+
 private _detectedCondition = {
 	private _detected = false;
 	{
@@ -30,25 +51,25 @@ private _detectedCondition = {
 };
 if (vehicle player != player) then {
 	if (not(typeOf(vehicle player) in _arrayCivVeh)) then {
-		hint "You cannot go undercover in a non-civilian vehicle.";
-		_reason = "Init"
+		_reason = "You cannot go undercover in a non-civilian vehicle.";
 	};
 	if (vehicle player in AS_S("reportedVehs")) then {
-		hint "You cannot go undercover in a reported vehicle. Change your vehicle or renew it in the Garage to become undercover.";
-		_reason = "Init";
+		_reason = "You cannot go undercover in a reported vehicle. Change your vehicle or renew it in the Garage to become undercover.";
 	};
 } else {
-	if (_isMilitaryDressed) then {
-		hint "You cannot go undercover with military gear:\n\nweapon in hand\nVest\nHelmet\nNV Googles\nGuerrilla Uniform.";
-		_reason = "Init";
-	};
+	{
+		if (call _x) exitWith {
+			_reason = "You are wearing " + (_isMilitaryHints select _forEachIndex);
+		};
+	} forEach _isMilitaryDressedConditions;
 	if (dateToNumber date < _compromised) then {
-		hint "You cannot go undercover because you were reported in the past 30 minutes. Return to the HQ to become undercover.";
-		_reason = "Init";
+		_reason = "You cannot go undercover because you were reported in the past 30 minutes. Return to the HQ to become undercover.";
 	};
 };
 
-if (_reason != "") exitWith {};
+if (_reason != "") exitWith {
+	hint _reason;
+};
 
 if (call _detectedCondition) exitWith {
 	hint "You cannot become undercover while enemies are spotting you.";
@@ -123,10 +144,10 @@ while {_reason == ""} do {
 		};
 	} else {
 		_reason = call {
-			if (_isMilitaryDressed and _detectedCondition) exitWith {
+			if (True and _isMilitaryDressed and _detectedCondition) exitWith {
 				"detectedDressed";
 			};
-			if _isMilitaryDressed exitWith {
+			if call _isMilitaryDressed exitWith {
 				"militaryDressed";
 			};
 			if (dateToNumber date < _compromised) exitWith {
