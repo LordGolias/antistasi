@@ -9,13 +9,6 @@ call AS_fnc_initPetros;
 call AS_fnc_HQdeploy;
 
 if isNil "placementDone" then {
-	// update controllers' ownership close to chosen location
-	{
-		if ((_x call AS_fnc_location_position) distance _position < 1000) then {
-			[_x,"side","FIA"] call AS_fnc_location_set;
-		};
-	} forEach (["roadblock", "AAF"] call AS_fnc_location_TS);
-
 	// move all players to the HQ.
 	if isMultiplayer then {
 		{_x setPos getPos petros} forEach playableUnits;
