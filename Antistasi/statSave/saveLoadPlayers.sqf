@@ -52,7 +52,7 @@ AS_fnc_saveLocalPlayerData = {
 
 // Triggers everyone to send data to itself.
 AS_fnc_getPlayersData = {
-	(owner player) remoteExec ["AS_fnc_saveLocalPlayerData", 0];  // to every client.
+	[owner player] remoteExec ["AS_fnc_saveLocalPlayerData", 0];  // to every client.
 };
 
 // Stores profile data received from a client.

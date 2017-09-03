@@ -2,13 +2,18 @@
 AS_SERVER_ONLY("statSave/saveServer.sqf");
 params ["_saveName"];
 
-if (!isNil "AS_savingServer") exitWith {"Server data save is still in process" remoteExecCall ["hint",AS_commander]};
+if (!isNil "AS_savingServer") exitWith {
+    ["Canceled: save already in process."] remoteExecCall ["hint",AS_commander];
+    diag_log "[AS] Server: saving already in progress...";
+};
 AS_savingServer = true;
+["Saving game..."] remoteExecCall ["hint",AS_commander];
+diag_log "[AS] Server: saving game...";
 
 // spawn and wait for all clients to report their data.
 private _savingPlayersHandle = ([_saveName] spawn {
     params ["_saveName"];
-    [] call AS_fnc_getPlayersData;
+    call AS_fnc_getPlayersData;
     // todo: This is bad: we want to wait for every client to answer or timeout.
     sleep 5;  // brute force method of waiting for every client...
     [_saveName] call AS_fnc_savePlayers;
@@ -21,9 +26,11 @@ private _savingPlayersHandle = ([_saveName] spawn {
 
 [_saveName] call AS_fnc_saveAAFarsenal;
 
+diag_log "[AS] Server: saving locations...";
 [_saveName] call AS_fnc_location_save;
 [_saveName] call AS_fnc_saveHQ;
 
+diag_log "[AS] Server: saving arsenal...";
 // save all units as hr and money.
 private _resfondo = AS_P("resourcesFIA");
 
@@ -132,13 +139,16 @@ private _arrayEst = [];
 
 [_saveName, _cargo_w, _cargo_m, _cargo_i, _cargo_b] call AS_fnc_saveArsenal;
 
+diag_log "[AS] Server: saving missions...";
 [_saveName] call AS_fnc_mission_save;
 
 // if the spawning is faster, let us wait until it is finished.
+diag_log "[AS] Server: saving players...";
 waitUntil {scriptDone _savingPlayersHandle};
 
 [] call fn_SaveProfile;
 
 AS_savingServer = nil;
 
-diag_log "[AS] server: game saved.";
+diag_log "[AS] Server: saving completed.";
+["Game saved"] remoteExecCall ["hint",AS_commander];
