@@ -138,8 +138,6 @@ AS_fnc_loadHQ = {
 	} forEach _array;
 
 	placementDone = true; publicVariable "placementDone";
-	[[petros,"remove"],"AS_fnc_addAction"] call BIS_fnc_MP;
-	[[petros,"mission"], "AS_fnc_addAction"] call BIS_fnc_MP;
 };
 
 fn_SaveStat = AS_fnc_SaveStat;  // to be replaced in whole project.
