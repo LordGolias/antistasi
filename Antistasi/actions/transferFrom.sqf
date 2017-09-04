@@ -31,7 +31,7 @@ private _fnc_stopCondition = {
 	speed _origin > 0 or {speed _destination > 0}
 };
 
-[_origin, _total, {true}, _fnc_stopCondition] call AS_fnc_wait_or_fail;
+[_origin, _total, {true}, _fnc_stopCondition, "", ""] call AS_fnc_wait_or_fail;
 
 if (call _fnc_stopCondition) then {
 	hint "Movement cancelled transfer";
