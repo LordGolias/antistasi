@@ -13,20 +13,25 @@ private _old_cargo = [_unit, true] call AS_fnc_getUnitArsenal;
 ([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 
 // add allowed stuff.
-caja setvariable ["bis_addVirtualWeaponCargo_cargo",nil,true];  // see http://stackoverflow.com/a/43194611/7808917
-[caja,(_cargo_w select 0) + unlockedWeapons, true] call BIS_fnc_addVirtualWeaponCargo;
-[caja,(_cargo_m select 0) + unlockedMagazines, true] call BIS_fnc_addVirtualMagazineCargo;
-[caja,(_cargo_i select 0) + unlockedItems, true] call BIS_fnc_addVirtualItemCargo;
-[caja,(_cargo_b select 0) + unlockedBackpacks, true] call BIS_fnc_addVirtualBackpackCargo;
+_box setvariable ["bis_addVirtualWeaponCargo_cargo",nil,true];  // see http://stackoverflow.com/a/43194611/7808917
+[_box,(_cargo_w select 0) + unlockedWeapons, true] call BIS_fnc_addVirtualWeaponCargo;
+[_box,(_cargo_m select 0) + unlockedMagazines, true] call BIS_fnc_addVirtualMagazineCargo;
+[_box,(_cargo_i select 0) + unlockedItems, true] call BIS_fnc_addVirtualItemCargo;
+[_box,(_cargo_b select 0) + unlockedBackpacks, true] call BIS_fnc_addVirtualBackpackCargo;
 
-["Open",[nil,caja,_unit]] call BIS_fnc_arsenal;
+["Open",[nil,_box,_unit]] call BIS_fnc_arsenal;
 
 // wait for the arsenal to close.
 waitUntil {isnull ( uinamespace getvariable "RSCDisplayArsenal" )};
+// BIS_fnc_arsenal creates a new action. We remove it so the only arsenal available is this one
+_box removeAction (_box getVariable "bis_fnc_arsenal_action");
 
 private _new_cargo = [_unit, true] call AS_fnc_getUnitArsenal;
 
 // we update the value since during the wait someone may have removed the last weapon.
+if (_box != caja) then {
+    [_box, caja] call AS_fnc_transferToBox;
+};
 ([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 
 // add all the old stuff and removes all the new stuff.
@@ -53,7 +58,6 @@ for "_i" from 0 to (count (_cargo_b select 0) - 1) do {
             _cargo_b = [_cargo_b, _old_cargo select 3] call AS_fnc_mergeCargoLists;
 			removeBackpack _unit;
 		};
-        [caja,_name,true] call BIS_fnc_removeVirtualBackpackCargo;
 	};
 };
 
@@ -68,7 +72,6 @@ for "_i" from 0 to (count (_cargo_i select 0) - 1) do {
         _cargo_i = [_cargo_i, _old_cargo select 2] call AS_fnc_mergeCargoLists;
         _cargo_b = [_cargo_b, _old_cargo select 3] call AS_fnc_mergeCargoLists;
         removeVest _unit;
-        [caja,_name,true] call BIS_fnc_removeVirtualItemCargo;
 	};
 };
 
@@ -95,7 +98,6 @@ for "_i" from 0 to (count (_cargo_w select 0) - 1) do {
             _cargo_i = [_items, _cargo_i] call AS_fnc_listToCargoList;
 			_unit removeWeaponGlobal _name;
 		};
-        [caja,_name,true] call BIS_fnc_removeVirtualWeaponCargo;
 	};
 };
 
@@ -106,7 +108,6 @@ for "_i" from 0 to (count (_cargo_m select 0) - 1) do {
 		for "_j" from 0 to (-_amount - 1) do {
 			_unit removeMagazine _name;
 		};
-        [caja,_name,true] call BIS_fnc_removeVirtualMagazineCargo;
 	};
 };
 
@@ -128,7 +129,6 @@ for "_i" from 0 to (count (_cargo_i select 0) - 1) do {
                 };
             };
         };
-        [caja,_name,true] call BIS_fnc_removeVirtualItemCargo;
     };
 };
 
