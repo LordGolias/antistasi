@@ -5,6 +5,7 @@ This is a modified version of Antistasi scenario for ARMA 3 that deals with some
 Antistasi is a scenario where you fight as a guerrilla liberator to flip the island to your side.
 This modified version has the same mechanics and the same features but improves some aspects of it.
 
+* Support Altis and Tanoa map
 * The arsenal works as expected: weapons that are in the HQ ammo box are available to use.
 * Multiple saved games: server/SP can now choose the saved game to load, save, or delete.
 * Clients stats are saved in the server and saved when the server is saved.
@@ -58,11 +59,12 @@ This way, you only need to focus on adding vehicles, groups and units; the remai
 
 This version supports easy replacement of worlds. Use the following steps:
 
-1. Create an empty mission in the EDEN editor for the world of your choice.
-2. Create a marker named "FIA_HQ" (where the HQ is placed in the beginning).
-3. Create markers on different points of interest. These can be airfields, bases, etc.
-The markers names must start with "AS_airfield", "AS_base", etc.
-2. Add markers to it.
+1. Follow the steps 1-4 of the installation above for Tanoa.
+2. Rename the directory `Antistasi.Tanoa` to `Antistasi.[world_name]`
+3. Open the mission in editor on the new map and add/remove/position the different markers on the map
+4. Duplicate the file `templates/world_altis.sqf` to `templates/world_[world_name].sqf`.
+5. Modify the `templates/world_[world_name].sqf` to your taste.
+6. Open `initLocations.sqf` and add a new condition, close to the condition `worldName == "Tanoa"`, to use the new template on the new world.
 
 # Development
 
