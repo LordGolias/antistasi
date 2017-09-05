@@ -22,6 +22,17 @@ This modified version has the same mechanics and the same features but improves 
 
 The code was greatly simplified, cleaned, and reduced for DRY (e.g. for every 1 line added, 2 lines were deleted, I have +4 years experience as professional programmer).
 
+# Installation
+
+To run this mission, take the following steps:
+
+1. Download it from GitHub (green button on the right)
+2. copy the directory `Antistasi` (the one *on the same level* as this README) to
+the directory `missions` of your profile
+3. rename the directory `Antistasi` to `Antistasi.Altis` or `Antistasi.Tanoa`
+4. rename the file `mission.altis.sqm` or `mission.tanoa.sqm` to `mission.sqm`
+5. open it in Eden editor and export the mission (SP or MP)
+
 # Mod support
 
 * [ACE](https://ace3mod.com/)
