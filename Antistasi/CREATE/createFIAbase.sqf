@@ -1,7 +1,8 @@
 #include "../macros.hpp"
-params ["_location"];
 
 private _fnc_spawn = {
+	params ["_location"];
+
 	private _soldados = [];
 	private _grupos = [];
 	private _vehiculos = [];
