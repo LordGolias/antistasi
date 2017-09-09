@@ -71,7 +71,9 @@ AS_fnc_SaveStat = {
         profileNameSpace setVariable ["AS_savedVariables", _savedVariables];
         // and its value
 		profileNameSpace setVariable [[_saveName, _varName] call AS_fnc_variableName, _varValue];
-	};
+	} else {
+        diag_log format ["[AS] Error: AS_fnc_SaveStat(%1,%2,nil): value is nil.", _saveName, _varName];
+    };
 };
 
 AS_fnc_LoadStat = {
@@ -79,8 +81,9 @@ AS_fnc_LoadStat = {
     private _savedGames = profileNameSpace getVariable ["AS_savedGames", []];
     private _savedVariables = profileNameSpace getVariable ["AS_savedVariables", []];
     private _index = _savedGames find _saveName;
-    if (_varName in (_savedVariables select _index)) exitWith {
+    if (_varName in (_savedVariables select _index)) then {
         profileNameSpace getVariable ([_saveName, _varName] call AS_fnc_variableName)
+    } else {
+        diag_log format ["[AS] Error: AS_fnc_LoadStat(%1,%2): variable not found.", _saveName, _varName];
     };
-	objNull
 };
