@@ -22,7 +22,7 @@ AS_fnc_savePersistents = {
 		if (_index != -1) then {
 			_varValue = _varValues select _index;
 		};
-		[_saveName, _x, _varValue] call AS_fnc_SaveStat;
+		[_saveName, _x, _varValue] call AS_fnc_saveStat;
 	} forEach AS_serverVariables;
 
 	// vehicles have to be serialized, so we do it here.
@@ -33,7 +33,7 @@ AS_fnc_savePersistents = {
 		private _dir = getDir _x;
 		_vehicles pushBack [_type,_pos,_dir];
 	} forEach AS_P("vehicles");
-	[_saveName, "vehicles", _vehicles] call AS_fnc_SaveStat;
+	[_saveName, "vehicles", _vehicles] call AS_fnc_saveStat;
 };
 
 
@@ -52,46 +52,46 @@ AS_fnc_loadPersistents = {
 		_veh setDir _dir;
 		[_veh, "FIA"] call AS_fnc_initVehicle;
 		_vehicles pushBack _veh;
-	} forEach ([_saveName, "vehicles"] call AS_fnc_LoadStat);
+	} forEach ([_saveName, "vehicles"] call AS_fnc_loadStat);
 	AS_Pset('vehicles', _vehicles);
 
 	// remaining variables
     params ["_saveName"];
 	{
-        AS_Pset(_x, [_saveName, _x] call AS_fnc_LoadStat);
+        AS_Pset(_x, [_saveName, _x] call AS_fnc_loadStat);
 	} forEach AS_serverVariables;
 };
 
 AS_fnc_saveArsenal = {
 	params ["_saveName", "_weapons", "_magazines", "_items", "_backpacks"];
 
-	[_saveName, "ARSENALweapons", _weapons] call fn_SaveStat;
-	[_saveName, "ARSENALmagazines", _magazines] call fn_SaveStat;
-	[_saveName, "ARSENALitems", _items] call fn_SaveStat;
-	[_saveName, "ARSENALbackpacks", _backpacks] call fn_SaveStat;
+	[_saveName, "ARSENALweapons", _weapons] call AS_fnc_saveStat;
+	[_saveName, "ARSENALmagazines", _magazines] call AS_fnc_saveStat;
+	[_saveName, "ARSENALitems", _items] call AS_fnc_saveStat;
+	[_saveName, "ARSENALbackpacks", _backpacks] call AS_fnc_saveStat;
 
-	[_saveName, "ARSENALunlockedWeapons", unlockedWeapons] call fn_SaveStat;
-	[_saveName, "ARSENALunlockedItems", unlockedItems] call fn_SaveStat;
-	[_saveName, "ARSENALunlockedMagazines", unlockedMagazines] call fn_SaveStat;
-	[_saveName, "ARSENALunlockedBackpacks", unlockedBackpacks] call fn_SaveStat;
+	[_saveName, "ARSENALunlockedWeapons", unlockedWeapons] call AS_fnc_saveStat;
+	[_saveName, "ARSENALunlockedItems", unlockedItems] call AS_fnc_saveStat;
+	[_saveName, "ARSENALunlockedMagazines", unlockedMagazines] call AS_fnc_saveStat;
+	[_saveName, "ARSENALunlockedBackpacks", unlockedBackpacks] call AS_fnc_saveStat;
 };
 
 AS_fnc_loadArsenal = {
     params ["_saveName"];
 	private ["_weapons", "_magazines", "_items", "_backpacks"];
 
-	_weapons = [_saveName, "ARSENALweapons"] call AS_fnc_LoadStat;
-	_magazines = [_saveName, "ARSENALmagazines"] call AS_fnc_LoadStat;
-	_items = [_saveName, "ARSENALitems"] call AS_fnc_LoadStat;
-	_backpacks = [_saveName, "ARSENALbackpacks"] call AS_fnc_LoadStat;
+	_weapons = [_saveName, "ARSENALweapons"] call AS_fnc_loadStat;
+	_magazines = [_saveName, "ARSENALmagazines"] call AS_fnc_loadStat;
+	_items = [_saveName, "ARSENALitems"] call AS_fnc_loadStat;
+	_backpacks = [_saveName, "ARSENALbackpacks"] call AS_fnc_loadStat;
 
 	[caja, _weapons, _magazines, _items, _backpacks, true, true] call AS_fnc_populateBox;
 
 	// load unlocked stuff
-	unlockedWeapons = [_saveName, "ARSENALunlockedWeapons"] call AS_fnc_LoadStat;
-	unlockedMagazines = [_saveName, "ARSENALunlockedMagazines"] call AS_fnc_LoadStat;
-	unlockedItems = [_saveName, "ARSENALunlockedItems"] call AS_fnc_LoadStat;
-	unlockedBackpacks = [_saveName, "ARSENALunlockedBackpacks"] call AS_fnc_LoadStat;
+	unlockedWeapons = [_saveName, "ARSENALunlockedWeapons"] call AS_fnc_loadStat;
+	unlockedMagazines = [_saveName, "ARSENALunlockedMagazines"] call AS_fnc_loadStat;
+	unlockedItems = [_saveName, "ARSENALunlockedItems"] call AS_fnc_loadStat;
+	unlockedBackpacks = [_saveName, "ARSENALunlockedBackpacks"] call AS_fnc_loadStat;
 
 	publicVariable "unlockedWeapons";
 	publicVariable "unlockedMagazines";
@@ -105,31 +105,31 @@ AS_fnc_saveHQ = {
 	{
 		_array pushback [getPos _x, getDir _x];
 	} forEach AS_permanent_HQplacements;
-	[_saveName, "HQPermanents", _array] call fn_SaveStat;
+	[_saveName, "HQPermanents", _array] call AS_fnc_saveStat;
 
 	_array = [];
 	{
 		_array pushback [getPos _x, getDir _x, typeOf _x];
 	} forEach AS_HQ_placements;
-	[_saveName, "HQPlacements", _array] call fn_SaveStat;
+	[_saveName, "HQPlacements", _array] call AS_fnc_saveStat;
 
-	[_saveName, "HQinflamed", inflamed fuego] call fn_Savestat;
+	[_saveName, "HQinflamed", inflamed fuego] call AS_fnc_saveStat;
 };
 
 AS_fnc_loadHQ = {
 	params ["_saveName"];
 	call AS_fnc_initPetros;
 
-	private _array = [_saveName, "HQPermanents"] call AS_fnc_LoadStat;
+	private _array = [_saveName, "HQPermanents"] call AS_fnc_loadStat;
 	for "_i" from 0 to count AS_permanent_HQplacements - 1 do {
 		(AS_permanent_HQplacements select _i) setPos ((_array select _i) select 0);
 		(AS_permanent_HQplacements select _i) setDir ((_array select _i) select 1);
 	};
 
-	fuego inflame ([_saveName, "HQinflamed"] call AS_fnc_LoadStat);
+	fuego inflame ([_saveName, "HQinflamed"] call AS_fnc_loadStat);
 
 	"delete" call AS_fnc_HQaddObject;
-	_array = [_saveName, "HQPlacements"] call AS_fnc_LoadStat;
+	_array = [_saveName, "HQPlacements"] call AS_fnc_loadStat;
 	{
 		_x params ["_pos", "_dir", "_type"];
 		private _obj = _type createVehicle _pos;
@@ -139,9 +139,6 @@ AS_fnc_loadHQ = {
 
 	placementDone = true; publicVariable "placementDone";
 };
-
-fn_SaveStat = AS_fnc_SaveStat;  // to be replaced in whole project.
-fn_LoadStat = AS_fnc_LoadStat;  // to be replaced in whole project.
 
 fn_SaveProfile = {saveProfileNamespace};
 

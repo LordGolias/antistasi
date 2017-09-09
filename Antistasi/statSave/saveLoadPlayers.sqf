@@ -71,7 +71,7 @@ AS_fnc_receivePlayerData = {
 AS_fnc_savePlayers = {
     params ["_saveName"];
     for "_i" from 0 to count AS_profileIDs - 1 do {
-        [_saveName, AS_profileIDs select _i, AS_profileID_data select _i] call AS_fnc_SaveStat;
+        [_saveName, AS_profileIDs select _i, AS_profileID_data select _i] call AS_fnc_saveStat;
     };
 };
 
@@ -98,7 +98,7 @@ AS_fnc_sendPlayerData = {
     private _text = format ['[AS] Server: received request for profile data from "%1". ', _profileID];
 
     if (AS_currentSave != "") then {
-        private _data = [AS_currentSave, _profileID] call AS_fnc_LoadStat;
+        private _data = [AS_currentSave, _profileID] call AS_fnc_loadStat;
         if (!isNil "_data") then {
             diag_log (_text + 'It was sent');
             [_data] remoteExec ["AS_fnc_setPlayerData", _clientID];

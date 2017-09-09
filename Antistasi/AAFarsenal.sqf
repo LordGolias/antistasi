@@ -140,7 +140,7 @@ AS_fnc_AAFarsenal_value = {
 AS_fnc_saveAAFarsenal = {
 	params ["_saveName"];
 	{
-		[_saveName, ("AAFarsenal_v1_" + _x), AS_AAFarsenal getVariable _x] call AS_fnc_SaveStat;
+		[_saveName, ("AAFarsenal_v1_" + _x), AS_AAFarsenal getVariable _x] call AS_fnc_saveStat;
 	} forEach AS_AAFarsenal_categories;
 };
 
@@ -148,7 +148,7 @@ AS_fnc_loadAAFarsenal = {
 	params ["_saveName"];
 	call AS_fnc_AAFarsenal_init;
 	{
-		AS_AAFarsenal setVariable [_x, [_saveName, "AAFarsenal_v1_" + _x] call AS_fnc_LoadStat, true];
+		AS_AAFarsenal setVariable [_x, [_saveName, "AAFarsenal_v1_" + _x] call AS_fnc_loadStat, true];
 	} forEach AS_AAFarsenal_categories;
 };
 

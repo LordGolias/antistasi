@@ -60,7 +60,7 @@ AS_fnc_loadGame = {
     false
 };
 
-AS_fnc_SaveStat = {
+AS_fnc_saveStat = {
 	params ["_saveName", "_varName", "_varValue"];
 	if (!isNil "_varValue") then {
         // save the variable in the list of variables.
@@ -72,11 +72,11 @@ AS_fnc_SaveStat = {
         // and its value
 		profileNameSpace setVariable [[_saveName, _varName] call AS_fnc_variableName, _varValue];
 	} else {
-        diag_log format ["[AS] Error: AS_fnc_SaveStat(%1,%2,nil): value is nil.", _saveName, _varName];
+        diag_log format ["[AS] Error: AS_fnc_saveStat(%1,%2,nil): value is nil.", _saveName, _varName];
     };
 };
 
-AS_fnc_LoadStat = {
+AS_fnc_loadStat = {
     params ["_saveName", "_varName"];
     private _savedGames = profileNameSpace getVariable ["AS_savedGames", []];
     private _savedVariables = profileNameSpace getVariable ["AS_savedVariables", []];
@@ -84,6 +84,6 @@ AS_fnc_LoadStat = {
     if (_varName in (_savedVariables select _index)) then {
         profileNameSpace getVariable ([_saveName, _varName] call AS_fnc_variableName)
     } else {
-        diag_log format ["[AS] Error: AS_fnc_LoadStat(%1,%2): variable not found.", _saveName, _varName];
+        diag_log format ["[AS] Error: AS_fnc_loadStat(%1,%2): variable not found.", _saveName, _varName];
     };
 };

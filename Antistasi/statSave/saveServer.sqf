@@ -19,10 +19,10 @@ private _savingPlayersHandle = ([_saveName] spawn {
     [_saveName] call AS_fnc_savePlayers;
 });
 
-[_saveName, "BE_data", ([] call fnc_BE_save)] call fn_SaveStat;
+[_saveName, "BE_data", ([] call fnc_BE_save)] call AS_fnc_saveStat;
 
-[_saveName, "miembros", miembros] call fn_SaveStat;
-[_saveName, "fecha", date] call fn_SaveStat;
+[_saveName, "miembros", miembros] call AS_fnc_saveStat;
+[_saveName, "fecha", date] call AS_fnc_saveStat;
 
 [_saveName] call AS_fnc_saveAAFarsenal;
 
@@ -135,7 +135,7 @@ private _arrayEst = [];
     };
 } forEach vehicles - AS_permanent_HQplacements;
 
-[_saveName, "estaticas", _arrayEst] call fn_SaveStat;
+[_saveName, "estaticas", _arrayEst] call AS_fnc_saveStat;
 
 [_saveName, _cargo_w, _cargo_m, _cargo_i, _cargo_b] call AS_fnc_saveArsenal;
 
