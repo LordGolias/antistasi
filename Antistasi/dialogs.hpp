@@ -69,7 +69,7 @@ BTN_L(1,-1, "Add Server Member", "", "if (isMultiplayer) then {closeDialog 0; nu
 BTN_L(2,-1, "Remove Server Member", "", "if (isMultiplayer) then {closeDialog 0; nul = [""remove""] call memberAdd;} else {hint ""This function is MP only""};");
 
 BTN_R(1,-1, "Donate 100 € to player in front of you", "", "true call AS_fncUI_donateMoney;");
-BTN_R(2,-1, "Donate 100 € to FIA", "", "call AS_fncUI_donateMoney;");
+BTN_R(2,-1, "Donate 100 € to FIA", "", "false call AS_fncUI_donateMoney;");
 
 	};
 };

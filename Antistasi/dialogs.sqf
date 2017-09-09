@@ -69,7 +69,7 @@ AS_fncUI_toggleElegibility = {
 };
 
 AS_fncUI_donateMoney = {
-    params [["_toCursorTarget", false]];
+    params ["_toCursorTarget"];
 
     if (call AS_fnc_controlsAI) exitWith {
     	hint "You can't donate when you are controlling an AI";
