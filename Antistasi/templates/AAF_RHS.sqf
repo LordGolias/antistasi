@@ -66,25 +66,14 @@ infList_pilots = 	[sol_HPIL, sol_HPIL2, sol_PIL];
 
 // AAF Vehicles
 if (isServer) then {
-	AS_AAFarsenal setVariable ["valid_planes", ["rhs_Su25SM_vvsc"], true];
-	AS_AAFarsenal setVariable ["valid_armedHelis", [
-		"rhs_Mi24V_FAB_vdv","rhs_Mi24V_UPK23_vdv"
-	], true];
-	AS_AAFarsenal setVariable ["valid_transportHelis", [
-		"rhs_Mi8mt_Cargo_vvsc","rhs_Mi8MTV3_FAB_vvsc","rhs_Mi8AMTSh_FAB_vvsc","rhs_ka60_c"
-	], true];
-	AS_AAFarsenal setVariable ["valid_tanks", [
-		"rhs_t72bb_tv","rhs_t72bd_tv","rhs_t90a_tv"
-	], true];
-	AS_AAFarsenal setVariable ["valid_apcs", [
-		"rhs_btr80_vdv", "rhs_bmp2d_vdv","rhs_bmp1p_vdv","rhs_bmd2m","rhs_bmd2k"
-	], true];
-	AS_AAFarsenal setVariable ["valid_trucks", [
-		"rhs_kamaz5350_open_vdv","rhs_kamaz5350_vdv","rhs_Ural_Open_VDV_01","rhs_Ural_VDV_01"
-	], true];
-	AS_AAFarsenal setVariable ["valid_supplies", [
-		"rhs_gaz66_ammo_vdv","rhs_Ural_Fuel_VDV_01","rhs_gaz66_repair_vdv","rhs_gaz66_ap2_vdv"
-	], true];
+	["planes", "valid", ["rhs_Su25SM_vvsc"]] call AS_AAFarsenal_fnc_set;
+	["armedHelis", "valid", ["rhs_Mi24V_FAB_vdv","rhs_Mi24V_UPK23_vdv"]] call AS_AAFarsenal_fnc_set;
+	["transportHelis", "valid", ["rhs_Mi8mt_Cargo_vvsc","rhs_Mi8MTV3_FAB_vvsc","rhs_Mi8AMTSh_FAB_vvsc","rhs_ka60_c"]] call AS_AAFarsenal_fnc_set;
+	["tanks", "valid", ["rhs_t72bb_tv","rhs_t72bd_tv","rhs_t90a_tv"]] call AS_AAFarsenal_fnc_set;
+	["boats", "valid", ["I_Boat_Armed_01_minigun_F"]] call AS_AAFarsenal_fnc_set;
+	["apcs", "valid", ["rhs_btr80_vdv", "rhs_bmp2d_vdv","rhs_bmp1p_vdv","rhs_bmd2m","rhs_bmd2k"]] call AS_AAFarsenal_fnc_set;
+	["trucks", "valid", ["rhs_kamaz5350_open_vdv","rhs_kamaz5350_vdv","rhs_Ural_Open_VDV_01","rhs_Ural_VDV_01"]] call AS_AAFarsenal_fnc_set;
+	["supplies", "valid", ["rhs_gaz66_ammo_vdv","rhs_Ural_Fuel_VDV_01","rhs_gaz66_repair_vdv","rhs_gaz66_ap2_vdv"]] call AS_AAFarsenal_fnc_set;
 };
 
 AS_AAFarsenal_uav = "";

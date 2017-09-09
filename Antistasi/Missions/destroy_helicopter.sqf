@@ -14,7 +14,13 @@ private _fnc_initialize = {
 		_poscrash = [_position, 5000, random 360] call BIS_fnc_relPos;
 	};
 
-	private _vehicleType = (["planes", "armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all) call BIS_fnc_selectRandom;
+	private _category = [
+		["planes", "armedHelis", "transportHelis"],
+		["planes" call AS_AAFarsenal_fnc_count,
+		 "armedHelis" call AS_AAFarsenal_fnc_count,
+		 "transportHelis" call AS_AAFarsenal_fnc_count]
+		] call BIS_fnc_selectRandomWeighted;
+	private _vehicleType = selectRandom (_category call AS_AAFarsenal_fnc_valid);
 
 	private _posCrashMrk = [_poscrash,random 500,random 360] call BIS_fnc_relPos;
 	_posCrash = _poscrash findEmptyPosition [0,100,_vehicleType];
@@ -63,7 +69,7 @@ private _fnc_spawn = {
 	};
 	private _road = _roads select 0;
 
-	private _recoveryVehicleype = selectRandom (["apcs"] call AS_fnc_AAFarsenal_valid);
+	private _recoveryVehicleype = selectRandom ("apcs" call AS_AAFarsenal_fnc_valid);
 	private _vehicle = [position _road, 0,_recoveryVehicleype, side_red] call bis_fnc_spawnvehicle;
 	private _veh = _vehicle select 0;
 	[_veh, "AAF"] call AS_fnc_initVehicle;

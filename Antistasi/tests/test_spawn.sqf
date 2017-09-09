@@ -31,6 +31,5 @@ private _location = ("city" call AS_fnc_location_T) select 0;
 
 // test spawn of road patrol
 [true] call AS_debug_init;
-hint str (["apcs"] call AS_fnc_AAFarsenal_addVehicle);
 [] spawn AS_fnc_AAFroadPatrol;
 // check map and see patrol moving

@@ -129,7 +129,7 @@ private _fnc_spawn = {
 		_tam = _tam + 50;
 	};
 
-	private _vehicle = [position _road, 0, selectRandom (["trucks"] call AS_fnc_AAFarsenal_valid), side_red] call bis_fnc_spawnvehicle;
+	private _vehicle = [position _road, 0, selectRandom ("trucks" call AS_AAFarsenal_fnc_valid), side_red] call bis_fnc_spawnvehicle;
 	private _veh = _vehicle select 0;
 	[_veh, "AAF"] call AS_fnc_initVehicle;
 	[_veh,"AAF Escort"] spawn inmuneConvoy;

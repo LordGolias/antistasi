@@ -36,17 +36,17 @@ private _fnc_initialize = {
 		if (_missionType == "convoy_armor") exitWith {
 			_tskDesc = localize "STR_tskDesc_CVY_Armor";
 			_tskIcon = "destroy";
-			private _tanks = ["tanks"] call AS_fnc_AAFarsenal_all;
-			if (count _tanks == 0) then {
-				_tanks = ["apcs"] call AS_fnc_AAFarsenal_valid;
+			private _type = "tanks";
+			if (_type call AS_AAFarsenal_fnc_count == 0) then {
+				_type = "apcs";
 				diag_log format ["[AS] Error: convoy: tanks requested but not available", _mission];
 			};
-			_mainVehicleType = selectRandom _tanks;
+			_mainVehicleType = selectRandom (_type call AS_AAFarsenal_fnc_valid);
 		};
 		if (_missionType == "convoy_ammo") exitWith {
 			_tskDesc = localize "STR_tskDesc_CVY_Ammo";
 			_tskIcon = "rearm";
-			if (["supplies"] call AS_fnc_AAFarsenal_count == 0) then {
+			if ("supplies" call AS_AAFarsenal_fnc_count == 0) then {
 				diag_log format ["[AS] Error: convoy: supplies requested but not available", _mission];
 			};
 			_mainVehicleType = vehAmmo;
@@ -58,12 +58,10 @@ private _fnc_initialize = {
 		if (_missionType == "convoy_prisoners") exitWith {
 			_tskDesc = localize "STR_tskDesc_CVY_Pris";
 			_tskIcon = "run";
-			private _trucks = ["trucks"] call AS_fnc_AAFarsenal_all;
-			if (count _trucks == 0) then {
-				_trucks = ["trucks"] call AS_fnc_AAFarsenal_valid;
-				diag_log format ["[AS] Error: convoy: trucks requested but not available", _mission];
+			_mainVehicleType = selectRandom ("trucks" call AS_AAFarsenal_fnc_valid);
+			if ("trucks" call AS_AAFarsenal_fnc_count == 0) then {
+				diag_log format ["[AS] Error: convoy: truck requested but not available", _mission];
 			};
-			_mainVehicleType = selectRandom _trucks;
 		};
 	};
 
@@ -116,8 +114,12 @@ private _fnc_spawn = {
 
 	// spawn escorts
 	for "_i" from 1 to _escortSize do {
-		private _apcs = ["trucks", "apcs"] call AS_fnc_AAFarsenal_all;
-		private _escortVehicleType = selectRandom _apcs;
+		private _category = [
+			["trucks", "apcs"],
+			["trucks" call AS_AAFarsenal_fnc_count,
+			 "apcs" call AS_AAFarsenal_fnc_count]
+			] call BIS_fnc_selectRandomWeighted;
+		private _escortVehicleType = selectRandom (_category call AS_AAFarsenal_fnc_valid);
 
 		private _vehData = [[_posRoad, _escortVehicleType]] call _initVehs;
 		_vehicles = _vehData select 0;
@@ -127,7 +129,7 @@ private _fnc_spawn = {
 		[_veh,"AAF Convoy Escort"] spawn inmuneConvoy;
 
 		private _tipoGrupo = "";
-		if (_escortVehicleType call AS_fnc_AAFarsenal_category == "apcs") then {
+		if (_escortVehicleType call AS_AAFarsenal_fnc_category == "apcs") then {
 			_tipoGrupo = [infTeam, "AAF"] call fnc_pickGroup;
 		} else {
 			_tipoGrupo = [infSquad, "AAF"] call fnc_pickGroup;

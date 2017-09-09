@@ -133,7 +133,7 @@ AS_fnc_container_remove = {
         diag_log format ["[AS] Error: AS_fnc_container_remove: container '%1' does not exist", _container];
     };
     deleteVehicle (AS_containers getVariable _container);
-    AS_containers setVariable ["_all", _containers - _container, true];
+    AS_containers setVariable ["_all", _containers - [_container], true];
     AS_containers setVariable [_container, nil, true];
 };
 

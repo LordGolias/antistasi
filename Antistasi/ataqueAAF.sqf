@@ -27,8 +27,8 @@ if (count _validLocations == 0) exitWith {
 };
 
 // the potential the AAF has to attack
-private _scoreLand = (["apcs"] call AS_fnc_AAFarsenal_count) + 5*(["tanks"] call AS_fnc_AAFarsenal_count);
-private _scoreAir = (["armedHelis"] call AS_fnc_AAFarsenal_count) + 5*(["planes"] call AS_fnc_AAFarsenal_count);
+private _scoreLand = ("apcs" call AS_AAFarsenal_fnc_count) + 5*("tanks" call AS_AAFarsenal_fnc_count);
+private _scoreAir = ("armedHelis" call AS_AAFarsenal_fnc_count) + 5*("planes" call AS_AAFarsenal_fnc_count);
 if (_useCSAT) then {
 	_scoreLand = _scoreLand + 15;
 	_scoreAir = _scoreAir + 15;

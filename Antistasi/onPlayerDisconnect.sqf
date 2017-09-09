@@ -32,9 +32,9 @@ if (_unit == AS_commander) then {
 								// is assumed it is not the player's fault
 								_recursos = _recursos + ([_tipoVeh] call FIAvehiclePrice);
 							};
-							private _category = [_tipoVeh] call AS_fnc_AAFarsenal_category;
+							private _category = _tipoVeh call AS_AAFarsenal_fnc_category;
 							if (_category != "") exitWith {
-								_recursos = _recursos  + ([_category] call AS_fnc_AAFarsenal_cost);
+								_recursos = _recursos  + (_category call AS_AAFarsenal_fnc_value);
 							};
 						};
 						if (count attachedObjects _veh > 0) then {

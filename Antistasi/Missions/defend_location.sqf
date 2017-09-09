@@ -17,9 +17,9 @@ AS_fnc_defendLocation = {
 	// check if we have capabilities to use air units
 	// decide to not use airfield if not enough air units
 	if (_airfield != "") then {
-		private _transportHelis = count (["transportHelis"] call AS_fnc_AAFarsenal_all);
-		private _armedHelis = count (["armedHelis"] call AS_fnc_AAFarsenal_all);
-		private _planes = count (["planes"] call AS_fnc_AAFarsenal_all);
+		private _transportHelis = "transportHelis" call AS_AAFarsenal_fnc_count;
+		private _armedHelis = "armedHelis" call AS_AAFarsenal_fnc_count;
+		private _planes = "planes" call AS_AAFarsenal_fnc_count;
 		// 1 transported + any other if _isMarker.
 		if (_transportHelis < 1 or (_transportHelis + _armedHelis + _planes < 3)) then {
 			_airfield = "";
@@ -181,10 +181,10 @@ private _fnc_spawn = {
 		// spawn them
 		for "_i" from 1 to _nveh do {
 			private _toUse = "trucks";
-			if (_threatEvalLand > 3 and (["apcs"] call AS_fnc_AAFarsenal_count > 0)) then {
+			if (_threatEvalLand > 3 and ("apcs" call AS_AAFarsenal_fnc_count > 0)) then {
 				_toUse = "apcs";
 			};
-			if (_threatEvalLand > 5 and (["tanks"] call AS_fnc_AAFarsenal_count > 0)) then {
+			if (_threatEvalLand > 5 and ("tanks" call AS_AAFarsenal_fnc_count > 0)) then {
 				_toUse = "tanks";
 			};
 			([_toUse, _origin_pos, _position, _threatEvalLand] call AS_fnc_createLandAttack) params ["_soldiers1", "_groups1", "_vehicles1"];
@@ -224,10 +224,10 @@ private _fnc_spawn = {
 
 			// first 2 rounds can be any unit, stronger the higher the treat
 			if (_i < 3) then {
-				if (["armedHelis"] call AS_fnc_AAFarsenal_count > 0) then {
+				if ("armedHelis" call AS_AAFarsenal_fnc_count > 0) then {
 					_toUse = "armedHelis";
 				};
-				if (_threatEvalAir > 15 and (["planes"] call AS_fnc_AAFarsenal_count > 0)) then {
+				if (_threatEvalAir > 15 and ("planes" call AS_AAFarsenal_fnc_count > 0)) then {
 					_toUse = "planes";
 				};
 			};

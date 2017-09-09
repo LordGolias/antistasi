@@ -12,12 +12,11 @@ private _fnc_initialize = {
 	private _vehicleType = "";
 	private _texto = "";
 
-	private _tanks = ["tanks"] call AS_fnc_AAFarsenal_all;
-	if (count _tanks > 0) then {
-		_vehicleType = selectRandom _tanks;
+	if (["tanks"] call AS_AAFarsenal_fnc_count > 0) then {
+		_vehicleType = selectRandom (["tanks"] call AS_AAFarsenal_fnc_valid);
 		_texto = "Enemy Tank";
 	} else {
-		_vehicleType = selectRandom (["apcs"] call AS_fnc_AAFarsenal_valid);
+		_vehicleType = selectRandom (["apcs"] call AS_AAFarsenal_fnc_valid);
 		_texto = "Enemy APC";
 	};
 

@@ -204,8 +204,8 @@ AS_fnc_spawnAAF_truck = {
 
 	private _vehicles = [];
 
-	if (["trucks"] call AS_fnc_AAFarsenal_count > 0) then {
-		private _type = selectRandom (["trucks"] call AS_fnc_AAFarsenal_all);
+	if ("trucks" call AS_AAFarsenal_fnc_count > 0) then {
+		private _type = selectRandom ("trucks" call AS_AAFarsenal_fnc_valid);
 		private _pos = _position findEmptyPosition [5,_size, _type];
 		private _veh = createVehicle [_type, _pos, [], 0, "NONE"];
 		_veh setDir random 360;

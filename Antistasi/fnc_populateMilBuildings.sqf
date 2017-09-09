@@ -56,9 +56,8 @@ private _vehiculos = [];
 		sleep 1;
 	};
 	if (_addChopper and (_tipoB == "Land_HelipadSquare_F")) then {
-		private _available = ["transportHelis"] call AS_fnc_AAFarsenal_all;
-		if (count _available > 0) then {
-			private _veh = createVehicle [selectRandom _available, position _building, [],0, "CAN_COLLIDE"];
+		if ("transportHelis" call AS_AAFarsenal_fnc_count > 0) then {
+			private _veh = createVehicle [selectRandom ("transportHelis" call AS_AAFarsenal_fnc_valid), position _building, [],0, "CAN_COLLIDE"];
 			_veh setDir (getDir _building);
 			_vehiculos pushback _veh;
 			sleep 1;

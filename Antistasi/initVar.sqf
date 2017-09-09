@@ -96,10 +96,7 @@ if (isServer) then {
 		call compile preprocessFileLineNumbers "initACE.sqf";
 	};
 
-	// This variable stores what vehicles the AAF can spawn and for how much.
-	AS_AAFArsenal = createSimpleObject ["Static", [0, 0, 0]];
-	publicVariable "AS_AAFArsenal";
-	call AS_fnc_AAFarsenal_init;  // sets default prices and other variables.
+	call AS_AAFarsenal_fnc_init;
 
 	// Stores everything related to what units and squads the FIA can recruit (and costs)
 	AS_FIArecruitment = createSimpleObject ["Static", [0, 0, 0]];

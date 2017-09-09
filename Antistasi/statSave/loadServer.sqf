@@ -44,7 +44,7 @@ petros allowdamage false;
 	[_x] call powerReorg;
 } forEach ("powerplant" call AS_fnc_location_T);
 
-[_saveName] call AS_fnc_loadAAFarsenal;
+[_saveName] call AS_AAFarsenal_fnc_load;
 [_saveName] call AS_fnc_loadHQ;
 
 if (isMultiplayer) then {

@@ -24,7 +24,7 @@ private _savingPlayersHandle = ([_saveName] spawn {
 [_saveName, "miembros", miembros] call AS_fnc_saveStat;
 [_saveName, "fecha", date] call AS_fnc_saveStat;
 
-[_saveName] call AS_fnc_saveAAFarsenal;
+[_saveName] call AS_AAFarsenal_fnc_save;
 
 diag_log "[AS] Server: saving locations...";
 [_saveName] call AS_fnc_location_save;

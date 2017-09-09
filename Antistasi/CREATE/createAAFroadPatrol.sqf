@@ -3,8 +3,6 @@
 AS_fnc_AAFroadPatrol = {
 	AS_SERVER_ONLY("AAFroadPatrol");
 	private _validTypes = vehPatrol + [vehBoat];
-	_validTypes = _validTypes arrayIntersect (AS_AAFarsenal_categories call AS_fnc_AAFarsenal_all);
-	_validTypes = _validTypes arrayIntersect _validTypes;
 
 	private _max_patrols = 3*(count allPlayers);
 	if (AAFpatrols >= _max_patrols) exitWith {
@@ -13,9 +11,10 @@ AS_fnc_AAFroadPatrol = {
 
 	private _origin = "";
 	private _type = "";
+	private _category = "";
 	{
 		private _candidate = selectRandom _validTypes;
-		private _category = _candidate call AS_fnc_AAFarsenal_category;
+		_category = _candidate call AS_AAFarsenal_fnc_category;
 
 		private _validOrigins = ["base"];
 		if (_category == "trucks") then {
@@ -30,12 +29,11 @@ AS_fnc_AAFroadPatrol = {
 		_validOrigins = [_validOrigins, "AAF"] call AS_fnc_location_TS;
 
 		_validOrigins = _validOrigins select {!(_x call AS_fnc_location_spawned)};
-		if (count _validOrigins > 0) exitWith {
+		if (count _validOrigins > 0 and {_category call AS_AAFarsenal_fnc_count > 0}) exitWith {
 			_origin = [_validOrigins, getMarkerPos "FIA_HQ"] call BIS_fnc_nearestPosition;
 			_type = _candidate;
 		};
 	} forEach (_validTypes call AS_fnc_shuffle);
-	private _category = [_type] call AS_fnc_AAFarsenal_category;
 
 	if (_type == "") exitWith {
 		AS_ISDEBUG("[AS] debug: fnc_createRoadPatrol cancelled: no valid types");

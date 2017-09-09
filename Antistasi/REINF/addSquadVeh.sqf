@@ -8,10 +8,11 @@ if ((groupID _grupo == "Watch") or (groupID _grupo == "MineF")) exitwith {hint "
 
 _veh = cursortarget;
 
-_tipo = typeOf _veh;
+private _tipo = typeOf _veh;
 
-//if (cursortarget == "") exitWith {hint "You are not looking at anything"};
-if !(_tipo in (AS_FIArecruitment_all + arrayCivVeh + (call AS_fnc_AAFarsenal_all))) exitWith {hint "You are not looking to a valid vehicle"};
+if (not (_tipo in (AS_FIArecruitment_all + arrayCivVeh)) or {_tipo call AS_AAFarsenal_fnc_category == ""}) exitWith {
+	hint "You are not looking to a valid vehicle"
+};
 
 if ((!alive _veh) or (!canMove _veh)) exitWith {hint "The selected vehicle is destroyed or cannot move"};
 if ({(alive _x) and (_x in _veh)} count allUnits > 0) exitWith {hint "Selected vehicle is not empty"};

@@ -1,7 +1,7 @@
 #include "macros.hpp"
 if (isDedicated) exitWith {};
 
-_chance = 8;
+private _chance = 8;
 
 if (count _this == 1) then
 	{
@@ -20,7 +20,7 @@ if (count _this == 1) then
 		};
 	};
 
-_texto = format ["<t size='0.6' color='#C1C0BB'>Intel Found.<br/> <t size='0.5' color='#C1C0BB'><br/>"];
+private _texto = format ["<t size='0.6' color='#C1C0BB'>Intel Found.<br/> <t size='0.5' color='#C1C0BB'><br/>"];
 
 if (random 100 < _chance) then
 	{
@@ -32,19 +32,19 @@ if (random 100 < _chance) then
 	};
 if (random 100 < _chance) then
 	{
-	_resourcesAAF = AS_P("resourcesAAF");
+	private _resourcesAAF = AS_P("resourcesAAF");
 	if (_resourcesAAF < 1000) then {_texto = format ["%1 AAF Funds: Poor<br/>",_texto]} else {_texto = format ["%1 AAF Funds: %2 €<br/>",_texto,_resourcesAAF]};
 	};
 
 {
 	if (random 100 < _chance) then {
-		private _count = [_x] call AS_fnc_AAFarsenal_count;
+		private _count = _x call AS_AAFarsenal_fnc_count;
 		if (_count < 1) then {
 			_count = "None";
 		};
-		_texto = format ["%1 AAF %2: %3<br/>",_texto, [_x] call AS_fnc_AAFarsenal_name, _count];
+		_texto = format ["%1 AAF %2: %3<br/>",_texto, _x call AS_AAFarsenal_fnc_name, _count];
 	};
-} forEach AS_AAFarsenal_categories;
+} forEach call AS_AAFarsenal_fnc_all;
 
 if (_texto == "<t size='0.6' color='#C1C0BB'>Intel Found.<br/> <t size='0.5' color='#C1C0BB'><br/>") then {_texto = format ["<t size='0.6' color='#C1C0BB'>Intel Not Found.<br/> <t size='0.5' color='#C1C0BB'><br/>"];};
 

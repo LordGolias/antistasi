@@ -37,10 +37,10 @@ private _fnc_spawn = {
 		if (!_isDirectAttack) then {[_base,20] call AS_fnc_location_increaseBusy;};
 
 		private _toUse = "trucks";
-		if (_threatEval > 3 and (["apcs"] call AS_fnc_AAFarsenal_count > 0)) then {
+		if (_threatEval > 3 and {"apcs" call AS_AAFarsenal_fnc_count > 0}) then {
 			_toUse = "apcs";
 		};
-		if (_threatEval > 5 and (["tanks"] call AS_fnc_AAFarsenal_count > 0)) then {
+		if (_threatEval > 5 and {"tanks" call AS_AAFarsenal_fnc_count > 0}) then {
 			_toUse = "tanks";
 		};
 
@@ -60,10 +60,10 @@ private _fnc_spawn = {
 
 			// first attack (1/2) can be any unit, stronger the higher the treat
 			if (_i < _cuenta) then {
-				if (["armedHelis"] call AS_fnc_AAFarsenal_count > 0) then {
+				if ("armedHelis" call AS_AAFarsenal_fnc_count > 0) then {
 					_toUse = "armedHelis";
 				};
-				if (_threatEval > 15 and (["planes"] call AS_fnc_AAFarsenal_count > 0)) then {
+				if (_threatEval > 15 and ("planes" call AS_AAFarsenal_fnc_count > 0)) then {
 					_toUse = "planes";
 				};
 			};

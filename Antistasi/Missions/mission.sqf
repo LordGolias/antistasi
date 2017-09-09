@@ -226,10 +226,10 @@ AS_fnc_mission_updateAvailable = {
 
             private _condition = {_base != "" and {not(_base call AS_fnc_location_spawned)}};
             if (_missionType == "convoy_armor") then {
-                _condition = True and _condition and {count ["tanks"] call AS_fnc_AAFarsenal_all > 0};
+                _condition = True and _condition and {"tanks" call AS_AAFarsenal_fnc_count > 0};
             };
             if (_missionType == "convoy_ammo") then {
-                _condition = True and _condition and {["supplies"] call AS_fnc_AAFarsenal_count > 0};
+                _condition = True and _condition and {"supplies" call AS_AAFarsenal_fnc_count > 0};
             };
             call _condition
         }}

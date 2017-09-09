@@ -22,10 +22,10 @@ call {
 		_cost = [_tipoVeh, true] call FIAvehiclePrice};
 	if (_tipoVeh in arrayCivVeh) exitWith {_cost = 25};
 
-	private _category = [_tipoVeh] call AS_fnc_AAFarsenal_category;
-	if (_category in AS_AAFarsenal_categories) then {
-		[typeOf _veh] call AS_fnc_AAFarsenal_deleteVehicle;
-		_cost = [_category] call AS_fnc_AAFarsenal_value;
+	private _category = [_tipoVeh] call AS_AAFarsenal_fnc_category;
+	if (_category != "") then {
+		[typeOf _veh] call AS_AAFarsenal_fnc_deleteVehicle;
+		_cost = [_category] call AS_AAFarsenal_fnc_value;
 	};
 };
 

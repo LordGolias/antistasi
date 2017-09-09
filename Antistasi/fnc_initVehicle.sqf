@@ -10,7 +10,7 @@ if (_veh isKindOf "ReammoBox_F" and _side == "AAF") exitWith {[_veh,"Watchpost"]
 [_veh] call AS_DEBUG_initVehicle;
 
 private _tipo = typeOf _veh;
-private _type = [_tipo] call AS_fnc_AAFarsenal_category;
+private _vehicle_category = _tipo call AS_AAFarsenal_fnc_category;
 
 // Equipment-related initialisation
 [_veh] call emptyCrate;
@@ -23,11 +23,12 @@ _veh addEventHandler ["Killed", {[_this select 0] spawn postmortem}];
 private _aaf_veh_EHkilled = {
 	params ["_veh", "_killer"];
 	if (side _killer == side_blue) then {
-		[typeOf _veh] call AS_fnc_AAFarsenal_deleteVehicle;
+		[typeOf _veh] call AS_AAFarsenal_fnc_deleteVehicle;
+		private _vehicle_category = (typeOf _veh) call AS_AAFarsenal_fnc_category;
 
 		private _citySupportEffect = 0;
 		private _xpEffect = "";
-		switch (_type) do {
+		switch _vehicle_category do {
 			case "planes": {
 				_citySupportEffect = 5;
 				_xpEffect = "des_arm";
@@ -62,7 +63,7 @@ private _aaf_veh_EHkilled = {
 	};
 };
 
-if (_side  == "AAF" and _type in AS_AAFarsenal_categories) then {
+if (_side  == "AAF" and _vehicle_category != "") then {
 	// todo: add code for when the car is stolen (instead of killed)
 	_veh addEventHandler ["killed", _aaf_veh_EHkilled];
 };
@@ -119,7 +120,7 @@ if !(_veh isKindOf "StaticWeapon") then {
 };
 
 // air units can only be piloted by humans
-if (_type in ["planes", "armedHelis", "transportHelis"]) then {
+if (_vehicle_category in ["planes", "armedHelis", "transportHelis"]) then {
 	_veh addEventHandler ["GetIn", {
 		private _posicion = _this select 1;
 		if (_posicion == "driver") then {

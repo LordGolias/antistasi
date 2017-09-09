@@ -5,11 +5,7 @@ private _groups = [];
 private _vehicles = [];
 
 // This is expected to return a unit by a check done, but we are extra safe.
-private _tipoVeh = selectRandom ([_toUse] call AS_fnc_AAFarsenal_all);
-if (isNil "_tipoVeh") then {
-	diag_log format ["[AS] ERROR: AAF has not enough units of '%1' but is spawning one.", _toUse];
-	_tipoVeh = selectRandom (AS_AAFarsenal getVariable "valid_transportHelis");
-};
+private _tipoVeh = selectRandom (_toUse call AS_AAFarsenal_fnc_valid);
 
 // get a valid position to spawn vehicle.
 private _timeOut = 0;

@@ -1,174 +1,138 @@
-// The list of all categories. Order defines what is bought first at AAFeconomics.sqf.
-AS_AAFarsenal_categories = ["supplies", "trucks", "apcs", "transportHelis", "tanks", "armedHelis", "planes"];
+// all AAF arsenal categories
+AS_AAFarsenal_fnc_all = {"aaf_arsenal" call AS_fnc_objects};
 
-// checks if the _category is valid.
-#define CHECK_CATEGORY(_category) (if !(_category in AS_AAFarsenal_categories) then { \
-	diag_log format ["[AS] AS_AAFarsenal: category %1 does not exist.", _category];} \
-);
-
-// Has to have the same order as above
-AS_AAFarsenal_category_names = [
-	"Supply trucks", "Trucks", "APCs",
-	"Transport Helicopters", "Tanks", "Armed Helicopters", "Planes"
-];
-
-// get a presentable name of the category.
-AS_fnc_AAFarsenal_name = {
-	params ["_category"];
-	CHECK_CATEGORY(_category);
-	AS_AAFarsenal_category_names select (AS_AAFarsenal_categories find _category)
+AS_AAFarsenal_fnc_get = {
+	params ["_category", "_property"];
+    ["aaf_arsenal", _category, _property] call AS_fnc_object_get
 };
 
-// Initializes the AAF Arsenal.
-AS_fnc_AAFarsenal_init = {
-	// AAF will only buy and use vehicles of the types added here. See template.
-	{
-		AS_AAFarsenal setVariable ["valid_" + _x, [], true];
-	} forEach AS_AAFarsenal_categories;
+AS_AAFarsenal_fnc_set = {
+    params ["_category", "_property", "_value"];
+    ["aaf_arsenal", _category, _property, _value] call AS_fnc_object_set;
+};
 
-	// the current arsenal by categories. AAF vehicles bought are added here.
-	{
-		AS_AAFarsenal setVariable [_x, [], true];
-	} forEach AS_AAFarsenal_categories;
+// the current vehicles of a given category or list of categories.
+// If no argument is provided, returns all vehicles of all categories
+AS_AAFarsenal_fnc_count = {
+	private _categories = _this;
+	if (typeName _categories == "STRING") then {
+		_categories = [_this];
+	};
+	if (isNil "_categories") then {
+		_categories = call AS_AAFarsenal_fnc_all;
+	};
+	private _all = 0;
+	{_all = _all + ([_x, "count"] call AS_AAFarsenal_fnc_get)} forEach _categories;
+    _all
+};
 
-	// the max size of the arsenal
-	// 	To modders: do not modify these in the template as they are updated
-	// 	by the simulation.
-	{
-		AS_AAFarsenal setVariable ["max_" + _x, 0, true];
-	} forEach AS_AAFarsenal_categories;
+// the valid vehicles of a given category or list of categories.
+// If no argument is provided, returns all valid vehicles of all categories
+AS_AAFarsenal_fnc_valid = {
+	private _categories = _this;
+	if (typeName _categories == "STRING") then {
+		_categories = [_this];
+	};
+	if (isNil "_categories") then {
+		_categories = call AS_AAFarsenal_fnc_all;
+	};
+	private _all = [];
+	{_all append ([_x, "valid"] call AS_AAFarsenal_fnc_get)} forEach _categories;
+    _all
+};
 
-	// the buying cost (to AAF) of each category
-    AS_AAFarsenal setVariable ["cost_planes", 20000, true];
-	AS_AAFarsenal setVariable ["cost_armedHelis", 10000, true];
-	AS_AAFarsenal setVariable ["cost_transportHelis", 4000, true];
-    AS_AAFarsenal setVariable ["cost_tanks", 10000, true];
-	AS_AAFarsenal setVariable ["cost_apcs", 5000, true];
-	AS_AAFarsenal setVariable ["cost_trucks", 600, true];
-	AS_AAFarsenal setVariable ["cost_supplies", 600, true];
+// the maximum number of vehicles of a given category.
+AS_AAFarsenal_fnc_max = {
+	switch _this do {
+		case "planes";
+		case "armedHelis": {count (["airfield","AAF"] call AS_fnc_location_TS)};
+		case "transportHelis": {2*(count (["airfield","AAF"] call AS_fnc_location_TS))};
+		case "tanks": {count (["base","AAF"] call AS_fnc_location_TS)};
+		case "boats": {count (["seaport","AAF"] call AS_fnc_location_TS)};
+		case "apcs";
+		case "trucks";
+		case "supplies": {2*(count (["base","AAF"] call AS_fnc_location_TS))};
+	}
+};
 
-	// the selling value of each category (to FIA). Currently half of the AAF cost.
-    AS_AAFarsenal setVariable ["value_planes", 10000, true];
-	AS_AAFarsenal setVariable ["value_armedHelis", 5000, true];
-	AS_AAFarsenal setVariable ["value_transportHelis", 2000, true];
-    AS_AAFarsenal setVariable ["value_tanks", 5000, true];
-	AS_AAFarsenal setVariable ["value_apcs", 2000, true];
-	AS_AAFarsenal setVariable ["value_trucks", 300, true];
-	AS_AAFarsenal setVariable ["value_supplies", 300, true];
+// the value of buying (AAF) a vehicle of a given category.
+AS_AAFarsenal_fnc_cost = {
+    [_this, "cost"] call AS_AAFarsenal_fnc_get
+};
+
+// the value of selling (FIA) a vehicle of a given category.
+AS_AAFarsenal_fnc_value = {
+    [_this, "value"] call AS_AAFarsenal_fnc_get
+};
+
+// a presentable name of the category.
+AS_AAFarsenal_fnc_name = {
+	[_this, "name"] call AS_AAFarsenal_fnc_get
 };
 
 // given a vehicle type (`typeOf _veh`), returns its category (or "" if it belongs to none)
-AS_fnc_AAFarsenal_category = {
+AS_AAFarsenal_fnc_category = {
 	params ["_type"];
 	private _category = "";
 	{
-		if (_type in (AS_AAFarsenal getVariable ("valid_" + _x))) exitWith {_category = _x;};
-	} forEach AS_AAFarsenal_categories;
+		if (_type in (_x call AS_AAFarsenal_fnc_valid)) exitWith {_category = _x;};
+	} forEach call AS_AAFarsenal_fnc_all;
 	_category
 };
 
-// Returns bool of whether the category has space for more vehicles.
-AS_fnc_AAFarsenal_canAdd = {
-    params ["_category"];
-	CHECK_CATEGORY(_category);
-    private _current = AS_AAFarsenal getVariable _category;
-    count _current < (AS_AAFarsenal getVariable ("max_" + _category))
+// Returns whether the category has space for more vehicles.
+AS_AAFarsenal_fnc_canAdd = {
+    (_this call AS_AAFarsenal_fnc_count) < (_this call AS_AAFarsenal_fnc_max)
 };
 
 // Adds a vehicle to the arsenal.
-// Returns "" if it was not added or the vehicle type added.
-AS_fnc_AAFarsenal_addVehicle = {
-    params ["_category"];
-	CHECK_CATEGORY(_category);
-    private _current = AS_AAFarsenal getVariable _category;
-
-    if !([_category] call AS_fnc_AAFarsenal_canAdd) exitWith {
-        ""
-    };
-
-    private _valid = AS_AAFarsenal getVariable ("valid_" + _category);
-	private _type = selectRandom _valid;
-    _current pushBack (_type);
-
-    AS_AAFarsenal setVariable [_category, _current, true];
-	_type
-};
-
-// Given a list of categories, returns all available vehicles on them.
-AS_fnc_AAFarsenal_all = {
-	private _all = [];
-	{CHECK_CATEGORY(_x);_all = _all + (AS_AAFarsenal getVariable _x)} forEach _this;
-    _all
-};
-
-// Given a list of categories, returns all valid vehicles on them.
-// This is useful to force-create a vehicle (e.g. AAF does not have it, but a mission requires it).
-AS_fnc_AAFarsenal_valid = {
-	private _all = [];
-	{CHECK_CATEGORY(_x);_all = _all + (AS_AAFarsenal getVariable ("valid_" + _x))} forEach _this;
-    _all
-};
-
-// Same as above, but counts instead.
-AS_fnc_AAFarsenal_count = {
-	count (_this call AS_fnc_AAFarsenal_all)
+// Returns whether it was added or not
+AS_AAFarsenal_fnc_addVehicle = {
+	private _count = _this call AS_AAFarsenal_fnc_count;
+	[_this, "count", _count + 1] call AS_AAFarsenal_fnc_set;
 };
 
 // Removes the vehicle type from the arsenal.
-AS_fnc_AAFarsenal_deleteVehicle = {
+AS_AAFarsenal_fnc_deleteVehicle = {
     params ["_type"];
-	private _category = [_type] call AS_fnc_AAFarsenal_category;
-	private _current = AS_AAFarsenal getVariable _category;
-	_current deleteAt (_current find _type);
-	AS_AAFarsenal setVariable [_category, _current, true];
+	private _category = [_type] call AS_AAFarsenal_fnc_category;
+	private _count = _category call AS_AAFarsenal_fnc_count;
+	[_category, "count", _count - 1] call AS_AAFarsenal_fnc_set;
 };
 
-// Returns the cost of buying for a given category
-AS_fnc_AAFarsenal_cost = {
-    params ["_category"];
-	CHECK_CATEGORY(_category);
-    AS_AAFarsenal getVariable ("cost_" + _category)
-};
+// Initializes the AAF Arsenal.
+AS_AAFarsenal_fnc_init = {
+	["aaf_arsenal", true] call AS_fnc_container_add;
 
-// Returns the value of selling a given category
-AS_fnc_AAFarsenal_value = {
-    params ["_category"];
-	CHECK_CATEGORY(_category);
-    AS_AAFarsenal getVariable ("value_" + _category)
-};
+	// AAF will only buy and use vehicles of the types added here. See template.
+	private _names = [
+		"Supply trucks", "Trucks", "APCs", "Boats",
+		"Transport Helicopters", "Tanks", "Armed Helicopters", "Planes"
+	];
+	// The list of all categories. Order defines what is bought first at AAFeconomics.sqf.
+	private _categories = [
+		"supplies", "trucks", "apcs", "boats", "transportHelis", "tanks", "armedHelis", "planes"
+	];
+	private _costs = [600, 600, 5000, 600, 10000, 4000, 10000, 20000];
 
-AS_fnc_saveAAFarsenal = {
-	params ["_saveName"];
 	{
-		[_saveName, ("AAFarsenal_v1_" + _x), AS_AAFarsenal getVariable _x] call AS_fnc_saveStat;
-	} forEach AS_AAFarsenal_categories;
+		["aaf_arsenal", _x] call AS_fnc_object_add;
+		[_x, "name", _names select _forEachIndex] call AS_AAFarsenal_fnc_set;
+		[_x, "count", 0] call AS_AAFarsenal_fnc_set;
+		[_x, "cost", _costs select _forEachIndex] call AS_AAFarsenal_fnc_set;
+		[_x, "valid", []] call AS_AAFarsenal_fnc_set;
+		[_x, "value", (_costs select _forEachIndex)/2] call AS_AAFarsenal_fnc_set;
+	} forEach _categories;
 };
 
-AS_fnc_loadAAFarsenal = {
+AS_AAFarsenal_fnc_save = {
 	params ["_saveName"];
-	call AS_fnc_AAFarsenal_init;
-	{
-		AS_AAFarsenal setVariable [_x, [_saveName, "AAFarsenal_v1_" + _x] call AS_fnc_loadStat, true];
-	} forEach AS_AAFarsenal_categories;
+	["aaf_arsenal", _saveName] call AS_fnc_object_save;
 };
 
-// Updates the maximal number of units based on the airfields and bases controlled
-// by AAF.
-AS_fnc_updateAAFarsenal = {
-	// Increases the maximum capacity for a category. Use "_set" to not increase,
-	// but set a new value.
-	private _AS_fnc_AAFarsenal_setMax = {
-		params ["_category", "_newValue"];
-		AS_AAFarsenal setVariable ["max_" + _category, _newValue, true];
-	};
-
-	private _AAFairfields = count (["airfield","AAF"] call AS_fnc_location_TS);
-	private _AAFbases = count (["base","AAF"] call AS_fnc_location_TS);
-	["planes", _AAFairfields] call _AS_fnc_AAFarsenal_setMax;
-	["armedHelis", 2*_AAFairfields] call _AS_fnc_AAFarsenal_setMax;
-	["transportHelis", 2*_AAFairfields] call _AS_fnc_AAFarsenal_setMax;
-	["tanks", _AAFbases] call _AS_fnc_AAFarsenal_setMax;
-	["apcs", 2*_AAFbases] call _AS_fnc_AAFarsenal_setMax;
-	["trucks", 2*_AAFbases] call _AS_fnc_AAFarsenal_setMax;
-	["supplies", round (_AAFbases/4)] call _AS_fnc_AAFarsenal_setMax;
+AS_AAFarsenal_fnc_load = {
+	params ["_saveName"];
+	"aaf_arsenal" call AS_fnc_container_remove;
+	call AS_AAFarsenal_fnc_init;
+	["aaf_arsenal", _saveName] call AS_fnc_object_load;
 };

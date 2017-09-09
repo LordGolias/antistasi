@@ -378,8 +378,8 @@ Vehicles are bought by FIA or AAF, or are spawned by NATO/CSAT. Afterwards:
 ### AAF Arsenal
 
 The AAF has an arsenal of vehicles that it buys with AAF money.
-AAF has different categories of vehicles that are defined in `AAFarsenal.sqf`
-that can be modified in the `templates/` (e.g. for RHS).
+The arsenal has different categories of vehicles that are defined in `AAFarsenal.sqf`
+and that can be modified in the `templates/` (e.g. for RHS).
 
 ## AAF attacks
 
