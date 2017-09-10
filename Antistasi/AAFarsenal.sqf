@@ -50,8 +50,8 @@ AS_AAFarsenal_fnc_max = {
 		case "tanks": {count (["base","AAF"] call AS_fnc_location_TS)};
 		case "boats": {count (["seaport","AAF"] call AS_fnc_location_TS)};
 		case "apcs";
-		case "trucks";
-		case "supplies": {2*(count (["base","AAF"] call AS_fnc_location_TS))};
+		case "trucks": {2*(count (["base","AAF"] call AS_fnc_location_TS))};
+		case "supplies": {4 + round((count (["base","AAF"] call AS_fnc_location_TS))/2)};
 	}
 };
 
