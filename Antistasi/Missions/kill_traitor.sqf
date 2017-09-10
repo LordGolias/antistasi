@@ -136,7 +136,7 @@ private _fnc_run = {
 	private _position = _location call AS_fnc_location_position;
 	private _max_date = [_mission, "max_date"] call AS_spawn_fnc_get;
 	private _target = [_mission, "target"] call AS_spawn_fnc_get;
-	private _getAwayVeh = [_mission, "getAwayVeh"] call AS_spawn_fnc_get;
+	private _getAwayVeh = [_mission, "getAwayVehicle"] call AS_spawn_fnc_get;
 	// traitor tries to escape
 	private _arraybases = ["base", "AAF"] call AS_fnc_location_TS;
 	private _base = [_arraybases, _position] call BIS_Fnc_nearestPosition;
