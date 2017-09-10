@@ -44,7 +44,6 @@ fnc_BE_initialize = {
 
 	BE_currentStage = 0;
 	BE_currentXP = 0;
-	BE_currentPrice = 0;
 	BE_progressLock = false;
 
 	BE_class_Heli = (["armedHelis", "transportHelis"] call AS_AAFarsenal_fnc_valid) + opAir - opCASFW;
@@ -63,8 +62,6 @@ fnc_BE_captureVehicle = {
 };
 
 fnc_BE_refresh = {
-	params [["_init", false]];
-
 	BE_current_FIA_Skill_Cap = BE_FIA_SKILL_CAP select BE_currentStage;
 	BE_current_FIA_Outfit = BE_FIA_OUTFIT select BE_currentStage;
 	BE_current_FIA_GarageCap = BE_FIA_GARAGE_CAPACITY select BE_currentStage;
@@ -77,7 +74,6 @@ fnc_BE_refresh = {
 
 	[] call fnc_BE_pushVariables;
 	[] call fnc_BE_updateProgressBar;
-	if !(_init) then {[] call fnc_BE_calcPrice};
 
 	BE_currentRestrictions = [
 		BE_current_FIA_Skill_Cap,
@@ -110,7 +106,6 @@ fnc_BE_pushVariables = {
 	publicVariable "BE_mil_vehicles";
 
 	publicVariable "BE_currentStage";
-	publicVariable "BE_currentPrice";
 };
 
 fnc_BE_XP = {
@@ -225,39 +220,20 @@ fnc_BE_REQs = {
 
 fnc_BE_calcPrice = {
 	if (BE_currentStage >= 3) exitWith {
-		BE_currentPrice = "No further training available.";
-		publicVariable "BE_currentPrice";
+		0
 	};
 	private _price = BE_UPGRADE_PRICES select BE_currentStage;
 
-	_price = _price - ((call fnc_BE_REQs) min (BE_UPGRADE_DISCOUNT select BE_currentStage));
-	BE_currentPrice = _price;
-	publicVariable "BE_currentPrice";
-
-	_price
+	_price - ((call fnc_BE_REQs) min (BE_UPGRADE_DISCOUNT select BE_currentStage))
 };
-
-fnc_BE_buyUpgrade = {
-	if (BE_currentStage == 3) exitWith {
-		[petros,"hint","No further training available."] remoteExec ["commsMP",AS_commander];
-	};
-	private _price = call fnc_BE_calcPrice;
-
-	if (AS_P("resourcesFIA") > BE_currentPrice) then {
-		[_price] call fnc_BE_upgrade;
-		diag_log format ["Maintenance: upgrade acquired. New stage: %1; price paid: %2", BE_currentStage, BE_currentPrice];
-	} else {
-		[petros,"hint","We don't have the resources."] remoteExec ["commsMP",AS_commander];
-	};
-};
+publicVariable "fnc_BE_calcPrice";
 
 fnc_BE_upgrade = {
-	params [["_price", 10000]];
+	private _price = call fnc_BE_calcPrice;
 
-	private _tempFunds = AS_P("resourcesFIA");
-	diag_log format ["Price: %1; Funds: %2", _price, _tempFunds];
-	AS_Pset("skillFIA",BE_current_FIA_Skill_Cap);
-	AS_Pset("resourcesFIA",_tempFunds - _price);
+	diag_log "[AS] INFO: BE_upgrade";
+	AS_Pset("skillFIA", BE_current_FIA_Skill_Cap);
+	AS_Pset("resourcesFIA", (AS_P("resourcesFIA") - _price) max 0);
 	BE_currentStage = BE_currentStage + 1;
 	[] call fnc_BE_refresh;
 	BE_progressLock = false;

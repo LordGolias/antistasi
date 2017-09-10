@@ -7,12 +7,13 @@ AS_fncUI_openHQmenu = {
 
 	_display = findDisplay 100;
 
-	[] remoteExec ["fnc_BE_calcPrice", 2];
-
-	if (str (_display) != "no display") then
-	{
+	if (str (_display) != "no display") then {
 		_childControl = _display displayCtrl 109;
-		_texto = format ["Current Stage: %2 \nNext Stage Training Cost: %1 €", BE_currentPrice, BE_currentStage];
+		if (BE_currentStage == 3) then {
+			_texto = "No further training available.";
+		} else {
+			_texto = format ["Training Cost: %1 €", call fnc_BE_calcPrice];
+		};
 		_childControl  ctrlSetTooltip _texto;
 	};
 };
@@ -83,4 +84,17 @@ AS_fncUI_rebuildAssets = {
 
 	[_location] remoteExec ["AS_fnc_rebuildLocation", 2];
 	hint format ["%1 rebuilt", [_location] call localizar];
+};
+
+AS_fncUI_trainFIA = {
+	if (BE_currentStage == 3) exitWith {
+		hint "No further training available.";
+	};
+	private _price = call fnc_BE_calcPrice;
+	if (AS_P("resourcesFIA") > _price) then {
+		[] remoteExec ["fnc_BE_upgrade", 2];
+		hint "FIA upgraded";
+	} else {
+		hint "Not enough money.";
+	};
 };
