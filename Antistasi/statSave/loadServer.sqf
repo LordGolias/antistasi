@@ -20,8 +20,8 @@ petros allowdamage false;
 	_antenna addEventHandler ["Killed", AS_fnc_antennaKilledEH];
 } forEach AS_P("antenasPos_alive");
 
-[_saveName, "fecha"] call fn_LoadStat;
-[_saveName, "miembros"] call fn_LoadStat;
+[_saveName, "fecha"] call AS_fnc_loadStat;
+[_saveName, "miembros"] call AS_fnc_loadStat;
 
 [_saveName] call AS_fnc_location_load;
 
@@ -71,7 +71,7 @@ if (isMultiplayer) then {
 	player setPos _pos;
 };
 
-[[_saveName, "BE_data"] call fn_LoadStat] call fnc_BE_load;
+[[_saveName, "BE_data"] call AS_fnc_loadStat] call fnc_BE_load;
 
 // load all generic objects (e.g. missions)
 [_saveName] call AS_fnc_mission_load;

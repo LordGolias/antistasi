@@ -265,15 +265,15 @@ AS_fnc_object_load = {
     private _key = "AS_containers_%1_%2_%3";
 
     // populate with the saved objects
-    private _objects = [_saveName, "AS_containers_" + _container] call fn_LoadStat;
+    private _objects = [_saveName, "AS_containers_" + _container] call AS_fnc_loadStat;
     {
         private _object = _x;
         [_container, _object] call AS_fnc_object_add;
 
-        private _properties = [_saveName, format[_key, _container, _object, "_properties"]] call fn_LoadStat;
+        private _properties = [_saveName, format[_key, _container, _object, "_properties"]] call AS_fnc_loadStat;
         {
             if (_x find "_" != 0) then {
-                private _value = [_saveName, format[_key, _container, _object, _x]] call fn_LoadStat;
+                private _value = [_saveName, format[_key, _container, _object, _x]] call AS_fnc_loadStat;
                 [_container, _object, _x, _value] call AS_fnc_object_set;
             };
         } forEach _properties;
