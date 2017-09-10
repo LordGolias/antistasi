@@ -123,6 +123,7 @@ resourcesPlayer = compile preProcessFileLineNumbers "OrgPlayers\resourcesPlayer.
 // Revive system
 respawn = compile preProcessFileLineNumbers "Revive\respawn.sqf";
 handleDamage = compile preProcessFileLineNumbers "Revive\handleDamage.sqf";
+handleDamageACE = compile preProcessFileLineNumbers "Revive\handleDamageACE.sqf";
 call compile preProcessFileLineNumbers "Revive\medical.sqf";
 
 cubrirConHumo = compile preProcessFileLineNumbers "AI\cubrirConHumo.sqf";

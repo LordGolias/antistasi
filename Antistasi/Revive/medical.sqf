@@ -2,6 +2,8 @@ AS_fnc_initMedical = {
     params ["_unit"];
     if not hayACEmedical then {
         _unit addEventHandler ["HandleDamage", handleDamage];
+    } else {
+        _unit addEventHandler ["HandleDamage", handleDamageACE];
     };
     // loop for AI functionality
     [_unit] spawn AS_fnc_medicLoop;
