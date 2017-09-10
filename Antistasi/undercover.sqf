@@ -19,8 +19,8 @@ private _isMilitaryDressedConditions = [
 	{primaryWeapon _player != ""},
 	{secondaryWeapon _player != ""},
 	{handgunWeapon _player != ""},
-	{!(vest _player in AS_FIAvests_undercover)},
-	{!(headgear _player in AS_FIAhelmets_undercover)},
+	{vest _player != "" and !(vest _player in AS_FIAvests_undercover)},
+	{headgear _player != "" and !(headgear _player in AS_FIAhelmets_undercover)},
 	{hmd _player != ""},
 	{!(uniform _player in AS_FIAuniforms_undercover)}
 ];
