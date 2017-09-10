@@ -333,7 +333,7 @@ fnc_BE_permission = {
 			if ((_value in BE_class_APC) && ("APC" in BE_current_Vehicle_Restriction)) exitWith {_result = false;};
 			if ((_value in BE_class_Heli) && ("Heli" in BE_current_Vehicle_Restriction)) exitWith {_result = false;};
 
-			_vehClass = getText (configFile >> "CfgVehicles" >> _value >> "vehicleClass");
+			private _vehClass = getText (configFile >> "CfgVehicles" >> _value >> "vehicleClass");
 			if (((toLower _vehClass find "heli" >= 0) || (_vehClass == "Air")) && ("Heli" in BE_current_Vehicle_Restriction)) exitWith {_result = false};
 
 			if (!(_vehicle getVariable ["BE_mil_veh", false]) && (_value in BE_mil_vehicles)) then {
@@ -369,7 +369,7 @@ fnc_BE_permission = {
 		};
 
 		default {
-			diag_log format ["Error in BE module permission - param 1:%1; param 2: %2", _category, _delta];
+			diag_log format ["Error in BE module permission - param 1:%1; param 2: %2", _category, _value];
 		};
 	};
 
@@ -393,7 +393,7 @@ fnc_BE_getCurrentValue = {
 		};
 
 		default {
-			diag_log format ["Error in BE module permission - param 1:%1; param 2: %2", _category, _delta];
+			diag_log format ["Error in BE module permission - param 1:%1", _category];
 		};
 	};
 
