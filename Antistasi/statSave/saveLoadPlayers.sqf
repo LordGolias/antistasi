@@ -44,10 +44,8 @@ AS_fnc_serializeLocalPlayer = {
 
 // client function. Sends the data to the requester (or server).
 AS_fnc_saveLocalPlayerData = {
-	if (_this isEqualTo []) then {
-		_this = 2;
-	};
-	[AS_profileID, [] call AS_fnc_serializeLocalPlayer] remoteExec ["AS_fnc_receivePlayerData", _this];
+	params [["_requester", 2]];
+	[AS_profileID, [] call AS_fnc_serializeLocalPlayer] remoteExec ["AS_fnc_receivePlayerData", _requester];
 };
 
 // Triggers everyone to send data to itself.
