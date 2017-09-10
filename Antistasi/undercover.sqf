@@ -43,7 +43,7 @@ private _isMilitaryDressed = {
 private _detectedCondition = {
 	private _detected = false;
 	{
-		if ((side _x == side_red) and {(_x distance player < 350) or {(_x knowsAbout player > 1.4) and (_x distance player < 500)}}) exitWith {
+		if ((side _x == side_red) and {(_x knowsAbout player > 1.4) and (_x distance player < 500)}) exitWith {
 			_detected = true;
 		};
 	} forEach allUnits;
@@ -89,7 +89,7 @@ private _position = _base call AS_fnc_location_position;
 private _size = _base call AS_fnc_location_size;
 if (player distance _position < 1.5*_size) exitWith {hint "You cannot become Undercover near Bases, Outposts or Roadblocks"};
 
-["<t color='#1DA81D'>Incognito</t>",0,0,4,0,0,4] spawn bis_fnc_dynamicText;
+["<t color='#1DA81D'>Undercover</t>",0,0,4,0,0,4] spawn bis_fnc_dynamicText;
 
 player setCaptive true;
 private _player = player getVariable ["owner", player]; // the player may be temporarly controlling another unit.
@@ -145,19 +145,19 @@ while {_reason == ""} do {
 	} else {
 		_reason = call {
 			if (True and _isMilitaryDressed and _detectedCondition) exitWith {
-				"detectedDressed";
+				"detectedDressed"
 			};
 			if call _isMilitaryDressed exitWith {
-				"militaryDressed";
+				"militaryDressed"
 			};
 			if (dateToNumber date < _compromised) exitWith {
-				_reason = "compromised";
+				_reason = "compromised"
 			};
 			if (true and {
 				private _loc = [_locs, _player] call BIS_fnc_nearestPosition;
 				private _position = _loc call AS_fnc_location_position;
 				_player distance2d _position < 300}) exitWith {
-				"distanceToLocation";
+				"distanceToLocation"
 			};
 			""
 		};
@@ -166,7 +166,7 @@ while {_reason == ""} do {
 
 if (captive _player) then {_player setCaptive false};
 
-["<t color='#D8480A'>Overt</t>",0,0,4,0,0,4] spawn bis_fnc_dynamicText;
+["<t color='#D8480A'>Not undercover</t>",0,0,4,0,0,4] spawn bis_fnc_dynamicText;
 
 switch _reason do {
 	case "reported": {
@@ -178,8 +178,8 @@ switch _reason do {
 			call _setPlayerCompromised;
 		};
 	};
-	case "militaryVehicle": {hint "You entered in a non-civilian vehicle"};
-	case "compromisedVehicle": {hint "You entered in a reported vehicle"};
+	case "militaryVehicle": {hint "You entered a non-civilian vehicle"};
+	case "compromisedVehicle": {hint "You entered a reported vehicle"};
 	case "vehicleWithExplosives": {
 		hint "Explosives spotted on your vehicle";
 		AS_Sset("reportedVehs", AS_S("reportedVehs") + [vehicle _player]);
