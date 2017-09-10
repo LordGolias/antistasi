@@ -28,10 +28,9 @@ if (isMultiplayer) then
 							 AS_P("NATOsupport"),
 							 AS_P("CSATsupport"),
 							 AS_S("BE_PBar"),
-							 ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)
-							];
-		}
-		else {
+							 ["Not undercover", "<t color='#1DA81D'>Undercover</t>"] select (captive player)
+			];
+		} else {
 			_texto = format ["<t size='0.55'>" + "%5 | HR: %1 | Your Money: %6 € | FIA Money: %2 € | NATO Support: %3 | CSAT Support: %4 | %7 | %8",
 							 AS_P("hr"),
 							 AS_P("resourcesFIA"),
@@ -40,38 +39,35 @@ if (isMultiplayer) then
 							 player getVariable ["Rank_PBar", "Init"],
 							 player getVariable "money",
 							 AS_S("BE_PBar"),
-							 ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)
-							];
+							 ["Not undercover", "<t color='#1DA81D'>Undercover</t>"] select (captive player)
+			];
 		};
-		//if (captive player) then {_texto = format ["%1 ON",_texto]} else {_texto = format ["%1 OFF",_texto]};
-		if (_texto != _viejoTexto) then
-			{
-			//[_texto,-0.1,-0.4,601,0,0,5] spawn bis_fnc_dynamicText;
+		if (_texto != _viejoTexto) then {
 			_setText ctrlSetStructuredText (parseText format ["%1", _texto]);
 			_setText ctrlCommit 0;
 			_viejoTexto = _texto;
-			};
-		if (player == leader (group player)) then
-			{
+		};
+		if (player == leader (group player)) then {
 			if (not(group player in (hcAllGroups player))) then {player hcSetGroup [group player]};
-			};
-		sleep 1;
 		};
-	}
-else
-	{
-	while {showStatistics} do
-		{
+		sleep 1;
+	};
+} else {
+	while {showStatistics} do {
 		waitUntil {sleep 0.5; player == player getVariable ["owner",player]};
-		_texto = format ["<t size='0.55'>" + "HR: %1 | FIA Money: %2 € | NATO Support: %3 | CSAT Support: %4 | %5 | %6", AS_P("hr"), AS_P("resourcesFIA"), AS_P("NATOsupport"), AS_P("CSATsupport"), AS_S("BE_PBar"), ["Overt", "<t color='#1DA81D'>Incognito</t>"] select (captive player)];
-		//if (captive player) then {_texto = format ["%1 ON",_texto]} else {_texto = format ["%1 OFF",_texto]};
-		if (_texto != _viejoTexto) then
-			{
-			//[_texto,-0.1,-0.4,601,0,0,5] spawn bis_fnc_dynamicText;
+		_texto = format ["<t size='0.55'>" + "HR: %1 | FIA Money: %2 € | NATO Support: %3 | CSAT Support: %4 | %5 | %6",
+			AS_P("hr"),
+			AS_P("resourcesFIA"),
+			AS_P("NATOsupport"),
+			AS_P("CSATsupport"),
+			AS_S("BE_PBar"),
+			["Not undercover", "<t color='#1DA81D'>Undercover</t>"] select (captive player)
+		];
+		if (_texto != _viejoTexto) then {
 			_setText ctrlSetStructuredText (parseText format ["%1", _texto]);
 			_setText ctrlCommit 0;
 			_viejoTexto = _texto;
-			};
-		sleep 1;
 		};
+		sleep 1;
 	};
+};
