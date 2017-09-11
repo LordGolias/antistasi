@@ -81,7 +81,7 @@ AS_spawn_fnc_states = {
 };
 
 AS_spawn_fnc_spawns = {
-    (call AS_spawn_fnc_dictionary) call DICT_fnc_all
+    (call AS_spawn_fnc_dictionary) call DICT_fnc_keys
 };
 
 AS_spawn_fnc_get = {

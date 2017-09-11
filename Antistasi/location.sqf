@@ -113,7 +113,7 @@ AS_fnc_location_side = {
 // I.e. return list of locations that match certain criteria
 
 // All locations
-AS_fnc_locations = {(call AS_fnc_location_dictionary) call DICT_fnc_all};
+AS_fnc_locations = {(call AS_fnc_location_dictionary) call DICT_fnc_keys};
 
 AS_fnc_location_nearest = {
     [call AS_fnc_locations, _this] call BIS_Fnc_nearestPosition

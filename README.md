@@ -126,6 +126,7 @@ reverse it.
 - `Revive/`: scripts used for the revive system
 - `scheduler.sqf`: contains all functions for distributed execution
 - `spawn.sqf`: contains all functions for spawn execution
+- `dictionary.sqf`: contains the API to store serializable data
 
 ## Initialization
 
@@ -142,6 +143,52 @@ The code that has to be called on every machine running AS is `initFuncs.sqf` an
 
 `client.sqf` is responsible for initializing a player. This includes
 Event Handling, available actions, etc.
+
+## Persistent and temporary data
+
+This mission has a set of macros and idioms to store data.
+
+Generically, each datum has two attributes:
+* shared: whether it is a globally shared
+* persistent: whether it is persistently saved
+
+The most important concept used for data storage is a dictionary, defined in `dictionary.sqf`,
+which store shared and persistent variables.
+
+### Dictionaries
+
+Dictionaries hold pairs `(key,value)` whose keys are unsorted and unique.
+The value associated with a key can be a dictionary itself (nesting allowed).
+
+How to use dictionaries:
+
+* create dictionary: `_dict = call DICT_fnc_create`
+* delete dictionary: `_dict call DICT_fnc_delete`
+
+* set property: `[_dict, _key, _value] call DICT_fnc_set`
+* get property: `_value = [_dict, _key] call DICT_fnc_get`
+* del property: `[_dict, _key] call DICT_fnc_del`
+
+`DICT_fnc_get` can be used as `[_dict, _key1, _key2] call DICT_fnc_get`
+to get the `_key2` from the (sub-)dictionary `[_dict, _key1] call DICT_fnc_get`.
+
+* list of keys (whose value is not nil): `_dict call DICT_fnc_keys`
+
+* serialize to string: `_string = _dict call DICT_fnc_serialize`
+* deserialize from string: `_dict = _string call DICT_fnc_deserialize`
+
+`values` can only be of types `["OBJECT", "ARRAY", "BOOL", "STRING", "SCALAR"]`,
+where `"OBJECT"` acts as a nested dictionary (and array can only contain the types above).
+This is because these are the only SQF types that are fully serializable.
+
+### Other variables
+
+* shared and temporary variables are handled with the macros `AS_S(_key)`, `AS_Sset(_key, _value)`.
+* shared and persistent variables are handled with the macros `AS_P(_key)`, `AS_Pset(_key, _value)`.
+* non-shared temporary variables are handled without any macro.
+
+We avoid using `publicVariable` directly and instead use either the dictionary API or
+the macros.
 
 ## Distributed execution
 
@@ -184,15 +231,6 @@ The current spawns are:
 
 In the directory `CREATE` will can find location and patrol spawns. In the directory
 `Missions` you can find the mission spawns.
-
-## Persistent saving
-
-The code in `statSave/saveFuncs.sqf` is responsible for saving stuff.
-Essentially, the following things are saved:
-
-- Variables in the Logic `AS_persistent` named in the array `statSave/saveFuncs.AS_serverVariables`.
-- Locations properties, defined in `AS_fnc_location_saved_properties`.
-- Various global variables
 
 ## Locations
 

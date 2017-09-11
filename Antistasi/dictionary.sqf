@@ -1,10 +1,3 @@
-/*
-This is a single module for serialization of SQF elements into a string.
-It can be used to serialize the state of a game into a string (and e.g. exported to a file).
-It supports arbitrary nesting, and serialization of the following types:
-    ["OBJECT", "ARRAY", "BOOL", "STRING", "SCALAR"]
-where OBJECT equates to save its non-nil allVariables (assumed to be of the types above).
-*/
 #define EFUNC(name) DICT_fnc_##name
 #define ISOBJECT(_value) (typeName _value == "OBJECT")
 #define ISARRAY(_value) (typeName _value == "ARRAY")
@@ -58,7 +51,7 @@ EFUNC(get) = {
     _value
 };
 
-EFUNC(all) = {
+EFUNC(keys) = {
     (allVariables _this) select {private _x_value = _this getVariable _x; not isNil "_x_value"}
 };
 

@@ -32,7 +32,7 @@ AS_fnc_mission_dictionary = {
     [AS_container, "mission"] call DICT_fnc_get
 };
 
-AS_fnc_missions = {(call AS_fnc_mission_dictionary) call DICT_fnc_all};
+AS_fnc_missions = {(call AS_fnc_mission_dictionary) call DICT_fnc_keys};
 
 AS_fnc_mission_get = {
     params ["_mission", "_property"];

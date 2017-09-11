@@ -42,7 +42,7 @@ AS_AAFarsenal_fnc_dictionary = {
 };
 
 // all AAF arsenal categories
-AS_AAFarsenal_fnc_all = {(call AS_AAFarsenal_fnc_dictionary) call DICT_fnc_all};
+AS_AAFarsenal_fnc_all = {(call AS_AAFarsenal_fnc_dictionary) call DICT_fnc_keys};
 
 AS_AAFarsenal_fnc_get = {
 	params ["_category", "_property"];
