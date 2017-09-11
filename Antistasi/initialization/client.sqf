@@ -104,7 +104,6 @@ if isMultiplayer then {
 	["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;//Exec on client
 };
 
-call AS_fnc_loadLocalPlayer;
 call AS_fnc_initPlayer;
 
 player addEventHandler ["GetInMan", {
