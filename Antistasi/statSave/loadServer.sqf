@@ -4,6 +4,8 @@ params ["_saveName"];
 
 petros allowdamage false;
 
+// this order matters!
+([_saveName, "AS_locations"] call AS_fnc_loadStat) call AS_fnc_location_deserialize;
 ([_saveName, "AS_persistents"] call AS_fnc_loadStat) call AS_persistents_fnc_deserialize;
 ([_saveName, "AS_fia_arsenal"] call AS_fnc_loadStat) call AS_FIAarsenal_fnc_deserialize;
 [true] call fnc_MAINT_arsenal;
@@ -21,8 +23,6 @@ petros allowdamage false;
 } forEach AS_P("antenasPos_alive");
 
 [_saveName, "miembros"] call AS_fnc_loadStat;
-
-([_saveName, "AS_locations"] call AS_fnc_loadStat) call AS_fnc_location_deserialize;
 
 {
 	[_x, false] call AS_fnc_location_destroy;
