@@ -158,8 +158,7 @@ if (!isServer) exitWith {};
 // create container to store spawns
 call AS_spawn_fnc_initialize;
 
-// create container to store missions
-["mission", true] call AS_fnc_container_add;
+call AS_fnc_mission_initialize;
 
 // Picks the stuff defined for FIA above and merges it in a single interface
 call compile preprocessFileLineNumbers "initFIA.sqf";

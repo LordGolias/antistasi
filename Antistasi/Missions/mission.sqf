@@ -16,16 +16,32 @@ AS_missions_MAX_DISTANCE = 4000;
 // maximum number of missions available or active.
 AS_missions_MAX_MISSIONS = 10;
 
-AS_fnc_missions = {"mission" call AS_fnc_objects};
+AS_fnc_mission_initialize = {
+    if isNil "AS_container" then {
+        AS_container = call DICT_fnc_create;
+        publicVariable "AS_container";
+    };
+    [AS_container, "mission"] call DICT_fnc_add;
+};
+
+AS_fnc_mission_deinitialize = {
+    [AS_container, "mission"] call DICT_fnc_del;
+};
+
+AS_fnc_mission_dictionary = {
+    [AS_container, "mission"] call DICT_fnc_get
+};
+
+AS_fnc_missions = {(call AS_fnc_mission_dictionary) call DICT_fnc_all};
 
 AS_fnc_mission_get = {
     params ["_mission", "_property"];
-    ["mission", _mission, _property] call AS_fnc_object_get
+    [call AS_fnc_mission_dictionary, _mission, _property] call DICT_fnc_get
 };
 
 AS_fnc_mission_set = {
     params ["_mission", "_property", "_value"];
-    ["mission", _mission, _property, _value] call AS_fnc_object_set;
+    [call AS_fnc_mission_dictionary, _mission, _property, _value] call DICT_fnc_set
 };
 
 AS_fnc_mission_status = {
@@ -43,7 +59,7 @@ AS_fnc_mission_location = {
 AS_fnc_mission_add = {
     params ["_type", "_location"];
     private _name = format ["%1_%2", _type, _location];
-    ["mission", _name] call AS_fnc_object_add;
+    [call AS_fnc_mission_dictionary, _name] call DICT_fnc_add;
     [_name, "status", "possible"] call AS_fnc_mission_set;
     [_name, "type", _type] call AS_fnc_mission_set;
     [_name, "location", _location] call AS_fnc_mission_set;
@@ -63,7 +79,7 @@ AS_fnc_mission_create = {
     _mission call AS_fnc_mission_activate;
 };
 
-AS_fnc_mission_remove = {["mission",_this] call AS_fnc_object_remove};
+AS_fnc_mission_remove = {[call AS_fnc_mission_dictionary,_this] call DICT_fnc_del};
 
 // return all active missions of a given type
 AS_fnc_active_missions = {
@@ -401,15 +417,15 @@ AS_fnc_mission_completed = {
     [_mission, "status", "completed"] call AS_fnc_mission_set;
 };
 
-AS_fnc_mission_save = {
-    params ["_saveName"];
-    ["mission", _saveName] call AS_fnc_object_save;
+AS_fnc_mission_serialize = {
+    (call AS_fnc_mission_dictionary) call DICT_fnc_serialize
 };
 
-AS_fnc_mission_load = {
-    params ["_saveName"];
-    {_x call AS_fnc_mission_remove} forEach (call AS_fnc_missions);
-    ["mission", _saveName] call AS_fnc_object_load;
+AS_fnc_mission_deserialize = {
+    params ["_serialized_string"];
+    call AS_fnc_mission_deinitialize;
+    [AS_container, "mission", _serialized_string call DICT_fnc_deserialize] call DICT_fnc_set;
+
     {_x call AS_fnc_mission_activate} forEach (call AS_fnc_active_missions);
 };
 

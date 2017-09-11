@@ -73,8 +73,7 @@ if (isMultiplayer) then {
 
 [[_saveName, "BE_data"] call AS_fnc_loadStat] call fnc_BE_load;
 
-// load all generic objects (e.g. missions)
-[_saveName] call AS_fnc_mission_load;
+([_saveName, "AS_mission"] call AS_fnc_loadStat) call AS_fnc_mission_deserialize;
 
 diag_log format ['[AS] Server: game "%1" loaded', _saveName];
 petros allowdamage true;

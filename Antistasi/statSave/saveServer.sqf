@@ -141,7 +141,7 @@ private _arrayEst = [];
 [_saveName, _cargo_w, _cargo_m, _cargo_i, _cargo_b] call AS_fnc_saveArsenal;
 
 diag_log "[AS] Server: saving missions...";
-[_saveName] call AS_fnc_mission_save;
+[_saveName, "AS_mission", call AS_fnc_mission_serialize] call AS_fnc_saveStat;
 
 // if the spawning is faster, let us wait until it is finished.
 diag_log "[AS] Server: saving players...";
