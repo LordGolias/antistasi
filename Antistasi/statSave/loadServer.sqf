@@ -20,7 +20,6 @@ petros allowdamage false;
 	_antenna addEventHandler ["Killed", AS_fnc_antennaKilledEH];
 } forEach AS_P("antenasPos_alive");
 
-[_saveName, "fecha"] call AS_fnc_loadStat;
 [_saveName, "miembros"] call AS_fnc_loadStat;
 
 ([_saveName, "AS_locations"] call AS_fnc_loadStat) call AS_fnc_location_deserialize;

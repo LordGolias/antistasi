@@ -8,8 +8,8 @@ AS_serverVariables = [
 	"NATOsupport", "CSATsupport", "resourcesAAF", "resourcesFIA", "skillFIA", "skillAAF", "hr",  // FIA attributes
 	"civPerc", "spawnDistance", "minimumFPS", "cleantime",  // game options
 	"secondsForAAFAttack", "destroyedLocations", "vehiclesInGarage", "destroyedBuildings",
-	"antenasPos_alive", "antenasPos_dead", "vehicles",
-	"patrollingLocations"
+	"antenasPos_alive", "antenasPos_dead", "vehicles", "date",
+	"patrollingLocations",
 ];
 
 AS_persistents_fnc_serialize = {
@@ -69,6 +69,9 @@ AS_persistents_fnc_serialize = {
 			if (_x == "hr") exitWith {
 				[_dict, _x, _hr] call DICT_fnc_set;
 			};
+			if (_x == "date") exitWith {
+				[_dict, _x, date] call DICT_fnc_set;
+			};
 			if (_x == "resourcesFIA") exitWith {
 				[_dict, _x, _money] call DICT_fnc_set;
 			};
@@ -101,6 +104,9 @@ AS_persistents_fnc_deserialize = {
 					_vehicles pushBack _vehicle;
 				} forEach _value;
 				AS_Pset(_x, _vehicles);
+			};
+			if (_x == "date") exitWith {
+				setDate _value;
 			};
 			AS_Pset(_x, _value);
 		};
@@ -149,34 +155,6 @@ AS_fnc_loadHQ = {
 };
 
 fn_SaveProfile = {saveProfileNamespace};
-
-//===========================================================================
-// Variables that require scripting after loaded. See fn_SetStat.
-specialVarLoads = ["fecha"];
-
-// global variables that are set to be publicVariable on loading.
-AS_publicVariables = ["miembros"];
-
-//THIS FUNCTIONS HANDLES HOW STATS ARE LOADED
-fn_SetStat = {
-	private _varName = _this select 0;
-	private _varValue = _this select 1;
-	if(isNil '_varValue') exitWith {};
-
-	if(_varName in specialVarLoads) then {
-		call {
-			if(_varName == 'fecha') exitWith {setDate _varValue; forceWeatherChange};
-		};
-	}
-	else
-	{
-		call compile format ["%1 = %2",_varName,_varValue];
-	};
-
-	if (_varName in AS_publicVariables) then {
-		publicVariable _varName;
-	};
-};
 
 AS_fnc_saveServer = compile preProcessFileLineNumbers "statSave\saveServer.sqf";
 AS_fnc_loadServer = compile preProcessFileLineNumbers "statSave\loadServer.sqf";
