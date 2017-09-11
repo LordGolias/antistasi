@@ -18,7 +18,6 @@ player addEventHandler ["WeaponAssembled", {
 		};
 	};
     [_EHobj, "FIA"] call AS_fnc_initVehicle;
-    _EHobj addEventHandler ["Killed",{[_this select 0] remoteExec ["postmortem",2]}];
 }];
 
 player addEventHandler ["WeaponDisassembled", {
