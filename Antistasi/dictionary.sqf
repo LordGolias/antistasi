@@ -4,6 +4,8 @@
 
 #define SEPARATOR ("<%" + (toString [13,10]) + "%>")
 
+#define TYPE_TO_STRING(_typeName) (_typeName select [0,2])
+
 // a splitstring that accepts a delimiter with more than one char
 EFUNC(splitString) = {
     params ["_string", "_delimiter"];
@@ -171,7 +173,7 @@ EFUNC(serialize) = {
             };
             _result = str _value;
         };
-        [_key, typeName _value, _result] joinString ":"
+        [_key, TYPE_TO_STRING(typeName _value), _result] joinString ":"
     };
 
     private _strings = [];
@@ -194,14 +196,14 @@ EFUNC(deserialize) = {
     private _deserialize_single = {
         params ["_type", "_value_string"];
         private _value = "";
-        if (_type == "OBJECT") then {
+        if (_type == "OB") then {
             _value = call EFUNC(create);
             _value_string = _value_string select [1, count _string - 2];
             {
                 [_value, _x] call _deserialize;
             } forEach ([_value_string, SEPARATOR] call EFUNC(splitString));
         };
-        if (_type == "ARRAY") then {
+        if (_type == "AR") then {
             _value_string = _value_string select [1, count _value_string - 2];
             _value = [];
             {
@@ -209,16 +211,16 @@ EFUNC(deserialize) = {
                 _value pushBack ([_bits select 1, _bits select 2] call _deserialize_single);
             } forEach (_value_string splitString ",");
         };
-        if (_type == "BOOL") then {
+        if (_type == "BO") then {
             _value = [True, False] select (_value_string == "false");
         };
-        if (_type == "STRING") then {
+        if (_type == "ST") then {
             _value = _value_string select [1, count _value_string - 2];
         };
-        if (_type == "SCALAR") then {
+        if (_type == "SC") then {
             _value = parseNumber _value_string;
         };
-        if (_type == "TEXT") then {
+        if (_type == "TE") then {
             _value = text _value_string;
         };
         _value
@@ -287,7 +289,7 @@ private _test_serialize = {
     [_dict, "array", [1,"b"]] call EFUNC(set);
 
     private _string = _dict call EFUNC(serialize);
-    _string isEqualTo format["{text:TEXT:b%1string:STRING:""b""%1bool:BOOL:false%1number:SCALAR:1%1array:ARRAY:[0:SCALAR:1,1:STRING:""b""]}", SEPARATOR]
+    _string isEqualTo format["{text:TE:b%1string:ST:""b""%1bool:BO:false%1number:SC:1%1array:AR:[0:SCALAR:1,1:ST:""b""]}", SEPARATOR]
 };
 
 private _test_serialize_del = {
@@ -307,12 +309,12 @@ private _test_serialize_ignore = {
     [_dict, "b", "b"] call EFUNC(set);
 
     private _string1 = _dict call EFUNC(serialize);
-    private _result1 = _string1 isEqualTo format["{a:STRING:""a""%1b:STRING:""b""}", SEPARATOR];
+    private _result1 = _string1 isEqualTo format["{a:ST:""a""%1b:ST:""b""}", SEPARATOR];
 
     // ignoring "a" should result in "b" only
     private _string2 = [_dict, [["a"]]] call EFUNC(serialize);
     diag_log _string2;
-    (_string2 isEqualTo "{b:STRING:""b""}") and _result1
+    (_string2 isEqualTo "{b:ST:""b""}") and _result1
 };
 
 private _test_deserialize = {
@@ -338,7 +340,7 @@ private _test_serialize_obj = {
     [_dict, "obj", "a", 1] call EFUNC(set);
 
     private _string = _dict call EFUNC(serialize);
-    _string isEqualTo "{obj:OBJECT:{a:SCALAR:1}}"
+    _string isEqualTo "{obj:OB:{a:SC:1}}"
 };
 
 private _test_deserialize_obj = {
