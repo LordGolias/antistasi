@@ -6,7 +6,16 @@ are executed sequentially.
 
 AS_spawn_fnc_initialize = {
     AS_SERVER_ONLY("spawn_fnc_initialize");
-    ["spawn", true] call AS_fnc_container_add;
+
+    if isNil "AS_container" then {
+        AS_container = call DICT_fnc_create;
+        publicVariable "AS_container";
+    };
+    [AS_container, "spawn"] call DICT_fnc_add;
+};
+
+AS_spawn_fnc_dictionary = {
+    [AS_container, "spawn"] call DICT_fnc_get
 };
 
 // given a spawn type and its name, returns its states and functions
@@ -72,31 +81,28 @@ AS_spawn_fnc_states = {
 };
 
 AS_spawn_fnc_spawns = {
-    ["spawn"] call AS_fnc_objects
+    (call AS_spawn_fnc_dictionary) call DICT_fnc_all
 };
 
 AS_spawn_fnc_get = {
     params ["_spawn", "_property"];
-    ["spawn", _spawn, _property] call AS_fnc_object_get
+    [call AS_spawn_fnc_dictionary, _spawn, _property] call DICT_fnc_get
 };
 
 AS_spawn_fnc_set = {
     params ["_spawn", "_property", "_value"];
-    ["spawn", _spawn, _property, _value] call AS_fnc_object_set
+    [call AS_spawn_fnc_dictionary, _spawn, _property, _value] call DICT_fnc_set
 };
 
 AS_spawn_fnc_add = {
     params ["_name", "_type"];
     diag_log format ["[AS] %1: new spawn '%2'", clientOwner, _name];
-    ["spawn", _name] call AS_fnc_object_add;
+    [call AS_spawn_fnc_dictionary, _name] call DICT_fnc_add;
     [_name, "state_index", 0] call AS_spawn_fnc_set;
     [_name, "spawn_type", _type] call AS_spawn_fnc_set;
 };
 
-AS_spawn_fnc_remove = {
-    params ["_name"];
-    ["spawn", _name] call AS_fnc_object_remove;
-};
+AS_spawn_fnc_remove = {[call AS_spawn_fnc_dictionary,_this] call DICT_fnc_del};
 
 // Function to execute a spawn. It
 // starts from the state where the spawn was left.
@@ -138,8 +144,7 @@ AS_spawn_fnc_drop = {
     // delegate the spawns to the server
     {
         // start the UPSMON on all groups that are UPSMON controlled (UPSMON is local)
-        private _properties = ["spawn", _x] call AS_fnc_object_properties;
-        if ("resources" in _properties) then {
+        if (["spawn", _x, "resources"] call DICT_fnc_exists) then {
              private _groups = ([_x, "resources"] call AS_spawn_fnc_get) select 1;
             {
                 private _upsmon_params = _x getVariable ["AS_UPSMON_controlled", []];
