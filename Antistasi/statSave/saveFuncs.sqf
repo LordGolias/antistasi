@@ -8,7 +8,7 @@ AS_serverVariables = [
 	"civPerc", "spawnDistance", "minimumFPS", "cleantime",  // game options
 	"secondsForAAFAttack", "destroyedLocations", "vehiclesInGarage", "destroyedBuildings",
 	"antenasPos_alive", "antenasPos_dead", "vehicles", "date", "BE_module",
-	"patrollingLocations", "patrollingPositions",
+	"patrollingLocations", "patrollingPositions"
 ];
 
 AS_persistents_fnc_serialize = {
@@ -216,5 +216,3 @@ fn_SaveProfile = {saveProfileNamespace};
 
 AS_fnc_saveServer = compile preProcessFileLineNumbers "statSave\saveServer.sqf";
 AS_fnc_loadServer = compile preProcessFileLineNumbers "statSave\loadServer.sqf";
-
-saveFuncsLoaded = true;
