@@ -21,6 +21,7 @@ AS_fnc_serializeLocalPlayer = {
 		private _score = player getVariable "score";
 		private _rank = player getVariable "rank";
 		private _money = player getVariable "money";
+		private _garage = player getVariable "garage";
 		{
 		private _hired = _x;
 		if ((!isPlayer _hired) and (alive _hired)) then {
@@ -37,7 +38,7 @@ AS_fnc_serializeLocalPlayer = {
 			};
 		};
 		} forEach units group player;
-		_result = [_score, _rank, _money, personalGarage];
+		_result = [_score, _rank, _money, _garage];
 	};
 	_result
 };
@@ -123,7 +124,7 @@ AS_fnc_deserializeLocalPlayer = {
 		player setVariable ["rank", _data select 1, true];
 		player setUnitRank (_data select 1);
 		player setVariable ["money", _data select 2, true];
-		personalGarage = _data select 3;
+		player setVariable ["garage", _data select 3, true];
         hint "Profile loaded."
 	};
 };

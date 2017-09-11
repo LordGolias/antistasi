@@ -15,6 +15,7 @@ if (_type in (vehNATO + planesNATO)) exitWith {hint "You cannot keep NATO vehicl
 if (_veh isKindOf "Man") exitWith {hint "Are you kidding?"};
 
 if (not(_veh isKindOf "AllVehicles")) exitWith {hint "The vehicle you are looking cannot be kept in our Garage"};
+if (call AS_fnc_controlsAI) exitWith {hint "You cannot access the Garage while you are controlling AI"};
 
 if (not _toFIAgarage and {private _owner = _veh getVariable "AS_vehOwner"; (not isNil "_owner") and {getPlayerUID player != _owner}}) exitWith {
 	hint "You do not own this vehicle"
@@ -63,6 +64,6 @@ if _toFIAgarage then {
 		AS_Pset("vehiclesInGarage", AS_P("vehiclesInGarage") + [_type]);
 	hint "Vehicle added to FIA Garage";
 } else {
-	personalGarage = personalGarage + [_type];
+	player setVariable ["garage", (player getVariable "garage") + [_type], true];
 	hint "Vehicle added to Personal Garage";
 };

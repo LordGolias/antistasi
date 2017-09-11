@@ -11,7 +11,7 @@ private _enemies = false;
 if _enemies exitWith {Hint "You cannot manage the Garage with enemies nearby"};
 
 if _pool then {
-	vehInGarageShow = personalGarage;
+	vehInGarageShow = player getVariable "garage";
 } else {
 	vehInGarageShow = AS_P("vehiclesInGarage");
 };
@@ -127,8 +127,8 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown", {
 					} else {
 						_found = true
 					};
-				} forEach personalGarage;
-				personalGarage = _newArr;
+				} forEach (player getVariable "garage");
+				player setVariable ["garage", _newArr, true];
 				garageVeh setVariable ["AS_vehOwner", getPlayerUID player, true];
 			};
 			if (garageVeh isKindOf "StaticWeapon") then {

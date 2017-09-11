@@ -12,11 +12,9 @@ diag_log "[AS] Server: saving game...";
 
 // spawn and wait for all clients to report their data.
 private _savingPlayersHandle = ([_saveName] spawn {
-    params ["_saveName"];
     call AS_fnc_getPlayersData;
     // todo: This is bad: we want to wait for every client to answer or timeout.
     sleep 5;  // brute force method of waiting for every client...
-    [_saveName] call AS_fnc_savePlayers;
 });
 
 diag_log "[AS] Server: saving BE data...";
@@ -45,6 +43,7 @@ diag_log "[AS] Server: saving missions...";
 // if the spawning is faster, let us wait until it is finished.
 diag_log "[AS] Server: saving players...";
 waitUntil {scriptDone _savingPlayersHandle};
+[_saveName] call AS_fnc_savePlayers;
 
 [] call fn_SaveProfile;
 

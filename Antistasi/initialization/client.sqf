@@ -96,13 +96,12 @@ player setVariable ["rank", (AS_ranks select 0), true];
 private _score = 0;
 if (player == AS_commander) then {_score = 25}; // so the commander does not lose the position immediately.
 player setVariable ["score", _score, true];
+player setVariable ["garage", [], true];
 
 if isMultiplayer then {
     musicON = false;
     player setVariable ["elegible",true,true];
 	["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;//Exec on client
-
-    personalGarage = [];
 };
 
 call AS_fnc_loadLocalPlayer;
