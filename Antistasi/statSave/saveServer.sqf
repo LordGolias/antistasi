@@ -13,8 +13,6 @@ diag_log "[AS] Server: saving game...";
 diag_log "[AS] Server: saving BE data...";
 [_saveName, "BE_data", ([] call fnc_BE_save)] call AS_fnc_saveStat;
 
-[_saveName, "miembros", miembros] call AS_fnc_saveStat;
-
 diag_log "[AS] Server: saving arsenal...";
 [_saveName, "AS_aaf_arsenal", call AS_AAFarsenal_fnc_serialize] call AS_fnc_saveStat;
 

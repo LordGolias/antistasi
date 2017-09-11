@@ -1,7 +1,6 @@
 #include "macros.hpp"
 params ["_pool"];
 
-if not ([player] call isMember) exitWith {hint "You cannot access the Garage as you are guest in this server"};
 if (call AS_fnc_controlsAI) exitWith {hint "You cannot access the Garage while you are controlling AI"};
 private _enemies = false;
 {

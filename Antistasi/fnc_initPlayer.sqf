@@ -26,20 +26,6 @@ player addEventHandler ["WeaponDisassembled", {
 }];
 
 if (isMultiplayer) then {
-	player addEventHandler ["InventoryOpened", {
-        private _notAMemberMessage = "You are not in the Member's List of this Server.\n\n" +
-    			             "Ask the Commander in order to be allowed to access the HQ Ammobox.\n\n"+
-    				         "In the meantime you may use the other box to store equipment and share it with others.";
-		private _control = false;
-		if !([_this select 0] call isMember) then {
-			if ((_this select 1 == caja) or ((_this select 0) distance caja < 3)) then {
-				_control = true;
-				hint _notAMemberMessage;
-			};
-		};
-		_control
-	}];
-
     player addEventHandler ["Fired", {
 		private _tipo = _this select 1;
 		if ((_tipo == "Put") or (_tipo == "Throw")) then {

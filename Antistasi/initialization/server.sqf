@@ -39,9 +39,6 @@ diag_log "[AS] Server: serverInitDone";
 
 {if (not isPlayer _x and side _x == side_blue) then {deleteVehicle _x}} forEach allUnits;
 
-miembros = [];
-publicVariable "miembros";
-
 waitUntil {!isNil "AS_commander" and {isPlayer AS_commander}};
 
 waitUntil {!(isNil "placementDone")};

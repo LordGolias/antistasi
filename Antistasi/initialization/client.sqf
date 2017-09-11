@@ -145,22 +145,10 @@ player addEventHandler ["GetOutMan", {
 if (_isJip) then {
 	[] execVM "modBlacklist.sqf";
 
-	if (not([player] call isMember)) then {
-		if (serverCommandAvailable "#logout") then {
-			miembros pushBack (getPlayerUID player);
-			publicVariable "miembros";
-			hint "You are not in the member's list, but as you are Server Admin, you have been added up. Welcome!"
-		}
-		else {
-			hint "Welcome Guest\n\nYou have joined this server as guest";
-		};
-	}
-	else {
-		hint format ["Welcome back %1", name player];
-		if ({[_x] call isMember} count playableUnits == 1) then {
-			[] remoteExec ["AS_fnc_chooseCommander", 2];
-		};
-	};
+    hint format ["Welcome back %1", name player];
+    if (count playableUnits == 1) then {
+        [] remoteExec ["AS_fnc_chooseCommander", 2];
+    };
 
 	{
 	if (_x isKindOf "FlagCarrier") then {

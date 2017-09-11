@@ -102,7 +102,6 @@ AAFKilledEH = compile preProcessFileLineNumbers "AI\AAFKilledEH.sqf";
 smokeCoverAuto = compile preProcessFileLineNumbers "AI\smokeCoverAuto.sqf";
 landThreatEval = compile preProcessFileLineNumbers "AI\landThreatEval.sqf";
 mortarPos = compile preProcessFileLineNumbers "CREATE\mortarPos.sqf";
-isMember = compile preProcessFileLineNumbers "orgPlayers\isMember.sqf";
 artySupport = compile preProcessFileLineNumbers "AI\artySupport.sqf";
 teclas = compile preProcessFileLineNumbers "teclas.sqf";
 AS_fnc_unitsAtDistance = compile preProcessFileLineNumbers "fnc_unitsAtDistance.sqf";
@@ -119,7 +118,6 @@ findSafeRoadToUnload = compile preProcessFileLineNumbers "AI\findSafeRoadToUnloa
 garageVehicle = compile preProcessFileLineNumbers "garageVehicle.sqf";
 garage = compile preProcessFileLineNumbers "garage.sqf";
 undercoverAI = compile preProcessFileLineNumbers "AI\undercoverAI.sqf";
-memberAdd = compile preProcessFileLineNumbers "OrgPlayers\memberAdd.sqf";
 resourcesPlayer = compile preProcessFileLineNumbers "OrgPlayers\resourcesPlayer.sqf";
 
 // Revive system

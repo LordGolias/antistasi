@@ -2,8 +2,6 @@
 params ["_type"];
 private ["_enemiesClose","_cost","_moneyAvailable","_unit"];
 
-if (not([player] call isMember)) exitWith {hint "Only server members can recruit AI units"};
-
 if (call AS_fnc_controlsAI) exitWith {hint "You cannot buy units while you are controlling AI"};
 
 if (player != leader group player) exitWith {hint "You cannot recruit units as you are not your group leader"};

@@ -18,11 +18,9 @@ private _members = [];
 private _eligibles = [];
 {
 	private _player = _x getVariable ["owner", _x];
-	if ([_player] call isMember) then {
-		_members pushBack _player;
-		if (_player getVariable ["elegible", true]) then {
-			_eligibles pushBack _player;
-		};
+	_members pushBack _player;
+	if (_player getVariable ["elegible", true]) then {
+		_eligibles pushBack _player;
 	};
 } forEach playableUnits;
 
