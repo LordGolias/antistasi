@@ -134,7 +134,6 @@ FIAvehiclePrice = compile preProcessFileLineNumbers "FIAvehiclePrice.sqf";
 VANTinfo = compile preProcessFileLineNumbers "AI\VANTinfo.sqf";
 recruitFIAgarrison = compile preProcessFileLineNumbers "REINF\recruitFIAgarrison.sqf";
 isFrontline = compile preProcessFileLineNumbers "isFrontline.sqf";
-cleanserVeh = compile preProcessFileLineNumbers "CREATE\cleanserVeh.sqf";
 citiesToCivPatrol = compile preProcessFileLineNumbers "citiesToCivPatrol.sqf";
 AS_fnc_fillCrateNATO = compile preProcessFileLineNumbers "Municion\fillCrateNATO.sqf";
 castigo = compile preProcessFileLineNumbers "castigo.sqf";

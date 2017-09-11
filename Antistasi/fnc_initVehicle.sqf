@@ -174,5 +174,3 @@ if (_side == "NATO") then {
         [2,-2,position (_this select 0)] remoteExec ["citySupportChange",2];
     }];
 };
-
-[_veh] spawn cleanserVeh;

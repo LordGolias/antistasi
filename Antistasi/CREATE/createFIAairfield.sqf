@@ -65,7 +65,6 @@ private _fnc_spawn = {
 		[_veh, "NATO"] call AS_fnc_initVehicle;
 		sleep 1;
 	};
-	{[_x] spawn cleanserVeh} forEach _vehiculos;
 
 	// create NATO garrison (creates at least 1)
 	for "_i" from 1 to _nVeh do {

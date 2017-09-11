@@ -14,8 +14,6 @@ if (_veh isKindOf "Car") then {
 	}];
 };
 
-[_veh] spawn cleanserVeh;
-
 _veh addEventHandler ["Killed", {
 	[_this select 0] remoteExec ["postmortem", 2];
 }];
