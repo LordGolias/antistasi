@@ -417,14 +417,14 @@ AS_fnc_mission_completed = {
     [_mission, "status", "completed"] call AS_fnc_mission_set;
 };
 
-AS_fnc_mission_serialize = {
-    (call AS_fnc_mission_dictionary) call DICT_fnc_serialize
+AS_fnc_mission_toDict = {
+    (call AS_fnc_mission_dictionary) call DICT_fnc_copy
 };
 
-AS_fnc_mission_deserialize = {
-    params ["_serialized_string"];
+AS_fnc_mission_fromDict = {
+    params ["_dict"];
     call AS_fnc_mission_deinitialize;
-    [AS_container, "mission", _serialized_string call DICT_fnc_deserialize] call DICT_fnc_set;
+    [AS_container, "mission", _dict call DICT_fnc_copy] call DICT_fnc_set;
 
     {_x call AS_fnc_mission_activate} forEach (call AS_fnc_active_missions);
 };

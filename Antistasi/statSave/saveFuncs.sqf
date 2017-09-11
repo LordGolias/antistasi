@@ -11,7 +11,7 @@ AS_serverVariables = [
 	"patrollingLocations", "patrollingPositions"
 ];
 
-AS_persistents_fnc_serialize = {
+AS_persistents_fnc_toDict = {
     private _money = AS_P("resourcesFIA");
 	private _hr = AS_P("hr");
 
@@ -59,8 +59,8 @@ AS_persistents_fnc_serialize = {
 		_vehicles pushBack [_type, _pos, _dir];
 	} forEach AS_P("vehicles");
 
-	// convert everything to a dictionary and serialize it
-	private _dict = DICT_fnc_create;
+	// convert everything to a dictionary
+	private _dict = call DICT_fnc_create;
 	{
 		call {
 			if (_x == "vehicles") exitWith {
@@ -81,17 +81,11 @@ AS_persistents_fnc_serialize = {
 			[_dict, _x, AS_P(_x)] call DICT_fnc_set;
 		};
 	} forEach AS_serverVariables;
-
-	private _serialized_string = _dict call DICT_fnc_serialize;
-    _dict call DICT_fnc_delete;
-
-    _serialized_string
+    _dict
 };
 
-AS_persistents_fnc_deserialize = {
-	params ["_serialized_string"];
-	private _dict = _serialized_string call DICT_fnc_deserialize;
-
+AS_persistents_fnc_fromDict = {
+	params ["_dict"];
 	{
 		private _value = [_dict, _x] call DICT_fnc_get;
 		call {
@@ -116,7 +110,6 @@ AS_persistents_fnc_deserialize = {
 			AS_Pset(_x, _value);
 		};
 	} forEach AS_serverVariables;
-	_dict call DICT_fnc_delete;
 
 	// modify map items consequent of the persistents
 	{
@@ -164,8 +157,8 @@ AS_persistents_fnc_deserialize = {
 
 };
 
-AS_hq_fnc_serialize = {
-	private _dict = DICT_fnc_create;
+AS_hq_fnc_toDict = {
+	private _dict = call DICT_fnc_create;
 
 	private _array = [];
 	{
@@ -180,15 +173,11 @@ AS_hq_fnc_serialize = {
 	[_dict, "placed", _array] call DICT_fnc_set;
 	[_dict, "inflame", inflamed fuego] call DICT_fnc_set;
 
-	private _serialized_string = _dict call DICT_fnc_serialize;
-    _dict call DICT_fnc_delete;
-
-    _serialized_string
+	_dict
 };
 
-AS_hq_fnc_deserialize = {
-	params ["_serialized_string"];
-	private _dict = _serialized_string call DICT_fnc_deserialize;
+AS_hq_fnc_fromDict = {
+	params ["_dict"];
 
 	{
 		(AS_permanent_HQplacements select _forEachIndex) setPos (_x select 0);
@@ -209,10 +198,7 @@ AS_hq_fnc_deserialize = {
 	call AS_fnc_initPetros;
 
 	placementDone = true; publicVariable "placementDone";
-	_dict call DICT_fnc_delete;
 };
 
-fn_SaveProfile = {saveProfileNamespace};
-
-AS_fnc_saveServer = compile preProcessFileLineNumbers "statSave\saveServer.sqf";
-AS_fnc_loadServer = compile preProcessFileLineNumbers "statSave\loadServer.sqf";
+AS_fnc_serializeServer = compile preProcessFileLineNumbers "statSave\serializeServer.sqf";
+AS_fnc_deserializeServer = compile preProcessFileLineNumbers "statSave\deserializeServer.sqf";

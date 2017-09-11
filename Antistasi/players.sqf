@@ -71,14 +71,14 @@ AS_players_fnc_loop = {
     };
 };
 
-AS_players_fnc_serialize = {
-    PLAYERS_DICT call DICT_fnc_serialize
+AS_players_fnc_toDict = {
+    PLAYERS_DICT call DICT_fnc_copy
 };
 
-AS_players_fnc_deserialize = {
-    params ["_serialized_string"];
+AS_players_fnc_fromDict = {
+    params ["_dict"];
     call AS_players_fnc_deinitialize;
-    [AS_container, "players", _serialized_string call DICT_fnc_deserialize] call DICT_fnc_set;
+    [AS_container, "players", _dict call DICT_fnc_copy] call DICT_fnc_set;
 
     {
         if hasInterface then {

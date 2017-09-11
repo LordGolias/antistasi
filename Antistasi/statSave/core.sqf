@@ -1,18 +1,23 @@
 /*
-    Contains the core functionality of load/save multiple saves.
+Contains the core functionality of load/save multiple saves.
 */
-// when a player arrives to the server (JIP), it does not know what save to load from.
-// When the server was already loaded, this variable points to the save that the player receives.
-// "" is an invalid name for a regular save.
-AS_currentSave = "";
+AS_saveLoad_fnc_setData = {
+    params ["_saveName", "_data"];
+    profileNameSpace setVariable ["AS_v1_" + _saveName, _data];
+};
 
-AS_fnc_variableName = {
-    params ["_saveName", "_name"];
-    "AS_v1_" + _saveName + _name
+AS_saveLoad_fnc_getData = {
+    params ["_saveName"];
+    profileNameSpace getVariable ["AS_v1_" + _saveName, ""]
 };
 
 AS_fnc_saveGame = {
     params ["_saveName"];
+
+    if (!isNil "AS_savingServer") exitWith {
+        ["Canceled: save already in process."] remoteExecCall ["hint",AS_commander];
+        diag_log "[AS] Server: saving already in progress...";
+    };
     private _savedGames = profileNameSpace getVariable ["AS_savedGames", []];
 
     // if the game already exists, first delete it.
@@ -21,14 +26,22 @@ AS_fnc_saveGame = {
         [_saveName] call AS_fnc_deleteSavedGame;
         _savedGames = profileNameSpace getVariable ["AS_savedGames", []];  // update variable after delete.
     };
+    AS_currentSave = _saveName;
     _savedGames pushBack _saveName;
-    private _savedVariables = profileNameSpace getVariable ["AS_savedVariables", []];
-    _savedVariables pushBack [];
-    profileNameSpace setVariable ["AS_savedVariables", _savedVariables];
     profileNameSpace setVariable ["AS_savedGames", _savedGames];
 
-   [_saveName] call AS_fnc_saveServer;
-   AS_currentSave = _saveName;
+    AS_savingServer = true;
+    ["Saving game..."] remoteExecCall ["hint",AS_commander];
+    diag_log "[AS] Server: saving game...";
+
+    private _string = call AS_fnc_serializeServer;
+    [_saveName, _string] call AS_saveLoad_fnc_setData;
+    [_string] remoteExecCall ["copyToClipboard", AS_commander];
+    saveProfileNamespace;
+
+    diag_log "[AS] Server: game saved.";
+    ["Game saved. It was also copied to your clipboard so you can save it into a file :D"] remoteExecCall ["hint", AS_commander];
+    AS_savingServer = nil;
 };
 
 AS_fnc_deleteSavedGame = {
@@ -36,12 +49,8 @@ AS_fnc_deleteSavedGame = {
     private _savedGames = profileNameSpace getVariable ["AS_savedGames", []];
     private _index = _savedGames find _saveName;
     if (_index != -1) exitWith {
-        private _savedVariables = profileNameSpace getVariable ["AS_savedVariables", []];
-        private _allVariables = _savedVariables select _index;
-        {profileNameSpace setVariable [[_saveName, _x] call AS_fnc_variableName, nil]} forEach _allVariables;  // erase all variables from this save.
-        _savedVariables deleteAt _index;
+        profileNameSpace setVariable ["AS_v1_" + _saveName, nil];
         _savedGames deleteAt _index;
-        profileNameSpace setVariable ["AS_savedVariables", _savedVariables];
         profileNameSpace setVariable ["AS_savedGames", _savedGames];
         true
     };
@@ -49,41 +58,24 @@ AS_fnc_deleteSavedGame = {
 };
 
 AS_fnc_loadGame = {
-    params ["_saveName"];
+    params ["_saveName", ["_fromClipBoard", false]];
     private _savedGames = profileNameSpace getVariable ["AS_savedGames", []];
     private _index = _savedGames find _saveName;
     if (_index != -1) exitWith {
         AS_currentSave = _saveName;
-        [_saveName] call AS_fnc_loadServer;
+
+        private _string = "";
+        if _fromClipBoard then {
+            _string = copyFromClipboard;
+        } else {
+            _string = _saveName call AS_saveLoad_fnc_getData;
+        };
+        _string call AS_fnc_deserializeServer;
+
+        private _message = [format ["Game '%1' loaded", _saveName], "Game loaded from clipboard"] select _fromClipBoard;
+        diag_log format ["[AS] Server: %1", _message];
+        [_message] remoteExecCall ["hint", AS_commander];
         true
     };
     false
-};
-
-AS_fnc_saveStat = {
-	params ["_saveName", "_varName", "_varValue"];
-	if (!isNil "_varValue") then {
-        // save the variable in the list of variables.
-        private _savedGames = profileNameSpace getVariable ["AS_savedGames", []];
-        private _savedVariables = profileNameSpace getVariable ["AS_savedVariables", []];
-        private _index = _savedGames find _saveName;
-        (_savedVariables select _index) pushBack _varName;
-        profileNameSpace setVariable ["AS_savedVariables", _savedVariables];
-        // and its value
-		profileNameSpace setVariable [[_saveName, _varName] call AS_fnc_variableName, _varValue];
-	} else {
-        diag_log format ["[AS] Error: AS_fnc_saveStat(%1,%2,nil): value is nil.", _saveName, _varName];
-    };
-};
-
-AS_fnc_loadStat = {
-    params ["_saveName", "_varName"];
-    private _savedGames = profileNameSpace getVariable ["AS_savedGames", []];
-    private _savedVariables = profileNameSpace getVariable ["AS_savedVariables", []];
-    private _index = _savedGames find _saveName;
-    if (_varName in (_savedVariables select _index)) then {
-        profileNameSpace getVariable ([_saveName, _varName] call AS_fnc_variableName)
-    } else {
-        diag_log format ["[AS] Error: AS_fnc_loadStat(%1,%2): variable not found.", _saveName, _varName];
-    };
 };

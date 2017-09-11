@@ -55,16 +55,11 @@ AS_FIAarsenal_fnc_toDict = {
     [_dict, "unlockedItems", unlockedItems] call DICT_fnc_set;
     [_dict, "unlockedBackpacks", unlockedBackpacks] call DICT_fnc_set;
 
-    private _serialized_string = _dict call DICT_fnc_serialize;
-    _dict call DICT_fnc_delete;
-
-    _serialized_string
+    _dict
 };
 
-AS_FIAarsenal_fnc_deserialize = {
-    params ["_serialized_string"];
-    private _dict = _serialized_string call DICT_fnc_deserialize;
-
+AS_FIAarsenal_fnc_fromDict = {
+    params ["_dict"];
     private _cargo_w = [_dict, "weapons"] call DICT_fnc_get;
     private _cargo_m = [_dict, "magazines"] call DICT_fnc_get;
     private _cargo_i = [_dict, "items"] call DICT_fnc_get;
@@ -79,6 +74,4 @@ AS_FIAarsenal_fnc_deserialize = {
 	publicVariable "unlockedMagazines";
 	publicVariable "unlockedItems";
 	publicVariable "unlockedBackpacks";
-
-    _dict call DICT_fnc_delete;
 };

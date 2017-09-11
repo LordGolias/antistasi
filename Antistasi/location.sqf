@@ -519,7 +519,7 @@ AS_fnc_location_updateMarker = {
     };
 };
 
-AS_fnc_location_serialize = {
+AS_fnc_location_toDict = {
     // keys that are not to be saved.
     private _ignore_keys = [];
     {
@@ -528,17 +528,17 @@ AS_fnc_location_serialize = {
             _ignore_keys pushBack [_x, "roads"];
         };
     } forEach call AS_fnc_locations;
-    [call AS_fnc_location_dictionary, _ignore_keys] call DICT_fnc_serialize
+    [call AS_fnc_location_dictionary, _ignore_keys] call DICT_fnc_copy
 };
 
-AS_fnc_location_deserialize = {
-    params ["_serialized_string"];
+AS_fnc_location_fromDict = {
+    params ["_dict"];
     // delete every location (including markers)
     {_x call AS_fnc_location_remove} forEach (call AS_fnc_locations);
     call AS_fnc_location_deinitialize;
 
     // load every location
-    [AS_container, "location", _serialized_string call DICT_fnc_deserialize] call DICT_fnc_set;
+    [AS_container, "location", _dict call DICT_fnc_copy] call DICT_fnc_set;
 
     // load non-persistent stuff (e.g. markers, spawned, roads)
     {

@@ -143,12 +143,12 @@ AS_AAFarsenal_fnc_deleteVehicle = {
 	[_category, "count", _count - 1] call AS_AAFarsenal_fnc_set;
 };
 
-AS_AAFarsenal_fnc_serialize = {
+AS_AAFarsenal_fnc_toDict = {
 	(call AS_AAFarsenal_fnc_dictionary) call DICT_fnc_copy;
 };
 
-AS_AAFarsenal_fnc_deserialize = {
-    params ["_serialized_string"];
+AS_AAFarsenal_fnc_fromDict = {
+    params ["_dict"];
     call AS_AAFarsenal_fnc_deinitialize;
-    [AS_container, "aaf_arsenal", _serialized_string call DICT_fnc_deserialize] call DICT_fnc_set;
+    [AS_container, "aaf_arsenal", _dict call DICT_fnc_copy] call DICT_fnc_set;
 };
