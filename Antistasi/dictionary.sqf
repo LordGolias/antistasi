@@ -125,6 +125,40 @@ EFUNC(delete) = {
     deleteVehicle _dictionary;
 };
 
+// a deep copy of the dictionary
+// this copy is such that deleting a copy does not alter the original
+EFUNC(copy) = {
+    params ["_dictionary", ["_ignore_keys", []]];
+
+    private _serialize_single = {
+        params ["_key", "_value", "_complete_key", "_copy"];
+        _complete_key = _complete_key + [_key];
+        private _result = "";
+        if (_complete_key in _ignore_keys) exitWith {};
+        if ISOBJECT(_value) then {
+            [_copy, _key] call EFUNC(add);
+            {
+                private _x_value = _value getVariable _x;
+                if (not isNil "_x_value") then {
+                    [_x, _x_value, _complete_key, [_copy, _key] call EFUNC(get)] call _serialize_single;
+                };
+            } forEach allVariables _value;
+        } else {
+            [_copy, _key, _value] call EFUNC(set);
+        };
+    };
+
+    private _copy = call EFUNC(create);
+
+    {
+        private _x_value = _dictionary getVariable _x;
+        if (not isNil "_x_value") then {
+            [_x, _x_value, [], _copy] call _serialize_single;
+        };
+    } forEach allVariables _dictionary;
+    _copy
+};
+
 // Creates a new level on the dictionary.
 EFUNC(add) = {
     if (count _this < 2) exitWith {
@@ -259,6 +293,18 @@ private _test_basic = {
     _d isEqualTo "d" and _b isEqualTo "b"
 };
 
+private _test_copy = {
+    private _dict = call EFUNC(create);
+    [_dict, "sub1", "b"] call EFUNC(set);
+    [_dict, "sub2"] call EFUNC(add);
+    [_dict, "sub2", "c", "d"] call EFUNC(set);
+
+    private _copy = _dict call EFUNC(copy);
+    private _b = [_copy, "sub1"] call EFUNC(get);
+    private _d = [_copy, "sub2", "c"] call EFUNC(get);
+    _d isEqualTo "d" and _b isEqualTo "b"
+};
+
 private _test_delete = {
     private _dict = call EFUNC(create);
     [_dict, "a"] call EFUNC(add);
@@ -354,8 +400,8 @@ private _test_deserialize_obj = {
     ([_dict, "obj", "a"] call EFUNC(get)) isEqualTo 1
 };
 
-DICT_tests = [_test_basic, _test_delete, _test_del, _test_serialize, _test_serialize_del, _test_serialize_ignore, _test_deserialize, _test_serialize_obj, _test_deserialize_obj];
-DICT_names = ["basic", "delete", "del", "serialize", "serialize_del", "serialize_ignore", "deserialize", "serialize_dictionary", "deserialize_dictionary"];
+DICT_tests = [_test_basic, _test_copy, _test_delete, _test_del, _test_serialize, _test_serialize_del, _test_serialize_ignore, _test_deserialize, _test_serialize_obj, _test_deserialize_obj];
+DICT_names = ["basic", "copy", "delete", "del", "serialize", "serialize_del", "serialize_ignore", "deserialize", "serialize_dictionary", "deserialize_dictionary"];
 
 DICT_test_run = {
     hint "running tests..";
