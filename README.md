@@ -245,11 +245,6 @@ _type = _location call AS_fnc_location_type;
 hint str (_type call AS_fnc_location_properties);
 ```
 
-Internally, locations uses the component `AS_object` (`object.sqf`), that is responsible
-for persistency and data consistency. Use only `AS_fnc_location_*` to interact with them.
-The functions in `location.sqf` are documented, so you can learn which they are
-and what they do.
-
 `spawnLoop.sqf` is the loop that controls which locations are spawned.
 When opposing forces reach (or other conditions), this loop spawns the location.
 Each location is spawned differently depending on its side and type,
