@@ -8,57 +8,102 @@ AS_serverVariables = [
 	"NATOsupport", "CSATsupport", "resourcesAAF", "resourcesFIA", "skillFIA", "skillAAF", "hr",  // FIA attributes
 	"civPerc", "spawnDistance", "minimumFPS", "cleantime",  // game options
 	"secondsForAAFAttack", "destroyedLocations", "vehiclesInGarage", "destroyedBuildings",
-	"antenasPos_alive", "antenasPos_dead",
+	"antenasPos_alive", "antenasPos_dead", "vehicles",
 	"patrollingLocations"
 ];
 
-// function that saves all AS_serverVariables. The two parameters overwrite the AS_persistent variable value to save.
-AS_fnc_savePersistents = {
-	params ["_saveName", "_varNames", "_varValues"];
+AS_persistents_fnc_serialize = {
+    private _money = AS_P("resourcesFIA");
+	private _hr = AS_P("hr");
 
-	{
-		private _index = _varNames find _x;
-		private _varValue = AS_P(_x);
-		if (_index != -1) then {
-			_varValue = _varValues select _index;
-		};
-		[_saveName, _x, _varValue] call AS_fnc_saveStat;
-	} forEach AS_serverVariables;
+    // money for spawned units
+    {
+        if ((alive _x) and
+                {_x getVariable "side" == "FIA"} and
+				{_x getVariable ["BLUFORSpawn", false]} and // garrisons are already tracked by the garrison list
+                {!isPlayer _x} and
+                {leader group _x == AS_commander or {group _x in (hcAllGroups AS_commander)}}) then {
 
-	// vehicles have to be serialized, so we do it here.
+            private _price = AS_data_allCosts getVariable (_x call AS_fnc_getFIAUnitName);
+            if (!(isNil "_price")) then {
+                _money = _money + _price;
+				_hr = _hr + 1;
+            } else {
+                diag_log format ["[AS] Error: type '%1' has no defined price", typeOf _x];
+            };
+        };
+    } forEach allUnits;
+
+	// money for FIA vehicles
+    {
+        private _closest = (getPos _x) call AS_fnc_location_nearest;
+		private _size = _closest call AS_fnc_location_size;
+        if ((_closest call AS_fnc_location_side == "FIA") and
+				{not (_x in AS_permanent_HQplacements)} and
+                {(_x getVariable "AS_side") == "FIA"} and
+                {alive _x} and
+                {_x distance _closest < _size} and
+				{not (_x in AS_P("vehicles"))} and // these are saved and so they are not converted to money
+                {_x getVariable ["AS_vehOwner", "noOwner"] == "noOwner"}) then {
+
+            _money = _money + ([typeOf _x] call FIAvehiclePrice);
+            {_money = _money + ([typeOf _x] call FIAvehiclePrice)} forEach attachedObjects _x;
+        };
+    } forEach vehicles;
+
+	// convert vehicles to positional information
 	private _vehicles = [];
 	{
 		private _type = typeOf _x;
 		private _pos = getPos _x;
 		private _dir = getDir _x;
-		_vehicles pushBack [_type,_pos,_dir];
+		_vehicles pushBack [_type, _pos, _dir];
 	} forEach AS_P("vehicles");
-	[_saveName, "vehicles", _vehicles] call AS_fnc_saveStat;
+
+	private _dict = DICT_fnc_create;
+	{
+		call {
+			if (_x == "vehicles") exitWith {
+				[_dict, _x, _vehicles] call DICT_fnc_set;
+			};
+			if (_x == "hr") exitWith {
+				[_dict, _x, _hr] call DICT_fnc_set;
+			};
+			if (_x == "resourcesFIA") exitWith {
+				[_dict, _x, _money] call DICT_fnc_set;
+			};
+			[_dict, _x, AS_P(_x)] call DICT_fnc_set;
+		};
+	} forEach AS_serverVariables;
+
+	private _serialized_string = _dict call DICT_fnc_serialize;
+    _dict call DICT_fnc_delete;
+
+    _serialized_string
 };
 
+AS_persistents_fnc_deserialize = {
+	params ["_serialized_string"];
 
-// function that loads all AS_serverVariables.
-AS_fnc_loadPersistents = {
-	params ["_saveName"];
+	private _dict = _serialized_string call DICT_fnc_deserialize;
 
-	// vehicles have to be serialized, so we do it here.
-	private _vehicles = [];
 	{
-		private _type = _x select 0;
-		private _pos = _x select 1;
-		private _dir = _x select 2;
+		private _value = [_dict, _x] call DICT_fnc_get;
+		call {
+			if (_x == "vehicles") exitWith {
+				private _vehicles = [];
+				{
+					_x params ["_type", "_pos", "_dir"];
 
-		private _veh = _type createVehicle _pos;
-		_veh setDir _dir;
-		[_veh, "FIA"] call AS_fnc_initVehicle;
-		_vehicles pushBack _veh;
-	} forEach ([_saveName, "vehicles"] call AS_fnc_loadStat);
-	AS_Pset('vehicles', _vehicles);
-
-	// remaining variables
-    params ["_saveName"];
-	{
-        AS_Pset(_x, [_saveName, _x] call AS_fnc_loadStat);
+					private _vehicle = _type createVehicle _pos;
+					_vehicle setDir _dir;
+					[_vehicle, "FIA"] call AS_fnc_initVehicle;
+					_vehicles pushBack _vehicle;
+				} forEach _value;
+				AS_Pset(_x, _vehicles);
+			};
+			AS_Pset(_x, _value);
+		};
 	} forEach AS_serverVariables;
 };
 
