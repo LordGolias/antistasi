@@ -9,8 +9,6 @@ AS_players_fnc_initialize = {
         publicVariable "AS_container";
     };
     [AS_container, "players"] call DICT_fnc_add;
-
-    [] spawn AS_players_fnc_loop;
 };
 
 AS_players_fnc_deinitialize = {

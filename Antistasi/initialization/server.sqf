@@ -43,4 +43,5 @@ waitUntil {!isNil "AS_commander" and {isPlayer AS_commander}};
 
 waitUntil {!(isNil "placementDone")};
 [] spawn AS_fnc_spawnLoop;
+[] spawn AS_players_fnc_loop;
 resourcecheck = [] execVM "resourcecheck.sqf";
