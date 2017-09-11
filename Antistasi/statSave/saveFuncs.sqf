@@ -62,43 +62,6 @@ AS_fnc_loadPersistents = {
 	} forEach AS_serverVariables;
 };
 
-AS_fnc_saveArsenal = {
-	params ["_saveName", "_weapons", "_magazines", "_items", "_backpacks"];
-
-	[_saveName, "ARSENALweapons", _weapons] call AS_fnc_saveStat;
-	[_saveName, "ARSENALmagazines", _magazines] call AS_fnc_saveStat;
-	[_saveName, "ARSENALitems", _items] call AS_fnc_saveStat;
-	[_saveName, "ARSENALbackpacks", _backpacks] call AS_fnc_saveStat;
-
-	[_saveName, "ARSENALunlockedWeapons", unlockedWeapons] call AS_fnc_saveStat;
-	[_saveName, "ARSENALunlockedItems", unlockedItems] call AS_fnc_saveStat;
-	[_saveName, "ARSENALunlockedMagazines", unlockedMagazines] call AS_fnc_saveStat;
-	[_saveName, "ARSENALunlockedBackpacks", unlockedBackpacks] call AS_fnc_saveStat;
-};
-
-AS_fnc_loadArsenal = {
-    params ["_saveName"];
-	private ["_weapons", "_magazines", "_items", "_backpacks"];
-
-	_weapons = [_saveName, "ARSENALweapons"] call AS_fnc_loadStat;
-	_magazines = [_saveName, "ARSENALmagazines"] call AS_fnc_loadStat;
-	_items = [_saveName, "ARSENALitems"] call AS_fnc_loadStat;
-	_backpacks = [_saveName, "ARSENALbackpacks"] call AS_fnc_loadStat;
-
-	[caja, _weapons, _magazines, _items, _backpacks, true, true] call AS_fnc_populateBox;
-
-	// load unlocked stuff
-	unlockedWeapons = [_saveName, "ARSENALunlockedWeapons"] call AS_fnc_loadStat;
-	unlockedMagazines = [_saveName, "ARSENALunlockedMagazines"] call AS_fnc_loadStat;
-	unlockedItems = [_saveName, "ARSENALunlockedItems"] call AS_fnc_loadStat;
-	unlockedBackpacks = [_saveName, "ARSENALunlockedBackpacks"] call AS_fnc_loadStat;
-
-	publicVariable "unlockedWeapons";
-	publicVariable "unlockedMagazines";
-	publicVariable "unlockedItems";
-	publicVariable "unlockedBackpacks";
-};
-
 AS_fnc_saveHQ = {
     params ["_saveName"];
 	private _array = [];

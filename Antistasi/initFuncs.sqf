@@ -8,6 +8,7 @@ call compile preProcessFileLineNumbers "statSave\dialogs.sqf";
 call compile preProcessFileLineNumbers "dialogs.sqf";
 
 call compile preProcessFileLineNumbers "AAFarsenal.sqf";
+call compile preProcessFileLineNumbers "FIAarsenal.sqf";
 call compile preProcessFileLineNumbers "FIArecruitment.sqf";
 
 call compile preProcessFileLineNumbers "dictionary.sqf";

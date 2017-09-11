@@ -5,7 +5,7 @@ params ["_saveName"];
 petros allowdamage false;
 
 [_saveName] call AS_fnc_loadPersistents;
-[_saveName] call AS_fnc_loadArsenal;
+([_saveName, "AS_fia_arsenal"] call AS_fnc_loadStat) call AS_FIAarsenal_fnc_deserialize;
 [true] call fnc_MAINT_arsenal;
 
 {

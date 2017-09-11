@@ -32,14 +32,11 @@ diag_log "[AS] Server: saving locations...";
 [_saveName] call AS_fnc_saveHQ;
 
 diag_log "[AS] Server: saving arsenal...";
+[_saveName, "AS_fia_arsenal", call AS_FIAarsenal_fnc_serialize] call AS_fnc_saveStat;
+
+diag_log "[AS] Server: saving others...";
 // save all units as hr and money.
 private _resfondo = AS_P("resourcesFIA");
-
-private _cargoArray = [caja, true] call AS_fnc_getBoxArsenal;  // restricted to locked weapons
-private _cargo_w = _cargoArray select 0;
-private _cargo_m = _cargoArray select 1;
-private _cargo_i = _cargoArray select 2;
-private _cargo_b = _cargoArray select 3;
 
 {
     if (_x getVariable ["BLUFORSpawn",false] and
@@ -52,11 +49,6 @@ private _cargo_b = _cargoArray select 3;
                 private _precio = AS_data_allCosts getVariable (_x call AS_fnc_getFIAUnitName);
                 if (!(isNil "_precio")) then {_resfondo = _resfondo + _precio};
             };
-            private _arsenal = [_x, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons
-            _cargo_w = [_cargo_w, _arsenal select 0] call AS_fnc_mergeCargoLists;
-            _cargo_m = [_cargo_m, _arsenal select 1] call AS_fnc_mergeCargoLists;
-            _cargo_i = [_cargo_i, _arsenal select 2] call AS_fnc_mergeCargoLists;
-            _cargo_b = [_cargo_b, _arsenal select 3] call AS_fnc_mergeCargoLists;
         };
         // there is a vehicle in the group
         if (vehicle _x != _x) then {
@@ -75,23 +67,6 @@ private _cargo_b = _cargoArray select 3;
 
 private _hrfondo = AS_P("hr") + ({(alive _x) and (not isPlayer _x) and (_x getVariable ["BLUFORSpawn",false]) and {not(group _x getVariable ["esNATO",false])}} count allUnits);
 [_saveName, ["resourcesFIA", "hr"], [_resfondo, _hrfondo]] call AS_fnc_savePersistents;
-
-if (isMultiplayer) then {
-    {
-        private _arsenal = [_x, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons
-        _cargo_w = [_cargo_w, _arsenal select 0] call AS_fnc_mergeCargoLists;
-        _cargo_m = [_cargo_m, _arsenal select 1] call AS_fnc_mergeCargoLists;
-        _cargo_i = [_cargo_i, _arsenal select 2] call AS_fnc_mergeCargoLists;
-        _cargo_b = [_cargo_b, _arsenal select 3] call AS_fnc_mergeCargoLists;
-    } forEach playableUnits;
-}
-else {
-    private _arsenal = [player, true] call AS_fnc_getUnitArsenal;  // restricted to locked weapons
-    _cargo_w = [_cargo_w, _arsenal select 0] call AS_fnc_mergeCargoLists;
-    _cargo_m = [_cargo_m, _arsenal select 1] call AS_fnc_mergeCargoLists;
-    _cargo_i = [_cargo_i, _arsenal select 2] call AS_fnc_mergeCargoLists;
-    _cargo_b = [_cargo_b, _arsenal select 3] call AS_fnc_mergeCargoLists;
-};
 
 // list of locations where static weapons are saved.
 private _statMrks = [];
@@ -126,19 +101,11 @@ private _arrayEst = [];
             ({(alive _x) and (!isPlayer _x)} count crew _veh == 0) and
             !(_tipoVeh == "WeaponHolderSimulated")) then {
             _arrayEst = _arrayEst + [[_tipoVeh, getPos _veh, getDir _veh]];
-
-            private _arsenal = [_veh, true] call AS_fnc_getBoxArsenal;  // restricted to locked weapons
-            _cargo_w = [_cargo_w, _arsenal select 0] call AS_fnc_mergeCargoLists;
-            _cargo_m = [_cargo_m, _arsenal select 1] call AS_fnc_mergeCargoLists;
-            _cargo_i = [_cargo_i, _arsenal select 2] call AS_fnc_mergeCargoLists;
-            _cargo_b = [_cargo_b, _arsenal select 3] call AS_fnc_mergeCargoLists;
         };
     };
 } forEach vehicles - AS_permanent_HQplacements;
 
 [_saveName, "estaticas", _arrayEst] call AS_fnc_saveStat;
-
-[_saveName, _cargo_w, _cargo_m, _cargo_i, _cargo_b] call AS_fnc_saveArsenal;
 
 diag_log "[AS] Server: saving missions...";
 [_saveName, "AS_mission", call AS_fnc_mission_serialize] call AS_fnc_saveStat;
