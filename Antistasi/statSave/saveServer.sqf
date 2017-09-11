@@ -10,10 +10,7 @@ AS_savingServer = true;
 diag_log "[AS] Server: saving game...";
 ["Saving game..."] remoteExecCall ["hint",AS_commander];
 
-diag_log "[AS] Server: saving BE data...";
-[_saveName, "BE_data", ([] call fnc_BE_save)] call AS_fnc_saveStat;
-
-diag_log "[AS] Server: saving arsenal...";
+diag_log "[AS] Server: saving AAF arsenal...";
 [_saveName, "AS_aaf_arsenal", call AS_AAFarsenal_fnc_serialize] call AS_fnc_saveStat;
 
 diag_log "[AS] Server: saving locations...";
@@ -22,7 +19,7 @@ diag_log "[AS] Server: saving locations...";
 diag_log "[AS] Server: saving fia_hq...";
 [_saveName, "AS_fia_hq", call AS_hq_fnc_serialize] call AS_fnc_saveStat;
 
-diag_log "[AS] Server: saving arsenal...";
+diag_log "[AS] Server: saving FIA arsenal...";
 [_saveName, "AS_fia_arsenal", call AS_FIAarsenal_fnc_serialize] call AS_fnc_saveStat;
 
 diag_log "[AS] Server: saving persistents...";

@@ -7,8 +7,8 @@ AS_serverVariables = [
 	"NATOsupport", "CSATsupport", "resourcesAAF", "resourcesFIA", "skillFIA", "skillAAF", "hr",  // FIA attributes
 	"civPerc", "spawnDistance", "minimumFPS", "cleantime",  // game options
 	"secondsForAAFAttack", "destroyedLocations", "vehiclesInGarage", "destroyedBuildings",
-	"antenasPos_alive", "antenasPos_dead", "vehicles", "date",
-	"patrollingLocations",
+	"antenasPos_alive", "antenasPos_dead", "vehicles", "date", "BE_module",
+	"patrollingLocations", "patrollingPositions",
 ];
 
 AS_persistents_fnc_serialize = {
@@ -72,6 +72,9 @@ AS_persistents_fnc_serialize = {
 			if (_x == "date") exitWith {
 				[_dict, _x, date] call DICT_fnc_set;
 			};
+			if (_x == "BE_module") exitWith {
+				[_dict, _x, call fnc_BE_save] call DICT_fnc_set;
+			};
 			if (_x == "resourcesFIA") exitWith {
 				[_dict, _x, _money] call DICT_fnc_set;
 			};
@@ -107,10 +110,58 @@ AS_persistents_fnc_deserialize = {
 			if (_x == "date") exitWith {
 				setDate _value;
 			};
+			if (_x == "BE_module") exitWith {
+				[_value] call fnc_BE_load;
+			};
 			AS_Pset(_x, _value);
 		};
 	} forEach AS_serverVariables;
 	_dict call DICT_fnc_delete;
+
+	// modify map items consequent of the persistents
+	{
+		private _antenna = nearestBuilding _x;
+		_antenna removeAllEventHandlers "Killed";
+		_antenna setDamage 1;
+	} forEach AS_P("antenasPos_dead");
+	{
+		private _antenna = nearestBuilding _x;
+		_antenna removeAllEventHandlers "Killed";
+		_antenna setDamage 0;
+		_antenna addEventHandler ["Killed", AS_fnc_antennaKilledEH];
+	} forEach AS_P("antenasPos_alive");
+
+	{
+		[_x, false] call AS_fnc_location_destroy;
+	} forEach AS_P("destroyedLocations");
+
+	// destroy the buildings.
+	{
+		private _buildings = [];
+		private _dist = 5;
+		while {count _buildings == 0} do {
+			_buildings = nearestObjects [_x, AS_destroyable_buildings, _dist];
+			_dist = _dist + 5;
+		};
+		(_buildings select 0) setDamage 1;
+	} forEach AS_P("destroyedBuildings");
+
+	// this depends on destroyed locations, so it is run here
+	{
+		[_x] call powerReorg;
+	} forEach ("powerplant" call AS_fnc_location_T);
+
+	// resume saved patrols
+   [] spawn {
+       sleep 25;
+       {
+   		[[_x], "patrolCA"] call AS_scheduler_fnc_execute;
+       } forEach AS_P("patrollingLocations");
+   	{
+   		[[_x], "patrolCA"] call AS_scheduler_fnc_execute;
+       } forEach AS_P("patrollingPositions");
+   };
+
 };
 
 AS_hq_fnc_serialize = {
