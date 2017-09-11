@@ -44,7 +44,7 @@ petros allowdamage false;
 } forEach ("powerplant" call AS_fnc_location_T);
 
 ([_saveName, "AS_aaf_arsenal"] call AS_fnc_loadStat) call AS_AAFarsenal_fnc_deserialize;
-[_saveName] call AS_fnc_loadHQ;
+([_saveName, "AS_fia_hq"] call AS_fnc_loadStat) call AS_hq_fnc_deserialize;
 
 if (isMultiplayer) then {
 	{

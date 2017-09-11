@@ -60,6 +60,7 @@ AS_persistents_fnc_serialize = {
 		_vehicles pushBack [_type, _pos, _dir];
 	} forEach AS_P("vehicles");
 
+	// convert everything to a dictionary and serialize it
 	private _dict = DICT_fnc_create;
 	{
 		call {
@@ -87,7 +88,6 @@ AS_persistents_fnc_serialize = {
 
 AS_persistents_fnc_deserialize = {
 	params ["_serialized_string"];
-
 	private _dict = _serialized_string call DICT_fnc_deserialize;
 
 	{
@@ -111,47 +111,55 @@ AS_persistents_fnc_deserialize = {
 			AS_Pset(_x, _value);
 		};
 	} forEach AS_serverVariables;
+	_dict call DICT_fnc_delete;
 };
 
-AS_fnc_saveHQ = {
-    params ["_saveName"];
+AS_hq_fnc_serialize = {
+	private _dict = DICT_fnc_create;
+
 	private _array = [];
 	{
 		_array pushback [getPos _x, getDir _x];
 	} forEach AS_permanent_HQplacements;
-	[_saveName, "HQPermanents", _array] call AS_fnc_saveStat;
+	[_dict, "permanents", _array] call DICT_fnc_set;
 
 	_array = [];
 	{
 		_array pushback [getPos _x, getDir _x, typeOf _x];
 	} forEach AS_HQ_placements;
-	[_saveName, "HQPlacements", _array] call AS_fnc_saveStat;
+	[_dict, "placed", _array] call DICT_fnc_set;
+	[_dict, "inflame", inflamed fuego] call DICT_fnc_set;
 
-	[_saveName, "HQinflamed", inflamed fuego] call AS_fnc_saveStat;
+	private _serialized_string = _dict call DICT_fnc_serialize;
+    _dict call DICT_fnc_delete;
+
+    _serialized_string
 };
 
-AS_fnc_loadHQ = {
-	params ["_saveName"];
-	call AS_fnc_initPetros;
+AS_hq_fnc_deserialize = {
+	params ["_serialized_string"];
+	private _dict = _serialized_string call DICT_fnc_deserialize;
 
-	private _array = [_saveName, "HQPermanents"] call AS_fnc_loadStat;
-	for "_i" from 0 to count AS_permanent_HQplacements - 1 do {
-		(AS_permanent_HQplacements select _i) setPos ((_array select _i) select 0);
-		(AS_permanent_HQplacements select _i) setDir ((_array select _i) select 1);
-	};
+	{
+		(AS_permanent_HQplacements select _forEachIndex) setPos (_x select 0);
+		(AS_permanent_HQplacements select _forEachIndex) setDir (_x select 1);
+	} forEach ([_dict, "permanents"] call DICT_fnc_get);
 
-	fuego inflame ([_saveName, "HQinflamed"] call AS_fnc_loadStat);
-
-	"delete" call AS_fnc_HQaddObject;
-	_array = [_saveName, "HQPlacements"] call AS_fnc_loadStat;
+	{deleteVehicle _x} forEach AS_HQ_placements;
+	AS_HQ_placements = [];
 	{
 		_x params ["_pos", "_dir", "_type"];
 		private _obj = _type createVehicle _pos;
 		_obj setDir _dir;
 		AS_HQ_placements pushBack _obj;
-	} forEach _array;
+	} forEach ([_dict, "placed"] call DICT_fnc_get);
+	publicVariable "AS_HQ_placements";
+
+	fuego inflame ([_dict, "inflame"] call DICT_fnc_get);
+	call AS_fnc_initPetros;
 
 	placementDone = true; publicVariable "placementDone";
+	_dict call DICT_fnc_delete;
 };
 
 fn_SaveProfile = {saveProfileNamespace};

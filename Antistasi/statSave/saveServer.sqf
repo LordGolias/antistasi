@@ -19,6 +19,7 @@ private _savingPlayersHandle = ([_saveName] spawn {
     [_saveName] call AS_fnc_savePlayers;
 });
 
+diag_log "[AS] Server: saving BE data...";
 [_saveName, "BE_data", ([] call fnc_BE_save)] call AS_fnc_saveStat;
 
 [_saveName, "miembros", miembros] call AS_fnc_saveStat;
@@ -28,7 +29,9 @@ diag_log "[AS] Server: saving arsenal...";
 
 diag_log "[AS] Server: saving locations...";
 [_saveName, "AS_locations", call AS_fnc_location_serialize] call AS_fnc_saveStat;
-[_saveName] call AS_fnc_saveHQ;
+
+diag_log "[AS] Server: saving fia_hq...";
+[_saveName, "AS_fia_hq", call AS_hq_fnc_serialize] call AS_fnc_saveStat;
 
 diag_log "[AS] Server: saving arsenal...";
 [_saveName, "AS_fia_arsenal", call AS_FIAarsenal_fnc_serialize] call AS_fnc_saveStat;
@@ -46,6 +49,5 @@ waitUntil {scriptDone _savingPlayersHandle};
 [] call fn_SaveProfile;
 
 AS_savingServer = nil;
-
 diag_log "[AS] Server: saving completed.";
 ["Game saved"] remoteExecCall ["hint",AS_commander];
