@@ -1,14 +1,57 @@
+#include "macros.hpp"
+
+AS_AAFarsenal_fnc_initialize = {
+    AS_SERVER_ONLY("AAFarsenal_fnc_initialize");
+
+    if isNil "AS_container" then {
+        AS_container = call DICT_fnc_create;
+        publicVariable "AS_container";
+    };
+    [AS_container, "aaf_arsenal"] call DICT_fnc_add;
+
+	// AAF will only buy and use vehicles of the types added here. See template.
+	private _names = [
+		"Supply trucks", "Trucks", "APCs", "Boats",
+		"Transport Helicopters", "Tanks", "Armed Helicopters", "Planes"
+	];
+	// The list of all categories.
+	private _categories = [
+		"supplies", "trucks", "apcs", "boats", "transportHelis", "tanks", "armedHelis", "planes"
+	];
+	private _costs = [600, 600, 5000, 600, 10000, 4000, 10000, 20000];
+
+	{
+		[call AS_AAFarsenal_fnc_dictionary, _x] call DICT_fnc_add;
+		[_x, "name", _names select _forEachIndex] call AS_AAFarsenal_fnc_set;
+		[_x, "count", 0] call AS_AAFarsenal_fnc_set;
+		[_x, "cost", _costs select _forEachIndex] call AS_AAFarsenal_fnc_set;
+		[_x, "valid", []] call AS_AAFarsenal_fnc_set;
+		[_x, "value", (_costs select _forEachIndex)/2] call AS_AAFarsenal_fnc_set;
+	} forEach _categories;
+
+    // the order of which the AAF buys from categories (AAFeconomics.sqf)
+    AS_AAFarsenal_buying_order = +_categories;
+};
+
+AS_AAFarsenal_fnc_deinitialize = {
+    [AS_container, "aaf_arsenal"] call DICT_fnc_del;
+};
+
+AS_AAFarsenal_fnc_dictionary = {
+    [AS_container, "aaf_arsenal"] call DICT_fnc_get
+};
+
 // all AAF arsenal categories
-AS_AAFarsenal_fnc_all = {"aaf_arsenal" call AS_fnc_objects};
+AS_AAFarsenal_fnc_all = {(call AS_AAFarsenal_fnc_dictionary) call DICT_fnc_all};
 
 AS_AAFarsenal_fnc_get = {
 	params ["_category", "_property"];
-    ["aaf_arsenal", _category, _property] call AS_fnc_object_get
+    [call AS_AAFarsenal_fnc_dictionary, _category, _property] call DICT_fnc_get
 };
 
 AS_AAFarsenal_fnc_set = {
     params ["_category", "_property", "_value"];
-    ["aaf_arsenal", _category, _property, _value] call AS_fnc_object_set;
+	[call AS_AAFarsenal_fnc_dictionary, _category, _property, _value] call DICT_fnc_set;
 };
 
 // the current vehicles of a given category or list of categories.
@@ -100,39 +143,12 @@ AS_AAFarsenal_fnc_deleteVehicle = {
 	[_category, "count", _count - 1] call AS_AAFarsenal_fnc_set;
 };
 
-// Initializes the AAF Arsenal.
-AS_AAFarsenal_fnc_init = {
-	["aaf_arsenal", true] call AS_fnc_container_add;
-
-	// AAF will only buy and use vehicles of the types added here. See template.
-	private _names = [
-		"Supply trucks", "Trucks", "APCs", "Boats",
-		"Transport Helicopters", "Tanks", "Armed Helicopters", "Planes"
-	];
-	// The list of all categories. Order defines what is bought first at AAFeconomics.sqf.
-	private _categories = [
-		"supplies", "trucks", "apcs", "boats", "transportHelis", "tanks", "armedHelis", "planes"
-	];
-	private _costs = [600, 600, 5000, 600, 10000, 4000, 10000, 20000];
-
-	{
-		["aaf_arsenal", _x] call AS_fnc_object_add;
-		[_x, "name", _names select _forEachIndex] call AS_AAFarsenal_fnc_set;
-		[_x, "count", 0] call AS_AAFarsenal_fnc_set;
-		[_x, "cost", _costs select _forEachIndex] call AS_AAFarsenal_fnc_set;
-		[_x, "valid", []] call AS_AAFarsenal_fnc_set;
-		[_x, "value", (_costs select _forEachIndex)/2] call AS_AAFarsenal_fnc_set;
-	} forEach _categories;
+AS_AAFarsenal_fnc_serialize = {
+	(call AS_AAFarsenal_fnc_dictionary) call DICT_fnc_copy;
 };
 
-AS_AAFarsenal_fnc_save = {
-	params ["_saveName"];
-	["aaf_arsenal", _saveName] call AS_fnc_object_save;
-};
-
-AS_AAFarsenal_fnc_load = {
-	params ["_saveName"];
-	"aaf_arsenal" call AS_fnc_container_remove;
-	call AS_AAFarsenal_fnc_init;
-	["aaf_arsenal", _saveName] call AS_fnc_object_load;
+AS_AAFarsenal_fnc_deserialize = {
+    params ["_serialized_string"];
+    call AS_AAFarsenal_fnc_deinitialize;
+    [AS_container, "aaf_arsenal", _serialized_string call DICT_fnc_deserialize] call DICT_fnc_set;
 };

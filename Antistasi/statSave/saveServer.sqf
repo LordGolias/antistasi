@@ -24,7 +24,8 @@ private _savingPlayersHandle = ([_saveName] spawn {
 [_saveName, "miembros", miembros] call AS_fnc_saveStat;
 [_saveName, "fecha", date] call AS_fnc_saveStat;
 
-[_saveName] call AS_AAFarsenal_fnc_save;
+diag_log "[AS] Server: saving arsenal...";
+[_saveName, "AS_aaf_arsenal", call AS_AAFarsenal_fnc_serialize] call AS_fnc_saveStat;
 
 diag_log "[AS] Server: saving locations...";
 [_saveName, "AS_locations", call AS_fnc_location_serialize] call AS_fnc_saveStat;

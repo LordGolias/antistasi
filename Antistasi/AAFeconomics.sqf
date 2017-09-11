@@ -79,7 +79,7 @@ _extra_conditions setVariable ["planes", _FIAcontrolledBases >= 1];
 	_debug_message = format ["bought %1 '%2' (%3,%4), remaining money: %5",
 			_debug_bought_count, _x, _x call AS_AAFarsenal_fnc_canAdd, _extra_condition, _resourcesAAF];
 	AS_ISDEBUG(_debug_prefix + _debug_message);
-} forEach call AS_AAFarsenal_fnc_all;
+} forEach AS_AAFarsenal_buying_order;
 
 deleteVehicle _extra_conditions;
 

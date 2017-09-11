@@ -96,7 +96,7 @@ if (isServer) then {
 		call compile preprocessFileLineNumbers "initACE.sqf";
 	};
 
-	call AS_AAFarsenal_fnc_init;
+	call AS_AAFarsenal_fnc_initialize;
 
 	// Stores everything related to what units and squads the FIA can recruit (and costs)
 	AS_FIArecruitment = createSimpleObject ["Static", [0, 0, 0]];
