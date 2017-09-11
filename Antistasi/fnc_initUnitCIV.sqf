@@ -4,6 +4,8 @@ _unit = _this select 0;
 
 [_unit] call AS_DEBUG_initUnit;
 
+_unit setVariable ["AS_side", "CIV", true];
+
 _unit setSkill 0;
 
 _EHkilledIdx = _unit addEventHandler ["killed", {

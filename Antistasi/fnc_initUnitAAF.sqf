@@ -3,6 +3,8 @@ params ["_unit", ["_spawned", true]];
 
 [_unit] call AS_DEBUG_initUnit;
 
+_unit setVariable ["AS_side", "AAF", true];
+
 if (typeOf _unit == "Fin_random_F") exitWith {};  // dog
 
 [_unit] call AS_fnc_initMedical;

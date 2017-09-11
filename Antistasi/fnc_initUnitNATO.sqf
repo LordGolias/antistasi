@@ -4,6 +4,8 @@ params ["_unit"];
 [_unit] call AS_fnc_initMedical;
 _unit allowFleeing 0;
 
+_unit setVariable ["AS_side", "NATO", true];
+
 [_unit] call AS_fnc_setDefaultSkill;
 
 _unit setVariable ["BLUFORSpawn",true,true];

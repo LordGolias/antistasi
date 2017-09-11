@@ -2,6 +2,8 @@ params ["_unit"];
 
 _unit setVariable ["OPFORSpawn",true,true];
 
+_unit setVariable ["AS_side", "CSAT", true];
+
 [_unit] call AS_fnc_initMedical;
 
 [_unit] call AS_fnc_setDefaultSkill;

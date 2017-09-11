@@ -3,6 +3,8 @@ params ["_unit", ["_spawned", true], ["_place", nil], ["_equipment", []]];
 
 [_unit] call AS_DEBUG_initUnit;
 
+_unit setVariable ["AS_side", "FIA", true];
+
 if (_spawned) then {
 	_unit setVariable ["BLUFORSpawn",true,true];
 }
