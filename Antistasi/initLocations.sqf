@@ -1,7 +1,7 @@
 #include "macros.hpp"
 AS_SERVER_ONLY("initLocations.sqf");
 
-["location", true] call AS_fnc_container_add;
+call AS_fnc_location_initialize;
 
 AS_antenasTypes = [];
 AS_antenasPos_alive = [];

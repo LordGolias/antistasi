@@ -10,6 +10,7 @@ call compile preProcessFileLineNumbers "dialogs.sqf";
 call compile preProcessFileLineNumbers "AAFarsenal.sqf";
 call compile preProcessFileLineNumbers "FIArecruitment.sqf";
 
+call compile preProcessFileLineNumbers "dictionary.sqf";
 call compile preProcessFileLineNumbers "object.sqf";
 call compile preProcessFileLineNumbers "location.sqf";
 

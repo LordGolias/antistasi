@@ -23,7 +23,7 @@ petros allowdamage false;
 [_saveName, "fecha"] call AS_fnc_loadStat;
 [_saveName, "miembros"] call AS_fnc_loadStat;
 
-[_saveName] call AS_fnc_location_load;
+([_saveName, "AS_locations"] call AS_fnc_loadStat) call AS_fnc_location_deserialize;
 
 {
 	[_x, false] call AS_fnc_location_destroy;

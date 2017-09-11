@@ -1,3 +1,26 @@
+
+AS_fnc_location_initialize = {
+    if isNil "AS_container" then {
+        AS_container = call DICT_fnc_create;
+        publicVariable "AS_container";
+    };
+    [AS_container, "location"] call DICT_fnc_add;
+};
+
+AS_fnc_location_deinitialize = {
+    [AS_container, "location"] call DICT_fnc_del;
+};
+
+AS_fnc_location_dictionary = {
+    [AS_container, "location"] call DICT_fnc_get
+};
+
+// Whether the location exists or not. Used in conjunction with *_add and *_remove
+AS_fnc_location_exists = {
+    params ["_location"];
+    [call AS_fnc_location_dictionary, _location] call DICT_fnc_exists;
+};
+
 // Returns all properties of a given type.
 AS_fnc_location_properties = {
     // one parameter, the location type
@@ -31,18 +54,12 @@ AS_fnc_location_properties = {
     _properties
 };
 
-// Whether the location exists or not. Used in conjunction with *_add and *_remove
-AS_fnc_location_exists = {
-    params ["_location"];
-    ["location", _location] call AS_fnc_object_exists;
-};
-
 ////////////////////////////////// Getters //////////////////////////////////
 // I.e. to get properties of locations
 
 AS_fnc_location_get = {
     params ["_location", "_property"];
-    ["location", _location, _property] call AS_fnc_object_get
+    [call AS_fnc_location_dictionary, _location, _property] call DICT_fnc_get
 };
 
 AS_fnc_location_type = {
@@ -96,7 +113,7 @@ AS_fnc_location_side = {
 // I.e. return list of locations that match certain criteria
 
 // All locations
-AS_fnc_locations = {"location" call AS_fnc_objects};
+AS_fnc_locations = {(call AS_fnc_location_dictionary) call DICT_fnc_all};
 
 AS_fnc_location_nearest = {
     [call AS_fnc_locations, _this] call BIS_Fnc_nearestPosition
@@ -146,7 +163,7 @@ AS_fnc_location_cities = {
 // taks ownership of it. Every location requires a different marker.
 AS_fnc_location_add = {
     params ["_marker", "_type"];
-    ["location", _marker] call AS_fnc_object_add;
+    [call AS_fnc_location_dictionary, _marker] call DICT_fnc_add;
     [_marker, "type", _type, false] call AS_fnc_location_set;
     [_marker, "position", getMarkerPos _marker, false] call AS_fnc_location_set;
     _marker call AS_fnc_location_init;
@@ -197,7 +214,7 @@ AS_fnc_location_init = {
 
 AS_fnc_location_remove = {
     params ["_location"];
-    ["location", _location] call AS_fnc_object_remove;
+    [call AS_fnc_location_dictionary, _location] call DICT_fnc_del;
 
     // the hidden marker
     deleteMarker _location;
@@ -211,7 +228,7 @@ AS_fnc_location_set = {
     if (_property != "type" and {not (_property in ((_location call AS_fnc_location_type) call AS_fnc_location_properties))}) exitWith {
         diag_log format ["[AS] Error: AS_fnc_location_set: wrong property '%1' for location '%2'", _property, _location];
     };
-    ["location", _location, _property, _value] call AS_fnc_object_set;
+    [call AS_fnc_location_dictionary, _location, _property, _value] call DICT_fnc_set;
     if not _update exitWith {};
 
     if (_property == "position") then {
@@ -336,6 +353,19 @@ AS_fnc_location_addRoadblock = {
     _roadblock
 };
 
+AS_fnc_location_getCityRoads = {
+    params ["_position", "_size"];
+
+    private _roads = [];
+    {
+        private _roadcon = roadsConnectedto _x;
+        if (count _roadcon == 2) then {
+            _roads pushBack _x;
+        };
+    } forEach (_position nearRoads _size);
+    _roads
+};
+
 // Add cities from CfgWorld. Paramaters:
 // - _excludeBelow: meters below which the city is ignored
 // - _minSize: every city has at least this size by expanding it.
@@ -347,14 +377,7 @@ AS_fnc_location_addCities = {
         private _position = getPos _x;
         private _size = [_city, _minSize] call AS_fnc_location_getNameSize;
         if (_city != "" and !(_city in _excluded) and _size >= _excludeBelow) then {
-            // get all roads
-            private _roads = [];
-            {
-                private _roadcon = roadsConnectedto _x;
-                if (count _roadcon == 2) then {
-                    _roads pushBack _x;
-                };
-            } forEach (_position nearRoads _size);
+            private _roads = [_position, _size] call AS_fnc_location_getCityRoads;
 
             if (count _roads != 0) then {
                 // get population
@@ -411,6 +434,8 @@ AS_fnc_location_addHills = {
 
 // Updates location's public marker, creating a new marker if needed.
 AS_fnc_location_updateMarker = {
+
+
     params ["_location"];
     private _type = (_location call AS_fnc_location_type);
     private _position = (_location call AS_fnc_location_position);
@@ -494,37 +519,54 @@ AS_fnc_location_updateMarker = {
     };
 };
 
-AS_fnc_location_save = {
-    params ["_saveName"];
-    ["location", _saveName] call AS_fnc_object_save;
+AS_fnc_location_serialize = {
+    // keys that are not to be saved.
+    private _ignore_keys = [];
+    {
+        _ignore_keys append [[_x, "spawn"], [_x, "spawned", "forced_spawned"]];
+        if ((_x call AS_fnc_location_type) == "city") then {
+            _ignore_keys pushBack [_x, "roads"];
+        };
+    } forEach call AS_fnc_locations;
+    [call AS_fnc_location_dictionary, _ignore_keys] call DICT_fnc_serialize
 };
 
-
-AS_fnc_location_load = {
-    params ["_saveName"];
+AS_fnc_location_deserialize = {
+    params ["_serialized_string"];
+    // delete every location (including markers)
     {_x call AS_fnc_location_remove} forEach (call AS_fnc_locations);
-    ["location", _saveName] call AS_fnc_object_load;
+    call AS_fnc_location_deinitialize;
+
+    // load every location
+    [AS_container, "location", _serialized_string call DICT_fnc_deserialize] call DICT_fnc_set;
+
+    // load non-persistent stuff (e.g. markers, spawned, roads)
     {
-        private _location = _x;
+        // _x is a location
 
-        // ignore non-persistent properties from the save
-        [_location,"spawned",false] call AS_fnc_location_set;
-        [_location,"forced_spawned",false] call AS_fnc_location_set;
-
-        // create hidden marker if it does not exist.
-        if (getMarkerColor _location == "") then {
-            private _mrk = createmarker [_location, _location call AS_fnc_location_position];
-            _mrk setMarkerSize [_location call AS_fnc_location_size, _location call AS_fnc_location_size];
-            _mrk setMarkerShape "ELLIPSE";
-            _mrk setMarkerBrush "SOLID";
-            _mrk setMarkerColor "ColorGUER";
-            _mrk setMarkerAlpha 0;
-        } else {
-            _location setMarkerPos (_location call AS_fnc_location_position);
+        // initialize non-persistent properties
+        [_x, "spawned", false] call AS_fnc_location_set;
+        [_x, "forced_spawned", false] call AS_fnc_location_set;
+        if ((_x call AS_fnc_location_type) == "city") then {
+            private _roads = [_x call AS_fnc_location_position, _x call AS_fnc_location_size] call AS_fnc_location_getCityRoads;
+            [_x, "roads", _roads] call AS_fnc_location_set;
         };
 
-        _location call AS_fnc_location_updateMarker;
+        // create hidden marker if it does not exist.
+        if (getMarkerColor _x == "") then {
+            createmarker [_x, _x call AS_fnc_location_position];
+        } else {
+            _x setMarkerPos (_x call AS_fnc_location_position);
+        };
+        // properties that are not stored in the save and therefore must be re-assigned
+        _x setMarkerSize [_x call AS_fnc_location_size, _x call AS_fnc_location_size];
+        _x setMarkerShape "ELLIPSE";
+        _x setMarkerBrush "SOLID";
+        _x setMarkerColor "ColorGUER";
+        _x setMarkerAlpha 0;
 
+        // finally, show the marker on the map
+        _x call AS_fnc_location_updateMarker;
     } forEach (call AS_fnc_locations);
 };
 

@@ -27,7 +27,7 @@ private _savingPlayersHandle = ([_saveName] spawn {
 [_saveName] call AS_AAFarsenal_fnc_save;
 
 diag_log "[AS] Server: saving locations...";
-[_saveName] call AS_fnc_location_save;
+[_saveName, "AS_locations", call AS_fnc_location_serialize] call AS_fnc_saveStat;
 [_saveName] call AS_fnc_saveHQ;
 
 diag_log "[AS] Server: saving arsenal...";
