@@ -160,6 +160,9 @@ call AS_spawn_fnc_initialize;
 
 call AS_fnc_mission_initialize;
 
+// reguarly checks for players and stores their profiles
+call AS_players_fnc_initialize;
+
 // Picks the stuff defined for FIA above and merges it in a single interface
 call compile preprocessFileLineNumbers "initFIA.sqf";
 

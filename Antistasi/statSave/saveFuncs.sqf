@@ -1,6 +1,5 @@
 #include "../macros.hpp"
 call compile PreprocessFileLineNumbers "statSave\core.sqf";
-call compile preProcessFileLineNumbers "statSave\saveLoadPlayers.sqf";
 
 // Variables that are persistent to `AS_persistent`. They are saved and loaded accordingly.
 // Add variables here that you want to save.

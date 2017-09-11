@@ -8,6 +8,7 @@ petros allowdamage false;
 ([_saveName, "AS_locations"] call AS_fnc_loadStat) call AS_fnc_location_deserialize;
 ([_saveName, "AS_persistents"] call AS_fnc_loadStat) call AS_persistents_fnc_deserialize;
 ([_saveName, "AS_fia_arsenal"] call AS_fnc_loadStat) call AS_FIAarsenal_fnc_deserialize;
+([_saveName, "AS_players"] call AS_fnc_loadStat) call AS_players_fnc_deserialize;
 [true] call fnc_MAINT_arsenal;
 
 {
@@ -45,30 +46,6 @@ petros allowdamage false;
 
 ([_saveName, "AS_aaf_arsenal"] call AS_fnc_loadStat) call AS_AAFarsenal_fnc_deserialize;
 ([_saveName, "AS_fia_hq"] call AS_fnc_loadStat) call AS_hq_fnc_deserialize;
-
-if (isMultiplayer) then {
-	{
-        private _jugador = _x;
-        if ([_jugador] call isMember) then
-            {
-            {_jugador removeMagazine _x} forEach magazines _jugador;
-            {_jugador removeWeaponGlobal _x} forEach weapons _jugador;
-            removeBackpackGlobal _jugador;
-            };
-        private _pos = (getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle _jugador)];
-        _jugador setPos _pos;
-	} forEach playableUnits;
-
-    call AS_fnc_loadPlayers;
-
-} else {
-	{player removeMagazine _x} forEach magazines player;
-	{player removeWeaponGlobal _x} forEach weapons player;
-	removeBackpackGlobal player;
-
-	private _pos = (getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)];
-	player setPos _pos;
-};
 
 [[_saveName, "BE_data"] call AS_fnc_loadStat] call fnc_BE_load;
 

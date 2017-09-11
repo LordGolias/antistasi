@@ -65,6 +65,3 @@ private _cargoArray = [_unit, true] call AS_fnc_getUnitArsenal;
 private _pos = getPosATL _unit;
 private _wholder = nearestObjects [_pos, ["weaponHolderSimulated", "weaponHolder"], 2];
 {deleteVehicle _x;} forEach _wholder + [_unit];
-
-// send data to the server.
-call AS_fnc_saveLocalPlayerData;

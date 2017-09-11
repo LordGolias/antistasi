@@ -13,6 +13,7 @@ call compile preProcessFileLineNumbers "FIArecruitment.sqf";
 
 call compile preProcessFileLineNumbers "dictionary.sqf";
 call compile preProcessFileLineNumbers "location.sqf";
+call compile preProcessFileLineNumbers "players.sqf";
 
 call compile preProcessFileLineNumbers "spawn.sqf";
 
