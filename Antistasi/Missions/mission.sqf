@@ -81,12 +81,19 @@ AS_fnc_mission_create = {
 
 AS_fnc_mission_remove = {[call AS_fnc_mission_dictionary,_this] call DICT_fnc_del};
 
-// return all active missions of a given type
+// return all active missions of a given list of types
 AS_fnc_active_missions = {
-    params ["_missionType"];
+    diag_log str _this;
+    private _missionTypes = _this;
+    if (typeName _missionTypes == "STRING") then {
+        _missionTypes = [_missionTypes];
+    };
+    if (count _missionTypes == 0) exitWith {
+        (call AS_fnc_missions) select {_x call AS_fnc_mission_status == "active"}
+    };
     (call AS_fnc_missions) select {
         _x call AS_fnc_mission_status == "active" and
-        _x call AS_fnc_mission_type == _missionType}
+        _x call AS_fnc_mission_type in _missionTypes}
 };
 
 AS_fnc_available_missions = {
@@ -426,7 +433,7 @@ AS_fnc_mission_fromDict = {
     call AS_fnc_mission_deinitialize;
     [AS_container, "mission", _dict call DICT_fnc_copy] call DICT_fnc_set;
 
-    {_x call AS_fnc_mission_activate} forEach (call AS_fnc_active_missions);
+    {_x call AS_fnc_mission_activate} forEach ([] call AS_fnc_active_missions);
 };
 
 /// below are auxiliar functions for spawning missions
