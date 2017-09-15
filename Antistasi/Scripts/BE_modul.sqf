@@ -156,8 +156,6 @@ fnc_BE_XP = {
 
 	BE_currentXP = BE_currentXP + _delta;
 	[] call fnc_BE_updateProgressBar;
-
-	diag_log format ["BE - module XP -- cat: %1; delta: %2; progress: %3", _category, _delta, BE_currentXP];
 };
 
 fnc_BE_updateProgressBar = {
@@ -231,7 +229,6 @@ publicVariable "fnc_BE_calcPrice";
 fnc_BE_upgrade = {
 	private _price = call fnc_BE_calcPrice;
 
-	diag_log "[AS] INFO: BE_upgrade";
 	AS_Pset("skillFIA", BE_current_FIA_Skill_Cap);
 	AS_Pset("resourcesFIA", (AS_P("resourcesFIA") - _price) max 0);
 	BE_currentStage = BE_currentStage + 1;
@@ -262,8 +259,6 @@ fnc_BE_save = {
 	_result pushBack BE_currentXP;
 	_result pushBack BE_progressLock;
 
-	diag_log format ["BE - module save -- save: %1", _result];
-
 	_result
 };
 
@@ -275,8 +270,6 @@ fnc_BE_load = {
     BE_progressLock = _save select 2;
 
 	[] call fnc_BE_refresh;
-
-	diag_log format ["BE - module load -- save: %1", _save];
 };
 
 fnc_BE_permission = {
@@ -303,8 +296,6 @@ fnc_BE_permission = {
 		};
 		case "vehicle": {
 			_result = true;
-			diag_log format ["BE - module permission -- value: %1; \n vehicle: %2", _value, _vehicle];
-
 			if ((_value in BE_class_MBT) && ("MBT" in BE_current_Vehicle_Restriction)) exitWith {_result = false;};
 			if ((_value in BE_class_APC) && ("APC" in BE_current_Vehicle_Restriction)) exitWith {_result = false;};
 			if ((_value in BE_class_Heli) && ("Heli" in BE_current_Vehicle_Restriction)) exitWith {_result = false;};
@@ -380,8 +371,6 @@ publicVariable "fnc_BE_getCurrentValue";
 
 fnc_BE_checkVehicle = {
 	params ["_vehicle", "_type"];
-
-	diag_log format ["CV -- veh: %1", _vehicle];
 
 	private _result = false;
 	private _typeOfVehicle = typeOf _vehicle;
