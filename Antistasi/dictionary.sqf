@@ -2,7 +2,7 @@
 #define ISOBJECT(_value) (typeName _value == "OBJECT")
 #define ISARRAY(_value) (typeName _value == "ARRAY")
 
-#define SEPARATOR ("<%" + (toString [13,10]) + "%>")
+#define SEPARATOR ((toString [13,10]) + "%%%>")
 
 #define TYPE_TO_STRING(_typeName) (_typeName select [0,2])
 
