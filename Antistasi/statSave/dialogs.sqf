@@ -53,27 +53,33 @@ AS_fncUI_saveGame = {
     private _saveName = ctrlText (((findDisplay 1601) displayCtrl (2)));
 
     if (_saveName != "") then {
-        [_saveName] call AS_fnc_saveGame;
+        AS_waitingSavedGame = true;
+        [_saveName] remoteExec ["AS_fnc_saveGame", 2];
+        waitUntil {isNil "AS_waitingSavedGame"};
         [] call AS_fncUI_updateSaveGameList;
     } else {
         hint "no save selected";
     };
 };
 
-AS_fncUI_loadGame = {
+AS_fncUI_loadFromSavedGame = {
     disableSerialization;
     private _id = lbCurSel 0;
     if (_id != -1) then {
         private _saveName = lbData [0, _id];
-        private _wasLoaded = ([_saveName] call AS_fnc_loadGame);
-        if (_wasLoaded) then {
-            [] call AS_fncUI_updateSaveGameList;
-            hint format ['"%1" loaded', _saveName];
-            closeDialog 1601;
-        };
+        private _data = _saveName call AS_saveLoad_fnc_getData;
+        hint "wait for the server to load the game...";
+        [_data] remoteExec ["AS_fnc_loadGame", 2];
+        closeDialog 1601;
     } else {
         hint "no save selected";
     };
+};
+
+AS_fncUI_loadFromClipboard = {
+    private _data = copyFromClipboard;
+    hint "wait for the server to load the game...";
+    [_data] remoteExec ["AS_fnc_loadGame", 2];
 };
 
 AS_fncUI_deleteGame = {
