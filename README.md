@@ -15,6 +15,7 @@ This modified version has the same mechanics and the same features but improves 
 * All game and performance options, including AI skill and cleanup time, are now modifiable by the commander.
 * Revive system works as intended (with or without ACE) and for all factions
 * There is no "petros cavalary": this is the commander's responsibility.
+* Saving/loading games to files supported.
 
 * Menus were remade from scratch to better accommodate more buttons and other layouts.
 * Locations backend was rewritten from scratch.
@@ -153,7 +154,7 @@ Generically, each datum has two attributes:
 * persistent: whether it is persistently saved
 
 The most important concept used for data storage is a dictionary, defined in `dictionary.sqf`,
-which store shared and persistent variables.
+which stores shared and persistent variables.
 
 ### Dictionaries
 
@@ -189,6 +190,11 @@ This is because these are the only SQF types that are fully serializable.
 
 We avoid using `publicVariable` directly and instead use either the dictionary API or
 the macros.
+
+### Saved games (persistent data)
+
+Saving a game consists in converting all data into a single dictionary and serialize it to a string.
+This implies that saved games can be stored and loaded from a text file (via the clipboard).
 
 ## Distributed execution
 
