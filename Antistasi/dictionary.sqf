@@ -10,80 +10,45 @@
 
 #define TYPE_TO_STRING(_typeName) (_typeName select [0,2])
 
-// finds the next occurence after a given offset.
-EFUNC(_find) = {
-    params ["_string", "_delimiter", "_offset"];
-    private _index = (_string select [_offset]) find _delimiter;
-    if (_index != -1) then {
-        _index + _offset
-    } else {
-        _index
-    }
+// splits string with a given delimiter (can be more than 1 char)
+EFUNC(_splitString1) = {
+    params ["_string", "_delimiter"];
+    private _index = _string find _delimiter;
+    if (_index == -1) exitWith {
+        [_string]
+    };
+    private _result = [_string select [0, _index]];
+    while {_index != -1} do {
+        _string = _string select [_index + count _delimiter];
+        _index = _string find _delimiter;
+        if (_index != -1) then {
+            _result pushBack (_string select [0, _index]);
+        } else {
+            _result pushBack _string;
+        };
+    };
+    _result
 };
 
 // a splitString that accepts a delimiter with more than one char and
 // ignores delimiters within starters and enders
 EFUNC(_splitString) = {
     params ["_string", "_delimiter", "_starter", "_ender"];
-    if (_string == "") exitWith {
-        []
-    };
-
-    private _delimiter_len = count _delimiter;
-    private _starter_len = count _starter;
-    private _ender_len = count _ender;
-    private _next_delimiter_index = _string find _delimiter;
-    private _next_starter_index = _string find _starter;
-    private _next_ender_index = _string find _ender;
-
-    if (_next_delimiter_index == -1) exitWith {
+    if (_string find _delimiter == -1) exitWith {
         [_string]
     };
-    private _last_index = count _string - 1;
-
+    private _bits = [_string, _delimiter] call EFUNC(_splitString1);
     private _level = 0;
     private _result = [];
-    private _result_len = 0;
-    private _current_string = "";
-    private _ignore_len = 0;
-
     {
-        if (_foreachindex == _next_starter_index) then {
-            _level = _level + 1;
-            _next_delimiter_index = _last_index + 1;
-
-            private _offset = _next_starter_index + _starter_len;
-            _next_starter_index = [_string, _starter, _offset] call EFUNC(_find);
-        };
-
-        if (_forEachIndex == _next_delimiter_index) then {
-            _result pushBack _current_string;
-            _result_len = _result_len + count _current_string + _delimiter_len;
-
-            private _offset = _result_len;
-            _next_delimiter_index = [_string, _delimiter, _offset] call EFUNC(_find);
-
-            _ignore_len = _delimiter_len;
-            _current_string = "";
-        };
-
-        if (_ignore_len != 0) then {
-            _ignore_len = _ignore_len - 1;
+        if (_level == 0) then {
+            _result pushBack _x;
         } else {
-            _current_string = _current_string + _x;
+            private _last = count _result - 1;
+            _result set [_last, (_result select _last) + _delimiter + _x];
         };
-
-        if (_forEachIndex == _next_ender_index) then {
-            _level = _level - 1;
-            private _offset = _next_ender_index + _ender_len;
-            _next_ender_index = [_string, _ender, _offset] call EFUNC(_find);
-            if (_level == 0) then {
-                private _offset = _result_len + count _current_string;
-                _next_delimiter_index = [_string, _delimiter, _offset] call EFUNC(_find);
-            };
-        };
-    } forEach (_string splitString "");
-    _result pushBack _current_string;
+        _level = _level + count ([_x, _starter] call EFUNC(_splitString1)) - count ([_x, _ender] call EFUNC(_splitString1));
+    } forEach _bits;
     _result
 };
 
@@ -302,6 +267,7 @@ EFUNC(deserialize) = {
         if (_type == "OB") then {
             _value = call EFUNC(create);
             _value_string = _value_string select [_ob_start_count, count _value_string - _ob_start_count - _ob_end_count];
+            if (_value_string == "") exitWith {};
             {
                 [_value, _x] call _deserialize;
             } forEach ([_value_string, SEPARATOR, OB_START, OB_END] call EFUNC(_splitString));
@@ -309,6 +275,7 @@ EFUNC(deserialize) = {
         if (_type == "AR") then {
             _value_string = _value_string select [_ar_start_count, count _value_string - _ar_start_count - _ar_end_count];
             _value = [];
+            if (_value_string == "") exitWith {};
             {
                 private _bits = _x splitString ":";
 
@@ -364,8 +331,22 @@ EFUNC(deserialize) = {
 private _test_split_basic = {
     private _string = "10,10";
 
-    private _result = [_string, ",", AR_START, AR_END] call EFUNC(_splitString);
-    _result isEqualTo ["10", "10"]
+    private _obtained = [_string, ",", "[", "]"] call EFUNC(_splitString);
+    _obtained isEqualTo ["10", "10"]
+};
+
+private _test_split_nested = {
+    private _string = "0,[1,2,[3,[]]],4";
+
+    private _obtained = [_string, ",", "[", "]"] call EFUNC(_splitString);
+    _obtained isEqualTo ["0", "[1,2,[3,[]]]", "4"]
+};
+
+private _test_split_sequential = {
+    private _string = "0,[1,2],[3]";
+
+    private _obtained = [_string, ",", "[", "]"] call EFUNC(_splitString);
+    _obtained isEqualTo ["0", "[1,2]", "[3]"]
 };
 
 private _test_basic = {
@@ -468,13 +449,18 @@ private _test_deserialize = {
 };
 
 private _test_array_of_array = {
-    private _str = format ["%1b:AR:%3%5:SC:0,1:SC:1,2:AR:%3%5:SC:0,1:SC:1%4%4%2",OB_START, OB_END, AR_START, AR_END, "0"];
-    private _dict = _str call DICT_fnc_deserialize;
-    private _result = _str isEqualTo (_dict call DICT_fnc_serialize);
-    _str = format ["%1b:AR:%3%5:SC:0,1:AR:%3%5:SC:0,1:SC:1%4,2:AR:%3%4%4%2",OB_START, OB_END, AR_START, AR_END, "0"];
-    private _dict = _str call DICT_fnc_deserialize;
+    private _expected = format ["%1b:AR:%3%5:SC:0,1:SC:1,2:AR:%3%5:SC:0,1:SC:1%4%4%2",OB_START, OB_END, AR_START, AR_END, "0"];
+    private _dict = _expected call DICT_fnc_deserialize;
+    private _obtained = _dict call DICT_fnc_serialize;
+    private _result = _expected isEqualTo _obtained;
+    _dict call DICT_fnc_delete;
 
-    _result and (_str isEqualTo (_dict call DICT_fnc_serialize))
+    _expected = format ["%1b:AR:%3%5:SC:0,1:AR:%3%5:SC:0,1:SC:1%4,2:AR:%3%4%4%2",OB_START, OB_END, AR_START, AR_END, "0"];
+    _dict = _expected call DICT_fnc_deserialize;
+    _obtained = _dict call DICT_fnc_serialize;
+    _dict call DICT_fnc_delete;
+
+    _result and (_expected isEqualTo _obtained)
 };
 
 private _test_deserialize_empty_array_of_array = {
@@ -518,11 +504,14 @@ private _test_with_coma = {
 
     private _string = _dict call EFUNC(serialize);
     private _dict1 = _string call EFUNC(deserialize);
-    (([_dict1, "string"] call EFUNC(get)) isEqualTo "b,c")
+    private _result = (([_dict1, "string"] call EFUNC(get)) isEqualTo "b,c");
+    _dict call EFUNC(delete);
+    _dict1 call EFUNC(delete);
+    _result
 };
 
 DICT_tests = [
-    _test_split_basic,
+    _test_split_basic, _test_split_nested, _test_split_sequential,
     _test_basic, _test_copy, _test_delete, _test_del, _test_serialize,
     _test_serialize_del, _test_serialize_ignore,
     _test_deserialize, _test_array_of_array,
@@ -530,7 +519,7 @@ DICT_tests = [
     _test_deserialize_empty_array_of_array, _test_with_coma
 ];
 DICT_names = [
-    "split_basic",
+    "split_basic", "split_nested", "split_sequential",
     "basic", "copy", "delete", "del", "serialize",
     "serialize_del", "serialize_ignore",
     "deserialize", "array_of_array",
@@ -546,6 +535,9 @@ DICT_test_run = {
         private _script = [_forEachIndex, _x] spawn {
             params ["_forEachIndex", "_x"];
             private _result = call _x;
+            if (isNil "_result") then {
+                _result = false;
+            };
             diag_log format ["Test %1: %2", DICT_names select _forEachIndex, ["FAILED", "PASSED"] select _result];
             results pushBack (["FAILED", "PASSED"] select _result);
         };
