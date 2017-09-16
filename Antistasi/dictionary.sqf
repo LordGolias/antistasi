@@ -3,6 +3,10 @@
 #define ISARRAY(_value) (typeName _value == "ARRAY")
 
 #define SEPARATOR ((toString [13,10]) + "%%%>")
+#define OB_START ("%%%{" + (toString [13,10]))
+#define OB_END ((toString [13,10]) + "%%%}")
+#define AR_START ("%%%[" + (toString [13,10]))
+#define AR_END ((toString [13,10]) + "%%%]")
 
 #define TYPE_TO_STRING(_typeName) (_typeName select [0,2])
 
@@ -254,7 +258,7 @@ EFUNC(serialize) = {
                         };
                     };
                 } forEach allVariables _value;
-                _result = "{" + (_strings joinString SEPARATOR) + "}";
+                _result = OB_START + (_strings joinString SEPARATOR) + OB_END;
             };
             if ISARRAY(_value) exitWith {
                 private _strings = [];
@@ -264,7 +268,7 @@ EFUNC(serialize) = {
                         _strings pushBack _string;
                     };
                 } forEach _value;
-                _result = "[" + (_strings joinString ",") + "]";
+                _result = AR_START + (_strings joinString ",") + AR_END;
             };
             _result = str _value;
         };
@@ -282,24 +286,28 @@ EFUNC(serialize) = {
         };
     } forEach allVariables _dictionary;
 
-    "{" + (_strings joinString SEPARATOR) + "}"
+    OB_START + (_strings joinString SEPARATOR) + OB_END
 };
 
 EFUNC(deserialize) = {
     params ["_string"];
+    private _ar_start_count = count AR_START;
+    private _ar_end_count = count AR_END;
+    private _ob_start_count = count OB_START;
+    private _ob_end_count = count OB_END;
 
     private _deserialize_single = {
         params ["_type", "_value_string"];
         private _value = "";
         if (_type == "OB") then {
             _value = call EFUNC(create);
-            _value_string = _value_string select [1, count _value_string - 2];
+            _value_string = _value_string select [_ob_start_count, count _value_string - _ob_start_count - _ob_end_count];
             {
                 [_value, _x] call _deserialize;
-            } forEach ([_value_string, SEPARATOR, "{", "}"] call EFUNC(_splitString));
+            } forEach ([_value_string, SEPARATOR, OB_START, OB_END] call EFUNC(_splitString));
         };
         if (_type == "AR") then {
-            _value_string = _value_string select [1, count _value_string - 2];
+            _value_string = _value_string select [_ar_start_count, count _value_string - _ar_start_count - _ar_end_count];
             _value = [];
             {
                 private _bits = _x splitString ":";
@@ -309,12 +317,12 @@ EFUNC(deserialize) = {
                     _final_bit = _final_bit + ":" + (_bits select _i);
                 };
 
-                if (_final_bit == "[]") then {
+                if (_final_bit == (AR_START + AR_END)) then {
                     _value pushBack [];
                 } else {
                     _value pushBack ([_bits select 1, _final_bit] call _deserialize_single);
                 };
-            } forEach ([_value_string, ",", "[", "]"] call EFUNC(_splitString));
+            } forEach ([_value_string, ",", AR_START, AR_END] call EFUNC(_splitString));
         };
         if (_type == "BO") then {
             _value = [True, False] select (_value_string == "false");
@@ -356,7 +364,7 @@ EFUNC(deserialize) = {
 private _test_split_basic = {
     private _string = "10,10";
 
-    private _result = [_string, ",", "[", "]"] call EFUNC(_splitString);
+    private _result = [_string, ",", AR_START, AR_END] call EFUNC(_splitString);
     _result isEqualTo ["10", "10"]
 };
 
@@ -413,19 +421,9 @@ private _test_serialize = {
     [_dict, "array", [1,"b"]] call EFUNC(set);
 
     private _string = _dict call EFUNC(serialize);
-    _string isEqualTo format["{text:TE:b%1string:ST:""b""%1bool:BO:false%1number:SC:1%1array:AR:[0:SC:1,1:ST:""b""]}", SEPARATOR]
-};
-
-private _test_array_of_array = {
-    private _str = "{b:AR:[0:SC:0,1:SC:1,2:AR:[0:SC:0,1:SC:1]]}";
-    private _dict = _str call DICT_fnc_deserialize;
-
-    private _result = _str isEqualTo (_dict call DICT_fnc_serialize);
-
-    _str = "{b:AR:[0:SC:0,1:AR:[0:SC:0,1:SC:1],2:AR:[]]}";
-    private _dict = _str call DICT_fnc_deserialize;
-
-    _result and (_str isEqualTo (_dict call DICT_fnc_serialize))
+    private _expected = format["%2text:TE:b%1string:ST:""b""%1bool:BO:false%1number:SC:1%1array:AR:%4:SC:1,1:ST:""b""%5%3",
+        SEPARATOR, OB_START, OB_END, AR_START + "0", AR_END];
+    _string isEqualTo _expected
 };
 
 private _test_serialize_del = {
@@ -435,7 +433,7 @@ private _test_serialize_del = {
     [_dict, "string"] call EFUNC(del);
 
     private _string = _dict call EFUNC(serialize);
-    _string isEqualTo "{}"
+    _string isEqualTo format["%1%2", OB_START, OB_END]
 };
 
 private _test_serialize_ignore = {
@@ -445,11 +443,11 @@ private _test_serialize_ignore = {
     [_dict, "b", "b"] call EFUNC(set);
 
     private _string1 = _dict call EFUNC(serialize);
-    private _result1 = _string1 isEqualTo format["{a:ST:""a""%1b:ST:""b""}", SEPARATOR];
+    private _result1 = _string1 isEqualTo format["%2a:ST:""a""%1b:ST:""b""%3", SEPARATOR, OB_START, OB_END];
 
     // ignoring "a" should result in "b" only
     private _string2 = [_dict, [["a"]]] call EFUNC(serialize);
-    (_string2 isEqualTo "{b:ST:""b""}") and _result1
+    (_string2 isEqualTo  format["%1b:ST:""b""%2", OB_START, OB_END]) and _result1
 };
 
 private _test_deserialize = {
@@ -462,11 +460,21 @@ private _test_deserialize = {
 
     private _string = _dict call EFUNC(serialize);
     private _dict1 = _string call EFUNC(deserialize);
-    ([_dict1, "number"] call EFUNC(get)) isEqualTo 1 and
+    (([_dict1, "number"] call EFUNC(get)) isEqualTo 1) and
     {([_dict1, "string"] call EFUNC(get)) isEqualTo "b"} and
     {([_dict1, "bool"] call EFUNC(get)) isEqualTo false} and
     {([_dict1, "text"] call EFUNC(get)) isEqualTo (text "b")} and
     {([_dict1, "array"] call EFUNC(get)) isEqualTo [1,"b"]}
+};
+
+private _test_array_of_array = {
+    private _str = format ["%1b:AR:%3%5:SC:0,1:SC:1,2:AR:%3%5:SC:0,1:SC:1%4%4%2",OB_START, OB_END, AR_START, AR_END, "0"];
+    private _dict = _str call DICT_fnc_deserialize;
+    private _result = _str isEqualTo (_dict call DICT_fnc_serialize);
+    _str = format ["%1b:AR:%3%5:SC:0,1:AR:%3%5:SC:0,1:SC:1%4,2:AR:%3%4%4%2",OB_START, OB_END, AR_START, AR_END, "0"];
+    private _dict = _str call DICT_fnc_deserialize;
+
+    _result and (_str isEqualTo (_dict call DICT_fnc_serialize))
 };
 
 private _test_deserialize_empty_array_of_array = {
@@ -490,7 +498,7 @@ private _test_serialize_obj = {
     [_dict, "obj", "a", 1] call EFUNC(set);
 
     private _string = _dict call EFUNC(serialize);
-    _string isEqualTo "{obj:OB:{a:SC:1}}"
+    _string isEqualTo format["%1obj:OB:%1a:SC:1%2%2", OB_START, OB_END]
 };
 
 private _test_deserialize_obj = {
@@ -504,19 +512,30 @@ private _test_deserialize_obj = {
     ([_dict, "obj", "a"] call EFUNC(get)) isEqualTo 1
 };
 
+private _test_with_coma = {
+    private _dict = call EFUNC(create);
+    [_dict, "string", "b,c"] call EFUNC(set);
+
+    private _string = _dict call EFUNC(serialize);
+    private _dict1 = _string call EFUNC(deserialize);
+    (([_dict1, "string"] call EFUNC(get)) isEqualTo "b,c")
+};
+
 DICT_tests = [
     _test_split_basic,
     _test_basic, _test_copy, _test_delete, _test_del, _test_serialize,
-    _test_serialize_del, _test_array_of_array, _test_serialize_ignore, _test_deserialize,
+    _test_serialize_del, _test_serialize_ignore,
+    _test_deserialize, _test_array_of_array,
     _test_serialize_obj, _test_deserialize_obj,
-    _test_deserialize_empty_array_of_array
+    _test_deserialize_empty_array_of_array, _test_with_coma
 ];
 DICT_names = [
     "split_basic",
     "basic", "copy", "delete", "del", "serialize",
-    "serialize_del", "array_of_array","serialize_ignore", "deserialize",
+    "serialize_del", "serialize_ignore",
+    "deserialize", "array_of_array",
     "serialize_dictionary", "deserialize_dictionary",
-    "empty_array_of_array"
+    "empty_array_of_array", "with_coma"
 ];
 
 DICT_test_run = {
