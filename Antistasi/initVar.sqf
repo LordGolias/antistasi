@@ -243,6 +243,7 @@ AS_Sset("reportedVehs", []);
 AS_Sset("AS_vehicleOrientation", 0);
 
 AS_spawnLoopTime = 1; // seconds between each check of spawn/despawn locations (expensive loop).
+AS_resourcesLoopTime = 600; // seconds between resources update
 
 // Pricing values for soldiers, vehicles of AAF
 {AS_data_allCosts setVariable [_x,100,true]} forEach infList_regular;

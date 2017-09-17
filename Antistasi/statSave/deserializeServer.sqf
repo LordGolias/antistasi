@@ -4,6 +4,17 @@ params ["_string"];
 
 petros allowdamage false;
 
+// stop spawning new locations
+[false] call AS_fnc_spawnToggle;
+// despawn every spawned location
+{
+    if (_x call AS_fnc_location_spawned) then {
+        _x call AS_fnc_location_despawn;
+    };
+} forEach (call AS_fnc_locations);
+
+[false] call AS_fnc_resourcesToggle;
+
 diag_log "[AS] Server: deserializing data...";
 private _dict = _string call DICT_fnc_deserialize;
 
@@ -32,3 +43,7 @@ petros allowdamage true;
 
 _dict call DICT_fnc_delete;
 diag_log "[AS] Server: loading completed.";
+
+// start spawning again
+[true] call AS_fnc_spawnToggle;
+[true] call AS_fnc_resourcesToggle;

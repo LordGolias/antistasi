@@ -289,7 +289,7 @@ _type = _location call AS_fnc_location_type;
 hint str (_type call AS_fnc_location_properties);
 ```
 
-`spawnLoop.sqf` is the loop that controls which locations are spawned.
+`spawnUpdate.sqf` is the function that controls which locations are spawned.
 When opposing forces reach (or other conditions), this loop spawns the location.
 Each location is spawned differently depending on its side and type,
 the scripts responsible for creating units, etc. are in `CREATE/`.

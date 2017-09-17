@@ -42,6 +42,6 @@ diag_log "[AS] Server: serverInitDone";
 waitUntil {!isNil "AS_commander" and {isPlayer AS_commander}};
 
 waitUntil {!(isNil "placementDone")};
-[] spawn AS_fnc_spawnLoop;
+[true] call AS_fnc_spawnToggle;
 [] spawn AS_players_fnc_loop;
-resourcecheck = [] execVM "resourcecheck.sqf";
+[true] call AS_fnc_resourcesToggle;

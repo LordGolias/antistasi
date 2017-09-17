@@ -16,6 +16,11 @@ call compile preProcessFileLineNumbers "location.sqf";
 call compile preProcessFileLineNumbers "players.sqf";
 
 call compile preProcessFileLineNumbers "spawn.sqf";
+AS_fnc_spawnToggle = compile preProcessFileLineNumbers "spawnToggle.sqf";
+AS_fnc_spawnUpdate = compile preProcessFileLineNumbers "spawnUpdate.sqf";
+
+AS_fnc_resourcesToggle = compile preProcessFileLineNumbers "resourcesToggle.sqf";
+AS_fnc_resourcesUpdate = compile preProcessFileLineNumbers "resourcesUpdate.sqf";
 
 call compile preprocessFileLineNumbers "Functions\clientFunctions.sqf";
 call compile preprocessFileLineNumbers "Functions\QRFfunctions.sqf";
@@ -164,7 +169,6 @@ findBasesForCA = compile preProcessFileLineNumbers "findBasesForCA.sqf";
 findBasesForConvoy = compile preProcessFileLineNumbers "findBasesForConvoy.sqf";
 findAirportsForCA = compile preProcessFileLineNumbers "findAirportsForCA.sqf";
 
-AS_fnc_spawnLoop = compile preProcessFileLineNumbers "spawnLoop.sqf";
 inmuneConvoy = compile preProcessFileLineNumbers "AI\inmuneConvoy.sqf";
 smokeCover = compile preProcessFileLineNumbers "AI\smokeCover.sqf";
 airdrop = compile preProcessFileLineNumbers "AI\airdrop.sqf";
