@@ -278,3 +278,7 @@ class CfgDebriefing
 class Params {
     #include "aceSettings.hpp"
 };
+
+class cfgRemoteExec {
+    #include "cfgRemoteExec.hpp"
+};
