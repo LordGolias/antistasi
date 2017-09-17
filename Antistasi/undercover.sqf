@@ -35,18 +35,19 @@ private _isMilitaryHints = [
 ];
 
 private _isMilitaryDressed = {
+	private _result = false;
 	{
 		if (call _x) exitWith {
-			true
+			_result = true;
 		};
 	} forEach _isMilitaryDressedConditions;
-	false
+	_result
 };
 
 private _fnc_detected = {
 	private _detected = false;
 	{
-		if ((side _x == side_red) and {(_x knowsAbout _player > 1.4) and (_x distance _player < 500)}) exitWith {
+		if ((side _x == side_red) and {(_x distance _player < 5) or {(_x knowsAbout _player > 1.4) and (_x distance _player < 500)}}) exitWith {
 			_detected = true;
 		};
 	} forEach allUnits;
