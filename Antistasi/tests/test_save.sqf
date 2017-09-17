@@ -16,10 +16,10 @@
 
 [] spawn {
     (call AS_AAFarsenal_fnc_toDict) call AS_AAFarsenal_fnc_fromDict;
-    (call AS_fnc_location_toDict) call AS_fnc_location_fromDict;
+    (call AS_location_fnc_toDict) call AS_location_fnc_fromDict;
     (call AS_hq_fnc_toDict) call AS_hq_fnc_fromDict;
     (call AS_FIAarsenal_fnc_toDict) call AS_FIAarsenal_fnc_fromDict;
     (call AS_persistents_fnc_toDict) call AS_persistents_fnc_fromDict;
-    (call AS_fnc_mission_toDict) call AS_fnc_mission_fromDict;
+    (call AS_mission_fnc_toDict) call AS_mission_fnc_fromDict;
     (call AS_players_fnc_toDict) call AS_players_fnc_fromDict;
 };

@@ -3,7 +3,7 @@ AS_SERVER_ONLY("fnc_HQAddObject.sqf");
 params ["_objType"];
 
 if (_objType == "delete") exitWith {
-	call fnc_deletePad;
+	call AS_fnc_HQdeletePad;
 	{
 		deleteVehicle _x;
 	} foreach AS_HQ_placements;
@@ -11,7 +11,7 @@ if (_objType == "delete") exitWith {
 };
 
 if (_objType == "pad") exitWith {
-	call fnc_deletePad;
+	call AS_fnc_HQdeletePad;
 	{
 		if (str typeof _x find "Land_Bucket_painted_F" > -1) then {
 			[_x, {deleteVehicle _this}] remoteExec ["call", 0];

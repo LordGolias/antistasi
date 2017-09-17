@@ -1,6 +1,6 @@
 #include "../macros.hpp"
 if (AS_P("NATOsupport") < 10) exitWith {hint "You lack of enough NATO Support to make this request"};
-	if (!([player] call hasRadio)) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
+	if (!([player] call AS_fnc_hasRadio)) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
 _tipo = _this select 0;
 
 posicionTel = [];
@@ -39,9 +39,9 @@ posicionTel = [];
 _ang = [_pos1,_pos2] call BIS_fnc_dirTo;
 
 _central = [_pos1, 100, _ang] call BIS_fnc_relPos;
-_ciudad = [call AS_fnc_location_cities,_central] call BIS_fnc_nearestPosition;
+_ciudad = [call AS_location_fnc_cities,_central] call BIS_fnc_nearestPosition;
 
-if (_central distance (_ciudad call AS_fnc_location_position) < (_ciudad call AS_fnc_location_size) * 1.5) exitWith {hint format ["That path is very close to %1.\n\nNATO won't perform any bomb run that may cause civilian casualties",_ciudad]; deleteMarker _mrkOrig; openMap false};
+if (_central distance (_ciudad call AS_location_fnc_position) < (_ciudad call AS_location_fnc_size) * 1.5) exitWith {hint format ["That path is very close to %1.\n\nNATO won't perform any bomb run that may cause civilian casualties",_ciudad]; deleteMarker _mrkOrig; openMap false};
 
 [-10,0] remoteExec ["AS_fnc_changeForeignSupport",2];
 

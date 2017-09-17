@@ -39,4 +39,4 @@ if ((_nato != 0) and (_csat != 0)) then
 	};
 };
 
-if (_texto != "") then {[petros,"income",_texto] remoteExec ["commsMP",AS_commander]};
+if (_texto != "") then {[petros,"income",_texto] remoteExec ["AS_fnc_localCommunication",AS_commander]};

@@ -9,9 +9,9 @@ if (alive gunner _estatica) exitWith {hint "You cannot steal a static weapon whe
 
 if ((alive assignedGunner _estatica) and (!isPlayer (assignedGunner _estatica))) exitWith {hint "The gunner of this static weapon is still alive"};
 
-_cercano = _estatica call AS_fnc_location_nearest;
+_cercano = _estatica call AS_location_fnc_nearest;
 
-if (_cercano call AS_fnc_location_side == "AAF") exitWith {hint "You have to conquer this zone in order to be able to steal this Static Weapon"};
+if (_cercano call AS_location_fnc_side == "AAF") exitWith {hint "You have to conquer this zone in order to be able to steal this Static Weapon"};
 
 _estatica setOwner (owner _jugador);
 

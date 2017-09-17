@@ -1,13 +1,13 @@
 #include "macros.hpp"
 params ["_unit", ["_spawned", true]];
 
-[_unit] call AS_DEBUG_initUnit;
+[_unit] call AS_debug_fnc_initUnit;
 
 _unit setVariable ["AS_side", "AAF", true];
 
 if (typeOf _unit == "Fin_random_F") exitWith {};  // dog
 
-[_unit] call AS_fnc_initMedical;
+[_unit] call AS_medical_fnc_initUnit;
 if (_spawned) then {
 	_unit setVariable ["OPFORSpawn",true,true];
 };
@@ -40,4 +40,4 @@ else {
 	};
 };
 
-_unit addEventHandler ["killed", AAFKilledEH];
+_unit addEventHandler ["killed", AS_fnc_EH_AAFKilled];

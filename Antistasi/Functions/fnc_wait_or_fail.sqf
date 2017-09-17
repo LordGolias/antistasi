@@ -11,12 +11,12 @@ while {(_counter < _waitTime) and {not call _fnc_missionFailedCondition}} do {
 		if !(_active) then {
 			{
 				if (isPlayer _x) then {
-					[_waitTime - _counter, false] remoteExec ["pBarMP", _x];
+					[_waitTime - _counter, false] remoteExec ["AS_fnc_showProgressBar", _x];
 				};
 			} forEach ([100, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 			_active = true;
 			if (_str_unloadStart != "") then {
-				[[petros, "sideChat", _str_unloadStart], "commsMP"] call BIS_fnc_MP;
+				[[petros, "sideChat", _str_unloadStart], "AS_fnc_localCommunication"] call BIS_fnc_MP;
 			};
 		};
 		_counter = _counter + 1;
@@ -29,13 +29,13 @@ while {(_counter < _waitTime) and {not call _fnc_missionFailedCondition}} do {
 		_active = false;
 		{
 			if (isPlayer _x) then {
-				[0, true] remoteExec ["pBarMP", _x];
+				[0, true] remoteExec ["AS_fnc_showProgressBar", _x];
 			};
 		} forEach ([100, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 
 		if (not call _fnc_missionFailedCondition) then {
 			if (_str_unloadStopped != "") then {
-				[[petros, "sideChat", _str_unloadStopped], "commsMP"] call BIS_fnc_MP;
+				[[petros, "sideChat", _str_unloadStopped], "AS_fnc_localCommunication"] call BIS_fnc_MP;
 			};
 		};
 

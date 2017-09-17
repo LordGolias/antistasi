@@ -18,10 +18,9 @@ sleep 5;
 if (round random 100 < _chance) then
 	{
 	_unit globalChat "Okay, I'll tell you everything I know";
-	[_unit] execVM "intelFound.sqf";
+	[_unit] call AS_fnc_showFoundIntel;
 	}
 else
 	{
 	_unit globalChat "Screw you!";
 	};
-

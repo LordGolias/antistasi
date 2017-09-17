@@ -8,8 +8,8 @@ if (AS_S("timeToNextJam") > dateToNumber date) exitWith {
 
 private _antenasFIA = 0;
 {
-	private _location = _x call AS_fnc_location_nearest;
-	if (_location call AS_fnc_location_side == "FIA") then {
+	private _location = _x call AS_location_fnc_nearest;
+	if (_location call AS_location_fnc_side == "FIA") then {
 		_antenasFIA = _antenasFIA + 1
 	};
 } forEach AS_P("antenasPos_alive");

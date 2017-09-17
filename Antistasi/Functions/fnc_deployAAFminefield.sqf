@@ -3,8 +3,8 @@ AS_SERVER_ONLY("fnc_deployAAFminefield.sqf");
 
 private _deployMinefield = {
     params ["_base", "_location"];
-    private _posbase = _base call AS_fnc_location_position;
-    private _FIAposition = _location call AS_fnc_location_position;
+    private _posbase = _base call AS_location_fnc_position;
+    private _FIAposition = _location call AS_location_fnc_position;
     private _angOrig = [_posbase,_FIAposition] call BIS_fnc_dirTo;
 
     // position to find
@@ -26,10 +26,10 @@ private _deployMinefield = {
     	_position = [_posbase, _distance, _ang] call BIS_Fnc_relPos;
 
     	if (!surfaceIsWater _position) then {
-    		private _nearest = _position call AS_fnc_location_nearest;
-    		if (not(_nearest call AS_fnc_location_spawned)) then {
-    			private _size = _nearest call AS_fnc_location_size;
-    			private _nearestPos = _nearest call AS_fnc_location_position;
+    		private _nearest = _position call AS_location_fnc_nearest;
+    		if (not(_nearest call AS_location_fnc_spawned)) then {
+    			private _size = _nearest call AS_location_fnc_size;
+    			private _nearestPos = _nearest call AS_location_fnc_position;
     			if ((_position distance _nearestPos) > (_size + 100)) then {
     				private _roads = _position nearRoads 101;
     				if (count _roads == 0) then {
@@ -56,11 +56,11 @@ private _deployMinefield = {
 
 private _deployed = false;
 {
-    if ((_x call isFrontline) and !(_x call AS_fnc_location_spawned)) then {
-        private _closeBy = ["FIA" call AS_fnc_location_S, _x call AS_fnc_location_position] call BIS_fnc_nearestPosition;
+    if ((_x call AS_fnc_location_isFrontline) and !(_x call AS_location_fnc_spawned)) then {
+        private _closeBy = ["FIA" call AS_location_fnc_S, _x call AS_location_fnc_position] call BIS_fnc_nearestPosition;
         _deployed = [_x,_closeBy] call _deployMinefield;
     };
     if (_deployed) exitWith {};
-} forEach (["base", "AAF"] call AS_fnc_location_TS);
+} forEach (["base", "AAF"] call AS_location_fnc_TS);
 
 _deployed

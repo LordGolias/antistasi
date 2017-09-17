@@ -9,12 +9,12 @@ if (_player != player) exitWith {
 
 private _attachPoint = [0,2,1];  // default attach point
 
-private _position = "FIA_HQ" call AS_fnc_location_position;
+private _position = "FIA_HQ" call AS_location_fnc_position;
 private _distance = 30;
 
 if (!isNil "_arguments") then {
-	private _nearest = (["FIA" call AS_fnc_location_S, player] call BIS_fnc_nearestPosition);
-	_position = _nearest call AS_fnc_location_position;
+	private _nearest = (["FIA" call AS_location_fnc_S, player] call BIS_fnc_nearestPosition);
+	_position = _nearest call AS_location_fnc_position;
 	_distance = 50;
 
 	private _bbr = boundingBoxReal _vehicle;

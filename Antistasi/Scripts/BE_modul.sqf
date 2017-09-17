@@ -1,5 +1,3 @@
-#include "../macros.hpp"
-
 #define BE_XP_KILL 0.5
 #define BE_XP_MIS 10
 #define BE_XP_DES_VEH 5
@@ -168,7 +166,7 @@ fnc_BE_updateProgressBar = {
 	if (BE_progressLock) exitWith {
 		_pV = [BE_COLOR_LOCK, BE_COLOR_LOCK, BE_current_FIA_Skill_Cap, BE_current_FIA_Skill_Cap+1, "Army XP"];
 		BE_currentXP = 0;
-		["Army XP", _pV, _cV] call fnc_updateProgressBar;
+		["Army XP", _pV, _cV] call AS_fnc_updateProgressBar;
 	};
 
 	_pV = [BE_COLOR_DONE, BE_COLOR_DEF, _v, _v+1, "Army XP"];
@@ -185,7 +183,7 @@ fnc_BE_updateProgressBar = {
 		[] spawn {sleep 2; [] call fnc_BE_updateProgressBar};
 	};
 
-	["Army XP", _pV, _cV] call fnc_updateProgressBar;
+	["Army XP", _pV, _cV] call AS_fnc_updateProgressBar;
 };
 
 fnc_BE_REQs = {
@@ -320,17 +318,17 @@ fnc_BE_permission = {
 			};
 		};
 		case "camp": {
-			if (BE_current_FIA_Camp_Cap > (count (["camp", "FIA"] call AS_fnc_location_TS))) then {
+			if (BE_current_FIA_Camp_Cap > (count (["camp", "FIA"] call AS_location_fnc_TS))) then {
 				_result = true;
 			};
 		};
 		case "RB": {
-			if (BE_current_FIA_RB_Cap > (count (["roadblock", "FIA"] call AS_fnc_location_TS))) then {
+			if (BE_current_FIA_RB_Cap > (count (["roadblock", "FIA"] call AS_location_fnc_TS))) then {
 				_result = true;
 			};
 		};
 		case "WP": {
-			if (BE_current_FIA_WP_Cap > (count (["watchpost", "FIA"] call AS_fnc_location_TS))) then {
+			if (BE_current_FIA_WP_Cap > (count (["watchpost", "FIA"] call AS_location_fnc_TS))) then {
 				_result = true;
 			};
 		};
@@ -434,7 +432,7 @@ fnc_BE_broadcast = {
 		_pI pushBackUnique (format ["Current FIA watchpost cap: %1", BE_current_FIA_WP_Cap]);
 	};
 
-	[petros,"BE",_pI] remoteExec ["commsMP",AS_commander];
+	[petros,"BE",_pI] remoteExec ["AS_fnc_localCommunication",AS_commander];
 };
 
 #define BE_STR_CTER1 "At least 1 outpost/base/airport under your control"
@@ -454,7 +452,7 @@ fnc_BE_C_TER = {
 		};
 	};
 
-	[(count ([_types, "FIA"] call AS_fnc_location_TS) > 0), BE_STR_CTER]
+	[(count ([_types, "FIA"] call AS_location_fnc_TS) > 0), BE_STR_CTER]
 };
 
 #define BE_STR_CMTN1 ""
@@ -462,7 +460,7 @@ fnc_BE_C_TER = {
 #define BE_STR_CMTN3 ""
 fnc_BE_C_MTN = {
 	BE_STR_CMTN = BE_STR_CMTN2;
-	[(count (["hillAA", "FIA"] call AS_fnc_location_TS) > 0), BE_STR_CMTN]
+	[(count (["hillAA", "FIA"] call AS_location_fnc_TS) > 0), BE_STR_CMTN]
 };
 
 #define BE_STR_CHR1 "Have at least 20 HR"

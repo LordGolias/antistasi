@@ -1,14 +1,14 @@
 
 // sagonisi and hill12 are excluded for an unknown reason.
 // todo: document why these are excluded.
-[200, 200, ["sagonisi","hill12"]] call AS_fnc_location_addCities;
+[200, 200, ["sagonisi","hill12"]] call AS_location_fnc_addCities;
 
 // These have to be names of hills in the map
 private _hillsAA = ["Agela","Agia Stemma","Agios Andreas","Agios Minas","Amoni","Didymos","Kira","Pyrsos","Riga","Skopos","Synneforos","Thronos"];
 // 1st param is the min size of the hill, used e.g. to detect when it is cleared. The marker is re-sized to be of this size.
 // 2nd param is list of excluded hills. Magos is excluded because there is a base there.
 // 3rd param is a list of hill names that are spawned with AA. (i.e. type "hillAA")
-[50, ["Magos"], _hillsAA] call AS_fnc_location_addHills;
+[50, ["Magos"], _hillsAA] call AS_location_fnc_addHills;
 
 // These have to be marker names.
 seaMarkers = ["seaPatrol","seaPatrol_1","seaPatrol_2","seaPatrol_3","seaPatrol_4","seaPatrol_5","seaPatrol_6","seaPatrol_7","seaPatrol_8","seaPatrol_9","seaPatrol_10","seaPatrol_11","seaPatrol_12","seaPatrol_13","seaPatrol_14","seaPatrol_15","seaPatrol_16","seaPatrol_17","seaPatrol_18","seaPatrol_19","seaPatrol_20","seaPatrol_21","seaPatrol_22","seaPatrol_23","seaPatrol_24","seaPatrol_25","seaPatrol_26","seaPatrol_27"];

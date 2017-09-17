@@ -1,9 +1,9 @@
 params ["_location", "_side", "_grupo"];
 
-private _posicion = _location call AS_fnc_location_position;
-private _size = _location call AS_fnc_location_size;
+private _posicion = _location call AS_location_fnc_position;
+private _size = _location call AS_location_fnc_size;
 private _buildings = nearestObjects [_posicion, AS_destroyable_buildings, _size*1.5];
-private _addChopper = (_side == side_red) and !([_location] call isFrontline);
+private _addChopper = (_side == side_red) and !([_location] call AS_fnc_location_isFrontline);
 
 // FIA
 private _staticAA = "B_static_AA_F";

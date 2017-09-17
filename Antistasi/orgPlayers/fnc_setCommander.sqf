@@ -1,3 +1,6 @@
+#include "../macros.hpp"
+AS_SERVER_ONLY("AS_fnc_setCommander");
+
 params ["_unit"];
 
 private _hcGroups = hcAllGroups AS_commander;

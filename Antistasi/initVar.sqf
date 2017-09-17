@@ -160,7 +160,7 @@ if (!isServer) exitWith {};
 // create container to store spawns
 call AS_spawn_fnc_initialize;
 
-call AS_fnc_mission_initialize;
+call AS_mission_fnc_initialize;
 
 // reguarly checks for players and stores their profiles
 call AS_players_fnc_initialize;
@@ -303,4 +303,4 @@ publicVariable "unlockedItems";
 publicVariable "unlockedBackpacks";
 publicVariable "unlockedMagazines";
 
-[] spawn AS_fnc_mission_updateAvailable;
+[] spawn AS_mission_fnc_updateAvailable;

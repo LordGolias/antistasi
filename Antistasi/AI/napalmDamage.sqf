@@ -21,8 +21,8 @@ while {time < _timeOut} do
 					if ((_dam >= 1) and (isPlayer _x)) then
 						{
 						_x setdamage 0;
-						[_x, true] call AS_fnc_setUnconscious;
-						[_x] spawn respawn;
+						[_x, true] call AS_medical_fnc_setUnconscious;
+						[_x] spawn AS_fnc_respawnPlayer;
 						}
 					else
 						{

@@ -31,7 +31,7 @@ if (count _eligibles == 0) then {
 	_eligibles = _members
 };
 if (count _eligibles == 1 and (AS_commander in _eligibles)) exitWith {
-	[[petros, "hint", format["%1 tried to resign but is the only eligible commander, so it remains so", name AS_commander]], "commsMP"] call BIS_fnc_MP;
+	[[petros, "hint", format["%1 tried to resign but is the only eligible commander, so it remains so", name AS_commander]], "AS_fnc_localCommunication"] call BIS_fnc_MP;
 };
 
 // select player with highest score (and more than 20% than commander)
@@ -57,5 +57,5 @@ if !(isNull _bestCandidate) then {
 	};
 	[_bestCandidate] call AS_fnc_setCommander;
 	sleep 5;
-	[[petros, "hint", _text], "commsMP"] call BIS_fnc_MP;
+	[[petros, "hint", _text], "AS_fnc_localCommunication"] call BIS_fnc_MP;
 };

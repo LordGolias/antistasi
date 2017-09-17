@@ -109,7 +109,7 @@ you load it again. To change this behavior, tick the box `Bidirectional sync` in
 Run
 
 ```
-[true] call AS_DEBUG_init;
+true call AS_debug_fnc_toggle;
 ```
 
 to show in the map all units (dead or alive) and locations that are currently spawned.
@@ -118,16 +118,17 @@ reverse it.
 
 # Code structure
 
-- `Municion/`: scripts related with weapons, arsenal and boxes.
-- `CREATE/`: scripts related with spawing places, units and convoys.
+- `arsenal/`: functions related with weapons, arsenal and boxes.
+- `movement/`: scripts related with spawning moving AAF
+- `database/`: API to load and save games
 - `persistency/`: scripts related with loading and saving the game.
-- `location.sqf`: contains all the code for interacting with locations.
-- `Missions/`: everything related to missions. Core module is `Missions/mission.sqf`.
+- `location/`: contains all the code for interacting and spawning with locations.
+- `mission/`: contains all the code for interacting and spawning missions.
 - `initialization/`: scripts that initialize the mission.
 - `Revive/`: scripts used for the revive system
-- `scheduler.sqf`: contains all functions for distributed execution
-- `spawn.sqf`: contains all functions for spawn execution
-- `dictionary.sqf`: contains the API to store serializable data
+- `scheduler/`: contains all functions for distributed execution
+- `spawn/`: contains all functions for spawn execution
+- `dictionary/`: contains the API to store serializable data
 
 ## Initialization
 
@@ -137,8 +138,7 @@ This script uses `server.sqf`, `headlessClient.sqf`, `client.sqf` in `initializa
 Regardless of the game mode (SP or MP), `server.sqf` is called on the server side
 and `client.sqf` or `headlessClient.sqf` are called on non-server.
 
-The code that has to be called on every machine running AS is `initFuncs.sqf` and `initVar.sqf`.
-`initFuncs.sqf` defines all functions and components.
+The code that has to be called on every machine running AS is `initVar.sqf`.
 
 `server.sqf` call `serverMP.sqf` or `serverSP.sqf` depending
 
@@ -153,7 +153,7 @@ Generically, each datum has two attributes:
 * shared: whether it is a globally shared
 * persistent: whether it is persistently saved
 
-The most important concept used for data storage is a dictionary, defined in `dictionary.sqf`,
+The most important concept used for data storage is a dictionary, defined in `dictionary/`,
 which stores shared and persistent variables.
 
 ### Dictionaries
@@ -218,7 +218,7 @@ A `spawn` is a list of execution blocks that are to be executed sequentially.
 Between blocks, the state of the spawn is saved globally, which makes spawns
 fail-tolerant against client disconnections.
 
-The code responsible for this is defined in `spawn.sqf`. The spawn API has
+The code responsible for this is defined in `spawn/`. The spawn API has
 functions to modify the state `add/set/get/remove`, and a state to run a new spawn, `execute`.
 
 Every spawn has a unique `"name"` and a `"type"`.
@@ -245,51 +245,51 @@ Each location is represented by a string (e.g. `_location = "FIA_HQ";`)
 and it has a type (e.g. `"base"`, `"resource"`). Each location "owns" a hidden marker
 that is used to represent its position.
 
-`location.sqf` contains all the functions that you use to interact with locations.
+`location/` contains all the functions that you use to interact with locations.
 It contains functions to:
 
 * get properties:
 
 ```
-_side = _location call AS_fnc_location_side;
-_position = _location call AS_fnc_location_position;
-_size = [_location,"size"] call AS_fnc_location_get;
+_side = _location call AS_location_fnc_side;
+_position = _location call AS_location_fnc_position;
+_size = [_location,"size"] call AS_location_fnc_get;
 ```
 
 * set properties:
 
 ```
-_side = [_location,"side","AAF"] call AS_fnc_location_set;
+_side = [_location,"side","AAF"] call AS_location_fnc_set;
 ```
 
 * add and delete locations
 
 ```
-[_marker,"roadblock"] call AS_fnc_location_add;
-[_marker,"side","FIA"] call AS_fnc_location_set;
+[_marker,"roadblock"] call AS_location_fnc_add;
+[_marker,"side","FIA"] call AS_location_fnc_set;
 // ...
-_marker call AS_fnc_location_remove;
+_marker call AS_location_fnc_remove;
 ```
 
 * list locations of a certain type or side:
 
 ```
-call AS_fnc_location_all
+call AS_location_fnc_all
 // [T]ype and [S]ide
-_bases = "base" call AS_fnc_location_T;
-_FIAlocations = "FIA" call AS_fnc_location_S;
-_FIAbases = ["base","AAF"] call AS_fnc_location_TS;
-[["base","airfield"],"FIA"] call AS_fnc_location_TS;
+_bases = "base" call AS_location_fnc_T;
+_FIAlocations = "FIA" call AS_location_fnc_S;
+_FIAbases = ["base","AAF"] call AS_location_fnc_TS;
+[["base","airfield"],"FIA"] call AS_location_fnc_TS;
 ```
 
 To get all properties of a given location, use,
 
 ```
-_type = _location call AS_fnc_location_type;
-hint str (_type call AS_fnc_location_properties);
+_type = _location call AS_location_fnc_type;
+hint str (_type call AS_location_fnc_properties);
 ```
 
-`spawnUpdate.sqf` is the function that controls which locations are spawned.
+`AS_spawn_fnc_update.sqf` is the function that controls which locations are spawned.
 When opposing forces reach (or other conditions), this loop spawns the location.
 Each location is spawned differently depending on its side and type,
 the scripts responsible for creating units, etc. are in `CREATE/`.
@@ -311,7 +311,7 @@ see `templates/world_altis.sqf` to learn how.
 
 A particular type of location is the roadblock. The roadblocks are placed
 on the map during initialization using the markers `"AS_roadblock"` and
-from the script `location.sqf/AS_fnc_location_addAllRoadblocks`.
+from the script `location.sqf/AS_location_fnc_addAllRoadblocks`.
 Whenever a location is taken, roadblocks for that location are created/destroyed.
 
 ## FIA HQ
@@ -354,21 +354,21 @@ a `status` (e.g. `available`), and other properties. These properties are used
 to initialize its own spawn (see above).
 Each mission is defined by a set of states (e.g. `"initialize"`, `"wait_to_deliver"`)
 and functions that execute those states.
-Every mission is stored in the directory `Missions/`, and the API to
-create, start, and cancel missions is defined in `Missions/mission.sqf`.
+The specific missions are stored in the directory `Missions/`, and the API to
+create, start, and cancel missions is defined in `mission/`.
 For example, to create the mission to `"kill_officer"` in city `_cityName`, use
 
 ```
 // create and save it persistently
-["kill_officer", _cityName] call AS_fnc_mission_add;
+["kill_officer", _cityName] call AS_mission_fnc_add;
 // spawn its script
-"kill_officer" call AS_fnc_mission_activate;
+"kill_officer" call AS_mission_fnc_activate;
 ...
 // delete it (do not do it until the script finishes):
-"kill_officer" call AS_fnc_mission_remove;
+"kill_officer" call AS_mission_fnc_remove;
 ```
 
-`AS_fnc_mission_activate` sends the scheduler a request to spawn itself. The scheduler
+`AS_mission_fnc_activate` sends the scheduler a request to spawn itself. The scheduler
 uses the load balancer to select the best client to run the mission, and the client
 uses the spawn API to execute the mission.
 
@@ -384,13 +384,13 @@ The score is modified (increase or decrease) by:
 The (server) script that changes a player's score is `orgPlayers/fnc_changePlayerScore.sqf`.
 
 Score defines the rank of the player. Rank is the indicator of the player's score
-and is updated on the client side periodically by `Scripts/rankCheck.sqf` (`player getVariable "rank"`).
+and is updated on the client side periodically by `Scripts/AS_fnc_activatePlayerRankLoop.sqf` (`player getVariable "rank"`).
 
-Players can decide to become eligible to be commander (`AS_fncUI_toggleElegibility`).
+Players can decide to become eligible to be commander (`AS_fnc_UI_toggleElegibility`).
 Only eligible players can become commanders.
 The choice of the commander happens in any of the following situations:
 
-- the commander resigns (`AS_fncUI_toggleElegibility`)
+- the commander resigns (`AS_fnc_UI_toggleElegibility`)
 - the commander disconnects
 - periodically
 
@@ -424,8 +424,8 @@ and that can be modified in the `templates/` (e.g. for RHS).
 
 The AAF attacks from time to time. The relevant variable that controls this is the
 `AS_P("secondsForAAFattack")`. This variable is modified via `fnc_changeSecondsForAAFattack`.
-The script that starts attacks is the `ataqueAAF.sqf`. It is run from the loop in `resourcecheck.sqf`
-when `AS_P("secondsForAAFattack") == 0`. `ataqueAAF.sqf` checks whether it is worth to attack
+The script that starts attacks is the `AS_movement_fnc_sendAAFattack.sqf`. It is run from the loop in `resourcecheck.sqf`
+when `AS_P("secondsForAAFattack") == 0`. `AS_movement_fnc_sendAAFattack.sqf` checks whether it is worth to attack
 a given location, and, if yes, it spawns the attack accordingly using the missions
 `defend_city.sqf`, `defend_camp.sqf` or `defend_location.sqf`.
 
@@ -442,7 +442,7 @@ Relevant scripts:
 
 * `Create/minefield.sqf`: spawns an existing FIA/AAF minefield
 * `Functions/fnc_addMinefield.sqf`: adds a new minefield
-* `Functions/fnc_deployAAFminefield.sqf`: tries to find a suitable position and creates an AAF minefield (called by `AAFeconomics.sqf`).
+* `Functions/fnc_deployAAFminefield.sqf`: tries to find a suitable position and creates an AAF minefield (called by `AS_fnc_spendAAFmoney.sqf`).
 * `Functions/fnc_deployFIAminefield.sqf`: interface for the player to choose a position and mine positions to place a minefield (it creates a mission).
 * `Missions\establishFIAminefield.sqf`: the mission that creates a FIA minefield
 

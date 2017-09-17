@@ -5,10 +5,10 @@ private _soldados = [];
 private _grupos = [];
 private _vehiculos = [];
 
-private _posicion = _location call AS_fnc_location_position;
-private _size = _location call AS_fnc_location_size;
+private _posicion = _location call AS_location_fnc_position;
+private _size = _location call AS_location_fnc_size;
 private _estaticas = AS_P("vehicles") select {_x distance _posicion < _size};
-private _garrison = _location call AS_fnc_location_garrison;
+private _garrison = _location call AS_location_fnc_garrison;
 
 private _grupoMort = grpNull;
 private _grupoEst = grpNull;
@@ -16,7 +16,7 @@ private _grupoEst = grpNull;
 private _grupo = createGroup side_blue;
 _grupos = _grupos + [_grupo];
 {
-	if !(_location call AS_fnc_location_spawned) exitWith {};
+	if !(_location call AS_location_fnc_spawned) exitWith {};
 	private _unit = objNull;
 	call {
 		if (_x == "Crew") exitWith {
@@ -24,7 +24,7 @@ _grupos = _grupos + [_grupo];
                 _grupoMort = createGroup side_blue;
             };
 			_unit = _grupoMort createUnit [["Crew"] call AS_fnc_getFIAUnitClass, _posicion, [], 0, "NONE"];
-			private _veh = "B_G_Mortar_01_F" createVehicle ([_posicion] call mortarPos);
+			private _veh = "B_G_Mortar_01_F" createVehicle ([_posicion] call AS_fnc_findMortarCreatePosition);
 			_vehiculos = _vehiculos + [_veh];
 			[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 			_unit assignAsGunner _veh;

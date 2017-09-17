@@ -4,8 +4,8 @@ AS_SERVER_ONLY("fnc_changeSecondsforAAFattack.sqf");
 params ["_time", ["_multiply", true]];
 
 if (_multiply) then {
-	private _FIAbases = ["base", "FIA"] call AS_fnc_location_TS;
-	private _allBases = "base" call AS_fnc_location_T;
+	private _FIAbases = ["base", "FIA"] call AS_location_fnc_TS;
+	private _allBases = "base" call AS_location_fnc_T;
 
 	if (count _allBases == 0) then {
 		_allBases = [0];  // avoid 0/0 below

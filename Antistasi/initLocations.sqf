@@ -1,7 +1,7 @@
 #include "macros.hpp"
 AS_SERVER_ONLY("initLocations.sqf");
 
-call AS_fnc_location_initialize;
+call AS_location_fnc_initialize;
 
 AS_antenasTypes = [];
 AS_antenasPos_alive = [];
@@ -78,21 +78,21 @@ publicVariable "AS_MGbuildings";
 // This searches through all the markers in the mission.sqm and adds them.
 {
     call {
-        if (_x find "AS_powerplant" == 0) exitWith {[_x, "powerplant"] call AS_fnc_location_add};
-        if (_x find "AS_base" == 0) exitWith {[_x, "base"] call AS_fnc_location_add};
-        if (_x find "AS_airfield" == 0) exitWith {[_x, "airfield"] call AS_fnc_location_add};
-        if (_x find "AS_resource" == 0) exitWith {[_x, "resource"] call AS_fnc_location_add};
-        if (_x find "AS_factory" == 0) exitWith {[_x, "factory"] call AS_fnc_location_add};
-        if (_x find "AS_seaport" == 0) exitWith {[_x, "seaport"] call AS_fnc_location_add};
-        if (_x find "AS_outpostAA" == 0) exitWith {[_x, "outpostAA"] call AS_fnc_location_add};
-        if (_x find "AS_outpost" == 0) exitWith {[_x, "outpost"] call AS_fnc_location_add};
-        if (_x find "AS_roadblock" == 0) exitWith {[_x, "roadblock"] call AS_fnc_location_add};
+        if (_x find "AS_powerplant" == 0) exitWith {[_x, "powerplant"] call AS_location_fnc_add};
+        if (_x find "AS_base" == 0) exitWith {[_x, "base"] call AS_location_fnc_add};
+        if (_x find "AS_airfield" == 0) exitWith {[_x, "airfield"] call AS_location_fnc_add};
+        if (_x find "AS_resource" == 0) exitWith {[_x, "resource"] call AS_location_fnc_add};
+        if (_x find "AS_factory" == 0) exitWith {[_x, "factory"] call AS_location_fnc_add};
+        if (_x find "AS_seaport" == 0) exitWith {[_x, "seaport"] call AS_location_fnc_add};
+        if (_x find "AS_outpostAA" == 0) exitWith {[_x, "outpostAA"] call AS_location_fnc_add};
+        if (_x find "AS_outpost" == 0) exitWith {[_x, "outpost"] call AS_location_fnc_add};
+        if (_x find "AS_roadblock" == 0) exitWith {[_x, "roadblock"] call AS_location_fnc_add};
     };
 } forEach allMapMarkers;
 
-call AS_fnc_location_addAllRoadblocks;
+call AS_location_fnc_addAllRoadblocks;
 
-["FIA_HQ","fia_hq"] call AS_fnc_location_add;
+["FIA_HQ","fia_hq"] call AS_location_fnc_add;
 
 // This is needed here because petros has a side.
 side_blue = west; // <<<<<< player side, always, at all times, no exceptions
@@ -105,7 +105,7 @@ fuego = "Land_Campfire_F" createvehicle [0,0,0];
 publicVariable "fuego";
 fuego allowDamage false;
 caja = "IG_supplyCrate_F" createvehicle [0,0,0];
-[caja] call emptyCrate;
+[caja] call AS_fnc_emptyCrate;
 publicVariable "caja";
 caja allowDamage false;
 mapa = "MapBoard_altis_F" createvehicle [0,0,0];

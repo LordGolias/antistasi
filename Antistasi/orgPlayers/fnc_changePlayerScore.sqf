@@ -17,5 +17,5 @@ _player setVariable ["score", (_player getVariable ["score", 0]) + _value,true];
 _player setVariable ["money", (_player getVariable ["money", 0]) + _moneyChange, true];
 if (_notify and _moneyChange != 0) then {
 	private _texto = format ["<br/><br/><br/><br/><br/><br/>Money +%1 €",_moneyChange];
-	[petros, "income", _texto] remoteExec ["commsMP", _player];
+	[petros, "income", _texto] remoteExec ["AS_fnc_localCommunication", _player];
 };

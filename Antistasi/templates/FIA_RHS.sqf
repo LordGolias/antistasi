@@ -48,12 +48,12 @@ AS_fnc_FIACustomSquad_cost = {
 	if (_squadType == "Mobile AA") then {
 		_costHR = 3;
 		_cost = _costHR*(AS_data_allCosts getVariable "Crew") +
-			    ([vehTruckAA] call FIAvehiclePrice);
+			    ([vehTruckAA] call AS_fnc_getFIAvehiclePrice);
 	} else {
 		_costHR = 2;
 		_cost = _costHR*(AS_data_allCosts getVariable "Crew") +
-				(["B_G_Van_01_transport_F"] call FIAvehiclePrice) +
-				([[_squadType] call AS_fnc_FIACustomSquad_piece] call FIAvehiclePrice);
+				(["B_G_Van_01_transport_F"] call AS_fnc_getFIAvehiclePrice) +
+				([[_squadType] call AS_fnc_FIACustomSquad_piece] call AS_fnc_getFIAvehiclePrice);
 	};
 	[_costHR, _cost]
 };
@@ -89,7 +89,7 @@ AS_fnc_FIACustomSquad_initialization = {
 		if (_squadType == "Mobile Mortar") then {
 			_morty moveInGunner _piece;
 			_piece setVariable ["attachPoint", [0,-1.5,0.54]];
-			[_morty,_camion,_piece] spawn mortyAI;
+			[_morty,_camion,_piece] spawn AS_fnc_activateMortarCrewOnTruck;
 		} else {
 			_piece attachTo [_camion,[0,-2.4,-0.6]];
 			_piece setDir (getDir _camion + 180);

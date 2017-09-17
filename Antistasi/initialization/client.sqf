@@ -9,12 +9,11 @@ if _isJip then {
     waitUntil {!isNull player and {player == player}};
 };
 diag_log "[AS] client: starting";
+[player] call AS_fnc_emptyUnit;
 
 call compile preprocessFileLineNumbers "briefing.sqf";
 
 if not isServer then {
-    call compile preprocessFileLineNumbers "debug\init.sqf";
-    call compile preprocessFileLineNumbers "initFuncs.sqf";
     call compile preprocessFileLineNumbers "initVar.sqf";
 } else {
     waitUntil {(!isNil "serverInitVarsDone")};
@@ -24,7 +23,7 @@ private _introShot = 0 spawn {};
 private _titulo = 0 spawn {};
 
 // the fancy starting script, called outside debug mode
-if not AS_DEBUG_flag then {
+if not AS_debug_flag then {
     private _colorWest = west call BIS_fnc_sideColor;
     private _colorEast = east call BIS_fnc_sideColor;
     {
@@ -63,14 +62,12 @@ diag_log "[AS] client: initialized";
 musicON = true;
 [] execVM "musica.sqf";
 
-[player] call AS_fnc_emptyUnit;
 if isMultiplayer then {
 	diag_log format ["[AS] client: isJIP: %1", _isJip];
 } else {
 	AS_commander = player;
 	private _group = group player;
 	_group setGroupId ["Stavros","GroupColor4"];
-	player setIdentity "protagonista";
 	player setUnitRank "COLONEL";
 	player hcSetGroup [_group];
 };
@@ -121,7 +118,7 @@ player addEventHandler ["GetInMan", {
 	if not _exit then {
 		if (((typeOf _vehicle) in arrayCivVeh) or ((typeOf _vehicle) == civHeli)) then {
 			if (!(_vehicle in AS_S("reportedVehs"))) then {
-				[] spawn undercover;
+				[] spawn AS_fnc_activateUndercover;
 			};
 		};
 		if (_seat == "driver" and _vehicle isKindOf "Truck_F") then {
@@ -142,8 +139,6 @@ player addEventHandler ["GetOutMan", {
 }];
 
 if (_isJip) then {
-	[] execVM "modBlacklist.sqf";
-
     hint format ["Welcome back %1", name player];
     if (count playableUnits == 1) then {
         [] remoteExec ["AS_fnc_chooseCommander", 2];
@@ -151,12 +146,12 @@ if (_isJip) then {
 
 	{
 	if (_x isKindOf "FlagCarrier") then {
-		private _location = [call AS_fnc_locations, getPos _x] call BIS_fnc_nearestPosition;
-		if !((_location call AS_fnc_location_type) in ["hill", "roadblock"]) then {
-			if (_location call AS_fnc_location_side == "FIA") then {
-				_x addAction [localize "STR_act_recruitUnit", {call AS_fncUI_RecruitUnitMenu;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
-				_x addAction [localize "STR_act_buyVehicle", {call AS_fncUI_buyVehicleMenu;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
-				_x addAction [localize "STR_act_persGarage", {nul = [true] spawn garage},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
+		private _location = [call AS_location_fnc_all, getPos _x] call BIS_fnc_nearestPosition;
+		if !((_location call AS_location_fnc_type) in ["hill", "roadblock"]) then {
+			if (_location call AS_location_fnc_side == "FIA") then {
+				_x addAction [localize "STR_act_recruitUnit", {call AS_fnc_UI_recruitUnit_menu;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
+				_x addAction [localize "STR_act_buyVehicle", {call AS_fnc_UI_buyVehicle_menu;},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
+				_x addAction [localize "STR_act_persGarage", {nul = [true] spawn AS_fnc_accessGarage},nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',objNull])"];
 			};
 		};
 	};
@@ -171,11 +166,11 @@ if (_isJip) then {
 	} forEach allUnits;
 
 	if ((player == AS_commander) and (isNil "placementDone")) then {
-        [] spawn AS_fncUI_LoadSaveMenu;
+        [] spawn AS_database_fnc_UI_loadSaveMenu;
 	};
 
 	// sync the inventory content to the JIP.
-	remoteExec ["fnc_MAINT_refillArsenal", 2];
+	[false] remoteExec ["AS_fnc_refreshArsenal", 2];
 };
 
 private _texto = "";
@@ -217,7 +212,7 @@ removeAllActions bandera;
 [bandera,"vehicle"] call AS_fnc_addAction;
 [bandera,"garage"] call AS_fnc_addAction;
 
-bandera addAction [localize "str_act_hqOptions",{call AS_fncUI_openHQmenu;},nil,0,false,true,"","(isPlayer _this) and (player == AS_commander) and (_this == _this getVariable ['owner',_this]) and (petros == leader group petros)"];
+bandera addAction [localize "str_act_hqOptions",AS_fnc_UI_manageHQ_menu,nil,0,false,true,"","(isPlayer _this) and (player == AS_commander) and (_this == _this getVariable ['owner',_this]) and (petros == leader group petros)"];
 
 removeAllActions cajaVeh;
 cajaVeh addAction [localize "str_act_healRepair", "actions\healandrepair.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',_this])"];
@@ -234,8 +229,8 @@ if (isNil "placementDone") then {
     if (player == AS_commander) then {
         HC_comandante synchronizeObjectsAdd [player];
         player synchronizeObjectsAdd [HC_comandante];
-        if not AS_DEBUG_flag then {
-            [] spawn AS_fncUI_LoadSaveMenu;
+        if not AS_debug_flag then {
+            [] spawn AS_database_fnc_UI_loadSaveMenu;
         } else {
             [getMarkerPos "FIA_HQ"] remoteExec ["AS_fnc_HQplace", 2];
         };

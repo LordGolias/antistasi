@@ -6,7 +6,7 @@ if hayACEhearing then {player addItem "ACE_EarPlugs"};
 
 player setVariable ["AS_side", "FIA", true];
 
-player call AS_fnc_initMedical;
+player call AS_medical_fnc_initUnit;
 
 player setPos ((getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)]);
 
@@ -14,7 +14,7 @@ player addEventHandler ["WeaponAssembled", {
 	params ["_EHunit", "_EHobj"];
 	if (_EHobj isKindOf "StaticWeapon") then {
 		if !(_EHobj in AS_P("vehicles")) then {
-            [_EHobj] call remoteExec ["AS_fnc_addPersistentVehicles", 2];
+            [_EHobj] call remoteExec ["AS_fnc_changePersistentVehicles", 2];
 		};
 	};
     [_EHobj, "FIA"] call AS_fnc_initVehicle;
@@ -32,7 +32,7 @@ if (isMultiplayer) then {
 			if (player distance petros < 50) then {
 				deleteVehicle (_this select 6);
 				if (_tipo == "Put") then {
-					if (player distance petros < 10) then {[player,60] spawn castigo};
+					if (player distance petros < 10) then {[player,60] spawn AS_fnc_penalizePlayer};
 				};
 			};
 		};
@@ -43,4 +43,4 @@ if (isMultiplayer) then {
 [] execVM "statistics.sqf";
 
 [player] execVM "OrgPlayers\unitTraits.sqf";
-[] spawn rankCheck;
+[] spawn AS_fnc_activatePlayerRankLoop;
