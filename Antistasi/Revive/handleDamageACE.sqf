@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 params ["_unit", "_part", "_dam", "_injurer"];
 
 if (isPlayer _unit) then {
@@ -31,6 +32,13 @@ if (isPlayer _unit) then {
 			};
 		};
 	};
+};
+
+if (captive _injurer) then {
+	_injurer setCaptive 0;
+};
+if (_injurer isKindOf "LandVehicle" and {_injurer getVariable "side" == "FIA"}) then {
+	AS_Sset("reportedVehs", AS_S("reportedVehs") + [_injurer]);
 };
 
 private _currentTime = [time, serverTime] select isMultiplayer;
