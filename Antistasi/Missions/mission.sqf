@@ -83,7 +83,6 @@ AS_fnc_mission_remove = {[call AS_fnc_mission_dictionary,_this] call DICT_fnc_de
 
 // return all active missions of a given list of types
 AS_fnc_active_missions = {
-    diag_log str _this;
     private _missionTypes = _this;
     if (typeName _missionTypes == "STRING") then {
         _missionTypes = [_missionTypes];
