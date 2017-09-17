@@ -14,6 +14,7 @@ AS_saveLoad_fnc_getData = {
 };
 
 AS_fnc_receiveSavedData = {
+    if not hasInterface exitWith {};
     params ["_saveName", "_data"];
 
     copyToClipboard _data;
@@ -58,7 +59,7 @@ AS_fnc_saveGame = {
     diag_log "[AS] Server: game saved.";
     AS_savingServer = nil;
 
-    [_saveGame, _data] remoteExecCall ["AS_fnc_receiveSavedData", 2];
+    [_saveGame, _data] remoteExecCall ["AS_fnc_receiveSavedData", 0];
 };
 
 AS_fnc_loadGame = {
