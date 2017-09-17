@@ -5,7 +5,7 @@ AS_fnc_AAFroadPatrol = {
 	private _validTypes = vehPatrol + [vehBoat];
 
 	private _max_patrols = 3*(count allPlayers);
-	if (AAFpatrols >= _max_patrols) exitWith {
+	if (AS_S("AAFpatrols") >= _max_patrols) exitWith {
 		AS_ISDEBUG("[AS] Debug: AAFroadPatrol: max patrols reached");
 	};
 
@@ -50,8 +50,7 @@ AS_fnc_AAFroadPatrol = {
 
 private _fnc_spawn = {
 	params ["_spawnName"];
-	AAFpatrols = AAFpatrols + 1;
-	publicVariable "AAFpatrols";
+	AS_Sset("AAFpatrols", AS_S("AAFpatrols") + 1);
 	private _type = [_spawnName, "type"] call AS_spawn_fnc_get;
 	private _isFlying = [_spawnName, "isFlying"] call AS_spawn_fnc_get;
 	private _origin = [_spawnName, "origin"] call AS_spawn_fnc_get;
@@ -175,8 +174,7 @@ private _fnc_run = {
 
 private _fnc_clean = {
 	params ["_spawnName"];
-	AAFpatrols = AAFpatrols - 1;
-	publicVariable "AAFpatrols";
+	AS_Sset("AAFpatrols", AS_S("AAFpatrols") - 1);
 	([_spawnName, "resources"] call AS_spawn_fnc_get) params ["_task", "_groups", "_vehicles", "_markers"];
 	[_groups, _vehicles, _markers] call AS_fnc_cleanResources;
 };

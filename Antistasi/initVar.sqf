@@ -171,10 +171,6 @@ call compile preprocessFileLineNumbers "initFIA.sqf";
 // todo: re-add support for TFAR. This is probably needed by it.
 lrRadio = "";
 
-// number of patrols currently spawned. In the future, this should be a client variable
-// as clients will be able to spawn stuff.
-AAFpatrols = 0;
-
 // Names of camps used when the camp is spawned.
 campNames = ["Spaulding","Wagstaff","Firefly","Loophole","Quale","Driftwood","Flywheel","Grunion","Kornblow","Chicolini","Pinky",
 			"Fieramosca","Bulldozer","Bambino","Pedersoli"];
@@ -231,6 +227,9 @@ AS_Pset("maxAISkill",0.9); // The maximum skill of the AAF/FIA AI (at highest sk
 // AS_Sset(a,b) is a macro to `(server setVariable (a,b,true))`.
 // S of [s]hared. These variables are not saved persistently.
 AS_Sset("revealFromRadio",false);
+
+// number of patrols currently spawned.
+AS_Sset("AAFpatrols", 0);
 
 // Used to make a transfer to `caja` atomic
 AS_Sset("lockTransfer", false);
