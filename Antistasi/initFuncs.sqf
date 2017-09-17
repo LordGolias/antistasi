@@ -2,8 +2,9 @@
 File that initializes functions. This should only initialize functions and variables, not call them.
 At this point you cannot use variables from initVar.
 */
-call compile preProcessFileLineNumbers "statSave\saveFuncs.sqf";
-call compile preProcessFileLineNumbers "statSave\dialogs.sqf";
+call compile preProcessFileLineNumbers "persistency\functions.sqf";
+call compile PreprocessFileLineNumbers "persistency\core.sqf";
+call compile preProcessFileLineNumbers "persistency\dialogs.sqf";
 
 call compile preProcessFileLineNumbers "dialogs.sqf";
 

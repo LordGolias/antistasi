@@ -120,7 +120,7 @@ reverse it.
 
 - `Municion/`: scripts related with weapons, arsenal and boxes.
 - `CREATE/`: scripts related with spawing places, units and convoys.
-- `statSave/`: scripts related with loading and saving the game.
+- `persistency/`: scripts related with loading and saving the game.
 - `location.sqf`: contains all the code for interacting with locations.
 - `Missions/`: everything related to missions. Core module is `Missions/mission.sqf`.
 - `initialization/`: scripts that initialize the mission.
@@ -338,8 +338,8 @@ The HQ also has objects that can be spawned by the commander. The scripts that h
 
 Other related functions:
 
-- `statSave/saveFuncs.sqf/AS_fnc_saveHQ`: persistently save the HQ objects
-- `statSave/saveFuncs.sqf/AS_fnc_loadHQ`: persistently load the HQ objects
+- `persistency/saveFuncs.sqf/AS_hq_fnc_toDict`: persistently save the HQ objects
+- `persistency/saveFuncs.sqf/AS_hq_fnc_fromDict`: persistently load the HQ objects
 - `AS_fnc_initPetros.sqf`: restart petros (creates a new petros unit)
 
 Related globals:

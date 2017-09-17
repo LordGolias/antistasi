@@ -1,5 +1,4 @@
 #include "../macros.hpp"
-call compile PreprocessFileLineNumbers "statSave\core.sqf";
 
 // Variables that are persistent to `AS_persistent`. They are saved and loaded accordingly.
 // Add variables here that you want to save.
@@ -154,7 +153,6 @@ AS_persistents_fnc_fromDict = {
    		[[_x], "patrolCA"] call AS_scheduler_fnc_execute;
        } forEach AS_P("patrollingPositions");
    };
-
 };
 
 AS_hq_fnc_toDict = {
@@ -200,5 +198,86 @@ AS_hq_fnc_fromDict = {
 	placementDone = true; publicVariable "placementDone";
 };
 
-AS_fnc_serializeServer = compile preProcessFileLineNumbers "statSave\serializeServer.sqf";
-AS_fnc_deserializeServer = compile preProcessFileLineNumbers "statSave\deserializeServer.sqf";
+AS_fnc_serializeServer = {
+	AS_SERVER_ONLY("AS_fnc_serializeServer");
+
+	diag_log "[AS] Server: serializing game...";
+
+	private _dict = call DICT_fnc_create;
+
+	diag_log "[AS] Server: serializing AAF arsenal...";
+	[_dict, "AS_aaf_arsenal", call AS_AAFarsenal_fnc_toDict] call DICT_fnc_set;
+
+	diag_log "[AS] Server: serializing locations...";
+	[_dict, "AS_location", call AS_fnc_location_toDict] call DICT_fnc_set;
+
+	diag_log "[AS] Server: serializing fia_hq...";
+	[_dict, "AS_fia_hq", call AS_hq_fnc_toDict] call DICT_fnc_set;
+
+	diag_log "[AS] Server: serializing FIA arsenal...";
+	[_dict, "AS_fia_arsenal", call AS_FIAarsenal_fnc_toDict] call DICT_fnc_set;
+
+	diag_log "[AS] Server: serializing persistents...";
+	[_dict, "AS_persistent", call AS_persistents_fnc_toDict] call DICT_fnc_set;
+
+	diag_log "[AS] Server: serializing missions...";
+	[_dict, "AS_mission", call AS_fnc_mission_toDict] call DICT_fnc_set;
+
+	diag_log "[AS] Server: serializing players...";
+	[_dict, "AS_player", call AS_players_fnc_toDict] call DICT_fnc_set;
+
+	private _string = _dict call DICT_fnc_serialize;
+	diag_log "[AS] Server: serialization completed.";
+	_string
+};
+
+AS_fnc_deserializeServer = {
+	AS_SERVER_ONLY("AS_fnc_deserializeServer");
+	params ["_string"];
+
+	petros allowdamage false;
+
+	// stop spawning new locations
+	[false] call AS_fnc_spawnToggle;
+	// despawn every spawned location
+	{
+	    if (_x call AS_fnc_location_spawned) then {
+	        _x call AS_fnc_location_despawn;
+	    };
+	} forEach (call AS_fnc_locations);
+
+	[false] call AS_fnc_resourcesToggle;
+
+	diag_log "[AS] Server: deserializing data...";
+	private _dict = _string call DICT_fnc_deserialize;
+
+	// this order matters!
+	diag_log "[AS] Server: loading locations...";
+	([_dict, "AS_location"] call DICT_fnc_get) call AS_fnc_location_fromDict;
+
+	diag_log "[AS] Server: loading persistents...";
+	([_dict, "AS_persistent"] call DICT_fnc_get) call AS_persistents_fnc_fromDict;
+
+	diag_log "[AS] Server: loading HQ...";
+	([_dict, "AS_fia_hq"] call DICT_fnc_get) call AS_hq_fnc_fromDict;
+
+	diag_log "[AS] Server: loading FIA arsenal...";
+	([_dict, "AS_fia_arsenal"] call DICT_fnc_get) call AS_FIAarsenal_fnc_fromDict;
+
+	diag_log "[AS] Server: loading players...";
+	([_dict, "AS_player"] call DICT_fnc_get) call AS_players_fnc_fromDict;
+
+	diag_log "[AS] Server: loading AAF arsenal...";
+	([_dict, "AS_aaf_arsenal"] call DICT_fnc_get) call AS_AAFarsenal_fnc_fromDict;
+
+	diag_log "[AS] Server: loading missions...";
+	([_dict, "AS_mission"] call DICT_fnc_get) call AS_fnc_mission_fromDict;
+	petros allowdamage true;
+
+	_dict call DICT_fnc_delete;
+	diag_log "[AS] Server: loading completed.";
+
+	// start spawning again
+	[true] call AS_fnc_spawnToggle;
+	[true] call AS_fnc_resourcesToggle;
+};

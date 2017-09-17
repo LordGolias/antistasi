@@ -1,5 +1,5 @@
 #include "macros.hpp"
-#include "statSave\dialogs.hpp"
+#include "persistency\dialogs.hpp"
 #include "dialogs\recruitUnit.hpp"
 #include "dialogs\recruitSquad.hpp"
 #include "dialogs\recruitGarrison.hpp"
