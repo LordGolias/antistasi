@@ -53,7 +53,7 @@ private _fnc_spawn = {
 
 	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
-	private _objs = [_posCmp, _dirveh, call (compile (preprocessFileLineNumbers "Compositions\cmpExp.sqf"))] call BIS_fnc_ObjectsMapper;
+	private _objs = [_posCmp, _dirveh, call AS_fnc_dealerComposition] call BIS_fnc_ObjectsMapper;
 
 	private _groupDev = createGroup civilian;
 	private _dealer = _groupDev createUnit ["C_Nikos", [0,0,0], [], 0.9, "NONE"];

@@ -11,8 +11,6 @@ bluUAV = 			["B_UAV_02_F"];
 planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 planesNATOTrans = bluHeliTrans;
 
-bluRoadblock = "Compositions\cmpNATO_RB.sqf";
-
 bluMBT = 		["rhsusf_m1a2sep1d_usarmy","rhsusf_m1a2sep1tuskid_usarmy"];
 bluAPC = 		["RHS_M2A3","RHS_M2A3_BUSKI"];
 bluIFV = 		["rhsusf_m113d_usarmy_M240","rhsusf_m113d_usarmy_supply"];

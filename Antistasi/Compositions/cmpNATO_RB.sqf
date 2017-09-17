@@ -1,4 +1,4 @@
-[
+AS_fnc_bluRoadblock = {[
 	[selectRandom bluStatAA,[7.10059,1.34521,2.78],294.945,1,0,[],"","",true,false],
 	[selectRandom bluStatHMG,[6.65234,-2.88965,2.78],185.033,1,0,[],"","",true,false],
 	[bluAPC select 0,[-6.99414,-2.04541,0.0331779],180.254,1,0,[],"","",true,false],
@@ -15,4 +15,4 @@
 	["Land_CncBarrier_F",[11.6968,-4.04321,0],90.833,1,0,[],"","",true,false],
 	["Land_CncBarrier_F",[10.687,-6.30591,0],138.856,1,0,[],"","",true,false],
 	["Land_Camping_Light_F",[15.8691,-2.80103,-0.00113392],181.632,1,0,[],"","",true,false]
-]
+]};

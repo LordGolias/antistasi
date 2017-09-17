@@ -144,6 +144,8 @@ call compile preprocessFileLineNumbers "Compositions\campList.sqf";
 call compile preprocessFileLineNumbers "Compositions\cmpMTN.sqf";
 call compile preprocessFileLineNumbers "Compositions\cmpOP.sqf";
 call compile preprocessFileLineNumbers "Compositions\FIA_RB.sqf";
+call compile preprocessFileLineNumbers "Compositions\cmpNATO_RB.sqf";
+call compile preprocessFileLineNumbers "Compositions\cmpExp.sqf";
 
 /////////////////////////////////////////////////////////////////////////
 /////////////////////// CLIENT INIT FINISHES HERE ///////////////////////

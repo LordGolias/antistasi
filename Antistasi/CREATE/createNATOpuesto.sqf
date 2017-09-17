@@ -19,7 +19,7 @@ private _road = (_roads select 0);
 private _dirveh = [_road, (roadsConnectedto _road) select 0] call BIS_fnc_DirTo;
 
 // spawn the structures
-private _objs = [getpos _road, _dirveh, call compile preprocessFileLineNumbers bluRoadblock] call BIS_fnc_ObjectsMapper;
+private _objs = [getpos _road, _dirveh, call AS_fnc_bluRoadblock] call BIS_fnc_ObjectsMapper;
 
 private _vehArray = [];
 private _turretArray = [];
