@@ -12,7 +12,7 @@ private _money = _player getVariable "money";
 private _garage = _player getVariable "garage";
 {
     if ((!isPlayer _x) and (alive _x)) then {
-        _money = _money + (AS_data_allCosts getVariable (_x call AS_fnc_getFIAUnitName));
+        _money = _money + (AS_data_allCosts getVariable (_x call AS_fnc_getFIAUnitType));
         if (vehicle _x != _x) then {
             private _veh = vehicle _x;
             if (not(_veh in AS_P("vehicles"))) then {

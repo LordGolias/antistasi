@@ -12,7 +12,7 @@ private _hr = AS_P("hr");
             {!isPlayer _x} and
             {leader group _x == AS_commander or {group _x in (hcAllGroups AS_commander)}}) then {
 
-        private _price = AS_data_allCosts getVariable (_x call AS_fnc_getFIAUnitName);
+        private _price = AS_data_allCosts getVariable (_x call AS_fnc_getFIAUnitType);
         if (!(isNil "_price")) then {
             _money = _money + _price;
             _hr = _hr + 1;
