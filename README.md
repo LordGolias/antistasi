@@ -118,17 +118,20 @@ reverse it.
 
 # Code structure
 
-- `arsenal/`: functions related with weapons, arsenal and boxes.
-- `movement/`: scripts related with spawning moving AAF
-- `database/`: API to load and save games
-- `persistency/`: scripts related with loading and saving the game.
-- `location/`: contains all the code for interacting and spawning with locations.
-- `mission/`: contains all the code for interacting and spawning missions.
+- `dictionary/`: API for storing serializable data ([README](dictionary/README.md)).
+- `database/`: API for loading and saving games ([README](database/README.md)).
+- `scheduler/`: API for load-balanced distributed execution ([README](scheduler/README.md)).
+- `spawn/`: API for fault-tolerant execution ([README](spawn/README.md)).
+- `location/`: API for managing and spawning locations ([README](location/README.md)).
+- `mission/`: API for managing and spawning missions ([README](mission/README.md)).
+- `movement/`: spawns related to AAF movement spawns (e.g. patrols, attacks).
 - `initialization/`: scripts that initialize the mission.
 - `Revive/`: scripts used for the revive system
-- `scheduler/`: contains all functions for distributed execution
-- `spawn/`: contains all functions for spawn execution
-- `dictionary/`: contains the API to store serializable data
+- `arsenal/`: functions related with weapons, arsenal and boxes.
+- `ai_control/`: API to handle AI control.
+- `templates/`: templates to modify AS (worlds, items, factions)
+- `debug/`: API to debug the mission
+- `actions/`: action functions (`addAction`)
 
 ## Initialization
 
@@ -153,22 +156,11 @@ Generically, each datum has two attributes:
 * shared: whether it is a globally shared
 * persistent: whether it is persistently saved
 
-The most important concept used for data storage is a dictionary, defined in `dictionary/`,
-which stores shared and persistent variables. See [dictionaries](dictionary/README.md) for details.
-
-### Other variables
-
 * shared and temporary variables are handled with the macros `AS_S(_key)`, `AS_Sset(_key, _value)`.
-* shared and persistent variables are handled with the macros `AS_P(_key)`, `AS_Pset(_key, _value)`.
+* shared and persistent variables are handled with the macros `AS_P(_key)`, `AS_Pset(_key, _value)` or with [dictionaries](dictionary/README.md)
 * non-shared temporary variables are handled without any macro.
 
-We avoid using `publicVariable` directly and instead use either the dictionary API or
-the macros.
-
-### Saved games (persistent data)
-
-Saving a game consists in converting all data into a single dictionary and serialize it to a string.
-This implies that saved games can be stored and loaded from a text file (via the clipboard).
+The [database API](database/README.md) is used to fully serialize (save) and deserialize (load) the mission.
 
 ## Distributed execution
 
@@ -178,90 +170,19 @@ For these parts, the server acts as a scheduler and load balancer and each clien
 
 ## Spawn state and execution
 
-A `spawn` is a list of execution blocks that are to be executed sequentially.
-Between blocks, the state of the spawn is saved globally, which makes spawns
-fail-tolerant against client disconnections.
-
-The code responsible for this is defined in `spawn/`. The spawn API has
-functions to modify the state `add/set/get/remove`, and a state to run a new spawn, `execute`.
-
-Every spawn has a unique `"name"` and a `"type"`.
-The spawn type is used to get the list of execution blocks (defined at `AS_spawn_fnc_states`).
-To track on which state the spawn is, every spawn has a property `"state_index"` that
-identifies on which state it currently is.
-When a spawn is executed, its `"spawnOwner"` becomes the local `clientOwner`, which
-is used to track which clients are running what.
-Whenever a client disconnects, the server takes over the spawns of that client (since
-the resources are also taken over by the server).
-
-The current spawns are:
-* locations
-* missions
-* patrols
-
-In the directory `CREATE` will can find location and patrol spawns. In the directory
-`Missions` you can find the mission spawns.
+The execution of certain parts of this mission is distributed across clients.
+This is implemented by the [spawn API](spawn/README.md).
 
 ## Locations
 
-A location is a place in the map that is spawned/despawned under certain conditions.
-Each location is represented by a string (e.g. `_location = "FIA_HQ";`)
-and it has a type (e.g. `"base"`, `"resource"`). Each location "owns" a hidden marker
-that is used to represent its position.
-
-`location/` contains all the functions that you use to interact with locations.
-It contains functions to:
-
-* get properties:
-
-```
-_side = _location call AS_location_fnc_side;
-_position = _location call AS_location_fnc_position;
-_size = [_location,"size"] call AS_location_fnc_get;
-```
-
-* set properties:
-
-```
-_side = [_location,"side","AAF"] call AS_location_fnc_set;
-```
-
-* add and delete locations
-
-```
-[_marker,"roadblock"] call AS_location_fnc_add;
-[_marker,"side","FIA"] call AS_location_fnc_set;
-// ...
-_marker call AS_location_fnc_remove;
-```
-
-* list locations of a certain type or side:
-
-```
-call AS_location_fnc_all
-// [T]ype and [S]ide
-_bases = "base" call AS_location_fnc_T;
-_FIAlocations = "FIA" call AS_location_fnc_S;
-_FIAbases = ["base","AAF"] call AS_location_fnc_TS;
-[["base","airfield"],"FIA"] call AS_location_fnc_TS;
-```
-
-To get all properties of a given location, use,
-
-```
-_type = _location call AS_location_fnc_type;
-hint str (_type call AS_location_fnc_properties);
-```
-
-`AS_spawn_fnc_update.sqf` is the function that controls which locations are spawned.
-When opposing forces reach (or other conditions), this loop spawns the location.
-Each location is spawned differently depending on its side and type,
-the scripts responsible for creating units, etc. are in `CREATE/`.
+Locations are managed by the [location API](location/README.md). They represent
+physical locations on the map that are spawned according to certain functionality
+and can sometimes be conquered.
 
 ### Initialization
 
 When the game is loaded, locations are loaded from the markers in
-the `mission.sqm`. Specifically, markers starting with a given string
+the `mission.sqm` (`initLocations.sqf`). Specifically, markers starting with a given string
 are converted to locations using the following convention
 
 * `"AS_powerplant"`: `"powerplant"`
@@ -275,7 +196,7 @@ see `templates/world_altis.sqf` to learn how.
 
 A particular type of location is the roadblock. The roadblocks are placed
 on the map during initialization using the markers `"AS_roadblock"` and
-from the script `location.sqf/AS_location_fnc_addAllRoadblocks`.
+from the script `AS_location_fnc_addAllRoadblocks`.
 Whenever a location is taken, roadblocks for that location are created/destroyed.
 
 ## FIA HQ
@@ -313,28 +234,8 @@ Related globals:
 
 ## Missions
 
-A mission is a persistent data structure that has a `type` (e.g. `kill_officer`),
-a `status` (e.g. `available`), and other properties. These properties are used
-to initialize its own spawn (see above).
-Each mission is defined by a set of states (e.g. `"initialize"`, `"wait_to_deliver"`)
-and functions that execute those states.
-The specific missions are stored in the directory `Missions/`, and the API to
-create, start, and cancel missions is defined in `mission/`.
-For example, to create the mission to `"kill_officer"` in city `_cityName`, use
-
-```
-// create and save it persistently
-["kill_officer", _cityName] call AS_mission_fnc_add;
-// spawn its script
-"kill_officer" call AS_mission_fnc_activate;
-...
-// delete it (do not do it until the script finishes):
-"kill_officer" call AS_mission_fnc_remove;
-```
-
-`AS_mission_fnc_activate` sends the scheduler a request to spawn itself. The scheduler
-uses the load balancer to select the best client to run the mission, and the client
-uses the spawn API to execute the mission.
+This mission has numerous sub-missions that are spawned automatically or by
+a player's decision. See [missions API](mission/README.me) for more details.
 
 ## Player's score, rank and eligibility to command
 
