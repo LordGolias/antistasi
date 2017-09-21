@@ -154,33 +154,7 @@ Generically, each datum has two attributes:
 * persistent: whether it is persistently saved
 
 The most important concept used for data storage is a dictionary, defined in `dictionary/`,
-which stores shared and persistent variables.
-
-### Dictionaries
-
-Dictionaries hold pairs `(key,value)` whose keys are unsorted and unique.
-The value associated with a key can be a dictionary itself (nesting allowed).
-
-How to use dictionaries:
-
-* create dictionary: `_dict = call DICT_fnc_create`
-* delete dictionary: `_dict call DICT_fnc_delete`
-
-* set property: `[_dict, _key, _value] call DICT_fnc_set`
-* get property: `_value = [_dict, _key] call DICT_fnc_get`
-* del property: `[_dict, _key] call DICT_fnc_del`
-
-`DICT_fnc_get` can be used as `[_dict, _key1, _key2] call DICT_fnc_get`
-to get the `_key2` from the (sub-)dictionary `[_dict, _key1] call DICT_fnc_get`.
-
-* list of keys (whose value is not nil): `_dict call DICT_fnc_keys`
-
-* serialize to string: `_string = _dict call DICT_fnc_serialize`
-* deserialize from string: `_dict = _string call DICT_fnc_deserialize`
-
-`values` can only be of types `["OBJECT", "ARRAY", "BOOL", "STRING", "SCALAR"]`,
-where `"OBJECT"` acts as a nested dictionary (and array can only contain the types above).
-This is because these are the only SQF types that are fully serializable.
+which stores shared and persistent variables. See [dictionaries](dictionary/README.md) for details.
 
 ### Other variables
 
