@@ -174,17 +174,7 @@ This implies that saved games can be stored and loaded from a text file (via the
 
 This mission has parts (`spawn`s, see below) that can be run by any client.
 For these parts, the server acts as a scheduler and load balancer and each client
-(headless or not) acts as a worker.
-Clients send their FPS rate to the server, `AS_scheduler_fnc_sendStatus`, and the server
-balances which worker runs the scheduled script based on this information.
-To execute a script with the scheduler, use
-
-```
-[arguments, "scriptName"] remoteExec ["AS_scheduler_fnc_execute", 2];
-```
-
-This will make the server to call `arguments remoteExec ["scriptName", clientID];`
-where `clientID` is selected by the load balancer via `AS_scheduler_fnc_getWorker`.
+(headless or not) acts as a worker. See [scheduler](scheduler/README.md) for details.
 
 ## Spawn state and execution
 
