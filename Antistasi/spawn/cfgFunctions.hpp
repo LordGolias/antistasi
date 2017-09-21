@@ -14,7 +14,7 @@ class AS_spawn {
         FNC(spawn,get);
         FNC(spawn,set);
         FNC(spawn,add);
-        FNC(spawn,remove);
+        FNC(spawn,delete);
         FNC(spawn,execute);
     };
 };

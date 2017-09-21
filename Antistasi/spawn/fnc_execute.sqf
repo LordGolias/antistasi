@@ -23,4 +23,4 @@ while {_state_index < count _functions} do {
     _state_index = _state_index + 1;
     [_spawn, "state_index", _state_index] call AS_spawn_fnc_set;
 };
-_spawn call AS_spawn_fnc_remove;
+_spawn call AS_spawn_fnc_delete;
