@@ -186,6 +186,7 @@ class AS {
         FNC_BASE(showFoundIntel);
         FNC_BASE(fastTravel);
         FNC_BASE(unlockVehicle);
+        FNC_BASE(revealToPlayer);
 
         FNC(actions,addAction);
 

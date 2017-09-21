@@ -13,7 +13,7 @@ if (random 100 < _chance) then {
 	if !(AS_S("revealFromRadio")) then {
 		[["TaskSucceeded", ["", "AAF Comms Intercepted"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 		AS_Sset("revealFromRadio",true);
-		[[], "revealToPlayer.sqf"] remoteExec ["execVM", [0,-2] select isDedicated, true];
+		[] remoteExec ["AS_fnc_revealToPlayer", [0,-2] select isDedicated];
 	};
 } else {
 	if (AS_S("revealFromRadio")) then {
