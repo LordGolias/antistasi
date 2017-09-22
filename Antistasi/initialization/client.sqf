@@ -81,8 +81,6 @@ if not hayACE then {
 	[] execVM "playerMarkers.sqf";
 };
 
-autoHeal = true;
-
 MIASquadUnits = creategroup WEST;  // units that are not in the squad because they lost communication with the player (no radio).
 player setvariable ["compromised", 0];  // Used by undercover mechanics
 player setVariable ["punish",0,true];  // punish time for Team kill

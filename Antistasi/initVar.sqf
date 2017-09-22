@@ -8,9 +8,6 @@ must be initialized only in the server (using `if (isServer)`).
 */
 #include "macros.hpp"
 
-// Whether the autoHeal system is activated for this client.
-autoHeal = false;
-
 // Ordered ranks used to rank players
 AS_ranks = [
 	"PRIVATE", "CORPORAL", "SERGEANT", "LIEUTENANT", "CAPTAIN", "MAJOR", "COLONEL"

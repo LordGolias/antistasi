@@ -70,10 +70,8 @@ if not (_part in ["hand_l","hand_r","leg_l","leg_r","arms"]) then {
 	};
 	if ((not (_unit call AS_medical_fnc_isUnconscious)) and _dam > 0.25) then {
 		if (isPlayer (leader group _unit)) then {
-			if autoheal then {
-				if (_unit getVariable ["ayudado", false]) then {
-					[_unit] call pedirAyuda;
-				};
+			if (_unit getVariable ["ayudado", false]) then {
+				[_unit] call pedirAyuda;
 			};
 		};
 	};
