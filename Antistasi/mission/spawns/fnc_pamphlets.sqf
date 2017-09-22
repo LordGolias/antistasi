@@ -75,7 +75,7 @@ private _fnc_spawn = {
 		private _tipoGrupo = [infGarrisonSmall, "AAF"] call AS_fnc_pickGroup;
 		private _grupo = [_position, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 		private _perro = _grupo createUnit ["Fin_random_F",_position,[],0,"FORM"];
-		[_perro] call AS_AI_fnc_initDog;
+		[_perro] spawn AS_AI_fnc_initDog;
 		[leader _grupo, _location, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
 		_grupos pushBack _grupo;
 	};
@@ -119,7 +119,6 @@ private _fnc_deliver = {
 	private _max_date = [_mission, "max_date"] call AS_spawn_fnc_get;
 	private _currentDropCount = [_mission, "currentDrop"] call AS_spawn_fnc_get;
 	private _buildings = [_mission, "buildings"] call AS_spawn_fnc_get;
-	private _currentDropCount = [_mission, "currentDrop"] call AS_spawn_fnc_get;
 	private _currentDrop = _buildings select _currentDropCount;
 	private _resources = [_mission, "resources"] call AS_spawn_fnc_get;
 

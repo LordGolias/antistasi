@@ -72,7 +72,7 @@ private _fnc_spawn = {
 		_groups append _group;
 		if (random 10 < 33) then {
 			private _perro = _group createUnit ["Fin_random_F",_pos,[],0,"FORM"];
-			[_perro] call AS_AI_fnc_initDog;
+			[_perro] spawn AS_AI_fnc_initDog;
 		};
 		[leader _group, _mrk, "SAFE","SPAWNED", "NOVEH2"] execVM "scripts\UPSMON.sqf";
 		{[_x, false] call AS_fnc_initUnitAAF} forEach units _group;
