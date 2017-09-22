@@ -108,7 +108,7 @@ private _fnc_wait_arrival = {
 		([_mission, "FAILED", _tskDesc_fail] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_mission_fnc_fail", 2];
 
-		[_mission, "state_index", 4] call AS_fnc_spawn_set;
+		[_mission, "state_index", 4] call AS_spawn_fnc_set;
 	};
 };
 
@@ -179,7 +179,7 @@ private _fnc_deliver = {
 			} forEach ([150, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 
 			[_mission, "currentDrop", _currentDropCount] call AS_spawn_fnc_set;
-			[_mission, "state_index", 2] call AS_fnc_spawn_set;
+			[_mission, "state_index", 2] call AS_spawn_fnc_set;
 		} else {
 			private _tskDesc_success = format [localize "STR_tskDesc_PRPamphlet_success",
 				[_location] call AS_fnc_location_name,
