@@ -217,6 +217,8 @@ class AS {
         FNC_UI(dialogs,changePersistent);
         FNC_UI(dialogs,toggleElegibility);
 
+        FNC_UI(dialogs,natoAirstrike);
+
         #include "dialogs\buyVehicle\cfgFunctions.hpp"
         #include "dialogs\manageLocations\cfgFunctions.hpp"
         #include "dialogs\manageMissions\cfgFunctions.hpp"
