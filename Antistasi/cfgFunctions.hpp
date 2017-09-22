@@ -210,6 +210,9 @@ class AS {
         FNC(fia_recruitment,addSquadVehicle);
         FNC(fia_recruitment,dismissSelected);
 
+        FNC_UI(dialogs,squadVehicleStatus);
+        FNC_UI(dialogs,squadVehicleDismount);
+
         FNC_UI(dialogs,donateMoney);
         FNC_UI(dialogs,changePersistent);
         FNC_UI(dialogs,toggleElegibility);

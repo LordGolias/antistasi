@@ -33,9 +33,9 @@ class squad_manager
 AS_DIALOG(2,"HC Squad Options", "closeDialog 0; createDialog ""radio_comm_commander"";");
 
 BTN_L(1,-1, "Squad Add Vehicle", "", "closeDialog 0; [] spawn AS_fnc_addSquadVehicle;");
-BTN_L(2,-1, "Squad Vehicle Stats", "", "[""stats""] execVM ""REINF\vehStats.sqf"";");
+BTN_L(2,-1, "Squad Vehicle Stats", "Hints the status of the vehicle of the selected HC squad", "call AS_fnc_UI_squadVehicleStatus;");
 
-BTN_R(1,-1, "Mount / Dismount", "", "[""mount""] execVM ""REINF\vehStats.sqf""");
+BTN_R(1,-1, "Mount / Dismount", "Makes an HC squad board/dismount its vehicle", "call AS_fnc_UI_squadVehicleDismount");
 BTN_R(2,-1, "Static Autotarget", "", "closeDialog 0; [] execVM ""AI\staticAutoT.sqf"";");
 
 	};
