@@ -49,11 +49,13 @@ AS_lampTypes = [
 // positions of the banks. If empty, there are no bank missions.
 AS_bankPositions = [];
 
+private _mapType = "MapBoard_altis_F";
 if (worldName == "Altis") then {
     call compile preprocessFileLineNumbers "templates\world_altis.sqf";
 };
 if (worldName == "Tanoa") then {
     call compile preprocessFileLineNumbers "templates\world_tanoa.sqf";
+    _mapType = "MapBoard_tanoa_F";
 };
 
 
@@ -108,7 +110,7 @@ caja = "IG_supplyCrate_F" createvehicle [0,0,0];
 [caja] call AS_fnc_emptyCrate;
 publicVariable "caja";
 caja allowDamage false;
-mapa = "MapBoard_altis_F" createvehicle [0,0,0];
+mapa = _mapType createvehicle [0,0,0];
 publicVariable "mapa";
 mapa allowDamage false;
 bandera = "Flag_FIA_F" createvehicle [0,0,0];
