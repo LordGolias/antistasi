@@ -9,9 +9,9 @@ if ((player getVariable "money") < 100) exitWith {
 };
 
 if not _toCursorTarget exitWith {
-	[-100] call AS_fnc_changePlayerMoney;
+	[player, -100] remoteExec ["AS_fnc_changePlayerMoney", 2];
 	[0, 100] remoteExec ["AS_fnc_changeFIAmoney", 2];
-	player setVariable ["score", (player getVariable ["score", 0]) + 2,true];
+	[2, player] remoteExec ["AS_fnc_changePlayerScore", 2];
 
 	hint "You have donated 100 € to FIA. This will raise your status among FIA forces";
 };
@@ -25,6 +25,6 @@ if (_target != _target getVariable ["owner", _target]) exitWith {
 	hint "You can't donate to a controlled AI";
 };
 
-[-100] call AS_fnc_changePlayerMoney;
-_target setVariable ["money", (_target getVariable "money") + 100, true];
+[player, -100] remoteExec ["AS_fnc_changePlayerMoney", 2];
+[_target, 100] remoteExec ["AS_fnc_changePlayerMoney", 2];
 hint format ["You donated 100 € to %1", name _target];

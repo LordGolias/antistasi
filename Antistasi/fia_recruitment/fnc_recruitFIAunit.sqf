@@ -53,7 +53,7 @@ if (!isMultiPlayer) then {
 }
 else {
 	[-1, 0] remoteExec ["AS_fnc_changeFIAmoney",2];
-	[-_cost] call AS_fnc_changePlayerMoney;
+	[player, -_cost] remoteExec ["AS_fnc_changePlayerMoney", 2];
 	hint "Soldier Recruited.\n\nRemember: if you use the group menu to switch groups you will lose control of your recruited AI";
 };
 

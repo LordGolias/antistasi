@@ -28,7 +28,7 @@ if (count _pos == 0) exitWith {
 private _veh = _type createVehicle _pos;
 
 if (isMultiPlayer and player != AS_commander) then {
-	[-_coste] call AS_fnc_changePlayerMoney;
+	[player, -_coste] remoteExec ["AS_fnc_changePlayerMoney", 2];
 	_veh setVariable ["AS_vehOwner", getPlayerUID player, true];
 } else {
 	[0,-_coste] remoteExec ["AS_fnc_changeFIAmoney",2];

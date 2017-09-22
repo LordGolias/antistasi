@@ -67,7 +67,7 @@ if (_ai) then {
 	if (!isMultiplayer) then {
 		[_hr,_resourcesFIA/2] remoteExec ["AS_fnc_changeFIAmoney",2];
 	} else {
+		[0, _resourcesFIA/2] remoteExec ["AS_fnc_changePlayerMoney", 2];
 		[_hr,0] remoteExec ["AS_fnc_changeFIAmoney",2];
-		[_resourcesFIA/2] call AS_fnc_changePlayerMoney;
 	};
 };

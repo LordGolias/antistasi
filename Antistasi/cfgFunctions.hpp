@@ -14,6 +14,7 @@ class AS {
         FNC_BASE(changeForeignSupport);
         FNC_BASE(changeAAFmoney);
         FNC_BASE(changeFIAmoney);
+        FNC_BASE(changePlayerMoney);
         FNC_BASE(changeCitySupport);
 
         FNC_BASE(resourcesToggle);
@@ -179,8 +180,6 @@ class AS {
     };
 
     class withInterface {
-        FNC(orgPlayers,changePlayerMoney);
-
         FNC_BASE(activatePlayerRankLoop);
         FNC_BASE(showProgressBar);
         FNC_BASE(showFoundIntel);
