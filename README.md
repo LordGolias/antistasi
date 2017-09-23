@@ -1,4 +1,6 @@
-# Antistasi by Golias
+# Golias' Antistasi
+
+![Main image](Antistasi/pic.jpg)
 
 This is a modified version of Antistasi scenario for ARMA 3 that deals with some of the issues of the original version.
 
