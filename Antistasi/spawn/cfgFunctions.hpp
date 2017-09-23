@@ -10,7 +10,7 @@ class AS_spawn {
     class common {
         FNC(spawn,states);
         FNC(spawn,dictionary);
-        FNC(spawn,spawns);
+        FNC(spawn,all);
         FNC(spawn,get);
         FNC(spawn,set);
         FNC(spawn,add);

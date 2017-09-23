@@ -2,7 +2,7 @@
 #include "../macros.hpp"
 AS_SERVER_ONLY("AS_spawn_fnc_drop");
 params ["_owner"];
-private _spawns = call AS_spawn_fnc_spawns;
+private _spawns = call AS_spawn_fnc_all;
 // all spawns from the dropped owner
 _spawns = _spawns select {([_x, "spawnOwner"] call AS_spawn_fnc_get) == _owner};
 

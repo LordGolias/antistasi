@@ -2,7 +2,7 @@
 // starts from the state where the spawn was left.
 params ["_spawn"];
 
-if not (_spawn in (call AS_spawn_fnc_spawns)) exitWith {
+if not (_spawn in (call AS_spawn_fnc_all)) exitWith {
     diag_log format ["[AS] Error: spawn_fnc_execute: spawn '%1' does not exist", _spawn];
 };
 
