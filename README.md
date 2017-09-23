@@ -118,12 +118,12 @@ reverse it.
 
 # Code structure
 
-- `dictionary/`: API for storing serializable data ([README](dictionary/README.md)).
-- `database/`: API for loading and saving games ([README](database/README.md)).
-- `scheduler/`: API for load-balanced distributed execution ([README](scheduler/README.md)).
-- `spawn/`: API for fault-tolerant execution ([README](spawn/README.md)).
-- `location/`: API for managing and spawning locations ([README](location/README.md)).
-- `mission/`: API for managing and spawning missions ([README](mission/README.md)).
+- `dictionary/`: API for storing serializable data ([README](Antistasi/dictionary/README.md)).
+- `database/`: API for loading and saving games ([README](Antistasi/database/README.md)).
+- `scheduler/`: API for load-balanced distributed execution ([README](Antistasi/scheduler/README.md)).
+- `spawn/`: API for fault-tolerant execution ([README](Antistasi/spawn/README.md)).
+- `location/`: API for managing and spawning locations ([README](Antistasi/location/README.md)).
+- `mission/`: API for managing and spawning missions ([README](Antistasi/mission/README.md)).
 - `movement/`: spawns related to AAF movement spawns (e.g. patrols, attacks).
 - `initialization/`: scripts that initialize the mission.
 - `medical/`: functions used for the medical system (including ACE)
@@ -157,25 +157,25 @@ Generically, each datum has two attributes:
 * persistent: whether it is persistently saved
 
 * shared and temporary variables are handled with the macros `AS_S(_key)`, `AS_Sset(_key, _value)`.
-* shared and persistent variables are handled with the macros `AS_P(_key)`, `AS_Pset(_key, _value)` or with [dictionaries](dictionary/README.md)
+* shared and persistent variables are handled with the macros `AS_P(_key)`, `AS_Pset(_key, _value)` or with [dictionaries](Antistasi/dictionary/README.md)
 * non-shared temporary variables are handled without any macro.
 
-The [database API](database/README.md) is used to fully serialize (save) and deserialize (load) the mission.
+The [database API](Antistasi/database/README.md) is used to fully serialize (save) and deserialize (load) the mission.
 
 ## Distributed execution
 
 This mission has parts (`spawn`s, see below) that can be run by any client.
 For these parts, the server acts as a scheduler and load balancer and each client
-(headless or not) acts as a worker. See [scheduler](scheduler/README.md) for details.
+(headless or not) acts as a worker. See [scheduler](Antistasi/scheduler/README.md) for details.
 
 ## Spawn state and execution
 
 The execution of certain parts of this mission is distributed across clients.
-This is implemented by the [spawn API](spawn/README.md).
+This is implemented by the [spawn API](Antistasi/spawn/README.md).
 
 ## Locations
 
-Locations are managed by the [location API](location/README.md). They represent
+Locations are managed by the [location API](Antistasi/location/README.md). They represent
 physical locations on the map that are spawned according to certain functionality
 and can sometimes be conquered.
 
@@ -235,7 +235,7 @@ Related globals:
 ## Missions
 
 This mission has numerous sub-missions that are spawned automatically or by
-a player's decision. See [missions API](mission/README.me) for more details.
+a player's decision. See [missions API](Antistasi/mission/README.me) for more details.
 
 ## Player's score, rank and eligibility to command
 
