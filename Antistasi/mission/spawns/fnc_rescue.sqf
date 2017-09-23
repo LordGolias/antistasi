@@ -24,7 +24,6 @@ private _fnc_initialize = {
 	};
 
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
-	[_mission, "position", _position] call AS_spawn_fnc_set;
 	[_mission, [_tskDesc,_tskTitle,_location], _position, "run"] call AS_mission_spawn_fnc_saveTask;
 };
 
@@ -32,7 +31,7 @@ private _fnc_spawn = {
 	params ["_mission"];
 	private _missionType = _mission call AS_mission_fnc_type;
 	private _location = _mission call AS_mission_fnc_location;
-	private _position = [_mission, "position"] call AS_spawn_fnc_get;
+	private _position = _location call AS_location_fnc_position;
 
 	private _initSurvivor = {
 		params ["_unit"];
