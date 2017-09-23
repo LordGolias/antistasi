@@ -5,7 +5,9 @@ Dictionaries are an organized way to store data in a serializable format.
 Dictionaries hold associated pairs `(key,value)` where:
 
 - keys are `"STRING"`s unsorted and (case-insensitive) unique.
-- values are any of the following types:
+- values can be any type, where the type `"OBJECT"` acts as a nested dictionary.
+
+While dictionaries can hold arbitrary types, they can only serialize the following types:
 
 - `"OBJECT"`
 - `"ARRAY"`
@@ -14,6 +16,7 @@ Dictionaries hold associated pairs `(key,value)` where:
 - `"SCALAR"`
 
 where `"OBJECT"` acts as a nested dictionary and `"ARRAY"` can contain only the types above.
+Values whose type is not any of the above are not serialized (and an error is emitted).
 
 ## How to use dictionaries:
 

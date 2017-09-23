@@ -36,7 +36,13 @@ private _serialize_single = {
             } forEach _value;
             _result = AR_START + (_strings joinString ",") + AR_END;
         };
-        _result = str _value;
+        if (typeName _value in ["BOOL", "STRING", "SCALAR", "TEXT"]) exitWith {
+            _result = str _value;
+        };
+        diag_log format ["DICT:serialize(%1):ERROR: value can only be of types %2 (is ""%3"")",
+            _complete_key,
+            ["OBJECT", "ARRAY", "BOOL", "STRING", "SCALAR", "TEXT"],
+            typeName _value];
     };
     [_key, TYPE_TO_STRING(typeName _value), _result] joinString ":"
 };
