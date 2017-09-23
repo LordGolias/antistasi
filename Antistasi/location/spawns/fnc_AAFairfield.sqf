@@ -64,7 +64,7 @@ private _fnc_spawn = {
 				[_unit, false] spawn AS_fnc_initUnitAAF;
 				_soldados pushBack _unit;
 			};
-			[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH"] execVM "scripts\UPSMON.sqf";
+			[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH"] spawn UPSMON;
 			sleep 1;
 		};
 	};

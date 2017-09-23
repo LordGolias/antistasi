@@ -106,7 +106,7 @@ private _fnc_spawn = {
 		sleep 1;
 	};
 
-	[leader _grupoCivil, _location, "AWARE","SPAWNED","NOVEH2"] execVM "scripts\UPSMON.sqf";
+	[leader _grupoCivil, _location, "AWARE","SPAWNED","NOVEH2"] spawn UPSMON;
 
 	[_location,true] call AS_location_fnc_spawn;
 	[_location] spawn AS_fnc_dropArtilleryShells;

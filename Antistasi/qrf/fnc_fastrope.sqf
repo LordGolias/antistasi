@@ -28,7 +28,7 @@ _wp601 setWaypointBehaviour "AWARE";
 _infGroup1 setCombatMode "RED";
 
 if (typeName _infGroups == "ARRAY") then {
-    //0 = [leader _infGroup2, _mrk, "AWARE", "SPAWNED","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+    //0 = [leader _infGroup2, _mrk, "AWARE", "SPAWNED","NOVEH", "NOFOLLOW"] spawn UPSMON;
     private _wp602 = _infGroup2 addWaypoint [_mrk call AS_location_fnc_position, 0];
     _wp602 setWaypointType "SAD";
     _wp602 setWaypointBehaviour "AWARE";

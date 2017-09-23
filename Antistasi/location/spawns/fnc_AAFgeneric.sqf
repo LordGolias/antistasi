@@ -34,7 +34,7 @@ private _fnc_spawn = {
 				_civs pushBack _civ;
 			};
 			[_location, _civs] spawn AS_fnc_location_canBeDestroyed;
-			[leader _grupo, _location, "SAFE", "SPAWNED","NOFOLLOW", "NOSHARE","DORELAX","NOVEH2"] execVM "scripts\UPSMON.sqf";
+			[leader _grupo, _location, "SAFE", "SPAWNED","NOFOLLOW", "NOSHARE","DORELAX","NOVEH2"] spawn UPSMON;
 		};
 	};
 

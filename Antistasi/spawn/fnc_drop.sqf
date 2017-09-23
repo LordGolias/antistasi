@@ -14,7 +14,7 @@ _spawns = _spawns select {([_x, "spawnOwner"] call AS_spawn_fnc_get) == _owner};
         {
             private _upsmon_params = _x getVariable ["AS_UPSMON_controlled", []];
             if (count _upsmon_params != 0) then {
-                _upsmon_params execVM "scripts\UPSMON.sqf";
+                _upsmon_params spawn UPSMON;
             };
         } forEach _groups;
     };

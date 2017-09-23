@@ -65,7 +65,7 @@ private _fnc_spawn = {
 		_vehiculos pushBack _uav;
 		createVehicleCrew _uav;
 		_grupoUAV = group (crew _uav select 1);
-		[leader _grupoUAV, _mrkfin, "SAFE", "SPAWNED","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+		[leader _grupoUAV, _mrkfin, "SAFE", "SPAWNED","NOVEH", "NOFOLLOW"] spawn UPSMON;
 		[_uav,"CSAT"] call AS_fnc_initVehicle;
 		{_x call AS_fnc_initUnitCSAT; _soldados pushBack _x} forEach units _grupoUAV;
 		_grupos pushBack _grupoUAV;
@@ -75,14 +75,14 @@ private _fnc_spawn = {
 
 	{_x call AS_fnc_initUnitCSAT; _soldados pushBack _x} forEach units _grupoCSAT;
 	_grupos pushBack _grupoCSAT;
-	[leader _grupoCSAT, _mrkfin, "AWARE", "SPAWNED","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+	[leader _grupoCSAT, _mrkfin, "AWARE", "SPAWNED","NOVEH", "NOFOLLOW"] spawn UPSMON;
 
 	// AAF teams
 	{
 		_grupo = [_posicion, side_red, _x] call BIS_Fnc_spawnGroup;
 		_grupos pushBack _grupo;
 		{[_x, false] call AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
-		[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
+		[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] spawn UPSMON;
 		sleep 1;
 	} forEach [
 		[infTeamATAA, "AAF"] call AS_fnc_pickGroup,

@@ -49,7 +49,7 @@ private _fnc_spawn = {
 	        ([_position, 0, opI_PIL, _group] call bis_fnc_spawnvehicle) select 0;
 
 			_group selectLeader _target;
-			[leader _group, _location, "SAFE", "SPAWNED", "NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+			[leader _group, _location, "SAFE", "SPAWNED", "NOVEH", "NOFOLLOW"] spawn UPSMON;
 
 			{_x call AS_fnc_initUnitCSAT; _x allowFleeing 0} forEach units _group;
 
@@ -67,11 +67,11 @@ private _fnc_spawn = {
 			private _group = [_position, side_red, [opGroup_SpecOps, "CSAT"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 			private _uav = createVehicle [opUAVsmall, _position, [], 0, "FLY"];
 			createVehicleCrew _uav;
-			[leader _group, _mrkfin, "RANDOM", "SPAWNED", "NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+			[leader _group, _mrkfin, "RANDOM", "SPAWNED", "NOVEH2", "NOFOLLOW"] spawn UPSMON;
 			{_x call AS_fnc_initUnitCSAT; _x allowFleeing 0} forEach units _group;
 
 			private _groupUAV = group (crew _uav select 1);
-			[leader _groupUAV, _mrkfin, "SAFE", "SPAWNED","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+			[leader _groupUAV, _mrkfin, "SAFE", "SPAWNED","NOVEH", "NOFOLLOW"] spawn UPSMON;
 
 			_resources = [_task, [_group, _groupUAV], [_uav], [_mrkfin]];
 	        _target = _group;

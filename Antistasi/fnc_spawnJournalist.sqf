@@ -15,7 +15,7 @@ if ((random 100 < ((AS_P("NATOsupport") + AS_P("CSATsupport"))/10)) and (_locati
 	_journalist = _grupo createUnit ["C_journalist_F", _pos, [],0, "NONE"];
 	[_journalist] spawn AS_fnc_initUnitCIV;
 	_grupos pushBack _grupo;
-	[_journalist, _location, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";
+	[_journalist, _location, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] spawn UPSMON;
 };
 
 _journalist

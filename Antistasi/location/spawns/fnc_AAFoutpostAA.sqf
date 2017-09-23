@@ -59,7 +59,7 @@ private _fnc_spawn = {
 	_grupo = [_posicion, side_red, [infAA, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 	_grupos pushBack _grupo;
 	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x;} forEach units _grupo;
-	[leader _grupo, _location, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+	[leader _grupo, _location, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] spawn UPSMON;
 
 	private _groupsCount = (round (_size/50)) max 1;
 	if (_frontera) then {_groupsCount = _groupsCount * 2};
@@ -70,7 +70,7 @@ private _fnc_spawn = {
 		_grupo = [_posicion, side_red, [infAA, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 		_grupos pushBack _grupo;
 		{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x;} forEach units _grupo;
-		[leader _grupo, _location, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+		[leader _grupo, _location, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] spawn UPSMON;
 	};
 
 	for "_i" from 1 to _groupsCount do {
@@ -78,7 +78,7 @@ private _fnc_spawn = {
 		_grupo = [_posicion, side_red, [infTeam, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 		private _stance = "RANDOM";
 		if (_i == 1) then {_stance = "RANDOMUP"};
-		[leader _grupo, _location, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+		[leader _grupo, _location, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] spawn UPSMON;
 		_grupos pushBack _grupo;
 		{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 	};

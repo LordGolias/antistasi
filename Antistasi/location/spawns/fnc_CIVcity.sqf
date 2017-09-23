@@ -67,7 +67,7 @@ private _fnc_spawn = {
 
 	[_location, _grupos] call AS_fnc_spawnJournalist;
 
-	[leader _grupo, _location, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] execVM "scripts\UPSMON.sqf";
+	[leader _grupo, _location, "SAFE", "SPAWNED","NOFOLLOW", "NOVEH2","NOSHARE","DoRelax"] spawn UPSMON;
 
 	private _patrolCiudades = _location call AS_fnc_getCitiesToCivPatrol;
 

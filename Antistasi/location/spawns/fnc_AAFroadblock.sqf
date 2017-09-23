@@ -62,7 +62,7 @@ private _fnc_spawn = {
 		[_grupo createUnit ["Fin_random_F",_posicion,[],0,"FORM"]] spawn AS_AI_fnc_initDog;
 	};
 
-	[leader _grupo, _location, "SAFE","SPAWNED","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+	[leader _grupo, _location, "SAFE","SPAWNED","NOVEH2","NOFOLLOW"] spawn UPSMON;
 
 	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 

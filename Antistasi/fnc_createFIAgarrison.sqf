@@ -66,7 +66,7 @@ _grupos = _grupos + [_grupo];
 
 // give orders to the groups
 {
-	[leader _x, _location, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+	[leader _x, _location, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] spawn UPSMON;
 } forEach _grupos;
 
 if !(isNull _grupoMort) then {

@@ -80,7 +80,7 @@ private _fnc_wait_to_arrive = {
 			hint "";
 		};
 		[[petros,"globalChat","Engineers are now deploying the mines."],"AS_fnc_localCommunication"] call BIS_fnc_MP;
-		[leader _group, _mrk, "SAFE","SPAWNED", "SHOWMARKER"] execVM "scripts\UPSMON.sqf";
+		[leader _group, _mrk, "SAFE","SPAWNED", "SHOWMARKER"] spawn UPSMON;
 	} else {
 		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_mission_fnc_fail", 2];

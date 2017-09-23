@@ -18,7 +18,7 @@ for "_i" from 1 to _amount do {
     private _stance = "RANDOM";
     if (_i == 1) then {_stance = "RANDOMUP"};
 
-    [leader _group,_location,"SAFE","SPAWNED",_stance,"NOVEH","NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+    [leader _group,_location,"SAFE","SPAWNED",_stance,"NOVEH","NOFOLLOW"] spawn UPSMON;
     _groups pushBack _group;
     {[_x, false] spawn AS_fnc_initUnitAAF; _units pushBack _x} forEach units _group;
     sleep 1;

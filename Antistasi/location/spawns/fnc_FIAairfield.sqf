@@ -38,7 +38,7 @@ private _fnc_spawn = {
 			_pos = [_pos, 20,_ang] call BIS_fnc_relPos;
 			sleep 1;
 			};
-		[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH"] execVM "scripts\UPSMON.sqf";
+		[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH"] spawn UPSMON;
 	};
 
 	// create flag
@@ -79,7 +79,7 @@ private _fnc_spawn = {
 		private _grupo = [_pos, side_blue, [bluSquad, "NATO"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 		_grupos pushBack _grupo;
 		{[_x] call AS_fnc_initUnitNATO; _soldados pushBack _x} forEach units _grupo;
-		[leader _grupo, _location, "SAFE","SPAWNED", "RANDOM","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+		[leader _grupo, _location, "SAFE","SPAWNED", "RANDOM","NOVEH", "NOFOLLOW"] spawn UPSMON;
 		sleep 1;
 	};
 

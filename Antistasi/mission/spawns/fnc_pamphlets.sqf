@@ -76,7 +76,7 @@ private _fnc_spawn = {
 		private _grupo = [_position, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 		private _perro = _grupo createUnit ["Fin_random_F",_position,[],0,"FORM"];
 		[_perro] spawn AS_AI_fnc_initDog;
-		[leader _grupo, _location, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+		[leader _grupo, _location, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] spawn UPSMON;
 		_grupos pushBack _grupo;
 	};
 

@@ -40,7 +40,7 @@ private _fnc_spawn = {
 
 	// create the AT group
 	private _grupo = [_posicion, side_red, [infTeamATAA, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
-	[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] execVM "scripts\UPSMON.sqf";
+	[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] spawn UPSMON;
 	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 	_grupos pushBack _grupo;
 

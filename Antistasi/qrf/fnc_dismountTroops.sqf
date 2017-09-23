@@ -43,7 +43,7 @@ waitUntil {sleep 5; ((units _infGroup1 select 0) distance _dest < 50) || ({alive
 _infGroup1 setCurrentWaypoint _wp402;
 [_vehGroup, _origin] spawn AS_QRF_fnc_RTB;
 if (typeName _infGroups == "ARRAY") then {
-    //0 = [leader _infGroup2, _mrk, "AWARE", "SPAWNED","NOVEH", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+    //0 = [leader _infGroup2, _mrk, "AWARE", "SPAWNED","NOVEH", "NOFOLLOW"] spawn UPSMON;
     _infGroup2 setCurrentWaypoint _wp502;
 };
 

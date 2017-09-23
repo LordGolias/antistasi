@@ -28,7 +28,7 @@ private _fnc_spawn = {
 		};
 
 		// put then on patrol.
-		[leader _grupo, _location, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] execVM "scripts\UPSMON.sqf";
+		[leader _grupo, _location, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] spawn UPSMON;
 		_grupos pushBack _grupo;
 	};
 

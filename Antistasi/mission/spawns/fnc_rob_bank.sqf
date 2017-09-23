@@ -66,7 +66,7 @@ private _fnc_spawn = {
 	private _tipoGrupo = [infSquad, "AAF"] call AS_fnc_pickGroup;
 	private _group = [_position, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 	sleep 1;
-	[leader _group, _mrk, "SAFE","SPAWNED", "NOVEH2", "FORTIFY"] execVM "scripts\UPSMON.sqf";
+	[leader _group, _mrk, "SAFE","SPAWNED", "NOVEH2", "FORTIFY"] spawn UPSMON;
 	{[_x, false] spawn AS_fnc_initUnitAAF} forEach units _group;
 
 	_position = _bank buildingPos 1;
