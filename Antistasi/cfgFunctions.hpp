@@ -35,6 +35,8 @@ class AS {
         FNC(Functions,changePersistentVehicles);
         FNC(Functions,deployAAFminefield);
 
+        FNC(fia_recruitment,recruitFIAunit);
+
         FNC_BASE(refreshArsenal);
         FNC_BASE(resetPetrosPosition);
 
@@ -199,7 +201,6 @@ class AS {
         FNC_UI(ai_control,controlUnit);
 
         FNC(fia_recruitment,recruitFIAgarrison);
-        FNC(fia_recruitment,recruitFIAunit);
         FNC(fia_recruitment,recruitFIAsquad);
         FNC(fia_recruitment,dismissFIAsquads);
         FNC(fia_recruitment,dismissFIAunits);

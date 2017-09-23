@@ -4,13 +4,16 @@ AS_CLIENT_ONLY("AS_fnc_localCommunication");
 params ["_unit", "_tipo", "_texto"];
 
 private _validTypes = [
-	"sideChat", "hint", "hintCS", "globalChat",
+	"sideChat", "hint", "hintCS", "globalChat", "directSay",
 	"income", "countdown", "BE", "status", "save"
 ];
 if not (_tipo in _validTypes) exitWith {
 	diag_log format["[AS] Error: AS_fnc_localCommunication.sqf: invalid type %1", _tipo];
 };
 
+if (_tipo == "directSay") then {
+	_unit directSay _texto;
+};
 if (_tipo == "sideChat") then {
 	_unit sideChat format ["%1", _texto];
 };

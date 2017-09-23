@@ -1,8 +1,10 @@
 #include "macros.hpp"
 AS_SERVER_ONLY("AS_fnc_changeFIAmoney.sqf");
 
-waitUntil {sleep 5; isNil "AS_resourcesIsChanging"};
-AS_resourcesIsChanging = true;
+if (not isNil "AS_LOCK_changeFIAmoney") then {
+	waitUntil {sleep 1; isNil "AS_LOCK_changeFIAmoney"};
+};
+AS_LOCK_changeFIAmoney = true;
 
 params [["_hr", 0], ["_resourcesFIA", 0]];
 
@@ -20,7 +22,7 @@ _resourcesFIAT = _resourcesFIAT max 0;
 
 AS_Pset("hr", _hrT);
 AS_Pset("resourcesFIA", _resourcesFIAT);
-AS_resourcesIsChanging = nil;
+AS_LOCK_changeFIAmoney = nil;
 
 private _texto = "";
 private _hrSim = "";
