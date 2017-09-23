@@ -37,6 +37,8 @@ class AS {
 
         FNC(fia_recruitment,recruitFIAunit);
 
+        FNC(arsenal,collectDroppedEquipment);
+
         FNC_BASE(refreshArsenal);
         FNC_BASE(resetPetrosPosition);
 

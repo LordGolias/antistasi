@@ -95,4 +95,5 @@ if (_location call AS_location_fnc_spawned) then {
 	[_location] spawn AS_fnc_lose_location;
 } else {
 	_location call AS_location_fnc_removeRoadblocks;
+	[_posicion, _size, caja] call AS_fnc_collectDroppedEquipment;
 };
