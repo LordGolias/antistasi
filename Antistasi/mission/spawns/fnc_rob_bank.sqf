@@ -32,7 +32,6 @@ private _fnc_initialize = {
 private _fnc_spawn = {
 	params ["_mission"];
 	private _location = _mission call AS_mission_fnc_location;
-	private _position = _location call AS_location_fnc_position;
 	private _bankPosition = [_mission, "bankPosition"] call AS_spawn_fnc_get;
 
 	private _bank = (nearestObjects [_bankPosition, [], 25]) select 0;
@@ -54,7 +53,7 @@ private _fnc_spawn = {
 
 	[_truck, "Mission Vehicle"] spawn AS_fnc_setConvoyImmune;
 
-	private _mrk = createMarkerLocal [format ["%1patrolarea", floor random 100], _position];
+	private _mrk = createMarkerLocal [format ["%1patrolarea", floor random 100], _bankPosition];
 	_mrk setMarkerShapeLocal "RECTANGLE";
 	_mrk setMarkerSizeLocal [30,30];
 	_mrk setMarkerTypeLocal "hd_warning";
@@ -64,26 +63,23 @@ private _fnc_spawn = {
 	_markers pushBack _mrk;
 
 	private _tipoGrupo = [infSquad, "AAF"] call AS_fnc_pickGroup;
-	private _group = [_position, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
+	private _group = [_bankPosition, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 	sleep 1;
 	[leader _group, _mrk, "SAFE","SPAWNED", "NOVEH2", "FORTIFY"] spawn UPSMON;
 	{[_x, false] spawn AS_fnc_initUnitAAF} forEach units _group;
-
-	_position = _bank buildingPos 1;
 
 	[_mission, "resources", [_task, [_group], [_truck], _markers]] call AS_spawn_fnc_set;
 };
 
 private _fnc_wait_to_arrive = {
 	params ["_mission"];
-	private _location = _mission call AS_mission_fnc_location;
-	private _position = _location call AS_location_fnc_position;
+	private _bankPosition = [_mission, "bankPosition"] call AS_spawn_fnc_get;
 	private _max_date = [_mission, "max_date"] call AS_spawn_fnc_get;
 	private _truck = (([_mission, "resources"] call AS_spawn_fnc_get) select 2) select 0;
 
 	private _fnc_missionFailedCondition = {(dateToNumber date > _max_date) or (not alive _truck)};
 
-	waitUntil {sleep 1; (_truck distance _position < 7) or _fnc_missionFailedCondition};
+	waitUntil {sleep 1; (_truck distance _bankPosition < 7) or _fnc_missionFailedCondition};
 
 	if (call _fnc_missionFailedCondition) then {
 		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
@@ -96,8 +92,7 @@ private _fnc_wait_to_arrive = {
 
 private _fnc_wait_to_load = {
 	params ["_mission"];
-	private _location = _mission call AS_mission_fnc_location;
-	private _position = _location call AS_location_fnc_position;
+	private _bankPosition = [_mission, "bankPosition"] call AS_spawn_fnc_get;
 	private _max_date = [_mission, "max_date"] call AS_spawn_fnc_get;
 	private _group = (([_mission, "resources"] call AS_spawn_fnc_get) select 1) select 0;
 	private _truck = (([_mission, "resources"] call AS_spawn_fnc_get) select 2) select 0;
@@ -105,7 +100,7 @@ private _fnc_wait_to_load = {
 	private _fnc_missionFailedCondition = {(dateToNumber date > _max_date) or (not alive _truck)};
 
 	// once the truck arrives, send a patrol and make AAF aware of the truck
-	[[_position], "AS_movement_fnc_sendAAFpatrol"] remoteExec ["AS_scheduler_fnc_execute", 2];
+	[[_bankPosition], "AS_movement_fnc_sendAAFpatrol"] remoteExec ["AS_scheduler_fnc_execute", 2];
 
 	{
 		private _fiaSoldier = _x;
@@ -117,11 +112,11 @@ private _fnc_wait_to_load = {
 				_x reveal [_fiaSoldier, 4];
 			} forEach units _group;
 		};
-	} forEach ([AS_P("spawnDistance"), _position, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
+	} forEach ([AS_P("spawnDistance"), _bankPosition, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 
 	private _fnc_loadCondition = {
 		// The condition to allow loading the crates into the truck
-		(_truck distance _position < 7) and {speed _truck < 1} and
+		(_truck distance _bankPosition < 7) and {speed _truck < 1} and
 		{{alive _x and not (_x call AS_medical_fnc_isUnconscious)} count ([80, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) > 0} and
 		{{(side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
 	};
