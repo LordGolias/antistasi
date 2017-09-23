@@ -178,7 +178,7 @@ private _fnc_clean = {
 	params ["_spawnName"];
 	private _groups = (([_spawnName, "resources"] call AS_spawn_fnc_get) select 1);
 	private _vehicles = (([_spawnName, "resources"] call AS_spawn_fnc_get) select 2);
-	[_groups, _vehicles] call AS_fnc_cleanResources;
+	[_groups, _vehicles, []] call AS_fnc_cleanResources;
 };
 
 AS_spawn_patrolAAF_states = ["spawn", "run", "clean"];

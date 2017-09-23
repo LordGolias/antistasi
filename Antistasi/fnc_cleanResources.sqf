@@ -1,6 +1,6 @@
 // Cleans up unneeded resources once they are far from any BLUFOR.
 #include "macros.hpp"
-params [["_groups", []], ["_vehicles", []], ["_markers", []]];
+params ["_groups", "_vehicles", "_markers"];
 
 {
     deleteMarker _x;
