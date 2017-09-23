@@ -7,7 +7,7 @@ OnLoadName = "Antistasi on steroids";
 OnLoadMission = "Be a Resistance Leader - Be a Hero";
 loadScreen = "pic.jpg";
 
-overviewText = "Be the Resistance Leader. Fight against a superior enemy in technology, number, assets and vehicles. Use guerrilla tactics in a totally dynamic world, with around 18 sidemissions, everywhere, anytime, anything.";
+overviewText = "You are the commander of a newly established faction that aims to control the island.<br/><br/>Distribute pamphlets, help civilians, gather NATO support, steal supplies, attack convoys, assassinate officers, take bases, and much more to do to ultimately drive the AAF out of the island.<br/><br/>Main features:<br/>- multiplayer support: play with your friends, with or without a dedicated server.<br/>- persistent save: games are saved persistently to a file or ingame.<br/>- arsenal management: your arsenal is limited. Scavenge to succeed.<br/>- highly performant: reported +200 AIs with 5 players.<br/>- supports ACE, CUPS, RHS, VCOM.<br/><br/>Meta discussion: this is a fork of Antistasi whose code was greatly optimized, improved and simplified to be easily ported to different mods (e.g. RHS, CUPS), maps (Altis, Tanoa), missions, etc.<br/>See more details at <a href='https://github.com/LordGolias/antistasi'>Github</a>";
 overviewPicture = "pic.jpg";
 
 allowFunctionsLog = 1;

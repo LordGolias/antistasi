@@ -1,18 +1,13 @@
 You are the commander of a newly established faction that aims to control the island.
 
-Distribute pamphlets, help civilians, gather NATO support, steal supplies,
-attack convoys, assassinate officers, take bases, and much more to do to
-ultimately drive the AAF out of the island.
+Distribute pamphlets, help civilians, gather NATO support, steal supplies, attack convoys, assassinate officers, take bases, and much more to do to ultimately drive the AAF out of the island.
 
 Main features:
+- multiplayer support: play with your friends, with or without a dedicated server
+- persistent save: games are saved persistently to a file or ingame. Multiple saves allowed.
+- arsenal management: your arsenal is limited. Scavenge to succeed.
+- highly performant: reported +200 AIs with 5 players.
+- fully integrated with supports ACE, CUPS, RHS, VCOM.
 
-* multiplayer support: play with your friends, with or without a dedicated server
-* persistent save: games are saved persistently; select which game to load
-* arsenal management: your arsenal is limited. Scavenge to succeed.
-* highly performant code: every client/headless client can run parts of the mission, assigned via a load balancer
-* active support of ACE: Healing, revive, items, all works smoothly with ACE
-* supports VCOM (AI)
-
-Meta discussion: this is a fork of Antistasi whose code was greatly optimized, improved,
-and simplified to be easily ported to different mods (e.g. RHS, CUPS), maps (Altis, Tanoa), missions, etc.
-See more details at https://github.com/LordGolias/antistasi.
+Meta discussion: this is a fork of Antistasi whose code was greatly optimized, improved, and simplified to be easily ported to different mods (e.g. RHS, CUPS), maps (Altis, Tanoa), missions, etc.
+See more details at <a href='https://github.com/LordGolias/antistasi'>Github</a>.
