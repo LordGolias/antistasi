@@ -9,7 +9,7 @@ if (side _unit == side_red) then
 	{
 	[[_unit,"interrogar"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	[[_unit,"capturar"],"AS_fnc_addAction"] call BIS_fnc_MP;
-	[0,10] remoteExec ["resourcesFIA",2];
+	[0,10] remoteExec ["AS_fnc_changeFIAmoney",2];
 	[-2,0,getPos _unit] remoteExec ["AS_fnc_changeCitySupport",2];
 	_coste = AS_data_allCosts getVariable (typeOf _unit);
     if (isNil "_coste") then {diag_log format ["[AS] ERROR: cost of %1 not defined.",typeOf _unit]; _coste = 0};

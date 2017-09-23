@@ -27,7 +27,7 @@ if not (_prestige IsEqualTo [0, 0]) then {
     _prestige call AS_fnc_changeForeignSupport;
 };
 if not (_resourcesFIA IsEqualTo [0, 0]) then {
-    _resourcesFIA call resourcesFIA;
+    _resourcesFIA call AS_fnc_changeFIAmoney;
 };
 if not (_citySupport IsEqualTo [0, 0, []]) then {
     _citySupport call AS_fnc_changeCitySupport;
