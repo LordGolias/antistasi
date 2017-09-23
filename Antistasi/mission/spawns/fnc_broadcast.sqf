@@ -106,17 +106,6 @@ private _fnc_spawn = {
 	[_mission, "resources", [_task, [], _grafArray + [propTruck], []]] call AS_spawn_fnc_set;
 };
 
-/*private _fnc_clean = {
-	[[], _objectsToDelete + _grafArray + [propTruck]] call AS_fnc_cleanResources;
-
-	AS_Sset("activeItem", nil);
-	AS_Sset("BCactive", nil);
-	AS_Sset("BCdisabled", nil);
-	sleep 30;
-    [_task] call BIS_fnc_deleteTask;
-    _mission call AS_mission_fnc_completed;
-};*/
-
 private _fnc_wait_to_arrive = {
 	params ["_mission"];
 	private _position = [_mission, "position"] call AS_spawn_fnc_get;
