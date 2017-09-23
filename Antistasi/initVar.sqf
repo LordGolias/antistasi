@@ -82,6 +82,8 @@ if (isServer) then {
 	unlockedItems = [
 		"Binocular",
 		"ItemMap",
+		"ItemGPS",
+		"ItemRadio",
 		"ItemWatch",
 		"ItemCompass",
 		"FirstAidKit",
