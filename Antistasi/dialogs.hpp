@@ -124,10 +124,10 @@ class carpet_bombing
 	{
 AS_DIALOG(2,"Carpet Bombing Strike","closeDialog 0; nul = createDialog ""NATO_Missions"";");
 
-BTN_L(1,-1, "HE Bombs", "Cost: 10 points", "closeDialog 0; ""HE"" call AS_fnc_ui_natoAirstrike;");
-BTN_R(1,-1, "Carpet Bombing", "Cost: 10 points", "closeDialog 0; ""CARPET"" call AS_fnc_ui_natoAirstrike;");
+BTN_L(1,-1, "HE Bombs", "Cost: 10 points", "closeDialog 0; ""HE"" call AS_fnc_UI_natoAirstrike;");
+BTN_R(1,-1, "Carpet Bombing", "Cost: 10 points", "closeDialog 0; ""CARPET"" call AS_fnc_UI_natoAirstrike;");
 
-BTN_M(2, -1, "NAPALM Bomb", "Cost: 10 points", "closeDialog 0; ""NAPALM"" call AS_fnc_ui_natoAirstrike;");
+BTN_M(2, -1, "NAPALM Bomb", "Cost: 10 points", "closeDialog 0; ""NAPALM"" call AS_fnc_UI_natoAirstrike;");
 
 	};
 };
