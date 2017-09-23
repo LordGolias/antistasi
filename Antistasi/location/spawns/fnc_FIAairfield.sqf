@@ -99,6 +99,6 @@ private _fnc_spawn = {
 AS_spawn_createFIAairfield_states = ["spawn", "run", "clean"];
 AS_spawn_createFIAairfield_state_functions = [
 	_fnc_spawn,
-	AS_location_spawn_fnc_FIAlocation_run,
+	AS_location_spawn_fnc_FIAwait_capture,
 	AS_location_spawn_fnc_FIAlocation_clean
 ];

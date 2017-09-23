@@ -74,6 +74,6 @@ class AS_location_spawn {
         FNC(location\spawn,AAFlocation_clean);
         FNC(location\spawn,AAFwait_capture);
         FNC(location\spawn,FIAlocation_clean);
-        FNC(location\spawn,FIAlocation_run);
+        FNC(location\spawn,FIAwait_capture);
     };
 };

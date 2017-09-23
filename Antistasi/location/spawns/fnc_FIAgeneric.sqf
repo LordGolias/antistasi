@@ -75,21 +75,7 @@ private _fnc_run = {
 	private _soldados = [_location, "FIAsoldiers"] call AS_spawn_fnc_get;
 
 	if !(_type in ["fia_hq","city"]) then {
-		// wait for successful attack to lose the location
-		private _wasCaptured = false;
-		waitUntil {sleep 1;
-			private _AAFcount = ({not(vehicle _x isKindOf "Air")} count ([_size, _posicion, "OPFORSpawn"] call AS_fnc_unitsAtDistance));
-			private _FIAcount = (({alive _x} count _soldados) + count ([_size, _posicion, "BLUFORSpawn"] call AS_fnc_unitsAtDistance));
-
-			_wasCaptured = (_AAFcount > 3*_FIAcount);
-
-			!(_location call AS_location_fnc_spawned) or _wasCaptured
-		};
-
-		// successful attack => lose location
-		if _wasCaptured then {
-			[_location] remoteExec ["AS_fnc_lose_location",2];
-		};
+		call AS_location_spawn_fnc_FIAwait_capture;
 	} else {
 		waitUntil {sleep 1; !(_location call AS_location_fnc_spawned)};
 	};
