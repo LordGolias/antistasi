@@ -120,9 +120,9 @@ class AS {
         FNC(Functions,createGroup);
         FNC(Functions,groupCfgToComposition);
 
-        FNC(Revive,respawnPlayer);
-        FNC(Revive,EH_handleDamage);
-        FNC(Revive,EH_handleDamageACE);
+        FNC_BASE(respawnPlayer);
+        FNC_BASE(EH_handleDamage);
+        FNC_BASE(EH_handleDamageACE);
 
         FNC(AI,activateUndercoverAI);
 

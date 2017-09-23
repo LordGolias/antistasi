@@ -1,4 +1,4 @@
-#include "../macros.hpp"
+#include "macros.hpp"
 params ["_unit"];
 
 if (!local _unit) exitWith {};

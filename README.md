@@ -126,7 +126,7 @@ reverse it.
 - `mission/`: API for managing and spawning missions ([README](mission/README.md)).
 - `movement/`: spawns related to AAF movement spawns (e.g. patrols, attacks).
 - `initialization/`: scripts that initialize the mission.
-- `Revive/`: scripts used for the revive system
+- `medical/`: functions used for the medical system (including ACE)
 - `arsenal/`: functions related with weapons, arsenal and boxes.
 - `ai_control/`: API to handle AI control.
 - `templates/`: templates to modify AS (worlds, items, factions)

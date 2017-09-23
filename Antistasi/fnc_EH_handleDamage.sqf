@@ -1,4 +1,4 @@
-#include "../macros.hpp"
+#include "macros.hpp"
 params ["_unit", "_part", "_dam", "_injurer"];
 
 if (isPlayer _unit) then {
