@@ -143,7 +143,7 @@ AS_DIALOG(2,"AI Management","closeDialog 0; if (player == AS_commander) then {cr
 
 BTN_L(1,-1, "Control selected AI", "", "[] spawn AS_fnc_UI_controlUnit;");
 BTN_R(1,-1, "Auto Rearm", "", "closeDialog 0; if (count groupselectedUnits player == 0) then {nul = (units group player) execVM ""AI\rearmCall.sqf""} else {nul = (groupselectedUnits player) execVM ""AI\rearmCall.sqf""};");
-BTN_M(2,-1, "Dismiss Units/Squads", "Dismisses selected units or HC squads", "closeDialog 0; call AS_fnc_dismissSelected;");
+BTN_M(2,-1, "Dismiss Units/Squads", "Dismisses selected units or HC squads", "closeDialog 0; [] spawn AS_fnc_dismissSelected;");
 
 	};
 };

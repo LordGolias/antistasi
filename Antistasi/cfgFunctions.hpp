@@ -210,7 +210,7 @@ class AS {
         FNC(fia_recruitment,buyFIAvehicle);
         FNC(fia_recruitment,buyFIAskill);
         FNC(fia_recruitment,addSquadVehicle);
-        FNC(fia_recruitment,dismissSelected);
+        FNC_UI(fia_recruitment,dismissSelected);
 
         FNC_UI(dialogs,squadVehicleStatus);
         FNC_UI(dialogs,squadVehicleDismount);
