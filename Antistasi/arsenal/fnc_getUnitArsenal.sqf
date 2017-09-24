@@ -3,12 +3,11 @@ params ["_unit", ["_restrict", false]];
 private _weapons = [];
 private _items = [];
 private _magazines = [];
-private _backpacks = backpack _unit;
+private _backpacks = [];
 
-if (_backpacks != "") then {
-	_backpacks = [_backpacks];
-} else {
-	_backpacks = [];
+private _backpack = backpack _unit;
+if (_backpack != "") then {
+	_backpacks pushback (_backpack call BIS_fnc_basicBackpack);
 };
 
 // items
