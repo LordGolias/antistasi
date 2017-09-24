@@ -12,9 +12,6 @@ private _size = _location call AS_location_fnc_size;
 
 [_location,"side","AAF"] call AS_location_fnc_set;
 
-["territory", -1] call fnc_BE_update;
-
-
 // remove all garrison
 // todo: transfer alive garrison to FIA_HQ
 [_location, "garrison", []] call AS_location_fnc_set;
