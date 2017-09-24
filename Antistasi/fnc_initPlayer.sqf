@@ -40,7 +40,7 @@ if (isMultiplayer) then {
 };
 
 [] execVM "reinitY.sqf";
-[] execVM "statistics.sqf";
+[] spawn AS_fnc_UI_showTopBar;
 
 [player] execVM "OrgPlayers\unitTraits.sqf";
 [] spawn AS_fnc_activatePlayerRankLoop;

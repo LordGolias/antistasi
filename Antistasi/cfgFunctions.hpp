@@ -218,6 +218,7 @@ class AS {
         FNC_UI(dialogs,donateMoney);
         FNC_UI(dialogs,changePersistent);
         FNC_UI(dialogs,toggleElegibility);
+        FNC_UI(dialogs,showTopBar);
 
         FNC_UI(dialogs,natoAirstrike);
 

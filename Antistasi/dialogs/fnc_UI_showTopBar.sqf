@@ -1,29 +1,26 @@
-#include "macros.hpp"
-private ["_texto","_viejoTexto","_display","_setText"];
+#include "../macros.hpp"
 if (!isNil "showStatistics") exitWith {};
 showStatistics = true;
 disableSerialization;
-//1 cutRsc ["H8erHUD","PLAIN",0,false];
-_layer = ["estadisticas"] call bis_fnc_rscLayer;
+private _layer = ["estadisticas"] call bis_fnc_rscLayer;
 _layer cutRsc ["H8erHUD","PLAIN",0,false];
 waitUntil {!isNull (uiNameSpace getVariable "H8erHUD")};
 
-_display = uiNameSpace getVariable "H8erHUD";
-_setText = _display displayCtrl 1001;
+private _display = uiNameSpace getVariable "H8erHUD";
+private _setText = _display displayCtrl 1001;
 _setText ctrlSetBackgroundColor [0,0,0,0];
-_viejoTexto = "";
-if (isMultiplayer) then
-	{
-	private ["_nombreC"];
-	while {showStatistics} do
-		{
-		waitUntil {sleep 0.5; player == player getVariable ["owner",player]};
+private _oldText = "";
+private _texto = "";
+if (isMultiplayer) then {
+	while {showStatistics} do {
+		waitUntil {sleep 0.5; not (call AS_fnc_controlsAI)};
 		if (player != AS_commander) then {
-			if (isPlayer AS_commander) then {_nombreC = name AS_commander} else {_nombreC = "NONE"};
+			private _commanderName = "NONE";
+			if (isPlayer AS_commander) then {_commanderName = name AS_commander};
 			_texto = format ["<t size='0.55'>" + "Commander: %3 | %2 | HR: %1 | Your Money: %4 € | NATO Support: %5 | CSAT Support: %6 | %7 | %8",
 							 AS_P("hr"),
 							 player getVariable ["Rank_PBar", "Init"],
-							 _nombreC,
+							 _commanderName,
 							 player getVariable "money",
 							 AS_P("NATOsupport"),
 							 AS_P("CSATsupport"),
@@ -42,10 +39,10 @@ if (isMultiplayer) then
 							 ["Not undercover", "<t color='#1DA81D'>Undercover</t>"] select (captive player)
 			];
 		};
-		if (_texto != _viejoTexto) then {
+		if (_texto != _oldText) then {
 			_setText ctrlSetStructuredText (parseText format ["%1", _texto]);
 			_setText ctrlCommit 0;
-			_viejoTexto = _texto;
+			_oldText = _texto;
 		};
 		if (player == leader (group player)) then {
 			if (not(group player in (hcAllGroups player))) then {player hcSetGroup [group player]};
@@ -63,10 +60,10 @@ if (isMultiplayer) then
 			AS_S("BE_PBar"),
 			["Not undercover", "<t color='#1DA81D'>Undercover</t>"] select (captive player)
 		];
-		if (_texto != _viejoTexto) then {
+		if (_texto != _oldText) then {
 			_setText ctrlSetStructuredText (parseText format ["%1", _texto]);
 			_setText ctrlCommit 0;
-			_viejoTexto = _texto;
+			_oldText = _texto;
 		};
 		sleep 1;
 	};
