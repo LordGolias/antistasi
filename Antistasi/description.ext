@@ -110,6 +110,7 @@ class cfgFunctions {
     #include "debug\cfgFunctions.hpp"
     #include "spawn\cfgFunctions.hpp"
     #include "mission\cfgFunctions.hpp"
+    #include "movement\cfgFunctions.hpp"
     #include "players\cfgFunctions.hpp"
     #include "medical\cfgFunctions.hpp"
     #include "aaf_arsenal\cfgFunctions.hpp"
