@@ -25,12 +25,13 @@ private _hr = AS_P("hr");
 // money for FIA vehicles
 {
     private _closest = (getPos _x) call AS_location_fnc_nearest;
+    private _closest_pos = _closest call AS_location_fnc_location;
     private _size = _closest call AS_location_fnc_size;
     if ((_closest call AS_location_fnc_side == "FIA") and
             {not (_x in AS_permanent_HQplacements)} and
             {(_x getVariable "AS_side") == "FIA"} and
             {alive _x} and
-            {_x distance _closest < _size} and
+            {_x distance _closest_pos < _size} and
             {not (_x in AS_P("vehicles"))} and // these are saved and so they are not converted to money
             {_x getVariable ["AS_vehOwner", "noOwner"] == "noOwner"}) then {
 
