@@ -7,7 +7,6 @@ private _fnc_spawn = {
 	private _grupos = [];
 	private _vehiculos = [];
 	private _soldadosFIA = [];
-	private _gruposFIA = [];
 
 	private _posicion = _location call AS_location_fnc_position;
 	private _size = _location call AS_location_fnc_size;
@@ -86,7 +85,7 @@ private _fnc_spawn = {
 	// Create FIA garrison
 	(_location call AS_fnc_createFIAgarrison) params ["_soldados1", "_grupos1", "_vehiculos1"];
 	_soldadosFIA append _soldados1;
-	_gruposFIA append _grupos1;
+	_grupos append _grupos1;
 	_vehiculos append _vehiculos1;
 
 	[_location, _grupos] call AS_fnc_spawnJournalist;
