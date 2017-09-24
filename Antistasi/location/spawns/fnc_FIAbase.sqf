@@ -16,7 +16,9 @@ private _fnc_spawn = {
 	private _grupo = createGroup side_blue;
 	_grupos pushBack _grupo;
 
-	([_location, side_blue, _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
+	([_location, "NATO", _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
+	{[_x, false] call AS_fnc_initUnitNATO} forEach _gunners;
+	{[_x, "NATO"] call AS_fnc_initVehicle} forEach _vehicles;
 	_soldados append _gunners;
 	_vehiculos append _vehicles;
 
