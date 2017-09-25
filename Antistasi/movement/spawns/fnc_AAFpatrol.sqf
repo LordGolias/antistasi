@@ -1,6 +1,5 @@
 #include "../../macros.hpp"
 
-// todo: remove _soldados variable here
 private _fnc_spawn = {
 	params ["_spawnName"];
 	private _location = [_spawnName, "location"] call AS_spawn_fnc_get;
@@ -27,7 +26,6 @@ private _fnc_spawn = {
 	};
 
 	// lists of spawned stuff to delete in the end.
-	private _soldados = [];
 	private _vehiculos = [];
 	private _grupos = [];
 
@@ -44,8 +42,7 @@ private _fnc_spawn = {
 			_toUse = "tanks";
 		};
 
-		([_toUse, _posorigen, _position, _threatEval, _isLocation] call AS_fnc_spawnLandAttack) params ["_soldiers1", "_groups1", "_vehicles1"];
-		_soldados append _soldiers1;
+		([_toUse, _posorigen, _position, _threatEval, _isLocation] call AS_fnc_spawnLandAttack) params ["_groups1", "_vehicles1"];
 		_grupos append _groups1;
 		_vehiculos append _vehicles1;
 	};
@@ -67,8 +64,7 @@ private _fnc_spawn = {
 					_toUse = "planes";
 				};
 			};
-			([_toUse, _posorigen, _position] call AS_fnc_spawnAirAttack) params ["_soldiers1", "_groups1", "_vehicles1"];
-			_soldados = _soldados + _soldiers1;
+			([_toUse, _posorigen, _position] call AS_fnc_spawnAirAttack) params ["_groups1", "_vehicles1"];
 			_grupos = _grupos + _groups1;
 			_vehiculos = _vehiculos + _vehicles1;
 			sleep 30;
@@ -89,7 +85,6 @@ private _fnc_spawn = {
 			if (count _pos == 0) then {_pos = _posorigen};
 
 			([_pos, 0,_tipoVeh, side_red] call bis_fnc_spawnvehicle) params ["_heli", "_heliCrew", "_grupoheli"];
-			_soldados = _soldados + _heliCrew;
 			_grupos = _grupos + [_grupoheli];
 			_vehiculos = _vehiculos + [_heli];
 			[_heli, "CSAT"] spawn AS_fnc_initVehicle;
@@ -106,7 +101,6 @@ private _fnc_spawn = {
 				{
 					_x assignAsCargo _heli;
 					_x moveInCargo _heli;
-					_soldados pushBack _x;
 					_x call AS_fnc_initUnitCSAT;
 				} forEach units _group;
 				_grupos pushBack _group;
