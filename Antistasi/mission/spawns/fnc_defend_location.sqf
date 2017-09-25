@@ -142,7 +142,7 @@ private _fnc_spawn = {
 			if (_threatEvalLand > 5 and ("tanks" call AS_AAFarsenal_fnc_count > 0)) then {
 				_toUse = "tanks";
 			};
-			([_toUse, _origin_pos, _position, _threatEvalLand] call AS_fnc_spawnLandAttack) params ["_soldiers1", "_groups1", "_vehicles1"];
+			([_toUse, _origin_pos, _position, _threatEvalLand] call AS_fnc_spawnLandAttack) params ["_groups1", "_vehicles1"];
 			_groups append _groups1;
 			_vehicles append _vehicles1;
 			sleep 5;
@@ -186,7 +186,7 @@ private _fnc_spawn = {
 					_toUse = "planes";
 				};
 			};
-			([_toUse, _origin_pos, _position] call AS_fnc_spawnAirAttack) params ["_soldiers1", "_groups1", "_vehicles1"];
+			([_toUse, _origin_pos, _position] call AS_fnc_spawnAirAttack) params ["_groups1", "_vehicles1"];
 			_groups append _groups1;
 			_vehicles append _vehicles1;
 			sleep 15;
