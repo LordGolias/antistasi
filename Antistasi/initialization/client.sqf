@@ -195,6 +195,9 @@ if (hayTFAR or hayACE or hayRHS) then {
 	hint format ["%1",_texto];
 };
 
+removeAllActions petros;
+[petros, "mission"] call AS_fnc_addAction;
+
 removeAllActions caja;
 [caja,"arsenal"] call AS_fnc_addAction;
 [caja,"transferFrom"] call AS_fnc_addAction;
