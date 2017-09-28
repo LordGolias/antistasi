@@ -40,6 +40,6 @@ if not (_increaseBusy IsEqualTo ["", 0]) then {
 };
 if not (_custom IsEqualTo []) then {
     {
-        (_x select 1) call (_x select 2);
+        (_x select 2) call (_x select 1);
     } forEach _custom;
 };

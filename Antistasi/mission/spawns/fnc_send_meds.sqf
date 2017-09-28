@@ -97,15 +97,6 @@ private _fnc_run = {
 		if ((side _x == civilian) and {_x distance _position < AS_P("spawnDistance")} and {_x distance _position < 300}) then {_x doMove position _truck};
 	} forEach allUnits;
 
-	// eject and lock truck
-	{
-		_x action ["eject", _truck];
-	} forEach (crew _truck);
-	sleep 1;
-	_truck lock 2;
-	{if (isPlayer _x) then {[_truck,true] remoteExec ["AS_fnc_lockVehicle",_x];}} forEach ([100, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
-	_truck engineOn false;
-
 	private _fnc_missionFailedCondition = {
 		(not alive _truck) or (dateToNumber date > _max_date)
 	};
@@ -120,6 +111,15 @@ private _fnc_run = {
 		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_mission_fnc_success", 2];
 	};
+
+	// eject and lock truck
+	{
+		_x action ["eject", _truck];
+	} forEach (crew _truck);
+	sleep 1;
+	_truck lock 2;
+	{if (isPlayer _x) then {[_truck,true] remoteExec ["AS_fnc_lockVehicle",_x];}} forEach ([100, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
+	_truck engineOn false;
 };
 
 AS_mission_sendMeds_states = ["initialize", "spawn", "run", "clean"];
