@@ -211,15 +211,27 @@ private _fnc_run = {
 
 	private _fnc_missionFailedCondition = call {
 		if (_missionType in ["convoy_money", "convoy_armor", "convoy_ammo", "convoy_supplies"]) exitWith {
-			{(_mainVehicle distance _position < 100) or (dateToNumber date > _max_date)}
+			{
+				private _hasArrived = {(not (driver _mainVehicle getVariable ["BLUFORSpawn",false])) and
+					{_mainVehicle distance _position < 100}};
+				(dateToNumber date > _max_date) or _hasArrived
+			}
 		};
 		if (_missionType == "convoy_hvt") exitWith {
-			private _hvt = [_mission, "hvt"] call AS_spawn_fnc_get;
-			{(_hvt distance _position < 100) or (dateToNumber date > _max_date)}
+			{
+				private _hvt = [_mission, "hvt"] call AS_spawn_fnc_get;
+				private _hasArrived = {_hvt distance _position < 100};
+
+				(dateToNumber date > _max_date) or _hasArrived
+			}
 		};
 		if (_missionType == "convoy_prisoners") exitWith {
-			private _POWs = [_mission, "POWs"] call AS_spawn_fnc_get;
-			{(_mainVehicle distance _position < 100) or (dateToNumber date > _max_date) or ({alive _x} count _POWs < ({alive _x} count _POWs)/2)}
+			{
+				private _hasArrived = {(not (driver _mainVehicle getVariable ["BLUFORSpawn",false])) and
+					{_mainVehicle distance _position < 100}};
+				private _POWs = [_mission, "POWs"] call AS_spawn_fnc_get;
+				(dateToNumber date > _max_date) or _hasArrived or ({alive _x} count _POWs < ({alive _x} count _POWs)/2)
+			}
 		};
 	};
 
