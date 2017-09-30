@@ -7,7 +7,7 @@ private _clean = {
     sleep 1;
     deadCam cameraEffect ["terminate", "BACK"];
     camDestroy deadCam;
-    (findDisplay -1) displayRemoveEventHandler ["KeyDown", respawnMenu];
+    (findDisplay 46) displayRemoveEventHandler ["KeyDown", respawnMenu];
 };
 
 while {alive _unit} do {
@@ -21,7 +21,7 @@ while {alive _unit} do {
         disableUserInput true;
         titleText ["", "BLACK FADED"];
         sleep 2;
-        respawnMenu = (findDisplay -1) displayAddEventHandler ["KeyDown", {
+        respawnMenu = (findDisplay 46) displayAddEventHandler ["KeyDown", {
             if (_this select 1 == 57) then {
                 [player] spawn AS_fnc_respawnPlayer;
             };
