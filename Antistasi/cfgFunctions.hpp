@@ -201,6 +201,7 @@ class AS {
         FNC(ai_control,controlUnit);
         FNC(ai_control,controlHCSquad);
         FNC_UI(ai_control,controlUnit);
+        FNC(ai_control,EH_handleDamage_AIcontrol);
 
         FNC(fia_recruitment,recruitFIAgarrison);
         FNC(fia_recruitment,recruitFIAsquad);

@@ -1,39 +1,6 @@
 #include "macros.hpp"
 params ["_unit", "_part", "_dam", "_injurer"];
 
-if (isPlayer _unit) then {
-	private _owner = player getVariable ["owner",player];
-	if (_owner != player) then {
-		if ((isNull _injurer) and (_unit distance fuego < 10)) then {
-			_dam = 0;
-		} else {
-			removeAllActions _unit;
-			selectPlayer _owner;
-			_unit setVariable ["owner",_owner,true];
-			{[_x] joinsilent group player} forEach units group player;
-			group player selectLeader player;
-			hint "Returned to original Unit as controlled AI received damage";
-		};
-	};
-} else {
-	if (local _unit) then {
-		private _owner = _unit getVariable "owner";
-		if (!isNil "_owner") then {
-			if (_owner==_unit) then {
-				if ((isNull _injurer) and (_unit distance fuego < 10)) then {
-					_dam = 0;
-				} else {
-					removeAllActions player;
-					selectPlayer _owner;
-					{[_x] joinsilent group player} forEach units group player;
-					group player selectLeader player;
-					hint "Returned to original Unit as it received damage";
-				};
-			};
-		};
-	};
-};
-
 if (captive _injurer) then {
 	_injurer setCaptive 0;
 };

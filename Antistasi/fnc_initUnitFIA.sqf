@@ -12,6 +12,7 @@ else {
 	if (!isNil "_place") then {_unit setVariable ["marcador", _place]};
 };
 
+_unit addEventHandler ["HandleDamage", AS_fnc_EH_handleDamage_AIcontrol];
 [_unit] call AS_medical_fnc_initUnit;
 _unit allowFleeing 0;
 
