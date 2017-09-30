@@ -22,11 +22,14 @@ if not (_part in ["hand_l","hand_r","leg_l","leg_r","arms"]) then {
 				[_unit,true] call AS_medical_fnc_setUnconscious;
 			};
 		} else {
+			// very high damage (the unit is killed regardless)
 			if (isPlayer _unit) then {
+				// players do not die, they respawn
+				hint "The hit was so violent that you died instantly...";
 				_dam = 0;
 				[_unit] spawn AS_fnc_respawnPlayer;
 				if (isPlayer _injurer and {_injurer != _unit}) then {
-					// a player killed another unconcious player
+					// a player killed another player
 					[_injurer,60] remoteExec ["AS_fnc_penalizePlayer",_injurer]
 				};
 			};
@@ -34,13 +37,6 @@ if not (_part in ["hand_l","hand_r","leg_l","leg_r","arms"]) then {
 	};
 	if ((not (_unit call AS_medical_fnc_isUnconscious)) and _dam > 0.2) then {
 		[_unit,_unit] spawn AS_AI_fnc_smokeCover;
-	};
-	if ((not (_unit call AS_medical_fnc_isUnconscious)) and _dam > 0.25) then {
-		if (isPlayer (leader group _unit)) then {
-			if (_unit getVariable ["ayudado", false]) then {
-				[_unit] call pedirAyuda;
-			};
-		};
 	};
 };
 _dam

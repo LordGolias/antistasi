@@ -18,6 +18,7 @@ if not (_part in ["hand_l","hand_r","leg_l","leg_r","arms"]) then {
 	if not _sameHit then {
         if (_unit call AS_medical_fnc_isUnconscious and _dam > 2) then {
 			if isPlayer _unit then {
+				hint "The hit was so violent that you died instantly...";
 				[_unit] spawn AS_fnc_respawnPlayer;
 			} else {
 				[_unit, true] call ACE_medical_fnc_setDead;
@@ -25,5 +26,5 @@ if not (_part in ["hand_l","hand_r","leg_l","leg_r","arms"]) then {
         };
 	};
 };
-// this handler is only used to kill unconscious people or people
+// this handler is only used to kill unconscious people
 0

@@ -1,5 +1,15 @@
 params ["_unit"];
 private _wasUnconscious = false;
+
+private _clean = {
+    deadCam camSetPos position player;
+    deadCam camCommit 1;
+    sleep 1;
+    deadCam cameraEffect ["terminate", "BACK"];
+    camDestroy deadCam;
+    (findDisplay -1) displayRemoveEventHandler ["KeyDown", respawnMenu];
+};
+
 while {alive _unit} do {
     sleep 2;
     private _isUnconscious = _unit call AS_medical_fnc_isUnconscious;
@@ -47,12 +57,10 @@ while {alive _unit} do {
     };
 
     if (_wasUnconscious and not _isUnconscious) then {
-        deadCam camSetPos position player;
-        deadCam camCommit 1;
-        sleep 1;
-        deadCam cameraEffect ["terminate", "BACK"];
-        camDestroy deadCam;
-        (findDisplay -1) displayRemoveEventHandler ["KeyDown", respawnMenu];
+        call _clean;
         _wasUnconscious = false;
     };
 };
+
+// if the player died while unconscious, we need to clean ourselves
+if _wasUnconscious then _clean;
