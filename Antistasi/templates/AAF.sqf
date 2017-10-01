@@ -179,11 +179,10 @@ indLaser = 		"acc_pointer_IR";
 
 // The flag
 cFlag = "Flag_AAF_F";
+AS_AAFname = "AAF";
 
 // Long range radio
 lrRadio = "tf_rt1523g_green";
 
 // Define the ammo crate to be spawned at camps
 campCrate = "Box_NATO_Equip_F";
-
-A3_STR_INDEP = localize "STR_genIdent_AFRF";

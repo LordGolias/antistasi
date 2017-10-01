@@ -68,7 +68,7 @@ private _fnc_initialize = {
 	_tskDesc = format [_tskDesc,
 		[_origin] call AS_fnc_location_name, _origin,
 		[_location] call AS_fnc_location_name, _location];
-	_tskTitle = format [_tskTitle, A3_STR_INDEP];
+	_tskTitle = format [_tskTitle, AS_AAFname];
 
 	[_mission, "origin", _origin] call AS_spawn_fnc_set;
 	[_mission, "mainVehicleType", _mainVehicleType] call AS_spawn_fnc_set;

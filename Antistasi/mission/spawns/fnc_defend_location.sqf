@@ -9,12 +9,14 @@ private _fnc_initialize = {
 	private _airfield = [_mission, "airfield"] call AS_mission_fnc_get;
 	private _useCSAT = [_mission, "useCSAT"] call AS_mission_fnc_get;
 
-	private _tskTitle = "AAF Attack";
-	private _tskDesc = "AAF is attacking %1. Defend it or we lose it";
+	private _name = [_location] call AS_fnc_location_name;
+
+	private _tskTitle = "Defend " + _name;
+	private _tskDesc = AS_AAFname + " is attacking %1. Defend it or we lose it";
 	if _useCSAT then {
-		_tskDesc = "AAF and CSAT are attacking %1. Defend it or we lose it";
+		_tskDesc = (format ["%1 and %2", AS_AAFname, AS_CSATname]) + " are attacking %1. Defend it or we lose it";
 	};
-	_tskDesc = format [_tskDesc,[_location] call AS_fnc_location_name];
+	_tskDesc = format [_tskDesc,_name];
 
 	[_mission, [_tskDesc,_tskTitle,_location], _position, "Defend"] call AS_mission_spawn_fnc_saveTask;
 };

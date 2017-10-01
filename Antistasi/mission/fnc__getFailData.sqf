@@ -30,10 +30,10 @@ if (_type == "convoy_supplies") exitWith {
     [-20, 0, [-5, 0], [0, 0], [10, -20, _position], -10*60]
 };
 if (_type == "convoy_money") exitWith {
-    [-20, 0, [-5, 0], [0, 0], [10, -20, _position], -10*60, [["AAF gains money", {[5000] call AS_fnc_changeAAFmoney}]]]
+    [-20, 0, [-5, 0], [0, 0], [10, -20, _position], -10*60, [[AS_AAFname + " gains money", {[5000] call AS_fnc_changeAAFmoney}]]]
 };
 if (_type == "convoy_ammo") exitWith {
-    [-20, 0, [-5, 0], [0, 0], [0, 0, []], -10*60, [["AAF gains money", {[10000] call AS_fnc_changeAAFmoney}]]]
+    [-20, 0, [-5, 0], [0, 0], [0, 0, []], -10*60, [[AS_AAFname + " gains money", {[10000] call AS_fnc_changeAAFmoney}]]]
 };
 if (_type == "convoy_armor") exitWith {
     [-20, 0, [0, 0], [0, 0], [0, 0, []], -20*60]
@@ -71,7 +71,7 @@ if (_type == "pamphlets") exitWith {
 if (_type == "repair_antenna") exitWith {
     _args params [["_antennaPos", [0,0,0]]];
     [-20, 0, [0, 0], [0, 0], [0, 0, []], -10*60,
-        [["AAF antenna is repaired", {
+        [[AS_AAFname + " antenna is repaired", {
             params ["_antennaPos"];
             AS_Pset("antenasPos_alive", AS_P("antenasPos_alive") + [_antennaPos]);
             AS_Pset("antenasPos_dead", AS_P("antenasPos_dead") - [_antennaPos]);

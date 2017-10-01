@@ -125,11 +125,10 @@ indLaser = "CUP_acc_ANPEQ_2_camo";
 
 // The flag
 cFlag = "Flag_Red_F";
+AS_AAFname = "ChDKZ";
 
 // Long range radio
 lrRadio = "tf_rt1523g_green";
 
 // Define the ammo crate to be spawned at camps
 campCrate = "Box_NATO_Equip_F";
-
-A3_STR_INDEP = "Chernarussian Movement of the Red Star";

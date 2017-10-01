@@ -78,7 +78,7 @@ private _FIAResIncomeMultiplier = 1;
         [_city, !_power] spawn AS_fnc_changeStreetLights;
     };
     if ((_AAFsupport > _FIAsupport) and (_side == "FIA")) then {
-        [["TaskFailed", ["", format ["%1 joined AAF",[_city, false] call AS_fnc_getLocationName]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
+        [["TaskFailed", ["", format ["%1 joined %2",[_city, false] call AS_fnc_getLocationName, AS_AAFname]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
         _city call AS_location_fnc_updateMarker;
         [0,-5] call AS_fnc_changeForeignSupport;
         [_city, !_power] spawn AS_fnc_changeStreetLights;

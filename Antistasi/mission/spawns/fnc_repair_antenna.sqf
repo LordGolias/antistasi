@@ -13,7 +13,7 @@ private _fnc_initialize = {
 		[_location] call AS_fnc_location_name,
 		numberToDate [2035,dateToNumber _fechalim] select 3,
 		numberToDate [2035,dateToNumber _fechalim] select 4,
-		A3_STR_INDEP
+		AS_AAFname
 	];
 
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;

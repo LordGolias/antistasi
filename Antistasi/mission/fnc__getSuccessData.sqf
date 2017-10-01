@@ -51,7 +51,7 @@ if (_type == "convoy_prisoners") exitWith {
 };
 if (_type == "defend_city") exitWith {
     [10, [500, _position, 10], [10, 0], [0, 0], [-5, 20, _position], 120*60, [
-        [A3_STR_INDEP + " lose 5 support in all cities", {[-5,0,_x] call AS_fnc_changeCitySupport} forEach (call AS_location_fnc_cities)]
+        [AS_AAFname + " loses 5 support in all cities", {[-5,0,_x] call AS_fnc_changeCitySupport} forEach (call AS_location_fnc_cities)]
     ]]
 };
 if (_type == "defend_camp") exitWith {
@@ -107,7 +107,7 @@ if (_type == "pamphlets") exitWith {
 };
 if (_type == "repair_antenna") exitWith {
     [5, [500, _position, 10], [2, 0], [0, 0], [0, 0, []], 20*60,
-        [[A3_STR_INDEP + " antenna continues disabled", {}]]
+        [[AS_AAFname + " antenna continues disabled", {}]]
     ]
 };
 if (_type == "rescue_prisioners") exitWith {

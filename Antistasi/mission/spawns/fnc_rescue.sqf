@@ -18,7 +18,7 @@ private _fnc_initialize = {
 			]
 		};
 		if (_missionType == "rescue_refugees") exitWith {
-			format [localize "STR_tskDesc_resRefugees", [_location] call AS_fnc_location_name, A3_STR_INDEP]
+			format [localize "STR_tskDesc_resRefugees", [_location] call AS_fnc_location_name, AS_AAFname]
 		};
 		""
 	};

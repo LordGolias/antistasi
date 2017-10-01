@@ -20,7 +20,7 @@ private _fnc_initialize = {
 		_location,
 		numberToDate [2035,dateToNumber _fechalim] select 3,
 		numberToDate [2035,dateToNumber _fechalim] select 4,
-		A3_STR_INDEP
+		AS_AAFname
 	];
 
 	[_mission, [_taskDesc,_taskTitle,_mrkfin], _position, "Interact"] call AS_mission_spawn_fnc_saveTask;

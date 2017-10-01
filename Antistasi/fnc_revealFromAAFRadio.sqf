@@ -11,13 +11,13 @@ private _chance = 5;
 
 if (random 100 < _chance) then {
 	if !(AS_S("revealFromRadio")) then {
-		[["TaskSucceeded", ["", "AAF Comms Intercepted"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
+		[["TaskSucceeded", ["", AS_AAFname + " Comms Intercepted"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 		AS_Sset("revealFromRadio",true);
 		[] remoteExec ["AS_fnc_revealToPlayer", [0,-2] select isDedicated];
 	};
 } else {
 	if (AS_S("revealFromRadio")) then {
-		[["TaskFailed", ["", "AAF Comms Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
+		[["TaskFailed", ["", AS_AAFname + " Comms Lost"]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 		AS_Sset("revealFromRadio",false);
 	};
 };

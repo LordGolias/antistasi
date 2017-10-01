@@ -179,11 +179,10 @@ indLaser = 		"rhs_acc_perst1ik";
 
 // The flag
 cFlag = "rhs_Flag_vdv_F";
+AS_AAFname = "VV";
 
 // Long-range radio
 lrRadio = "tf_mr3000_rhs";
 
 // Define the ammo crate to be spawned at camps
 campCrate = "Box_NATO_Equip_F";
-
-A3_STR_INDEP = localize "STR_genIdent_AFRF";

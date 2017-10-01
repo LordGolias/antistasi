@@ -27,7 +27,7 @@ if (_resourcesAAF > 5000) then {
 				[50,0,_position] remoteExec ["AS_fnc_changeCitySupport",2];
 				[-5,0] call AS_fnc_changeForeignSupport;
 				if (_type == "powerplant") then {[_destroyed] call AS_fnc_recomputePowerGrid};
-				[["TaskFailed", ["", format ["%1 rebuilt by AAF",_nombre]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
+				[["TaskFailed", ["", format ["%1 rebuilt by %2",_nombre, AS_AAFname]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
 			};
 		} forEach _destroyedCities;
 		AS_Pset("destroyedLocations", _destroyedCities - _repaired);

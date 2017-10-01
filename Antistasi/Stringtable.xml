@@ -305,27 +305,5 @@
 				<Original>A group of FIA supportes are hidden in a house in %1. We have to get there and find them before %2 does and bring them back to base.</Original>
 			</Key>
 		</Container>
-
-		<Container name="General Identifiers">
-			<Key ID="STR_genIdent_AAF">
-				<Original>AAF</Original>
-			</Key>
-			<Key ID="STR_genIdent_CSAT">
-				<Original>CSAT</Original>
-			</Key>
-			<Key ID="STR_genIdent_NATO">
-				<Original>NATO</Original>
-			</Key>
-
-			<Key ID="STR_genIdent_AFRF">
-				<Original>AFRF</Original>
-			</Key>
-			<Key ID="STR_genIdent_VMF">
-				<Original>VMF</Original>
-			</Key>
-			<Key ID="STR_genIdent_USAF">
-				<Original>USAF</Original>
-			</Key>
-		</Container>
 	</Package>
 </Project>
