@@ -256,20 +256,6 @@ if (isClass (configFile >> "CfgPatches" >> "task_force_radio")) then {
 };
 publicVariable "hayTFAR";
 
-// todo: document this (texture mod detection?)
-FIA_texturedVehicles = [];
-FIA_texturedVehicleConfigs = [];
-_allVehicles = configFile >> "CfgVehicles";
-for "_i" from 0 to (count _allVehicles - 1) do {
-    _vehicle = _allVehicles select _i;
-    if (toUpper (configName _vehicle) find "DGC_FIAVEH" >= 0) then {
-    	FIA_texturedVehicles pushBackUnique (configName _vehicle);
-    	FIA_texturedVehicleConfigs pushBackUnique _vehicle;
-    };
-};
-publicVariable "FIA_texturedVehicles";
-publicVariable "FIA_texturedVehicleConfigs";
-
 call AS_fnc_initPetros;
 call AS_fnc_HQdeploy;
 

@@ -51,15 +51,6 @@ if (_veh in AS_S("reportedVehs")) then {
 [_veh, caja] call AS_fnc_transferToBox;
 deleteVehicle _veh;
 
-if ((count FIA_texturedVehicles > 0) && !(_type in FIA_texturedVehicles)) then {
-	for "_i" from 0 to (count FIA_texturedVehicleConfigs - 1) do {
-		if ((_type == configName (inheritsFrom (FIA_texturedVehicleConfigs select _i))) ||
-		    (configName (inheritsFrom (configFile >> "CfgVehicles" >> _type)) == configName (inheritsFrom (FIA_texturedVehicleConfigs select _i)))) exitWith {
-			_type = configName (FIA_texturedVehicleConfigs select _i);
-		};
-	};
-};
-
 if _toFIAgarage then {
 		AS_Pset("vehiclesInGarage", AS_P("vehiclesInGarage") + [_type]);
 	hint "Vehicle added to FIA Garage";
