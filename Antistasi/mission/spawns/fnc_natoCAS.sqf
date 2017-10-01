@@ -9,13 +9,13 @@ private _fnc_initialize = {
 	private _tiempolim = _support;
 	private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 
-	private _nombreorig = "the NATO Carrier";
+	private _nombreorig = format ["the %1 Carrier", AS_NATOname];
 	if (_origin != "spawnNATO") then {
 		_nombreorig = [_origin] call AS_fnc_location_name
 	};
 
-	private _tskTitle = "NATO CAS";
-	private _tskDesc = format ["NATO is providing air support from %1. They will be under our command in 30s and until %2:%3.",
+	private _tskTitle = AS_NATOname + " CAS";
+	private _tskDesc = format [AS_NATOname + " is providing air support from %1. They will be under our command in 30s and until %2:%3.",
 		_nombreorig,
 		numberToDate [2035,dateToNumber _fechalim] select 3,
 		numberToDate [2035,dateToNumber _fechalim] select 4

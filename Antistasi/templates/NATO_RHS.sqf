@@ -47,7 +47,8 @@ bluATTeam = 		["rhs_group_nato_usmc_d_infantry_team_heavy_AT"];
 
 bluIR = 	"rhsusf_acc_anpeq15";
 
-bluFlag = 	"Flag_NATO_F";
+bluFlag = 	"Flag_US_F";
+AS_NATOname = "USMC";
 
 blu40mm = [
 	"rhs_mag_M433_HEDP",

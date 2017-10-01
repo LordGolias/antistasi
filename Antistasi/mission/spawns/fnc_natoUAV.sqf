@@ -7,7 +7,7 @@ private _fnc_initialize = {
 	private _tiempolim = 30;
 	private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 
-	private _nombreorig = "the NATO Carrier";
+	private _nombreorig = format ["the %1 Carrier", AS_NATOname];
 	private _position = getMarkerPos _origin;
 	if (_origin != "spawnNATO") then {
 		_nombreorig = [_origin] call AS_fnc_location_name;
@@ -16,11 +16,12 @@ private _fnc_initialize = {
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 	[_mission, "position", _position] call AS_spawn_fnc_set;
 
-	private _tskDesc = format ["NATO is providing a UAV from %1. It will be under our command in a few seconds and until %2:%3.",
-	                           _nombreorig,
+	private _tskDesc = format ["%1 is providing a UAV from %2. It will be under our command in a few seconds and until %3:%4.",
+	                           AS_NATOname,
+							   _nombreorig,
 							   numberToDate [2035,dateToNumber _fechalim] select 3,
 							   numberToDate [2035,dateToNumber _fechalim] select 4];
-	private _tskTitle = "NATO UAV";
+	private _tskTitle = AS_NATOname + " UAV";
 
 	[_mission, [_tskDesc,_tskTitle,_origin], _position, "Attack"] call AS_mission_spawn_fnc_saveTask;
 };

@@ -8,9 +8,11 @@ private _fnc_initialize = {
 	private _tiempolim = 60;
 	private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 
-	private _tskTitle = "NATO Armor";
-	private _tskDesc = format ["NATO is sending an armored section departing from %1. They will stay until %2:%3.",
-		[_origin] call AS_fnc_location_name,numberToDate [2035, dateToNumber _fechalim] select 3,numberToDate [2035, dateToNumber _fechalim] select 4];
+	private _tskTitle = AS_NATOname + " Armor column";
+	private _tskDesc = format ["%1 is sending an armored section departing from %2. They will stay until %3:%4.",
+		AS_NATOname,
+		[_origin] call AS_fnc_location_name,
+		numberToDate [2035, dateToNumber _fechalim] select 3,numberToDate [2035, dateToNumber _fechalim] select 4];
 
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 	[_mission, "position", _position] call AS_spawn_fnc_set;

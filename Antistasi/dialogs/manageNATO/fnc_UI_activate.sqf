@@ -4,7 +4,7 @@ params ["_missionType"];
 #define MIN_DISTANCE_FOR_SELECTION 200
 
 if (count (_missionType call AS_mission_fnc_active_missions) != 0) exitWith {
-	hint "NATO is already busy with this kind of mission";
+	hint (AS_NATOname + " is already busy with this kind of mission");
 };
 if (!([player] call AS_fnc_hasRadio)) exitWith {
 	hint "You need a radio in your inventory to be able to give orders to other squads";
@@ -38,7 +38,7 @@ switch _missionType do {
 	};
 	case "nato_attack": {
 		_requiredSupport = 30;
-		_textohint = "Click on location you want NATO to attack";
+		_textohint = format ["Click on location you want %1 to attack", AS_NATOname];
 	};
 	case "nato_armor": {
 		_requiredSupport = 30;
@@ -54,20 +54,20 @@ switch _missionType do {
 	};
 	case "nato_cas": {
 		_requiredSupport = 10;
-		_textohint = "Click on the airport from which you want NATO to attack";
+		_textohint = format ["Click on the airport from which you want %1 to attack", AS_NATOname];
 	};
 	case "nato_roadblock": {
 		_requiredSupport = 10;
-		_textohint = "Click on the spot where you want NATO to setup a roadblock";
+		_textohint = format ["Click on the spot where you want %1 to setup a roadblock", AS_NATOname];
 	};
 	case "nato_qrf": {
 		_requiredSupport = 30;
-		_textohint = "Click on the airport from which you want NATO to dispatch a QRF";
+		_textohint = format ["Click on the airport from which you want %1 to dispatch a QRF", AS_NATOname];
 	};
 };
 
 if (AS_P("NATOsupport") < _requiredSupport) exitWith {
-	hint format ["We lack NATO Support for this request (%1 needed)", _requiredSupport];
+	hint format ["We lack %1 Support for this request (%2 needed)", AS_NATOname, _requiredSupport];
 };
 
 if (_missionType == "nato_uav") exitWith {
@@ -102,7 +102,7 @@ if (_posicionTel distance _position > MIN_DISTANCE_FOR_SELECTION) exitWith {
 if (_missionType == "nato_qrf") exitWith {
 	// default origin
 	if not (_location in _airfields) exitWith {
-		hint "NATO QRF must start from an airfield";
+		hint (AS_NATOname + " QRF must start from an airfield");
 	};
 	hint format ["QRF departing from %1. Mark the target for the QRF.", [_location] call AS_fnc_location_name];
 	private _destination = call _get_mapPosition;
@@ -127,7 +127,7 @@ if (_missionType == "nato_attack") then {
 	};
 	if !(_type in ["base", "outpost", "airfield", "outpostAA"]) exitWith {
 		_exit = true;
-		hint "NATO will not attack this type of location."
+		hint (AS_NATOname + " will not attack this type of location.");
 	};
 };
 if _exit exitWith {};
@@ -138,7 +138,7 @@ if (_missionType == "nato_attack" and (count _airfields + count _bases == 0)) th
 	_origin = "spawnNATO";
 	_posicionTel = getMarkerPos _origin;
 } else {
-	hint "Click on a location for the NATO to start from";
+	hint format ["Click on a location for the %1 to start from", AS_NATOname];
 	_posicionTel = call _get_mapPosition;
 	if (count _posicionTel != 0 and {_posicionTel distance (getMarkerPos "spawnNATO") < MIN_DISTANCE_FOR_SELECTION}) then {
 		_origin = "spawnNATO";

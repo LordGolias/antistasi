@@ -49,6 +49,7 @@ bluATTeam = 		["BUS_InfTeam_AT"];
 bluIR = 	"acc_pointer_IR";
 
 bluFlag = 	"Flag_NATO_F";
+AS_NATOname = "NATO";
 
 bluAT = [
 	"launch_B_Titan_short_F",

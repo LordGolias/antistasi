@@ -14,7 +14,7 @@ if (_salir) exitWith {hint "You cannot dismiss player led, Watchpost, Roadblocks
 if (_x getVariable ["esNATO",false]) then {_salir = true};
 } forEach _groups;
 
-if (_salir) exitWith {hint "You cannot dismiss NATO groups"};
+if (_salir) exitWith {hint format ["You cannot dismiss %1 groups", AS_NATOname]};
 
 _pos = getMarkerPos "FIA_HQ";
 

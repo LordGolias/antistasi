@@ -45,6 +45,8 @@ opGroup_Recon_Team = ["OI_reconPatrol"];
 
 // the affiliation
 opFlag = "Flag_CSAT_F";
+// Its acronym
+AS_CSATname = "CSAT";
 
 opIR = "acc_pointer_IR";
 

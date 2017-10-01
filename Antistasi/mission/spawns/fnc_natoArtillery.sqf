@@ -7,8 +7,8 @@ private _fnc_initialize = {
 	private _tiempolim = _support;
 	private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 
-	private _tskTitle = "NATO Artillery support";
-	private _tskDesc = format ["We have NATO artillery support from %1. They will be under our command until %2:%3.",
+	private _tskTitle = AS_NATOname + " Artillery support";
+	private _tskDesc = format [AS_NATOname + " has given us control over their artillery at %1. They will be under our command until %2:%3.",
 		[_location] call AS_fnc_location_name,
 		numberToDate [2035,dateToNumber _fechalim] select 3,
 		numberToDate [2035,dateToNumber _fechalim] select 4
