@@ -15,7 +15,7 @@ player addEventHandler ["WeaponAssembled", {
 	params ["_EHunit", "_EHobj"];
 	if (_EHobj isKindOf "StaticWeapon") then {
 		if !(_EHobj in AS_P("vehicles")) then {
-            [_EHobj] call remoteExec ["AS_fnc_changePersistentVehicles", 2];
+            [_EHobj] remoteExec ["AS_fnc_changePersistentVehicles", 2];
 		};
 	};
     [_EHobj, "FIA"] call AS_fnc_initVehicle;
