@@ -154,23 +154,6 @@ AAFMines = [
 atMine = "ATMine";
 apMine = "APERSMine";
 
-// Equipment unlocked by default
-if (isServer) then {
-	unlockedWeapons = [
-		"hgun_PDW2000_F",
-		"hgun_ACPC2_F"
-	];
-
-	unlockedMagazines = [
-		"9Rnd_45ACP_Mag",
-		"30Rnd_9x21_Mag"
-	];
-
-	unlockedBackpacks = [
-		"B_TacticalPack_blk"
-	];
-};
-
 // NVG, flashlight, laser, mine types
 indNVG = 		"NVGoggles_INDEP";
 indRF = 		"Rangefinder";

@@ -96,3 +96,24 @@ AS_fnc_FIACustomSquad_initialization = {
 	};
 	_grupo
 };
+
+// Equipment unlocked by default
+unlockedWeapons = [
+	"rhs_weap_makarov_pm",
+	"rhs_weap_aks74u"
+];
+
+unlockedMagazines = [
+	"rhs_mag_9x18_8_57N181S",
+	"rhs_30Rnd_545x39_AK",
+	"rhs_mag_rdg2_white"
+];
+
+unlockedItems = unlockedItems + [
+	"rhs_vest_pistol_holster",
+	"rhs_scarf"
+];
+
+unlockedBackpacks = [
+	"rhs_assault_umbts"
+];

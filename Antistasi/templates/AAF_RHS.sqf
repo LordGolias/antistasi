@@ -142,31 +142,6 @@ AAFMines = [
 atMine = "rhs_mine_tm62m";
 apMine = "rhs_mine_pmn2";
 
-// Unlocked equipment can only be set in the server or the clients will not be
-// synced with the server.
-if (isServer) then {
-	// Equipment unlocked by default
-	unlockedWeapons = [
-		"rhs_weap_makarov_pm",
-		"rhs_weap_aks74u"
-	];
-
-	unlockedMagazines = [
-		"rhs_mag_9x18_8_57N181S",
-		"rhs_30Rnd_545x39_AK",
-		"rhs_mag_rdg2_white"
-	];
-
-	unlockedItems = unlockedItems + [
-		"rhs_vest_pistol_holster",
-		"rhs_scarf"
-	];
-
-	unlockedBackpacks = [
-		"rhs_assault_umbts"
-	];
-};
-
 // Default launchers
 genAALaunchers = ["rhs_weap_igla"];
 genATLaunchers = ["rhs_weap_rpg26","rhs_weap_rpg7"];

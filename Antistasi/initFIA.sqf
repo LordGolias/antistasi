@@ -1,6 +1,3 @@
-#include "macros.hpp"
-AS_SERVER_ONLY("initFIA.sqf");
-
 unlockedItems = unlockedItems + AS_FIAuniforms +
 	AS_FIAuniforms_undercover + AS_FIAhelmets_undercover +
 	AS_FIAvests_undercover + AS_FIAgoogles_undercover;
@@ -29,12 +26,3 @@ civHeli = (AS_FIAvehicles getVariable "air_vehicles") select 0;
 
 // todo: remove this variable by making the boat-buying a list of boats
 boatFIA = (AS_FIAvehicles getVariable "water_vehicles") select 0;
-
-// publish these variables to all clients.
-publicVariable "AS_allFIASquadTypes";
-publicVariable "AS_allFIAUnitTypes";
-publicVariable "AS_allFIASoldierClasses";
-publicVariable "AS_allFIARecruitableSoldiers";
-publicVariable "AS_FIAvehicles_all";
-publicVariable "civHeli";
-publicVariable "boatFIA";

@@ -176,3 +176,29 @@ AS_FIAvehicles setVariable ["B_static_AT_F", 800];
 AS_FIAvehicles setVariable ["B_static_AA_F", 800];
 AS_FIAvehicles setVariable ["B_G_Boat_Transport_01_F", 400];
 AS_FIAvehicles setVariable ["C_Heli_Light_01_civil_F", 6000];
+
+// Initializes unlocked stuff. These are modified by templates and ACE.
+unlockedWeapons = [
+	"hgun_PDW2000_F",
+	"hgun_ACPC2_F"
+];
+
+unlockedMagazines = [
+	"9Rnd_45ACP_Mag",
+	"30Rnd_9x21_Mag"
+];
+
+unlockedBackpacks = [
+	"B_TacticalPack_blk"
+];
+
+unlockedItems = [
+	"Binocular",
+	"ItemMap",
+	"ItemGPS",
+	"ItemRadio",
+	"ItemWatch",
+	"ItemCompass",
+	"FirstAidKit",
+	"Medikit"
+];

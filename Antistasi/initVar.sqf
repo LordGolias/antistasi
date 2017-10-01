@@ -78,27 +78,6 @@ missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 // Templates below modify server-side content so the server has to initialize
 // some things at this point.
 if (isServer) then {
-	// Initializes unlocked stuff. These are modified by templates and ACE and
-	// are published by the server in the end of this script
-	unlockedWeapons = [];
-	unlockedMagazines = [];
-	unlockedBackpacks = [];
-	unlockedItems = [
-		"Binocular",
-		"ItemMap",
-		"ItemGPS",
-		"ItemRadio",
-		"ItemWatch",
-		"ItemCompass",
-		"FirstAidKit",
-		"Medikit"
-	];
-
-	// add content to the unlocked items depending on the ACE.
-	if (hayACE) then {
-		call compile preprocessFileLineNumbers "initACE.sqf";
-	};
-
 	call AS_AAFarsenal_fnc_initialize;
 
 	AS_data_allCosts = createSimpleObject ["Static", [0, 0, 0]];
@@ -106,6 +85,12 @@ if (isServer) then {
 };
 
 call compile preprocessFileLineNumbers "templates\FIA.sqf";
+
+// add content to the unlocked items depending on the ACE.
+// Must be called after unlocked* is defined ("templates\FIA.sqf")
+if hayACE then {
+	call compile preprocessFileLineNumbers "initACE.sqf";
+};
 
 // todo: improve statics in general.
 allStatMGs = 		["B_HMG_01_high_F"];
@@ -134,6 +119,9 @@ call {
 	call compile preprocessFileLineNumbers "templates\CSAT.sqf";
 	call compile preprocessFileLineNumbers "templates\NATO.sqf";
 };
+
+// Picks the stuff defined for FIA above and merges it in a single interface
+call compile preprocessFileLineNumbers "initFIA.sqf";
 
 // Initializes all AAF/NATO/CSAT items (e.g. weapons, mags) from the global variables
 // in the templates above. Only non-public globals defined.
@@ -164,9 +152,6 @@ call AS_mission_fnc_initialize;
 
 // reguarly checks for players and stores their profiles
 call AS_players_fnc_initialize;
-
-// Picks the stuff defined for FIA above and merges it in a single interface
-call compile preprocessFileLineNumbers "initFIA.sqf";
 
 // todo: re-add support for TFAR. This is probably needed by it.
 lrRadio = "";
@@ -297,10 +282,4 @@ publicVariable "AS_maxSkill";
 // BE_modul handles all the permissions e.g. to build roadblocks, skill, etc.
 #include "Scripts\BE_modul.sqf"
 [] call fnc_BE_initialize;
-
-publicVariable "unlockedWeapons";
-publicVariable "unlockedItems";
-publicVariable "unlockedBackpacks";
-publicVariable "unlockedMagazines";
-
 [] spawn AS_mission_fnc_updateAvailable;

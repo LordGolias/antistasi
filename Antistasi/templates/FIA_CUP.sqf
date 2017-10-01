@@ -25,3 +25,18 @@ AS_FIAvehicles setVariable ["air_vehicles", ["CUP_B_MH6J_OBS_USA"]];
 AS_FIAvehicles setVariable ["CUP_B_MH6J_OBS_USA", 6000];
 
 AS_FIA_vans = ["CUP_C_LR_Transport_CTK"];
+
+// Equipment unlocked by default
+unlockedWeapons = [
+	"CUP_arifle_AKS74U",
+	"CUP_hgun_Makarov"
+];
+
+unlockedMagazines = [
+	"CUP_30Rnd_545x39_AK_M",
+	"CUP_8Rnd_9x18_Makarov_M"
+];
+
+unlockedBackpacks = [
+	"CUP_B_CivPack_WDL"
+];

@@ -101,23 +101,6 @@ AAFMines = ["CUP_MineE", "CUP_Mine"];
 atMine = "CUP_Mine";
 apMine = "CUP_MineE";
 
-// Equipment unlocked by default
-if (isServer) then {
-	unlockedWeapons = [
-		"CUP_arifle_AKS74U",
-		"CUP_hgun_Makarov"
-	];
-
-	unlockedMagazines = [
-		"CUP_30Rnd_545x39_AK_M",
-		"CUP_8Rnd_9x18_Makarov_M"
-	];
-
-	unlockedBackpacks = [
-		"CUP_B_CivPack_WDL"
-	];
-};
-
 // NVG, flashlight, laser, mine types
 indNVG = "CUP_NVG_PVS7";
 indFL = "CUP_acc_flashlight";
