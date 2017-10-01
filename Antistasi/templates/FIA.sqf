@@ -139,18 +139,18 @@ AS_fnc_FIACustomSquad_initialization = {
 
 if (isServer) then {
 	// The cost of each AS unit type. Squad cost also depends on this
-	AS_data_allCosts setVariable ["Crew", 50, true];
-	AS_data_allCosts setVariable ["Ammo Bearer", 50, true];
-	AS_data_allCosts setVariable ["Rifleman", 50, true];
-	AS_data_allCosts setVariable ["Grenadier", 100, true];
-	AS_data_allCosts setVariable ["Autorifleman", 100, true];
-	AS_data_allCosts setVariable ["Medic", 300, true];
-	AS_data_allCosts setVariable ["Squad Leader", 100, true];
-	AS_data_allCosts setVariable ["Repair Specialist", 200, true];
-	AS_data_allCosts setVariable ["Explosives Specialist", 200, true];
-	AS_data_allCosts setVariable ["AT Specialist", 200, true];
-	AS_data_allCosts setVariable ["AA Specialist", 300, true];
-	AS_data_allCosts setVariable ["Sniper", 100, true];
+	AS_data_allCosts setVariable ["Crew", 50];
+	AS_data_allCosts setVariable ["Ammo Bearer", 50];
+	AS_data_allCosts setVariable ["Rifleman", 50];
+	AS_data_allCosts setVariable ["Grenadier", 100];
+	AS_data_allCosts setVariable ["Autorifleman", 100];
+	AS_data_allCosts setVariable ["Medic", 300];
+	AS_data_allCosts setVariable ["Squad Leader", 100];
+	AS_data_allCosts setVariable ["Repair Specialist", 200];
+	AS_data_allCosts setVariable ["Explosives Specialist", 200];
+	AS_data_allCosts setVariable ["AT Specialist", 200];
+	AS_data_allCosts setVariable ["AA Specialist", 300];
+	AS_data_allCosts setVariable ["Sniper", 100];
 };
 
 AS_FIAvehicles setVariable ["land_vehicles", [

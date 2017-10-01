@@ -16,10 +16,6 @@ AS_rank_abbreviations = [
 	"PRV", "CPL", "SGT", "LT", "CPT", "MAJ", "COL"
 ];
 
-// Stores data about which vehicles can be bought and at what price.
-// This is a local object as the costs are immutable and can thus be initialized locally
-AS_FIAvehicles = createSimpleObject ["Static", [0, 0, 0]];
-
 // UPSMON is used for all kinds of AI patrolling. We initialize it here
 // so any client can spawn patrols.
 call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
@@ -79,10 +75,14 @@ missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 // some things at this point.
 if (isServer) then {
 	call AS_AAFarsenal_fnc_initialize;
-
-	AS_data_allCosts = createSimpleObject ["Static", [0, 0, 0]];
-	publicVariable "AS_data_allCosts";
 };
+
+// Stores cost of AAF and FIA units
+AS_data_allCosts = createSimpleObject ["Static", [0, 0, 0]];
+
+// Stores data about which vehicles can be bought and at what price.
+// This is a local object as the costs are immutable and can thus be initialized locally
+AS_FIAvehicles = createSimpleObject ["Static", [0, 0, 0]];
 
 call compile preprocessFileLineNumbers "templates\FIA.sqf";
 
@@ -119,6 +119,15 @@ call {
 	call compile preprocessFileLineNumbers "templates\CSAT.sqf";
 	call compile preprocessFileLineNumbers "templates\NATO.sqf";
 };
+
+{AS_data_allCosts setVariable [_x,10]} forEach infList_regular;
+{AS_data_allCosts setVariable [_x,15]} forEach infList_auto;
+{AS_data_allCosts setVariable [_x,15]} forEach infList_crew;
+{AS_data_allCosts setVariable [_x,15]} forEach infList_pilots;
+{AS_data_allCosts setVariable [_x,20]} forEach infList_special;
+{AS_data_allCosts setVariable [_x,20]} forEach infList_NCO;
+{AS_data_allCosts setVariable [_x,20]} forEach infList_sniper;
+{AS_data_allCosts setVariable [_x,30]} forEach infList_officers;
 
 // Picks the stuff defined for FIA above and merges it in a single interface
 call compile preprocessFileLineNumbers "initFIA.sqf";
@@ -230,16 +239,6 @@ AS_Sset("AS_vehicleOrientation", 0);
 
 AS_spawnLoopTime = 1; // seconds between each check of spawn/despawn locations (expensive loop).
 AS_resourcesLoopTime = 600; // seconds between resources update
-
-// Pricing values for soldiers, vehicles of AAF
-{AS_data_allCosts setVariable [_x,100,true]} forEach infList_regular;
-{AS_data_allCosts setVariable [_x,150,true]} forEach infList_auto;
-{AS_data_allCosts setVariable [_x,150,true]} forEach infList_crew;
-{AS_data_allCosts setVariable [_x,150,true]} forEach infList_pilots;
-{AS_data_allCosts setVariable [_x,200,true]} forEach infList_special;
-{AS_data_allCosts setVariable [_x,200,true]} forEach infList_NCO;
-{AS_data_allCosts setVariable [_x,200,true]} forEach infList_sniper;
-{AS_data_allCosts setVariable [_x,300,true]} forEach infList_officers;
 
 //TFAR detection and config.
 hayTFAR = false;
