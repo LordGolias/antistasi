@@ -18,7 +18,7 @@ _cost = 0;
 
 call {
 	if (_tipoVeh in vehNATO) exitWith {};
-	if (_tipoVeh in AS_FIArecruitment_all) exitWith {
+	if (_tipoVeh in AS_FIAvehicles_all) exitWith {
 		_cost = [_tipoVeh, true] call AS_fnc_getFIAvehiclePrice};
 	if (_tipoVeh in arrayCivVeh) exitWith {_cost = 25};
 

@@ -19,7 +19,7 @@ if (_availableMines == 0) exitWith {
 };
 
 private _cost = 2*(AS_data_allCosts getVariable "Explosives Specialist") +
-	([(AS_FIArecruitment getVariable "land_vehicles") select 0] call AS_fnc_getFIAvehiclePrice);
+	([(AS_FIAvehicles getVariable "land_vehicles") select 0] call AS_fnc_getFIAvehiclePrice);
 private _hr = 2;
 if ((AS_P("resourcesFIA") < _cost) or (AS_P("hr") < _hr)) exitWith {
 	hint format ["Not enought resources to recruit a mine deploying team (%1 € and %2 HR needed)",_cost,_hr];
@@ -121,7 +121,7 @@ if !(AS_confirmLocations) exitWith {
 AS_confirmLocations = nil;
 
 // pay price and remove mines from box
-private _vehType = (AS_FIArecruitment getVariable "land_vehicles") select 0;
+private _vehType = (AS_FIAvehicles getVariable "land_vehicles") select 0;
 private _cost = (2*(AS_data_allCosts getVariable "Explosives Specialist")) + ([_vehType] call AS_fnc_getFIAvehiclePrice);
 [-2,-_cost] remoteExec ["AS_fnc_changeFIAmoney",2];
 

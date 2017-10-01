@@ -16,6 +16,10 @@ AS_rank_abbreviations = [
 	"PRV", "CPL", "SGT", "LT", "CPT", "MAJ", "COL"
 ];
 
+// Stores data about which vehicles can be bought and at what price.
+// This is a local object as the costs are immutable and can thus be initialized locally
+AS_FIAvehicles = createSimpleObject ["Static", [0, 0, 0]];
+
 // UPSMON is used for all kinds of AI patrolling. We initialize it here
 // so any client can spawn patrols.
 call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";
@@ -97,9 +101,6 @@ if (isServer) then {
 
 	call AS_AAFarsenal_fnc_initialize;
 
-	// Stores everything related to what units and squads the FIA can recruit (and costs)
-	AS_FIArecruitment = createSimpleObject ["Static", [0, 0, 0]];
-	publicVariable "AS_FIArecruitment";
 	AS_data_allCosts = createSimpleObject ["Static", [0, 0, 0]];
 	publicVariable "AS_data_allCosts";
 };

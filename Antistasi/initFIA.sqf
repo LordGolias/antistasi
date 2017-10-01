@@ -21,20 +21,20 @@ for "_i" from 0 to (count AS_FIAsoldiersMapping) - 1 step 2 do {
 };
 AS_allFIARecruitableSoldiers = AS_allFIAUnitTypes - ["Crew", "Survivor"];
 
-AS_FIArecruitment_all = (AS_FIArecruitment getVariable "land_vehicles") +
-	(AS_FIArecruitment getVariable "air_vehicles") +
-	(AS_FIArecruitment getVariable "water_vehicles");
+AS_FIAvehicles_all = (AS_FIAvehicles getVariable "land_vehicles") +
+	(AS_FIAvehicles getVariable "air_vehicles") +
+	(AS_FIAvehicles getVariable "water_vehicles");
 
-civHeli = (AS_FIArecruitment getVariable "air_vehicles") select 0;
+civHeli = (AS_FIAvehicles getVariable "air_vehicles") select 0;
 
 // todo: remove this variable by making the boat-buying a list of boats
-boatFIA = (AS_FIArecruitment getVariable "water_vehicles") select 0;
+boatFIA = (AS_FIAvehicles getVariable "water_vehicles") select 0;
 
 // publish these variables to all clients.
 publicVariable "AS_allFIASquadTypes";
 publicVariable "AS_allFIAUnitTypes";
 publicVariable "AS_allFIASoldierClasses";
 publicVariable "AS_allFIARecruitableSoldiers";
-publicVariable "AS_FIArecruitment_all";
+publicVariable "AS_FIAvehicles_all";
 publicVariable "civHeli";
 publicVariable "boatFIA";

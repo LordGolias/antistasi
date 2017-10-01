@@ -1,34 +1,30 @@
 // clean everything because we do not need the default stuff
-if (isServer) then {
-	{AS_FIArecruitment setVariable [_x, nil, true];} forEach (allVariables AS_FIArecruitment);
-};
+{AS_FIAvehicles setVariable [_x, nil];} forEach (allVariables AS_FIAvehicles);
 
-if (isServer) then {
-	AS_FIArecruitment setVariable ["land_vehicles", [
-		"C_Offroad_01_F",
-		"rhs_Ural_Open_Civ_01",
-		"rhsgref_cdf_b_reg_uaz_open",
-		"rhsgref_cdf_b_reg_uaz_dshkm",
-		statMG, statMortar, statAT, statAA
-	], true];
+AS_FIAvehicles setVariable ["land_vehicles", [
+	"C_Offroad_01_F",
+	"rhs_Ural_Open_Civ_01",
+	"rhsgref_cdf_b_reg_uaz_open",
+	"rhsgref_cdf_b_reg_uaz_dshkm",
+	statMG, statMortar, statAT, statAA
+]];
 
-	// All elements in the lists above must be priced below or their price is 300
-	AS_FIArecruitment setVariable ["C_Offroad_01_F", 300, true];
-	AS_FIArecruitment setVariable ["rhs_Ural_Open_Civ_01", 600, true];
-	AS_FIArecruitment setVariable ["rhsgref_cdf_b_reg_uaz_open", 300, true];
-	AS_FIArecruitment setVariable ["rhsgref_cdf_b_reg_uaz_dshkm", 700, true];
-	AS_FIArecruitment setVariable [statMG, 800, true];
-	AS_FIArecruitment setVariable [statMortar, 800, true];
-	AS_FIArecruitment setVariable [statAT, 800, true];
-	AS_FIArecruitment setVariable [statAA, 800, true];
+// All elements in the lists above must be priced below or their price is 300
+AS_FIAvehicles setVariable ["C_Offroad_01_F", 300];
+AS_FIAvehicles setVariable ["rhs_Ural_Open_Civ_01", 600];
+AS_FIAvehicles setVariable ["rhsgref_cdf_b_reg_uaz_open", 300];
+AS_FIAvehicles setVariable ["rhsgref_cdf_b_reg_uaz_dshkm", 700];
+AS_FIAvehicles setVariable [statMG, 800];
+AS_FIAvehicles setVariable [statMortar, 800];
+AS_FIAvehicles setVariable [statAT, 800];
+AS_FIAvehicles setVariable [statAA, 800];
 
-	AS_FIArecruitment setVariable ["water_vehicles", ["B_G_Boat_Transport_01_F"], true];
-	AS_FIArecruitment setVariable ["B_G_Boat_Transport_01_F", 400, true];
+AS_FIAvehicles setVariable ["water_vehicles", ["B_G_Boat_Transport_01_F"]];
+AS_FIAvehicles setVariable ["B_G_Boat_Transport_01_F", 400];
 
-	// First helicopter of this list is undercover
-	AS_FIArecruitment setVariable ["air_vehicles", ["rhs_Mi8amt_civilian"], true];
-	AS_FIArecruitment setVariable ["rhs_Mi8amt_civilian", 6000, true];
-};
+// First helicopter of this list is undercover
+AS_FIAvehicles setVariable ["air_vehicles", ["rhs_Mi8amt_civilian"]];
+AS_FIAvehicles setVariable ["rhs_Mi8amt_civilian", 6000];
 
 AS_FIA_vans = ["rhs_Ural_Open_Civ_01", "rhs_Ural_Open_Civ_02", "rhs_Ural_Open_Civ_03"];
 

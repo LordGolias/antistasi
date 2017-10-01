@@ -36,7 +36,7 @@ private _fnc_spawn = {
 
 	private _pos = position (_roads select 0) findEmptyPosition [1,30,_vehType];
 
-	private _vehType = (AS_FIArecruitment getVariable "land_vehicles") select 0;
+	private _vehType = (AS_FIAvehicles getVariable "land_vehicles") select 0;
 	private _truck = _vehType createVehicle _pos;
 	[_truck, "FIA"] call AS_fnc_initVehicle;
 

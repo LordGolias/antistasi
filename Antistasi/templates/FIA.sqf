@@ -151,28 +151,28 @@ if (isServer) then {
 	AS_data_allCosts setVariable ["AT Specialist", 200, true];
 	AS_data_allCosts setVariable ["AA Specialist", 300, true];
 	AS_data_allCosts setVariable ["Sniper", 100, true];
-
-	AS_FIArecruitment setVariable ["land_vehicles", [
-		"C_Offroad_01_F","C_Van_01_transport_F","B_G_Quadbike_01_F","B_G_Offroad_01_armed_F",
-		"B_HMG_01_high_F","B_G_Mortar_01_F","B_static_AT_F","B_static_AA_F"
-	], true];
-	AS_FIArecruitment setVariable ["water_vehicles", [
-		"B_G_Boat_Transport_01_F"
-	], true];
-	// First helicopter of this list is undercover
-	AS_FIArecruitment setVariable ["air_vehicles", [
-		"C_Heli_Light_01_civil_F"
-	], true];
-
-	// All elements in the lists above must be priced, or their price is 300
-	AS_FIArecruitment setVariable ["C_Offroad_01_F", 300, true];
-	AS_FIArecruitment setVariable ["C_Van_01_transport_F", 600, true];
-	AS_FIArecruitment setVariable ["C_Heli_Light_01_civil_F", 6000, true];
-	AS_FIArecruitment setVariable ["B_G_Quadbike_01_F", 50, true];
-	AS_FIArecruitment setVariable ["B_G_Offroad_01_armed_F", 700, true];
-	AS_FIArecruitment setVariable ["B_HMG_01_high_F", 800, true];
-	AS_FIArecruitment setVariable ["B_G_Mortar_01_F", 800, true];
-	AS_FIArecruitment setVariable ["B_static_AT_F", 800, true];
-	AS_FIArecruitment setVariable ["B_static_AA_F", 800, true];
-	AS_FIArecruitment setVariable ["B_G_Boat_Transport_01_F", 400, true];
 };
+
+AS_FIAvehicles setVariable ["land_vehicles", [
+	"C_Offroad_01_F","C_Van_01_transport_F","B_G_Quadbike_01_F","B_G_Offroad_01_armed_F",
+	"B_HMG_01_high_F","B_G_Mortar_01_F","B_static_AT_F","B_static_AA_F"
+]];
+AS_FIAvehicles setVariable ["water_vehicles", [
+	"B_G_Boat_Transport_01_F"
+]];
+// First helicopter of this list is undercover
+AS_FIAvehicles setVariable ["air_vehicles", [
+	"C_Heli_Light_01_civil_F"
+]];
+
+// All elements in the lists above must be priced
+AS_FIAvehicles setVariable ["C_Offroad_01_F", 300];
+AS_FIAvehicles setVariable ["C_Van_01_transport_F", 600];
+AS_FIAvehicles setVariable ["B_G_Quadbike_01_F", 50];
+AS_FIAvehicles setVariable ["B_G_Offroad_01_armed_F", 700];
+AS_FIAvehicles setVariable ["B_HMG_01_high_F", 800];
+AS_FIAvehicles setVariable ["B_G_Mortar_01_F", 800];
+AS_FIAvehicles setVariable ["B_static_AT_F", 800];
+AS_FIAvehicles setVariable ["B_static_AA_F", 800];
+AS_FIAvehicles setVariable ["B_G_Boat_Transport_01_F", 400];
+AS_FIAvehicles setVariable ["C_Heli_Light_01_civil_F", 6000];
