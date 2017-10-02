@@ -3,7 +3,7 @@ params ["_veh", "_side"];
 // We need this because FIA can steal from others, and thus the vehicle class
 // does not uniquely define the necessary initialization.
 
-_veh setVariable ["AS_side", _side];
+[_veh, _side] call AS_fnc_setSide;
 
 if ((_veh isKindOf "FlagCarrier") or (_veh isKindOf "Building")) exitWith {};
 if (_veh isKindOf "ReammoBox_F" and _side == "AAF") exitWith {[_veh,"Watchpost"] call AS_fnc_fillCrateAAF};
@@ -24,7 +24,7 @@ if (_side != "NATO") then {
 	// vehicle is stolen (NATO vehicles cannot be entered)
 	_veh addEventHandler ["GetIn", {
 		params ["_vehicle", "_position", "_unit"];
-		_vehicle setVariable ["AS_side", _unit getVariable "AS_side", true];
+		[_vehicle, _unit call AS_fnc_getSide] call AS_fnc_setSide;
 	}];
 };
 

@@ -4,7 +4,7 @@ _unit = _this select 0;
 
 [_unit] call AS_debug_fnc_initUnit;
 
-_unit setVariable ["AS_side", "CIV", true];
+[_unit, "CIV"] call AS_fnc_setSide;
 
 _unit setSkill 0;
 

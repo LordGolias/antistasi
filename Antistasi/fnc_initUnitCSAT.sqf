@@ -2,7 +2,7 @@ params ["_unit"];
 
 _unit setVariable ["OPFORSpawn",true,true];
 
-_unit setVariable ["AS_side", "CSAT", true];
+[_unit, "CSAT"] call AS_fnc_setSide;
 
 [_unit] call AS_medical_fnc_initUnit;
 

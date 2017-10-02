@@ -4,7 +4,7 @@ waitUntil {player == player};
 
 if hayACEhearing then {player addItem "ACE_EarPlugs"};
 
-player setVariable ["AS_side", "FIA", true];
+[player, "FIA"] call AS_fnc_setSide;
 
 player addEventHandler ["HandleDamage", AS_fnc_EH_handleDamage_AIcontrol];
 player call AS_medical_fnc_initUnit;

@@ -8,7 +8,7 @@ private _fnc_getUnitsEquipment = {
     params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 
     {
-        if ((_x getVariable "AS_side" == "FIA") and {alive _x}) then {
+        if ((_x call AS_fnc_getSide == "FIA") and {alive _x}) then {
             private _arsenal = [_x, true] call AS_fnc_getUnitArsenal;
             _cargo_w = [_cargo_w, _arsenal select 0] call AS_fnc_mergeCargoLists;
             _cargo_m = [_cargo_m, _arsenal select 1] call AS_fnc_mergeCargoLists;
@@ -24,7 +24,7 @@ private _fnc_getVehiclesEquipment = {
     {
         private _closest = (getPos _x) call AS_location_fnc_nearest;
         if ((_closest call AS_location_fnc_side == "FIA") and
-                ((_x in AS_permanent_HQplacements) or {(_x getVariable "AS_side") == "FIA"}) and
+                ((_x in AS_permanent_HQplacements) or {(_x call AS_fnc_getSide) == "FIA"}) and
                 {alive _x} and
                 {_x distance (_closest call AS_location_fnc_position) < 100} and
                 {private _invalid = weaponsItemsCargo _x; not isNil "_invalid"}) then {

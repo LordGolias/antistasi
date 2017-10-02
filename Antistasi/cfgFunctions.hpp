@@ -67,6 +67,9 @@ class AS {
         FNC(Functions,antennaKilledEH);
         FNC(Functions,shuffle);
 
+        FNC_BASE(getSide);
+        FNC_BASE(setSide);
+
         FNC_BASE(pickGroup);
         FNC_BASE(updateProgressBar);
 
