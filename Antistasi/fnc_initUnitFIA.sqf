@@ -1,9 +1,9 @@
 #include "macros.hpp"
 params ["_unit", ["_spawned", true], ["_place", nil], ["_equipment", []]];
 
-[_unit] call AS_debug_fnc_initUnit;
-
 [_unit, "FIA"] call AS_fnc_setSide;
+
+[_unit] call AS_debug_fnc_initUnit;
 
 if (_spawned) then {
 	_unit setVariable ["BLUFORSpawn",true,true];

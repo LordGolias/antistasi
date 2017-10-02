@@ -1,9 +1,9 @@
 #include "macros.hpp"
 params ["_unit", ["_spawned", true]];
 
-[_unit] call AS_debug_fnc_initUnit;
-
 [_unit, "AAF"] call AS_fnc_setSide;
+
+[_unit] call AS_debug_fnc_initUnit;
 
 if (typeOf _unit == "Fin_random_F") exitWith {};  // dog
 

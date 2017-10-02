@@ -2,9 +2,9 @@ private ["_unit","_enemigos"];
 
 _unit = _this select 0;
 
-[_unit] call AS_debug_fnc_initUnit;
-
 [_unit, "CIV"] call AS_fnc_setSide;
+
+[_unit] call AS_debug_fnc_initUnit;
 
 _unit setSkill 0;
 
