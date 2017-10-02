@@ -4,6 +4,8 @@ _unit setVariable ["OPFORSpawn",true,true];
 
 [_unit, "CSAT"] call AS_fnc_setSide;
 
+[_unit] call AS_debug_fnc_initUnit;
+
 [_unit] call AS_medical_fnc_initUnit;
 
 [_unit] call AS_fnc_setDefaultSkill;

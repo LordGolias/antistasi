@@ -1,10 +1,10 @@
 params ["_unit"];
+[_unit, "NATO"] call AS_fnc_setSide;
+
 [_unit] call AS_debug_fnc_initUnit;
 
 [_unit] call AS_medical_fnc_initUnit;
 _unit allowFleeing 0;
-
-[_unit, "NATO"] call AS_fnc_setSide;
 
 [_unit] call AS_fnc_setDefaultSkill;
 
