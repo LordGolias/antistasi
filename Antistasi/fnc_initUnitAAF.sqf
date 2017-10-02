@@ -3,7 +3,7 @@ params ["_unit", ["_spawned", true]];
 
 [_unit] call AS_debug_fnc_initUnit;
 
-_unit setVariable ["AS_side", "AAF", true];
+[_unit, "AAF"] call AS_fnc_setSide;
 
 if (typeOf _unit == "Fin_random_F") exitWith {};  // dog
 

@@ -3,7 +3,7 @@ params ["_unit", ["_spawned", true], ["_place", nil], ["_equipment", []]];
 
 [_unit] call AS_debug_fnc_initUnit;
 
-_unit setVariable ["AS_side", "FIA", true];
+[_unit, "FIA"] call AS_fnc_setSide;
 
 if (_spawned) then {
 	_unit setVariable ["BLUFORSpawn",true,true];
