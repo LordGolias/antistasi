@@ -3,12 +3,9 @@
 if (player != AS_commander) exitWith {hint "Only the commander has access to this function"};
 if (!([player] call AS_fnc_hasRadio)) exitWith {hint "You need a radio in your inventory to be able to give orders to other squads"};
 
-private _enemiesClose = false;
-{
-	if ((side _x == side_red) and (_x distance petros < 500) and (not(captive _x))) exitWith {_enemiesClose = true};
-} forEach allUnits;
-
-if (_enemiesClose) exitWith {Hint "You cannot Recruit Squads with enemies near your HQ"};
+if ([petros, 500] call AS_fnc_enemiesNearby) exitWith {
+	hint "You cannot Recruit Squads with enemies near your HQ";
+};
 
 params ["_grouptype"];
 

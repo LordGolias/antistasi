@@ -2,12 +2,10 @@
 params ["_pool"];
 
 if (call AS_fnc_controlsAI) exitWith {hint "You cannot access the Garage while you are controlling AI"};
-private _enemies = false;
-{
-	if ((side _x == side_red) and (_x distance player < 500) and (not(captive _x))) exitWith {_enemies = true};
-} forEach allUnits;
 
-if _enemies exitWith {Hint "You cannot manage the Garage with enemies nearby"};
+if ([position player, 500] call AS_fnc_enemiesNearby) exitWith {
+	Hint "You cannot manage the Garage with enemies nearby";
+};
 
 if _pool then {
 	vehInGarageShow = player getVariable "garage";

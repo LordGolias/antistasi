@@ -9,11 +9,9 @@ if (_cost > AS_P("resourcesFIA")) exitWith {hint format ["You do not have enough
 
 private _position = _location call AS_location_fnc_position;
 
-private _enemiesClose = false;
-{
-	if ((side _x == side_red) and (_x distance _position < 500) and (not(captive _x))) exitWith {_enemiesClose = true};
-} forEach allUnits;
-if (_enemiesClose) exitWith {Hint "There are enemies within 500m of the zone. You can not recruit."};
+if ([_position, 500] call AS_fnc_enemiesNearby) exitWith {
+	hint "There are enemies within 500m of the zone. You can not recruit.";
+};
 
 [-1,-_cost] remoteExec ["AS_fnc_changeFIAmoney",2];
 private _garrison = [_location, "garrison"] call AS_location_fnc_get;

@@ -1,12 +1,9 @@
 #include "../macros.hpp"
 private ["_chequeo","_pos","_veh","_newPos","_coste"];
 
-_chequeo = false;
-{
-	if ((side _x == side_red) and (_x distance player < 500) and (not(captive _x))) then {_chequeo = true};
-} forEach allUnits;
-
-if (_chequeo) exitWith {Hint "You cannot buy vehicles with enemies nearby"};
+if ([position player, 500] call AS_fnc_enemiesNearby) exitWith {
+	Hint "You cannot buy vehicles with enemies nearby";
+};
 
 _coste = boatFIAcost;
 
