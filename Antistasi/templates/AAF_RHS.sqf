@@ -46,15 +46,14 @@ private _dict = [AS_units, "AAF", "EAST"] call DICT_fnc_get;
 [_dict, "medic", _sol_MED] call DICT_fnc_setLocal;
 [_dict, "driver", _sol_CREW] call DICT_fnc_setLocal;
 
-// All classes sorted by role, used for pricing, etc
-infList_officers = [_sol_OFF, _sol_OFF2];
-infList_sniper = [_sol_MK, _sol_SN, _sol_SP];
-infList_NCO = [_sol_SL, _sol_TL, _sol_TL2];
-infList_special = [_sol_A_AT, _sol_AA, _sol_AT, _sol_EXP, _sol_REP, _sol_ENG, _sol_MED];
-infList_auto = [_sol_A_AR, _sol_AR, _sol_MG];
-infList_regular = [_sol_GL, _sol_GL2, _sol_LAT, _sol_LAT2, _sol_R_L, _sol_RFL];
-infList_crew = [_sol_CREW, _sol_CREW2, _sol_CREW3, _sol_CREW4, _sol_DRV, _sol_DRV2];
-infList_pilots = [_sol_HPIL, _sol_HPIL2, _sol_PIL];
+[_dict, "officers", [_sol_OFF, _sol_OFF2]] call DICT_fnc_setLocal;
+[_dict, "snipers", [_sol_MK, _sol_SN, _sol_SP]] call DICT_fnc_setLocal;
+[_dict, "ncos", [_sol_SL, _sol_TL, _sol_TL2]] call DICT_fnc_setLocal;
+[_dict, "specials", [_sol_A_AT, _sol_AA, _sol_AT, _sol_EXP, _sol_REP, _sol_ENG, _sol_MED]] call DICT_fnc_setLocal;
+[_dict, "mgs", [_sol_A_AR, _sol_AR, _sol_MG]] call DICT_fnc_setLocal;
+[_dict, "regulars", [_sol_GL, _sol_GL2, _sol_LAT, _sol_LAT2, _sol_R_L, _sol_RFL]] call DICT_fnc_setLocal;
+[_dict, "crews", [_sol_CREW, _sol_CREW2, _sol_CREW3, _sol_CREW4, _sol_DRV, _sol_DRV2]] call DICT_fnc_setLocal;
+[_dict, "pilots", [_sol_HPIL, _sol_HPIL2, _sol_PIL]] call DICT_fnc_setLocal;
 
 // AAF Vehicles
 if (isServer) then {

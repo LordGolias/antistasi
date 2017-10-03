@@ -136,16 +136,18 @@ call {
 	if isNil "_type" then {
 		diag_log format ["[AS] Error: Type of unit '%1' not defined for AAF", _x];
 	};
-} forEach ["gunner", "crew", "pilot", "medic", "driver"];
+} forEach ["gunner", "crew", "pilot", "medic", "driver",
+           "officers", "snipers", "ncos", "specials", "mgs",
+		   "regulars", "crews", "pilots"];
 
-{AS_data_allCosts setVariable [_x,10]} forEach infList_regular;
-{AS_data_allCosts setVariable [_x,15]} forEach infList_auto;
-{AS_data_allCosts setVariable [_x,15]} forEach infList_crew;
-{AS_data_allCosts setVariable [_x,15]} forEach infList_pilots;
-{AS_data_allCosts setVariable [_x,20]} forEach infList_special;
-{AS_data_allCosts setVariable [_x,20]} forEach infList_NCO;
-{AS_data_allCosts setVariable [_x,20]} forEach infList_sniper;
-{AS_data_allCosts setVariable [_x,30]} forEach infList_officers;
+{AS_data_allCosts setVariable [_x,10]} forEach (["AAF", "regulars"] call AS_fnc_getEntity);
+{AS_data_allCosts setVariable [_x,15]} forEach (["AAF", "mgs"] call AS_fnc_getEntity);
+{AS_data_allCosts setVariable [_x,15]} forEach (["AAF", "crews"] call AS_fnc_getEntity);
+{AS_data_allCosts setVariable [_x,15]} forEach (["AAF", "pilots"] call AS_fnc_getEntity);
+{AS_data_allCosts setVariable [_x,20]} forEach (["AAF", "specials"] call AS_fnc_getEntity);
+{AS_data_allCosts setVariable [_x,20]} forEach (["AAF", "ncos"] call AS_fnc_getEntity);
+{AS_data_allCosts setVariable [_x,20]} forEach (["AAF", "snipers"] call AS_fnc_getEntity);
+{AS_data_allCosts setVariable [_x,30]} forEach (["AAF", "officers"] call AS_fnc_getEntity);
 
 // Picks the stuff defined for FIA above and merges it in a single interface
 call compile preprocessFileLineNumbers "initFIA.sqf";

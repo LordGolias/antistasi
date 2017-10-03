@@ -12,10 +12,10 @@ if (count _this == 1) then {
 			_chance = 15;
 		};
 	} else {
-		if (typeOf _location in infList_officers) exitWith {
+		if (typeOf _location in (["AAF", "officers"] call AS_fnc_getEntity)) exitWith {
 			_chance = 50;
 		};
-		if ((typeOf _location in infList_NCO) or (typeOf _location in infList_pilots)) exitWith {
+		if ((typeOf _location in (["AAF", "ncos"] call AS_fnc_getEntity)) or (typeOf _location in (["AAF", "pilots"] call AS_fnc_getEntity))) exitWith {
 			_chance = 15;
 		};
 	};

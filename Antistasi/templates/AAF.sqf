@@ -44,17 +44,14 @@ private _dict = [AS_units, "AAF", "EAST"] call DICT_fnc_get;
 [_dict, "medic", _sol_MED] call DICT_fnc_setLocal;
 [_dict, "driver", _sol_CREW] call DICT_fnc_setLocal;
 
-// All classes sorted by role.
-// To modders: The union of these lists define all equipment of AAF.
-// I.e. AAF crates will only contain equipment that units in these lists carry.
-infList_officers = [_sol_OFF];
-infList_sniper = [_sol_MK, _sol_SN, _sol_SP];
-infList_NCO = [_sol_SL, _sol_TL];
-infList_special = [_sol_A_AA, _sol_A_AT, _sol_AA, _sol_AT, _sol_EXP, _sol_REP, _sol_ENG, _sol_MED];
-infList_auto = [_sol_AR, _sol_MG];
-infList_regular = [_sol_A_AR, _sol_AMMO, _sol_GL, _sol_LAT, _sol_R_L, _sol_RFL];
-infList_crew = [_sol_CREW, _sol_HCREW, _sol_UAV, _sol_SUP_AMG, _sol_SUP_AMTR, _sol_SUP_GMG, _sol_SUP_MG, _sol_SUP_MTR];
-infList_pilots = [_sol_HPIL, _sol_PIL];
+[_dict, "officers", [_sol_OFF]] call DICT_fnc_setLocal;
+[_dict, "snipers", [_sol_MK, _sol_SN, _sol_SP]] call DICT_fnc_setLocal;
+[_dict, "ncos", [_sol_SL, _sol_TL]] call DICT_fnc_setLocal;
+[_dict, "specials", [_sol_A_AA, _sol_A_AT, _sol_AA, _sol_AT, _sol_EXP, _sol_REP, _sol_ENG, _sol_MED]] call DICT_fnc_setLocal;
+[_dict, "mgs", [_sol_AR, _sol_MG]] call DICT_fnc_setLocal;
+[_dict, "regulars", [_sol_A_AR, _sol_AMMO, _sol_GL, _sol_LAT, _sol_R_L, _sol_RFL]] call DICT_fnc_setLocal;
+[_dict, "crews", [_sol_CREW, _sol_HCREW, _sol_UAV, _sol_SUP_AMG, _sol_SUP_AMTR, _sol_SUP_GMG, _sol_SUP_MG, _sol_SUP_MTR]] call DICT_fnc_setLocal;
+[_dict, "pilots", [_sol_HPIL, _sol_PIL]] call DICT_fnc_setLocal;
 
 // Grups used for spawning groups.
 // To modders: equipment of units in these groups is also part of the AAF equipment.
