@@ -47,10 +47,12 @@ sol_SUP_GMG = 	"I_support_GMG_F"; // GMG gunner
 sol_SUP_MG = 	"I_support_MG_F"; // HMG gunner
 sol_SUP_MTR = 	"I_support_Mort_F"; // mortar gunner
 
-// Standard roles for static gunner, crew, and unarmed helicopter pilot
-infGunner =	sol_SUP_MG;
-infCrew = 	sol_CREW;
-infPilot = 	sol_HPIL;
+// Standard roles
+infGunner = sol_CREW;
+infCrew = sol_CREW;
+infPilot = sol_HPIL;
+infMedic = sol_MED;
+infDriver = sol_DRV;
 
 // All classes sorted by role.
 // 	To modders: The union of these lists define all equipment of AAF.

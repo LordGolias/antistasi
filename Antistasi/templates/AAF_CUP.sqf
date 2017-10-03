@@ -10,10 +10,12 @@ sol_MK = "CUP_O_INS_Sniper"; // Marksman
 sol_CREW = "CUP_O_INS_Crew";
 sol_DRV = sol_CREW; // Driver (extra)
 
-// Standard roles for static gunner, crew, and unarmed helicopter pilot
-infGunner =	sol_CREW;
+// Standard roles
+infGunner = sol_CREW;
 infCrew = sol_CREW;
 infPilot = "CUP_O_INS_Pilot";
+infMedic = sol_MED;
+infDriver = sol_DRV;
 
 // All classes sorted by role.
 // 	To modders: The union of these lists define all equipment of AAF.
