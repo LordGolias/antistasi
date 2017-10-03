@@ -62,7 +62,7 @@ private _fnc_spawn = {
 	_mrk setMarkerAlphaLocal 0;
 	_markers pushBack _mrk;
 
-	private _tipoGrupo = [infSquad, "AAF"] call AS_fnc_pickGroup;
+	private _tipoGrupo = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 	private _group = [_bankPosition, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 	sleep 1;
 	[leader _group, _mrk, "SAFE","SPAWNED", "NOVEH2", "FORTIFY"] spawn UPSMON;

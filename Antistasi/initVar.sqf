@@ -138,7 +138,9 @@ call {
 	};
 } forEach ["gunner", "crew", "pilot", "medic", "driver",
            "officers", "snipers", "ncos", "specials", "mgs",
-		   "regulars", "crews", "pilots"];
+		   "regulars", "crews", "pilots",
+		   "cfgGroups", "patrols", "garrisons", "teamsATAA", "teams", "squads", "teamsAA", "teamsAT"
+		   ];
 
 {AS_data_allCosts setVariable [_x,10]} forEach (["AAF", "regulars"] call AS_fnc_getEntity);
 {AS_data_allCosts setVariable [_x,15]} forEach (["AAF", "mgs"] call AS_fnc_getEntity);

@@ -38,9 +38,9 @@ if (_toUse == "tanks") then {
 } else {
 	// todo: to a better job at selecting groups/units here: they may not fit.
 	private _seats = ([_vehicleType,true] call BIS_fnc_crewCount) - ([_vehicleType,false] call BIS_fnc_crewCount);
-	private _tipoGrupo = [infSquad, "AAF"] call AS_fnc_pickGroup;
+	private _tipoGrupo = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 	if (_seats <= 7) then {
-		_tipoGrupo = [infTeam, "AAF"] call AS_fnc_pickGroup;
+		_tipoGrupo = [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 	};
 
 	private _group = [_origin, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;

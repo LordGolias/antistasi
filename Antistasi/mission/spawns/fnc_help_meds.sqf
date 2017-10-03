@@ -115,7 +115,7 @@ private _fnc_spawn = {
 	_crate3 addItemCargoGlobal ["Medikit", 10];
 	_crate4 addItemCargoGlobal ["Medikit", 10];
 
-	private _tipoGrupo = [infGarrisonSmall, "AAF"] call AS_fnc_pickGroup;
+	private _tipoGrupo = [["AAF", "garrisons"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 	private _grupo = [_crashPosition, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 	_grupos pushBack _grupo;
 
@@ -140,7 +140,7 @@ private _fnc_spawn = {
 
 	sleep 1;
 
-	_tipoGrupo = [infSquad, "AAF"] call AS_fnc_pickGroup;
+	_tipoGrupo = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 	_grupo = [_basePosition, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 
 	{_x assignAsCargo _veh; _x moveInCargo _veh; [_x] call AS_fnc_initUnitAAF} forEach units _grupo;

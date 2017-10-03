@@ -27,16 +27,14 @@ private _dict = [AS_units, "AAF", "EAST"] call DICT_fnc_get;
 [_dict, "crews", [_sol_CREW]] call DICT_fnc_setLocal;
 [_dict, "pilots", [_sol_HPIL]] call DICT_fnc_setLocal;
 
-// Grups used for spawning groups.
-// To modders: equipment of units in these groups is also part of the AAF equipment.
-AAFConfigGroupInf = (configfile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Infantry");
-infPatrol = ["CUP_O_ChDKZ_InfSquad_Weapons"];
-infGarrisonSmall = ["CUP_O_ChDKZ_InfSquad_Weapons"];
-infTeamATAA =["CUP_O_ChDKZ_InfSection_AT","CUP_O_ChDKZ_InfSection_AA"];
-infTeam = ["CUP_O_ChDKZ_InfSquad_Weapons", "CUP_O_ChDKZ_InfSquad"];
-infSquad = ["CUP_O_ChDKZ_InfSquad_Weapons", "CUP_O_ChDKZ_InfSquad"];
-infAA =["CUP_O_ChDKZ_InfSection_AA"];
-infAT =["CUP_O_ChDKZ_InfSection_AT"];
+[_dict, "cfgGroups", (configfile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Infantry")] call DICT_fnc_setLocal;
+[_dict, "patrols", ["CUP_O_ChDKZ_InfSquad_Weapons"]] call DICT_fnc_setLocal;
+[_dict, "garrisons", ["CUP_O_ChDKZ_InfSquad_Weapons"]] call DICT_fnc_setLocal;
+[_dict, "teamsATAA", ["CUP_O_ChDKZ_InfSection_AT","CUP_O_ChDKZ_InfSection_AA"]] call DICT_fnc_setLocal;
+[_dict, "teams", ["CUP_O_ChDKZ_InfSquad_Weapons", "CUP_O_ChDKZ_InfSquad"]] call DICT_fnc_setLocal;
+[_dict, "squads", ["CUP_O_ChDKZ_InfSquad_Weapons", "CUP_O_ChDKZ_InfSquad"]] call DICT_fnc_setLocal;
+[_dict, "teamsAA", ["CUP_O_ChDKZ_InfSection_AA"]] call DICT_fnc_setLocal;
+[_dict, "teamsAT", ["CUP_O_ChDKZ_InfSection_AT"]] call DICT_fnc_setLocal;
 
 // To modders: overwrite this in the template to change the AAF arsenal.
 // Rules:

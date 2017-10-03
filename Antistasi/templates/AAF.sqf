@@ -53,16 +53,16 @@ private _dict = [AS_units, "AAF", "EAST"] call DICT_fnc_get;
 [_dict, "crews", [_sol_CREW, _sol_HCREW, _sol_UAV, _sol_SUP_AMG, _sol_SUP_AMTR, _sol_SUP_GMG, _sol_SUP_MG, _sol_SUP_MTR]] call DICT_fnc_setLocal;
 [_dict, "pilots", [_sol_HPIL, _sol_PIL]] call DICT_fnc_setLocal;
 
-// Grups used for spawning groups.
+// Used for spawning groups.
 // To modders: equipment of units in these groups is also part of the AAF equipment.
-AAFConfigGroupInf = (configfile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Infantry");
-infPatrol = ["HAF_InfSentry","HAF_InfSentry","HAF_InfSentry","HAF_SniperTeam"];
-infGarrisonSmall = ["HAF_InfSentry"];
-infTeamATAA =["HAF_InfTeam_AA","HAF_InfTeam_AT"];
-infTeam = ["HAF_InfTeam_AA","HAF_InfTeam_AT","HAF_InfTeam","HAF_InfTeam","HAF_InfTeam"];
-infSquad = ["HAF_InfSquad","HAF_InfSquad_Weapons"];
-infAA =["HAF_InfTeam_AA"];
-infAT =["HAF_InfTeam_AT"];
+[_dict, "cfgGroups", (configfile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Infantry")] call DICT_fnc_setLocal;
+[_dict, "patrols", ["HAF_InfSentry","HAF_InfSentry","HAF_InfSentry","HAF_SniperTeam"]] call DICT_fnc_setLocal;
+[_dict, "garrisons", ["HAF_InfSentry"]] call DICT_fnc_setLocal;
+[_dict, "teamsATAA", ["HAF_InfTeam_AA","HAF_InfTeam_AT"]] call DICT_fnc_setLocal;
+[_dict, "teams", ["HAF_InfTeam_AA","HAF_InfTeam_AT","HAF_InfTeam","HAF_InfTeam","HAF_InfTeam"]] call DICT_fnc_setLocal;
+[_dict, "squads", ["HAF_InfSquad","HAF_InfSquad_Weapons"]] call DICT_fnc_setLocal;
+[_dict, "teamsAA", ["HAF_InfTeam_AA"]] call DICT_fnc_setLocal;
+[_dict, "teamsAT", ["HAF_InfTeam_AT"]] call DICT_fnc_setLocal;
 
 // To modders: overwrite this in the template to change the AAF arsenal.
 // Rules:

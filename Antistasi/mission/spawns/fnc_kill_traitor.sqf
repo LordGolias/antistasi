@@ -89,7 +89,7 @@ private _fnc_spawn = {
 	_mrk setMarkerBrushLocal "DiagGrid";
 	_mrk setMarkerAlphaLocal 0;
 
-	private _tipoGrupo = [infSquad, "AAF"] call AS_fnc_pickGroup;
+	private _tipoGrupo = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 	private _grupo = [_position, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 	if (random 10 < 2.5) then {
 		private _perro = _grupo createUnit ["Fin_random_F",_position,[],0,"FORM"];
