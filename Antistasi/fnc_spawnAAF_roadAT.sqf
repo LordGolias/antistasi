@@ -17,7 +17,7 @@ if (!isNull _road) then {
     [_veh, "AAF"] call AS_fnc_initVehicle;
     _vehicles pushBack _veh;
 
-    private _unit = ([_position, 0, infGunner, _group] call bis_fnc_spawnvehicle) select 0;
+    private _unit = ([_position, 0, ["AAF", "gunner"] call AS_fnc_getEntity, _group] call bis_fnc_spawnvehicle) select 0;
     _unit moveInGunner _veh;
     [_unit, false] spawn AS_fnc_initUnitAAF;
     _units pushBack _unit;

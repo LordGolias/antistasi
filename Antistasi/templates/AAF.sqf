@@ -36,12 +36,13 @@ private _sol_SUP_GMG = "I_support_GMG_F"; // GMG gunner
 private _sol_SUP_MG = "I_support_MG_F"; // HMG gunner
 private _sol_SUP_MTR = "I_support_Mort_F"; // mortar gunner
 
-// Standard roles
-infGunner = _sol_CREW;
-infCrew = _sol_CREW;
-infPilot = _sol_HPIL;
-infMedic = _sol_MED;
-infDriver = _sol_CREW;
+// units when AAF is EAST
+private _dict = [AS_units, "AAF", "EAST"] call DICT_fnc_get;
+[_dict, "gunner", _sol_CREW] call DICT_fnc_setLocal;
+[_dict, "crew", _sol_CREW] call DICT_fnc_setLocal;
+[_dict, "pilot", _sol_HPIL] call DICT_fnc_setLocal;
+[_dict, "medic", _sol_MED] call DICT_fnc_setLocal;
+[_dict, "driver", _sol_CREW] call DICT_fnc_setLocal;
 
 // All classes sorted by role.
 // To modders: The union of these lists define all equipment of AAF.

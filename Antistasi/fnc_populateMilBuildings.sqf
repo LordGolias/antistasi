@@ -10,7 +10,7 @@ private _addChopper = (_side == "AAF") and
 // AAF
 private _staticAA = statAA;
 private _staticMG = statMGtower;
-private _gunnerCrew = infGunner;
+private _gunnerCrew = ["AAF", "gunner"] call AS_fnc_getEntity;
 if (_side == "NATO") then {
 	_staticAA = selectRandom bluStatAA;
 	_staticMG = selectRandom bluStatHMG;

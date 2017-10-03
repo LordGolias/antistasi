@@ -144,7 +144,7 @@ private _fnc_spawn = {
 	_vehicles pushBack _mainVehicle;
 	_mainVehicle setDir _dir;
 
-	private _driver = ([_posbase, 0, infDriver, _group] call bis_fnc_spawnvehicle) select 0;
+	private _driver = ([_posbase, 0, ["AAF", "driver"] call AS_fnc_getEntity, _group] call bis_fnc_spawnvehicle) select 0;
 	_driver assignAsDriver _mainVehicle;
 	_driver moveInDriver _mainVehicle;
 	[_driver] call AS_fnc_initUnitAAF;

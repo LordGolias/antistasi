@@ -57,7 +57,7 @@ private _fnc_spawn = {
 	private _grpcrash = createGroup side_red;
 	_groups pushBack _grpcrash;
 
-	private _unit = ([_crashPosition, 0, infPilot, _grpcrash] call bis_fnc_spawnvehicle) select 0;
+	private _unit = ([_crashPosition, 0, ["AAF", "pilot"] call AS_fnc_getEntity, _grpcrash] call bis_fnc_spawnvehicle) select 0;
 	_unit setDamage 1;
 	_unit moveInDriver _heli;
 

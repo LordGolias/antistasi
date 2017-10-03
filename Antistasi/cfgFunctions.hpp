@@ -69,6 +69,7 @@ class AS {
 
         FNC_BASE(getSide);
         FNC_BASE(setSide);
+        FNC_BASE(getEntity);
 
         FNC_BASE(pickGroup);
         FNC_BASE(updateProgressBar);

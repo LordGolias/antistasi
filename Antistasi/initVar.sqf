@@ -98,6 +98,17 @@ allStatATs = 		["B_static_AT_F"];
 allStatAAs = 		["B_static_AA_F"];
 allStatMortars = 	["B_G_Mortar_01_F"];
 
+AS_units = createSimpleObject ["Static", [0, 0, 0]];
+{
+	private _tmp = createSimpleObject ["Static", [0, 0, 0]];
+	{
+		_tmp setVariable [_x, createSimpleObject ["Static", [0, 0, 0]]];
+	} forEach ["EAST", "WEST"];
+	AS_units setVariable [_x, _tmp];
+} forEach ["CSAT", "NATO", "FIA", "AAF"];
+// e.g. [AS_units, "CSAT", "WEST", "infSquadList"] call DICT_fnc_get
+
+
 // This processes the templates and adds variables accordingly.
 // The templates use `if(isServer)` when the variables are server-sided.
 // For clients, they only initialize non-public globals.
@@ -119,6 +130,13 @@ call {
 	call compile preprocessFileLineNumbers "templates\CSAT.sqf";
 	call compile preprocessFileLineNumbers "templates\NATO.sqf";
 };
+
+{
+	private _type = ["AAF", _x] call AS_fnc_getEntity;
+	if isNil "_type" then {
+		diag_log format ["[AS] Error: Type of unit '%1' not defined for AAF", _x];
+	};
+} forEach ["gunner", "crew", "pilot", "medic", "driver"];
 
 {AS_data_allCosts setVariable [_x,10]} forEach infList_regular;
 {AS_data_allCosts setVariable [_x,15]} forEach infList_auto;
