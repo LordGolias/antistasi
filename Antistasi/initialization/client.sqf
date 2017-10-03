@@ -24,25 +24,14 @@ private _titulo = 0 spawn {};
 
 // the fancy starting script, called outside debug mode
 if not AS_debug_flag then {
-    private _colorWest = west call BIS_fnc_sideColor;
-    private _colorEast = east call BIS_fnc_sideColor;
-    {
-    _x set [3, 0.33]
-    } forEach [_colorWest, _colorEast];
-
-    _introShot =
-    	[
+    _introShot = [
         getMarkerPos "FIA_HQ", // Target position
         worldName + " Island", // SITREP text
         50, //  altitude
         50, //  radius
         90, //  degrees viewing angle
-        0, // clockwise movement
-        [
-        	["\a3\ui_f\data\map\markers\nato\o_inf.paa", _colorWest, markerPos "insertMrk", 1, 1, 0, "Insertion Point", 0],
-            ["\a3\ui_f\data\map\markers\nato\o_inf.paa", _colorEast, markerPos "towerBaseMrk", 1, 1, 0, "Radio Towers", 0]
-        ]
-        ] spawn BIS_fnc_establishingShot;
+        0 // clockwise movement
+    ] spawn BIS_fnc_establishingShot;
 
     _titulo = ["Antistasi", "by Golias"] spawn BIS_fnc_infoText;
 };
