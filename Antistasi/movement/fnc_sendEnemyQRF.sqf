@@ -40,7 +40,7 @@ if !(_orig == "spawnCSAT") then {
 		_dismountGroup = [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 		if (_orig in _bases) then {
 			_type = "land";
-			_lead = selectRandom vehLead;
+			_lead = selectRandom (["AAF", "leadVehicles"] call AS_fnc_getEntity, "AAF"]);
 			_transport = selectRandom ("trucks" call AS_AAFarsenal_fnc_valid);
 			_dismountGroup = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 		};

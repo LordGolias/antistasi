@@ -1,6 +1,6 @@
 #include "../macros.hpp"
 AS_SERVER_ONLY("fnc_sendAAFroadPatrol");
-private _validTypes = vehPatrol + [vehBoat];
+private _validTypes = ["AAF", "patrolVehicles"] call AS_fnc_getEntity;
 
 private _max_patrols = 3*(count allPlayers);
 if (AS_S("AAFpatrols") >= _max_patrols) exitWith {
@@ -21,7 +21,7 @@ private _category = "";
     if (_category in ["armedHelis", "transportHelis", "planes"]) then {
         _validOrigins = ["airfield"];
     };
-    if (_type == vehBoat) then {
+    if (_category  == "boats") then {
         _validOrigins = ["searport"];
     };
     _validOrigins = [_validOrigins, "AAF"] call AS_location_fnc_TS;

@@ -71,12 +71,6 @@ if ("CUP_arifle_AKS74U" in AS_allWeapons) then {
 // This is needed to find the sounds of dog's barking, so it is in every client
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 
-// Templates below modify server-side content so the server has to initialize
-// some things at this point.
-if (isServer) then {
-	call AS_AAFarsenal_fnc_initialize;
-};
-
 // Stores cost of AAF and FIA units
 AS_data_allCosts = createSimpleObject ["Static", [0, 0, 0]];
 
@@ -183,6 +177,11 @@ call AS_mission_fnc_initialize;
 
 // reguarly checks for players and stores their profiles
 call AS_players_fnc_initialize;
+
+call AS_AAFarsenal_fnc_initialize;
+{
+	[_x, "valid", ["AAF", _x] call AS_fnc_getEntity] call AS_AAFarsenal_fnc_set;
+} forEach ["planes", "armedHelis", "transportHelis", "tanks", "apcs", "trucks", "supplies"];
 
 // todo: re-add support for TFAR. This is probably needed by it.
 lrRadio = "";

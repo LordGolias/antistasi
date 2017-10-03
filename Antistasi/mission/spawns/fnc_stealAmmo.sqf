@@ -43,16 +43,18 @@ private _fnc_spawn = {
 	private _position = _location call AS_location_fnc_position;
 	private _size = [_mission, "size"] call AS_mission_fnc_get;
 
+	private _truckType = selectRandom (["AAF", "ammoVehicles"] call AS_fnc_getEntity);
+
 	private _pos = [];
 	while {count _pos > 0} do {
-		_pos = _position findEmptyPosition [10,_size, vehAmmo];
+		_pos = _position findEmptyPosition [10,_size, _truckType];
 		_size = _size + 20
 	};
 
 	private _vehicles = [];
 	private _groups = [];
 
-	private _truck = vehAmmo createVehicle _pos;
+	private _truck = _truckType createVehicle _pos;
 	_vehicles pushBack _truck;
 	[_truck, "Convoy"] call AS_fnc_fillCrateAAF;
 

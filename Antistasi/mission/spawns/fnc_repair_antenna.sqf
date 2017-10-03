@@ -44,8 +44,10 @@ private _fnc_spawn = {
 	params ["_mission"];
 	private _position = [_mission, "position"] call AS_spawn_fnc_get;
 
-	private _pos = _position findEmptyPosition [10,60,selectRandom vehTruckBox];
-	private _veh = createVehicle [selectRandom vehTruckBox, _pos, [], 0, "NONE"];
+	private _vehicleType = selectRandom (["AAF", "repairVehicles"] call AS_fnc_getEntity);
+
+	private _pos = _position findEmptyPosition [10,60,_vehicleType];
+	private _veh = createVehicle [_vehicleType, _pos, [], 0, "NONE"];
 	_veh allowdamage false;
 	_veh setDir random 360;
 	_veh allowDamage true;

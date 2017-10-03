@@ -64,37 +64,30 @@ private _dict = [AS_units, "AAF", "EAST"] call DICT_fnc_get;
 [_dict, "teamsAA", ["HAF_InfTeam_AA"]] call DICT_fnc_setLocal;
 [_dict, "teamsAT", ["HAF_InfTeam_AT"]] call DICT_fnc_setLocal;
 
-// To modders: overwrite this in the template to change the AAF arsenal.
+// To modders: overwrite this in the template to change the vehicles AAF uses.
 // Rules:
 // 1. vehicle must exist.
 // 2. each vehicle must belong to only one category.
-if (isServer) then {
-    ["planes", "valid", ["I_Plane_Fighter_03_CAS_F","I_Plane_Fighter_03_AA_F"]] call AS_AAFarsenal_fnc_set;
-    ["armedHelis", "valid", ["I_Heli_light_03_F"]] call AS_AAFarsenal_fnc_set;
-    ["transportHelis", "valid", ["I_Heli_Transport_02_F"]] call AS_AAFarsenal_fnc_set;
-    ["tanks", "valid", ["I_MBT_03_cannon_F"]] call AS_AAFarsenal_fnc_set;
-    ["boats", "valid", ["I_Boat_Armed_01_minigun_F"]] call AS_AAFarsenal_fnc_set;
-    ["apcs", "valid", ["I_APC_Wheeled_03_cannon_F", "I_APC_tracked_03_cannon_F", "I_MRAP_03_F","I_MRAP_03_hmg_F", "I_MRAP_03_gmg_F"]] call AS_AAFarsenal_fnc_set;
-    ["trucks", "valid", ["I_Truck_02_covered_F","I_Truck_02_transport_F"]] call AS_AAFarsenal_fnc_set;
-    ["supplies", "valid", ["I_Truck_02_fuel_F","I_Truck_02_medical_F","I_Truck_02_ammo_F"]] call AS_AAFarsenal_fnc_set;
-};
+[_dict, "planes", ["I_Plane_Fighter_03_CAS_F","I_Plane_Fighter_03_AA_F"]] call DICT_fnc_setLocal;
+[_dict, "armedHelis", ["I_Heli_light_03_F"]] call DICT_fnc_setLocal;
+[_dict, "transportHelis", ["I_Heli_Transport_02_F"]] call DICT_fnc_setLocal;
+[_dict, "tanks", ["I_MBT_03_cannon_F"]] call DICT_fnc_setLocal;
+[_dict, "boats", ["I_Boat_Armed_01_minigun_F"]] call DICT_fnc_setLocal;
+[_dict, "apcs", ["I_APC_Wheeled_03_cannon_F", "I_APC_tracked_03_cannon_F", "I_MRAP_03_F","I_MRAP_03_hmg_F", "I_MRAP_03_gmg_F"]] call DICT_fnc_setLocal;
+[_dict, "trucks", ["I_Truck_02_covered_F","I_Truck_02_transport_F"]] call DICT_fnc_setLocal;
+[_dict, "supplies", ["I_Truck_02_fuel_F","I_Truck_02_medical_F","I_Truck_02_ammo_F"]] call DICT_fnc_setLocal;
 
-// To modders (optional): use "cost" to set cost for the AAF
-// to buy vehicles of CATEGORY. E.g.
-//      ["planes", "cost", 20000] call AS_AAFarsenal_fnc_set;
+// vehicles used in road patrols
+[_dict, "patrolVehicles", ["I_MRAP_03_F","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F","I_Heli_light_03_F","I_Boat_Armed_01_minigun_F"]] call DICT_fnc_setLocal;
+// vehicles used to store and transport weapons
+[_dict, "ammoVehicles", ["I_Truck_02_ammo_F"]] call DICT_fnc_setLocal;
+// vehicles used to lead convoys
+[_dict, "leadVehicles", ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"]] call DICT_fnc_setLocal;
+// vehicles used to repair stuff
+[_dict, "repairVehicles", ["I_Truck_02_box_F"]] call DICT_fnc_setLocal;
 
-// To modders (optional): use "value" to set value the FIA gets to sell AAF vehicles of CATEGORY.
-// ["planes", "value", 10000] call AS_AAFarsenal_fnc_set;
-
-// List of special vehicles used in custom events
-//moders: all vehicles defined in these lists must also belong to the AAFarsenal.
-vehPatrol = ["I_MRAP_03_F","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F","I_Heli_light_03_F"];
-vehAmmo = "I_Truck_02_ammo_F";
-vehLead = ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"];  // lead of convoy
-vehTruckBox = ["I_Truck_02_box_F"];
-vehBoat = "I_Boat_Armed_01_minigun_F";
-
-AS_AAFarsenal_uav = "I_UAV_02_F";  // Set to `""` to AAF not use UAVs.
+// Set to `""` to AAF not use UAVs.
+[_dict, "uav", "I_UAV_02_F"] call DICT_fnc_setLocal;
 
 // Statics to be used
 statMG = "I_HMG_01_high_F";

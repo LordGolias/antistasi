@@ -36,29 +36,21 @@ private _dict = [AS_units, "AAF", "EAST"] call DICT_fnc_get;
 [_dict, "teamsAA", ["CUP_O_ChDKZ_InfSection_AA"]] call DICT_fnc_setLocal;
 [_dict, "teamsAT", ["CUP_O_ChDKZ_InfSection_AT"]] call DICT_fnc_setLocal;
 
-// To modders: overwrite this in the template to change the AAF arsenal.
-// Rules:
-// 1. vehicle must exist.
-// 2. each vehicle must belong to only one category.
-if (isServer) then {
-	["planes", "valid", ["CUP_O_Su25_RU_1"]] call AS_AAFarsenal_fnc_set;
-	["armedHelis", "valid", ["CUP_O_Mi24_P_RU", "CUP_O_Ka60_Grey_RU"]] call AS_AAFarsenal_fnc_set;
-	["transportHelis", "valid", ["CUP_O_Mi8_CHDKZ", "CUP_O_Mi8_medevac_CHDKZ", "CUP_O_Mi8_VIV_CHDKZ"]] call AS_AAFarsenal_fnc_set;
-	["tanks", "valid", ["CUP_O_T72_CHDKZ"]] call AS_AAFarsenal_fnc_set;
-	["boats", "valid", ["I_Boat_Armed_01_minigun_F"]] call AS_AAFarsenal_fnc_set;
-	["apcs", "valid", ["CUP_O_BRDM2_CHDKZ", "CUP_O_BRDM2_ATGM_CHDKZ", "CUP_O_HQ_CHDKZ", "CUP_O_BMP2_CHDKZ", "CUP_O_BMP2_HQ_CHDKZ"]] call AS_AAFarsenal_fnc_set;
-	["trucks", "valid", ["CUP_O_Ural_CHDKZ", "CUP_O_Ural_Open_CHDKZ"]] call AS_AAFarsenal_fnc_set;
-	["supplies", "valid", ["CUP_O_Ural_Reammo_CHDKZ", "CUP_O_Ural_Refuel_CHDKZ", "CUP_O_Ural_Repair_CHDKZ"]] call AS_AAFarsenal_fnc_set;
-};
+[_dict, "planes", ["CUP_O_Su25_RU_1"]] call DICT_fnc_setLocal;
+[_dict, "armedHelis", ["CUP_O_Mi24_P_RU", "CUP_O_Ka60_Grey_RU"]] call DICT_fnc_setLocal;
+[_dict, "transportHelis", ["CUP_O_Mi8_CHDKZ", "CUP_O_Mi8_medevac_CHDKZ", "CUP_O_Mi8_VIV_CHDKZ"]] call DICT_fnc_setLocal;
+[_dict, "tanks", ["CUP_O_T72_CHDKZ"]] call DICT_fnc_setLocal;
+[_dict, "boats", ["I_Boat_Armed_01_minigun_F"]] call DICT_fnc_setLocal;
+[_dict, "apcs", ["CUP_O_BRDM2_CHDKZ", "CUP_O_BRDM2_ATGM_CHDKZ", "CUP_O_HQ_CHDKZ", "CUP_O_BMP2_CHDKZ", "CUP_O_BMP2_HQ_CHDKZ"]] call DICT_fnc_setLocal;
+[_dict, "trucks", ["CUP_O_Ural_CHDKZ", "CUP_O_Ural_Open_CHDKZ"]] call DICT_fnc_setLocal;
+[_dict, "supplies", ["CUP_O_Ural_Reammo_CHDKZ", "CUP_O_Ural_Refuel_CHDKZ", "CUP_O_Ural_Repair_CHDKZ"]] call DICT_fnc_setLocal;
 
-// List of special vehicles used in custom events
-vehPatrol = ["CUP_O_BRDM2_CHDKZ","CUP_O_BRDM2_ATGM_CHDKZ","CUP_O_BMP2_CHDKZ","CUP_O_Ka60_Grey_RU"];
-vehAmmo = "CUP_O_Ural_Reammo_CHDKZ";
-vehLead = ["CUP_O_BMP2_CHDKZ","CUP_O_BRDM2_CHDKZ"];  // lead of convoy
-vehTruckBox = ["CUP_O_Ural_Repair_CHDKZ"];
-vehBoat = "I_Boat_Armed_01_minigun_F";
+[_dict, "patrolVehicles", ["CUP_O_BRDM2_CHDKZ","CUP_O_BRDM2_ATGM_CHDKZ","CUP_O_BMP2_CHDKZ","CUP_O_Ka60_Grey_RU"]] call DICT_fnc_setLocal;
+[_dict, "ammoVehicles", ["CUP_O_Ural_Reammo_CHDKZ"]] call DICT_fnc_setLocal;
+[_dict, "leadVehicles", ["CUP_O_BMP2_CHDKZ","CUP_O_BRDM2_CHDKZ"]] call DICT_fnc_setLocal;
+[_dict, "repairVehicles", ["CUP_O_Ural_Repair_CHDKZ"]] call DICT_fnc_setLocal;
 
-AS_AAFarsenal_uav = "";  // Set to `""` to AAF not use UAVs.
+[_dict, "uav", ""] call DICT_fnc_setLocal;
 
 // Statics to be used
 statMG = "CUP_O_KORD_high_CHDKZ";
