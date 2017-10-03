@@ -99,8 +99,13 @@ AAFsoldiers = [
 	(["AAF", "regulars"] call AS_fnc_getEntity) +
 	(["AAF", "crews"] call AS_fnc_getEntity) +
 	(["AAF", "pilots"] call AS_fnc_getEntity),
-	infPatrol + infGarrisonSmall + infTeamATAA + infTeam + infSquad + infAA + infAT,
-	AAFConfigGroupInf
+	(["AAF", "patrols"] call AS_fnc_getEntity) +
+	(["AAF", "garrisons"] call AS_fnc_getEntity) +
+	(["AAF", "teamsATAA"] call AS_fnc_getEntity) +
+	(["AAF", "teams"] call AS_fnc_getEntity) +
+	(["AAF", "teamsAT"] call AS_fnc_getEntity) +
+	(["AAF", "teamsAA"] call AS_fnc_getEntity),
+	(["AAF", "cfgGroups"] call AS_fnc_getEntity)
 ] call _fnc_allSoldiers;
 
 private _result = [AAFsoldiers] call _fnc_allEquipment;

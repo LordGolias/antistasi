@@ -28,9 +28,9 @@ if (_toUse in ["planes", "armedHelis"]) then {
 	[_vehicle,"Air Attack"] spawn AS_fnc_setConvoyImmune;
 } else {
 	private _seats = ([_vehicleType,true] call BIS_fnc_crewCount) - ([_vehicleType,false] call BIS_fnc_crewCount);
-	private _tipoGrupo = [infSquad, "AAF"] call AS_fnc_pickGroup;
+	private _tipoGrupo = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 	if (_seats <= 7) then {
-		_tipoGrupo = [infTeam, "AAF"] call AS_fnc_pickGroup;
+		_tipoGrupo = [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 	};
 	private _grupo = [_origin, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
 	{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _vehicle;_x moveInCargo _vehicle;} forEach units _grupo;

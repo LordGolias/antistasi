@@ -32,7 +32,7 @@ private _fnc_spawn = {
 	private _grupoVeh = _vehicle select 2;
 
 	if (_type isKindOf "Car") then {
-		private _groupType = [selectRandom infGarrisonSmall, "AAF"] call AS_fnc_pickGroup;
+		private _groupType = [["AAF", "garrisons"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 		private _tempGroup = createGroup side_red;
 		[_groupType call AS_fnc_groupCfgToComposition, _tempGroup, _posbase, _veh call AS_fnc_availableSeats] call AS_fnc_createGroup;
 		{

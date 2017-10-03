@@ -55,6 +55,21 @@ private _dict = [AS_units, "AAF", "EAST"] call DICT_fnc_get;
 [_dict, "crews", [_sol_CREW, _sol_CREW2, _sol_CREW3, _sol_CREW4, _sol_DRV, _sol_DRV2]] call DICT_fnc_setLocal;
 [_dict, "pilots", [_sol_HPIL, _sol_HPIL2, _sol_PIL]] call DICT_fnc_setLocal;
 
+[_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry"] call DICT_fnc_setLocal;
+[_dict, "patrols", ["rhs_group_rus_vdv_infantry_fireteam","rhs_group_rus_vdv_infantry_MANEUVER"]] call DICT_fnc_setLocal;
+[_dict, "garrisons", ["rhs_group_rus_vdv_infantry_fireteam","rhs_group_rus_vdv_infantry_MANEUVER","rhs_group_rus_vdv_infantry_MANEUVER"]] call DICT_fnc_setLocal;
+[_dict, "teamsATAA", ["rhs_group_rus_vdv_infantry_section_AT","rhs_group_rus_vdv_infantry_section_AA"]] call DICT_fnc_setLocal;
+[_dict, "teams", ["rhs_group_rus_vdv_infantry_section_mg",
+    "rhs_group_rus_vdv_infantry_section_marksman",
+    "rhs_group_rus_vdv_infantry_section_AT",
+    "rhs_group_rus_vdv_infantry_section_AA",
+    "rhs_group_rus_vdv_infantry_section_mg",
+    "rhs_group_rus_vdv_infantry_section_marksman"]
+] call DICT_fnc_setLocal;
+[_dict, "squads", ["rhs_group_rus_vdv_infantry_squad","rhs_group_rus_vdv_infantry_squad_2mg","rhs_group_rus_vdv_infantry_squad_sniper","rhs_group_rus_vdv_infantry_squad_mg_sniper"]] call DICT_fnc_setLocal;
+[_dict, "teamsAA", ["rhs_group_rus_vdv_infantry_section_AA"]] call DICT_fnc_setLocal;
+[_dict, "teamsAT", ["rhs_group_rus_vdv_infantry_section_AT"]] call DICT_fnc_setLocal;
+
 // AAF Vehicles
 if (isServer) then {
     ["planes", "valid", ["rhs_Su25SM_vvsc"]] call AS_AAFarsenal_fnc_set;
@@ -77,24 +92,6 @@ vehBoat = "I_Boat_Armed_01_minigun_F";
 
 // FIA Vehicles
 vehTruckAA = "rhsgref_cdf_b_gaz66_zu23";
-
-
-// Standard group arrays, used for spawning groups -- can use full config paths, config group names, arrays of individual soldiers
-AAFConfigGroupInf = (configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry");
-infPatrol = ["rhs_group_rus_vdv_infantry_fireteam","rhs_group_rus_vdv_infantry_MANEUVER"]; // 2-3 guys, incl sniper teams
-infGarrisonSmall = ["rhs_group_rus_vdv_infantry_fireteam","rhs_group_rus_vdv_infantry_MANEUVER","rhs_group_rus_vdv_infantry_MANEUVER"]; // 2-3 guys, to guard towns
-infTeamATAA =["rhs_group_rus_vdv_infantry_section_AT","rhs_group_rus_vdv_infantry_section_AA"]; // missile teams, 4+ guys, for roadblocks and watchposts
-infTeam = [
-     "rhs_group_rus_vdv_infantry_section_mg",
-     "rhs_group_rus_vdv_infantry_section_marksman",
-	 "rhs_group_rus_vdv_infantry_section_AT",
-	 "rhs_group_rus_vdv_infantry_section_AA",
-     "rhs_group_rus_vdv_infantry_section_mg",
-	 "rhs_group_rus_vdv_infantry_section_marksman"
-]; // teams, 4+ guys
-infSquad = ["rhs_group_rus_vdv_infantry_squad","rhs_group_rus_vdv_infantry_squad_2mg","rhs_group_rus_vdv_infantry_squad_sniper","rhs_group_rus_vdv_infantry_squad_mg_sniper"]; // squads, 8+ guys, for outposts, etc
-infAA =["rhs_group_rus_vdv_infantry_section_AA"];
-infAT =["rhs_group_rus_vdv_infantry_section_AT"];
 
 // Statics to be used
 statMG = "rhsgref_cdf_b_DSHKM";

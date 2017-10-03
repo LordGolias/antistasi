@@ -85,9 +85,9 @@ private _fnc_spawn = {
 		[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] spawn UPSMON;
 		sleep 1;
 	} forEach [
-		[infTeamATAA, "AAF"] call AS_fnc_pickGroup,
-		[infAA, "AAF"] call AS_fnc_pickGroup,
-		[infTeam, "AAF"] call AS_fnc_pickGroup
+		[["AAF", "teamsATAA"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup,
+		[["AAF", "teamsAA"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup,
+		[["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup
 	];
 
 	[_location, "resources", [taskNull, _grupos, _vehiculos, [_mrkfin]]] call AS_spawn_fnc_set;

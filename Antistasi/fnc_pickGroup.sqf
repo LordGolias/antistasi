@@ -3,22 +3,7 @@ params ["_groupType", "_affiliation"];
 
 private _failureText = "";
 private _returnGroup = "";
-private _cfgPath = "";
-
-switch (_affiliation) do {
-    case "AAF": {
-        _cfgPath = AAFConfigGroupInf;
-    };
-    case "CSAT": {
-        _cfgPath = CSATConfigGroupInf;
-    };
-    case "NATO": {
-        _cfgPath = NATOConfigGroupInf;
-    };
-    default {
-        _failureText = format ["incorrect affiliation. Group type: %1; affiliation: %2", _groupType, _affiliation];
-    };
-};
+private _cfgPath = [_affiliation, "cfgGroups"] call AS_fnc_getEntity;
 
 private _fnc_pickGroupSingle = {
     params ["_input"];

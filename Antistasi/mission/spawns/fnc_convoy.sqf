@@ -130,9 +130,9 @@ private _fnc_spawn = {
 
 		private _tipoGrupo = "";
 		if (_escortVehicleType call AS_AAFarsenal_fnc_category == "apcs") then {
-			_tipoGrupo = [infTeam, "AAF"] call AS_fnc_pickGroup;
+			_tipoGrupo = [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 		} else {
-			_tipoGrupo = [infSquad, "AAF"] call AS_fnc_pickGroup;
+			_tipoGrupo = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 		};
 
 		private _grupoEsc = [_posbase, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
