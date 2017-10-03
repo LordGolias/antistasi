@@ -7,19 +7,27 @@ AS_debug_flag_all pushBack _mrk;
 
 private _color = "ColorUNKNOWN";
 private _type = "c_unknown";
-switch (side _unit) do {
-    case side_red: {
+switch (_unit call AS_fnc_getSide) do {
+    case "AAF": {
         _color = "ColorOPFOR";
         _type = "o_inf";
     };
-    case side_blue: {
-        _color = "ColorWEST";
+    case "CSAT": {
+        _color = "ColorOPFOR";
+        _type = "o_inf";
+    };
+    case "FIA": {
+        _color = "ColorGUER";
+        _type = "o_inf";
+    };
+    case "NATO": {
+        _color = "colorBLUFOR";
         _type = "b_inf";
     };
-    case civilian: {
+    case "CIV": {
         _color = "ColorCIV";
         _type = "c_unknown";
-    }
+    };
 };
 _mrk setMarkerShape "ICON";
 _mrk setMarkerType _type;
