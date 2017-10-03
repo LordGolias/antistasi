@@ -13,9 +13,7 @@ if (!AS_debug_flag and _on) then {
     } forEach vehicles;
 
     {
-        if (side _x in [side_red,side_blue,civilian]) then {
-            [_x] call AS_debug_fnc_initUnit;
-        };
+        [_x] call AS_debug_fnc_initUnit;
     } forEach allUnits;
 
     {
