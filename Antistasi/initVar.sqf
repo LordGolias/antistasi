@@ -78,6 +78,9 @@ AS_data_allCosts = createSimpleObject ["Static", [0, 0, 0]];
 // This is a local object as the costs are immutable and can thus be initialized locally
 AS_FIAvehicles = createSimpleObject ["Static", [0, 0, 0]];
 
+// for now, this is fixed. In the future, the player will change it to play as AAF.
+AS_playersSide = west;
+
 call compile preprocessFileLineNumbers "templates\FIA.sqf";
 
 // add content to the unlocked items depending on the ACE.
@@ -92,15 +95,11 @@ allStatATs = 		["B_static_AT_F"];
 allStatAAs = 		["B_static_AA_F"];
 allStatMortars = 	["B_G_Mortar_01_F"];
 
-AS_units = createSimpleObject ["Static", [0, 0, 0]];
+AS_entities = createSimpleObject ["Static", [0, 0, 0]];
 {
-	private _tmp = createSimpleObject ["Static", [0, 0, 0]];
-	{
-		_tmp setVariable [_x, createSimpleObject ["Static", [0, 0, 0]]];
-	} forEach ["EAST", "WEST"];
-	AS_units setVariable [_x, _tmp];
+	AS_entities setVariable [_x, createSimpleObject ["Static", [0, 0, 0]]];
 } forEach ["CSAT", "NATO", "FIA", "AAF"];
-// e.g. [AS_units, "CSAT", "WEST", "infSquadList"] call DICT_fnc_get
+// e.g. [AS_entities, "CSAT", "squads"] call DICT_fnc_get
 
 
 // This processes the templates and adds variables accordingly.

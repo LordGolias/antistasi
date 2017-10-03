@@ -11,7 +11,7 @@ private _sol_CREW = "CUP_O_INS_Crew";
 private _sol_HPIL = "CUP_O_INS_Pilot";
 
 // units when AAF is EAST
-private _dict = [AS_units, "AAF", "EAST"] call DICT_fnc_get;
+private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "gunner", _sol_CREW] call DICT_fnc_setLocal;
 [_dict, "crew", _sol_CREW] call DICT_fnc_setLocal;
 [_dict, "pilot", _sol_HPIL] call DICT_fnc_setLocal;

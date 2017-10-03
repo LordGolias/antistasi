@@ -37,7 +37,7 @@ private _sol_SUP_MG = "I_support_MG_F"; // HMG gunner
 private _sol_SUP_MTR = "I_support_Mort_F"; // mortar gunner
 
 // units when AAF is EAST
-private _dict = [AS_units, "AAF", "EAST"] call DICT_fnc_get;
+private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "gunner", _sol_CREW] call DICT_fnc_setLocal;
 [_dict, "crew", _sol_CREW] call DICT_fnc_setLocal;
 [_dict, "pilot", _sol_HPIL] call DICT_fnc_setLocal;
