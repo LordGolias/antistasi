@@ -159,8 +159,9 @@ private _fnc_spawn = {
 		_origin_pos set [2,300];
 
 		// spawn a UAV
-		if (AS_AAFarsenal_uav != "") then {
-			private _uav = createVehicle [AS_AAFarsenal_uav, _origin_pos, [], 0, "FLY"];
+		private _uavType = ["AAF", "uav"] call AS_fnc_getEntity;
+		if (_uavType != "") then {
+			private _uav = createVehicle [_uavType, _origin_pos, [], 0, "FLY"];
 			_uav removeMagazines "6Rnd_LG_scalpel";
 			_vehicles pushBack _uav;
 			[_uav, "AAF"] call AS_fnc_initVehicle;

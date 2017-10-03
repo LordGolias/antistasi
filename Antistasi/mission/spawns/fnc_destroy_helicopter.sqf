@@ -102,7 +102,7 @@ private _fnc_spawn = {
 	_Vwp0 synchronizeWaypoint [_Gwp0];
 
 	// spawn repair truck going there
-	private _vehicleT = [position _road, 0, selectRandom vehTruckBox, side_red] call bis_fnc_spawnvehicle;
+	private _vehicleT = [position _road, 0, selectRandom (["AAF", "repairVehicles"] call AS_fnc_getEntity), side_red] call bis_fnc_spawnvehicle;
 	private _recoveryVehicle = _vehicleT select 0;
 	[_recoveryVehicle, "AAF"] call AS_fnc_initVehicle;
 	[_recoveryVehicle,"AAF Recover Truck"] spawn AS_fnc_setConvoyImmune;

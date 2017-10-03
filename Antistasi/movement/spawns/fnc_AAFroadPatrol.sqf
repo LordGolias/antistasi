@@ -9,7 +9,7 @@ private _fnc_spawn = {
 	private _posbase = _origin call AS_location_fnc_position;
 
 	if not _isFlying then {
-		if (_type == vehBoat) then {
+		if (_type in (["AAF", "boats"] call AS_fnc_getEntity)) then {
 			_posbase = [_posbase,50,150,10,2,0,0] call BIS_Fnc_findSafePos;
 		} else {
 			private _tam = 10;
@@ -63,7 +63,7 @@ private _fnc_run = {
 			if _isFlying exitWith {
 				"AAF" call AS_location_fnc_S
 			};
-			if (_type == vehBoat) exitWith {
+			if (_type in (["AAF", "boats"] call AS_fnc_getEntity)) exitWith {
 				[["searport"], "AAF"] call AS_location_fnc_TS
 			};
 			[["base", "airfield", "resource", "factory", "powerplant", "outpost", "outpostAA"],
@@ -111,7 +111,7 @@ private _fnc_run = {
 	if _isFlying then {
 		_arrayDestinos = "AAF" call AS_location_fnc_S;
 	} else {
-		if (_type == vehBoat) then {
+		if (_type in (["AAF", "boats"] call AS_fnc_getEntity)) then {
 			_arraydestinos = ([["searport"], "AAF"] call AS_location_fnc_TS) select {(_x call AS_location_fnc_position) distance (position _veh) < 2500};
 		} else {
 			_arraydestinos = call _fnc_destinations;

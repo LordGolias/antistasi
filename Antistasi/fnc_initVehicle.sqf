@@ -16,7 +16,7 @@ private _vehicle_category = _tipo call AS_AAFarsenal_fnc_category;
 
 // Equipment-related initialisation
 [_veh] call AS_fnc_emptyCrate;
-if (_tipo == vehAmmo and _side == "AAF") then {[_veh, "Convoy"] call AS_fnc_fillCrateAAF};
+if (_tipo in (["AAF", "ammoVehicles"] call AS_fnc_getEntity) and _side == "AAF") then {[_veh, "Convoy"] call AS_fnc_fillCrateAAF};
 if (_tipo == opCrate and _side == "AAF") then {[_veh, "AA"] call AS_fnc_fillCrateAAF};
 // todo: add more equipment depending on spawing side / vehicle
 
@@ -84,7 +84,7 @@ if (_side == "CSAT") then {
 };
 
 // UAV is not part of the AAF arsenal, so the killing of it is dealt separately
-if (_side == "AAF" and _tipo == AS_AAFarsenal_uav) then {
+if (_side == "AAF" and _tipo == (["AAF", "uav"] call AS_fnc_getEntity)) then {
     _veh addEventHandler ["killed",{[-2500] remoteExec ["AS_fnc_changeAAFmoney",2]}];
 };
 
