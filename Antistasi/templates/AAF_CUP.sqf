@@ -8,13 +8,15 @@ private _sol_OFF = "CUP_O_INS_Officer"; // Officer
 private _sol_LAT2 = "CUP_O_INS_Soldier_AT"; // Light AT (extra)
 private _sol_MK = "CUP_O_INS_Sniper"; // Marksman
 private _sol_CREW = "CUP_O_INS_Crew";
+private _sol_HPIL = "CUP_O_INS_Pilot";
 
-// Standard roles
-infGunner = _sol_CREW;
-infCrew = _sol_CREW;
-infPilot = "CUP_O_INS_Pilot";
-infMedic = _sol_MED;
-infDriver = _sol_CREW;
+// units when AAF is EAST
+private _dict = [AS_units, "AAF", "EAST"] call DICT_fnc_get;
+[_dict, "gunner", _sol_CREW] call DICT_fnc_setLocal;
+[_dict, "crew", _sol_CREW] call DICT_fnc_setLocal;
+[_dict, "pilot", _sol_HPIL] call DICT_fnc_setLocal;
+[_dict, "medic", _sol_MED] call DICT_fnc_setLocal;
+[_dict, "driver", _sol_CREW] call DICT_fnc_setLocal;
 
 // All classes sorted by role.
 // To modders: The union of these lists define all equipment of AAF.
@@ -26,7 +28,7 @@ infList_special = ["CUP_O_INS_Soldier_AA", _sol_LAT2, _sol_MED, _sol_ENG];
 infList_auto = ["CUP_O_INS_Soldier_AR", "CUP_O_INS_Soldier_MG"];
 infList_regular = ["CUP_O_INS_Soldier", "CUP_O_INS_Soldier_Ammo", "CUP_O_INS_Soldier_GL", "CUP_O_INS_Soldier_AK74"];
 infList_crew = [_sol_CREW];
-infList_pilots = [infPilot];
+infList_pilots = [_sol_HPIL];
 
 // Grups used for spawning groups.
 // To modders: equipment of units in these groups is also part of the AAF equipment.

@@ -53,7 +53,7 @@ private _fnc_spawn = {
 	// create the patrol group
 	private _grupo = [_posicion, side_red, [infAT, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 	{[_x] join _grupo} forEach units _grupoE;
-	([_posicion, 0, infMedic, _grupo] call bis_fnc_spawnvehicle) select 0;
+	([_posicion, 0, ["AAF", "medic"] call AS_fnc_getEntity, _grupo] call bis_fnc_spawnvehicle) select 0;
 	_grupo selectLeader (units _grupo select 1);
 	deleteGroup _grupoE;
 

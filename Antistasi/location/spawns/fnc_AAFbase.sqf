@@ -37,7 +37,7 @@ private _fnc_spawn = {
 		private _veh = statMortar createVehicle _pos;
 		[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 		[_veh, "AAF"] call AS_fnc_initVehicle;
-		private _unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
+		private _unit = ([_posicion, 0, ["AAF", "gunner"] call AS_fnc_getEntity, _grupo] call bis_fnc_spawnvehicle) select 0;
 		[_unit, false] spawn AS_fnc_initUnitAAF;
 		_unit moveInGunner _veh;
 		_soldados pushBack _unit;
