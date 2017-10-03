@@ -91,9 +91,14 @@ private _fnc_allEquipment = {
 
 //////////////////// AAF ////////////////////
 AAFsoldiers = [
-	infList_pilots + infList_officers + infList_sniper +
-	infList_NCO + infList_special + infList_auto +
-	infList_regular + infList_crew + infList_pilots,
+	(["AAF", "officers"] call AS_fnc_getEntity) +
+	(["AAF", "snipers"] call AS_fnc_getEntity) +
+	(["AAF", "ncos"] call AS_fnc_getEntity) +
+	(["AAF", "specials"] call AS_fnc_getEntity) +
+	(["AAF", "mgs"] call AS_fnc_getEntity) +
+	(["AAF", "regulars"] call AS_fnc_getEntity) +
+	(["AAF", "crews"] call AS_fnc_getEntity) +
+	(["AAF", "pilots"] call AS_fnc_getEntity),
 	infPatrol + infGarrisonSmall + infTeamATAA + infTeam + infSquad + infAA + infAT,
 	AAFConfigGroupInf
 ] call _fnc_allSoldiers;
