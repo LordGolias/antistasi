@@ -1,12 +1,7 @@
 #include "../macros.hpp"
 if (call AS_fnc_controlsAI) exitWith {hint "You cannot buy vehicles while you are controlling AI"};
 
-private _enemiesNearby = false;
-{
-	if ((side _x == side_red) and (_x distance player < 500) and (not(captive _x))) exitWith {_enemiesNearby = true};
-} forEach allUnits;
-
-if (_enemiesNearby) exitWith {
+if ([position player, 500] call AS_fnc_enemiesNearby) exitWith {
 	Hint "You cannot buy vehicles with enemies nearby";
 };
 
