@@ -49,10 +49,12 @@ sol_SUP_GMG = 	"rhs_vdv_rifleman"; // GMG gunner (extra)
 sol_SUP_MG = 	"rhs_vdv_rifleman"; // HMG gunner (extra)
 sol_SUP_MTR = 	"rhs_vdv_rifleman"; // mortar gunner (extra)
 
-// Standard roles for static gunner, crew, and unarmed helicopter pilot
-infGunner =	sol_SUP_MG;
-infCrew = 	sol_CREW;
-infPilot = 	sol_HPIL;
+// Standard roles
+infGunner = sol_CREW;
+infCrew = sol_CREW;
+infPilot = sol_HPIL;
+infMedic = sol_MED;
+infDriver = sol_DRV;
 
 // All classes sorted by role, used for pricing, etc
 infList_officers = 	[sol_OFF, sol_OFF2];

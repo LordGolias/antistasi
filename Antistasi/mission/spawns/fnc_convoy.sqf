@@ -144,7 +144,7 @@ private _fnc_spawn = {
 	_vehicles pushBack _mainVehicle;
 	_mainVehicle setDir _dir;
 
-	private _driver = ([_posbase, 0, sol_DRV, _group] call bis_fnc_spawnvehicle) select 0;
+	private _driver = ([_posbase, 0, infDriver, _group] call bis_fnc_spawnvehicle) select 0;
 	_driver assignAsDriver _mainVehicle;
 	_driver moveInDriver _mainVehicle;
 	[_driver] call AS_fnc_initUnitAAF;
@@ -156,7 +156,7 @@ private _fnc_spawn = {
 	}];
 
 	if (_missionType == "convoy_hvt") then {
-		_hvt = ([_posbase, 0, sol_OFF, _group] call bis_fnc_spawnvehicle) select 0;
+		_hvt = ([_posbase, 0, selectRandom infList_officers, _group] call bis_fnc_spawnvehicle) select 0;
 		[_hvt] spawn AS_fnc_initUnitAAF;
 		_hvt assignAsCargo _mainVehicle;
 		_hvt moveInCargo _mainVehicle;

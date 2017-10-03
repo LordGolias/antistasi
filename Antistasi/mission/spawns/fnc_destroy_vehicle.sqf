@@ -65,9 +65,8 @@ private _fnc_spawn = {
 
 	private _group = createGroup side_red;
 	for "_i" from 1 to 3 do {
-		private _unit = ([_pos, 0, sol_CREW, _group] call bis_fnc_spawnvehicle) select 0;
+		private _unit = ([_pos, 0, infCrew, _group] call bis_fnc_spawnvehicle) select 0;
 		[_unit] spawn AS_fnc_initUnitAAF;
-		sleep 2;
 	};
 
 	private _task = ([_mission, "resources"] call AS_spawn_fnc_get) select 0;
