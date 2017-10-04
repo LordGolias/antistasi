@@ -35,8 +35,6 @@ bluStatMortar = ["B_G_Mortar_01_F"];
 bluPilot = 	"B_Pilot_F";
 bluCrew = 	"B_crew_F";
 bluGunner = "B_support_MG_F";
-bluMRAPHMGgroup = 	["B_recon_LAT_F","B_Recon_Sharpshooter_F"];
-bluMRAPgroup = 		["B_recon_medic_F","B_recon_F","B_recon_JTAC_F"];
 bluAirCav = 	["B_recon_TL_F","B_recon_LAT_F","B_Recon_Sharpshooter_F","B_recon_medic_F","B_recon_F","B_recon_JTAC_F"];
 
 // groups that are spawned

@@ -35,8 +35,6 @@ bluStatMortar = ["RHS_M252_D"];
 bluPilot = 	"rhsusf_army_ocp_helipilot";
 bluCrew = 	"rhsusf_usmc_marpat_d_crewman";
 bluGunner = "rhsusf_usmc_marpat_d_rifleman_light";
-bluMRAPHMGgroup = 	["rhsusf_usmc_recon_marpat_d_rifleman_at_lite","rhsusf_usmc_recon_marpat_d_rifleman_lite","rhsusf_usmc_recon_marpat_d_machinegunner_m249_lite"];
-bluMRAPgroup = 		["rhsusf_usmc_recon_marpat_d_teamleader_lite","rhsusf_usmc_recon_marpat_d_marksman_lite","rhsusf_usmc_recon_marpat_d_autorifleman_lite"];
 bluAirCav = 	["rhsusf_usmc_recon_marpat_d_teamleader_fast","rhsusf_usmc_recon_marpat_d_marksman_fast","rhsusf_usmc_recon_marpat_d_autorifleman_fast","rhsusf_usmc_recon_marpat_d_rifleman_at_fast","rhsusf_usmc_recon_marpat_d_rifleman_fast","rhsusf_usmc_recon_marpat_d_machinegunner_m249_fast"];
 
 NATOConfigGroupInf = (configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry");
