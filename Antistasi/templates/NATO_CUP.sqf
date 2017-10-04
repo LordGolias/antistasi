@@ -34,8 +34,6 @@ bluStatMortar = ["CUP_B_M252_USMC"];
 bluPilot = "CUP_B_USMC_Pilot";
 bluCrew = "CUP_B_USMC_Crew";
 bluGunner = "CUP_B_USMC_Crew";
-bluMRAPHMGgroup = ["CUP_B_USMC_Soldier","CUP_B_USMC_Soldier"];
-bluMRAPgroup = ["CUP_B_USMC_Medic","CUP_B_USMC_Officer","CUP_B_USMC_Soldier"];
 bluAirCav = ["CUP_B_USMC_Officer","CUP_B_USMC_Medic","CUP_B_USMC_Soldier","CUP_B_USMC_Soldier_GL","CUP_B_USMC_Soldier_HAT","CUP_B_USMC_Soldier_Marksman", "CUP_B_USMC_Soldier_AR"];
 
 // groups that are spawned
