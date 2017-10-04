@@ -31,10 +31,14 @@ bluStatAT = 	["B_static_AT_F"];
 bluStatHMG = 	["B_HMG_01_high_F"];
 bluStatMortar = ["B_G_Mortar_01_F"];
 
+private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
+
+// special units used in special occasions
+[_dict, "gunner", "B_crew_F"] call DICT_fnc_setLocal;
+[_dict, "crew", "B_crew_F"] call DICT_fnc_setLocal;
+[_dict, "pilot", "B_Pilot_F"] call DICT_fnc_setLocal;
+
 // Soldiers
-bluPilot = 	"B_Pilot_F";
-bluCrew = 	"B_crew_F";
-bluGunner = "B_support_MG_F";
 bluAirCav = 	["B_recon_TL_F","B_recon_LAT_F","B_Recon_Sharpshooter_F","B_recon_medic_F","B_recon_F","B_recon_JTAC_F"];
 
 // groups that are spawned

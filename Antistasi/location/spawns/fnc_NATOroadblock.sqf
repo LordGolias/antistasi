@@ -33,25 +33,27 @@ private _fnc_spawn = {
 	} forEach _objs;
 
 	// spawn crew for statics
+	private _gunnerType = ["NATO", "gunner"] call AS_fnc_getEntity;
 	{
 		// AAs are not spawned below 50
 		if (AS_P("NATOsupport") < 50 and (typeOf _x in bluStatAA)) then {
 			_x enableSimulation false;
 		    _x hideObjectGlobal true;
 		} else {
-			private _unit = ([_posicion, 0, bluCrew, _grupo] call bis_fnc_spawnvehicle) select 0;
+			private _unit = ([_posicion, 0, _gunnerType, _grupo] call bis_fnc_spawnvehicle) select 0;
 			_unit moveInGunner _x;
 			[_x, "NATO"] call AS_fnc_initVehicle;
 		};
 	} forEach _turretArray;
 
 	// spawn crew for vehicles
+	private _crewType = ["NATO", "crew"] call AS_fnc_getEntity;
 	{
 		[_x, "NATO"] call AS_fnc_initVehicle;
 		_x allowCrewInImmobile true;
-		private _unit = ([_posicion, 0, bluCrew, _grupo] call bis_fnc_spawnvehicle) select 0;
+		private _unit = ([_posicion, 0, _crewType, _grupo] call bis_fnc_spawnvehicle) select 0;
 		_unit moveInGunner _x;
-		_unit = ([_posicion, 0, bluCrew, _grupo] call bis_fnc_spawnvehicle) select 0;
+		_unit = ([_posicion, 0, _crewType, _grupo] call bis_fnc_spawnvehicle) select 0;
 		_unit moveInCommander _x;
 	} forEach _vehArray;
 

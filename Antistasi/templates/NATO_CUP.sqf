@@ -30,10 +30,11 @@ bluStatAT = ["CUP_B_TOW_TriPod_USMC"];
 bluStatHMG = ["CUP_B_M2StaticMG_USMC"];
 bluStatMortar = ["CUP_B_M252_USMC"];
 
-// Soldiers
-bluPilot = "CUP_B_USMC_Pilot";
-bluCrew = "CUP_B_USMC_Crew";
-bluGunner = "CUP_B_USMC_Crew";
+private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
+[_dict, "gunner", "CUP_B_USMC_Crew"] call DICT_fnc_setLocal;
+[_dict, "crew", "CUP_B_USMC_Crew"] call DICT_fnc_setLocal;
+[_dict, "pilot", "CUP_B_USMC_Pilot"] call DICT_fnc_setLocal;
+
 bluAirCav = ["CUP_B_USMC_Officer","CUP_B_USMC_Medic","CUP_B_USMC_Soldier","CUP_B_USMC_Soldier_GL","CUP_B_USMC_Soldier_HAT","CUP_B_USMC_Soldier_Marksman", "CUP_B_USMC_Soldier_AR"];
 
 // groups that are spawned

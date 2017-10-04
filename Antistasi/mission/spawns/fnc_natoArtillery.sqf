@@ -51,8 +51,9 @@ private _fnc_spawn = {
 		};
 	};
 
+	private _gunnerType = ["NATO", "gunner"] call AS_fnc_getEntity;
 	for "_i" from 1 to _units do {
-		private _unit = ([_position, 0, bluGunner, _group] call bis_fnc_spawnvehicle) select 0;
+		private _unit = ([_position, 0, _gunnerType, _group] call bis_fnc_spawnvehicle) select 0;
 		[_unit] call AS_fnc_initUnitNATO;
 		private _pos = [_position] call AS_fnc_findSpawnSpots;
 		private _veh = createVehicle [_tipoVeh, _pos, [], _spread, "NONE"];

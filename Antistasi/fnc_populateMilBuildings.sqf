@@ -14,7 +14,7 @@ private _gunnerCrew = ["AAF", "gunner"] call AS_fnc_getEntity;
 if (_side == "NATO") then {
 	_staticAA = selectRandom bluStatAA;
 	_staticMG = selectRandom bluStatHMG;
-	_gunnerCrew = bluGunner;
+	_gunnerCrew = ["NATO", "gunner"] call AS_fnc_getEntity;
 };
 
 private _soldiers = [];
