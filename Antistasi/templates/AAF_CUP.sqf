@@ -69,14 +69,6 @@ allStatATs = allStatATs + [statAT];
 allStatAAs = allStatAAs + [statAA];
 allStatMortars = allStatMortars + [statMortar];
 
-// Backpacks of dismantled statics -- 0: weapon, 1: tripod/support
-statMGBackpacks = ["I_HMG_01_high_weapon_F","I_HMG_01_support_high_F"];
-statATBackpacks = ["I_AT_01_weapon_F","I_HMG_01_support_F"];
-statAABackpacks = ["I_AA_01_weapon_F","I_HMG_01_support_F"];
-statMortarBackpacks = ["I_Mortar_01_weapon_F","I_Mortar_01_support_F"];
-statMGlowBackpacks = ["I_HMG_01_F","I_HMG_01_support_F"];
-statMGtowerBackpacks = ["I_HMG_01_high_weapon_F","I_HMG_01_support_high_F"];
-
 // Default launchers
 genAALaunchers = ["CUP_launch_9K32Strela"];
 genATLaunchers = ["CUP_launch_RPG7V", "CUP_launch_RPG18"];

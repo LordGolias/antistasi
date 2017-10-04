@@ -106,14 +106,6 @@ allStatATs = allStatATs + [statAT];
 allStatAAs = allStatAAs + [statAA];
 allStatMortars = allStatMortars + [statMortar];
 
-// Backpacks of dismantled statics -- 0: weapon, 1: tripod/support
-statMGBackpacks = ["RHS_DShkM_Gun_Bag","RHS_DShkM_TripodHigh_Bag"];
-statATBackpacks = ["RHS_Kornet_Gun_Bag","RHS_Kornet_Tripod_Bag"]; // alt: ["RHS_Kornet_Gun_Bag","RHS_Kornet_Tripod_Bag"], ["RHS_Metis_Gun_Bag","RHS_Metis_Tripod_Bag"], ["RHS_SPG9_Gun_Bag","RHS_SPG9_Tripod_Bag"]
-statAABackpacks = []; // Neither Igla nor ZSU can be dismantled. Any alternatives?
-statMortarBackpacks = ["RHS_Podnos_Gun_Bag","RHS_Podnos_Bipod_Bag"];
-statMGlowBackpacks = ["RHS_NSV_Gun_Bag","RHS_NSV_Tripod_Bag"];
-statMGtowerBackpacks = ["RHS_Kord_Gun_Bag","RHS_Kord_Tripod_Bag"];
-
 /*
 ================ Gear ================
 Weapons, ammo, launchers, missiles, mines, items and optics will spawn in ammo crates, the rest will not. These lists, together with the corresponding lists in the NATO/USAF template, determine what can be unlocked. Weapons of all kinds and ammo are the exception: they can all be unlocked.
