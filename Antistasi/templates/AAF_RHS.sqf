@@ -38,8 +38,8 @@ private _sol_HPIL = "rhs_pilot_transport_heli"; // helicopter pilot
 private _sol_HPIL2 = "rhs_pilot_combat_heli"; // helicopter pilot
 private _sol_PIL = "rhs_pilot"; // Pilot
 
-// units when AAF is EAST
 private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
+
 [_dict, "gunner", _sol_CREW] call DICT_fnc_setLocal;
 [_dict, "crew", _sol_CREW] call DICT_fnc_setLocal;
 [_dict, "pilot", _sol_HPIL] call DICT_fnc_setLocal;
@@ -56,6 +56,7 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "pilots", [_sol_HPIL, _sol_HPIL2, _sol_PIL]] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry"] call DICT_fnc_setLocal;
+
 [_dict, "patrols", ["rhs_group_rus_vdv_infantry_fireteam","rhs_group_rus_vdv_infantry_MANEUVER"]] call DICT_fnc_setLocal;
 [_dict, "garrisons", ["rhs_group_rus_vdv_infantry_fireteam","rhs_group_rus_vdv_infantry_MANEUVER","rhs_group_rus_vdv_infantry_MANEUVER"]] call DICT_fnc_setLocal;
 [_dict, "teamsATAA", ["rhs_group_rus_vdv_infantry_section_AT","rhs_group_rus_vdv_infantry_section_AA"]] call DICT_fnc_setLocal;

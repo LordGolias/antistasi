@@ -10,8 +10,8 @@ private _sol_MK = "CUP_O_INS_Sniper"; // Marksman
 private _sol_CREW = "CUP_O_INS_Crew";
 private _sol_HPIL = "CUP_O_INS_Pilot";
 
-// units when AAF is EAST
 private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
+
 [_dict, "gunner", _sol_CREW] call DICT_fnc_setLocal;
 [_dict, "crew", _sol_CREW] call DICT_fnc_setLocal;
 [_dict, "pilot", _sol_HPIL] call DICT_fnc_setLocal;
@@ -28,6 +28,7 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "pilots", [_sol_HPIL]] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Infantry")] call DICT_fnc_setLocal;
+
 [_dict, "patrols", ["CUP_O_ChDKZ_InfSquad_Weapons"]] call DICT_fnc_setLocal;
 [_dict, "garrisons", ["CUP_O_ChDKZ_InfSquad_Weapons"]] call DICT_fnc_setLocal;
 [_dict, "teamsATAA", ["CUP_O_ChDKZ_InfSection_AT","CUP_O_ChDKZ_InfSection_AA"]] call DICT_fnc_setLocal;

@@ -1,16 +1,16 @@
 
 private _fnc_allSoldiers = {
-	params ["_soldiers", "_groups", "_groupsCfg"];
-	private _result = +_soldiers;
+	// given a cfgGroup, returns all units on that cfg faction
+	params ["_cfgGroups"];
+	private _result = [];
 	{
-		private _group = _groupsCfg >> _x;
-		for "_i" from 0 to count _group - 1 do {
-			_unitConf = _group select _i;
+		for "_i" from 0 to count _x - 1 do {
+			private _unitConf = _x select _i;
 			if (isClass _unitConf) then {
 				_result pushBack (getText (_unitConf >> "vehicle"));
 			};
 		};
-	} forEach _groups;
+	} forEach _cfgGroups;
 	_result arrayIntersect _result - [""]
 };
 
@@ -90,25 +90,10 @@ private _fnc_allEquipment = {
 };
 
 //////////////////// AAF ////////////////////
-AAFsoldiers = [
-	(["AAF", "officers"] call AS_fnc_getEntity) +
-	(["AAF", "snipers"] call AS_fnc_getEntity) +
-	(["AAF", "ncos"] call AS_fnc_getEntity) +
-	(["AAF", "specials"] call AS_fnc_getEntity) +
-	(["AAF", "mgs"] call AS_fnc_getEntity) +
-	(["AAF", "regulars"] call AS_fnc_getEntity) +
-	(["AAF", "crews"] call AS_fnc_getEntity) +
-	(["AAF", "pilots"] call AS_fnc_getEntity),
-	(["AAF", "patrols"] call AS_fnc_getEntity) +
-	(["AAF", "garrisons"] call AS_fnc_getEntity) +
-	(["AAF", "teamsATAA"] call AS_fnc_getEntity) +
-	(["AAF", "teams"] call AS_fnc_getEntity) +
-	(["AAF", "teamsAT"] call AS_fnc_getEntity) +
-	(["AAF", "teamsAA"] call AS_fnc_getEntity),
-	(["AAF", "cfgGroups"] call AS_fnc_getEntity)
-] call _fnc_allSoldiers;
+private _AAFsoldiers = (["AAF", "cfgGroups"] call AS_fnc_getEntity) call _fnc_allSoldiers;
 
-private _result = [AAFsoldiers] call _fnc_allEquipment;
+// List of all AAF equipment
+private _result = [_AAFsoldiers] call _fnc_allEquipment;
 AAFWeapons = _result select 0;
 AAFMagazines = _result select 1;
 AAFItems = _result select 2;
@@ -122,15 +107,10 @@ AAFThrowGrenades = AAFMagazines arrayIntersect AS_allThrowGrenades;
 AAFMagazines = AAFMagazines - AAFThrowGrenades;
 
 //////////////////// NATO ////////////////////
+private _NATOsoldiers = NATOConfigGroupInf call _fnc_allSoldiers;
 
-// List of all NATO soldiers
-NATOsoldiers = [
-	[bluPilot, bluCrew, bluGunner] + bluMRAPHMGgroup + bluMRAPgroup + bluAirCav,
-	bluSquad + bluSquadWeapons + bluTeam + bluATTeam,
-	NATOConfigGroupInf
-] call _fnc_allSoldiers;
-
-_result = [NATOsoldiers] call _fnc_allEquipment;
+// List of all NATO equipment
+_result = [_NATOsoldiers] call _fnc_allEquipment;
 NATOWeapons = _result select 0;
 NATOMagazines = _result select 1;
 NATOItems = _result select 2;
@@ -143,15 +123,10 @@ NATOThrowGrenades = NATOMagazines arrayIntersect AS_allThrowGrenades;
 NATOMagazines = NATOMagazines - NATOThrowGrenades;
 
 //////////////////// CSAT ////////////////////
-
-CSATsoldiers = [
-	[opI_OFF,opI_PIL,opI_SL,opI_RFL1,opI_CREW],
-	opGroup_SpecOps + opGroup_Squad + opGroup_Recon_Team,
-	CSATConfigGroupInf
-] call _fnc_allSoldiers;
+private _NATOsoldiers = CSATConfigGroupInf call _fnc_allSoldiers;
 
 // List of all CSAT equipment
-_result = [CSATsoldiers] call _fnc_allEquipment;
+_result = [_NATOsoldiers] call _fnc_allEquipment;
 CSATWeapons = _result select 0;
 CSATMagazines = _result select 1;
 CSATItems = _result select 2;
