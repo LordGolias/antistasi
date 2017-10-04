@@ -123,10 +123,10 @@ NATOThrowGrenades = NATOMagazines arrayIntersect AS_allThrowGrenades;
 NATOMagazines = NATOMagazines - NATOThrowGrenades;
 
 //////////////////// CSAT ////////////////////
-private _NATOsoldiers = CSATConfigGroupInf call _fnc_allSoldiers;
+private _CSATsoldiers = (["CSAT", "cfgGroups"] call AS_fnc_getEntity) call _fnc_allSoldiers;
 
 // List of all CSAT equipment
-_result = [_NATOsoldiers] call _fnc_allEquipment;
+_result = [_CSATsoldiers] call _fnc_allEquipment;
 CSATWeapons = _result select 0;
 CSATMagazines = _result select 1;
 CSATItems = _result select 2;

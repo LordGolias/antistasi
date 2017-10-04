@@ -1,3 +1,5 @@
+private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
+
 // (un-)armed transport helicopters
 opHeliTrans = ["CUP_O_Mi8_medevac_RU"];
 // helicopter that dismounts troops
@@ -34,7 +36,7 @@ opI_RFL1 = 	"CUP_O_RU_Soldier_VDV"; // rifleman, urban camo
 opI_CREW = 	"CUP_O_RU_Crew_VDV"; // crew
 
 // standard group arrays, used for spawning groups
-CSATConfigGroupInf = (configfile >> "CfgGroups" >> "east" >> "CUP_O_RU" >> "Infantry");
+[_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "CUP_O_RU" >> "Infantry"] call DICT_fnc_setLocal;
 opGroup_SpecOps = ["CUP_O_RU_ReconTeam"]; // spec opcs
 opGroup_Squad = ["CUP_O_RU_InfSquad"]; // squad
 opGroup_Recon_Team = ["CUP_O_RU_InfSection"];

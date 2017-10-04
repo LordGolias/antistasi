@@ -1,3 +1,5 @@
+private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
+
 // (un-)armed transport helicopters
 opHeliTrans = 		["rhs_ka60_grey","RHS_Mi8AMTSh_FAB_vvs"];
 
@@ -38,7 +40,7 @@ opI_RFL1 = 	"rhs_vmf_recon_rifleman_l";
 opI_SL = 	"rhs_vmf_recon_sergeant";
 
 // config path for infantry groups
-CSATConfigGroupInf = (configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry");
+[_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry"] call DICT_fnc_setLocal;
 opGroup_SpecOps = ["rhs_group_rus_vdv_infantry_section_marksman"];
 opGroup_Squad = ["rhs_group_rus_vdv_infantry_squad_sniper", "rhs_group_rus_vdv_infantry_squad_mg_sniper",
                  "rhs_group_rus_vdv_infantry_squad", "rhs_group_rus_vdv_infantry_squad_2mg"];
