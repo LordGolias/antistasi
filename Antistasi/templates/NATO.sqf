@@ -38,11 +38,11 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "crew", "B_crew_F"] call DICT_fnc_setLocal;
 [_dict, "pilot", "B_Pilot_F"] call DICT_fnc_setLocal;
 
-// Soldiers
+[_dict, "cfgGroups", (configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry")] call DICT_fnc_setLocal;
+
 bluAirCav = 	["B_recon_TL_F","B_recon_LAT_F","B_Recon_Sharpshooter_F","B_recon_medic_F","B_recon_F","B_recon_JTAC_F"];
 
 // groups that are spawned
-NATOConfigGroupInf = (configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry");
 bluSquad = 			["BUS_InfSquad"];
 bluSquadWeapons = 	["BUS_InfSquad_Weapons"];
 bluTeam = 			["BUS_InfTeam"];
