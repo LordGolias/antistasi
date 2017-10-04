@@ -88,11 +88,6 @@ if (_side == "AAF" and _tipo == (["AAF", "uav"] call AS_fnc_getEntity)) then {
     _veh addEventHandler ["killed",{[-2500] remoteExec ["AS_fnc_changeAAFmoney",2]}];
 };
 
-// static weapons can be stolen by FIA from AAF and CSAT
-if (_side in ["AAF","CSAT"] and (_veh isKindOf "StaticWeapon")) then {
-    [[_veh,"steal"], "AS_fnc_addAction"] call BIS_fnc_MP;
-};
-
 if (_tipo in allStatMortars) then {
 	// mortars may denounce position for every shot fired.
 	_veh addEventHandler ["Fired", {

@@ -24,7 +24,6 @@ switch _type do {
 	case "capturar": {_object addAction [localize "STR_act_offerToJoin", "actions\capturar.sqf",nil,0,false,true,"",IS_PLAYER]};
 	case "buildHQ": {_object addAction [localize "STR_act_buildHQ", {[] remoteExec ["AS_fnc_HQbuild", 2]},nil,0,false,true,"",IS_PLAYER]};
 	case "seaport": {_object addAction ["Buy Boat", "actions\buyBoat.sqf",nil,0,false,true,"",IS_PLAYER]};
-	case "steal": {_object addAction ["Steal Static", "actions\stealStatic.sqf",nil,0,false,true,"",IS_PLAYER]};
 	case "garage": {
 		if isMultiplayer then {
 			_object addAction [localize "STR_act_persGarage", {[true] spawn AS_fnc_accessGarage},nil,0,false,true,"",IS_PLAYER]
