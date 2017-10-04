@@ -36,14 +36,16 @@ private _sol_SUP_GMG = "I_support_GMG_F"; // GMG gunner
 private _sol_SUP_MG = "I_support_MG_F"; // HMG gunner
 private _sol_SUP_MTR = "I_support_Mort_F"; // mortar gunner
 
-// units when AAF is EAST
 private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
+
+// special units used in special occasions
 [_dict, "gunner", _sol_CREW] call DICT_fnc_setLocal;
 [_dict, "crew", _sol_CREW] call DICT_fnc_setLocal;
 [_dict, "pilot", _sol_HPIL] call DICT_fnc_setLocal;
 [_dict, "medic", _sol_MED] call DICT_fnc_setLocal;
 [_dict, "driver", _sol_CREW] call DICT_fnc_setLocal;
 
+// Special unit types for special occasions
 [_dict, "officers", [_sol_OFF]] call DICT_fnc_setLocal;
 [_dict, "snipers", [_sol_MK, _sol_SN, _sol_SP]] call DICT_fnc_setLocal;
 [_dict, "ncos", [_sol_SL, _sol_TL]] call DICT_fnc_setLocal;
@@ -53,9 +55,10 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "crews", [_sol_CREW, _sol_HCREW, _sol_UAV, _sol_SUP_AMG, _sol_SUP_AMTR, _sol_SUP_GMG, _sol_SUP_MG, _sol_SUP_MTR]] call DICT_fnc_setLocal;
 [_dict, "pilots", [_sol_HPIL, _sol_PIL]] call DICT_fnc_setLocal;
 
-// Used for spawning groups.
-// To modders: equipment of units in these groups is also part of the AAF equipment.
+// To modders: equipment in AAF boxes comes from the set of all equipment of all units on the groups of this cfg
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Infantry")] call DICT_fnc_setLocal;
+
+// These squads are spawned in different spawns (locations, patrols, missions)
 [_dict, "patrols", ["HAF_InfSentry","HAF_InfSentry","HAF_InfSentry","HAF_SniperTeam"]] call DICT_fnc_setLocal;
 [_dict, "garrisons", ["HAF_InfSentry"]] call DICT_fnc_setLocal;
 [_dict, "teamsATAA", ["HAF_InfTeam_AA","HAF_InfTeam_AT"]] call DICT_fnc_setLocal;
@@ -86,7 +89,7 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 // vehicles used to repair stuff
 [_dict, "repairVehicles", ["I_Truck_02_box_F"]] call DICT_fnc_setLocal;
 
-// Set to `""` to AAF not use UAVs.
+// The UAV. Set to `""` to AAF not use UAVs.
 [_dict, "uav", "I_UAV_02_F"] call DICT_fnc_setLocal;
 
 // Statics to be used
