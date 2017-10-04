@@ -107,7 +107,7 @@ AAFThrowGrenades = AAFMagazines arrayIntersect AS_allThrowGrenades;
 AAFMagazines = AAFMagazines - AAFThrowGrenades;
 
 //////////////////// NATO ////////////////////
-private _NATOsoldiers = NATOConfigGroupInf call _fnc_allSoldiers;
+private _NATOsoldiers = (["NATO", "cfgGroups"] call AS_fnc_getEntity) call _fnc_allSoldiers;
 
 // List of all NATO equipment
 _result = [_NATOsoldiers] call _fnc_allEquipment;

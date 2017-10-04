@@ -36,9 +36,10 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "crew", "rhsusf_usmc_marpat_d_crewman"] call DICT_fnc_setLocal;
 [_dict, "pilot", "rhsusf_army_ocp_helipilot"] call DICT_fnc_setLocal;
 
+[_dict, "cfgGroups", (configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry")] call DICT_fnc_setLocal;
+
 bluAirCav = 	["rhsusf_usmc_recon_marpat_d_teamleader_fast","rhsusf_usmc_recon_marpat_d_marksman_fast","rhsusf_usmc_recon_marpat_d_autorifleman_fast","rhsusf_usmc_recon_marpat_d_rifleman_at_fast","rhsusf_usmc_recon_marpat_d_rifleman_fast","rhsusf_usmc_recon_marpat_d_machinegunner_m249_fast"];
 
-NATOConfigGroupInf = (configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry");
 bluSquad = 			["rhs_group_nato_usmc_d_infantry_squad"];
 bluSquadWeapons = 	["rhs_group_nato_usmc_d_infantry_weaponsquad"];
 bluTeam = 			["rhs_group_nato_usmc_d_infantry_team"];
