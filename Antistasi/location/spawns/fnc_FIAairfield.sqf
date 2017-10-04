@@ -29,7 +29,7 @@ private _fnc_spawn = {
 			[_veh, "NATO"] call AS_fnc_initVehicle;
 			_vehiculos pushBack _veh;
 
-			private _unit = ([_posicion, 0, bluPilot, _grupo] call bis_fnc_spawnvehicle) select 0;
+			private _unit = ([_posicion, 0, ["NATO", "pilot"] call AS_fnc_getEntity, _grupo] call bis_fnc_spawnvehicle) select 0;
 			[_unit] call AS_fnc_initUnitNATO;
 			_soldados pushBack _unit;
 

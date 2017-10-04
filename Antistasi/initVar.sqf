@@ -134,6 +134,12 @@ call {
 		   "regulars", "crews", "pilots",
 		   "cfgGroups", "patrols", "garrisons", "teamsATAA", "teams", "squads", "teamsAA", "teamsAT"
 		   ];
+{
+	private _type = ["NATO", _x] call AS_fnc_getEntity;
+	if isNil "_type" then {
+		diag_log format ["[AS] Error: Type of unit '%1' not defined for NATO", _x];
+	};
+} forEach ["gunner", "crew", "pilot"];
 
 {AS_data_allCosts setVariable [_x,10]} forEach (["AAF", "regulars"] call AS_fnc_getEntity);
 {AS_data_allCosts setVariable [_x,15]} forEach (["AAF", "mgs"] call AS_fnc_getEntity);

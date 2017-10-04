@@ -31,10 +31,11 @@ bluStatAT = 	["RHS_TOW_TriPod_D"];
 bluStatHMG = 	["RHS_M2StaticMG_D"];
 bluStatMortar = ["RHS_M252_D"];
 
+private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
+[_dict, "gunner", "rhsusf_usmc_marpat_d_rifleman_light"] call DICT_fnc_setLocal;
+[_dict, "crew", "rhsusf_usmc_marpat_d_crewman"] call DICT_fnc_setLocal;
+[_dict, "pilot", "rhsusf_army_ocp_helipilot"] call DICT_fnc_setLocal;
 
-bluPilot = 	"rhsusf_army_ocp_helipilot";
-bluCrew = 	"rhsusf_usmc_marpat_d_crewman";
-bluGunner = "rhsusf_usmc_marpat_d_rifleman_light";
 bluAirCav = 	["rhsusf_usmc_recon_marpat_d_teamleader_fast","rhsusf_usmc_recon_marpat_d_marksman_fast","rhsusf_usmc_recon_marpat_d_autorifleman_fast","rhsusf_usmc_recon_marpat_d_rifleman_at_fast","rhsusf_usmc_recon_marpat_d_rifleman_fast","rhsusf_usmc_recon_marpat_d_machinegunner_m249_fast"];
 
 NATOConfigGroupInf = (configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry");
