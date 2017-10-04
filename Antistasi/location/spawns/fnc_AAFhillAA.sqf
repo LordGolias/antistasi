@@ -29,22 +29,24 @@ private _fnc_spawn = {
 	} forEach _objs;
 	_vehiculos append _objs;
 
+	private _crewType = ["CSAT", "crew"] call AS_fnc_getEntity;
+
 	// init the AA
 	if !(isNull _AAVeh) then {
-		private _unit = ([_posicion, 0, opI_CREW, _grupoCSAT] call bis_fnc_spawnvehicle) select 0;
+		private _unit = ([_posicion, 0, _crewType, _grupoCSAT] call bis_fnc_spawnvehicle) select 0;
 		_unit moveInGunner _AAVeh;
-		_unit = ([_posicion, 0, opI_CREW, _grupoCSAT] call bis_fnc_spawnvehicle) select 0;
+		_unit = ([_posicion, 0, _crewType, _grupoCSAT] call bis_fnc_spawnvehicle) select 0;
 		_unit moveInCommander _AAVeh;
 		_AAVeh lock 2;
 	};
 
 	{
 		_vehiculos pushBack _x;
-		private _unit = ([_posicion, 0, opI_CREW, _grupoCSAT] call bis_fnc_spawnvehicle) select 0;
+		private _unit = ([_posicion, 0, _crewType, _grupoCSAT] call bis_fnc_spawnvehicle) select 0;
 		_unit moveInGunner _x;
 		_gns pushBack _unit;
 		if (str typeof _x find statAA > -1) then {
-			_unit = ([_posicion, 0, opI_CREW, _grupoCSAT] call bis_fnc_spawnvehicle) select 0;
+			_unit = ([_posicion, 0, _crewType, _grupoCSAT] call bis_fnc_spawnvehicle) select 0;
 			_unit moveInCommander _x;
 			_gns pushBack _unit;
 		};

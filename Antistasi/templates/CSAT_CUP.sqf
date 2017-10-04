@@ -27,13 +27,15 @@ opTruck = "CUP_O_Ural_Open_RU";
 
 opMRAPu = "CUP_O_BMP2_RU";
 
+[_dict, "officer", "CUP_O_RU_Officer_VDV"] call DICT_fnc_setLocal;
+[_dict, "traitor", "CUP_O_RU_Officer_VDV"] call DICT_fnc_setLocal;
+[_dict, "gunner", "CUP_O_RU_Crew_VDV"] call DICT_fnc_setLocal;
+[_dict, "crew", "CUP_O_RU_Crew_VDV"] call DICT_fnc_setLocal;
+[_dict, "pilot", "CUP_O_RU_Pilot_VDV"] call DICT_fnc_setLocal;
+
 // infantry classes used in missions
-opI_OFF = 	"CUP_O_RU_Officer_VDV"; // officer/official
-opI_PIL = 	"CUP_O_RU_Pilot_VDV"; // pilot
-opI_OFF2 = 	"CUP_O_RU_Officer_VDV"; // officer/traitor
 opI_SL = 	"CUP_O_RU_Soldier_SL_VDV"; // squad leader, urban camo
 opI_RFL1 = 	"CUP_O_RU_Soldier_VDV"; // rifleman, urban camo
-opI_CREW = 	"CUP_O_RU_Crew_VDV"; // crew
 
 // standard group arrays, used for spawning groups
 [_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "CUP_O_RU" >> "Infantry"] call DICT_fnc_setLocal;
