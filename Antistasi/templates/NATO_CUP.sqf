@@ -12,18 +12,22 @@ planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 planesNATOTrans = bluHeliTrans;
 
 bluMBT = ["CUP_B_M1A1_DES_USMC", "CUP_B_M1A2_TUSK_MG_DES_USMC"];
+
 bluAPC = ["CUP_B_LAV25M240_desert_USMC", "CUP_B_LAV25_desert_USMC"];
-bluIFV = ["CUP_B_AAV_USMC"];
-bluIFVAA = ["CUP_B_HMMWV_Avenger_USMC"];
+bluTruckTP = ["CUP_B_MTVR_USMC"];
+
 bluArty = ["CUP_B_M270_DPICM_USMC", "CUP_B_M270_HE_USMC"];
 bluMLRS = ["CUP_B_M270_DPICM_USMC", "CUP_B_M270_HE_USMC"];
-bluMRAP = ["CUP_B_HMMWV_Unarmed_USMC"];
-bluMRAPHMG = ["CUP_B_HMMWV_M1114_USMC"];
-bluTruckTP = ["CUP_B_MTVR_USMC"];
-bluTruckMed = ["CUP_B_HMMWV_Ambulance_USMC"];
-bluTruckFuel = ["CUP_B_MTVR_Refuel_USMC"];
 
-vehNATO = bluMBT + bluAPC + bluIFV + bluIFVAA + bluArty + bluMLRS + bluMRAP + bluMRAPHMG + bluTruckTP + bluTruckMed + bluTruckFuel;
+private _others = [
+"CUP_B_AAV_USMC","CUP_B_HMMWV_Avenger_USMC",
+"CUP_B_HMMWV_Unarmed_USMC","CUP_B_HMMWV_M1114_USMC",
+"rhsusf_M1083A1P2_B_M2_d_Medical_fmtv_usarmy",
+"CUP_B_HMMWV_Ambulance_USMC","CUP_B_MTVR_Refuel_USMC"
+];
+
+vehNATO = bluMBT + bluAPC + bluTruckTP + bluArty + bluMLRS + _others;
+
 
 bluStatAA = ["CUP_B_TOW_TriPod_USMC"];
 bluStatAT = ["CUP_B_TOW_TriPod_USMC"];
