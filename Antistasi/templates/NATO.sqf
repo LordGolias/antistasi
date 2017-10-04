@@ -1,3 +1,5 @@
+private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
+
 bluHeliTrans = ["B_Heli_Light_01_F","B_Heli_Transport_01_camo_F","B_Heli_Transport_03_F"];
 bluHeliTS = ["B_Heli_Light_01_F"];
 bluHeliDis = ["B_Heli_Transport_01_camo_F"];
@@ -12,31 +14,25 @@ planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 planesNATOTrans = bluHeliTrans;
 
 // used in NATO armor mission
-bluMBT = ["B_MBT_01_cannon_F","B_MBT_01_TUSK_F"];
+[_dict, "mbts", ["B_MBT_01_cannon_F","B_MBT_01_TUSK_F"]] call DICT_fnc_setLocal;
 
 // used in NATO roadblock mission
-bluAPC = ["B_APC_Wheeled_01_cannon_F"];
-bluTruckTP = ["B_Truck_01_covered_F"];
+[_dict, "trucks", ["B_Truck_01_covered_F"]] call DICT_fnc_setLocal;
+[_dict, "apcs", ["B_APC_Wheeled_01_cannon_F"]] call DICT_fnc_setLocal;
 
 // used in NATO artillery mission
-bluArty = ["B_MBT_01_arty_F"];
-// used in NATO artillery mission (upgraded art.)
-bluMLRS = ["B_MBT_01_mlrs_F"];
+[_dict, "artillery1", ["B_MBT_01_arty_F"]] call DICT_fnc_setLocal;
+[_dict, "artillery2", ["B_MBT_01_mlrs_F"]] call DICT_fnc_setLocal;
 
-private _others = [
-"B_APC_Tracked_01_rcws_F", "B_APC_Tracked_01_AA_F",
-"B_MRAP_01_F", "B_MRAP_01_hmg_F",
+// used in NATO spawns (base and airfield)
+[_dict, "other_vehicles", [
 "B_Truck_01_medical_F", "B_Truck_01_fuel_F"
-];
-
-vehNATO = bluMBT + bluAPC + bluTruckTP + bluArty + bluMLRS + _others;
+]] call DICT_fnc_setLocal;
 
 bluStatAA = ["B_static_AA_F"];
 bluStatAT = ["B_static_AT_F"];
 bluStatHMG = ["B_HMG_01_high_F"];
 bluStatMortar = ["B_G_Mortar_01_F"];
-
-private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 
 // special units used in special occasions
 [_dict, "gunner", "B_crew_F"] call DICT_fnc_setLocal;

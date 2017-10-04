@@ -43,11 +43,11 @@ private _fnc_spawn = {
 		_spread = 15;
 	} else {
 		if (_support < 66) then {
-			_tipoVeh = selectRandom bluArty;
+			_tipoVeh = selectRandom (["NATO", "artillery1"] call AS_fnc_getEntity);
 		} else {
 			_units = 2;
 			_spread = 20;
-			_tipoVeh = selectRandom bluMLRS;
+			_tipoVeh = selectRandom (["NATO", "artillery2"] call AS_fnc_getEntity);
 		};
 	};
 

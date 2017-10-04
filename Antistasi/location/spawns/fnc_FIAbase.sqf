@@ -57,7 +57,8 @@ private _fnc_spawn = {
 
 		_pos = [_posicion, 10, _size/2, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
 
-		_veh = createVehicle [vehNATO call BIS_fnc_selectRandom, _pos, [], 0, "NONE"];
+		private _type = selectRandom (["NATO", "other_vehicles"] call AS_fnc_getEntity);
+		_veh = createVehicle [_type, _pos, [], 0, "NONE"];
 		_veh setDir random 360;
 
 		[_veh, "NATO"] call AS_fnc_initVehicle;
