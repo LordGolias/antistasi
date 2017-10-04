@@ -11,7 +11,6 @@ bluCASFW = ["CUP_B_F35B_CAS_USMC"];
 bluUAV = ["CUP_B_USMC_MQ9"];
 
 planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
-planesNATOTrans = bluHeliTrans;
 
 [_dict, "mbts", ["CUP_B_M1A1_DES_USMC", "CUP_B_M1A2_TUSK_MG_DES_USMC"]] call DICT_fnc_setLocal;
 

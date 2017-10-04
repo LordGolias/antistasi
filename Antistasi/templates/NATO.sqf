@@ -11,7 +11,6 @@ bluCASFW = ["B_Plane_CAS_01_F"];
 bluUAV = ["B_UAV_02_F"];
 
 planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
-planesNATOTrans = bluHeliTrans;
 
 // used in NATO armor mission
 [_dict, "mbts", ["B_MBT_01_cannon_F","B_MBT_01_TUSK_F"]] call DICT_fnc_setLocal;

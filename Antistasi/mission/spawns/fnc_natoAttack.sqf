@@ -44,7 +44,7 @@ private _fnc_spawn = {
 
 	private _group_count = round(_support/20) min 4;
 	for "_i" from 1 to _group_count do {
-		private _tipoveh = planesNATOTrans call BIS_fnc_selectRandom;
+		private _tipoveh = bluHeliTrans call BIS_fnc_selectRandom;
 		private _vehicle = [_origPos, 0, _tipoveh, side_blue] call bis_fnc_spawnvehicle;
 		private _heli = _vehicle select 0;
 		private _heliCrew = _vehicle select 1;
