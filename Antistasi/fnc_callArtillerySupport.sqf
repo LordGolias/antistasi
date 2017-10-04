@@ -2,6 +2,9 @@ if (count hcSelected player != 1) exitWith {hint "You must select an artillery g
 
 private ["_grupo","_artyArray","_artyRoundsArr","_hayMuni","_estanListos","_hayArty","_estanVivos","_soldado","_veh","_tipoMuni","_tipoArty","_posicionTel","_artyArrayDef1","_artyRoundsArr1","_pieza","_isInRange","_posicionTel2","_rounds","_roundsMax","_texto","_mrkfin","_mrkfin2","_tiempo","_eta","_cuenta","_pos","_ang"];
 
+private _artillery1 = (["NATO", "artillery1"] call AS_fnc_getEntity);
+private _artillery2 = (["NATO", "artillery2"] call AS_fnc_getEntity);
+
 _grupo = hcSelected player select 0;
 
 _artyArray = [];
@@ -22,13 +25,13 @@ if ((_veh != _soldado) and (not(_veh in _artyArray))) then
 		if ((canFire _veh) and (alive _veh)) then
 			{
 			_estanVivos = true;
-			if (typeOf _veh in bluMLRS) then
+			if (typeOf _veh in _artillery2) then
 				{
 				_tipoMuni = "12Rnd_230mm_rockets"
 				}
 			else
 				{
-				if (typeOf _veh in bluArty) then
+				if (typeOf _veh in _artillery1) then
 					{
 					createDialog "mbt_type";
 					waitUntil {!dialog or !(isNil "tipoMuni")};
@@ -219,6 +222,8 @@ if (_tipoArty == "BARRAGE") then
 
 _pos = [_posicionTel,random 10,random 360] call BIS_fnc_relPos;
 
+private _isSequence = (typeOf _veh in bluStatMortar) || (typeOf _veh in allStatMortars) || (typeOf _veh in _artillery1);
+
 for "_i" from 0 to (count _artyArrayDef1) - 1 do {
 	if (_rounds > 0) then {
 		_pieza = _artyArrayDef1 select _i;
@@ -226,7 +231,7 @@ for "_i" from 0 to (count _artyArrayDef1) - 1 do {
 		//hint format ["Rondas que faltan: %1, rondas que tiene %2",_rounds,_cuenta];
 		if (_cuenta >= _rounds) then {
 			if (_tipoArty != "BARRAGE") then {
-				if ((typeOf _veh in bluStatMortar) || (typeOf _veh in allStatMortars) || (typeOf _veh in bluArty)) then {
+				if _isSequence then {
 					for "_r" from 1 to _rounds do {
 						_pieza commandArtilleryFire [_pos,_tipoMuni,1];
 						sleep 2;
@@ -244,7 +249,7 @@ for "_i" from 0 to (count _artyArrayDef1) - 1 do {
 			_rounds = 0;
 		} else {
 			if (_tipoArty != "BARRAGE") then {
-				if ((typeOf _veh in bluStatMortar) || (typeOf _veh in allStatMortars) || (typeOf _veh in bluArty)) then {
+				if _isSequence then {
 					for "_r" from 1 to _cuenta do {
 						_pieza commandArtilleryFire [_pos,_tipoMuni,1];
 						sleep 2;

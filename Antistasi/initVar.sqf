@@ -139,7 +139,14 @@ call {
 	if isNil "_type" then {
 		diag_log format ["[AS] Error: Type of unit '%1' not defined for NATO", _x];
 	};
-} forEach ["gunner", "crew", "pilot", "cfgGroups"];
+} forEach ["gunner", "crew", "pilot", "cfgGroups", "mbts", "trucks", "apcs", "artillery1", "artillery2", "other_vehicles"];
+
+// set of all NATO vehicles
+private _vehicles = [];
+{
+	_vehicles append (["NATO", _x] call AS_fnc_getEntity)
+} forEach ["mbts", "trucks", "apcs", "artillery1", "artillery2", "other_vehicles"];
+[AS_entities, "NATO", "vehicles", _vehicles] call DICT_fnc_setLocal;
 
 {AS_data_allCosts setVariable [_x,10]} forEach (["AAF", "regulars"] call AS_fnc_getEntity);
 {AS_data_allCosts setVariable [_x,15]} forEach (["AAF", "mgs"] call AS_fnc_getEntity);

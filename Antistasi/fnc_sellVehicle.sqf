@@ -17,7 +17,7 @@ private _tipoVeh = typeOf _veh;
 _cost = 0;
 
 call {
-	if (_tipoVeh in vehNATO) exitWith {};
+	if (_tipoVeh in (["NATO", "vehicles"] call AS_fnc_getEntity)) exitWith {};
 	if (_tipoVeh in AS_FIAvehicles_all) exitWith {
 		_cost = [_tipoVeh, true] call AS_fnc_getFIAvehiclePrice};
 	if (_tipoVeh in arrayCivVeh) exitWith {_cost = 25};

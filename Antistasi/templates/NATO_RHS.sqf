@@ -1,3 +1,5 @@
+private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
+
 bluHeliTrans = ["RHS_MELB_MH6M","RHS_UH60M_d","RHS_CH_47F_light"];
 bluHeliTS = ["RHS_MELB_MH6M"];
 bluHeliDis = ["RHS_UH60M_d"];
@@ -11,29 +13,25 @@ bluUAV = ["B_UAV_02_F"];
 planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 planesNATOTrans = bluHeliTrans;
 
-bluMBT = ["rhsusf_m1a2sep1d_usarmy","rhsusf_m1a2sep1tuskid_usarmy"];
+[_dict, "mbts", ["rhsusf_m1a2sep1d_usarmy","rhsusf_m1a2sep1tuskid_usarmy"]] call DICT_fnc_setLocal;
 
-bluAPC = ["RHS_M2A3","RHS_M2A3_BUSKI"];
-bluTruckTP = ["rhsusf_M1083A1P2_B_M2_d_fmtv_usarmy"];
+[_dict, "trucks", ["rhsusf_M1083A1P2_B_M2_d_fmtv_usarmy"]] call DICT_fnc_setLocal;
+[_dict, "apcs", ["RHS_M2A3","RHS_M2A3_BUSKI"]] call DICT_fnc_setLocal;
 
-bluArty = ["RHS_M119_D"];
-bluMLRS = ["RHS_M119_D"];
+[_dict, "artillery1", ["RHS_M119_D"]] call DICT_fnc_setLocal;
+[_dict, "artillery2", ["RHS_M119_D"]] call DICT_fnc_setLocal;
 
-private _others = [
-"rhsusf_m113d_usarmy_M240","rhsusf_m113d_usarmy_supply",
-"rhsusf_m1025_d","rhsusf_m998_d_4dr_halftop","rhsusf_m998_d_4dr_fulltop",
+[_dict, "other_vehicles", [
+"rhsusf_m113d_usarmy_supply",
 "rhsusf_M1083A1P2_B_M2_d_Medical_fmtv_usarmy",
 "rhsusf_M978A4_BKIT_usarmy_d"
-];
-
-vehNATO = bluMBT + bluAPC + bluTruckTP + bluArty + bluMLRS + _others;
+]] call DICT_fnc_setLocal;
 
 bluStatAA = ["RHS_Stinger_AA_pod_D"];
 bluStatAT = ["RHS_TOW_TriPod_D"];
 bluStatHMG = ["RHS_M2StaticMG_D"];
 bluStatMortar = ["RHS_M252_D"];
 
-private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "gunner", "rhsusf_usmc_marpat_d_rifleman_light"] call DICT_fnc_setLocal;
 [_dict, "crew", "rhsusf_usmc_marpat_d_crewman"] call DICT_fnc_setLocal;
 [_dict, "pilot", "rhsusf_army_ocp_helipilot"] call DICT_fnc_setLocal;

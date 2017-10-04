@@ -43,7 +43,7 @@ private _fnc_spawn = {
 	};
 	private _road = _roads select 0;
 
-	private _tipoVeh = selectRandom bluTruckTP;
+	private _tipoVeh = selectRandom (["NATO", "trucks"] call AS_fnc_getEntity);
 	private _pos = position _road findEmptyPosition [1,30, _tipoVeh];
 	private _transport = _tipoVeh createVehicle _pos;
 	[_transport, "NATO"] call AS_fnc_initVehicle;

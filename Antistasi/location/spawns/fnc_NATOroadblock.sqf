@@ -23,9 +23,11 @@ private _fnc_spawn = {
 	private _vehArray = [];
 	private _turretArray = [];
 	private _tempPos = [];
+
+	private _apcs = ["NATO", "apcs"] call AS_fnc_getEntity;
 	{
 		call {
-			if (typeOf _x in bluAPC) exitWith {_vehArray pushBack _x;};
+			if (typeOf _x in _apcs) exitWith {_vehArray pushBack _x;};
 			if (typeOf _x in bluStatHMG) exitWith {_turretArray pushBack _x;};
 			if (typeOf _x in bluStatAA) exitWith {_turretArray pushBack _x;};
 			if (typeOf _x == "Land_Camping_Light_F") exitWith {_tempPos = _x;};
