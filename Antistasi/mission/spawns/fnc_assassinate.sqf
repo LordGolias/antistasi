@@ -45,8 +45,8 @@ private _fnc_spawn = {
 		if (_missionType == "kill_officer") exitWith {
 			private _group = createGroup side_red;
 
-			_target = ([_position, 0, opI_OFF, _group] call bis_fnc_spawnvehicle) select 0;
-	        ([_position, 0, opI_PIL, _group] call bis_fnc_spawnvehicle) select 0;
+			_target = ([_position, 0, ["CSAT", "officer"] call AS_fnc_getEntity, _group] call bis_fnc_spawnvehicle) select 0;
+	        ([_position, 0, ["CSAT", "pilot"] call AS_fnc_getEntity, _group] call bis_fnc_spawnvehicle) select 0;
 
 			_group selectLeader _target;
 			[leader _group, _location, "SAFE", "SPAWNED", "NOVEH", "NOFOLLOW"] spawn UPSMON;

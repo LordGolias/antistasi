@@ -31,11 +31,13 @@ opTruck = 			"rhs_kamaz5350_vdv";
 
 opMRAPu = 			"rhs_tigr_vmf";
 
+[_dict, "officer", "rhs_vmf_recon_officer"] call DICT_fnc_setLocal;
+[_dict, "traitor", "rhs_vmf_recon_officer_armored"] call DICT_fnc_setLocal;
+[_dict, "gunner", "rhs_vmf_recon_rifleman_l"] call DICT_fnc_setLocal;
+[_dict, "crew", "rhs_vmf_recon_rifleman_l"] call DICT_fnc_setLocal;
+[_dict, "pilot", "rhs_pilot_combat_heli"] call DICT_fnc_setLocal;
+
 // infantry classes, to allow for class-specific pricing
-opI_OFF = 	"rhs_vmf_recon_officer"; // officer/official
-opI_PIL = 	"rhs_pilot_combat_heli"; // pilot
-opI_OFF2 = 	"rhs_vmf_recon_officer_armored"; // officer/traitor
-opI_CREW = 	"rhs_vmf_recon_rifleman"; // crew
 opI_RFL1 = 	"rhs_vmf_recon_rifleman_l";
 opI_SL = 	"rhs_vmf_recon_sergeant";
 
