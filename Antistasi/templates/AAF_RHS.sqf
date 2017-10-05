@@ -125,10 +125,6 @@ AAFMines = [
 atMine = "rhs_mine_tm62m";
 apMine = "rhs_mine_pmn2";
 
-// Default launchers
-genAALaunchers = ["rhs_weap_igla"];
-genATLaunchers = ["rhs_weap_rpg26","rhs_weap_rpg7"];
-
 // NVG, flashlight, laser, mine types
 indNVG = "rhs_1PN138";
 indRF = "rhs_pdu4";

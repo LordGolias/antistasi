@@ -69,10 +69,6 @@ allStatATs = allStatATs + [statAT];
 allStatAAs = allStatAAs + [statAA];
 allStatMortars = allStatMortars + [statMortar];
 
-// Default launchers
-genAALaunchers = ["CUP_launch_9K32Strela"];
-genATLaunchers = ["CUP_launch_RPG7V", "CUP_launch_RPG18"];
-
 // These have to be CfgVehicles
 AAFExponsives = [
 	"SatchelCharge_F"

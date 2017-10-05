@@ -53,15 +53,3 @@ planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 [_dict, "name", "USMC"] call DICT_fnc_setLocal;
 [_dict, "flag", "Flag_US_F"] call DICT_fnc_setLocal;
 [_dict, "box", "Box_NATO_Equip_F"] call DICT_fnc_setLocal;
-
-bluAT = [
-"rhs_weap_smaw_optic",
-"rhs_weap_M136_hedp"
-];
-
-bluAA = [
-"rhs_weap_fim92"
-];
-
-genATLaunchers = genATLaunchers + bluAT;
-genAALaunchers = genAALaunchers + bluAA;

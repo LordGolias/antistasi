@@ -99,6 +99,8 @@ AAFMagazines = _result select 1;
 AAFItems = _result select 2;
 AAFBackpacks = _result select 3;
 
+AAFLaunchers = AAFWeapons arrayIntersect (AS_weapons select 8);
+
 // Assign other items
 AAFVests = AAFItems arrayIntersect AS_allVests;
 AAFHelmets = AAFItems arrayIntersect AS_allHelmets;
@@ -116,6 +118,8 @@ NATOMagazines = _result select 1;
 NATOItems = _result select 2;
 NATOBackpacks = _result select 3;
 
+NATOLaunchers = NATOWeapons arrayIntersect (AS_weapons select 8);
+
 NATOVests = NATOItems arrayIntersect AS_allVests;
 NATOHelmets = NATOItems arrayIntersect AS_allHelmets;
 
@@ -131,6 +135,8 @@ CSATWeapons = _result select 0;
 CSATMagazines = _result select 1;
 CSATItems = _result select 2;
 CSATBackpacks = _result select 3;
+
+CSATLaunchers = CSATWeapons arrayIntersect (AS_weapons select 8);
 
 CSATVests = CSATItems arrayIntersect AS_allVests;
 CSATHelmets = CSATItems arrayIntersect AS_allHelmets;
