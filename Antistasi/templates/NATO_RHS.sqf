@@ -8,7 +8,8 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "helis_armed", ["RHS_MELB_AH6M_H","RHS_MELB_AH6M_M"]] call DICT_fnc_setLocal;
 [_dict, "planes", ["RHS_A10"]] call DICT_fnc_setLocal;
 
-bluUAV = ["B_UAV_02_F"];
+[_dict, "uavs_small", []] call DICT_fnc_setLocal;
+[_dict, "uavs_attack", []] call DICT_fnc_setLocal;
 
 [_dict, "mbts", ["rhsusf_m1a2sep1d_usarmy","rhsusf_m1a2sep1tuskid_usarmy"]] call DICT_fnc_setLocal;
 

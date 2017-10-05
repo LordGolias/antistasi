@@ -17,6 +17,10 @@ if (_missionType in ["nato_artillery", "nato_armor", "nato_roadblock"] and (coun
 	hint "You need to capture at least one base to perform this action";
 };
 
+if (_missionType == "nato_uav" and (count (["NATO", "uavs_attack"] call AS_fnc_getEntity) == 0)) exitWith {
+	hint (AS_NATOname + " has no UAVs");
+};
+
 private _get_mapPosition = {
 	posicionTel = [];
 	openMap true;

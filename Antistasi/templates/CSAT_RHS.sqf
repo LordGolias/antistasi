@@ -8,8 +8,8 @@ private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
 [_dict, "helis_armed", ["RHS_Mi8AMTSh_vvs"]] call DICT_fnc_setLocal;
 [_dict, "planes", ["RHS_Su25SM_vvs", "RHS_T50_vvs_generic"]] call DICT_fnc_setLocal;
 
-// small UAV (Darter, etc)
-opUAVsmall = 		"rhs_pchela1t_vvs"; // Tayran AR-2
+[_dict, "uavs_small", ["rhs_pchela1t_vvs"]] call DICT_fnc_setLocal;
+[_dict, "uavs_attack", []] call DICT_fnc_setLocal;
 
 // self-propelled anti air
 opSPAA = 			"rhs_zsu234_aa";

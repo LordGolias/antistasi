@@ -8,7 +8,8 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "helis_armed", ["CUP_B_UH1Y_Gunship_Dynamic_USMC", "CUP_B_MH60L_DAP_2x_AT_USN", "CUP_B_MH60L_DAP_2x_Escort_USN", "CUP_B_MH60L_DAP_2x_Multi_USN"]] call DICT_fnc_setLocal;
 [_dict, "planes", ["CUP_B_F35B_CAS_USMC"]] call DICT_fnc_setLocal;
 
-bluUAV = ["CUP_B_USMC_MQ9"];
+[_dict, "uavs_small", []] call DICT_fnc_setLocal;
+[_dict, "uavs_attack", ["CUP_B_USMC_MQ9"]] call DICT_fnc_setLocal;
 
 [_dict, "mbts", ["CUP_B_M1A1_DES_USMC", "CUP_B_M1A2_TUSK_MG_DES_USMC"]] call DICT_fnc_setLocal;
 
