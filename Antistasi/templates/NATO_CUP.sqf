@@ -15,22 +15,23 @@ planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 
 [_dict, "mbts", ["CUP_B_M1A1_DES_USMC", "CUP_B_M1A2_TUSK_MG_DES_USMC"]] call DICT_fnc_setLocal;
 
+// used in roadblock mission
 [_dict, "trucks", ["CUP_B_MTVR_USMC"]] call DICT_fnc_setLocal;
 [_dict, "apcs", ["CUP_B_LAV25M240_desert_USMC", "CUP_B_LAV25_desert_USMC"]] call DICT_fnc_setLocal;
 
+// used in traitor mission
+[_dict, "cars", ["CUP_B_HMMWV_Unarmed_USMC"]] call DICT_fnc_setLocal;
+
+// used in artillery mission
 [_dict, "artillery1", ["CUP_B_M270_HE_USMC"]] call DICT_fnc_setLocal;
 [_dict, "artillery2", ["UP_B_M270_DPICM_USMC"]] call DICT_fnc_setLocal;
 
+// used in spawns (base and airfield)
 [_dict, "other_vehicles", [
-"B_APC_Tracked_01_rcws_F", "B_APC_Tracked_01_AA_F",
-"B_MRAP_01_F", "B_MRAP_01_hmg_F",
-"B_Truck_01_medical_F", "B_Truck_01_fuel_F"
+"CUP_B_MTVR_Ammo_USMC","CUP_B_MTVR_Refuel_USMC", "CUP_B_HMMWV_Ambulance_USMC", "CUP_B_MTVR_Repair_USMC"
 ]] call DICT_fnc_setLocal;
 
-[_dict, "other_vehicles", [
-"CUP_B_HMMWV_Unarmed_USMC","rhsusf_M1083A1P2_B_M2_d_Medical_fmtv_usarmy",
-"CUP_B_HMMWV_Ambulance_USMC","CUP_B_MTVR_Refuel_USMC"
-]] call DICT_fnc_setLocal;
+[_dict, "self_aa", ["CUP_B_HMMWV_Avenger_USMC"]] call DICT_fnc_setLocal;
 
 bluStatAA = ["CUP_B_TOW_TriPod_USMC"];
 bluStatAT = ["CUP_B_TOW_TriPod_USMC"];

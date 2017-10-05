@@ -21,15 +21,25 @@ opCASFW = 			["O_Plane_CAS_02_F"]; // To-199 Neophron (CAS)
 [_dict, "uavs_small", ["O_UAV_01_F"]] call DICT_fnc_setLocal;
 [_dict, "uavs_attack", ["O_UAV_02_F"]] call DICT_fnc_setLocal;
 
-// air force
-opAir = 			["O_Heli_Light_02_unarmed_F","O_Heli_Transport_04_bench_F","O_Heli_Attack_02_F","O_Plane_CAS_02_F","O_Heli_Light_02_F"];
+[_dict, "mbts", ["O_MBT_02_cannon_F"]] call DICT_fnc_setLocal;
 
-// self-propelled anti air
-opSPAA = 			"O_APC_Tracked_02_AA_F";
+// used in roadblock mission
+[_dict, "trucks", ["O_Truck_03_covered_F", "O_Truck_03_transport_F"]] call DICT_fnc_setLocal;
+[_dict, "apcs", ["O_APC_Wheeled_02_rcws_F", "O_APC_tracked_02_cannon_F"]] call DICT_fnc_setLocal;
 
-opTruck = 			"O_Truck_02_transport_F";
+// used in traitor mission
+[_dict, "cars", ["O_MRAP_02_F"]] call DICT_fnc_setLocal;
 
-opMRAPu = 			"O_MRAP_02_F";
+// used in artillery mission
+[_dict, "artillery1", ["O_MBT_02_arty_F"]] call DICT_fnc_setLocal;
+[_dict, "artillery2", ["O_MBT_02_arty_F"]] call DICT_fnc_setLocal;
+
+// used in spawns (base and airfield)
+[_dict, "other_vehicles", [
+"O_Truck_03_ammo_F", "O_Truck_03_fuel_F", "O_Truck_03_medical_F", "O_Truck_03_repair_F"
+]] call DICT_fnc_setLocal;
+
+[_dict, "self_aa", ["O_APC_Tracked_02_AA_F"]] call DICT_fnc_setLocal;
 
 // special units used in special occasions
 [_dict, "officer", "O_officer_F"] call DICT_fnc_setLocal;

@@ -15,17 +15,23 @@ planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 
 [_dict, "mbts", ["rhsusf_m1a2sep1d_usarmy","rhsusf_m1a2sep1tuskid_usarmy"]] call DICT_fnc_setLocal;
 
+// used in roadblock mission
 [_dict, "trucks", ["rhsusf_M1083A1P2_B_M2_d_fmtv_usarmy"]] call DICT_fnc_setLocal;
 [_dict, "apcs", ["RHS_M2A3","RHS_M2A3_BUSKI"]] call DICT_fnc_setLocal;
 
+// used in traitor mission
+[_dict, "cars", ["rhsusf_m1025_d_s", "rhsusf_m998_d_s_4dr_halftop"]] call DICT_fnc_setLocal;
+
+// used in artillery mission
 [_dict, "artillery1", ["RHS_M119_D"]] call DICT_fnc_setLocal;
 [_dict, "artillery2", ["RHS_M119_D"]] call DICT_fnc_setLocal;
 
+// used in spawns (base and airfield)
 [_dict, "other_vehicles", [
-"rhsusf_m113d_usarmy_supply",
-"rhsusf_M1083A1P2_B_M2_d_Medical_fmtv_usarmy",
-"rhsusf_M978A4_BKIT_usarmy_d"
+"rhsusf_m113d_usarmy_supply","rhsusf_M1083A1P2_B_M2_d_Medical_fmtv_usarmy","rhsusf_M978A4_BKIT_usarmy_d"
 ]] call DICT_fnc_setLocal;
+
+[_dict, "self_aa", ["rhs_m2a3_BUSKIII", "rhs_m2a3_BUSKI", "rhs_m2a3"]] call DICT_fnc_setLocal;
 
 bluStatAA = ["RHS_Stinger_AA_pod_D"];
 bluStatAT = ["RHS_TOW_TriPod_D"];

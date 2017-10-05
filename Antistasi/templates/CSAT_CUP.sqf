@@ -17,16 +17,27 @@ opCASFW = ["CUP_O_SU34_AGM_RU"];
 [_dict, "uavs_small", ["CUP_O_Pchela1T_RU"]] call DICT_fnc_setLocal;
 [_dict, "uavs_attack", []] call DICT_fnc_setLocal;
 
-// air force
-opAir = opHeliTrans + [opHeliSD, opGunship] + opCASFW;
+[_dict, "mbts", ["CUP_O_T72_RU", "CUP_O_T90_RU"]] call DICT_fnc_setLocal;
 
-// self-propelled anti air
-opSPAA = "CUP_O_2S6M_RU";
+// used in roadblock mission
+[_dict, "trucks", ["CUP_O_Ural_RU", "CUP_O_Ural_Open_RU"]] call DICT_fnc_setLocal;
+[_dict, "apcs", ["CUP_O_BMP2_RU", "CUP_O_BMP3_RU", "CUP_O_BTR90_RU"]] call DICT_fnc_setLocal;
 
-opTruck = "CUP_O_Ural_Open_RU";
+// used in traitor mission
+[_dict, "cars", ["CUP_O_UAZ_Unarmed_RU", "CUP_O_UAZ_Open_RU"]] call DICT_fnc_setLocal;
 
-opMRAPu = "CUP_O_BMP2_RU";
+// used in artillery mission
+[_dict, "artillery1", ["CUP_O_D30_RU"]] call DICT_fnc_setLocal;
+[_dict, "artillery2", ["CUP_O_BM21_RU"]] call DICT_fnc_setLocal;
 
+// used in spawns (base and airfield)
+[_dict, "other_vehicles", [
+"CUP_O_Ural_Reammo_RU", "CUP_O_Ural_Refuel_RU", "CUP_O_Ural_Repair_RU"
+]] call DICT_fnc_setLocal;
+
+[_dict, "self_aa", ["CUP_O_2S6M_RU"]] call DICT_fnc_setLocal;
+
+// special units used in special occasions
 [_dict, "officer", "CUP_O_RU_Officer_VDV"] call DICT_fnc_setLocal;
 [_dict, "traitor", "CUP_O_RU_Officer_VDV"] call DICT_fnc_setLocal;
 [_dict, "gunner", "CUP_O_RU_Crew_VDV"] call DICT_fnc_setLocal;
