@@ -31,15 +31,17 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 
 [_dict, "self_aa", ["B_APC_Tracked_01_AA_F"]] call DICT_fnc_setLocal;
 
+// special units used in special occasions
+[_dict, "officer", "B_officer_F"] call DICT_fnc_setLocal;
+[_dict, "traitor", "B_G_officer_F"] call DICT_fnc_setLocal;
+[_dict, "gunner", "B_crew_F"] call DICT_fnc_setLocal;
+[_dict, "crew", "B_crew_F"] call DICT_fnc_setLocal;
+[_dict, "pilot", "B_Pilot_F"] call DICT_fnc_setLocal;
+
 bluStatAA = ["B_static_AA_F"];
 bluStatAT = ["B_static_AT_F"];
 bluStatHMG = ["B_HMG_01_high_F"];
 bluStatMortar = ["B_G_Mortar_01_F"];
-
-// special units used in special occasions
-[_dict, "gunner", "B_crew_F"] call DICT_fnc_setLocal;
-[_dict, "crew", "B_crew_F"] call DICT_fnc_setLocal;
-[_dict, "pilot", "B_Pilot_F"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry")] call DICT_fnc_setLocal;
 

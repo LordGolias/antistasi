@@ -31,14 +31,17 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 
 [_dict, "self_aa", ["rhs_m2a3_BUSKIII", "rhs_m2a3_BUSKI", "rhs_m2a3"]] call DICT_fnc_setLocal;
 
+// special units used in special occasions
+[_dict, "officer", "rhsusf_usmc_marpat_d_officer"] call DICT_fnc_setLocal;
+[_dict, "traitor", "rhsusf_usmc_marpat_d_officer"] call DICT_fnc_setLocal;
+[_dict, "gunner", "rhsusf_usmc_marpat_d_rifleman_light"] call DICT_fnc_setLocal;
+[_dict, "crew", "rhsusf_usmc_marpat_d_crewman"] call DICT_fnc_setLocal;
+[_dict, "pilot", "rhsusf_army_ocp_helipilot"] call DICT_fnc_setLocal;
+
 bluStatAA = ["RHS_Stinger_AA_pod_D"];
 bluStatAT = ["RHS_TOW_TriPod_D"];
 bluStatHMG = ["RHS_M2StaticMG_D"];
 bluStatMortar = ["RHS_M252_D"];
-
-[_dict, "gunner", "rhsusf_usmc_marpat_d_rifleman_light"] call DICT_fnc_setLocal;
-[_dict, "crew", "rhsusf_usmc_marpat_d_crewman"] call DICT_fnc_setLocal;
-[_dict, "pilot", "rhsusf_army_ocp_helipilot"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry")] call DICT_fnc_setLocal;
 
