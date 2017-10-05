@@ -37,7 +37,7 @@ private _fnc_spawn = {
 		if !(_location call AS_location_fnc_spawned) exitWith {};
 		private _pos = [_posicion, random (_size / 2),random 360] call BIS_fnc_relPos;
 		_pos = [_posicion] call AS_fnc_findMortarCreatePosition;
-		_veh = selectRandom bluStatMortar createVehicle _pos;
+		_veh = (["NATO", "static_mortar"] call AS_fnc_getEntity) createVehicle _pos;
 		[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 		private _unit = ([_posicion, 0, _gunnerType, _grupo] call bis_fnc_spawnvehicle) select 0;
 		_unit moveInGunner _veh;
