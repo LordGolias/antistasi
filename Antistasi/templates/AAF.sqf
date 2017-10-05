@@ -108,10 +108,6 @@ allStatATs = allStatATs + [statAT];
 allStatAAs = allStatAAs + [statAA];
 allStatMortars = allStatMortars + [statMortar];
 
-// Default launchers
-genAALaunchers = ["launch_I_Titan_F"];
-genATLaunchers = ["launch_I_Titan_short_F","launch_NLAW_F"];
-
 // These have to be CfgVehicles
 AAFExponsives = [
 "SatchelCharge_F",

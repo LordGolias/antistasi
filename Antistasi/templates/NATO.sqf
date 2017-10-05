@@ -51,12 +51,3 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "name", "NATO"] call DICT_fnc_setLocal;
 [_dict, "flag", "Flag_NATO_F"] call DICT_fnc_setLocal;
 [_dict, "box", "Box_NATO_Equip_F"] call DICT_fnc_setLocal;
-
-bluAT = [
-"launch_B_Titan_short_F",
-"launch_NLAW_F"
-];
-
-bluAA = [
-"launch_B_Titan_F"
-];

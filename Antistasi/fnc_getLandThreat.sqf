@@ -2,7 +2,6 @@
 params ["_position"];
 
 private _threat = 0;
-{if (_x in unlockedWeapons) then {_threat = 3};} forEach genATLaunchers;
 
 // roadblocks
 _threat = _threat + 2 * (
