@@ -51,18 +51,8 @@ bluSquadWeapons = ["rhs_group_nato_usmc_d_infantry_weaponsquad"];
 bluTeam = ["rhs_group_nato_usmc_d_infantry_team"];
 bluATTeam = ["rhs_group_nato_usmc_d_infantry_team_heavy_AT"];
 
-bluIR = "rhsusf_acc_anpeq15";
-
 bluFlag = "Flag_US_F";
 AS_NATOname = "USMC";
-
-blu40mm = [
-"rhs_mag_M433_HEDP",
-"1Rnd_HE_Grenade_shell",
-"SmokeShell",
-"SmokeShellGreen",
-"rhs_mag_m576"
-];
 
 bluAT = [
 "rhs_weap_smaw_optic",
