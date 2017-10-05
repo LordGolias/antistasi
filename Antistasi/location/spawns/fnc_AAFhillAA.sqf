@@ -19,8 +19,8 @@ private _fnc_spawn = {
 	private _AAVeh = objNull;
 	{
 		call {
-			if (typeOf _x == opSPAA) exitWith {_AAVeh = _x; _vehiculos pushBack _x;};
-			if (typeOf _x == opTruck) exitWith {[_x, "CSAT"] call AS_fnc_initVehicle;};
+			if (typeOf _x in (["CSAT", "self_aa"] call AS_fnc_getEntity)) exitWith {_AAVeh = _x; _vehiculos pushBack _x;};
+			if (typeOf _x in (["CSAT", "trucks"] call AS_fnc_getEntity)) exitWith {[_x, "CSAT"] call AS_fnc_initVehicle;};
 			if (typeOf _x in [statMG, statAT, statAA, statAA2, statMGlow, statMGtower]) exitWith {_stcs pushBack _x;};
 			if (typeOf _x == statMortar) exitWith {_stcs pushBack _x; [_x] execVM "scripts\UPSMON\MON_artillery_add.sqf";};
 			if (typeOf _x == opCrate) exitWith {_vehiculos pushBack _x;};
