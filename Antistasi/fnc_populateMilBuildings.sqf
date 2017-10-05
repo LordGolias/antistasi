@@ -12,8 +12,8 @@ private _staticAA = statAA;
 private _staticMG = statMGtower;
 private _gunnerCrew = ["AAF", "gunner"] call AS_fnc_getEntity;
 if (_side == "NATO") then {
-	_staticAA = selectRandom bluStatAA;
-	_staticMG = selectRandom bluStatHMG;
+	_staticAA = ["NATO", "static_aa"] call AS_fnc_getEntity;
+	_staticMG = ["NATO", "static_mg"] call AS_fnc_getEntity;
 	_gunnerCrew = ["NATO", "gunner"] call AS_fnc_getEntity;
 };
 

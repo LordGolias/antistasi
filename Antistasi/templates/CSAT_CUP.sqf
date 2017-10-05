@@ -44,6 +44,10 @@ opCASFW = ["CUP_O_SU34_AGM_RU"];
 [_dict, "crew", "CUP_O_RU_Crew_VDV"] call DICT_fnc_setLocal;
 [_dict, "pilot", "CUP_O_RU_Pilot_VDV"] call DICT_fnc_setLocal;
 
+[_dict, "static_aa", "CU_O_ZU23_RU"] call DICT_fnc_setLocal;
+[_dict, "static_mg", "CUP_O_KORD_high_RU"] call DICT_fnc_setLocal;
+[_dict, "static_mortar", "CUP_O_2b14_82mm_RU"] call DICT_fnc_setLocal;
+
 // infantry classes used in missions
 opI_SL = 	"CUP_O_RU_Soldier_SL_VDV"; // squad leader, urban camo
 opI_RFL1 = 	"CUP_O_RU_Soldier_VDV"; // rifleman, urban camo

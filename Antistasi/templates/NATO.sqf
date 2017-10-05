@@ -38,10 +38,9 @@ bluCASFW = ["B_Plane_CAS_01_F"];
 [_dict, "crew", "B_crew_F"] call DICT_fnc_setLocal;
 [_dict, "pilot", "B_Pilot_F"] call DICT_fnc_setLocal;
 
-bluStatAA = ["B_static_AA_F"];
-bluStatAT = ["B_static_AT_F"];
-bluStatHMG = ["B_HMG_01_high_F"];
-bluStatMortar = ["B_G_Mortar_01_F"];
+[_dict, "static_aa", "B_static_AA_F"] call DICT_fnc_setLocal;
+[_dict, "static_mg", "B_HMG_01_high_F"] call DICT_fnc_setLocal;
+[_dict, "static_mortar", "B_Mortar_01_F"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry")] call DICT_fnc_setLocal;
 

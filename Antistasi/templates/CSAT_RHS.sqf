@@ -48,6 +48,10 @@ opCASFW = 			["RHS_Su25SM_vvs", "RHS_T50_vvs_generic"]; // To-199 Neophron (CAS)
 [_dict, "crew", "rhs_vmf_recon_rifleman_l"] call DICT_fnc_setLocal;
 [_dict, "pilot", "rhs_pilot_combat_heli"] call DICT_fnc_setLocal;
 
+[_dict, "static_aa", "rhs_Igla_AA_pod_vdv"] call DICT_fnc_setLocal;
+[_dict, "static_mg", "rhs_KORD_high_vdv"] call DICT_fnc_setLocal;
+[_dict, "static_mortar", "O_Mortar_01_F"] call DICT_fnc_setLocal;
+
 // infantry classes, to allow for class-specific pricing
 opI_RFL1 = 	"rhs_vmf_recon_rifleman_l";
 opI_SL = 	"rhs_vmf_recon_sergeant";

@@ -28,8 +28,8 @@ private _fnc_spawn = {
 	{
 		call {
 			if (typeOf _x in _apcs) exitWith {_vehArray pushBack _x;};
-			if (typeOf _x in bluStatHMG) exitWith {_turretArray pushBack _x;};
-			if (typeOf _x in bluStatAA) exitWith {_turretArray pushBack _x;};
+			if (typeOf _x == (["NATO", "static_mg"] call AS_fnc_getEntity)) exitWith {_turretArray pushBack _x;};
+			if (typeOf _x == (["NATO", "static_aa"] call AS_fnc_getEntity)) exitWith {_turretArray pushBack _x;};
 			if (typeOf _x == "Land_Camping_Light_F") exitWith {_tempPos = _x;};
 		};
 	} forEach _objs;
@@ -38,7 +38,7 @@ private _fnc_spawn = {
 	private _gunnerType = ["NATO", "gunner"] call AS_fnc_getEntity;
 	{
 		// AAs are not spawned below 50
-		if (AS_P("NATOsupport") < 50 and (typeOf _x in bluStatAA)) then {
+		if (AS_P("NATOsupport") < 50 and (typeOf _x == (["NATO", "static_aa"] call AS_fnc_getEntity))) then {
 			_x enableSimulation false;
 		    _x hideObjectGlobal true;
 		} else {

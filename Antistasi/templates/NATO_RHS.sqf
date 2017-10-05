@@ -40,10 +40,9 @@ planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 [_dict, "crew", "rhsusf_usmc_marpat_d_crewman"] call DICT_fnc_setLocal;
 [_dict, "pilot", "rhsusf_army_ocp_helipilot"] call DICT_fnc_setLocal;
 
-bluStatAA = ["RHS_Stinger_AA_pod_D"];
-bluStatAT = ["RHS_TOW_TriPod_D"];
-bluStatHMG = ["RHS_M2StaticMG_D"];
-bluStatMortar = ["RHS_M252_D"];
+[_dict, "static_aa", "RHS_Stinger_AA_pod_D"] call DICT_fnc_setLocal;
+[_dict, "static_mg", "RHS_M2StaticMG_D"] call DICT_fnc_setLocal;
+[_dict, "static_mortar", "RHS_M252_D"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry")] call DICT_fnc_setLocal;
 
