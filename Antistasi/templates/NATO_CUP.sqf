@@ -33,14 +33,17 @@ planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 
 [_dict, "self_aa", ["CUP_B_HMMWV_Avenger_USMC"]] call DICT_fnc_setLocal;
 
+// special units used in special occasions
+[_dict, "officer", "CUP_B_USMC_Officer"] call DICT_fnc_setLocal;
+[_dict, "traitor", "CUP_B_USMC_Officer"] call DICT_fnc_setLocal;
+[_dict, "gunner", "CUP_B_USMC_Crew"] call DICT_fnc_setLocal;
+[_dict, "crew", "CUP_B_USMC_Crew"] call DICT_fnc_setLocal;
+[_dict, "pilot", "CUP_B_USMC_Pilot"] call DICT_fnc_setLocal;
+
 bluStatAA = ["CUP_B_TOW_TriPod_USMC"];
 bluStatAT = ["CUP_B_TOW_TriPod_USMC"];
 bluStatHMG = ["CUP_B_M2StaticMG_USMC"];
 bluStatMortar = ["CUP_B_M252_USMC"];
-
-[_dict, "gunner", "CUP_B_USMC_Crew"] call DICT_fnc_setLocal;
-[_dict, "crew", "CUP_B_USMC_Crew"] call DICT_fnc_setLocal;
-[_dict, "pilot", "CUP_B_USMC_Pilot"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Infantry")] call DICT_fnc_setLocal;
 
