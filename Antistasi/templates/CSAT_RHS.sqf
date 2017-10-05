@@ -52,20 +52,13 @@ opCASFW = 			["RHS_Su25SM_vvs", "RHS_T50_vvs_generic"]; // To-199 Neophron (CAS)
 [_dict, "static_mg", "rhs_KORD_high_vdv"] call DICT_fnc_setLocal;
 [_dict, "static_mortar", "O_Mortar_01_F"] call DICT_fnc_setLocal;
 
-// infantry classes, to allow for class-specific pricing
-opI_RFL1 = 	"rhs_vmf_recon_rifleman_l";
-opI_SL = 	"rhs_vmf_recon_sergeant";
-
 // config path for infantry groups
 [_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry"] call DICT_fnc_setLocal;
-opGroup_SpecOps = ["rhs_group_rus_vdv_infantry_section_marksman"];
-opGroup_Squad = ["rhs_group_rus_vdv_infantry_squad_sniper", "rhs_group_rus_vdv_infantry_squad_mg_sniper",
-                 "rhs_group_rus_vdv_infantry_squad", "rhs_group_rus_vdv_infantry_squad_2mg"];
-opGroup_Recon_Team = ["rhs_group_rus_vdv_infantry_fireteam"];
+[_dict, "squad", "rhs_group_rus_vdv_infantry_squad"] call DICT_fnc_setLocal;
+[_dict, "team", "rhs_group_rus_vdv_infantry_fireteam"] call DICT_fnc_setLocal;
+[_dict, "recon_squad", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv">> "rhs_group_rus_vdv_infantry_recon" >> "rhs_group_rus_vdv_infantry_recon_squad"] call DICT_fnc_setLocal;
+[_dict, "recon_team", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv">> "rhs_group_rus_vdv_infantry_recon" >>"rhs_group_rus_vdv_infantry_recon_fireteam"] call DICT_fnc_setLocal;
 
-// the affiliation
-opFlag = "rhs_Flag_vmf_F";
-// Its acronym
-AS_CSATname = "VMF";
-
-opCrate = "Box_East_WpsLaunch_F";
+[_dict, "name", "VMF"] call DICT_fnc_setLocal;
+[_dict, "flag", "rhs_Flag_vmf_F"] call DICT_fnc_setLocal;
+[_dict, "box", "Box_East_WpsLaunch_F"] call DICT_fnc_setLocal;

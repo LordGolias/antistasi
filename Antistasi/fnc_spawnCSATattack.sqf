@@ -48,7 +48,7 @@ for "_i" from 1 to _count do {
         } forEach units _grupoheli;
 
         // spawn squad
-        private _tipogrupo = [opGroup_Squad, "CSAT"] call AS_fnc_pickGroup;
+        private _tipogrupo = [["CSAT", "squad"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup;
         private _grupo = [_pos, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
         {
             _x assignAsCargo _heli;

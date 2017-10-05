@@ -24,11 +24,11 @@ if !(_composition in _posComp) exitWith {};
 private _type = "air";
 private _method = "rope";
 private _side = side_red;
-private _lead = opHeliSD;
-private _transport = opHeliFR;
-private _dismountGroup = [opGroup_Recon_Team, "CSAT"] call AS_fnc_pickGroup;
+private _lead = selectRandom (["CSAT", "helis_armed"] call AS_fnc_getEntity);
+private _transport = selectRandom (["CSAT", "helis_fastrope"] call AS_fnc_getEntity);
+private _dismountGroup = [["CSAT", "recon_team"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup;
 if (_size == "large") then {
-	_dismountGroup = [opGroup_Squad, "CSAT"] call AS_fnc_pickGroup;
+	_dismountGroup = [["CSAT", "recon_squad"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup;
 };
 private _dismountGroupEscort = [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 if !(_orig == "spawnCSAT") then {

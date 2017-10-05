@@ -52,19 +52,13 @@ opCASFW = 			["O_Plane_CAS_02_F"]; // To-199 Neophron (CAS)
 [_dict, "static_mg", "O_HMG_01_high_F"] call DICT_fnc_setLocal;
 [_dict, "static_mortar", "O_Mortar_01_F"] call DICT_fnc_setLocal;
 
-// infantry classes used in missions
-opI_SL = 	"O_SoldierU_SL_F"; // squad leader, urban camo
-opI_RFL1 = 	"O_soldierU_F"; // rifleman, urban camo
-
 // standard group arrays, used for spawning groups
 [_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "OPF_F" >> "Infantry"] call DICT_fnc_setLocal;
-opGroup_SpecOps = ["OI_reconTeam"]; // spec opcs
-opGroup_Squad = ["OIA_InfSquad"]; // squad
-opGroup_Recon_Team = ["OI_reconPatrol"];
+[_dict, "squad", "OIA_InfSquad"] call DICT_fnc_setLocal;
+[_dict, "team", "OIA_InfTeam"] call DICT_fnc_setLocal;
+[_dict, "recon_squad", "OIA_reconSquad"] call DICT_fnc_setLocal;
+[_dict, "recon_team", "OI_reconTeam"] call DICT_fnc_setLocal;
 
-// the affiliation
-opFlag = "Flag_CSAT_F";
-// Its acronym
-AS_CSATname = "CSAT";
-
-opCrate = "Box_East_WpsLaunch_F";
+[_dict, "name", "CSAT"] call DICT_fnc_setLocal;
+[_dict, "flag", "Flag_CSAT_F"] call DICT_fnc_setLocal;
+[_dict, "box", "Box_East_WpsLaunch_F"] call DICT_fnc_setLocal;

@@ -52,8 +52,8 @@ private _fnc_spawn = {
 
 	private _target = ([_postraidor, 0, ["CSAT", "traitor"] call AS_fnc_getEntity, _grptraidor] call bis_fnc_spawnvehicle) select 0;
 	_target allowDamage false;
-	([_posSol1, 0, opI_SL, _grptraidor] call bis_fnc_spawnvehicle) select 0;
-	([_posSol2, 0, opI_RFL1, _grptraidor] call bis_fnc_spawnvehicle) select 0;
+	([_posSol1, 0, ["CSAT", "officer"] call AS_fnc_getEntity, _grptraidor] call bis_fnc_spawnvehicle) select 0;
+	([_posSol2, 0, ["CSAT", "officer"] call AS_fnc_getEntity, _grptraidor] call bis_fnc_spawnvehicle) select 0;
 	_grptraidor selectLeader _target;
 
 	{_x call AS_fnc_initUnitCSAT; _x allowFleeing 0} forEach units _grptraidor;

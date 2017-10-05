@@ -22,7 +22,7 @@ private _fnc_spawn = {
 	_vehiculos append _vehicles;
 
 	// create flag
-	private _veh = createVehicle [bluFlag, _posicion, [],0, "CAN_COLLIDE"];
+	private _veh = createVehicle [(["NATO", "flag"] call AS_fnc_getEntity), _posicion, [],0, "CAN_COLLIDE"];
 	_veh allowDamage false;
 	[[_veh,"unit"],"AS_fnc_addAction"] call BIS_fnc_MP;
 	[[_veh,"vehicle"],"AS_fnc_addAction"] call BIS_fnc_MP;
@@ -65,7 +65,7 @@ private _fnc_spawn = {
 		_vehiculos pushBack _veh;
 	};
 
-	private _tipoGrupo = [bluSquad, "NATO"] call AS_fnc_pickGroup;
+	private _tipoGrupo = [["NATO", "squad"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
 	private _grupo = [_posicion, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 	[leader _grupo, _location, "SAFE", "RANDOMUP","SPAWNED", "NOVEH2", "NOFOLLOW"] spawn UPSMON;
 	_grupos pushBack _grupo;
@@ -77,7 +77,7 @@ private _fnc_spawn = {
 			_pos = [_posicion, random _size,random 360] call BIS_fnc_relPos;
 			if (!surfaceIsWater _pos) exitWith {};
 		};
-		_tipoGrupo = [bluSquad, "NATO"] call AS_fnc_pickGroup;
+		_tipoGrupo = [["NATO", "squad"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
 		_grupo = [_pos,side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 		sleep 1;
 		if (_i == 0) then {

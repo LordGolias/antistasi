@@ -48,19 +48,13 @@ opCASFW = ["CUP_O_SU34_AGM_RU"];
 [_dict, "static_mg", "CUP_O_KORD_high_RU"] call DICT_fnc_setLocal;
 [_dict, "static_mortar", "CUP_O_2b14_82mm_RU"] call DICT_fnc_setLocal;
 
-// infantry classes used in missions
-opI_SL = 	"CUP_O_RU_Soldier_SL_VDV"; // squad leader, urban camo
-opI_RFL1 = 	"CUP_O_RU_Soldier_VDV"; // rifleman, urban camo
-
 // standard group arrays, used for spawning groups
 [_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "CUP_O_RU" >> "Infantry"] call DICT_fnc_setLocal;
-opGroup_SpecOps = ["CUP_O_RU_ReconTeam"]; // spec opcs
-opGroup_Squad = ["CUP_O_RU_InfSquad"]; // squad
-opGroup_Recon_Team = ["CUP_O_RU_InfSection"];
+[_dict, "squad", "CUP_O_RU_InfSquad"] call DICT_fnc_setLocal;
+[_dict, "team", "CUP_O_RU_InfSection_MG_VDV"] call DICT_fnc_setLocal;
+[_dict, "recon_squad", "CUP_O_RU_ReconTeam"] call DICT_fnc_setLocal;
+[_dict, "recon_team", "CUP_O_RU_ReconTeam"] call DICT_fnc_setLocal;
 
-// the affiliation
-opFlag = "Flag_CSAT_F";
-// Its acronym
-AS_CSATname = "CSAT";
-
-opCrate = "Box_East_WpsLaunch_F";
+[_dict, "name", "CSAT"] call DICT_fnc_setLocal;
+[_dict, "flag", "Flag_CSAT_F"] call DICT_fnc_setLocal;
+[_dict, "box", "Box_East_WpsLaunch_F"] call DICT_fnc_setLocal;

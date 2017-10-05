@@ -43,17 +43,14 @@ bluCASFW = ["B_Plane_CAS_01_F"];
 [_dict, "static_mortar", "B_Mortar_01_F"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry")] call DICT_fnc_setLocal;
+[_dict, "squad", "BUS_InfSquad"] call DICT_fnc_setLocal;
+[_dict, "team", "BUS_InfTeam"] call DICT_fnc_setLocal;
+[_dict, "recon_squad", "BUS_ReconSquad"] call DICT_fnc_setLocal;
+[_dict, "recon_team", "BUS_ReconPatrol"] call DICT_fnc_setLocal;
 
-bluAirCav = ["B_recon_TL_F","B_recon_LAT_F","B_Recon_Sharpshooter_F","B_recon_medic_F","B_recon_F","B_recon_JTAC_F"];
-
-// groups that are spawned
-bluSquad = ["BUS_InfSquad"];
-bluSquadWeapons = ["BUS_InfSquad_Weapons"];
-bluTeam = ["BUS_InfTeam"];
-bluATTeam = ["BUS_InfTeam_AT"];
-
-bluFlag = "Flag_NATO_F";
-AS_NATOname = "NATO";
+[_dict, "name", "NATO"] call DICT_fnc_setLocal;
+[_dict, "flag", "Flag_NATO_F"] call DICT_fnc_setLocal;
+[_dict, "box", "Box_NATO_Equip_F"] call DICT_fnc_setLocal;
 
 bluAT = [
 "launch_B_Titan_short_F",

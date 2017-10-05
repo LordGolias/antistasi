@@ -64,7 +64,7 @@ private _fnc_spawn = {
 			_mrkfin setMarkerBrushLocal "DiagGrid";
 			_mrkfin setMarkerAlphaLocal 0;
 
-			private _group = [_position, side_red, [opGroup_SpecOps, "CSAT"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
+			private _group = [_position, side_red, [["CSAT", "recon_team"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 			[leader _group, _mrkfin, "RANDOM", "SPAWNED", "NOVEH2", "NOFOLLOW"] spawn UPSMON;
 			{_x call AS_fnc_initUnitCSAT; _x allowFleeing 0} forEach units _group;
 
