@@ -23,7 +23,7 @@ private _fnc_spawn = {
 		_grupos pushBack _grupo;
 		for "_i" from 1 to (round (5*_prestigio)) do {
 			if !(_location call AS_location_fnc_spawned) exitWith {};
-			private _tipoveh = (planesNATO - bluCASFW) call BIS_fnc_selectRandom;
+			private _tipoveh = selectRandom (["NATO", "helis_transport"] call AS_fnc_getEntity);
 			private _veh = createVehicle [_tipoveh, _pos, [],3, "NONE"];
 			_veh setDir (_ang + 90);
 			[_veh, "NATO"] call AS_fnc_initVehicle;

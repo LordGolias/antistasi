@@ -1,16 +1,14 @@
 private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 
-bluHeliTrans = ["B_Heli_Light_01_F","B_Heli_Transport_01_camo_F","B_Heli_Transport_03_F"];
-bluHeliTS = ["B_Heli_Light_01_F"];
-bluHeliDis = ["B_Heli_Transport_01_camo_F"];
-bluHeliRope = ["B_Heli_Transport_03_F"];
-bluHeliArmed = ["B_Heli_Light_01_armed_F"];
-bluHeliGunship = ["B_Heli_Attack_01_F"];
-bluCASFW = ["B_Plane_CAS_01_F"];
+[_dict, "helis_paradrop", ["B_Heli_Light_01_F"]] call DICT_fnc_setLocal;
+[_dict, "helis_land", ["B_Heli_Transport_01_camo_F"]] call DICT_fnc_setLocal;
+[_dict, "helis_fastrope", ["B_Heli_Transport_03_F"]] call DICT_fnc_setLocal;
+
+[_dict, "helis_attack", ["B_Heli_Attack_01_F"]] call DICT_fnc_setLocal;
+[_dict, "helis_armed", ["B_Heli_Light_01_armed_F"]] call DICT_fnc_setLocal;
+[_dict, "planes", ["B_Plane_CAS_01_F"]] call DICT_fnc_setLocal;
 
 bluUAV = ["B_UAV_02_F"];
-
-planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 
 // used in NATO armor mission
 [_dict, "mbts", ["B_MBT_01_cannon_F","B_MBT_01_TUSK_F"]] call DICT_fnc_setLocal;

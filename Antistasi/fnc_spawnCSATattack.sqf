@@ -7,16 +7,16 @@ private _origin_pos = getMarkerPos "spawnCSAT";
 private _groups = [];
 private _vehicles = [];
 
-private _isLocation = _marker call AS_fnc_location_exists;
+private _attackHelis = (["CSAT", "helis_armed"] call AS_fnc_getEntity) + (["CSAT", "helis_attack"] call AS_fnc_getEntity);
 
 for "_i" from 1 to _count do {
     private _tipoVeh = "";
     // todo: atm, the transport heli type defines the method type (rope, paradrop, land)
     // it should be the other way around
     if (_i == _count) then {
-        _tipoVeh = selectRandom opHeliTrans;
+        _tipoVeh = selectRandom (["CSAT", "helis_transport"] call AS_fnc_getEntity);
     } else {
-        _tipoVeh = selectRandom opAir;
+        _tipoVeh = selectRandom _attackHelis;
     };
     // find spawn position
     private _pos = [];
@@ -35,7 +35,7 @@ for "_i" from 1 to _count do {
 
     call {
         // attack heli => send him on SAD
-        if (_tipoVeh in opAir) exitWith {
+        if (_tipoVeh in _attackHelis) exitWith {
             private _wp1 = _grupoheli addWaypoint [_position, 0];
             _wp1 setWaypointType "SAD";
             [_heli, "CSAT Air Attack"] spawn AS_fnc_setConvoyImmune;
@@ -59,11 +59,11 @@ for "_i" from 1 to _count do {
         [_heli,"CSAT Air Transport"] spawn AS_fnc_setConvoyImmune;
 
         // paradrop
-        if (_isLocation and {(_marker call AS_location_fnc_type) in ["base","airfield"]}) exitWith {
+        if (_tipoVeh in (["CSAT", "helis_paradrop"] call AS_fnc_getEntity)) exitWith {
             [_heli,_grupo,_position,_threatEvalAir] spawn AS_fnc_activateAirdrop;
         };
         // land
-        if (_tipoVeh == opHeliDismount) exitWith {
+        if (_tipoVeh in (["CSAT", "helis_land"] call AS_fnc_getEntity)) exitWith {
             {
                 _x disableAI "TARGET";
                 _x disableAI "AUTOTARGET";

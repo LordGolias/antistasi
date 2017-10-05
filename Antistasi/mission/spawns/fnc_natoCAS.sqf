@@ -39,12 +39,12 @@ private _fnc_spawn = {
 	private _groups = [];
 	private _vehicles = [];
 
-	private _tipoVeh = bluHeliArmed;
+	private _tipoVeh = ["NATO", "helis_armed"] call AS_fnc_getEntity;
 	if (_support > 70) then {
-		_tipoVeh = bluCASFW;
+		_tipoVeh = ["NATO", "planes"] call AS_fnc_getEntity;
 	} else {
 		if (_support > 30) then {
-			_tipoVeh = bluHeliGunship;
+			_tipoVeh = ["NATO", "helis_attack"] call AS_fnc_getEntity;
 		};
 	};
 

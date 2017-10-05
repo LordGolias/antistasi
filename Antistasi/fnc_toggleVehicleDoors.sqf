@@ -4,22 +4,6 @@ _veh = _this select 0;
 if (!alive _veh) exitWith {};
 _puertas = [];
 
-// todo: fix the code below.
-/*
-// This depends on the vehicle, so it should be in the template.
-// As such, I am commenting it out.
-_tipo = typeOf _veh;
-_helis = heli_unarmed;
-_helis set [(count heli_unarmed - 1), nil];
-call {
-	if (_tipo in standardMRAP) exitWith {_puertas = ["Door_LF","Door_RF"]};
-	if (_tipo in _helis) exitWith {_puertas = ["CargoRamp_Open","Door_Back_L","Door_Back_R"]};
-	if (_tipo in bluHeliTS) exitWith {_puertas = ["DoorL_Front_Open","DoorR_Front_Open","DoorL_Back_Open","DoorR_Back_Open"]};
-	if (_tipo in bluHeliDis) exitWith {_puertas = ["Door_L","Door_R"]};
-	if (_tipo in bluHeliRope) exitWith {_puertas = ["Door_rear_source"]};
-};
-*/
-
 if (count _puertas == 0) exitWith {};
 
 if (count _this > 1) then

@@ -139,13 +139,29 @@ call {
 	if isNil "_type" then {
 		diag_log format ["[AS] Error: Type of unit '%1' not defined for NATO", _x];
 	};
-} forEach ["gunner", "crew", "pilot", "cfgGroups", "mbts", "trucks", "apcs", "artillery1", "artillery2", "other_vehicles"];
+} forEach ["gunner", "crew", "pilot", "cfgGroups",
+		   "mbts", "trucks", "apcs", "artillery1", "artillery2", "other_vehicles",
+		   "helis_transport", "helis_attack", "helis_armed", "planes"
+		   ];
+
+{
+	private _side = _x;
+	private _vehicles = [];
+	{
+		_vehicles append ([_side, _x] call AS_fnc_getEntity);
+	} forEach ["helis_land", "helis_fastrope", "helis_paradrop"];
+	[AS_entities, _side, "helis_transport", _vehicles] call DICT_fnc_setLocal;
+	{
+		_vehicles append ([_side, _x] call AS_fnc_getEntity);
+	} forEach ["helis_attack", "helis_armed"];
+	[AS_entities, _side, "helis", _vehicles] call DICT_fnc_setLocal;
+} forEach ["CSAT", "NATO"];
 
 // set of all NATO vehicles
 private _vehicles = [];
 {
-	_vehicles append (["NATO", _x] call AS_fnc_getEntity)
-} forEach ["mbts", "trucks", "apcs", "artillery1", "artillery2", "other_vehicles"];
+	_vehicles append (["NATO", _x] call AS_fnc_getEntity);
+} forEach ["mbts", "trucks", "apcs", "artillery1", "artillery2", "other_vehicles", "helis_transport", "helis_attack", "helis_armed", "planes"];
 [AS_entities, "NATO", "vehicles", _vehicles] call DICT_fnc_setLocal;
 
 {AS_data_allCosts setVariable [_x,10]} forEach (["AAF", "regulars"] call AS_fnc_getEntity);

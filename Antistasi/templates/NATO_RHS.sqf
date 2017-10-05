@@ -1,16 +1,14 @@
 private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 
-bluHeliTrans = ["RHS_MELB_MH6M","RHS_UH60M_d","RHS_CH_47F_light"];
-bluHeliTS = ["RHS_MELB_MH6M"];
-bluHeliDis = ["RHS_UH60M_d"];
-bluHeliRope = ["RHS_CH_47F_light"];
-bluHeliArmed = ["RHS_MELB_AH6M_H","RHS_MELB_AH6M_M"];
-bluHeliGunship = ["RHS_AH64D_AA","RHS_AH64D_GS","RHS_AH64D"];
-bluCASFW = ["RHS_A10"];
+[_dict, "helis_paradrop", ["RHS_MELB_MH6M"]] call DICT_fnc_setLocal;
+[_dict, "helis_land", ["RHS_UH60M_d"]] call DICT_fnc_setLocal;
+[_dict, "helis_fastrope", ["RHS_CH_47F_light"]] call DICT_fnc_setLocal;
+
+[_dict, "helis_attack", ["RHS_AH64D_AA","RHS_AH64D_GS","RHS_AH64D"]] call DICT_fnc_setLocal;
+[_dict, "helis_armed", ["RHS_MELB_AH6M_H","RHS_MELB_AH6M_M"]] call DICT_fnc_setLocal;
+[_dict, "planes", ["RHS_A10"]] call DICT_fnc_setLocal;
 
 bluUAV = ["B_UAV_02_F"];
-
-planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 
 [_dict, "mbts", ["rhsusf_m1a2sep1d_usarmy","rhsusf_m1a2sep1tuskid_usarmy"]] call DICT_fnc_setLocal;
 

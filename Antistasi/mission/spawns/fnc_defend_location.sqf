@@ -59,7 +59,7 @@ private _fnc_spawn = {
 		[_location] spawn {
 			params ["_location"];
 			for "_i" from 0 to round (random 2) do {
-				[_location, selectRandom opCASFW] spawn AS_fnc_activateAirstrike;
+				[_location, selectRandom (["CSAT", "planes"] call AS_fnc_getEntity)] spawn AS_fnc_activateAirstrike;
 				sleep 30;
 			};
 			if ((_location call AS_location_fnc_type) in ["base","airfield"]) then {

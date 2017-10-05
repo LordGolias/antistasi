@@ -11,7 +11,7 @@ private _type = typeOf _veh;
 if not alive _veh exitWith {hint "You cannot add destroyed vehicles to your garage"};
 if (_veh distance (getMarkerPos "FIA_HQ") > 50) exitWith {hint "The vehicle must be closer than 50 meters to the flag"};
 if ({isPlayer _x} count crew _veh > 0) exitWith {hint "The vehicle must be crewless"};
-if (_type in ((["NATO", "vehicles"] call AS_fnc_getEntity) + planesNATO)) exitWith {hint "You cannot keep NATO vehicles"};
+if (_type in (["NATO", "vehicles"] call AS_fnc_getEntity)) exitWith {hint "You cannot keep NATO vehicles"};
 if (_veh isKindOf "Man") exitWith {hint "Are you kidding?"};
 
 if (not(_veh isKindOf "AllVehicles")) exitWith {hint "The vehicle you are looking cannot be kept in our Garage"};

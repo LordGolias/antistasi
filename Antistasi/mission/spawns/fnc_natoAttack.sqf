@@ -57,7 +57,7 @@ private _fnc_spawn = {
 		{_x setBehaviour "CARELESS";} forEach units _groupheli;
 		[_heli,"NATO Air Transport"] spawn AS_fnc_setConvoyImmune;
 
-		if (_tipoveh in bluHeliDis) then {
+		if (_tipoveh in (["NATO", "helis_airdrop"] call AS_fnc_getEntity)) then {
 			private _tipoGrupo = [bluSquadWeapons, "NATO"] call AS_fnc_pickGroup;
 			private _group = [_origPos, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 			{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] spawn AS_fnc_initUnitNATO} forEach units _group;
@@ -92,7 +92,7 @@ private _fnc_spawn = {
 				};
 			};
 		};
-		if (_tipoveh in bluHeliTS) then {
+		if (_tipoveh in (["NATO", "helis_land"] call AS_fnc_getEntity)) then {
 			{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _groupheli;
 			private _tipoGrupo = [bluTeam, "NATO"] call AS_fnc_pickGroup;
 			private _group = [_origPos, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
@@ -118,7 +118,7 @@ private _fnc_spawn = {
 			[_groupheli,1] setWaypointBehaviour "AWARE";
 			[_heli,true] spawn AS_fnc_toggleVehicleDoors;
 		};
-		if (_tipoveh in bluHeliRope) then {
+		if (_tipoveh in (["NATO", "helis_fastrope"] call AS_fnc_getEntity)) then {
 			{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _groupheli;
 			private _tipoGrupo = [bluSquad, "NATO"] call AS_fnc_pickGroup;
 			private _group = [_origPos, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;

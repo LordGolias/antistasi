@@ -27,7 +27,7 @@ private _fnc_spawn = {
 
 	private _orig = getMarkerPos "spawnNATO";
 
-	private _helifn = [_orig, 0, selectRandom bluHeliDis, side_blue] call bis_fnc_spawnvehicle;
+	private _helifn = [_orig, 0, selectRandom (["NATO", "helis_land"] call AS_fnc_getEntity), side_blue] call bis_fnc_spawnvehicle;
 	private _heli = _helifn select 0;
 	private _grupoHeli = _helifn select 2;
 	_groups pushBack _grupoHeli;

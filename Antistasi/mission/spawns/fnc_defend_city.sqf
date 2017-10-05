@@ -26,7 +26,7 @@ private _fnc_spawn = {
 	private _civilians = [];
 
 	for "_i" from 1 to 3 do {
-		private _tipoveh = selectRandom opAir;
+		private _tipoveh = selectRandom (["CSAT", "helis"] call AS_fnc_getEntity);
 		private _timeOut = 0;
 		private _pos = ORIGIN findEmptyPosition [0,100,_tipoveh];
 		while {_timeOut < 60 or {count _pos == 0}} do {
@@ -45,7 +45,7 @@ private _fnc_spawn = {
 		_grupos pushBack _grupoheli;
 		_vehiculos pushBack _heli;
 
-		if (_tipoveh != opHeliFR) then {
+		if not (_tipoveh in (["CSAT", "helis_transport"] call AS_fnc_getEntity)) then {
 			private _wp1 = _grupoheli addWaypoint [_position, 0];
 			_wp1 setWaypointType "SAD";
 			[_heli,"CSAT Air Attack"] spawn AS_fnc_setConvoyImmune;
@@ -112,7 +112,7 @@ private _fnc_spawn = {
 	[_location] spawn AS_fnc_dropArtilleryShells;
 
 	for "_i" from 0 to round random 2 do {
-		[_location, selectRandom opCASFW] spawn AS_fnc_activateAirstrike;
+		[_location, selectRandom (["CSAT", "planes"] call AS_fnc_getEntity)] spawn AS_fnc_activateAirstrike;
 	};
 
 	private _soldiers = [];

@@ -24,8 +24,8 @@ if !(_composition in _posComp) exitWith {};
 private _type = "air";
 private _method = "rope";
 private _side = side_red;
-private _lead = opHeliSD;
-private _transport = opHeliFR;
+private _lead = selectRandom (["CSAT", "helis_armed"] call AS_fnc_getEntity);
+private _transport = selectRandom (["CSAT", "helis_fastrope"] call AS_fnc_getEntity);
 private _dismountGroup = [opGroup_Recon_Team, "CSAT"] call AS_fnc_pickGroup;
 if (_size == "large") then {
 	_dismountGroup = [opGroup_Squad, "CSAT"] call AS_fnc_pickGroup;

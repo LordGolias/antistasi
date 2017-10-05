@@ -1,28 +1,15 @@
 private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
 
-// (un-)armed transport helicopters
-opHeliTrans = 		["O_Heli_Light_02_unarmed_F","O_Heli_Transport_04_bench_F"];
+[_dict, "helis_paradrop", ["O_Heli_Light_02_unarmed_F"]] call DICT_fnc_setLocal;
+[_dict, "helis_land", ["O_Heli_Transport_04_bench_F"]] call DICT_fnc_setLocal;
+[_dict, "helis_fastrope", []] call DICT_fnc_setLocal;
 
-// helicopter that dismounts troops
-opHeliDismount = 	"O_Heli_Transport_04_bench_F"; // Mi-290 Taru (Bench)
-
-// helicopter that fastropes troops in
-opHeliFR = 			"O_Heli_Light_02_unarmed_F"; // PO-30 Orca (Unarmed)
-
-// small armed helicopter
-opHeliSD = 			"O_Heli_Light_02_F"; // PO-30 Orca (Armed)
-
-// gunship
-opGunship = 		"O_Heli_Attack_02_F"; // Mi-48 Kajman
-
-// CAS, fixed-wing
-opCASFW = 			["O_Plane_CAS_02_F"]; // To-199 Neophron (CAS)
+[_dict, "helis_attack", ["O_Heli_Attack_02_F"]] call DICT_fnc_setLocal;
+[_dict, "helis_armed", ["O_Heli_Light_02_F"]] call DICT_fnc_setLocal;
+[_dict, "planes", ["O_Plane_CAS_02_F"]] call DICT_fnc_setLocal;
 
 // small UAV (Darter, etc)
 opUAVsmall = 		"O_UAV_01_F"; // Tayran AR-2
-
-// air force
-opAir = 			["O_Heli_Light_02_unarmed_F","O_Heli_Transport_04_bench_F","O_Heli_Attack_02_F","O_Plane_CAS_02_F","O_Heli_Light_02_F"];
 
 // self-propelled anti air
 opSPAA = 			"O_APC_Tracked_02_AA_F";
