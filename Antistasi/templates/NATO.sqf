@@ -8,7 +8,8 @@ bluHeliArmed = ["B_Heli_Light_01_armed_F"];
 bluHeliGunship = ["B_Heli_Attack_01_F"];
 bluCASFW = ["B_Plane_CAS_01_F"];
 
-bluUAV = ["B_UAV_02_F"];
+[_dict, "uavs_small", ["B_UAV_01_F"]] call DICT_fnc_setLocal;
+[_dict, "uavs_attack", ["B_UAV_02_F"]] call DICT_fnc_setLocal;
 
 planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 

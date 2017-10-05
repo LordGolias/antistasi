@@ -14,8 +14,8 @@ opGunship = "CUP_O_Ka52_RU";
 // CAS, fixed-wing
 opCASFW = ["CUP_O_SU34_AGM_RU"];
 
-// small UAV
-opUAVsmall = "CUP_O_Pchela1T_RU";
+[_dict, "uavs_small", ["CUP_O_Pchela1T_RU"]] call DICT_fnc_setLocal;
+[_dict, "uavs_attack", []] call DICT_fnc_setLocal;
 
 // air force
 opAir = opHeliTrans + [opHeliSD, opGunship] + opCASFW;

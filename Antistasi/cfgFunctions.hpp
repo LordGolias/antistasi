@@ -106,6 +106,7 @@ class AS {
         FNC_BASE(spawnAirAttack);
         FNC_BASE(spawnLandAttack);
         FNC_BASE(spawnCSATattack);
+        FNC_BASE(spawnCSATuav);
         FNC_BASE(spawnJournalist);
 
         FNC_BASE(EH_AAFKilled);

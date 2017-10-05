@@ -40,7 +40,7 @@ private _fnc_spawn = {
 	_grupoHeli setVariable ["esNATO",true,true];
 	_grupoHeli setGroupId ["UAV"];
 
-	private _helifn = [_position, 0, selectRandom bluUAV, side_blue] call bis_fnc_spawnvehicle;
+	private _helifn = [_position, 0, selectRandom (["NATO", "uavs_attack"] call AS_fnc_getEntity), side_blue] call bis_fnc_spawnvehicle;
 	private _heli = _helifn select 0;
 	_vehicles pushBack _heli;
 	createVehicleCrew _heli;

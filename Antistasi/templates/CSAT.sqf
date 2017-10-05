@@ -18,8 +18,8 @@ opGunship = 		"O_Heli_Attack_02_F"; // Mi-48 Kajman
 // CAS, fixed-wing
 opCASFW = 			["O_Plane_CAS_02_F"]; // To-199 Neophron (CAS)
 
-// small UAV (Darter, etc)
-opUAVsmall = 		"O_UAV_01_F"; // Tayran AR-2
+[_dict, "uavs_small", ["O_UAV_01_F"]] call DICT_fnc_setLocal;
+[_dict, "uavs_attack", ["O_UAV_02_F"]] call DICT_fnc_setLocal;
 
 // air force
 opAir = 			["O_Heli_Light_02_unarmed_F","O_Heli_Transport_04_bench_F","O_Heli_Attack_02_F","O_Plane_CAS_02_F","O_Heli_Light_02_F"];

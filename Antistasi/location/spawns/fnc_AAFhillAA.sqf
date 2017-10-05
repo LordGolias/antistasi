@@ -59,21 +59,11 @@ private _fnc_spawn = {
 	_mrkfin setMarkerColor "ColorRed";
 	_mrkfin setMarkerBrush "DiagGrid";
 
-	private _grupoUAV = grpNull;
-	private _uav = objNull;
-	if (!isNil "opUAVsmall") then {
-		_uav = createVehicle [opUAVsmall, _posCmp, [], 0, "FLY"];
-		[_uav,"CSAT"] call AS_fnc_initVehicle;
-		_vehiculos pushBack _uav;
-		createVehicleCrew _uav;
-		_grupoUAV = group (crew _uav select 1);
-		[leader _grupoUAV, _mrkfin, "SAFE", "SPAWNED","NOVEH", "NOFOLLOW"] spawn UPSMON;
-		[_uav,"CSAT"] call AS_fnc_initVehicle;
-		{_x call AS_fnc_initUnitCSAT; _soldados pushBack _x} forEach units _grupoUAV;
-		_grupos pushBack _grupoUAV;
-	};
-
 	{[_x,"CSAT"] call AS_fnc_initVehicle} forEach _vehiculos;
+
+	([_posCmp, _mrkfin] call AS_fnc_spawnCSATuav) params ["_groups", "_vehicles"];
+	_vehiculos append _vehicles;
+	_grupos append _groups;
 
 	{_x call AS_fnc_initUnitCSAT; _soldados pushBack _x} forEach units _grupoCSAT;
 	_grupos pushBack _grupoCSAT;
