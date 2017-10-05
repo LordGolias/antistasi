@@ -63,6 +63,4 @@ opFlag = "Flag_CSAT_F";
 // Its acronym
 AS_CSATname = "CSAT";
 
-opIR = "acc_pointer_IR";
-
 opCrate = "Box_East_WpsLaunch_F";

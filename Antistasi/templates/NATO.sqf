@@ -52,8 +52,6 @@ bluSquadWeapons = ["BUS_InfSquad_Weapons"];
 bluTeam = ["BUS_InfTeam"];
 bluATTeam = ["BUS_InfTeam_AT"];
 
-bluIR = "acc_pointer_IR";
-
 bluFlag = "Flag_NATO_F";
 AS_NATOname = "NATO";
 

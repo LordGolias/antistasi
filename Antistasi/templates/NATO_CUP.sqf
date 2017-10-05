@@ -54,8 +54,6 @@ bluSquadWeapons = ["CUP_B_USMC_InfSquad"];
 bluTeam = ["CUP_B_USMC_FireTeam"];
 bluATTeam = ["CUP_B_USMC_HeavyATTeam"];
 
-bluIR = "acc_pointer_IR";
-
 bluFlag = "Flag_US_F";
 AS_NATOname = "USMC";
 

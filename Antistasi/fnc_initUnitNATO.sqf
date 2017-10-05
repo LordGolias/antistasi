@@ -17,5 +17,5 @@ _unit addEventHandler ["killed", {
 	}];
 
 if (sunOrMoon < 1) then {
-	if (bluIR in primaryWeaponItems _unit) then {_unit action ["IRLaserOn", _unit]};
+	_unit action ["IRLaserOn", _unit];
 };

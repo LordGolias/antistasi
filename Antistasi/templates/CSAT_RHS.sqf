@@ -68,6 +68,4 @@ opFlag = "rhs_Flag_vmf_F";
 // Its acronym
 AS_CSATname = "VMF";
 
-opIR = "rhs_acc_perst1ik";
-
 opCrate = "Box_East_WpsLaunch_F";
