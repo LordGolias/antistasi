@@ -47,69 +47,12 @@ private _fnc_spawn = {
 		} else {
 			[5,-20] remoteExec ["AS_fnc_changeForeignSupport",2]
 		};
-		private _origin_pos = getMarkerPos "spawnCSAT";
-		_origin_pos set [2,300];
-
 		private _cuenta = 3;
 		if ((_base == "") or (_airfield == "")) then {_cuenta = 6};
 
-		for "_i" from 1 to _cuenta do {
-			private _tipoVeh = "";
-			if (_i == _cuenta) then {
-				_tipoVeh = selectRandom opHeliTrans;
-			} else {
-				_tipoVeh = selectRandom opAir;
-			};
-			private _timeOut = 0;
-			private _pos = _origin_pos findEmptyPosition [0,100,_tipoVeh];
-			while {_timeOut < 60} do {
-				if (count _pos > 0) exitWith {};
-				_timeOut = _timeOut + 1;
-				_pos = _origin_pos findEmptyPosition [0,100,_tipoVeh];
-				sleep 1;
-			};
-			if (count _pos == 0) then {_pos = _origin_pos};
-
-			private _vehicle = [_origin_pos, 0, _tipoVeh, side_red] call bis_fnc_spawnvehicle;
-			private _heli = _vehicle select 0;
-			private _heliCrew = _vehicle select 1;
-			private _grupoheli = _vehicle select 2;
-			{_x call AS_fnc_initUnitCSAT} forEach _heliCrew;
-			_groups pushBack _grupoheli;
-			_vehicles pushBack _heli;
-			[_heli, "CSAT"] call AS_fnc_initVehicle;
-
-			if (not(_tipoVeh in opHeliTrans)) then {
-				private _wp1 = _grupoheli addWaypoint [_position, 0];
-				_wp1 setWaypointType "SAD";
-				[_heli,"CSAT Air Attack"] spawn AS_fnc_setConvoyImmune;
-			} else {
-				{_x setBehaviour "CARELESS"} forEach units _grupoheli;
-
-				private _tipogrupo = [opGroup_Squad, "CSAT"] call AS_fnc_pickGroup;
-				private _grupo = [_origin_pos, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
-				{_x assignAsCargo _heli; _x moveInCargo _heli; _x call AS_fnc_initUnitCSAT} forEach units _grupo;
-				_groups pushBack _grupo;
-				[_heli,"CSAT Air Transport"] spawn AS_fnc_setConvoyImmune;
-				if (((_position call AS_location_fnc_type) in ["base","airfield"]) or (random 10 < _threatEvalAir)) then {
-					[_heli,_grupo,_position,_threatEvalAir] spawn AS_fnc_activateAirdrop;
-				} else {
-					if ((random 100 < 50) or (_tipoVeh == opHeliDismount)) then {
-						{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _grupoheli;
-						private _landpos = [];
-						_landpos = [_position, 300, 500, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
-						_landPos set [2, 0];
-						private _pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
-						_vehicles pushBack _pad;
-
-						[_grupoheli, _origin_pos, _landpos, _location, _grupo, 25*60, "air"] call AS_QRF_fnc_dismountTroops;
-					} else {
-						[_grupoheli, _origin_pos, _position, _location, _grupo, 25*60] call AS_QRF_fnc_fastrope;
-					};
-				};
-			};
-			sleep 15;
-		};
+		([_location, _cuenta, _threatEvalAir] call AS_fnc_spawnCSATattack) params ["_groups1", "_vehicles1"];
+		_groups append _groups1;
+		_vehicles append _vehicles1;
 
 		// drop artillery at bases or airfields
 		[["TaskSucceeded", ["", format ["%1 under artillery fire",[_location] call AS_fnc_location_name]]],"BIS_fnc_showNotification"] call BIS_fnc_MP;
