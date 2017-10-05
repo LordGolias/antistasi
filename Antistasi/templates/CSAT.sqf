@@ -42,7 +42,6 @@ private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
 [_dict, "static_mg", "O_HMG_01_high_F"] call DICT_fnc_setLocal;
 [_dict, "static_mortar", "O_Mortar_01_F"] call DICT_fnc_setLocal;
 
-// standard group arrays, used for spawning groups
 [_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "OPF_F" >> "Infantry"] call DICT_fnc_setLocal;
 [_dict, "squad", "OIA_InfSquad"] call DICT_fnc_setLocal;
 [_dict, "team", "OIA_InfTeam"] call DICT_fnc_setLocal;
