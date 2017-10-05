@@ -18,16 +18,27 @@ private _fnc_spawn = {
 		_position = _location;
 	};
 
+	// lists of spawned stuff to delete in the end.
+	private _vehiculos = [];
+	private _grupos = [];
+	private _markers = [];
+
 	// save the marker or position
 	if _isLocation then {
 		AS_Pset("patrollingLocations", AS_P("patrollingLocations") + [_location]);
 	} else {
 		AS_Pset("patrollingPositions", AS_P("patrollingPositions") + [_position]);
-	};
 
-	// lists of spawned stuff to delete in the end.
-	private _vehiculos = [];
-	private _grupos = [];
+		// for a position, we need marker for the patrolling
+		_location = createMarkerLocal [format ["%1patrolarea", random 100], _position];
+		_location setMarkerShapeLocal "RECTANGLE";
+		_location setMarkerSizeLocal [200, 200];
+		_location setMarkerTypeLocal "hd_warning";
+		_location setMarkerColorLocal "ColorRed";
+		_location setMarkerBrushLocal "DiagGrid";
+		_location setMarkerAlphaLocal 0;
+		_markers pushBack _location;
+	};
 
 	if (_base != "") then {
 		private _posorigen = _base call AS_location_fnc_position;
@@ -68,64 +79,13 @@ private _fnc_spawn = {
 			_grupos = _grupos + _groups1;
 			_vehiculos = _vehiculos + _vehicles1;
 			sleep 30;
-			};
 		};
+	};
 
 	if _useCSAT then {
-		private _posorigen = getMarkerPos "spawnCSAT";
-		_posorigen set [2,300];  // high in the skies
-		for "_i" from 1 to 3 do {
-			private _tipoVeh = "";
-			if (_i == 3) then {
-				_tipoVeh = selectRandom opHeliTrans;
-			} else {
-				if (_threatEval > 10) then {_tipoVeh = selectRandom (opAir - opHeliTrans)} else {_tipoVeh = selectRandom opAir};
-			};
-			private _pos = _posorigen findEmptyPosition [0,100,_tipoVeh];
-			if (count _pos == 0) then {_pos = _posorigen};
-
-			([_pos, 0,_tipoVeh, side_red] call bis_fnc_spawnvehicle) params ["_heli", "_heliCrew", "_grupoheli"];
-			_grupos = _grupos + [_grupoheli];
-			_vehiculos = _vehiculos + [_heli];
-			[_heli, "CSAT"] spawn AS_fnc_initVehicle;
-			{[_x] call AS_fnc_initUnitCSAT} forEach _heliCrew;
-			if (!(_tipoVeh in opHeliTrans)) then {  // attack heli
-				private _wp1 = _grupoheli addWaypoint [_position, 0];
-				_wp1 setWaypointType "SAD";
-				[_heli,"CSAT Air Attack"] spawn AS_fnc_setConvoyImmune;
-			} else {  // transport heli
-				{_x setBehaviour "CARELESS";} forEach units _grupoheli;
-				private _groupType = [opGroup_Squad, "CSAT"] call AS_fnc_pickGroup;
-				private _group = createGroup side_red;
-				[_groupType call AS_fnc_groupCfgToComposition, _group, _posorigen, _heli call AS_fnc_availableSeats] call AS_fnc_createGroup;
-				{
-					_x assignAsCargo _heli;
-					_x moveInCargo _heli;
-					_x call AS_fnc_initUnitCSAT;
-				} forEach units _group;
-				_grupos pushBack _group;
-				[_heli,"CSAT Air Transport"] spawn AS_fnc_setConvoyImmune;
-
-				if (((_location call AS_location_fnc_type) in ["base", "airfield"]) or
-				    (random 10 < _threatEval)) then {
-					[_heli,_group,_position,_threatEval] spawn AS_fnc_activateAirdrop;
-				} else {
-					if ((random 100 < 50) or (_tipoVeh == opHeliDismount)) then {
-						{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _grupoheli;
-						private _landpos = [];
-						_landpos = [_position, 300, 500, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
-						_landPos set [2, 0];
-						private _pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
-						_vehiculos = _vehiculos + [_pad];
-
-						[_grupoheli, _posorigen, _landpos, _location, _group, 25*60, "air"] call AS_QRF_fnc_dismountTroops;
-					} else {
-						[_grupoheli, _pos, _position, _location, [_group], 25*60] call AS_QRF_fnc_fastrope;
-					};
-				};
-			};
-			sleep 15;  // time between spawning choppers
-		};
+		([_location, 3, _threatEval] call AS_fnc_spawnCSATattack) params ["_groups1", "_vehicles1"];
+		_grupos append _groups1;
+		_vehiculos append _vehicles1;
 	};
 
 	[_spawnName, "resources", [taskNull, _grupos, _vehiculos, []]] call AS_spawn_fnc_set;
@@ -141,6 +101,7 @@ private _fnc_run = {
 		_position = _location call AS_location_fnc_position;
 	} else {
 		_position = _location;
+		_location = (([_spawnName, "resources"] call AS_spawn_fnc_get) select 2) select 0;
 	};
 	private _groups = (([_spawnName, "resources"] call AS_spawn_fnc_get) select 1);
 
