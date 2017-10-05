@@ -18,10 +18,10 @@ if not (_players_score IsEqualTo 0) then {
 };
 if not (_prestige IsEqualTo [0, 0]) then {
     if (_prestige select 0 != 0) then {
-        _description pushBack (format ["%1 support: %2", AS_NATOname, _prestige select 0]);
+        _description pushBack (format ["%1 support: %2", (["NATO", "name"] call AS_fnc_getEntity), _prestige select 0]);
     };
     if (_prestige select 1 != 0) then {
-        _description pushBack (format ["%1 support: %2", AS_CSATname, _prestige select 1]);
+        _description pushBack (format ["%1 support: %2", ["CSAT", "name"] call AS_fnc_getEntity, _prestige select 1]);
     };
 };
 if not (_resourcesFIA IsEqualTo [0, 0]) then {

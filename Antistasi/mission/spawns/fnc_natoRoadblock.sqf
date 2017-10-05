@@ -13,8 +13,8 @@ private _fnc_initialize = {
 	_mrk setMarkerSize [50,50];
 	_mrk setMarkerAlpha 0;
 
-	private _tskTitle = AS_NATOname + " Roadblock Deployment";
-	private _tskDesc = format [AS_NATOname + " is dispatching a team from %1 to establish a temporary Roadblock. Send and cover the team until reaches its destination.",
+	private _tskTitle = (["NATO", "name"] call AS_fnc_getEntity) + " Roadblock Deployment";
+	private _tskDesc = format [(["NATO", "name"] call AS_fnc_getEntity) + " is dispatching a team from %1 to establish a temporary Roadblock. Send and cover the team until reaches its destination.",
 		[_origin] call AS_fnc_location_name];
 
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
@@ -28,7 +28,7 @@ private _fnc_spawn = {
 
 	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
-	private _tipoGrupo = [bluATTeam, "NATO"] call AS_fnc_pickGroup;
+	private _tipoGrupo = [["NATO", "team"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
 
 	private _group = [_position, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 	_group setGroupId ["Watch"];

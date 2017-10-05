@@ -43,17 +43,14 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "static_mortar", "CUP_B_M252_USMC"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Infantry")] call DICT_fnc_setLocal;
+[_dict, "squad", "CUP_B_USMC_InfSquad"] call DICT_fnc_setLocal;
+[_dict, "team", "CUP_B_USMC_FireTeam"] call DICT_fnc_setLocal;
+[_dict, "recon_squad", "CUP_B_USMC_FRTeam"] call DICT_fnc_setLocal;
+[_dict, "recon_team", "CUP_B_USMC_FRTeam"] call DICT_fnc_setLocal;
 
-bluAirCav = ["CUP_B_USMC_Officer","CUP_B_USMC_Medic","CUP_B_USMC_Soldier","CUP_B_USMC_Soldier_GL","CUP_B_USMC_Soldier_HAT","CUP_B_USMC_Soldier_Marksman", "CUP_B_USMC_Soldier_AR"];
-
-// groups that are spawned
-bluSquad = ["CUP_B_USMC_InfSquad"];
-bluSquadWeapons = ["CUP_B_USMC_InfSquad"];
-bluTeam = ["CUP_B_USMC_FireTeam"];
-bluATTeam = ["CUP_B_USMC_HeavyATTeam"];
-
-bluFlag = "Flag_US_F";
-AS_NATOname = "USMC";
+[_dict, "name", "USMC"] call DICT_fnc_setLocal;
+[_dict, "flag", "Flag_US_F"] call DICT_fnc_setLocal;
+[_dict, "box", "Box_NATO_Equip_F"] call DICT_fnc_setLocal;
 
 bluAT = [
     "CUP_Weapon_launch_Javelin",

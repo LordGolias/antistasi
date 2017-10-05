@@ -4,14 +4,14 @@ private _fnc_initialize = {
 	private _destination = [_mission, "destination"] call AS_mission_fnc_get;
 
 	private _destPos = _destination call AS_location_fnc_position;
-	private _origname = format ["the %1 Carrier", AS_NATOname];
+	private _origname = format ["the %1 Carrier", (["NATO", "name"] call AS_fnc_getEntity)];
 	if (_origin != "spawnNATO") then {
 		_origname = [_origin] call AS_fnc_location_name;
 	};
 
-	private _tskTitle = AS_NATOname + " Attack";
+	private _tskTitle = (["NATO", "name"] call AS_fnc_getEntity) + " Attack";
 	private _tskDesc = format ["Our Commander asked %1 for an attack on %2. Help them in order to have success in this operation. The attack will depart from %3 and will include artillery fire.",
-		AS_NATOname,
+		(["NATO", "name"] call AS_fnc_getEntity),
 		[_destination] call AS_fnc_location_name,
 		_origname];
 
@@ -58,7 +58,7 @@ private _fnc_spawn = {
 		[_heli,"NATO Air Transport"] spawn AS_fnc_setConvoyImmune;
 
 		if (_tipoveh in (["NATO", "helis_airdrop"] call AS_fnc_getEntity)) then {
-			private _tipoGrupo = [bluSquadWeapons, "NATO"] call AS_fnc_pickGroup;
+			private _tipoGrupo = [["NATO", "squad"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
 			private _group = [_origPos, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 			{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] spawn AS_fnc_initUnitNATO} forEach units _group;
 			_groups pushBack _group;
@@ -94,7 +94,7 @@ private _fnc_spawn = {
 		};
 		if (_tipoveh in (["NATO", "helis_land"] call AS_fnc_getEntity)) then {
 			{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _groupheli;
-			private _tipoGrupo = [bluTeam, "NATO"] call AS_fnc_pickGroup;
+			private _tipoGrupo = [["NATO", "team"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
 			private _group = [_origPos, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 			{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] call AS_fnc_initUnitNATO} forEach units _group;
 			_groups pushBack _group;
@@ -120,7 +120,7 @@ private _fnc_spawn = {
 		};
 		if (_tipoveh in (["NATO", "helis_fastrope"] call AS_fnc_getEntity)) then {
 			{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _groupheli;
-			private _tipoGrupo = [bluSquad, "NATO"] call AS_fnc_pickGroup;
+			private _tipoGrupo = [["NATO", "squad"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
 			private _group = [_origPos, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 			{_x assignAsCargo _heli; _x moveInCargo _heli; [_x] call AS_fnc_initUnitNATO} forEach units _group;
 			_groups pushBack _group;

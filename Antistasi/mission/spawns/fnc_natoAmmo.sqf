@@ -8,9 +8,9 @@ private _fnc_initialize = {
 	_mrkfin setMarkerShape "ICON";
 	private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + 60];
 
-	private _tskTitle = format ["%1 Ammodrop", AS_NATOname];
+	private _tskTitle = format ["%1 Ammodrop", (["NATO", "name"] call AS_fnc_getEntity)];
 	private _tskDesc = format ["Our Commander has asked %1 for a supply drop. Command the transport with your HC module and bring it to the designated position. Once it has landed you are free to use the equipment or bring it back to HQ.",
-		AS_NATOname];
+		(["NATO", "name"] call AS_fnc_getEntity)];
 
 	[_mission, [_tskDesc,_tskTitle,_mrkfin], _position, "rifle"] call AS_mission_spawn_fnc_saveTask;
 	[_mission, "resources", [taskNull, [], [], [_mrkfin]]] call AS_spawn_fnc_set;

@@ -31,7 +31,7 @@ private _fnc_spawn = {
 		_vehiculos pushBack _heli;
 
 		{_x setBehaviour "CARELESS";} forEach units _grupoheli;
-		private _tipoGrupo = [opGroup_SpecOps, "CSAT"] call AS_fnc_pickGroup;
+		private _tipoGrupo = [["CSAT", "recon_squad"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup;
 		private _grupo = [_pos, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
 		{_x assignAsCargo _heli; _x moveInCargo _heli; _x call AS_fnc_initUnitCSAT} forEach units _grupo;
 		_groups pushBack _grupo;

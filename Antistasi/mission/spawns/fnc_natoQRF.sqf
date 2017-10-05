@@ -9,14 +9,14 @@ private _fnc_initialize = {
 	private _mrk = createMarker ["NATOQRF", _destPos];
 	_mrk setMarkerShape "ICON";
 	_mrk setMarkerType "b_support";
-	_mrk setMarkerText (AS_NATOname + " QRF");
+	_mrk setMarkerText ((["NATO", "name"] call AS_fnc_getEntity) + " QRF");
 
 	private _tiempolim = 30;
 	private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 
-	private _tskTitle = (AS_NATOname + " QRF");
+	private _tskTitle = ((["NATO", "name"] call AS_fnc_getEntity) + " QRF");
 	private _tskDesc = format ["Our Commander asked %1 for reinforcements near %2. Their troops will depart from %3.",
-		AS_NATOname,
+		(["NATO", "name"] call AS_fnc_getEntity),
 		[_destPos call AS_location_fnc_nearest] call AS_fnc_location_name,
 		[_origin] call AS_fnc_location_name];
 
@@ -44,9 +44,6 @@ private _fnc_spawn = {
 
 	private _grpVeh2 = createGroup side_blue;
 	_groups pushBack _grpVeh2;
-
-	private _grpDis2 = createGroup side_blue;
-	_groups pushBack _grpDis2;
 
 	// landing pad, to allow for dismounts
 	private _landpos1 = [];
@@ -84,14 +81,13 @@ private _fnc_spawn = {
 	_vehicles pushBack _heli2;
 
 	// add dismounts
+	private _grpDis2 = [_posOrig, side_blue, [["NATO", "recon_squad"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
+	_groups pushBack _grpDis2;
 	{
-		private _soldier = ([_posOrig, 0, _x, _grpDis2] call bis_fnc_spawnvehicle) select 0;
-		_soldier assignAsCargo _heli2;
-		_soldier moveInCargo _heli2;
-
-		[_soldier] call AS_fnc_initUnitNATO;
-	} forEach bluAirCav;
-	_grpDis2 selectLeader (units _grpDis2 select 0);
+		_x assignAsCargo _heli2;
+		_x moveInCargo _heli2;
+		[_x] call AS_fnc_initUnitNATO;
+	} forEach units _grpDis2;
 
 	// spawn dismount script
 	[_grpVeh2, _posOrig, _landpos1, _mrk, _grpDis2, 25*60, "land"] spawn AS_QRF_fnc_airCavalry;

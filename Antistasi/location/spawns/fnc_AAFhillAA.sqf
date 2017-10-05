@@ -23,8 +23,8 @@ private _fnc_spawn = {
 			if (typeOf _x in (["CSAT", "trucks"] call AS_fnc_getEntity)) exitWith {[_x, "CSAT"] call AS_fnc_initVehicle;};
 			if (typeOf _x in [statMG, statAT, statAA, statAA2, statMGlow, statMGtower]) exitWith {_stcs pushBack _x;};
 			if (typeOf _x == statMortar) exitWith {_stcs pushBack _x; [_x] execVM "scripts\UPSMON\MON_artillery_add.sqf";};
-			if (typeOf _x == opCrate) exitWith {_vehiculos pushBack _x;};
-			if (typeOf _x == opFlag) exitWith {_vehiculos pushBack _x;};
+			if (typeOf _x == (["CSAT", "box"] call AS_fnc_getEntity)) exitWith {_vehiculos pushBack _x;};
+			if (typeOf _x == (["CSAT", "flag"] call AS_fnc_getEntity)) exitWith {_vehiculos pushBack _x;};
 		};
 	} forEach _objs;
 	_vehiculos append _objs;

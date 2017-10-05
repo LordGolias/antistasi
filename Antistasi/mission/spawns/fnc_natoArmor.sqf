@@ -8,9 +8,9 @@ private _fnc_initialize = {
 	private _tiempolim = 60;
 	private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
 
-	private _tskTitle = AS_NATOname + " Armor column";
+	private _tskTitle = (["NATO", "name"] call AS_fnc_getEntity) + " Armor column";
 	private _tskDesc = format ["%1 is sending an armored section departing from %2. They will stay until %3:%4.",
-		AS_NATOname,
+		(["NATO", "name"] call AS_fnc_getEntity),
 		[_origin] call AS_fnc_location_name,
 		numberToDate [2035, dateToNumber _fechalim] select 3,numberToDate [2035, dateToNumber _fechalim] select 4];
 

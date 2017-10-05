@@ -14,7 +14,7 @@ private _fnc_initialize = {
 	private _tskTitle = "Defend " + _name;
 	private _tskDesc = AS_AAFname + " is attacking %1. Defend it or we lose it";
 	if _useCSAT then {
-		_tskDesc = (format ["%1 and %2", AS_AAFname, AS_CSATname]) + " are attacking %1. Defend it or we lose it";
+		_tskDesc = (format ["%1 and %2", AS_AAFname, ["CSAT", "name"] call AS_fnc_getEntity]) + " are attacking %1. Defend it or we lose it";
 	};
 	_tskDesc = format [_tskDesc,_name];
 
