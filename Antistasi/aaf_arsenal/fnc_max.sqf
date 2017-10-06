@@ -7,5 +7,4 @@ switch _this do {
     case "boats": {count (["seaport","AAF"] call AS_location_fnc_TS)};
     case "apcs";
     case "trucks": {2*(count (["base","AAF"] call AS_location_fnc_TS))};
-    case "supplies": {4 + round((count (["base","AAF"] call AS_location_fnc_TS))/2)};
 }

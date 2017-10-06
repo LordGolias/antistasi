@@ -115,9 +115,6 @@ private _fnc_isAvailable = {
         if (_missionType == "convoy_armor") then {
             _condition = True and _condition and {"tanks" call AS_AAFarsenal_fnc_count > 0};
         };
-        if (_missionType == "convoy_ammo") then {
-            _condition = True and _condition and {"supplies" call AS_AAFarsenal_fnc_count > 0};
-        };
         call _condition
     }}
 };
