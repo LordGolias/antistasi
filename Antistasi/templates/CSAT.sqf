@@ -49,7 +49,9 @@ opCASFW = 			["O_Plane_CAS_02_F"]; // To-199 Neophron (CAS)
 [_dict, "pilot", "O_helipilot_F"] call DICT_fnc_setLocal;
 
 [_dict, "static_aa", "O_static_AA_F"] call DICT_fnc_setLocal;
+[_dict, "static_at", "O_static_AT_F"] call DICT_fnc_setLocal;
 [_dict, "static_mg", "O_HMG_01_high_F"] call DICT_fnc_setLocal;
+[_dict, "static_mg_low", "O_HMG_01_F"] call DICT_fnc_setLocal;
 [_dict, "static_mortar", "O_Mortar_01_F"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "OPF_F" >> "Infantry"] call DICT_fnc_setLocal;
