@@ -121,7 +121,6 @@ apMine = "rhs_mine_pmn2";
 
 // NVG, flashlight, laser, mine types
 indNVG = "rhs_1PN138";
-indRF = "rhs_pdu4";
 indFL = "rhs_acc_2dpZenit";
 indLaser = "rhs_acc_perst1ik";
 
