@@ -4,10 +4,10 @@
 		diag_log format ["[AS] Error: Type of unit '%1' not defined for AAF", _x];
 	};
 } forEach ["gunner", "crew", "pilot", "medic", "driver",
-           "officers", "snipers", "ncos", "specials", "mgs",
-		   "regulars", "crews", "pilots",
 		   "cfgGroups", "patrols", "garrisons", "teamsATAA", "teams", "squads", "teamsAA", "teamsAT"
 		   ];
+
+
 {
 	private _type = _x;
 	{
@@ -70,14 +70,28 @@ private _vehicles = [];
 } forEach ["mbts", "trucks", "apcs", "artillery1", "artillery2", "other_vehicles", "helis_transport", "helis_attack", "helis_armed", "planes"];
 [AS_entities, "NATO", "vehicles", _vehicles] call DICT_fnc_setLocal;
 
-{AS_data_allCosts setVariable [_x,10]} forEach (["AAF", "regulars"] call AS_fnc_getEntity);
-{AS_data_allCosts setVariable [_x,15]} forEach (["AAF", "mgs"] call AS_fnc_getEntity);
-{AS_data_allCosts setVariable [_x,15]} forEach (["AAF", "crews"] call AS_fnc_getEntity);
-{AS_data_allCosts setVariable [_x,15]} forEach (["AAF", "pilots"] call AS_fnc_getEntity);
-{AS_data_allCosts setVariable [_x,20]} forEach (["AAF", "specials"] call AS_fnc_getEntity);
-{AS_data_allCosts setVariable [_x,20]} forEach (["AAF", "ncos"] call AS_fnc_getEntity);
-{AS_data_allCosts setVariable [_x,20]} forEach (["AAF", "snipers"] call AS_fnc_getEntity);
-{AS_data_allCosts setVariable [_x,30]} forEach (["AAF", "officers"] call AS_fnc_getEntity);
+// sets the costs of AAF units based on their relative cost
+call {
+	private _result = [];
+	{
+		_result pushBack [_x,(getNumber (configfile >> "cfgVehicles" >> _x >> "cost"))]
+	} forEach ((["AAF", "cfgGroups"] call AS_fnc_getEntity) call AS_fnc_getAllUnits);
+
+	// sort by cost
+	_result = [_result, [], {_x select 1}, "DESC"] call BIS_fnc_sortBy;
+
+	// assign cost based on relative cost: cheapest is 10, most expensive 30
+	private _min = (_result select (count _result - 1)) select 1;
+	private _max = (_result select 0) select 1;
+	if (_max == _min) then {
+		_min = 0;  // if all equal, all cost most expensive
+	};
+	{
+		private _cost = _x select 1;
+		_cost = 10 + 20 * (_cost - _min)/(_max - _min);
+		AS_data_allCosts setVariable [_x select 0, _cost];
+	} forEach _result;
+};
 
 // FIA
 unlockedItems = unlockedItems + AS_FIAuniforms +
