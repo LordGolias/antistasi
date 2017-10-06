@@ -89,8 +89,9 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 // vehicles used to repair stuff
 [_dict, "repairVehicles", ["I_Truck_02_box_F"]] call DICT_fnc_setLocal;
 
-// The UAV. Set to `""` to AAF not use UAVs.
-[_dict, "uav", "I_UAV_02_F"] call DICT_fnc_setLocal;
+// The UAV. Set to `[]` to AAF not use UAVs.
+[_dict, "uavs_small", ["I_UAV_01_F"]] call DICT_fnc_setLocal;
+[_dict, "uavs_attack", ["I_UAV_02_F"]] call DICT_fnc_setLocal;
 
 // Statics to be used
 statMG = "I_HMG_01_high_F";

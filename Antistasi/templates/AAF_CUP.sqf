@@ -51,7 +51,8 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "leadVehicles", ["CUP_O_BMP2_CHDKZ","CUP_O_BRDM2_CHDKZ"]] call DICT_fnc_setLocal;
 [_dict, "repairVehicles", ["CUP_O_Ural_Repair_CHDKZ"]] call DICT_fnc_setLocal;
 
-[_dict, "uav", ""] call DICT_fnc_setLocal;
+[_dict, "uavs_small", []] call DICT_fnc_setLocal;
+[_dict, "uavs_attack", []] call DICT_fnc_setLocal;
 
 // Statics to be used
 statMG = "CUP_O_KORD_high_CHDKZ";

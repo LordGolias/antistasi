@@ -84,7 +84,7 @@ if (_side == "CSAT") then {
 };
 
 // UAV is not part of the AAF arsenal, so the killing of it is dealt separately
-if (_side == "AAF" and _tipo == (["AAF", "uav"] call AS_fnc_getEntity)) then {
+if (_side == "AAF" and _tipo in (["AAF", "uavs_attack"] call AS_fnc_getEntity)) then {
     _veh addEventHandler ["killed",{[-2500] remoteExec ["AS_fnc_changeAAFmoney",2]}];
 };
 

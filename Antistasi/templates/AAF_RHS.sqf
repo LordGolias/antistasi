@@ -85,7 +85,8 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "leadVehicles", ["rhs_tigr_sts_3camo_vdv"]] call DICT_fnc_setLocal;
 [_dict, "repairVehicles", ["rhs_gaz66_repair_vdv"]] call DICT_fnc_setLocal;
 
-[_dict, "uav", ""] call DICT_fnc_setLocal;
+[_dict, "uavs_small", []] call DICT_fnc_setLocal;
+[_dict, "uavs_attack", []] call DICT_fnc_setLocal;
 
 // FIA Vehicles
 vehTruckAA = "rhsgref_cdf_b_gaz66_zu23";
