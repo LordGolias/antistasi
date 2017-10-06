@@ -82,6 +82,3 @@ AS_AAFname = "ChDKZ";
 
 // Long range radio
 lrRadio = "tf_rt1523g_green";
-
-// Define the ammo crate to be spawned at camps
-campCrate = "Box_NATO_Equip_F";
