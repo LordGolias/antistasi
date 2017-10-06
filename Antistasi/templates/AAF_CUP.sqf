@@ -1,31 +1,10 @@
-/*
-List of infantry classes. These will have individual equipment mapped to them.
-*/
-
-private _sol_MED = "CUP_O_INS_Medic"; // Medic
-private _sol_ENG = "CUP_O_INS_Soldier_Engineer"; // Engineer
-private _sol_OFF = "CUP_O_INS_Officer"; // Officer
-private _sol_LAT2 = "CUP_O_INS_Soldier_AT"; // Light AT (extra)
-private _sol_MK = "CUP_O_INS_Sniper"; // Marksman
-private _sol_CREW = "CUP_O_INS_Crew";
-private _sol_HPIL = "CUP_O_INS_Pilot";
-
 private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 
-[_dict, "gunner", _sol_CREW] call DICT_fnc_setLocal;
-[_dict, "crew", _sol_CREW] call DICT_fnc_setLocal;
-[_dict, "pilot", _sol_HPIL] call DICT_fnc_setLocal;
-[_dict, "medic", _sol_MED] call DICT_fnc_setLocal;
-[_dict, "driver", _sol_CREW] call DICT_fnc_setLocal;
-
-[_dict, "officers", [_sol_OFF]] call DICT_fnc_setLocal;
-[_dict, "snipers", [_sol_MK]] call DICT_fnc_setLocal;
-[_dict, "ncos", ["CUP_O_INS_Commander"]] call DICT_fnc_setLocal;
-[_dict, "specials", ["CUP_O_INS_Soldier_AA", _sol_LAT2, _sol_MED, _sol_ENG]] call DICT_fnc_setLocal;
-[_dict, "mgs", ["CUP_O_INS_Soldier_AR", "CUP_O_INS_Soldier_MG"]] call DICT_fnc_setLocal;
-[_dict, "regulars", ["CUP_O_INS_Soldier", "CUP_O_INS_Soldier_Ammo", "CUP_O_INS_Soldier_GL", "CUP_O_INS_Soldier_AK74"]] call DICT_fnc_setLocal;
-[_dict, "crews", [_sol_CREW]] call DICT_fnc_setLocal;
-[_dict, "pilots", [_sol_HPIL]] call DICT_fnc_setLocal;
+[_dict, "gunner", "CUP_O_INS_Crew"] call DICT_fnc_setLocal;
+[_dict, "crew", "CUP_O_INS_Crew"] call DICT_fnc_setLocal;
+[_dict, "pilot", "CUP_O_INS_Pilot"] call DICT_fnc_setLocal;
+[_dict, "medic", "CUP_O_INS_Medic"] call DICT_fnc_setLocal;
+[_dict, "driver", "CUP_O_INS_Crew"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Infantry")] call DICT_fnc_setLocal;
 

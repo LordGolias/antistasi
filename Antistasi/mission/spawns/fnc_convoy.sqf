@@ -153,7 +153,7 @@ private _fnc_spawn = {
 	}];
 
 	if (_missionType == "convoy_hvt") then {
-		_hvt = ([_posbase, 0, selectRandom (["AAF", "officers"] call AS_fnc_getEntity), _group] call bis_fnc_spawnvehicle) select 0;
+		_hvt = ([_posbase, 0, ["AAF", "officer"] call AS_fnc_getEntity, _group] call bis_fnc_spawnvehicle) select 0;
 		[_hvt] spawn AS_fnc_initUnitAAF;
 		_hvt assignAsCargo _mainVehicle;
 		_hvt moveInCargo _mainVehicle;

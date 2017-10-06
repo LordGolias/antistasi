@@ -1,59 +1,10 @@
-/*
-List of infantry classes. These will have individual equipment mapped to them.
-
-Note: all classes marked as "extra" do not have a unique class in this template. They are, however, part of other templates and are therfore included in all templates.
-*/
-private _sol_A_AR = "rhs_vdv_machinegunner_assistant"; // Assistant autorifle
-private _sol_A_AT = "rhs_vdv_strelok_rpg_assist"; // Assistant AT
-private _sol_AA = "rhs_vdv_aa"; // AA
-private _sol_AR = "rhs_vdv_machinegunner"; // Autorifle
-private _sol_AT = "rhs_vdv_at"; // AT
-private _sol_GL = "rhs_vdv_grenadier"; // Grenade launcher
-private _sol_GL2 = "rhs_vdv_grenadier_rpg"; // Grenade launcher
-private _sol_LAT = "rhs_vdv_LAT"; // Light AT
-private _sol_LAT2 = "rhs_vdv_RShG2"; // Light AT
-private _sol_MG = "rhs_vdv_arifleman"; // Machinegunner
-private _sol_MK = "rhs_vdv_marksman"; // Marksman
-private _sol_SL = "rhs_vdv_sergeant"; // Squad leader
-private _sol_TL = "rhs_vdv_junior_sergeant"; // Team leader
-private _sol_TL2 = "rhs_vdv_efreitor"; // Team leader
-private _sol_EXP = "rhs_vdv_engineer"; // Explosives (extra)
-private _sol_R_L = "rhs_vdv_rifleman_lite"; // Rifleman, light
-private _sol_REP = "rhs_vdv_engineer"; // Repair (extra)
-private _sol_RFL = "rhs_vdv_rifleman"; // Rifleman
-private _sol_SN = "rhs_vdv_marksman_asval"; // Sniper
-private _sol_SP = "rhs_vdv_rifleman_asval"; // Spotter
-private _sol_MED = "rhs_vdv_medic"; // Medic
-private _sol_ENG = "rhs_vdv_engineer"; // Engineer
-private _sol_OFF = "rhs_vdv_officer"; // Officer
-private _sol_OFF2 = "rhs_vdv_officer_armored"; // Officer
-
-private _sol_CREW = "rhs_vdv_crew"; // Crew
-private _sol_CREW2 = "rhs_vdv_armoredcrew"; // Crew
-private _sol_CREW3 = "rhs_vdv_combatcrew"; // Crew
-private _sol_CREW4 = "rhs_vdv_crew_commander"; // Crew
-private _sol_DRV = "rhs_vdv_driver"; // Driver
-private _sol_DRV2 = "rhs_vdv_driver_armored"; // Driver
-private _sol_HPIL = "rhs_pilot_transport_heli"; // helicopter pilot
-private _sol_HPIL2 = "rhs_pilot_combat_heli"; // helicopter pilot
-private _sol_PIL = "rhs_pilot"; // Pilot
-
 private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 
-[_dict, "gunner", _sol_CREW] call DICT_fnc_setLocal;
-[_dict, "crew", _sol_CREW] call DICT_fnc_setLocal;
-[_dict, "pilot", _sol_HPIL] call DICT_fnc_setLocal;
-[_dict, "medic", _sol_MED] call DICT_fnc_setLocal;
-[_dict, "driver", _sol_CREW] call DICT_fnc_setLocal;
-
-[_dict, "officers", [_sol_OFF, _sol_OFF2]] call DICT_fnc_setLocal;
-[_dict, "snipers", [_sol_MK, _sol_SN, _sol_SP]] call DICT_fnc_setLocal;
-[_dict, "ncos", [_sol_SL, _sol_TL, _sol_TL2]] call DICT_fnc_setLocal;
-[_dict, "specials", [_sol_A_AT, _sol_AA, _sol_AT, _sol_EXP, _sol_REP, _sol_ENG, _sol_MED]] call DICT_fnc_setLocal;
-[_dict, "mgs", [_sol_A_AR, _sol_AR, _sol_MG]] call DICT_fnc_setLocal;
-[_dict, "regulars", [_sol_GL, _sol_GL2, _sol_LAT, _sol_LAT2, _sol_R_L, _sol_RFL]] call DICT_fnc_setLocal;
-[_dict, "crews", [_sol_CREW, _sol_CREW2, _sol_CREW3, _sol_CREW4, _sol_DRV, _sol_DRV2]] call DICT_fnc_setLocal;
-[_dict, "pilots", [_sol_HPIL, _sol_HPIL2, _sol_PIL]] call DICT_fnc_setLocal;
+[_dict, "gunner", "rhs_vdv_crew"] call DICT_fnc_setLocal;
+[_dict, "crew", "rhs_vdv_crew"] call DICT_fnc_setLocal;
+[_dict, "pilot", "rhs_pilot_transport_heli"] call DICT_fnc_setLocal;
+[_dict, "medic", "rhs_vdv_medic"] call DICT_fnc_setLocal;
+[_dict, "driver", "rhs_vdv_crew"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry"] call DICT_fnc_setLocal;
 

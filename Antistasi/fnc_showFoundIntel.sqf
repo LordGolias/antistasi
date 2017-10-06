@@ -12,11 +12,11 @@ if (count _this == 1) then {
 			_chance = 15;
 		};
 	} else {
-		if (typeOf _location in (["AAF", "officers"] call AS_fnc_getEntity)) exitWith {
-			_chance = 50;
-		};
-		if ((typeOf _location in (["AAF", "ncos"] call AS_fnc_getEntity)) or (typeOf _location in (["AAF", "pilots"] call AS_fnc_getEntity))) exitWith {
-			_chance = 15;
+		// Location is a unit type
+		_chance = AS_data_allCosts getVariable (typeOf _location);
+		if (isNil "_chance") then {
+			diag_log format ["[AS] Error: cost of %1 not defined.", typeOf _location];
+			_chance = 10;
 		};
 	};
 };
