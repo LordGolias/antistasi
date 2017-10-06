@@ -10,7 +10,7 @@ private _fnc_allSoldiers = {
 				_result pushBack (getText (_unitConf >> "vehicle"));
 			};
 		};
-	} forEach _cfgGroups;
+	} forEach ("true" configClasses _cfgGroups);
 	_result arrayIntersect _result - [""]
 };
 
