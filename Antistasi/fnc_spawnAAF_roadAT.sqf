@@ -11,7 +11,7 @@ if (!isNull _road) then {
     _pos = getPosATL _bunker;
     _vehicles pushBack _bunker;
 
-    private _veh = statAT createVehicle _position;
+    private _veh = (["AAF", "static_at"] call AS_fnc_getEntity) createVehicle _position;
     _veh setPos _pos;
     _veh setDir _dir + 180;
     [_veh, "AAF"] call AS_fnc_initVehicle;

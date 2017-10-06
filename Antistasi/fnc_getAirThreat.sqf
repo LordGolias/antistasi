@@ -27,7 +27,7 @@ if (_location call AS_location_fnc_side == "AAF") then {
 			_threat = _threat + (floor((count _garrison)/4));
 			private _estaticas = AS_P("vehicles") select {_x distance _positionOther < _size};
 			if (count _estaticas > 0) then {
-				_threat = _threat + ({typeOf _x in allStatMGs} count _estaticas) + (5*({typeOf _x in allStatAAs} count _estaticas));
+				_threat = _threat + ({typeOf _x in AS_allMGstatics} count _estaticas) + (5*({typeOf _x in AS_allAAstatics} count _estaticas));
 			};
 		};
 	} forEach ([["base", "airfield", "watchpost", "roadblock"], "FIA"]call AS_location_fnc_TS);

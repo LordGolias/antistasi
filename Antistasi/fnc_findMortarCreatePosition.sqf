@@ -1,8 +1,9 @@
 private ["_pos","_cuenta","_sonda","_intersec","_zi","_zf"];
 _pos = _this select 0;
-_pos = _pos findEmptyPosition [1,30,"I_G_Mortar_01_F"];
+private _mortarType = ["AAF", "static_mortar"] call AS_fnc_getEntity;
+_pos = _pos findEmptyPosition [1,30,_mortarType];
 if (count _pos == 0) then {_pos = _this select 0};
-_sonda = statMortar createVehicleLocal _pos;
+_sonda = _mortarType createVehicleLocal _pos;
 _sonda setpos [_pos select 0,_pos select 1,(_pos select 2) + 60];
 _cuenta = 300;
 while {_cuenta > 0} do
@@ -31,7 +32,7 @@ while {_cuenta > 0} do
 	_sonda setpos [_pos select 0,_pos select 1,(_pos select 2) + 60];
 	_cuenta = _cuenta - 1;
 	};
-if (_cuenta == 0) then {_pos = (_this select 0) findEmptyPosition [1,30,"I_G_Mortar_01_F"]};
+if (_cuenta == 0) then {_pos = (_this select 0) findEmptyPosition [1,30,_mortarType]};
 deleteVehicle _sonda;
 if (count _pos == 0) then {_pos = [0,0,0]};
 _pos

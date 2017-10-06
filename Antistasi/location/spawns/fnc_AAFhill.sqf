@@ -27,7 +27,8 @@ private _fnc_spawn = {
 	_vehiculos append _vehicles1;
 
 	// create a mortar
-	private _veh = statMortar createVehicle ([_posicion] call AS_fnc_findMortarCreatePosition);
+	private _mortarType = ["AAF", "gunner"] call AS_fnc_getEntity;
+	private _veh = _mortarType createVehicle ([_posicion] call AS_fnc_findMortarCreatePosition);
 	[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 	private _grupo = createGroup side_red;
 	private _unit = ([_posicion, 0, ["AAF", "gunner"] call AS_fnc_getEntity, _grupo] call bis_fnc_spawnvehicle) select 0;
