@@ -24,7 +24,7 @@ private _fnc_spawn = {
 	_vehiculos append _vehicles;
 
 	// spawn flag and crate
-	private _bandera = createVehicle [cFlag, _posicion, [],0, "CAN_COLLIDE"];
+	private _bandera = createVehicle [["AAF", "flag"] call AS_fnc_getEntity, _posicion, [],0, "CAN_COLLIDE"];
 	_bandera allowDamage false;
 	private _veh = "I_supplyCrate_F" createVehicle _posicion;
 	[_veh, "Watchpost"] call AS_fnc_fillCrateAAF;

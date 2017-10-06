@@ -14,7 +14,7 @@ private _fnc_spawn = {
 	_vehiculos pushBack _veh;
 
 	// create flag
-	_veh = createVehicle [cFlag, _posicion, [],0, "NONE"];
+	_veh = createVehicle [["AAF", "flag"] call AS_fnc_getEntity, _posicion, [],0, "NONE"];
 	_vehiculos pushBack _veh;
 
 	// create crate

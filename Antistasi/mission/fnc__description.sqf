@@ -34,17 +34,17 @@ if not (_resourcesFIA IsEqualTo [0, 0]) then {
 };
 if not (_citySupport IsEqualTo [0, 0, []]) then {
     if (_resourcesFIA select 0 != 0) then {
-        _description pushBack (format ["%1 city support: %2", AS_AAFname, _citySupport select 0]);
+        _description pushBack (format ["%1 city support: %2", (["AAF", "name"] call AS_fnc_getEntity), _citySupport select 0]);
     };
     if (_resourcesFIA select 1 != 0) then {
         _description pushBack (format ["FIA city support: %1", _citySupport select 1]);
     };
 };
 if not (_changeAAFattack == 0) then {
-    _description pushBack (format ["Disruption in %1 organization: %2", AS_AAFname, _changeAAFattack/60]);
+    _description pushBack (format ["Disruption in %1 organization: %2", (["AAF", "name"] call AS_fnc_getEntity), _changeAAFattack/60]);
 };
 if not (_increaseBusy IsEqualTo ["", 0]) then {
-    _description pushBack (format ["Disruption in %1's base: %2", AS_AAFname, _increaseBusy select 1]);
+    _description pushBack (format ["Disruption in %1's base: %2", (["AAF", "name"] call AS_fnc_getEntity), _increaseBusy select 1]);
 };
 if not (_custom IsEqualTo []) then {
     {_description pushBack (_x select 0)} forEach _custom;

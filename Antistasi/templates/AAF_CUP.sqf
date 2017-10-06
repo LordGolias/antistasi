@@ -60,6 +60,9 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "static_mg_low", "CUP_O_KORD_CHDKZ"] call DICT_fnc_setLocal;
 [_dict, "static_mortar", "CUP_O_2b14_82mm_CHDKZ"] call DICT_fnc_setLocal;
 
+[_dict, "name", "ChDKZ"] call DICT_fnc_setLocal;
+[_dict, "flag", "Flag_Red_F"] call DICT_fnc_setLocal;
+
 // These have to be CfgVehicles
 AAFExponsives = [
 	"SatchelCharge_F"
@@ -75,10 +78,6 @@ apMine = "CUP_MineE";
 indNVG = "CUP_NVG_PVS7";
 indFL = "CUP_acc_flashlight";
 indLaser = "CUP_acc_ANPEQ_2_camo";
-
-// The flag
-cFlag = "Flag_Red_F";
-AS_AAFname = "ChDKZ";
 
 // Long range radio
 lrRadio = "tf_rt1523g_green";

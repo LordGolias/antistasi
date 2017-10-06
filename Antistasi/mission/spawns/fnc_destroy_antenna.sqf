@@ -12,7 +12,7 @@ private _fnc_initialize = {
 	private _tskDesc = format [localize "STR_tskDesc_DesAntenna",
 		[_location] call AS_fnc_location_name,
 		numberToDate [2035,dateToNumber _fechalim] select 3,
-		numberToDate [2035,dateToNumber _fechalim] select 4, AS_AAFname];
+		numberToDate [2035,dateToNumber _fechalim] select 4, (["AAF", "name"] call AS_fnc_getEntity)];
 
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 	[_mission, "position", _position] call AS_spawn_fnc_set;

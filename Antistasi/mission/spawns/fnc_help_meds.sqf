@@ -56,7 +56,7 @@ private _fnc_initialize = {
 		[_base] call AS_fnc_location_name, _base,
 		numberToDate [2035,dateToNumber _fechalim] select 3,
 		numberToDate [2035,dateToNumber _fechalim] select 4,
-		AS_AAFname
+		(["AAF", "name"] call AS_fnc_getEntity)
 	];
 
 	private _vehicleType = selectRandom AS_FIA_vans;

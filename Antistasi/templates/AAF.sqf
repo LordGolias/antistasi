@@ -99,6 +99,9 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "static_mg_low", "I_HMG_01_F"] call DICT_fnc_setLocal;
 [_dict, "static_mortar", "I_Mortar_01_F"] call DICT_fnc_setLocal;
 
+[_dict, "name", "AAF"] call DICT_fnc_setLocal;
+[_dict, "flag", "Flag_AAF_F"] call DICT_fnc_setLocal;
+
 // These have to be CfgVehicles
 AAFExponsives = [
 "SatchelCharge_F",
@@ -123,10 +126,6 @@ indNVG = "NVGoggles_INDEP";
 indRF = "Rangefinder";
 indFL = "acc_flashlight";
 indLaser = "acc_pointer_IR";
-
-// The flag
-cFlag = "Flag_AAF_F";
-AS_AAFname = "AAF";
 
 // Long range radio
 lrRadio = "tf_rt1523g_green";
