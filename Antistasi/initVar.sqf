@@ -129,14 +129,18 @@ call {
 		   "cfgGroups", "patrols", "garrisons", "teamsATAA", "teams", "squads", "teamsAA", "teamsAT"
 		   ];
 {
-	private _type = ["NATO", _x] call AS_fnc_getEntity;
-	if isNil "_type" then {
-		diag_log format ["[AS] Error: Type of unit '%1' not defined for NATO", _x];
-	};
+	private _type = _x;
+	{
+		private _value = [_x, _type] call AS_fnc_getEntity;
+		if isNil "_value" then {
+			diag_log format ["[AS] Error: Type of unit '%1' not defined for '%2'", _type, _x];
+		};
+	} forEach ["CSAT", "NATO"];
 } forEach ["gunner", "crew", "pilot", "cfgGroups",
 		   "mbts", "trucks", "apcs", "artillery1", "artillery2", "other_vehicles",
-		   "helis_transport", "helis_attack", "helis_armed", "planes"
+		   "helis_land", "helis_fastrope", "helis_paradrop", "helis_attack", "helis_armed", "planes"
 		   ];
+
 
 {
 	private _side = _x;
