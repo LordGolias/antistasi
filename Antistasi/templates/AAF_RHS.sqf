@@ -94,6 +94,9 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "static_mg_low", "rhsgref_cdf_b_DSHKM_Mini_TriPod"] call DICT_fnc_setLocal;
 [_dict, "static_mortar", "rhsgref_cdf_b_reg_M252"] call DICT_fnc_setLocal;
 
+[_dict, "name", "VV"] call DICT_fnc_setLocal;
+[_dict, "flag", "rhs_Flag_vdv_F"] call DICT_fnc_setLocal;
+
 // FIA Vehicles
 vehTruckAA = "rhsgref_cdf_b_gaz66_zu23";
 
@@ -121,10 +124,6 @@ indNVG = "rhs_1PN138";
 indRF = "rhs_pdu4";
 indFL = "rhs_acc_2dpZenit";
 indLaser = "rhs_acc_perst1ik";
-
-// The flag
-cFlag = "rhs_Flag_vdv_F";
-AS_AAFname = "VV";
 
 // Long-range radio
 lrRadio = "tf_mr3000_rhs";

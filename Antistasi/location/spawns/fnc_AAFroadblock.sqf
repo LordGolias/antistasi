@@ -48,7 +48,7 @@ private _fnc_spawn = {
 
 	// Create flag
 	_pos = [getPos _bunker, 6, getDir _bunker] call BIS_fnc_relPos;
-	_veh = createVehicle [cFlag, _pos, [],0, "CAN_COLLIDE"];
+	_veh = createVehicle [["AAF", "flag"] call AS_fnc_getEntity, _pos, [],0, "CAN_COLLIDE"];
 	_vehiculos pushBack _veh;
 
 	{[_x, "AAF"] call AS_fnc_initVehicle} forEach _vehiculos;
