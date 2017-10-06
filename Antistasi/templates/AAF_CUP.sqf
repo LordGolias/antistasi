@@ -1,11 +1,13 @@
 private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 
+// special units used in special occasions
+[_dict, "officer", "CUP_O_INS_Officer"] call DICT_fnc_setLocal;
+[_dict, "traitor", "CUP_O_INS_Story_Bardak"] call DICT_fnc_setLocal;
 [_dict, "gunner", "CUP_O_INS_Crew"] call DICT_fnc_setLocal;
 [_dict, "crew", "CUP_O_INS_Crew"] call DICT_fnc_setLocal;
 [_dict, "pilot", "CUP_O_INS_Pilot"] call DICT_fnc_setLocal;
-[_dict, "medic", "CUP_O_INS_Medic"] call DICT_fnc_setLocal;
-[_dict, "driver", "CUP_O_INS_Crew"] call DICT_fnc_setLocal;
 
+// To modders: equipment in AAF boxes comes from the set of all equipment of all units on the groups of this cfg
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Infantry")] call DICT_fnc_setLocal;
 
 [_dict, "patrols", ["CUP_O_ChDKZ_InfSquad_Weapons"]] call DICT_fnc_setLocal;
