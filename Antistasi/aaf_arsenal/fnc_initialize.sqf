@@ -14,9 +14,9 @@ private _names = [
 ];
 // The list of all categories.
 private _categories = [
-    "supplies", "trucks", "apcs", "boats", "transportHelis", "tanks", "armedHelis", "planes"
+    "trucks", "apcs", "boats", "transportHelis", "tanks", "armedHelis", "planes"
 ];
-private _costs = [600, 600, 5000, 600, 10000, 4000, 10000, 20000];
+private _costs = [600, 5000, 600, 10000, 4000, 10000, 20000];
 
 {
     [call AS_AAFarsenal_fnc_dictionary, _x] call DICT_fnc_add;

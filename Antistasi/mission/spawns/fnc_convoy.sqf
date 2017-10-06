@@ -46,9 +46,6 @@ private _fnc_initialize = {
 		if (_missionType == "convoy_ammo") exitWith {
 			_tskDesc = localize "STR_tskDesc_CVY_Ammo";
 			_tskIcon = "rearm";
-			if ("supplies" call AS_AAFarsenal_fnc_count == 0) then {
-				diag_log format ["[AS] Error: convoy: supplies requested but not available", _mission];
-			};
 			_mainVehicleType = selectRandom (["AAF", "ammoVehicles"] call AS_fnc_getEntity);
 		};
 		if (_missionType == "convoy_hvt") exitWith {
