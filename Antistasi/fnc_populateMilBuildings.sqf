@@ -7,15 +7,9 @@ private _addChopper = (_side == "AAF") and
 	{!([_location] call AS_fnc_location_isFrontline)} and
 	{"transportHelis" call AS_AAFarsenal_fnc_count > 0};
 
-// AAF
-private _staticAA = statAA;
-private _staticMG = statMGtower;
-private _gunnerCrew = ["AAF", "gunner"] call AS_fnc_getEntity;
-if (_side == "NATO") then {
-	_staticAA = ["NATO", "static_aa"] call AS_fnc_getEntity;
-	_staticMG = ["NATO", "static_mg"] call AS_fnc_getEntity;
-	_gunnerCrew = ["NATO", "gunner"] call AS_fnc_getEntity;
-};
+private _staticAA = [_side, "static_aa"] call AS_fnc_getEntity;
+private _staticMG = [_side, "static_mg"] call AS_fnc_getEntity;
+private _gunnerCrew = [_side, "gunner"] call AS_fnc_getEntity;
 
 private _soldiers = [];
 private _vehicles = [];

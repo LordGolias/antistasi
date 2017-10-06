@@ -4,7 +4,6 @@ private ["_grupo","_artyArray","_artyRoundsArr","_hayMuni","_estanListos","_hayA
 
 private _artillery1 = (["NATO", "artillery1"] call AS_fnc_getEntity);
 private _artillery2 = (["NATO", "artillery2"] call AS_fnc_getEntity);
-private _mortar = ["NATO", "static_mortar"] call AS_fnc_getEntity;
 
 _grupo = hcSelected player select 0;
 
@@ -44,7 +43,7 @@ if ((_veh != _soldado) and (not(_veh in _artyArray))) then
 					}
 				else
 					{
-					if ((typeOf _veh == _mortar) || (typeOf _veh in allStatMortars)) then
+					if (typeOf _veh in AS_allMortarStatics) then
 						{
 						createDialog "mortar_type";
 						waitUntil {!dialog or !(isNil "tipoMuni")};
@@ -223,7 +222,7 @@ if (_tipoArty == "BARRAGE") then
 
 _pos = [_posicionTel,random 10,random 360] call BIS_fnc_relPos;
 
-private _isSequence = (typeOf _veh == _mortar) || (typeOf _veh in allStatMortars) || (typeOf _veh in _artillery1);
+private _isSequence = (typeOf _veh in AS_allMortarStatics) || (typeOf _veh in _artillery1);
 
 for "_i" from 0 to (count _artyArrayDef1) - 1 do {
 	if (_rounds > 0) then {

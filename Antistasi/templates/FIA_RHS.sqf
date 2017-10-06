@@ -6,7 +6,10 @@ AS_FIAvehicles setVariable ["land_vehicles", [
 	"rhs_Ural_Open_Civ_01",
 	"rhsgref_cdf_b_reg_uaz_open",
 	"rhsgref_cdf_b_reg_uaz_dshkm",
-	statMG, statMortar, statAT, statAA
+	["AAF", "static_mg"] call AS_fnc_getEntity,
+	["AAF", "static_at"] call AS_fnc_getEntity,
+	["AAF", "static_mg"] call AS_fnc_getEntity,
+	["AAF", "static_mortar"] call AS_fnc_getEntity
 ]];
 
 // All elements in the lists above must be priced below or their price is 300
@@ -14,10 +17,10 @@ AS_FIAvehicles setVariable ["C_Offroad_01_F", 300];
 AS_FIAvehicles setVariable ["rhs_Ural_Open_Civ_01", 600];
 AS_FIAvehicles setVariable ["rhsgref_cdf_b_reg_uaz_open", 300];
 AS_FIAvehicles setVariable ["rhsgref_cdf_b_reg_uaz_dshkm", 700];
-AS_FIAvehicles setVariable [statMG, 800];
-AS_FIAvehicles setVariable [statMortar, 800];
-AS_FIAvehicles setVariable [statAT, 800];
-AS_FIAvehicles setVariable [statAA, 800];
+AS_FIAvehicles setVariable [["AAF", "static_mg"] call AS_fnc_getEntity, 800];
+AS_FIAvehicles setVariable [["AAF", "static_at"] call AS_fnc_getEntity, 800];
+AS_FIAvehicles setVariable [["AAF", "static_aa"] call AS_fnc_getEntity, 800];
+AS_FIAvehicles setVariable [["AAF", "static_mortar"] call AS_fnc_getEntity, 800];
 
 AS_FIAvehicles setVariable ["water_vehicles", ["B_G_Boat_Transport_01_F"]];
 AS_FIAvehicles setVariable ["B_G_Boat_Transport_01_F", 400];
@@ -33,8 +36,8 @@ AS_FIACustomSquad_types = ["Mobile AA", "Mobile AT", "Mobile Mortar"];
 
 AS_fnc_FIACustomSquad_piece = {
 	params ["_squadType"];
-	if (_squadType == "Mobile AT") exitWith {statAT};
-	if (_squadType == "Mobile Mortar") exitWith {statMortar};
+	if (_squadType == "Mobile AT") exitWith {["AAF", "static_at"] call AS_fnc_getEntity};
+	if (_squadType == "Mobile Mortar") exitWith {["AAF", "static_mortar"] call AS_fnc_getEntity};
 };
 
 AS_fnc_FIACustomSquad_cost = {

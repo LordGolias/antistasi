@@ -88,24 +88,14 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "uavs_small", []] call DICT_fnc_setLocal;
 [_dict, "uavs_attack", []] call DICT_fnc_setLocal;
 
+[_dict, "static_aa", "rhsgref_cdf_b_ZU23"] call DICT_fnc_setLocal;
+[_dict, "static_at", "rhsgref_ins_g_SPG9M"] call DICT_fnc_setLocal;
+[_dict, "static_mg", "rhsgref_cdf_b_DSHKM"] call DICT_fnc_setLocal;
+[_dict, "static_mg_low", "rhsgref_cdf_b_DSHKM_Mini_TriPod"] call DICT_fnc_setLocal;
+[_dict, "static_mortar", "rhsgref_cdf_b_reg_M252"] call DICT_fnc_setLocal;
+
 // FIA Vehicles
 vehTruckAA = "rhsgref_cdf_b_gaz66_zu23";
-
-// Statics to be used
-statMG = "rhsgref_cdf_b_DSHKM";
-statAT = "rhsgref_ins_g_SPG9M"; // alternatives: rhs_Kornet_9M133_2_vdv, rhs_SPG9M_VDV, rhs_Metis_9k115_2_vdv
-statAA = "rhsgref_cdf_b_ZU23"; // alternatively: "rhs_Igla_AA_pod_vdv"
-statAA2 = "rhs_Igla_AA_pod_vdv";
-statMortar = "rhsgref_cdf_b_reg_M252";
-
-statMGlow = "rhsgref_cdf_b_DSHKM_Mini_TriPod";
-statMGtower = "rhsgref_cdf_b_DSHKM";
-
-// Lists of statics to determine the defensive capabilities at locations
-allStatMGs = allStatMGs + [statMG];
-allStatATs = allStatATs + [statAT];
-allStatAAs = allStatAAs + [statAA];
-allStatMortars = allStatMortars + [statMortar];
 
 /*
 ================ Gear ================

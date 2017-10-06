@@ -89,12 +89,6 @@ if hayACE then {
 	call compile preprocessFileLineNumbers "initACE.sqf";
 };
 
-// todo: improve statics in general.
-allStatMGs = 		["B_HMG_01_high_F"];
-allStatATs = 		["B_static_AT_F"];
-allStatAAs = 		["B_static_AA_F"];
-allStatMortars = 	["B_G_Mortar_01_F"];
-
 AS_entities = createSimpleObject ["Static", [0, 0, 0]];
 {
 	AS_entities setVariable [_x, createSimpleObject ["Static", [0, 0, 0]]];
@@ -156,6 +150,34 @@ call {
 	} forEach ["helis_attack", "helis_armed"];
 	[AS_entities, _side, "helis", _vehicles] call DICT_fnc_setLocal;
 } forEach ["CSAT", "NATO"];
+
+// computes lists of statics
+{
+	private _statics = [];
+	private _type = _x;
+	{
+		private _static = [_x, _type] call AS_fnc_getEntity;
+		if isNil "_static" then {
+			diag_log format ["[AS] Error: Type of unit '%1' not defined for '%2'", _type, _x];
+		} else {
+			_statics pushBackUnique _static;
+		};
+	} forEach ["CSAT", "NATO", "AAF"];
+
+	if (_type == "static_at") then {
+		AS_allATstatics = +_statics;
+	};
+	if (_type == "static_aa") then {
+		AS_allAAstatics = +_statics;
+	};
+	if (_type in ["static_mg", "static_mg_low"]) then {
+		AS_allMGstatics = +_statics;
+	};
+	if (_type == "static_mortar") then {
+		AS_allMortarStatics = +_statics;
+	};
+} forEach ["static_aa", "static_at", "static_mg", "static_mg_low", "static_mortar"];
+AS_allStatics = AS_allATstatics + AS_allAAstatics + AS_allMGstatics + AS_allMortarStatics;
 
 // set of all NATO vehicles
 private _vehicles = [];

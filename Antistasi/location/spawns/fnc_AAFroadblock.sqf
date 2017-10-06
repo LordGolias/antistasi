@@ -15,14 +15,17 @@ private _fnc_spawn = {
 	_bunker setDir _dirveh;
 	_vehiculos pushBack _bunker;
 
-	private _veh = statMG createVehicle _posicion;
+	private _static_mg = ["AAF", "static_mg"] call AS_fnc_getEntity;
+	private _gunner = ["AAF", "gunner"] call AS_fnc_getEntity;
+
+	private _veh = _static_mg createVehicle _posicion;
 	_veh setPosATL (getPosATL _bunker);
 	_veh setDir _dirVeh;
 	_vehiculos pushBack _veh;
 
 	private _grupoE = createGroup side_red;  // temp group
 
-	private _unit = ([_posicion, 0, infGunner, _grupoE] call bis_fnc_spawnvehicle) select 0;
+	private _unit = ([_posicion, 0, _gunner, _grupoE] call bis_fnc_spawnvehicle) select 0;
 	_unit moveInGunner _veh;
 	_soldados pushBack _unit;
 	sleep 1;
@@ -34,12 +37,12 @@ private _fnc_spawn = {
 	_bunker setDir _dirveh + 180;
 
 	_pos = getPosATL _bunker;
-	private _veh = statMG createVehicle _posicion;
+	private _veh = _static_mg createVehicle _posicion;
 	_veh setPosATL _pos;
 	_veh setDir _dirVeh;
 	_vehiculos pushBack _veh;
 
-	_unit = ([_posicion, 0, infGunner, _grupoE] call bis_fnc_spawnvehicle) select 0;
+	_unit = ([_posicion, 0, _gunner, _grupoE] call bis_fnc_spawnvehicle) select 0;
 	_unit moveInGunner _veh;
 	_soldados pushBack _unit;
 

@@ -46,9 +46,11 @@ private _fnc_spawn = {
 				private _position = _base call AS_location_fnc_position;
 				if (_position distance _posicion > 1000) then {
 					private _pos = [_posicion] call AS_fnc_findMortarCreatePosition;
-					private _veh = statMortar createVehicle _pos;
+					private _static_mortar = ["AAF", "mortar"] call AS_fnc_getEntity;
+					private _gunnerType = ["AAF", "gunner"] call AS_fnc_getEntity;
+					private _veh = _static_mortar createVehicle _pos;
 					[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
-					private _unit = ([_posicion, 0, infGunner, _grupo] call bis_fnc_spawnvehicle) select 0;
+					private _unit = ([_posicion, 0, _gunnerType, _grupo] call bis_fnc_spawnvehicle) select 0;
 					[_unit, false] spawn AS_fnc_initUnitAAF;
 					[_veh, "AAF"] call AS_fnc_initVehicle;
 					_unit moveInGunner _veh;

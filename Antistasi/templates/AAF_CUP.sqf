@@ -54,21 +54,11 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "uavs_small", []] call DICT_fnc_setLocal;
 [_dict, "uavs_attack", []] call DICT_fnc_setLocal;
 
-// Statics to be used
-statMG = "CUP_O_KORD_high_CHDKZ";
-statAT = "CUP_O_Meltis_CHDKZ";
-statAA = "CUP_O_ZU23_CHDKZ";
-statAA2 = "CUP_O_ZU23_CHDKZ";
-statMortar = "CUP_O_2b14_82mm_CHDKZ";
-
-statMGlow = "CUP_O_KORD_CHDKZ";
-statMGtower = "CUP_O_KORD_high_CHDKZ";
-
-// Lists of statics to determine the defensive capabilities at locations
-allStatMGs = allStatMGs + [statMG];
-allStatATs = allStatATs + [statAT];
-allStatAAs = allStatAAs + [statAA];
-allStatMortars = allStatMortars + [statMortar];
+[_dict, "static_aa", "CUP_O_ZU23_CHDKZ"] call DICT_fnc_setLocal;
+[_dict, "static_at", "CUP_O_Meltis_CHDKZ"] call DICT_fnc_setLocal;
+[_dict, "static_mg", "CUP_O_KORD_high_CHDKZ"] call DICT_fnc_setLocal;
+[_dict, "static_mg_low", "CUP_O_KORD_CHDKZ"] call DICT_fnc_setLocal;
+[_dict, "static_mortar", "CUP_O_2b14_82mm_CHDKZ"] call DICT_fnc_setLocal;
 
 // These have to be CfgVehicles
 AAFExponsives = [

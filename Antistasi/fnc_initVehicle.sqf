@@ -88,7 +88,7 @@ if (_side == "AAF" and _tipo in (["AAF", "uavs_attack"] call AS_fnc_getEntity)) 
     _veh addEventHandler ["killed",{[-2500] remoteExec ["AS_fnc_changeAAFmoney",2]}];
 };
 
-if (_tipo in allStatMortars) then {
+if (_tipo in AS_allMortarStatics) then {
 	// mortars may denounce position for every shot fired.
 	_veh addEventHandler ["Fired", {
 		params ["_mortar"];

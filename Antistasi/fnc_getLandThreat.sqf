@@ -16,7 +16,7 @@ _threat = _threat + 2 * (
 		_threat = _threat + (2*({(_x == "Ammo Bearer")} count _garrison)) + (floor((count _garrison)/8));
 		private _estaticas = AS_P("vehicles") select {_x distance _otherPosition < _size};
 		if (count _estaticas > 0) then {
-			_threat = _threat + ({typeOf _x in allStatMortars} count _estaticas) + (2*({typeOf _x in allStatATs} count _estaticas));
+			_threat = _threat + ({typeOf _x in AS_allMortarStatics} count _estaticas) + (2*({typeOf _x in AS_allATstatics} count _estaticas));
 		};
 	};
 } forEach ([["base", "airfield", "watchpost"], "FIA"] call AS_location_fnc_TS);
