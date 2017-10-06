@@ -123,7 +123,6 @@ apMine = "APERSMine";
 
 // NVG, flashlight, laser, mine types
 indNVG = "NVGoggles_INDEP";
-indRF = "Rangefinder";
 indFL = "acc_flashlight";
 indLaser = "acc_pointer_IR";
 
