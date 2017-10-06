@@ -39,8 +39,10 @@ private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
 [_dict, "pilot", "rhs_pilot_combat_heli"] call DICT_fnc_setLocal;
 
 [_dict, "static_aa", "rhs_Igla_AA_pod_vdv"] call DICT_fnc_setLocal;
+[_dict, "static_at", "rhs_Metis_9k115_2_vdv"] call DICT_fnc_setLocal;
 [_dict, "static_mg", "rhs_KORD_high_vdv"] call DICT_fnc_setLocal;
-[_dict, "static_mortar", "O_Mortar_01_F"] call DICT_fnc_setLocal;
+[_dict, "static_mg_low", "rhs_KORD_vdv"] call DICT_fnc_setLocal;
+[_dict, "static_mortar", "rhs_2b14_82mm_vdv"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry"] call DICT_fnc_setLocal;
 [_dict, "squad", "rhs_group_rus_vdv_infantry_squad"] call DICT_fnc_setLocal;
