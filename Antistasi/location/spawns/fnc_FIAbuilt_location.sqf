@@ -49,7 +49,7 @@ private _fnc_spawn = {
 		private _objs = ([_position, floor(random 361), selectRandom AS_campList] call BIS_fnc_ObjectsMapper);
 		{
 			call {
-				if (typeof _x == campCrate) exitWith {_campBox = _x;};
+				if (typeof _x == "Box_NATO_Equip_F") exitWith {_campBox = _x;};
 				if (typeof _x == "Land_MetalBarrel_F") exitWith {[[_x,"refuel"],"AS_fnc_addAction"] call BIS_fnc_MP;};
 				if (typeof _x == "Land_Campfire_F") exitWith {_x inflame true;};
 			};
