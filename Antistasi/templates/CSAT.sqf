@@ -46,6 +46,8 @@ private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
 [_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "OPF_F" >> "Infantry"] call DICT_fnc_setLocal;
 [_dict, "squads", ["OIA_InfSquad"]] call DICT_fnc_setLocal;
 [_dict, "teams", ["OIA_InfTeam"]] call DICT_fnc_setLocal;
+[_dict, "teamsAA", ["OIA_InfTeam_AA"]] call DICT_fnc_setLocal;
+[_dict, "patrols", ["OIA_InfSentry"]] call DICT_fnc_setLocal;
 [_dict, "recon_squad", "OIA_reconSquad"] call DICT_fnc_setLocal;
 [_dict, "recon_team", "OI_reconTeam"] call DICT_fnc_setLocal;
 

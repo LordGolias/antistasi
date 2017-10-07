@@ -44,8 +44,10 @@ private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
 [_dict, "static_mortar", "CUP_O_2b14_82mm_RU"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "CUP_O_RU" >> "Infantry"] call DICT_fnc_setLocal;
-[_dict, "squads", ["CUP_O_RU_InfSquad"]] call DICT_fnc_setLocal;
-[_dict, "teams", ["CUP_O_RU_InfSection_MG_VDV"]] call DICT_fnc_setLocal;
+[_dict, "squads", ["CUP_O_RU_InfSquad_VDV"]] call DICT_fnc_setLocal;
+[_dict, "teams", ["CUP_O_RU_InfSection_VDV"]] call DICT_fnc_setLocal;
+[_dict, "teamsAA", ["CUP_O_RU_InfSection_AA_VDV"]] call DICT_fnc_setLocal;
+[_dict, "patrols", ["CUP_O_RU_InfSection_VDV"]] call DICT_fnc_setLocal;
 [_dict, "recon_squad", "CUP_O_RU_ReconTeam"] call DICT_fnc_setLocal;
 [_dict, "recon_team", "CUP_O_RU_ReconTeam"] call DICT_fnc_setLocal;
 

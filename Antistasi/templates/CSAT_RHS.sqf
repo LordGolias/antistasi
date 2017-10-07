@@ -46,6 +46,8 @@ private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
 [_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry"] call DICT_fnc_setLocal;
 [_dict, "squads", ["rhs_group_rus_vdv_infantry_squad"]] call DICT_fnc_setLocal;
 [_dict, "teams", ["rhs_group_rus_vdv_infantry_fireteam"]] call DICT_fnc_setLocal;
+[_dict, "teamsAA", ["rhs_group_rus_vdv_infantry_section_AA"]] call DICT_fnc_setLocal;
+[_dict, "patrols", ["rhs_group_rus_vdv_infantry_MANEUVER"]] call DICT_fnc_setLocal;
 [_dict, "recon_squad", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv">> "rhs_group_rus_vdv_infantry_recon" >> "rhs_group_rus_vdv_infantry_recon_squad"] call DICT_fnc_setLocal;
 [_dict, "recon_team", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv">> "rhs_group_rus_vdv_infantry_recon" >>"rhs_group_rus_vdv_infantry_recon_fireteam"] call DICT_fnc_setLocal;
 

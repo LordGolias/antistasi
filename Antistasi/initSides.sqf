@@ -9,7 +9,7 @@
 	} forEach ["CSAT", "NATO", "AAF"];
 } forEach [
 "gunner", "crew", "pilot", "officer", "traitor",
-"cfgGroups", "teams", "squads",
+"cfgGroups", "teams", "teamsAA", "patrols", "squads",
 "static_aa", "static_at", "static_mg", "static_mg_low", "static_mortar",
 "tanks", "boats", "trucks", "apcs", "cars_transport", "cars_armed",
 "truck_ammo", "truck_repair",
@@ -17,18 +17,6 @@
 "uavs_small", "uavs_attack",
 "name", "flag"
 ];
-
-
-// check entities necessary for AAF
-{
-	private _type = ["AAF", _x] call AS_fnc_getEntity;
-	if isNil "_type" then {
-		diag_log format ["[AS] Error: Type of unit '%1' not defined for AAF", _x];
-	};
-} forEach [
-"patrols", "teamsAA"
-];
-
 
 // check entities necessary for CSAT and NATO
 {
@@ -46,7 +34,7 @@
 ];
 
 
-// Define all helis and transport helis of CSAT and NATO
+// Define all helis of CSAT and NATO
 {
 	private _side = _x;
 	private _vehicles = [];
@@ -56,7 +44,7 @@
 	[AS_entities, _side, "helis", _vehicles] call DICT_fnc_setLocal;
 } forEach ["CSAT", "NATO"];
 
-// computes lists of statics
+// compute lists of statics
 {
 	private _statics = [];
 	private _type = _x;
@@ -88,7 +76,10 @@ AS_allStatics = AS_allATstatics + AS_allAAstatics + AS_allMGstatics + AS_allMort
 private _vehicles = [];
 {
 	_vehicles append (["NATO", _x] call AS_fnc_getEntity);
-} forEach ["tanks", "trucks", "apcs", "artillery1", "artillery2", "other_vehicles", "helis_transport", "helis_attack", "helis_armed", "planes"];
+} forEach [
+"tanks", "trucks", "cars_transport", "cars_armed", "apcs",
+"self_aa", "artillery1", "artillery2", "other_vehicles",
+"helis_transport", "helis_attack", "helis_armed", "planes"];
 [AS_entities, "NATO", "vehicles", _vehicles] call DICT_fnc_setLocal;
 
 // sets the costs of AAF units based on their relative cost

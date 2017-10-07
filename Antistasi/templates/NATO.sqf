@@ -49,6 +49,8 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry")] call DICT_fnc_setLocal;
 [_dict, "squads", ["BUS_InfSquad"]] call DICT_fnc_setLocal;
 [_dict, "teams", ["BUS_InfTeam"]] call DICT_fnc_setLocal;
+[_dict, "teamsAA", ["BUS_InfTeam_AA"]] call DICT_fnc_setLocal;
+[_dict, "patrols", ["BUS_InfTeam"]] call DICT_fnc_setLocal;
 [_dict, "recon_squad", "BUS_ReconSquad"] call DICT_fnc_setLocal;
 [_dict, "recon_team", "BUS_ReconPatrol"] call DICT_fnc_setLocal;
 
