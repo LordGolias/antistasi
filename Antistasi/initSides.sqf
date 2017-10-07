@@ -8,7 +8,8 @@
 		};
 	} forEach ["CSAT", "NATO", "AAF"];
 } forEach [
-"gunner", "crew", "pilot", "officer", "traitor", "cfgGroups",
+"gunner", "crew", "pilot", "officer", "traitor",
+"cfgGroups", "teams", "squads",
 "static_aa", "static_at", "static_mg", "static_mg_low", "static_mortar",
 "uavs_small","uavs_attack",
 "name", "flag"
@@ -21,7 +22,7 @@
 	if isNil "_type" then {
 		diag_log format ["[AS] Error: Type of unit '%1' not defined for AAF", _x];
 	};
-} forEach ["patrols", "teams", "squads", "teamsAA"];
+} forEach ["patrols", "teamsAA"];
 
 
 // check entities necessary for CSAT and NATO
@@ -33,11 +34,14 @@
 			diag_log format ["[AS] Error: Type of unit '%1' not defined for '%2'", _type, _x];
 		};
 	} forEach ["CSAT", "NATO"];
-} forEach ["mbts", "trucks", "apcs", "artillery1", "artillery2", "other_vehicles",
-		   "helis_land", "helis_fastrope", "helis_paradrop", "helis_attack", "helis_armed", "planes"
-		   ];
+} forEach [
+"mbts", "trucks", "apcs", "artillery1", "artillery2", "other_vehicles",
+"helis_land", "helis_fastrope", "helis_paradrop", "helis_attack", "helis_armed", "planes",
+"recon_squad", "recon_team"
+];
 
 
+// Define all helis and transport helis of CSAT and NATO
 {
 	private _side = _x;
 	private _vehicles = [];

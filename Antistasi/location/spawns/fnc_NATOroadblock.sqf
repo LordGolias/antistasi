@@ -63,7 +63,7 @@ private _fnc_spawn = {
 	{[_x] spawn AS_fnc_initUnitNATO} forEach units _grupo;
 
 	// spawn infantry group
-	private _grupoInf = [getpos _tempPos, side_blue, [["NATO", "team"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
+	private _grupoInf = [getpos _tempPos, side_blue, [["NATO", "teams"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 
 	private _infdir = _dirveh + 180;
 	if (_infdir >= 360) then {_infdir = _infdir - 360};

@@ -45,8 +45,8 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "static_mortar", "RHS_M252_D"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry")] call DICT_fnc_setLocal;
-[_dict, "squad", "rhs_group_nato_usmc_d_infantry_squad"] call DICT_fnc_setLocal;
-[_dict, "team", "rhs_group_nato_usmc_d_infantry_team"] call DICT_fnc_setLocal;
+[_dict, "squads", ["rhs_group_nato_usmc_d_infantry_squad"]] call DICT_fnc_setLocal;
+[_dict, "teams", ["rhs_group_nato_usmc_d_infantry_team"]] call DICT_fnc_setLocal;
 [_dict, "recon_squad", configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_recon_d_infantry" >> "rhs_group_nato_usmc_recon_d_infantry_team"] call DICT_fnc_setLocal;
 [_dict, "recon_team", configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_recon_d_infantry" >> "rhs_group_nato_usmc_recon_d_infantry_team"] call DICT_fnc_setLocal;
 

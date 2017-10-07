@@ -45,8 +45,8 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "static_mortar", "CUP_B_M252_USMC"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "West" >> "CUP_B_USMC" >> "Infantry")] call DICT_fnc_setLocal;
-[_dict, "squad", "CUP_B_USMC_InfSquad"] call DICT_fnc_setLocal;
-[_dict, "team", "CUP_B_USMC_FireTeam"] call DICT_fnc_setLocal;
+[_dict, "squads", ["CUP_B_USMC_InfSquad"]] call DICT_fnc_setLocal;
+[_dict, "teams", ["CUP_B_USMC_FireTeam"]] call DICT_fnc_setLocal;
 [_dict, "recon_squad", "CUP_B_USMC_FRTeam"] call DICT_fnc_setLocal;
 [_dict, "recon_team", "CUP_B_USMC_FRTeam"] call DICT_fnc_setLocal;
 

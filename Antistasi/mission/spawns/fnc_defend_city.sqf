@@ -51,7 +51,7 @@ private _fnc_spawn = {
 			[_heli,"CSAT Air Attack"] spawn AS_fnc_setConvoyImmune;
 		} else {
 			{_x setBehaviour "CARELESS";} forEach units _grupoheli;
-			private _tipoGrupo = [["CSAT", "squad"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup;
+			private _tipoGrupo = [["CSAT", "squads"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup;
 			private _grupo = [ORIGIN, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
 			{_x assignAsCargo _heli; _x moveInCargo _heli; _x call AS_fnc_initUnitCSAT} forEach units _grupo;
 			_grupos pushBack _grupo;
