@@ -15,7 +15,8 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "apcs", ["CUP_B_LAV25M240_desert_USMC", "CUP_B_LAV25_desert_USMC"]] call DICT_fnc_setLocal;
 
 // used in traitor mission
-[_dict, "cars", ["CUP_B_HMMWV_Unarmed_USMC"]] call DICT_fnc_setLocal;
+[_dict, "cars_transport", ["CUP_B_HMMWV_Unarmed_USMC"]] call DICT_fnc_setLocal;
+[_dict, "cars_armed", ["CUP_B_HMMWV_MK19_USMC", "CUP_B_HMMWV_M2_USMC", "CUP_B_HMMWV_M1114_USMC", "CUP_B_RG31_M2_OD_USMC", "CUP_B_RG31_Mk19_OD_USMC"]] call DICT_fnc_setLocal;
 
 // used in artillery mission
 [_dict, "artillery1", ["CUP_B_M270_HE_USMC"]] call DICT_fnc_setLocal;
