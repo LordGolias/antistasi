@@ -27,7 +27,14 @@ private _fnc_spawn = {
 
 	private _orig = getMarkerPos "spawnNATO";
 
-	private _helifn = [_orig, 0, selectRandom (["NATO", "helis_land"] call AS_fnc_getEntity), side_blue] call bis_fnc_spawnvehicle;
+	// get heli with largest capacity (cargo transport)
+	private _heli = [];
+	{
+		_heli pushBack [_x, _x call AS_fnc_availableSeats];
+	} forEach ["NATO", "helis_transport"] call AS_fnc_getEntity;
+	_heli = ([_heli, [], {_x select 1}, "DESC"] call BIS_fnc_sortBy) select 0 select 0;
+
+	private _helifn = [_orig, 0, _heli, side_blue] call bis_fnc_spawnvehicle;
 	private _heli = _helifn select 0;
 	private _grupoHeli = _helifn select 2;
 	_groups pushBack _grupoHeli;

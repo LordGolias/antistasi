@@ -71,23 +71,30 @@ private _fnc_spawn = {
 	private _pos2 = _posOrig;
 	_pos2 set [0, (_posOrig select 0) + 30];
 	_pos2 set [2, (_posOrig select 2) + 50];
-	private _vehicle2 = [_pos2, 0, selectRandom (["NATO", "helis_land"] call AS_fnc_getEntity), side_blue] call bis_fnc_spawnvehicle;
-	private _heli2 = _vehicle2 select 0;
-	private _heliCrew2 = _vehicle2 select 1;
-	private _grpVeh2 = _vehicle2 select 2;
-	{[_x] call AS_fnc_initUnitNATO} forEach _heliCrew2;
+
+	// spawn transport
+	private _tipoveh = selectRandom (["NATO", "helis_transport"] call AS_fnc_getEntity);
+	([_pos2, 0, _tipoveh, side_blue] call bis_fnc_spawnvehicle) params ["_heli2", "_heliCrew2", "_grpVeh2"];
+	{
+		[_x] spawn AS_fnc_initUnitNATO;
+		_x disableAI "TARGET";
+		_x disableAI "AUTOTARGET";
+		_x setBehaviour "CARELESS";
+	} forEach _heliCrew2;
 	[_heli2, "NATO"] call AS_fnc_initVehicle;
 	_groups pushBack _grpVeh2;
 	_vehicles pushBack _heli2;
 
-	// add dismounts
-	private _grpDis2 = [_posOrig, side_blue, [["NATO", "recon_squad"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
-	_groups pushBack _grpDis2;
+	// initialize group
+	private _groupType = [["NATO", "recon_squad"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
+	private _grpDis2 = createGroup side_blue;
+	[_groupType call AS_fnc_groupCfgToComposition, _grpDis2, _pos2, _heli2 call AS_fnc_availableSeats] call AS_fnc_createGroup;
 	{
 		_x assignAsCargo _heli2;
 		_x moveInCargo _heli2;
 		[_x] call AS_fnc_initUnitNATO;
 	} forEach units _grpDis2;
+	_groups pushBack _grpDis2;
 
 	// spawn dismount script
 	[_grpVeh2, _posOrig, _landpos1, _mrk, _grpDis2, 25*60, "land"] spawn AS_QRF_fnc_airCavalry;

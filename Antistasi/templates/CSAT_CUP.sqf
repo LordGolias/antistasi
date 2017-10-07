@@ -1,9 +1,6 @@
 private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
 
-[_dict, "helis_paradrop", ["CUP_O_Mi8_medevac_RU"]] call DICT_fnc_setLocal;
-[_dict, "helis_land", []] call DICT_fnc_setLocal;
-[_dict, "helis_fastrope", ["CUP_O_Mi8_medevac_RU"]] call DICT_fnc_setLocal;
-
+[_dict, "helis_transport", ["CUP_O_Mi8_medevac_RU"]] call DICT_fnc_setLocal;
 [_dict, "helis_attack", ["CUP_O_Ka52_RU"]] call DICT_fnc_setLocal;
 [_dict, "helis_armed", ["CUP_O_Mi8_RU"]] call DICT_fnc_setLocal;
 [_dict, "planes", ["CUP_O_SU34_AGM_RU"]] call DICT_fnc_setLocal;
