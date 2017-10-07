@@ -28,7 +28,7 @@ private _fnc_spawn = {
 
 	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
-	private _tipoGrupo = [["NATO", "team"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
+	private _tipoGrupo = [["NATO", "teams"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
 
 	private _group = [_position, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 	_group setGroupId ["Watch"];

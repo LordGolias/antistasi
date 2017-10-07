@@ -51,8 +51,8 @@ opCASFW = ["CUP_O_SU34_AGM_RU"];
 [_dict, "static_mortar", "CUP_O_2b14_82mm_RU"] call DICT_fnc_setLocal;
 
 [_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "CUP_O_RU" >> "Infantry"] call DICT_fnc_setLocal;
-[_dict, "squad", "CUP_O_RU_InfSquad"] call DICT_fnc_setLocal;
-[_dict, "team", "CUP_O_RU_InfSection_MG_VDV"] call DICT_fnc_setLocal;
+[_dict, "squads", ["CUP_O_RU_InfSquad"]] call DICT_fnc_setLocal;
+[_dict, "teams", ["CUP_O_RU_InfSection_MG_VDV"]] call DICT_fnc_setLocal;
 [_dict, "recon_squad", "CUP_O_RU_ReconTeam"] call DICT_fnc_setLocal;
 [_dict, "recon_team", "CUP_O_RU_ReconTeam"] call DICT_fnc_setLocal;
 

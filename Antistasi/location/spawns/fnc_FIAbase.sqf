@@ -65,7 +65,7 @@ private _fnc_spawn = {
 		_vehiculos pushBack _veh;
 	};
 
-	private _tipoGrupo = [["NATO", "squad"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
+	private _tipoGrupo = [["NATO", "squads"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
 	private _grupo = [_posicion, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 	[leader _grupo, _location, "SAFE", "RANDOMUP","SPAWNED", "NOVEH2", "NOFOLLOW"] spawn UPSMON;
 	_grupos pushBack _grupo;
@@ -77,7 +77,7 @@ private _fnc_spawn = {
 			_pos = [_posicion, random _size,random 360] call BIS_fnc_relPos;
 			if (!surfaceIsWater _pos) exitWith {};
 		};
-		_tipoGrupo = [["NATO", "squad"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
+		_tipoGrupo = [["NATO", "squads"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
 		_grupo = [_pos,side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
 		sleep 1;
 		if (_i == 0) then {
