@@ -28,7 +28,7 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 
 // used in spawns (base and airfield)
 [_dict, "other_vehicles", [
-"rhsusf_m113d_usarmy_supply","rhsusf_M1083A1P2_B_M2_d_Medical_fmtv_usarmy","rhsusf_M978A4_REPAIR_BKIT_usarmy_d"
+"rhsusf_m113d_usarmy_supply","rhsusf_M1083A1P2_B_M2_d_Medical_fmtv_usarmy","rhsusf_M978A4_REPAIR_usarmy_d"
 ]] call DICT_fnc_setLocal;
 
 [_dict, "self_aa", ["rhs_m2a3_BUSKIII", "rhs_m2a3_BUSKI", "rhs_m2a3"]] call DICT_fnc_setLocal;
@@ -49,6 +49,8 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry")] call DICT_fnc_setLocal;
 [_dict, "squads", ["rhs_group_nato_usmc_d_infantry_squad"]] call DICT_fnc_setLocal;
 [_dict, "teams", ["rhs_group_nato_usmc_d_infantry_team"]] call DICT_fnc_setLocal;
+[_dict, "teamsAA", ["rhs_group_nato_usmc_d_infantry_team_AA"]] call DICT_fnc_setLocal;
+[_dict, "patrols", ["rhs_group_nato_usmc_d_infantry_team"]] call DICT_fnc_setLocal;
 [_dict, "recon_squad", configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_recon_d_infantry" >> "rhs_group_nato_usmc_recon_d_infantry_team"] call DICT_fnc_setLocal;
 [_dict, "recon_team", configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_recon_d_infantry" >> "rhs_group_nato_usmc_recon_d_infantry_team"] call DICT_fnc_setLocal;
 
