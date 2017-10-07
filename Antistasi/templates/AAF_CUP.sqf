@@ -30,8 +30,8 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "apcs", ["CUP_O_BMP2_CHDKZ", "CUP_O_BMP2_HQ_CHDKZ"]] call DICT_fnc_setLocal;
 [_dict, "trucks", ["CUP_O_Ural_CHDKZ", "CUP_O_Ural_Open_CHDKZ"]] call DICT_fnc_setLocal;
 
-[_dict, "ammoVehicles", ["CUP_O_Ural_Reammo_CHDKZ"]] call DICT_fnc_setLocal;
-[_dict, "repairVehicles", ["CUP_O_Ural_Repair_CHDKZ"]] call DICT_fnc_setLocal;
+[_dict, "truck_ammo", "CUP_O_Ural_Reammo_CHDKZ"] call DICT_fnc_setLocal;
+[_dict, "truck_repair", "CUP_O_Ural_Repair_CHDKZ"] call DICT_fnc_setLocal;
 
 [_dict, "uavs_small", []] call DICT_fnc_setLocal;
 [_dict, "uavs_attack", []] call DICT_fnc_setLocal;

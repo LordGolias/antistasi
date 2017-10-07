@@ -30,10 +30,8 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "apcs", ["I_APC_Wheeled_03_cannon_F", "I_APC_tracked_03_cannon_F"]] call DICT_fnc_setLocal;
 [_dict, "trucks", ["I_Truck_02_covered_F","I_Truck_02_transport_F"]] call DICT_fnc_setLocal;
 
-// vehicles used to store and transport weapons
-[_dict, "ammoVehicles", ["I_Truck_02_ammo_F"]] call DICT_fnc_setLocal;
-// vehicles used to repair stuff
-[_dict, "repairVehicles", ["I_Truck_02_box_F"]] call DICT_fnc_setLocal;
+[_dict, "truck_ammo", "I_Truck_02_ammo_F"] call DICT_fnc_setLocal;
+[_dict, "truck_repair", "I_Truck_02_box_F"] call DICT_fnc_setLocal;
 
 // The UAV. Set to `[]` to AAF not use UAVs.
 [_dict, "uavs_small", ["I_UAV_01_F"]] call DICT_fnc_setLocal;

@@ -16,7 +16,7 @@ private _vehicle_category = _tipo call AS_AAFarsenal_fnc_category;
 
 // Equipment-related initialisation
 [_veh] call AS_fnc_emptyCrate;
-if (_tipo in (["AAF", "ammoVehicles"] call AS_fnc_getEntity) and _side == "AAF") then {[_veh, "Convoy"] call AS_fnc_fillCrateAAF};
+if (_tipo in (["AAF", "truck_ammo"] call AS_fnc_getEntity) and _side == "AAF") then {[_veh, "Convoy"] call AS_fnc_fillCrateAAF};
 if (_tipo == (["CSAT", "box"] call AS_fnc_getEntity) and _side == "CSAT") then {[_veh, "AA"] call AS_fnc_fillCrateAAF};
 // todo: add more equipment depending on spawing side / vehicle
 

@@ -43,7 +43,7 @@ private _fnc_spawn = {
 	private _position = _location call AS_location_fnc_position;
 	private _size = [_mission, "size"] call AS_mission_fnc_get;
 
-	private _truckType = selectRandom (["AAF", "ammoVehicles"] call AS_fnc_getEntity);
+	private _truckType = ["AAF", "truck_ammo"] call AS_fnc_getEntity;
 
 	private _pos = [];
 	while {count _pos > 0} do {

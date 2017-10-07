@@ -30,8 +30,8 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "apcs", ["rhs_btr80_vdv", "rhs_bmp2d_vdv","rhs_bmp1p_vdv","rhs_bmd2m","rhs_bmd2k"]] call DICT_fnc_setLocal;
 [_dict, "trucks", ["rhs_kamaz5350_open_vdv","rhs_kamaz5350_vdv","rhs_Ural_Open_VDV_01","rhs_Ural_VDV_01"]] call DICT_fnc_setLocal;
 
-[_dict, "ammoVehicles", ["rhsgref_ins_gaz66_ammo"]] call DICT_fnc_setLocal;
-[_dict, "repairVehicles", ["rhs_gaz66_repair_vdv"]] call DICT_fnc_setLocal;
+[_dict, "truck_ammo", "rhs_gaz66_ammo_vdv"] call DICT_fnc_setLocal;
+[_dict, "truck_repair", "rhs_gaz66_repair_vdv"] call DICT_fnc_setLocal;
 
 [_dict, "uavs_small", []] call DICT_fnc_setLocal;
 [_dict, "uavs_attack", []] call DICT_fnc_setLocal;
