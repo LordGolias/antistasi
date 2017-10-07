@@ -154,7 +154,7 @@ call AS_players_fnc_initialize;
 call AS_AAFarsenal_fnc_initialize;
 {
 	[_x, "valid", ["AAF", _x] call AS_fnc_getEntity] call AS_AAFarsenal_fnc_set;
-} forEach ["planes", "armedHelis", "transportHelis", "tanks", "apcs", "trucks"];
+} forEach ["planes", "helis_armed", "helis_transport", "tanks", "apcs", "trucks"];
 
 // todo: re-add support for TFAR. This is probably needed by it.
 lrRadio = "";

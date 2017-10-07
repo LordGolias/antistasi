@@ -64,12 +64,12 @@ private _fnc_spawn = {
 		private _cuenta = 1;
 		if (_isLocation) then {_cuenta = 2};
 		for "_i" from 1 to _cuenta do {  // the attack has 2 units for a non-marker
-			private _toUse = "transportHelis";  // last attack is always a transport
+			private _toUse = "helis_transport";  // last attack is always a transport
 
 			// first attack (1/2) can be any unit, stronger the higher the treat
 			if (_i < _cuenta) then {
-				if ("armedHelis" call AS_AAFarsenal_fnc_count > 0) then {
-					_toUse = "armedHelis";
+				if ("helis_armed" call AS_AAFarsenal_fnc_count > 0) then {
+					_toUse = "helis_armed";
 				};
 				if (_threatEval > 15 and ("planes" call AS_AAFarsenal_fnc_count > 0)) then {
 					_toUse = "planes";

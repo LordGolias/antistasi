@@ -47,7 +47,7 @@ private _fnc_spawn = {
 			_tam = _tam + 10;
 		};
 
-		private _type = selectRandom (["NATO", "mbts"] call AS_fnc_getEntity);
+		private _type = selectRandom (["NATO", "tanks"] call AS_fnc_getEntity);
 		private _vehicle = [position (_roads select 0), 0, _type, _group] call bis_fnc_spawnvehicle;
 		private _veh = _vehicle select 0;
 		[_veh, "NATO"] call AS_fnc_initVehicle;

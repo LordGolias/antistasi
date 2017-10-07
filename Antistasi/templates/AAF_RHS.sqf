@@ -17,8 +17,8 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "teamsAA", ["rhs_group_rus_vdv_infantry_section_AA"]] call DICT_fnc_setLocal;
 
 [_dict, "planes", ["rhs_Su25SM_vvsc"]] call DICT_fnc_setLocal;
-[_dict, "armedHelis", ["rhs_Mi24V_FAB_vdv","rhs_Mi24V_UPK23_vdv"]] call DICT_fnc_setLocal;
-[_dict, "transportHelis", ["rhs_Mi8mt_Cargo_vvsc","rhs_Mi8MTV3_FAB_vvsc","rhs_Mi8AMTSh_FAB_vvsc","rhs_ka60_c"]] call DICT_fnc_setLocal;
+[_dict, "helis_armed", ["rhs_Mi24V_FAB_vdv","rhs_Mi24V_UPK23_vdv"]] call DICT_fnc_setLocal;
+[_dict, "helis_transport", ["rhs_Mi8mt_Cargo_vvsc","rhs_Mi8MTV3_FAB_vvsc","rhs_Mi8AMTSh_FAB_vvsc","rhs_ka60_c"]] call DICT_fnc_setLocal;
 [_dict, "tanks", ["rhs_t72bb_tv","rhs_t72bd_tv","rhs_t90a_tv"]] call DICT_fnc_setLocal;
 [_dict, "boats", ["I_Boat_Armed_01_minigun_F"]] call DICT_fnc_setLocal;
 [_dict, "apcs", ["rhs_btr80_vdv", "rhs_bmp2d_vdv","rhs_bmp1p_vdv","rhs_bmd2m","rhs_bmd2k"]] call DICT_fnc_setLocal;

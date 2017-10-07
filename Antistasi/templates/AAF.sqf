@@ -21,8 +21,8 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 // 1. vehicle must exist.
 // 2. each vehicle must belong to only one category.
 [_dict, "planes", ["I_Plane_Fighter_03_CAS_F","I_Plane_Fighter_03_AA_F"]] call DICT_fnc_setLocal;
-[_dict, "armedHelis", ["I_Heli_light_03_F"]] call DICT_fnc_setLocal;
-[_dict, "transportHelis", ["I_Heli_Transport_02_F"]] call DICT_fnc_setLocal;
+[_dict, "helis_armed", ["I_Heli_light_03_F"]] call DICT_fnc_setLocal;
+[_dict, "helis_transport", ["I_Heli_Transport_02_F"]] call DICT_fnc_setLocal;
 [_dict, "tanks", ["I_MBT_03_cannon_F"]] call DICT_fnc_setLocal;
 [_dict, "boats", ["I_Boat_Armed_01_minigun_F"]] call DICT_fnc_setLocal;
 [_dict, "apcs", ["I_APC_Wheeled_03_cannon_F", "I_APC_tracked_03_cannon_F", "I_MRAP_03_F","I_MRAP_03_hmg_F", "I_MRAP_03_gmg_F"]] call DICT_fnc_setLocal;

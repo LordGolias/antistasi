@@ -21,7 +21,7 @@ _vehicles pushBack _vehicle;
 [_vehicle, "AAF"] call AS_fnc_initVehicle;
 
 // create waypoints and cargo depending on the type
-if (_toUse in ["planes", "armedHelis"]) then {
+if (_toUse in ["planes", "helis_armed"]) then {
 	private _Hwp0 = _vehicleGroup addWaypoint [_destination, 0];
 	_Hwp0 setWaypointBehaviour "AWARE";
 	_Hwp0 setWaypointType "SAD";

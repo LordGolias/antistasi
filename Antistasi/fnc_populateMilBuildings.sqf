@@ -5,7 +5,7 @@ private _size = _location call AS_location_fnc_size;
 private _buildings = nearestObjects [_posicion, AS_destroyable_buildings, _size*1.5];
 private _addChopper = (_side == "AAF") and
 	{!([_location] call AS_fnc_location_isFrontline)} and
-	{"transportHelis" call AS_AAFarsenal_fnc_count > 0};
+	{"helis_transport" call AS_AAFarsenal_fnc_count > 0};
 
 private _staticAA = [_side, "static_aa"] call AS_fnc_getEntity;
 private _staticMG = [_side, "static_mg"] call AS_fnc_getEntity;
@@ -38,7 +38,7 @@ private _vehicles = [];
 		_vehicles pushback _veh;
 	};
 	if (_addChopper and (_buildingType == "Land_HelipadSquare_F")) then {
-		private _veh = createVehicle [selectRandom ("transportHelis" call AS_AAFarsenal_fnc_valid), position _building, [],0, "CAN_COLLIDE"];
+		private _veh = createVehicle [selectRandom ("helis_transport" call AS_AAFarsenal_fnc_valid), position _building, [],0, "CAN_COLLIDE"];
 		_veh setDir (getDir _building);
 		_vehicles pushback _veh;
 	};

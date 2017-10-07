@@ -18,7 +18,7 @@ private _category = "";
     if (_category == "trucks") then {
         _validOrigins = ["base", "outpost"];
     };
-    if (_category in ["armedHelis", "transportHelis", "planes"]) then {
+    if (_category in ["helis_armed", "helis_transport", "planes"]) then {
         _validOrigins = ["airfield"];
     };
     if (_category  == "boats") then {
@@ -40,7 +40,7 @@ if (_type == "") exitWith {
 private _spawnName = format ["AAFroadPatrol", floor random 100];
 [_spawnName, "AAFroadPatrol"] call AS_spawn_fnc_add;
 [_spawnName, "type", _type] call AS_spawn_fnc_set;
-[_spawnName, "isFlying", _category in ["armedHelis","transportHelis", "planes"]] call AS_spawn_fnc_set;
+[_spawnName, "isFlying", _category in ["helis_armed","helis_transport", "planes"]] call AS_spawn_fnc_set;
 [_spawnName, "origin", _origin] call AS_spawn_fnc_set;
 
 [[_spawnName], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
