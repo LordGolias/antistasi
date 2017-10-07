@@ -23,6 +23,9 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "artillery1", ["B_MBT_01_arty_F"]] call DICT_fnc_setLocal;
 [_dict, "artillery2", ["B_MBT_01_mlrs_F"]] call DICT_fnc_setLocal;
 
+[_dict, "truck_ammo", "B_Truck_01_ammo_F"] call DICT_fnc_setLocal;
+[_dict, "truck_repair", "B_Truck_01_repair_F"] call DICT_fnc_setLocal;
+
 // used in spawns (base and airfield)
 [_dict, "other_vehicles", [
 "B_Truck_01_ammo_F", "B_Truck_01_fuel_F", "B_Truck_01_medical_F", "B_Truck_01_repair_F"

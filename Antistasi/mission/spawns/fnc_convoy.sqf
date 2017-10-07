@@ -46,7 +46,7 @@ private _fnc_initialize = {
 		if (_missionType == "convoy_ammo") exitWith {
 			_tskDesc = localize "STR_tskDesc_CVY_Ammo";
 			_tskIcon = "rearm";
-			_mainVehicleType = selectRandom (["AAF", "ammoVehicles"] call AS_fnc_getEntity);
+			_mainVehicleType = ["AAF", "truck_ammo"] call AS_fnc_getEntity;
 		};
 		if (_missionType == "convoy_hvt") exitWith {
 			_tskDesc = localize "STR_tskDesc_CVY_HVT";

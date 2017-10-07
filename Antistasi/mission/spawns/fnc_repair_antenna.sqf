@@ -44,7 +44,7 @@ private _fnc_spawn = {
 	params ["_mission"];
 	private _position = [_mission, "position"] call AS_spawn_fnc_get;
 
-	private _vehicleType = selectRandom (["AAF", "repairVehicles"] call AS_fnc_getEntity);
+	private _vehicleType = ["AAF", "truck_repair"] call AS_fnc_getEntity;
 
 	private _pos = _position findEmptyPosition [10,60,_vehicleType];
 	private _veh = createVehicle [_vehicleType, _pos, [], 0, "NONE"];

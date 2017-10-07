@@ -12,6 +12,7 @@
 "cfgGroups", "teams", "squads",
 "static_aa", "static_at", "static_mg", "static_mg_low", "static_mortar",
 "tanks", "boats", "trucks", "apcs", "cars_transport", "cars_armed",
+"truck_ammo", "truck_repair",
 "helis_transport", "helis_armed", "planes",
 "uavs_small", "uavs_attack",
 "name", "flag"
@@ -25,8 +26,7 @@
 		diag_log format ["[AS] Error: Type of unit '%1' not defined for AAF", _x];
 	};
 } forEach [
-"patrols", "teamsAA",
-"ammoVehicles", "repairVehicles"
+"patrols", "teamsAA"
 ];
 
 
