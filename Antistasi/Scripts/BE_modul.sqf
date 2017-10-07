@@ -44,7 +44,7 @@ fnc_BE_initialize = {
 	BE_currentXP = 0;
 	BE_progressLock = false;
 
-	BE_class_Heli = (["armedHelis", "transportHelis"] call AS_AAFarsenal_fnc_valid) + (["CSAT", "helis"] call AS_fnc_getEntity);
+	BE_class_Heli = (["helis_armed", "helis_transport"] call AS_AAFarsenal_fnc_valid) + (["CSAT", "helis"] call AS_fnc_getEntity);
 	BE_class_MBT = (["tanks"] call AS_AAFarsenal_fnc_valid);
 	BE_class_APC = (["apcs"] call AS_AAFarsenal_fnc_valid);
 	BE_class_MRAP = (["apcs"] call AS_AAFarsenal_fnc_valid);

@@ -48,8 +48,8 @@ private _fnc_spawn = {
 			private _grupo = createGroup side_red;
 			_grupos pushBack _grupo;
 
-			private _count_vehicles = ["planes", "armedHelis", "transportHelis"] call AS_AAFarsenal_fnc_count;
-			private _valid_vehicles = ["planes", "armedHelis", "transportHelis"] call AS_AAFarsenal_fnc_valid;
+			private _count_vehicles = ["planes", "helis_armed", "helis_transport"] call AS_AAFarsenal_fnc_count;
+			private _valid_vehicles = ["planes", "helis_armed", "helis_transport"] call AS_AAFarsenal_fnc_valid;
 			for "_i" from 1 to (_count_vehicles min 5) do {
 				if !(_location call AS_location_fnc_spawned) exitWith {};
 

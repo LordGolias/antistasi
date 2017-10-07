@@ -8,7 +8,7 @@ private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
 [_dict, "uavs_small", ["O_UAV_01_F"]] call DICT_fnc_setLocal;
 [_dict, "uavs_attack", ["O_UAV_02_F"]] call DICT_fnc_setLocal;
 
-[_dict, "mbts", ["O_MBT_02_cannon_F"]] call DICT_fnc_setLocal;
+[_dict, "tanks", ["O_MBT_02_cannon_F"]] call DICT_fnc_setLocal;
 
 // used in roadblock mission
 [_dict, "trucks", ["O_Truck_03_covered_F", "O_Truck_03_transport_F"]] call DICT_fnc_setLocal;

@@ -82,8 +82,8 @@ private _threatEval = 0;
 
 // decide to not use airfield if not enough air units or AA treat too high
 if (_aeropuerto != "") then {
-	private _transportHelis = "transportHelis" call AS_AAFarsenal_fnc_count;
-	private _armedHelis = "armedHelis" call AS_AAFarsenal_fnc_count;
+	private _transportHelis = "helis_transport" call AS_AAFarsenal_fnc_count;
+	private _armedHelis = "helis_armed" call AS_AAFarsenal_fnc_count;
 	private _planes = "planes" call AS_AAFarsenal_fnc_count;
 	// 1 transported + any other if _isLocation.
 	if (_transportHelis < 1 or _isLocation and (_transportHelis + _armedHelis + _planes < 2)) then {

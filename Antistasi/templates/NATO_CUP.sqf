@@ -8,7 +8,7 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "uavs_small", []] call DICT_fnc_setLocal;
 [_dict, "uavs_attack", ["CUP_B_USMC_MQ9"]] call DICT_fnc_setLocal;
 
-[_dict, "mbts", ["CUP_B_M1A1_DES_USMC", "CUP_B_M1A2_TUSK_MG_DES_USMC"]] call DICT_fnc_setLocal;
+[_dict, "tanks", ["CUP_B_M1A1_DES_USMC", "CUP_B_M1A2_TUSK_MG_DES_USMC"]] call DICT_fnc_setLocal;
 
 // used in roadblock mission
 [_dict, "trucks", ["CUP_B_MTVR_USMC"]] call DICT_fnc_setLocal;

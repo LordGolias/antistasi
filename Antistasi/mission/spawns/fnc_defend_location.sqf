@@ -121,12 +121,12 @@ private _fnc_spawn = {
 		};
 
 		for "_i" from 1 to 3 do {
-			private _toUse = "transportHelis";  // last attack is always a transport
+			private _toUse = "helis_transport";  // last attack is always a transport
 
 			// first 2 rounds can be any unit, stronger the higher the treat
 			if (_i < 3) then {
-				if ("armedHelis" call AS_AAFarsenal_fnc_count > 0) then {
-					_toUse = "armedHelis";
+				if ("helis_armed" call AS_AAFarsenal_fnc_count > 0) then {
+					_toUse = "helis_armed";
 				};
 				if (_threatEvalAir > 15 and ("planes" call AS_AAFarsenal_fnc_count > 0)) then {
 					_toUse = "planes";

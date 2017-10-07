@@ -14,7 +14,7 @@ private _names = [
 ];
 // The list of all categories.
 private _categories = [
-    "trucks", "apcs", "boats", "transportHelis", "tanks", "armedHelis", "planes"
+    "trucks", "apcs", "boats", "helis_transport", "tanks", "helis_armed", "planes"
 ];
 private _costs = [600, 5000, 600, 10000, 4000, 10000, 20000];
 

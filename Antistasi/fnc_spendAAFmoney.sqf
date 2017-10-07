@@ -60,9 +60,9 @@ private _FIAcontrolledBases = count (
 	[["airfield", "base"], "FIA"] call AS_location_fnc_TS);
 
 private _extra_conditions = createSimpleObject ["Static", [0, 0, 0]];
-_extra_conditions setVariable ["transportHelis", _FIAcontrolledLocations >= 1];
+_extra_conditions setVariable ["helis_transport", _FIAcontrolledLocations >= 1];
 _extra_conditions setVariable ["tanks", _FIAcontrolledLocations >= 3];
-_extra_conditions setVariable ["armedHelis", _FIAcontrolledLocations >= 3];
+_extra_conditions setVariable ["helis_armed", _FIAcontrolledLocations >= 3];
 _extra_conditions setVariable ["planes", _FIAcontrolledBases >= 1];
 
 {

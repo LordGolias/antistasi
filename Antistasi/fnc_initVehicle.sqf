@@ -44,7 +44,7 @@ private _aaf_veh_EHkilled = {
 				_citySupportEffect = 5;
 				_xpEffect = "des_arm";
 			};
-			case "armedHelis": {
+			case "helis_armed": {
 				_citySupportEffect = 5;
 				_xpEffect = "des_arm";
 			};
@@ -52,7 +52,7 @@ private _aaf_veh_EHkilled = {
 				_citySupportEffect = 4;
 				_xpEffect = "des_arm";
 			};
-			case "transportHelis": {
+			case "helis_transport": {
 				_citySupportEffect = 3;
 				_xpEffect = "des_veh";
 			};
@@ -126,7 +126,7 @@ if !(_veh isKindOf "StaticWeapon") then {
 };
 
 // air units can only be piloted by humans
-if (_vehicle_category in ["planes", "armedHelis", "transportHelis"]) then {
+if (_vehicle_category in ["planes", "helis_armed", "helis_transport"]) then {
 	_veh addEventHandler ["GetIn", {
 		private _posicion = _this select 1;
 		if (_posicion == "driver") then {
