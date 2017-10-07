@@ -54,7 +54,7 @@ private _fnc_spawn = {
 	{[_x, "AAF"] call AS_fnc_initVehicle} forEach _vehiculos;
 
 	// create the patrol group
-	private _grupo = [_posicion, side_red, [["AAF", "teamsAT"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
+	private _grupo = [_posicion, side_red, [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 	{[_x] join _grupo} forEach units _grupoE;
 	deleteGroup _grupoE;
 

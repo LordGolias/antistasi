@@ -10,13 +10,11 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 // To modders: equipment in AAF boxes comes from the set of all equipment of all units on the groups of this cfg
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "East" >> "CUP_O_ChDKZ" >> "Infantry")] call DICT_fnc_setLocal;
 
+// These groups are used in different spawns (locations, patrols, missions)
 [_dict, "patrols", ["CUP_O_ChDKZ_InfSquad_Weapons"]] call DICT_fnc_setLocal;
-[_dict, "garrisons", ["CUP_O_ChDKZ_InfSquad_Weapons"]] call DICT_fnc_setLocal;
-[_dict, "teamsATAA", ["CUP_O_ChDKZ_InfSection_AT","CUP_O_ChDKZ_InfSection_AA"]] call DICT_fnc_setLocal;
 [_dict, "teams", ["CUP_O_ChDKZ_InfSquad_Weapons", "CUP_O_ChDKZ_InfSquad"]] call DICT_fnc_setLocal;
 [_dict, "squads", ["CUP_O_ChDKZ_InfSquad_Weapons", "CUP_O_ChDKZ_InfSquad"]] call DICT_fnc_setLocal;
 [_dict, "teamsAA", ["CUP_O_ChDKZ_InfSection_AA"]] call DICT_fnc_setLocal;
-[_dict, "teamsAT", ["CUP_O_ChDKZ_InfSection_AT"]] call DICT_fnc_setLocal;
 
 [_dict, "planes", ["CUP_O_Su25_RU_1"]] call DICT_fnc_setLocal;
 [_dict, "armedHelis", ["CUP_O_Mi24_P_RU", "CUP_O_Ka60_Grey_RU"]] call DICT_fnc_setLocal;

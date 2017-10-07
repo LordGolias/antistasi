@@ -10,19 +10,11 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 // To modders: equipment in AAF boxes comes from the set of all equipment of all units on the groups of this cfg
 [_dict, "cfgGroups", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry"] call DICT_fnc_setLocal;
 
+// These groups are used in different spawns (locations, patrols, missions)
 [_dict, "patrols", ["rhs_group_rus_vdv_infantry_fireteam","rhs_group_rus_vdv_infantry_MANEUVER"]] call DICT_fnc_setLocal;
-[_dict, "garrisons", ["rhs_group_rus_vdv_infantry_fireteam","rhs_group_rus_vdv_infantry_MANEUVER","rhs_group_rus_vdv_infantry_MANEUVER"]] call DICT_fnc_setLocal;
-[_dict, "teamsATAA", ["rhs_group_rus_vdv_infantry_section_AT","rhs_group_rus_vdv_infantry_section_AA"]] call DICT_fnc_setLocal;
-[_dict, "teams", ["rhs_group_rus_vdv_infantry_section_mg",
-    "rhs_group_rus_vdv_infantry_section_marksman",
-    "rhs_group_rus_vdv_infantry_section_AT",
-    "rhs_group_rus_vdv_infantry_section_AA",
-    "rhs_group_rus_vdv_infantry_section_mg",
-    "rhs_group_rus_vdv_infantry_section_marksman"]
-] call DICT_fnc_setLocal;
+[_dict, "teams", ["rhs_group_rus_vdv_infantry_section_mg", "rhs_group_rus_vdv_infantry_section_marksman"]] call DICT_fnc_setLocal;
 [_dict, "squads", ["rhs_group_rus_vdv_infantry_squad","rhs_group_rus_vdv_infantry_squad_2mg","rhs_group_rus_vdv_infantry_squad_sniper","rhs_group_rus_vdv_infantry_squad_mg_sniper"]] call DICT_fnc_setLocal;
 [_dict, "teamsAA", ["rhs_group_rus_vdv_infantry_section_AA"]] call DICT_fnc_setLocal;
-[_dict, "teamsAT", ["rhs_group_rus_vdv_infantry_section_AT"]] call DICT_fnc_setLocal;
 
 [_dict, "planes", ["rhs_Su25SM_vvsc"]] call DICT_fnc_setLocal;
 [_dict, "armedHelis", ["rhs_Mi24V_FAB_vdv","rhs_Mi24V_UPK23_vdv"]] call DICT_fnc_setLocal;
