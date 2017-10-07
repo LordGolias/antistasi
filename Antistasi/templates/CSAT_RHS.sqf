@@ -1,22 +1,9 @@
 private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
 
-// (un-)armed transport helicopters
-opHeliTrans = 		["rhs_ka60_grey","RHS_Mi8AMTSh_FAB_vvs"];
-
-// helicopter that dismounts troops
-opHeliDismount = 	"RHS_Mi8AMTSh_FAB_vvs"; // Mi-290 Taru (Bench)
-
-// helicopter that fastropes troops in
-opHeliFR = 			"rhs_ka60_grey"; // PO-30 Orca (Unarmed)
-
-// small armed helicopter
-opHeliSD = 			"RHS_Mi8AMTSh_vvs"; // PO-30 Orca (Armed)
-
-// gunship
-opGunship = 		"rhs_mi28n_vvs"; // Mi-48 Kajman
-
-// CAS, fixed-wing
-opCASFW = 			["RHS_Su25SM_vvs", "RHS_T50_vvs_generic"]; // To-199 Neophron (CAS)
+[_dict, "helis_transport", ["rhs_Mi8AMTSh_FAB_vvs", "rhs_ka60_grey"]] call DICT_fnc_setLocal;
+[_dict, "helis_attack", ["rhs_mi28n_vvs"]] call DICT_fnc_setLocal;
+[_dict, "helis_armed", ["RHS_Mi8AMTSh_vvs"]] call DICT_fnc_setLocal;
+[_dict, "planes", ["RHS_Su25SM_vvs", "RHS_T50_vvs_generic"]] call DICT_fnc_setLocal;
 
 [_dict, "uavs_small", ["rhs_pchela1t_vvs"]] call DICT_fnc_setLocal;
 [_dict, "uavs_attack", []] call DICT_fnc_setLocal;

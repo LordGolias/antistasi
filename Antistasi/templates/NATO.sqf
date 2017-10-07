@@ -1,12 +1,9 @@
 private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 
-bluHeliTrans = ["B_Heli_Light_01_F","B_Heli_Transport_01_camo_F","B_Heli_Transport_03_F"];
-bluHeliTS = ["B_Heli_Light_01_F"];
-bluHeliDis = ["B_Heli_Transport_01_camo_F"];
-bluHeliRope = ["B_Heli_Transport_03_F"];
-bluHeliArmed = ["B_Heli_Light_01_armed_F"];
-bluHeliGunship = ["B_Heli_Attack_01_F"];
-bluCASFW = ["B_Plane_CAS_01_F"];
+[_dict, "helis_transport", ["B_Heli_Light_01_F", "B_Heli_Transport_01_camo_F", "B_Heli_Transport_03_F"]] call DICT_fnc_setLocal;
+[_dict, "helis_attack", ["B_Heli_Attack_01_F"]] call DICT_fnc_setLocal;
+[_dict, "helis_armed", ["B_Heli_Light_01_armed_F"]] call DICT_fnc_setLocal;
+[_dict, "planes", ["B_Plane_CAS_01_F"]] call DICT_fnc_setLocal;
 
 [_dict, "uavs_small", ["B_UAV_01_F"]] call DICT_fnc_setLocal;
 [_dict, "uavs_attack", ["B_UAV_02_F"]] call DICT_fnc_setLocal;

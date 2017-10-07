@@ -1,18 +1,9 @@
 private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
 
-// (un-)armed transport helicopters
-opHeliTrans = ["CUP_O_Mi8_medevac_RU"];
-// helicopter that dismounts troops
-opHeliDismount = "CUP_O_Mi8_medevac_RU";
-// helicopter that fastropes troops in
-opHeliFR = "CUP_O_Mi8_medevac_RU";
-// small armed helicopter
-opHeliSD = "CUP_O_Mi8_RU";
-// gunship
-opGunship = "CUP_O_Ka52_RU";
-
-// CAS, fixed-wing
-opCASFW = ["CUP_O_SU34_AGM_RU"];
+[_dict, "helis_transport", ["CUP_O_Mi8_medevac_RU"]] call DICT_fnc_setLocal;
+[_dict, "helis_attack", ["CUP_O_Ka52_RU"]] call DICT_fnc_setLocal;
+[_dict, "helis_armed", ["CUP_O_Mi8_RU"]] call DICT_fnc_setLocal;
+[_dict, "planes", ["CUP_O_SU34_AGM_RU"]] call DICT_fnc_setLocal;
 
 [_dict, "uavs_small", ["CUP_O_Pchela1T_RU"]] call DICT_fnc_setLocal;
 [_dict, "uavs_attack", []] call DICT_fnc_setLocal;

@@ -1,12 +1,9 @@
 private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 
-bluHeliTrans = ["CUP_B_CH53E_USMC", "CUP_B_UH1Y_UNA_USMC"];
-bluHeliTS = ["CUP_B_UH1Y_UNA_USMC"];
-bluHeliDis = ["CUP_B_CH53E_USMC"];
-bluHeliRope = ["CUP_B_CH53E_USMC"];
-bluHeliArmed = ["CUP_B_UH1Y_Gunship_Dynamic_USMC", "CUP_B_MH60L_DAP_2x_AT_USN", "CUP_B_MH60L_DAP_2x_Escort_USN", "CUP_B_MH60L_DAP_2x_Multi_USN"];
-bluHeliGunship = ["CUP_B_AH1Z_Dynamic_USMC"];
-bluCASFW = ["CUP_B_F35B_CAS_USMC"];
+[_dict, "helis_transport", ["CUP_B_UH1Y_UNA_USMC", "CUP_B_CH53E_USMC"]] call DICT_fnc_setLocal;
+[_dict, "helis_attack", ["CUP_B_AH1Z_Dynamic_USMC"]] call DICT_fnc_setLocal;
+[_dict, "helis_armed", ["CUP_B_UH1Y_Gunship_Dynamic_USMC", "CUP_B_MH60L_DAP_2x_AT_USN", "CUP_B_MH60L_DAP_2x_Escort_USN", "CUP_B_MH60L_DAP_2x_Multi_USN"]] call DICT_fnc_setLocal;
+[_dict, "planes", ["CUP_B_F35B_CAS_USMC"]] call DICT_fnc_setLocal;
 
 [_dict, "uavs_small", []] call DICT_fnc_setLocal;
 [_dict, "uavs_attack", ["CUP_B_USMC_MQ9"]] call DICT_fnc_setLocal;

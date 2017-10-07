@@ -25,7 +25,7 @@ private _type = "air";
 private _method = "rope";
 private _side = side_red;
 private _lead = selectRandom (["CSAT", "helis_armed"] call AS_fnc_getEntity);
-private _transport = selectRandom (["CSAT", "helis_fastrope"] call AS_fnc_getEntity);
+private _transport = selectRandom (["CSAT", "helis_transport"] call AS_fnc_getEntity);
 private _dismountGroup = [["CSAT", "recon_team"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup;
 if (_size == "large") then {
 	_dismountGroup = [["CSAT", "recon_squad"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup;

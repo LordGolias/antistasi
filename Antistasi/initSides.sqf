@@ -36,7 +36,7 @@
 	} forEach ["CSAT", "NATO"];
 } forEach [
 "mbts", "trucks", "apcs", "artillery1", "artillery2", "other_vehicles",
-"helis_land", "helis_fastrope", "helis_paradrop", "helis_attack", "helis_armed", "planes",
+"helis_transport", "helis_attack", "helis_armed", "planes",
 "recon_squad", "recon_team"
 ];
 
@@ -47,11 +47,7 @@
 	private _vehicles = [];
 	{
 		_vehicles append ([_side, _x] call AS_fnc_getEntity);
-	} forEach ["helis_land", "helis_fastrope", "helis_paradrop"];
-	[AS_entities, _side, "helis_transport", _vehicles] call DICT_fnc_setLocal;
-	{
-		_vehicles append ([_side, _x] call AS_fnc_getEntity);
-	} forEach ["helis_attack", "helis_armed"];
+	} forEach ["helis_transport", "helis_attack", "helis_armed"];
 	[AS_entities, _side, "helis", _vehicles] call DICT_fnc_setLocal;
 } forEach ["CSAT", "NATO"];
 
