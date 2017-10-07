@@ -73,7 +73,7 @@ private _fnc_spawn = {
 	private _dirveh = [_posroad,_posrel] call BIS_fnc_DirTo;
 	_posVeh = [_posroad, 3, _dirveh + 90] call BIS_Fnc_relPos;
 
-	private _veh = (selectRandom (["CSAT", "cars"] call AS_fnc_getEntity)) createVehicle _posVeh;
+	private _veh = (selectRandom (["CSAT", "cars_transport"] call AS_fnc_getEntity)) createVehicle _posVeh;
 	_veh allowDamage false;
 	_veh setDir _dirVeh;
 	_veh allowDamage true;

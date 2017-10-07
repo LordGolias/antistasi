@@ -25,15 +25,13 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "helis_transport", ["I_Heli_Transport_02_F"]] call DICT_fnc_setLocal;
 [_dict, "tanks", ["I_MBT_03_cannon_F"]] call DICT_fnc_setLocal;
 [_dict, "boats", ["I_Boat_Armed_01_minigun_F"]] call DICT_fnc_setLocal;
-[_dict, "apcs", ["I_APC_Wheeled_03_cannon_F", "I_APC_tracked_03_cannon_F", "I_MRAP_03_F","I_MRAP_03_hmg_F", "I_MRAP_03_gmg_F"]] call DICT_fnc_setLocal;
+[_dict, "cars_transport", ["I_MRAP_03_F"]] call DICT_fnc_setLocal;
+[_dict, "cars_armed", ["I_MRAP_03_hmg_F", "I_MRAP_03_gmg_F"]] call DICT_fnc_setLocal;
+[_dict, "apcs", ["I_APC_Wheeled_03_cannon_F", "I_APC_tracked_03_cannon_F"]] call DICT_fnc_setLocal;
 [_dict, "trucks", ["I_Truck_02_covered_F","I_Truck_02_transport_F"]] call DICT_fnc_setLocal;
 
-// vehicles used in road patrols
-[_dict, "patrolVehicles", ["I_MRAP_03_F","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F","I_Heli_light_03_F","I_Boat_Armed_01_minigun_F"]] call DICT_fnc_setLocal;
 // vehicles used to store and transport weapons
 [_dict, "ammoVehicles", ["I_Truck_02_ammo_F"]] call DICT_fnc_setLocal;
-// vehicles used to lead convoys
-[_dict, "leadVehicles", ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"]] call DICT_fnc_setLocal;
 // vehicles used to repair stuff
 [_dict, "repairVehicles", ["I_Truck_02_box_F"]] call DICT_fnc_setLocal;
 

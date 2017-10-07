@@ -15,7 +15,8 @@ private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
 [_dict, "apcs", ["O_APC_Wheeled_02_rcws_F", "O_APC_tracked_02_cannon_F"]] call DICT_fnc_setLocal;
 
 // used in traitor mission
-[_dict, "cars", ["O_MRAP_02_F"]] call DICT_fnc_setLocal;
+[_dict, "cars_transport", ["O_MRAP_02_F"]] call DICT_fnc_setLocal;
+[_dict, "cars_armed", ["O_MRAP_02_gmg_F", "O_MRAP_02_hmg_F"]] call DICT_fnc_setLocal;
 
 // used in artillery mission
 [_dict, "artillery1", ["O_MBT_02_arty_F"]] call DICT_fnc_setLocal;

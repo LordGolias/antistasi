@@ -16,17 +16,21 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 [_dict, "squads", ["CUP_O_ChDKZ_InfSquad_Weapons", "CUP_O_ChDKZ_InfSquad"]] call DICT_fnc_setLocal;
 [_dict, "teamsAA", ["CUP_O_ChDKZ_InfSection_AA"]] call DICT_fnc_setLocal;
 
+// To modders: overwrite this in the template to change the vehicles AAF uses.
+// Rules:
+// 1. vehicle must exist.
+// 2. each vehicle must belong to only one category.
 [_dict, "planes", ["CUP_O_Su25_RU_1"]] call DICT_fnc_setLocal;
 [_dict, "helis_armed", ["CUP_O_Mi24_P_RU", "CUP_O_Ka60_Grey_RU"]] call DICT_fnc_setLocal;
 [_dict, "helis_transport", ["CUP_O_Mi8_CHDKZ", "CUP_O_Mi8_medevac_CHDKZ", "CUP_O_Mi8_VIV_CHDKZ"]] call DICT_fnc_setLocal;
 [_dict, "tanks", ["CUP_O_T72_CHDKZ"]] call DICT_fnc_setLocal;
 [_dict, "boats", ["I_Boat_Armed_01_minigun_F"]] call DICT_fnc_setLocal;
-[_dict, "apcs", ["CUP_O_BRDM2_CHDKZ", "CUP_O_BRDM2_ATGM_CHDKZ", "CUP_O_HQ_CHDKZ", "CUP_O_BMP2_CHDKZ", "CUP_O_BMP2_HQ_CHDKZ"]] call DICT_fnc_setLocal;
+[_dict, "cars_transport", ["CUP_O_UAZ_Unarmed_CHDKZ", "CUP_O_UAZ_Open_CHDKZ"]] call DICT_fnc_setLocal;
+[_dict, "cars_armed", ["CUP_O_UAZ_AGS30_CHDKZ", "CUP_O_UAZ_MG_CHDKZ", "CUP_O_BRDM2_CHDKZ", "CUP_O_HQ_CHDKZ"]] call DICT_fnc_setLocal;
+[_dict, "apcs", ["CUP_O_BMP2_CHDKZ", "CUP_O_BMP2_HQ_CHDKZ"]] call DICT_fnc_setLocal;
 [_dict, "trucks", ["CUP_O_Ural_CHDKZ", "CUP_O_Ural_Open_CHDKZ"]] call DICT_fnc_setLocal;
 
-[_dict, "patrolVehicles", ["CUP_O_BRDM2_CHDKZ","CUP_O_BRDM2_ATGM_CHDKZ","CUP_O_BMP2_CHDKZ","CUP_O_Ka60_Grey_RU"]] call DICT_fnc_setLocal;
 [_dict, "ammoVehicles", ["CUP_O_Ural_Reammo_CHDKZ"]] call DICT_fnc_setLocal;
-[_dict, "leadVehicles", ["CUP_O_BMP2_CHDKZ","CUP_O_BRDM2_CHDKZ"]] call DICT_fnc_setLocal;
 [_dict, "repairVehicles", ["CUP_O_Ural_Repair_CHDKZ"]] call DICT_fnc_setLocal;
 
 [_dict, "uavs_small", []] call DICT_fnc_setLocal;
