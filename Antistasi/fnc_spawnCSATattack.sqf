@@ -45,6 +45,8 @@ for "_i" from 1 to _count do {
         // crew does not participate in battle
         {
             _x setBehaviour "CARELESS";
+            _x disableAI "TARGET";
+            _x disableAI "AUTOTARGET";
         } forEach units _grupoheli;
 
         // spawn squad
@@ -64,10 +66,6 @@ for "_i" from 1 to _count do {
         };
         // land
         if (_tipoVeh in (["CSAT", "helis_land"] call AS_fnc_getEntity)) exitWith {
-            {
-                _x disableAI "TARGET";
-                _x disableAI "AUTOTARGET";
-            } foreach units _grupoheli;
             private _landpos = [];
             _landpos = [_position, 300, 500, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
             _landPos set [2, 0];
