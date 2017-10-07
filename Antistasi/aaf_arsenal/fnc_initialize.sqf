@@ -9,7 +9,7 @@ if isNil "AS_container" then {
 
 // AAF will only buy and use vehicles of the types added here. See template.
 private _names = [
-    "Supply trucks", "Trucks", "APCs", "Boats",
+    "Trucks", "APCs", "Boats",
     "Transport Helicopters", "Tanks", "Armed Helicopters", "Planes"
 ];
 // The list of all categories.
