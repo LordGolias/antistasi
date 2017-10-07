@@ -11,7 +11,7 @@
 "gunner", "crew", "pilot", "officer", "traitor",
 "cfgGroups", "teams", "squads",
 "static_aa", "static_at", "static_mg", "static_mg_low", "static_mortar",
-"tanks", "trucks", "apcs", "cars_transport", "cars_armed",
+"tanks", "boats", "trucks", "apcs", "cars_transport", "cars_armed",
 "helis_transport", "helis_armed", "planes",
 "uavs_small", "uavs_attack",
 "name", "flag"
@@ -26,7 +26,7 @@
 	};
 } forEach [
 "patrols", "teamsAA",
-"boats", "ammoVehicles", "repairVehicles"
+"ammoVehicles", "repairVehicles"
 ];
 
 
