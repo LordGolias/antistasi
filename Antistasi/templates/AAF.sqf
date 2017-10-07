@@ -10,14 +10,11 @@ private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
 // To modders: equipment in AAF boxes comes from the set of all equipment of all units on the groups of this cfg
 [_dict, "cfgGroups", (configfile >> "CfgGroups" >> "Indep" >> "IND_F" >> "Infantry")] call DICT_fnc_setLocal;
 
-// These squads are spawned in different spawns (locations, patrols, missions)
-[_dict, "patrols", ["HAF_InfSentry","HAF_InfSentry","HAF_InfSentry","HAF_SniperTeam"]] call DICT_fnc_setLocal;
-[_dict, "garrisons", ["HAF_InfSentry"]] call DICT_fnc_setLocal;
-[_dict, "teamsATAA", ["HAF_InfTeam_AA","HAF_InfTeam_AT"]] call DICT_fnc_setLocal;
-[_dict, "teams", ["HAF_InfTeam_AA","HAF_InfTeam_AT","HAF_InfTeam","HAF_InfTeam","HAF_InfTeam"]] call DICT_fnc_setLocal;
+// These groups are used in different spawns (locations, patrols, missions)
+[_dict, "patrols", ["HAF_InfSentry"]] call DICT_fnc_setLocal;
+[_dict, "teams", ["HAF_InfTeam"]] call DICT_fnc_setLocal;
 [_dict, "squads", ["HAF_InfSquad","HAF_InfSquad_Weapons"]] call DICT_fnc_setLocal;
 [_dict, "teamsAA", ["HAF_InfTeam_AA"]] call DICT_fnc_setLocal;
-[_dict, "teamsAT", ["HAF_InfTeam_AT"]] call DICT_fnc_setLocal;
 
 // To modders: overwrite this in the template to change the vehicles AAF uses.
 // Rules:

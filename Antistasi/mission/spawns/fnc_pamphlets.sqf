@@ -72,7 +72,7 @@ private _fnc_spawn = {
 	[_truck,"Mission Vehicle"] spawn AS_fnc_setConvoyImmune;
 
 	for "_i" from 0 to 1 do {
-		private _tipoGrupo = [["AAF", "garrisons"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
+		private _tipoGrupo = [["AAF", "patrols"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 		private _grupo = [_position, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 		private _perro = _grupo createUnit ["Fin_random_F",_position,[],0,"FORM"];
 		[_perro] spawn AS_AI_fnc_initDog;

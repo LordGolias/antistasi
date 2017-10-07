@@ -16,7 +16,7 @@ private _fnc_spawn = {
 	// generate _num patrols.
 	for "_i" from 1 to _num do {
 		if !(_location call AS_location_fnc_spawned) exitWith {};
-		private _grupo = [_posicion, side_red, [["AAF", "garrisons"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
+		private _grupo = [_posicion, side_red, [["AAF", "patrols"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 
 		{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 

@@ -82,7 +82,7 @@ private _fnc_spawn = {
 	sleep 1;
 
 	// spawn patrol going there
-	private _tipoGrupo = [["AAF", "patrols"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
+	private _tipoGrupo = [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 	private _grupo = [_position, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 
 	{

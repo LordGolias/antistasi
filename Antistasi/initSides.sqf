@@ -21,7 +21,7 @@
 	if isNil "_type" then {
 		diag_log format ["[AS] Error: Type of unit '%1' not defined for AAF", _x];
 	};
-} forEach ["patrols", "garrisons", "teamsATAA", "teams", "squads", "teamsAA", "teamsAT"];
+} forEach ["patrols", "teams", "squads", "teamsAA"];
 
 
 // check entities necessary for CSAT and NATO

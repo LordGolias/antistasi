@@ -115,7 +115,7 @@ private _fnc_spawn = {
 	_crate3 addItemCargoGlobal ["Medikit", 10];
 	_crate4 addItemCargoGlobal ["Medikit", 10];
 
-	private _tipoGrupo = [["AAF", "garrisons"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
+	private _tipoGrupo = [["AAF", "patrols"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 	private _grupo = [_crashPosition, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
 	_grupos pushBack _grupo;
 
