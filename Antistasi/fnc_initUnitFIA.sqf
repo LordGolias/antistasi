@@ -42,24 +42,6 @@ if (player == leader _unit) then {
 	}];
 
 	_unit setVariable ["rearming",false];
-	if !("ItemRadio" in unlockedItems) then {
-		while {alive _unit} do {
-			if (("ItemRadio" in assignedItems _unit) and ([player] call AS_fnc_hasRadio)) exitWith {_unit groupChat format ["This is %1, radio OK",name _unit]};
-			if (unitReady _unit) then {
-				if ((alive _unit) and (_unit distance (getMarkerPos "FIA_HQ") > 50) and (_unit distance leader group _unit > 500) and ((vehicle _unit == _unit) or ((typeOf (vehicle _unit)) in arrayCivVeh))) then {
-					hint format ["%1 lost communication, he will come back with you if possible", name _unit];
-					[_unit] join MIASquadUnits;
-					if ((vehicle _unit isKindOf "StaticWeapon") or (isNull (driver (vehicle _unit)))) then {unassignVehicle _unit; [_unit] orderGetIn false};
-					_unit doMove position player;
-					private _tiempo = time + 900;
-					waitUntil {sleep 1;(!alive _unit) or (_unit distance player < 500) or (time > _tiempo)};
-					if ((_unit distance player >= 500) and (alive _unit)) then {_unit setPos (getMarkerPos "FIA_HQ")};
-					[_unit] join group player;
-				};
-			};
-			sleep 10;
-		};
-	};
 
 	_unit addEventHandler ["GetInMan", {
 		private ["_soldier","_veh"];
