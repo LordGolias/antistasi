@@ -7,6 +7,8 @@
 #include "dialogs\manageHQ\dialogs.hpp"
 #include "dialogs\manageNATO\dialogs.hpp"
 #include "dialogs\buyVehicle\dialogs.hpp"
+#include "dialogs\newGame\dialogs.hpp"
+#include "dialogs\startMenu\dialogs.hpp"
 
 class build_menu
 {

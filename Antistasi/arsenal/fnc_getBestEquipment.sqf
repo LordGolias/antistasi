@@ -9,7 +9,6 @@ if (_type in ["Crew", "Survivor"]) exitWith {
 };
 
 // choose a list of weapons to choose from the unit type.
-// see initVar.sqf where AS_weapons is populated.
 private _primaryWeapons = (AS_weapons select 0) + (AS_weapons select 13) + (AS_weapons select 14); // Assault Rifles + Rifles + SubmachineGun
 private _secondaryWeapons = [];
 private _useBackpack = false;

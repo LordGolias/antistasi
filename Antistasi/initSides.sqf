@@ -38,11 +38,15 @@
 {
 	private _side = _x;
 	private _vehicles = [];
+	private _categories = ["helis_transport", "helis_attack", "helis_armed"];
+	if (_side == "AAF") then {
+		_categories = ["helis_transport", "helis_armed"];
+	};
 	{
 		_vehicles append ([_side, _x] call AS_fnc_getEntity);
-	} forEach ["helis_transport", "helis_attack", "helis_armed"];
-	[AS_entities, _side, "helis", _vehicles] call DICT_fnc_setLocal;
-} forEach ["CSAT", "NATO"];
+	} forEach _categories;
+	[AS_entities, _side call AS_fnc_getFaction, "helis", _vehicles] call DICT_fnc_setLocal;
+} forEach ["CSAT", "NATO", "AAF"];
 
 // compute lists of statics
 {
@@ -80,7 +84,7 @@ private _vehicles = [];
 "tanks", "trucks", "cars_transport", "cars_armed", "apcs",
 "self_aa", "artillery1", "artillery2", "other_vehicles",
 "helis_transport", "helis_attack", "helis_armed", "planes"];
-[AS_entities, "NATO", "vehicles", _vehicles] call DICT_fnc_setLocal;
+[AS_entities, "NATO" call AS_fnc_getFaction, "vehicles", _vehicles] call DICT_fnc_setLocal;
 
 // sets the costs of AAF units based on their relative cost
 call {

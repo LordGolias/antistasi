@@ -96,12 +96,6 @@ call AS_location_fnc_addAllRoadblocks;
 
 ["FIA_HQ","fia_hq"] call AS_location_fnc_add;
 
-// This is needed here because petros has a side.
-side_blue = west; // <<<<<< player side, always, at all times, no exceptions
-side_red = east;
-publicVariable "side_blue";
-publicVariable "side_red";
-
 // Initializes HQ placements and petros
 fuego = "Land_Campfire_F" createvehicle [0,0,0];
 publicVariable "fuego";

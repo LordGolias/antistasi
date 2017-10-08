@@ -1,4 +1,5 @@
-private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
+private _dict = createSimpleObject ["Static", [0, 0, 0]];
+[_dict, "side", str west] call DICT_fnc_setLocal;
 
 [_dict, "helis_transport", ["RHS_MELB_MH6M", "RHS_UH60M_d", "RHS_CH_47F_light"]] call DICT_fnc_setLocal;
 [_dict, "helis_attack", ["RHS_AH64D_AA","RHS_AH64D_GS","RHS_AH64D"]] call DICT_fnc_setLocal;
@@ -57,3 +58,5 @@ private _dict = [AS_entities, "NATO"] call DICT_fnc_get;
 [_dict, "name", "USMC"] call DICT_fnc_setLocal;
 [_dict, "flag", "Flag_US_F"] call DICT_fnc_setLocal;
 [_dict, "box", "Box_NATO_Equip_F"] call DICT_fnc_setLocal;
+
+_dict
