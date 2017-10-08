@@ -9,7 +9,9 @@ if (isPlayer _unit) exitWith {hint "You cannot control another player"};
 if (!alive _unit) exitWith {hint "You cannot control a dead unit"};
 if (_unit call AS_medical_fnc_isUnconscious) exitWith {hint "You cannot control an unconscious unit"};
 if (captive _unit) exitWith {hint "You cannot control an Undercover unit"};
-if ((not(typeOf _unit in AS_allFIASoldierClasses)) and ([_unit] call AS_fnc_getFIAUnitType != "Survivor")) exitWith {hint "You cannot control a unit which does not belong to FIA"};
+if (_unit call AS_fnc_getSide != "FIA") exitWith {
+    hint "You cannot control a unit that does not belong to FIA";
+};
 if (call AS_fnc_controlsAI) exitWith {hint "You cannot control AI while you are controlling another AI"};
 
 {
