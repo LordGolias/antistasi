@@ -18,7 +18,6 @@ if ({isPlayer _x} count units group player == 1) then {
 		if ([_x] call AS_fnc_getFIAUnitType != "Survivor") then
 			{
 			[_x] join _groupToDelete;
-			namesFIASoldiers = namesFIASoldiers + [name _x];
 			};
 	}
 	else {
