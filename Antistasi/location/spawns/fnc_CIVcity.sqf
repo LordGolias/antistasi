@@ -41,7 +41,7 @@ private _fnc_spawn = {
 			_pos = [_posicion, round (random _size), random 360] call BIS_Fnc_relPos;
 			if (!surfaceIsWater _pos) exitWith {};
 		};
-		private _civ = _grupo createUnit [arrayCivs call BIS_Fnc_selectRandom, _pos, [],0, "NONE"];
+		private _civ = _grupo createUnit [selectRandom (["CIV", "units"] call AS_fnc_getEntity), _pos, [],0, "NONE"];
 		[_civ] spawn AS_fnc_initUnitCIV;
 	};
 
@@ -87,7 +87,7 @@ private _fnc_spawn = {
 		_vehiculos pushBack _veh;
 
 		// spawn driver
-		private _civ = _grupoP createUnit [arrayCivs call BIS_Fnc_selectRandom, _p1, [],0, "NONE"];
+		private _civ = _grupoP createUnit [selectRandom (["CIV", "units"] call AS_fnc_getEntity), _p1, [],0, "NONE"];
 		[_civ] spawn AS_fnc_initUnitCIV;
 		_civ moveInDriver _veh;
 		_grupoP addVehicle _veh;
