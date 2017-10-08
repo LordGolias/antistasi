@@ -1,4 +1,5 @@
-private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
+private _dict = createSimpleObject ["Static", [0, 0, 0]];
+[_dict, "side", str east] call DICT_fnc_setLocal;
 
 [_dict, "helis_transport", ["O_Heli_Transport_04_bench_F", "O_Heli_Light_02_unarmed_F"]] call DICT_fnc_setLocal;
 [_dict, "helis_attack", ["O_Heli_Attack_02_F"]] call DICT_fnc_setLocal;
@@ -57,3 +58,5 @@ private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
 [_dict, "name", "CSAT"] call DICT_fnc_setLocal;
 [_dict, "flag", "Flag_CSAT_F"] call DICT_fnc_setLocal;
 [_dict, "box", "Box_East_WpsLaunch_F"] call DICT_fnc_setLocal;
+
+_dict

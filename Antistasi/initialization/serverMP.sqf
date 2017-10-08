@@ -15,8 +15,6 @@ addMissionEventHandler ["HandleDisconnect", {
     false
 }];
 
-maxPlayers = playableSlotsNumber west;
-publicVariable "maxPlayers";
 AS_commander = playableUnits select 0;
 AS_commander setUnitRank "CORPORAL";
 publicVariable "AS_commander";

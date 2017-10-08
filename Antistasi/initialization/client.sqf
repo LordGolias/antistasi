@@ -5,61 +5,35 @@ if isNull player then {
 };
 
 if _isJip then {
-    diag_log "[AS] client: JIP: waiting for player";
+    diag_log "[AS] Client: JIP: waiting for player";
     waitUntil {!isNull player and {player == player}};
 };
-diag_log "[AS] client: starting";
+diag_log "[AS] Client: initializing...";
 [player] call AS_fnc_emptyUnit;
 
 call compile preprocessFileLineNumbers "briefing.sqf";
 
 if not isServer then {
-    call compile preprocessFileLineNumbers "initVar.sqf";
+    call compile preprocessFileLineNumbers "initialization\common_variables.sqf";
 } else {
-    waitUntil {(!isNil "serverInitVarsDone")};
+    waitUntil {not isNil "AS_common_variables_initialized"};
+    AS_common_variables_initialized = nil;
 };
 
-private _introShot = 0 spawn {};
-private _titulo = 0 spawn {};
-
-// the fancy starting script, called outside debug mode
-if not AS_debug_flag then {
-    _introShot = [
-        getMarkerPos "FIA_HQ", // Target position
-        worldName + " Island", // SITREP text
-        50, //  altitude
-        50, //  radius
-        90, //  degrees viewing angle
-        0 // clockwise movement
-    ] spawn BIS_fnc_establishingShot;
-
-    _titulo = ["Antistasi", "by Golias"] spawn BIS_fnc_infoText;
-};
-
-waitUntil {scriptdone _introshot and scriptDone _titulo};
-
-if (isNil "serverInitDone") then {
+if (isNil "AS_server_variables_initialized") then {
     disableUserInput true;
-    cutText ["Waiting for Players and Server Init","BLACK",0];
-    diag_log "[AS] client: waiting for serverInitDone";
-    waitUntil {(!isNil "serverInitDone")};
+    cutText ["Waiting for Server to initialize","BLACK",0];
+    diag_log "[AS] Client: waiting for AS_server_variables_initialized";
+    waitUntil {(!isNil "AS_server_variables_initialized")};
     cutText ["Starting Mission","BLACK IN",0];
     disableUserInput false;
 };
-diag_log "[AS] client: initialized";
 
 musicON = true;
-[] execVM "musica.sqf";
-
 if isMultiplayer then {
-	diag_log format ["[AS] client: isJIP: %1", _isJip];
-} else {
-	AS_commander = player;
-	private _group = group player;
-	_group setGroupId ["Stavros","GroupColor4"];
-	player setUnitRank "COLONEL";
-	player hcSetGroup [_group];
+    musicON = false;
 };
+[] execVM "musica.sqf";
 
 if not hayACE then {
 	tags = [] execVM "tags.sqf";
@@ -70,10 +44,76 @@ if not hayACE then {
 	[] execVM "playerMarkers.sqf";
 };
 
+if isMultiplayer then {
+	["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;//Exec on client
+};
+
+///// display what mods the client has
+private _texto = "";
+
+if (hayTFAR) then {
+	_texto = "TFAR Detected\n\nAntistasi detects TFAR in the server config.\nAll players will start with TFAR default radios.\nDefault revive system will shut down radios while players are inconscious.\n\n";
+};
+if (hayACE) then {
+	_texto = _texto + "ACE 3 Detected\n
+                       \nACE items added.
+                       \nDefault AI control disabled.";
+    if (hayACEMedical) then {
+        _texto = _texto + "\nACE Medical being used: default revive system disabled.";
+    };
+    if (hayACEhearing) then {
+        _texto = _texto + "\nACE Hearing being used: default earplugs disabled.";
+    };
+};
+if (hayRHS) then {
+	_texto = _texto + "\n\nRHS Detected:\n\nAAF -> VDV\nCSAT -> VMF\nNATO -> USMC";
+};
+
+if (hayTFAR or hayACE or hayRHS) then {
+	hint format ["%1",_texto];
+};
+
+/////////////////////////////////////////////////////////////////////////////
+/////////////// Client waits for a commander to be chosen ///////////////////
+/////////////////////////////////////////////////////////////////////////////
+if (_isJip and {count playableUnits == 1}) then {
+    [] remoteExec ["AS_fnc_chooseCommander", 2];
+};
+
+diag_log "[AS] Client: waiting for a commander...";
+waitUntil {not isNil "AS_commander"};
+
+if (player == AS_commander) then {
+    HC_comandante synchronizeObjectsAdd [player];
+    player synchronizeObjectsAdd [HC_comandante];
+
+    if not AS_debug_flag then {
+        [] spawn AS_fnc_UI_startMenu_menu;
+    } else {
+        // skip menu and start new game
+        ["west", "FIA", "NATO", "AAF", "CSAT"] remoteExec ["AS_fnc_startNewGame", 2];
+    };
+};
+
+/////////////////////////////////////////////////////////////////////////////
+/////////////// Client waits for the commander to choose a side /////////////
+/////////////////////////////////////////////////////////////////////////////
+diag_log "[AS] Client: waiting for commander to choose sides...";
+
+waitUntil {private _var = AS_P("player_side"); not isNil "_var"};
+
+if not isServer then {
+    call compile preprocessFileLineNumbers "initialization\common_side_variables.sqf";
+} else {
+    waitUntil {not isNil "AS_common_variables_initialized"};
+    AS_common_variables_initialized = nil;
+};
+
 player setvariable ["compromised", 0];  // Used by undercover mechanics
 player setVariable ["punish",0,true];  // punish time for Team kill
 player setVariable ["money",100,true];  // initial money
 player setVariable ["BLUFORSpawn",true,true];  // means that the unit triggers spawn of zones.
+player setVariable ["elegible",true,true]; // means that the player can be commander
 player setUnitRank (AS_ranks select 0);
 player setVariable ["rank", (AS_ranks select 0), true];
 private _score = 0;
@@ -81,55 +121,11 @@ if (player == AS_commander) then {_score = 25}; // so the commander does not los
 player setVariable ["score", _score, true];
 player setVariable ["garage", [], true];
 
-if isMultiplayer then {
-    musicON = false;
-    player setVariable ["elegible",true,true];
-	["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;//Exec on client
-};
+waitUntil {not isNil "placementDone"};
 
 call AS_fnc_initPlayer;
 
-player addEventHandler ["GetInMan", {
-    params ["_unit", "_seat", "_vehicle"];
-	private _exit = false;
-	if isMultiplayer then {
-		private _owner = _vehicle getVariable "AS_vehOwner";
-		if (!isNil "_owner" and
-            {{getPlayerUID _x == _owner} count (units group player) == 0}) then {
-			hint "You can only enter in other's vehicle if you are in its group";
-			moveOut _unit;
-			_exit = true;
-		};
-	};
-	if not _exit then {
-		if (((typeOf _vehicle) in arrayCivVeh) or ((typeOf _vehicle) == civHeli)) then {
-			if (!(_vehicle in AS_S("reportedVehs"))) then {
-				[] spawn AS_fnc_activateUndercover;
-			};
-		};
-		if (_seat == "driver" and _vehicle isKindOf "Truck_F") then {
-			if ((not (_vehicle isKindOf "C_Van_01_fuel_F")) and (not (_vehicle isKindOf "I_Truck_02_fuel_F")) and (not (_vehicle isKindOf "B_G_Van_01_fuel_F"))) then {
-				private _EHid = [_vehicle, "transferFrom"] call AS_fnc_addAction;
-				player setVariable ["transferID", _EHid];
-			};
-		};
-	};
-}];
-
-player addEventHandler ["GetOutMan", {
-    params ["_unit", "_seat", "_vehicle"];
-	if ((player getVariable ["transferID", -1]) != -1) then {
-		_vehicle removeAction (player getVariable "transferID");
-		player setVariable ["transferID", nil];
-	};
-}];
-
-if (_isJip) then {
-    hint format ["Welcome back %1", name player];
-    if (count playableUnits == 1) then {
-        [] remoteExec ["AS_fnc_chooseCommander", 2];
-    };
-
+if _isJip then {
 	{
 	if (_x isKindOf "FlagCarrier") then {
 		private _location = [call AS_location_fnc_all, getPos _x] call BIS_fnc_nearestPosition;
@@ -157,30 +153,6 @@ if (_isJip) then {
 
 	// sync the inventory content to the JIP.
 	[false] remoteExec ["AS_fnc_refreshArsenal", 2];
-};
-
-private _texto = "";
-
-if (hayTFAR) then {
-	_texto = "TFAR Detected\n\nAntistasi detects TFAR in the server config.\nAll players will start with TFAR default radios.\nDefault revive system will shut down radios while players are inconscious.\n\n";
-};
-if (hayACE) then {
-	_texto = _texto + "ACE 3 Detected\n
-                       \nACE items added.
-                       \nDefault AI control disabled.";
-    if (hayACEMedical) then {
-        _texto = _texto + "\nACE Medical being used: default revive system disabled.";
-    };
-    if (hayACEhearing) then {
-        _texto = _texto + "\nACE Hearing being used: default earplugs disabled.";
-    };
-};
-if (hayRHS) then {
-	_texto = _texto + "\n\nRHS Detected:\n\nAAF -> VDV\nCSAT -> VMF\nNATO -> USMC";
-};
-
-if (hayTFAR or hayACE or hayRHS) then {
-	hint format ["%1",_texto];
 };
 
 removeAllActions petros;
@@ -213,17 +185,4 @@ fuego addAction [localize "str_act_rest", "actions\skiptime.sqf",nil,0,false,tru
     [_x,"moveObject"] call AS_fnc_addAction;
 } forEach [caja, mapa, bandera, cajaVeh, fuego];
 
-if (isNil "placementDone") then {
-    waitUntil {!isNil "AS_commander"};
-    if (player == AS_commander) then {
-        HC_comandante synchronizeObjectsAdd [player];
-        player synchronizeObjectsAdd [HC_comandante];
-        if not AS_debug_flag then {
-            [] spawn AS_database_fnc_UI_loadSaveMenu;
-        } else {
-            [getMarkerPos "FIA_HQ"] remoteExec ["AS_fnc_HQplace", 2];
-        };
-    };
-};
-
-diag_log "[AS] client: ready";
+diag_log "[AS] Client: initialized";

@@ -1,4 +1,5 @@
-private _dict = [AS_entities, "AAF"] call DICT_fnc_get;
+private _dict = createSimpleObject ["Static", [0, 0, 0]];
+[_dict, "side", str east] call DICT_fnc_setLocal;
 
 // special units used in special occasions
 [_dict, "officer", "I_officer_F"] call DICT_fnc_setLocal;
@@ -72,3 +73,5 @@ indLaser = "acc_pointer_IR";
 
 // Long range radio
 lrRadio = "tf_rt1523g_green";
+
+_dict

@@ -1,6 +1,8 @@
 class AS {
 
     class server {
+        FNC_BASE(startNewGame);
+
         FNC(orgPlayers,setCommander);
         FNC(orgPlayers,chooseCommander);
         FNC(orgPlayers,changePlayerScore);
@@ -69,6 +71,7 @@ class AS {
 
         FNC_BASE(getSide);
         FNC_BASE(setSide);
+        FNC_BASE(getFaction);
         FNC_BASE(getEntity);
         FNC_BASE(getAllUnits);
 
@@ -239,6 +242,8 @@ class AS {
         #include "dialogs\manageNATO\cfgFunctions.hpp"
         #include "dialogs\recruitUnit\cfgFunctions.hpp"
         #include "dialogs\recruitSquad\cfgFunctions.hpp"
+        #include "dialogs\newGame\cfgFunctions.hpp"
+        #include "dialogs\startMenu\cfgFunctions.hpp"
     };
 };
 

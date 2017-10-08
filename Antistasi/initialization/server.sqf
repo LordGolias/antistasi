@@ -12,15 +12,15 @@ publicVariable "AS_containers";
 diag_log "[AS] Server: starting";
 call compile preprocessFileLineNumbers "initLocations.sqf";
 diag_log "[AS] Server: initLocations done";
-call compile preprocessFileLineNumbers "initVar.sqf";
-diag_log "[AS] Server: initVar done";
+call compile preprocessFileLineNumbers "initialization\common_variables.sqf";
+// tells the client.sqf running on this machine that variables are initialized
+AS_common_variables_initialized = true;
+diag_log "[AS] Server: common variables initialized";
+
+call compile preprocessFileLineNumbers "initialization\server_variables.sqf";
+diag_log "[AS] Server: server variables initialized";
 
 ["Initialize"] call BIS_fnc_dynamicGroups;
-
-// tell every client that the server is ready to receive players (see initPlayerLocal.sqf)X
-serverInitVarsDone = true;
-publicVariable "serverInitVarsDone";
-diag_log "[AS] Server: serverInitVarsDone";
 
 if isMultiplayer then {
     call compile preProcessFileLineNumbers "initialization\serverMP.sqf";
@@ -28,14 +28,21 @@ if isMultiplayer then {
     call compile preProcessFileLineNumbers "initialization\serverSP.sqf";
 };
 
-serverInitDone = true;
-publicVariable "serverInitDone";
-diag_log "[AS] Server: serverInitDone";
+AS_server_variables_initialized = true;
+publicVariable "AS_server_variables_initialized";
+diag_log "[AS] Server: variables initialized";
 
-{if (not isPlayer _x and side _x == side_blue) then {deleteVehicle _x}} forEach allUnits;
+{if not isPlayer _x then {deleteVehicle _x}} forEach allUnits;
 
-waitUntil {!isNil "AS_commander" and {isPlayer AS_commander}};
+diag_log "[AS] Server: waiting for side...";
+waitUntil {private _var = AS_P("player_side"); not isNil "_var"};
 
+call compile preprocessFileLineNumbers "initialization\common_side_variables.sqf";
+AS_common_variables_initialized = true;
+call compile preprocessFileLineNumbers "initialization\server_side_variables.sqf";
+diag_log "[AS] Server: server side-variables initialized";
+
+diag_log "[AS] Server: waiting for HQ position...";
 waitUntil {!(isNil "placementDone")};
 [true] call AS_spawn_fnc_toggle;
 [] spawn AS_players_fnc_loop;

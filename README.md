@@ -51,7 +51,7 @@ This version supports easy replacement of factions. Use the following steps:
 1. Duplicate the file `templates/AAF.sqf` (for independents), `templates/NATO.sqf` (for NATO)
 or `templates/CSAT.sqf` (for CSAT)
 2. Modify the existing fields with your units, vehicles and groups.
-3. In the `initVar.sqf`, when the files are compiled and called, add a condition to run your files when a condition is met.
+3. In the `initialization/common_variables.sqf`, when the files are compiled and called, add a condition to run your files when a condition is met.
 4. Load the game with the mod of that faction.
 
 Essentially, our code detects every unit from that faction, and populates
@@ -142,8 +142,6 @@ This script uses `server.sqf`, `headlessClient.sqf`, `client.sqf` in `initializa
 
 Regardless of the game mode (SP or MP), `server.sqf` is called on the server side
 and `client.sqf` or `headlessClient.sqf` are called on non-server.
-
-The code that has to be called on every machine running AS is `initVar.sqf`.
 
 `server.sqf` call `serverMP.sqf` or `serverSP.sqf` depending
 
