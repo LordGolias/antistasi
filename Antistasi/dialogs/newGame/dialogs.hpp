@@ -4,23 +4,27 @@ class AS_newGameMenu {
 
 	class controls
 	{
-AS_DIALOG(5,"Configure new game", "closeDialog 0;");
+AS_DIALOG(8,"Configure new game", "closeDialog 0;");
 
-BTN_L(0,-1,"Play against NATO/USA", "", "[] call AS_fnc_UI_newGame_red;");
-BTN_R(0,-1,"Play against CSAT/RUS", "", "[] call AS_fnc_UI_newGame_blue;");
+BTN_L(1,-1,"Rebel against the West", "", "[""east""] call AS_fnc_UI_newGame_update;");
+BTN_R(1,-1,"Rebel against the East", "", "[""west""] call AS_fnc_UI_newGame_update;");
 
 // Guerilla
-LIST_L(0,1,1,3,"[] call AS_fnc_UI_newGame_select;");
+READ(0,2,-1,1,"Your faction");
+LIST_L(0,3,0,2,"");
 
 // Pro-guerrilla
-LIST_L(1,1,2,3,"[] call AS_fnc_UI_newGame_select;");
+READ(1,2,-1,1,"Your supporter");
+LIST_L(1,3,1,2,"");
 
 // State
-LIST_L(0,1,3,3,"[] call AS_fnc_UI_newGame_select;");
+READ(0,5,-1,1,"The state");
+LIST_L(0,6,2,2,"");
 
 // Pro-state
-LIST_L(1,1,4,3,"[] call AS_fnc_UI_newGame_select;");
-	};
+READ(1,5,-1,1,"The state's supporter");
+LIST_L(1,6,3,2,"");
 
-BTN_M(0,-1,"Start game", "", "[] spawn AS_fnc_UI_newGame_start;");
+BTN_M(8,-1,"Start game", "", "[] spawn AS_fnc_UI_newGame_start;");
+	};
 };
