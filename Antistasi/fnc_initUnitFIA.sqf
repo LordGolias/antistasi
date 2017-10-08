@@ -24,19 +24,12 @@ if (count _equipment == 0) then {
 [_unit, _equipment] call AS_fnc_equipUnit;
 
 if (player == leader _unit) then {
-	if ([_unit] call AS_fnc_getFIAUnitType != "Survivor") then {
-		private _idUnit = selectRandom namesFIASoldiers;
-		namesFIASoldiers = namesFIASoldiers - [_idunit];
-		if (captive player) then {[_unit] spawn AS_fnc_activateUndercoverAI};
-	};
+	if (captive player) then {[_unit] spawn AS_fnc_activateUndercoverAI};
 
 	_unit addEventHandler ["killed", {
 		params ["_unit"];
 		[_unit] remoteExec ["AS_fnc_activateCleanup",2];
 
-		if ([_unit] call AS_fnc_getFIAUnitType != "Survivor") then {
-			namesFIASoldiers = namesFIASoldiers + [name _unit];
-		};
 		[0.25,0,getPos _unit] remoteExec ["AS_fnc_changeCitySupport",2];
 		_unit setVariable ["BLUFORSpawn",nil,true];
 	}];
