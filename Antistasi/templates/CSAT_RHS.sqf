@@ -23,6 +23,9 @@ private _dict = [AS_entities, "CSAT"] call DICT_fnc_get;
 [_dict, "artillery1", ["rhs_D30_vdv"]] call DICT_fnc_setLocal;
 [_dict, "artillery2", ["rhs_2s3_tv"]] call DICT_fnc_setLocal;
 
+[_dict, "truck_ammo", "rhs_gaz66_ammo_vmf"] call DICT_fnc_setLocal;
+[_dict, "truck_repair", "rhs_ural_repair_vmf_01"] call DICT_fnc_setLocal;
+
 // used in spawns (base and airfield)
 [_dict, "other_vehicles", [
 "rhs_gaz66_ammo_vmf", "rhs_ural_fuel_vmf_01", "rhs_gaz66_ap2_vmf", "rhs_ural_repair_vmf_01"
