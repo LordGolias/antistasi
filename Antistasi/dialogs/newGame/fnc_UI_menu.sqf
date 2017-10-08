@@ -1,1 +1,4 @@
-["west", "FIA", "NATO", "AAF", "CSAT"] remoteExec ["AS_fnc_startNewGame", 2];
+disableSerialization;
+createDialog "AS_newGameMenu";
+
+["west"] call AS_fnc_UI_newGame_update;
