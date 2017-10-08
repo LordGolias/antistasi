@@ -167,6 +167,7 @@ class AS {
         FNC_BASE(dropArtilleryShellsNATO);
         FNC_BASE(changeStreetLights);
 
+        FNC(arsenal,listUniqueEquipment);
         FNC(arsenal,getWeaponItemsCargo)
         FNC(arsenal,getBestEquipment)
         FNC(arsenal,equipUnit)
