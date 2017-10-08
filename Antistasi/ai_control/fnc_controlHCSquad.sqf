@@ -4,8 +4,8 @@ private _unit = leader _group;
 
 if (_unit call AS_medical_fnc_isUnconscious) exitWith {hint "You cannot control an unconscious unit"};
 if (!alive _unit) exitWith {hint "You cannot control a dead unit"};
-if ((not(typeOf _unit in AS_allFIASoldierClasses)) and ([_unit] call AS_fnc_getFIAUnitType != "Survivor")) exitWith {
-    hint "You cannot control a unit which does not belong to FIA"
+if (_unit call AS_fnc_getSide != "FIA") exitWith {
+    hint "You cannot control a squad that does not belong to FIA";
 };
 
 while {(count (waypoints _group)) > 0} do {
