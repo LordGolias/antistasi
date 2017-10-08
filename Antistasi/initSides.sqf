@@ -1,39 +1,3 @@
-// check entities necessary for CSAT/NATO/AAF
-{
-	private _type = _x;
-	{
-		private _value = [_x, _type] call AS_fnc_getEntity;
-		if isNil "_value" then {
-			diag_log format ["[AS] Error: Type of unit '%1' not defined for '%2'", _type, _x];
-		};
-	} forEach ["CSAT", "NATO", "AAF"];
-} forEach [
-"gunner", "crew", "pilot", "officer", "traitor",
-"cfgGroups", "teams", "teamsAA", "patrols", "squads",
-"static_aa", "static_at", "static_mg", "static_mg_low", "static_mortar",
-"tanks", "boats", "trucks", "apcs", "cars_transport", "cars_armed",
-"truck_ammo", "truck_repair",
-"helis_transport", "helis_armed", "planes",
-"uavs_small", "uavs_attack",
-"name", "flag"
-];
-
-// check entities necessary for CSAT and NATO
-{
-	private _type = _x;
-	{
-		private _value = [_x, _type] call AS_fnc_getEntity;
-		if isNil "_value" then {
-			diag_log format ["[AS] Error: Type of unit '%1' not defined for '%2'", _type, _x];
-		};
-	} forEach ["CSAT", "NATO"];
-} forEach [
-"artillery1", "artillery2", "other_vehicles",
-"helis_attack",
-"recon_squad", "recon_team"
-];
-
-
 // Define all helis of CSAT and NATO
 {
 	private _side = _x;

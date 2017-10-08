@@ -14,4 +14,7 @@ if (_faction == "CSAT") exitWith {
 if (_faction == "NATO") exitWith {
     AS_P("faction_pro_guerrilla")
 };
+if (_faction == "CIV") exitWith {
+    AS_P("faction_civilians")
+};
 diag_log format ["[AS] Error: faction '%1' invalid", _faction];

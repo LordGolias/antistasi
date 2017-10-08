@@ -84,7 +84,9 @@ if hayACE then {
 AS_entities = createSimpleObject ["Static", [0, 0, 0]];
 
 // fallback to the default template
-private _dict = call compile preprocessFileLineNumbers "templates\AAF.sqf";
+private _dict = call compile preprocessFileLineNumbers "templates\CIV.sqf";
+AS_entities setVariable ["CIV", _dict];
+_dict = call compile preprocessFileLineNumbers "templates\AAF.sqf";
 AS_entities setVariable ["AAF", _dict];
 _dict = call compile preprocessFileLineNumbers "templates\CSAT.sqf";
 AS_entities setVariable ["CSAT", _dict];
@@ -111,3 +113,5 @@ if hasCUP then {
 	// todo: make FIA part of the entity framework
 	if not hayRHS then {call compile preprocessFileLineNumbers "templates\FIA_CUP.sqf"};
 };
+
+call compile preprocessFileLineNumbers "initialization\checkFactionsAttributes.sqf"

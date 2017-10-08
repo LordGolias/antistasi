@@ -1,6 +1,6 @@
 private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "side", str west] call DICT_fnc_setLocal;
-[_dict, "roles", ["pro_anti_state", "state", "pro_state"]] call DICT_fnc_setLocal;
+[_dict, "roles", ["state", "foreign"]] call DICT_fnc_setLocal;
 
 [_dict, "helis_transport", ["B_Heli_Light_01_F", "B_Heli_Transport_01_camo_F", "B_Heli_Transport_03_F"]] call DICT_fnc_setLocal;
 [_dict, "helis_attack", ["B_Heli_Attack_01_F"]] call DICT_fnc_setLocal;

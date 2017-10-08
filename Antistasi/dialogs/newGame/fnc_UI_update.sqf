@@ -3,7 +3,7 @@ params ["_side"];
 private _other_side = ["west", "east"] select (_side == "west");
 
 private _control_ids = [0, 1, 2, 3];
-private _roles = ["anti_state", "pro_anti_state", "state", "pro_state"];
+private _roles = ["anti_state", "foreign", "state", "foreign"];
 
 {
     private _control_list = (findDisplay 1601) displayCtrl _x;

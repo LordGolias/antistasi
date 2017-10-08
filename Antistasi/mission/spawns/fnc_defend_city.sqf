@@ -92,7 +92,7 @@ private _fnc_spawn = {
 
 	for "_i" from 0 to _numCiv do {
 		private _pos = _position getPos [_size,random 360];
-		private _civ = _grupoCivil createUnit [arrayCivs call BIS_fnc_selectRandom,_pos, [],_size,"NONE"];
+		private _civ = _grupoCivil createUnit [selectRandom (["CIV", "units"] call AS_fnc_getEntity),_pos, [],_size,"NONE"];
 		private _rnd = random 100;
 		if (_rnd < 90) then {
 			if (_rnd < 25) then {
