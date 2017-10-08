@@ -12,7 +12,7 @@ if (_unitName != "") then {
         hint "You cannot recruit units as you are not your group leader"
     };
 
-    if ((count units group player) + (count units MIASquadUnits) > 9) exitWith {
+    if (count units group player) exitWith {
         hint "Your squad is full or you have too many scattered units with no radio contact"
     };
 
