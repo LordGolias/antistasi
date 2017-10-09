@@ -12,10 +12,6 @@ if (_unitName != "") then {
         hint "You cannot recruit units as you are not your group leader"
     };
 
-    if (count units group player) exitWith {
-        hint "Your squad is full or you have too many scattered units with no radio contact"
-    };
-
     [player, _unitName] remoteExec ["AS_fnc_recruitFIAunit", 2];
 } else {
     hint "no unit selected";
