@@ -62,7 +62,10 @@ private _role = "anti_state";
 	private _faction_roles = AS_entities getVariable _faction getVariable "roles";
 	if (_role in _faction_roles) then {
 		private _vehicles_with_cost = allVariables ([AS_entities, _faction, "costs"] call DICT_fnc_get);
-		private _mandatory_costs = [AS_entities, _faction, "land_vehicles"] call DICT_fnc_get;
+		private _mandatory_costs = [];
+		{
+			_mandatory_costs pushBack (toLower _x);
+		} forEach ([AS_entities, _faction, "land_vehicles"] call DICT_fnc_get);
 
 		if (count (_mandatory_costs - _vehicles_with_cost) != 0) then {
 			diag_log format ["[AS] Error: The costs '%1' are not defined for faction '%2' for role '%3'", _mandatory_costs - _vehicles_with_cost, _faction, _role];
