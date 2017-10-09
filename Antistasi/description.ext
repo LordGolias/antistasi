@@ -68,14 +68,6 @@ class CfgDebriefing
 		picture = "n_inf";
 		pictureColor[] = {0.0,0.5,0.0,1};
 	};
-    class petrosDead
-    {
-        title = "Petros is Dead";
-        subtitle = "Petros is Dead";
-        description = "Petros is Dead";
-        picture = "b_unknown";
-        pictureColor[] = {0.5,0.0,0.0,1};
-    };
     class destroyedCities
     {
         title = "The island is Destroyed";
@@ -84,13 +76,12 @@ class CfgDebriefing
         picture = "b_unknown";
         pictureColor[] = {0.5,0.0,0.0,1};
     };
-    class serverFull
+    class invalidConfiguration
     {
-        title = "Reserved Slot";
-        subtitle = "This slot is reserved";
-        description = "Sorry, but this slot is reserved for a Server Member. To become member, please contact to the server admin or clan.";
+        title = "You do not have the same mods as the server";
+        subtitle = "";
+        description = "Server maybe using ACE/RHS/CUP and you not or vice-versa. Clients must use the same server mods as the server.";
         picture = "b_unknown";
-        pictureColor[] = {0.0,0.5,0.0,1};
     };
 };
 

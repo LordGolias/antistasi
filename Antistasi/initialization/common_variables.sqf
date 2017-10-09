@@ -83,6 +83,17 @@ if hayACE then {
 	call compile preprocessFileLineNumbers "initACE.sqf";
 };
 
+if isServer then {
+    AS_server_config = [hayACE, hayRHS, hasCUP];
+	publicVariable "AS_server_config";
+} else {
+	waitUntil {not isNil "AS_server_config"};
+	if not ([hayACE, hayRHS, hasCUP] isEqualTo AS_server_config) then {
+		// Not the same configuration. Disconnect
+		["invalidConfiguration", false, false, false, false] call BIS_fnc_endMission;
+	};
+};
+
 AS_entities = createSimpleObject ["Static", [0, 0, 0]];
 
 // fallback to the default template

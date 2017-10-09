@@ -87,7 +87,7 @@ private _FIAResIncomeMultiplier = 1;
 
 // control the airport and have majority => win game.
 if ((_FIAtotalPop > _AAFtotalPop) and ("AS_airfield_3" call AS_location_fnc_side == "FIA")) exitWith {
-    ["end1",true,true,true,true] remoteExec ["BIS_fnc_endMission",0]
+    "end1" call BIS_fnc_endMissionServer;
 };
 
 // forEach factory, add to multiplier
