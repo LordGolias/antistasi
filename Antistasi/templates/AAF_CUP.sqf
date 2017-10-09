@@ -1,6 +1,8 @@
 private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "side", str east] call DICT_fnc_setLocal;
 [_dict, "roles", ["state"]] call DICT_fnc_setLocal;
+[_dict, "name", "ChDKZ (CUP)"] call DICT_fnc_setLocal;
+[_dict, "flag", "Flag_Red_F"] call DICT_fnc_setLocal;
 
 // special units used in special occasions
 [_dict, "officer", "CUP_O_INS_Officer"] call DICT_fnc_setLocal;
@@ -43,9 +45,6 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "static_mg", "CUP_O_KORD_high_CHDKZ"] call DICT_fnc_setLocal;
 [_dict, "static_mg_low", "CUP_O_KORD_CHDKZ"] call DICT_fnc_setLocal;
 [_dict, "static_mortar", "CUP_O_2b14_82mm_CHDKZ"] call DICT_fnc_setLocal;
-
-[_dict, "name", "ChDKZ"] call DICT_fnc_setLocal;
-[_dict, "flag", "Flag_Red_F"] call DICT_fnc_setLocal;
 
 // These have to be CfgVehicles
 AAFExponsives = [

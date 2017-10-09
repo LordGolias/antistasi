@@ -1,6 +1,8 @@
 private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "side", str east] call DICT_fnc_setLocal;
 [_dict, "roles", ["state", "foreign"]] call DICT_fnc_setLocal;
+[_dict, "name", "VMF (RHS)"] call DICT_fnc_setLocal;
+[_dict, "flag", "rhs_Flag_vmf_F"] call DICT_fnc_setLocal;
 
 [_dict, "helis_transport", ["rhs_Mi8AMTSh_FAB_vvs", "rhs_ka60_grey"]] call DICT_fnc_setLocal;
 [_dict, "helis_attack", ["rhs_mi28n_vvs"]] call DICT_fnc_setLocal;
@@ -56,8 +58,6 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "recon_squad", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv">> "rhs_group_rus_vdv_infantry_recon" >> "rhs_group_rus_vdv_infantry_recon_squad"] call DICT_fnc_setLocal;
 [_dict, "recon_team", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv">> "rhs_group_rus_vdv_infantry_recon" >>"rhs_group_rus_vdv_infantry_recon_fireteam"] call DICT_fnc_setLocal;
 
-[_dict, "name", "VMF"] call DICT_fnc_setLocal;
-[_dict, "flag", "rhs_Flag_vmf_F"] call DICT_fnc_setLocal;
 [_dict, "box", "Box_East_WpsLaunch_F"] call DICT_fnc_setLocal;
 
 _dict

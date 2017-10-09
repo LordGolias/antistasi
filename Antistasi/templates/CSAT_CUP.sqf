@@ -1,6 +1,8 @@
 private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "side", str east] call DICT_fnc_setLocal;
 [_dict, "roles", ["state", "foreign"]] call DICT_fnc_setLocal;
+[_dict, "name", "RU (CUP)"] call DICT_fnc_setLocal;
+[_dict, "flag", "Flag_CSAT_F"] call DICT_fnc_setLocal;
 
 [_dict, "helis_transport", ["CUP_O_Mi8_medevac_RU"]] call DICT_fnc_setLocal;
 [_dict, "helis_attack", ["CUP_O_Ka52_RU"]] call DICT_fnc_setLocal;
@@ -56,8 +58,6 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "recon_squad", "CUP_O_RU_ReconTeam"] call DICT_fnc_setLocal;
 [_dict, "recon_team", "CUP_O_RU_ReconTeam"] call DICT_fnc_setLocal;
 
-[_dict, "name", "CSAT"] call DICT_fnc_setLocal;
-[_dict, "flag", "Flag_CSAT_F"] call DICT_fnc_setLocal;
 [_dict, "box", "Box_East_WpsLaunch_F"] call DICT_fnc_setLocal;
 
 _dict

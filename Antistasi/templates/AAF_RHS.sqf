@@ -1,6 +1,8 @@
 private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "side", str east] call DICT_fnc_setLocal;
 [_dict, "roles", ["state"]] call DICT_fnc_setLocal;
+[_dict, "name", "VV (RHS)"] call DICT_fnc_setLocal;
+[_dict, "flag", "rhs_Flag_vdv_F"] call DICT_fnc_setLocal;
 
 // special units used in special occasions
 [_dict, "officer", "rhs_vdv_officer"] call DICT_fnc_setLocal;
@@ -43,9 +45,6 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "static_mg", "rhsgref_cdf_b_DSHKM"] call DICT_fnc_setLocal;
 [_dict, "static_mg_low", "rhsgref_cdf_b_DSHKM_Mini_TriPod"] call DICT_fnc_setLocal;
 [_dict, "static_mortar", "rhsgref_cdf_b_reg_M252"] call DICT_fnc_setLocal;
-
-[_dict, "name", "VV"] call DICT_fnc_setLocal;
-[_dict, "flag", "rhs_Flag_vdv_F"] call DICT_fnc_setLocal;
 
 // FIA Vehicles
 vehTruckAA = "rhsgref_cdf_b_gaz66_zu23";
