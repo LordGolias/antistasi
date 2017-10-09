@@ -1,4 +1,4 @@
-private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy;
+private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copyLocal;
 [_dict, "name", "CZ (CUP)"] call DICT_fnc_setLocal;
 [_dict, "flag", "Flag_FIA_F"] call DICT_fnc_setLocal;
 
@@ -22,11 +22,13 @@ private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy
 // First helicopter of this list is undercover
 [_dict, "air_vehicles", ["CUP_B_MH6J_OBS_USA"]] call DICT_fnc_setLocal;
 
-AS_FIAvehicles setVariable ["CUP_C_UAZ_Unarmed_TK_CIV", 300];
-AS_FIAvehicles setVariable ["CUP_C_LR_Transport_CTK", 300];
-AS_FIAvehicles setVariable ["CUP_C_V3S_Open_TKC", 600];
-AS_FIAvehicles setVariable ["CUP_I_Datsun_PK", 700];
-AS_FIAvehicles setVariable ["B_G_Boat_Transport_01_F", 400];
-AS_FIAvehicles setVariable ["CUP_B_MH6J_OBS_USA", 6000];
+// costs of **land vehicle**. Every vehicle in `"land_vehicles"` must be here.
+private _costs = createSimpleObject ["Static", [0, 0, 0]];
+[_dict, "costs"] call DICT_fnc_delete; // delete old
+[_dict, "costs", _costs] call DICT_fnc_setLocal;
+[_costs, "CUP_C_UAZ_Unarmed_TK_CIV", 300] call DICT_fnc_setLocal;
+[_costs, "CUP_C_LR_Transport_CTK", 300] call DICT_fnc_setLocal;
+[_costs, "CUP_C_V3S_Open_TKC", 600] call DICT_fnc_setLocal;
+[_costs, "CUP_I_Datsun_PK", 700] call DICT_fnc_setLocal;
 
 _dict

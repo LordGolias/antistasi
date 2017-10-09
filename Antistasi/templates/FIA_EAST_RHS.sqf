@@ -1,4 +1,4 @@
-private _dict = ([AS_entities, "RHS_FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy;
+private _dict = ([AS_entities, "RHS_FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copyLocal;
 [_dict, "side", str east] call DICT_fnc_setLocal;
 [_dict, "name", "ChDKZ (RHS)"] call DICT_fnc_setLocal;
 [_dict, "flag", "rhs_flag_ChDKZ"] call DICT_fnc_setLocal;
