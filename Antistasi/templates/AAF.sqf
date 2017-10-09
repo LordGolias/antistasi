@@ -1,6 +1,8 @@
 private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "side", str east] call DICT_fnc_setLocal;
 [_dict, "roles", ["state"]] call DICT_fnc_setLocal;
+[_dict, "name", "AAF"] call DICT_fnc_setLocal;
+[_dict, "flag", "Flag_AAF_F"] call DICT_fnc_setLocal;
 
 // special units used in special occasions
 [_dict, "officer", "I_officer_F"] call DICT_fnc_setLocal;
@@ -44,9 +46,6 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "static_mg", "I_HMG_01_high_F"] call DICT_fnc_setLocal;
 [_dict, "static_mg_low", "I_HMG_01_F"] call DICT_fnc_setLocal;
 [_dict, "static_mortar", "I_Mortar_01_F"] call DICT_fnc_setLocal;
-
-[_dict, "name", "AAF"] call DICT_fnc_setLocal;
-[_dict, "flag", "Flag_AAF_F"] call DICT_fnc_setLocal;
 
 // These have to be CfgVehicles
 AAFExponsives = [
