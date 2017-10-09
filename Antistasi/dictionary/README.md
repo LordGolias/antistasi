@@ -45,6 +45,8 @@ is semantically equivalent to
 [[_dict, _key1] call DICT_fnc_get), _key2] call DICT_fnc_get
 ```
 
+* `DICT_fnc_copyLocal` and `DICT_fnc_setLocal` are local variants of the respective global methods.
+
 ### Serialization to string
 
 Dictionaries are fully serializable to strings. This means that they can be used
