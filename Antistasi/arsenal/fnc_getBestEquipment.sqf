@@ -4,7 +4,7 @@ private _vest = ([caja, "vest"] call AS_fnc_getBestItem);
 private _helmet = ([caja, "helmet"] call AS_fnc_getBestItem);
 
 // survivors have no weapons.
-if (_type in ["Crew", "Survivor"]) exitWith {
+if (_type == "Survivor") exitWith {
     ["", "", "", "", "", [], "", [], "", [], [], []]
 };
 
@@ -44,7 +44,7 @@ if (_type == "Medic") then {
     _useBackpack = true;
     _backpackItems = call AS_medical_fnc_FIAmedicBackpack;
 };
-if (_type == "Repair Specialist") then {
+if (_type == "Engineer") then {
     _useBackpack = true;
     _backpackItems = [["ToolKit", 1]];
 };

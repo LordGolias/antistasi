@@ -18,12 +18,10 @@
 	private _type = _x;
 	{
 		private _static = [_x, _type] call AS_fnc_getEntity;
-		if isNil "_static" then {
-			diag_log format ["[AS] Error: Type of unit '%1' not defined for '%2'", _type, _x];
-		} else {
+		if not isNil "_static" then {
 			_statics pushBackUnique _static;
 		};
-	} forEach ["CSAT", "NATO", "AAF"];
+	} forEach ["CSAT", "NATO", "AAF", "FIA"];
 
 	if (_type == "static_at") then {
 		AS_allATstatics = +_statics;
@@ -73,32 +71,40 @@ call {
 	} forEach _result;
 };
 
-// FIA
-unlockedItems = unlockedItems + AS_FIAuniforms +
-	AS_FIAuniforms_undercover + AS_FIAhelmets_undercover +
-	AS_FIAvests_undercover + AS_FIAgoogles_undercover;
+AS_allFIAUnitTypes = [
+	"Rifleman",
+	"Grenadier",
+	"Medic",
+	"Autorifleman",
+	"Squad Leader",
+	"AT Specialist",
+	"Sniper",
+	"Engineer",
+	"AA Specialist",
+	"Explosives Specialist",
+	"Crew",
+	"Survivor"
+];
 
-// Contains "Infantry Squad", "Infantry Team", etc.
-AS_allFIASquadTypes = [];
-for "_i" from 0 to (count AS_FIAsquadsMapping) - 1 step 2 do {
-    AS_allFIASquadTypes pushBackUnique (AS_FIAsquadsMapping select (_i + 1));
-};
-AS_allFIASquadTypes append AS_FIACustomSquad_types;
+AS_data_allCosts setVariable ["Crew", 50];
+AS_data_allCosts setVariable ["Rifleman", 50];
+AS_data_allCosts setVariable ["Grenadier", 100];
+AS_data_allCosts setVariable ["Autorifleman", 100];
+AS_data_allCosts setVariable ["Medic", 300];
+AS_data_allCosts setVariable ["Squad Leader", 100];
+AS_data_allCosts setVariable ["Engineer", 200];
+AS_data_allCosts setVariable ["Explosives Specialist", 200];
+AS_data_allCosts setVariable ["AT Specialist", 200];
+AS_data_allCosts setVariable ["AA Specialist", 300];
+AS_data_allCosts setVariable ["Sniper", 100];
 
-// Contains "Rifleman", "Grenadier", etc.
-AS_allFIAUnitTypes = [];
-AS_allFIASoldierClasses = [];
-for "_i" from 0 to (count AS_FIAsoldiersMapping) - 1 step 2 do {
-    AS_allFIAUnitTypes pushBackUnique (AS_FIAsoldiersMapping select (_i + 1));
-    AS_allFIASoldierClasses pushBackUnique (AS_FIAsoldiersMapping select _i);
-};
-AS_allFIARecruitableSoldiers = AS_allFIAUnitTypes - ["Crew", "Survivor"];
+AS_allFIARecruitableSoldiers = AS_allFIAUnitTypes - ["Survivor"];
 
-AS_FIAvehicles_all = (AS_FIAvehicles getVariable "land_vehicles") +
-	(AS_FIAvehicles getVariable "air_vehicles") +
-	(AS_FIAvehicles getVariable "water_vehicles");
+// set of all FIA vehicles
+private _vehicles = [];
+{
+	_vehicles append (["FIA", _x] call AS_fnc_getEntity);
+} forEach ["land_vehicles", "air_vehicles", "water_vehicles"];
+[AS_entities, "FIA" call AS_fnc_getFaction, "vehicles", _vehicles] call DICT_fnc_setLocal;
 
-civHeli = (AS_FIAvehicles getVariable "air_vehicles") select 0;
-
-// todo: remove this variable by making the boat-buying a list of boats
-boatFIA = (AS_FIAvehicles getVariable "water_vehicles") select 0;
+civHeli = (["FIA", "air_vehicles"] call AS_fnc_getEntity) select 0;

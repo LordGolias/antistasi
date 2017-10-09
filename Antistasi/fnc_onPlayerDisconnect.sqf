@@ -27,7 +27,7 @@ if (_unit == AS_commander) then {
 						_recursos = _recursos + ([_tipoVeh] call AS_fnc_getFIAvehiclePrice) + ([typeOf (vehicle leader _x)] call AS_fnc_getFIAvehiclePrice);
 					} else {
 						call {
-							if (_tipoVeh in AS_FIAvehicles_all) exitWith {
+							if (_tipoVeh in (["FIA", "vehicles"] call AS_fnc_getEntity)) exitWith {
 								// this is the buying price because it
 								// is assumed it is not the player's fault
 								_recursos = _recursos + ([_tipoVeh] call AS_fnc_getFIAvehiclePrice);

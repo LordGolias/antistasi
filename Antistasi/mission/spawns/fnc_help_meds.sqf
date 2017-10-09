@@ -59,7 +59,7 @@ private _fnc_initialize = {
 		(["AAF", "name"] call AS_fnc_getEntity)
 	];
 
-	private _vehicleType = selectRandom AS_FIA_vans;
+	private _vehicleType = selectRandom (["FIA", "vans"] call AS_fnc_getEntity);
 
 	private _crashPositionMrk = [_crashPosition,random 200,random 360] call BIS_fnc_relPos;
 	_crashPosition = _crashPosition findEmptyPosition [0,100,_vehicleType];

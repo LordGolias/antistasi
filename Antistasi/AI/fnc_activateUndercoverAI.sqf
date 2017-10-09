@@ -27,11 +27,12 @@ removeHeadGear _unit;
 _unit unlinkItem _hmd;
 
 private _detectingLocations = [["base","roadblock","outpost","outpostAA"], "AAF"] call AS_location_fnc_TS;
+private _undercoverVehicles = (["CIV", "vehicles"] call AS_fnc_getEntity) + [civHeli];
 while {(captive player) and (captive _unit)} do {
 	sleep 1;
 	private _type = typeOf vehicle _unit;
 	// vehicle reported.
-	if ((vehicle _unit != _unit) and (not(_type in arrayCivVeh) || vehicle _unit in AS_S("reportedVehs"))) exitWith {};
+	if ((vehicle _unit != _unit) and {not(_type in _undercoverVehicles) || vehicle _unit in AS_S("reportedVehs")}) exitWith {};
 
 	private _location = [_detectingLocations, _unit] call BIS_fnc_nearestPosition;
 	private _position = _location call AS_location_fnc_position;

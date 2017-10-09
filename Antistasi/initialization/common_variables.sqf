@@ -73,11 +73,20 @@ AS_data_allCosts = createSimpleObject ["Static", [0, 0, 0]];
 // This is a local object as the costs are immutable and can thus be initialized locally
 AS_FIAvehicles = createSimpleObject ["Static", [0, 0, 0]];
 
-call compile preprocessFileLineNumbers "templates\FIA.sqf";
+// Initializes unlocked items.
+unlockedItems = [
+	"Binocular",
+	"ItemMap",
+	"ItemGPS",
+	"ItemRadio",
+	"ItemWatch",
+	"ItemCompass",
+	"FirstAidKit",
+	"Medikit"
+];
 
-// add content to the unlocked items depending on the ACE.
-// Must be called after unlocked* is defined ("templates\FIA.sqf")
 if hayACE then {
+	// Must be called after unlockedItems is defined
 	call compile preprocessFileLineNumbers "initACE.sqf";
 };
 
@@ -92,6 +101,10 @@ _dict = call compile preprocessFileLineNumbers "templates\CSAT.sqf";
 AS_entities setVariable ["CSAT", _dict];
 _dict = call compile preprocessFileLineNumbers "templates\NATO.sqf";
 AS_entities setVariable ["NATO", _dict];
+_dict = call compile preprocessFileLineNumbers "templates\FIA_WEST.sqf";
+AS_entities setVariable ["FIA_WEST", _dict];
+_dict = call compile preprocessFileLineNumbers "templates\FIA_EAST.sqf";
+AS_entities setVariable ["FIA_EAST", _dict];
 
 if hayRHS then {
 	_dict = call compile preprocessFileLineNumbers "templates\AAF_RHS.sqf";
@@ -100,7 +113,10 @@ if hayRHS then {
 	AS_entities setVariable ["RHS_AAF", _dict];
 	_dict = call compile preprocessFileLineNumbers "templates\NATO_RHS.sqf";
 	AS_entities setVariable ["RHS_NATO", _dict];
-	call compile preprocessFileLineNumbers "templates\FIA_RHS.sqf";
+	_dict = call compile preprocessFileLineNumbers "templates\FIA_WEST_RHS.sqf";
+	AS_entities setVariable ["RHS_FIA_WEST", _dict];
+	_dict = call compile preprocessFileLineNumbers "templates\FIA_EAST_RHS.sqf";
+	AS_entities setVariable ["RHS_FIA_EAST", _dict];
 };
 if hasCUP then {
 	_dict = call compile preprocessFileLineNumbers "templates\AAF_CUP.sqf";
@@ -109,9 +125,10 @@ if hasCUP then {
 	AS_entities setVariable ["CUP_CSAT", _dict];
 	_dict = call compile preprocessFileLineNumbers "templates\NATO_CUP.sqf";
 	AS_entities setVariable ["CUP_NATO", _dict];
-
-	// todo: make FIA part of the entity framework
-	if not hayRHS then {call compile preprocessFileLineNumbers "templates\FIA_CUP.sqf"};
+	_dict = call compile preprocessFileLineNumbers "templates\FIA_WEST_CUP.sqf";
+	AS_entities setVariable ["CUP_FIA_WEST", _dict];
+	_dict = call compile preprocessFileLineNumbers "templates\FIA_EAST_CUP.sqf";
+	AS_entities setVariable ["CUP_FIA_EAST", _dict];
 };
 
 call compile preprocessFileLineNumbers "initialization\checkFactionsAttributes.sqf"

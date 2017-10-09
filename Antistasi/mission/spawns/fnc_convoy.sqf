@@ -26,12 +26,12 @@ private _fnc_initialize = {
 		if (_missionType == "convoy_money") exitWith {
 			_tskDesc = localize "STR_tskDesc_CVY_Money";
 			_tskIcon = "move";
-			_mainVehicleType = selectRandom AS_FIA_vans;
+			_mainVehicleType = selectRandom (["FIA", "vans"] call AS_fnc_getEntity);
 		};
 		if (_missionType == "convoy_supplies") exitWith {
 			_tskDesc = localize "STR_tskDesc_CVY_Supply";
 			_tskIcon = "heal";
-			_mainVehicleType = selectRandom AS_FIA_vans;
+			_mainVehicleType = selectRandom (["FIA", "vans"] call AS_fnc_getEntity);
 		};
 		if (_missionType == "convoy_armor") exitWith {
 			_tskDesc = localize "STR_tskDesc_CVY_Armor";
@@ -167,7 +167,7 @@ private _fnc_spawn = {
 		_POWs = [];
 		_groups pushBack _grpPOW;
 		for "_i" from 1 to (1+ round (random 11)) do {
-			private _unit = _grpPOW createUnit [["Survivor"] call AS_fnc_getFIAUnitClass, _posbase, [], 0, "NONE"];
+			private _unit = ["Survivor", _position, _grpPOW] call AS_fnc_spawnFIAUnit;
 			_unit setCaptive true;
 			_unit disableAI "MOVE";
 			_unit setBehaviour "CARELESS";

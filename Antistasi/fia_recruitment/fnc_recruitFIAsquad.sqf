@@ -15,11 +15,11 @@ private _costHR = 0;
 private _hr = AS_P("hr");
 private _resourcesFIA = AS_P("resourcesFIA");
 
-if !(_grouptype in AS_FIACustomSquad_types) then {
+if !(_grouptype in (["FIA", "squads_custom"] call AS_fnc_getEntity)) then {
 	([_grouptype] call AS_fnc_getFIASquadCost) params ["_cost", "_hr"];
 	_isInfantry = true;
 } else {
-	([_grouptype] call AS_fnc_FIACustomSquad_cost) params ["_cost", "_hr"];
+	([_grouptype] call (["FIA", "squads_custom_cost"] call AS_fnc_getEntity)) params ["_cost", "_hr"];
 };
 
 if (_hr < _costHR) exitWith {hint format ["You do not have enough HR for this request (%1 required)",_costHR]};
@@ -38,21 +38,22 @@ while {true} do {
 
 private _grupo = grpNull;
 if _isInfantry then {
-	_grupo = [[_pos, 30, random 360] call BIS_Fnc_relPos, side_blue, [_grouptype] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
+	_grupo = createGroup side_blue;
+	[_grouptype, [_pos, 30, random 360] call BIS_Fnc_relPos, _grupo] call AS_fnc_spawnFIAsquad;
 } else {
-	_grupo = [_grouptype, position _road] call AS_fnc_FIACustomSquad_initialization;
+	_grupo = [_grouptype, position _road] call (["FIA", "squads_custom_init"] call AS_fnc_getEntity);
 };
 
 // the name that appears in HC.
 private _groupID = "";
-if (_grouptype == "Infantry Squad") then {_groupID = "Squd-"};
-if (_grouptype == "Infantry Team") then {_groupID = "Tm-"};
-if (_grouptype == "AT Team") then {_groupID = "AT-"};
-if (_grouptype == "Sniper Team") then {_groupID = "Snpr-"};
-if (_grouptype == "Sentry Team") then {_groupID = "Stry-"};
-if (_grouptype == "Mobile Mortar") then {_groupID = "Mort-"};
-if (_grouptype == "Mobile AA") then {_groupID = "M.AA-"};
-if (_grouptype == "Mobile AT") then {_groupID = "M.AT-"};
+if (_grouptype == "squad") then {_groupID = "Squd-"};
+if (_grouptype == "team") then {_groupID = "Tm-"};
+if (_grouptype == "team_at") then {_groupID = "AT-"};
+if (_grouptype == "team_sniper") then {_groupID = "Snpr-"};
+if (_grouptype == "team_patrol") then {_groupID = "Stry-"};
+if (_grouptype == "mobile_mortar") then {_groupID = "Mort-"};
+if (_grouptype == "mobile_aa") then {_groupID = "M.AA-"};
+if (_grouptype == "mobile_at") then {_groupID = "M.AT-"};
 _grupo setGroupId [format ["%1%2",_groupID,{side (leader _x) == side_blue} count allGroups]];
 
 {[_x] call AS_fnc_initUnitFIA} forEach units _grupo;
@@ -68,13 +69,13 @@ if (!_isInfantry) exitWith {};
 // Ask if vehicle is needed.
 private _vehType = "";
 
-if (_grouptype == "Infantry Squad") then
+if (_grouptype == "squad") then
 	{
 	_vehType = "B_G_Van_01_transport_F";
 	}
 else
 	{
-	if ((_grouptype == "Sniper Team") or (_grouptype == "Sentry Team")) then
+	if (_grouptype in ["team_sniper","team_patrol"]) then
 		{
 		_vehType = "B_G_Quadbike_01_F";
 		}

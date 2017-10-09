@@ -12,7 +12,9 @@ _veh = cursortarget;
 
 private _tipo = typeOf _veh;
 
-if (not (_tipo in (AS_FIAvehicles_all + arrayCivVeh)) or {_tipo call AS_AAFarsenal_fnc_category == ""}) exitWith {
+if (not (_tipo in ((["FIA", "vehicles"] call AS_fnc_getEntity) +
+			       (["CIV", "vehicles"] call AS_fnc_getEntity) +
+				   (["AAF", "vehicles"] call AS_fnc_getEntity)))) exitWith {
 	hint "You are not looking to a valid vehicle"
 };
 

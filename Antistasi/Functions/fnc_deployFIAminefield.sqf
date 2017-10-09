@@ -18,8 +18,9 @@ if (_availableMines == 0) exitWith {
 	createDialog "AS_createminefield";
 };
 
+private _vehicleType = selectRandom (["FIA", "vans"] call AS_fnc_getEntity);
 private _cost = 2*(AS_data_allCosts getVariable "Explosives Specialist") +
-	([(AS_FIAvehicles getVariable "land_vehicles") select 0] call AS_fnc_getFIAvehiclePrice);
+	(_vehicleType call AS_fnc_getFIAvehiclePrice);
 private _hr = 2;
 if ((AS_P("resourcesFIA") < _cost) or (AS_P("hr") < _hr)) exitWith {
 	hint format ["Not enought resources to recruit a mine deploying team (%1 € and %2 HR needed)",_cost,_hr];
@@ -121,9 +122,7 @@ if !(AS_confirmLocations) exitWith {
 AS_confirmLocations = nil;
 
 // pay price and remove mines from box
-private _vehType = (AS_FIAvehicles getVariable "land_vehicles") select 0;
-private _cost = (2*(AS_data_allCosts getVariable "Explosives Specialist")) + ([_vehType] call AS_fnc_getFIAvehiclePrice);
-[-2,-_cost] remoteExec ["AS_fnc_changeFIAmoney",2];
+[-_hr,-_cost] remoteExec ["AS_fnc_changeFIAmoney",2];
 
 waitUntil {not AS_S("lockTransfer")};
 AS_Sset("lockTransfer", true);
@@ -138,7 +137,7 @@ private _mission = ["establish_fia_minefield", ""] call AS_mission_fnc_add;
 [_mission, "mine_type", _type] call AS_mission_fnc_set;
 [_mission, "position", _locationPosition] call AS_mission_fnc_set;
 [_mission, "positions", _positions] call AS_mission_fnc_set;
-[_mission, "vehicle", _vehType] call AS_mission_fnc_set;
+[_mission, "vehicle", _vehicleType] call AS_mission_fnc_set;
 [_mission, "cost", _cost] call AS_mission_fnc_set;
 
 // create the mission that will build the minefield.

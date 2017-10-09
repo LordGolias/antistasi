@@ -15,17 +15,17 @@ private _fnc_initialize = {
 	switch _locationType do {
 		case "watchpost": {
 			_locationName = "watchpost";
-			_groupType = "Sniper Team";
+			_groupType = "team_sniper";
 			_vehType = "B_G_Quadbike_01_F";
 		};
 		case "roadblock": {
 			_locationName = "roadblock";
-			_groupType = "AT Team";
+			_groupType = "team_at";
 			_vehType = "B_G_Offroad_01_F";
 		};
 		case "camp": {
 			_locationName = "camp";
-			_groupType = "Sentry Team";
+			_groupType = "team_patrol";
 			_vehType = "B_G_Van_01_transport_F";
 		};
 	};
@@ -59,7 +59,8 @@ private _fnc_spawn = {
 	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	private _vehicles = [];
-	private _group = [getMarkerPos "FIA_HQ", side_blue, [_groupType] call AS_fnc_getFIASquadConfig] call BIS_Fnc_spawnGroup;
+	private _group = createGroup side_blue;
+	[_groupType, getMarkerPos "FIA_HQ", _group] call AS_fnc_spawnFIAsquad;
 	AS_commander hcSetGroup [_group];
 	_group setVariable ["isHCgroup", true, true];
 	{[_x] call AS_fnc_initUnitFIA} forEach units _group;

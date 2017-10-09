@@ -58,3 +58,15 @@ CSATMagazines = CSATMagazines - CSATThrowGrenades;
 private _CIVunits = ["CIV", "units"] call AS_fnc_getEntity;
 _result = [_CIVunits] call AS_fnc_listUniqueEquipment;
 CIVUniforms = _result select 4;
+
+unlockedWeapons = ["FIA", "unlockedWeapons"] call AS_fnc_getEntity;
+unlockedMagazines = ["FIA", "unlockedMagazines"] call AS_fnc_getEntity;
+unlockedBackpacks = ["FIA", "unlockedBackpacks"] call AS_fnc_getEntity;
+
+//////////////////// FIA ////////////////////////
+unlockedItems = unlockedItems +
+	CIVUniforms +
+	(["FIA", "uniforms"] call AS_fnc_getEntity) +
+	(["FIA", "helmets"] call AS_fnc_getEntity) +
+	(["FIA", "vests"] call AS_fnc_getEntity) +
+	(["FIA", "googles"] call AS_fnc_getEntity);

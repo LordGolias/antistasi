@@ -99,12 +99,11 @@ class AS {
         FNC_BASE(cleanResources);
 
         // auxiliars to FIArecruitment
-        FNC(fia_recruitment,getFIAUnitNameType);
+        FNC(fia_recruitment,spawnFIAUnit);
+        FNC(fia_recruitment,spawnFIASquad);
+        FNC(fia_recruitment,getFIASquadName);
         FNC(fia_recruitment,getFIAUnitType);
         FNC(fia_recruitment,getFIAUnitClass);
-        FNC(fia_recruitment,getFIASquadNameType);
-        FNC(fia_recruitment,getFIASquadClass);
-        FNC(fia_recruitment,getFIASquadConfig);
         FNC(fia_recruitment,getFIASquadCost);
 
         FNC_BASE(spawnAirAttack);

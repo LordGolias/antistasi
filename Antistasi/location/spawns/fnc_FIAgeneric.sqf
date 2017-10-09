@@ -16,7 +16,7 @@ private _fnc_spawn = {
 
 	if (_type != "fia_hq") then {
 		// The flag
-		private _veh = createVehicle ["Flag_FIA_F", _posicion, [],0, "CAN_COLLIDE"];
+		private _veh = createVehicle [["FIA", "flag"] call AS_fnc_getEntity, _posicion, [],0, "CAN_COLLIDE"];
 		_veh allowDamage false;
 		_vehiculos pushBack _veh;
 		[[_veh,"unit"],"AS_fnc_addAction"] call BIS_fnc_MP;

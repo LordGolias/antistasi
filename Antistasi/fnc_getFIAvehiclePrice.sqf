@@ -2,7 +2,7 @@
 params ["_tipoVeh", ["_isSelling", false]];
 
 private _cost = 300;
-if (_tipoVeh in AS_FIAvehicles_all) then {
+if (_tipoVeh in (["FIA", "vehicles"] call AS_fnc_getEntity)) then {
 	_cost = AS_FIAvehicles getVariable _tipoVeh;
 } else {
 	diag_log format ["[AS] AS_fnc_getFIAvehiclePrice: '%1' not declared in AS_FIAvehicles.", _tipoVeh];

@@ -10,7 +10,7 @@ if (captive _player) exitWith {hint "You are already undercover"};
 private _heli_spotters = [["base","airfield"], "AAF"] call AS_location_fnc_TS;
 private _all_spotters = [["base","airfield","outpost","roadblock","hill", "hillAA"], "AAF"] call AS_location_fnc_TS;
 
-private _arrayCivVeh = arrayCivVeh + [civHeli];
+private _undercoverVehicles = (["CIV", "vehicles"] call AS_fnc_getEntity) + [civHeli];
 
 private _compromised = _player getVariable "compromised";
 private _reason = "";
@@ -19,10 +19,10 @@ private _isMilitaryDressedConditions = [
 	{primaryWeapon _player != ""},
 	{secondaryWeapon _player != ""},
 	{handgunWeapon _player != ""},
-	{vest _player != "" and !(vest _player in AS_FIAvests_undercover)},
-	{headgear _player != "" and !(headgear _player in AS_FIAhelmets_undercover)},
+	{vest _player != "" and !(vest _player in (["FIA", "vests"] call AS_fnc_getEntity))},
+	{headgear _player != "" and !(headgear _player in (["FIA", "helmets"] call AS_fnc_getEntity))},
 	{hmd _player != ""},
-	{!(uniform _player in AS_FIAuniforms_undercover)}
+	{!(uniform _player in CIVUniforms)}
 ];
 private _isMilitaryHints = [
 	"a weapon",
@@ -56,7 +56,7 @@ private _fnc_detected = {
 
 ///// Check whether the player can become undercover
 if (vehicle _player != _player) then {
-	if (not(typeOf(vehicle _player) in _arrayCivVeh)) then {
+	if (not(typeOf(vehicle _player) in _undercoverVehicles)) then {
 		_reason = "You cannot go undercover because you are in a non-civilian vehicle.";
 	};
 	if (vehicle _player in AS_S("reportedVehs")) then {
@@ -100,7 +100,7 @@ while {_reason == ""} do {
 	private _type = typeOf _veh;
 	if (_veh != _player) then {
 		_reason = call {
-			if (not(_type in _arrayCivVeh)) exitWith {
+			if (not(_type in _undercoverVehicles)) exitWith {
 				"militaryVehicle"
 			};
 			if (_veh in AS_S("reportedVehs")) exitWith {

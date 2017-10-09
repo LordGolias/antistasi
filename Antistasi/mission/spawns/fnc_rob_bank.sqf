@@ -39,7 +39,7 @@ private _fnc_spawn = {
 	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 	private _markers = (([_mission, "resources"] call AS_spawn_fnc_get) select 3);
 
-	private _truckType = selectRandom AS_FIA_vans;
+	private _truckType = selectRandom (["FIA", "vans"] call AS_fnc_getEntity);
 	private _truck = _truckType createVehicle ((getMarkerPos "FIA_HQ") findEmptyPosition [1,50,_truckType]);
 	{_x reveal _truck} forEach (allPlayers - (entities "HeadlessClient_F"));
 	[_truck, "FIA"] spawn AS_fnc_initVehicle;
