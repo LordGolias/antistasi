@@ -52,7 +52,7 @@ private _fnc_spawn = {
 		private _prisioners = 5 + round random 10;
 
 		for "_i" from 1 to _prisioners do {
-			private _unit = _grpPOW createUnit [["Survivor"] call AS_fnc_getFIAUnitClass, [_position, 5, random 360] call BIS_Fnc_relPos, [], 0, "NONE"];
+			private _unit = ["Survivor", [_position, 5, random 360] call BIS_Fnc_relPos, _grpPOW] call AS_fnc_spawnFIAUnit;
 			_unit call _initSurvivor;
 			[[_unit, "prisionero"],"AS_fnc_addAction"] call BIS_fnc_MP;
 			sleep 1;
@@ -76,7 +76,7 @@ private _fnc_spawn = {
 
 		private _num = (count _house_positions) max 8;
 		for "_i" from 0 to _num - 1 do {
-			private _unit = _grpPOW createUnit [["Survivor"] call AS_fnc_getFIAUnitClass, _house_positions select _i, [], 0, "NONE"];
+			private _unit = ["Survivor", _house_positions select _i, _grpPOW] call AS_fnc_spawnFIAUnit;
 			_unit call _initSurvivor;
 			_unit setSkill 0;
 			[[_unit,"refugiado"],"AS_fnc_addAction"] call BIS_fnc_MP;

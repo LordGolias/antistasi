@@ -1,10 +1,16 @@
 // unit type -> unit class
 params ["_type"];
-private _index = AS_FIAsoldiersMapping find _type;
-private _class = "B_G_Soldier_F";
-if (_index == -1) then {
-    diag_log format ["[AS] ERROR: unit type '%1' is not in the templates/FIA.sqf. Using unit class '%2'.",_type,_class];
-} else {
-    _class = AS_FIAsoldiersMapping select (_index - 1);
+
+if (_type == "Medic") exitWith {
+    ["FIA", "medic"] call AS_fnc_getEntity
 };
-_class
+if (_type == "Engineer") exitWith {
+    ["FIA", "engineer"] call AS_fnc_getEntity
+};
+if (_type == "Crew") exitWith {
+    ["FIA", "crew"] call AS_fnc_getEntity
+};
+if (_type == "Survivor") exitWith {
+    ["FIA", "survivor"] call AS_fnc_getEntity
+};
+["FIA", "soldier"] call AS_fnc_getEntity

@@ -23,7 +23,7 @@ _grupos = _grupos + [_grupo];
             if (isNull _grupoMort) then {
                 _grupoMort = createGroup side_blue;
             };
-			_unit = _grupoMort createUnit [_x call AS_fnc_getFIAUnitClass, _posicion, [], 0, "NONE"];
+			_unit = [_x, _posicion, _grupoMort] call AS_fnc_spawnFIAUnit;
 			private _veh = "B_G_Mortar_01_F" createVehicle ([_posicion] call AS_fnc_findMortarCreatePosition);
 			_vehiculos = _vehiculos + [_veh];
 			[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
@@ -37,20 +37,20 @@ _grupos = _grupos + [_grupo];
                 if (isNull _grupoMort) then {
                     _grupoMort = createGroup side_blue;
                 };
-				_unit = _grupoMort createUnit [_x call AS_fnc_getFIAUnitClass, _posicion, [], 0, "NONE"];
+				_unit = [_x, _posicion, _grupoMort] call AS_fnc_spawnFIAUnit;
 				_unit moveInGunner _estatica;
 				[_estatica] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 			} else {
                 if (isNull _grupoEst) then {
                     _grupoEst = createGroup side_blue;
                 };
-				_unit = _grupoEst createUnit [_x call AS_fnc_getFIAUnitClass, _posicion, [], 0, "NONE"];
+				_unit = [_x, _posicion, _grupoEst] call AS_fnc_spawnFIAUnit;
 				_unit moveInGunner _estatica;
 			};
 			_estaticas = _estaticas - [_estatica];
 		};
 
-		_unit = _grupo createUnit [_x call AS_fnc_getFIAUnitClass, _posicion, [], 0, "NONE"];
+		_unit = [_x, _posicion, _grupo] call AS_fnc_spawnFIAUnit;
 		if (_x == "Squad Leader") then {_grupo selectLeader _unit};
 	};
 	[_unit,false,_location] call AS_fnc_initUnitFIA;

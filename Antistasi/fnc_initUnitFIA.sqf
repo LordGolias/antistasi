@@ -41,7 +41,8 @@ if (player == leader _unit) then {
 		_soldier = _this select 0;
 		_veh = _this select 2;
 
-		if (((typeOf _veh) in arrayCivVeh) || ((typeOf _veh) == civHeli)) then {
+		private _undercoverVehicles = (["CIV", "vehicles"] call AS_fnc_getEntity) + [civHeli];
+		if ((typeOf _veh) in _undercoverVehicles) then {
 			if !(_veh in AS_S("reportedVehs")) then {
 				[_soldier] spawn AS_fnc_activateUndercoverAI;
 			};

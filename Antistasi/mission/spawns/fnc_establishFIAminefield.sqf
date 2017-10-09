@@ -36,7 +36,7 @@ private _fnc_spawn = {
 
 	private _pos = position (_roads select 0) findEmptyPosition [1,30,_vehType];
 
-	private _vehType = (AS_FIAvehicles getVariable "land_vehicles") select 0;
+	private _vehType = selectRandom (["FIA", "vans"] call AS_fnc_getEntity);
 	private _truck = _vehType createVehicle _pos;
 	[_truck, "FIA"] call AS_fnc_initVehicle;
 
@@ -46,8 +46,8 @@ private _fnc_spawn = {
 	_group setGroupId ["MineF"];
 
 	_group addVehicle _truck;
-	_group createUnit [["Explosives Specialist"] call AS_fnc_getFIAUnitClass, getMarkerPos "FIA_HQ", [], 0, "NONE"];
-	_group createUnit [["Explosives Specialist"] call AS_fnc_getFIAUnitClass, getMarkerPos "FIA_HQ", [], 0, "NONE"];
+	["Explosives Specialist", getMarkerPos "FIA_HQ", _group] call AS_fnc_spawnFIAUnit;
+	["Explosives Specialist", getMarkerPos "FIA_HQ", _group] call AS_fnc_spawnFIAUnit;
 	{[_x] spawn AS_fnc_initUnitFIA; [_x] orderGetIn true} forEach units _group;
 	leader _group setBehaviour "SAFE";
 	_truck allowCrewInImmobile true;

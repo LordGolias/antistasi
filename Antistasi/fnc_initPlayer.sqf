@@ -53,7 +53,8 @@ player addEventHandler ["GetInMan", {
 		};
 	};
 	if not _exit then {
-		if (((typeOf _vehicle) in arrayCivVeh) or ((typeOf _vehicle) == civHeli)) then {
+		private _undercoverVehicles = (["CIV", "vehicles"] call AS_fnc_getEntity) + [civHeli];
+		if ((typeOf _vehicle) in _undercoverVehicles) then {
 			if (!(_vehicle in AS_S("reportedVehs"))) then {
 				[] spawn AS_fnc_activateUndercover;
 			};

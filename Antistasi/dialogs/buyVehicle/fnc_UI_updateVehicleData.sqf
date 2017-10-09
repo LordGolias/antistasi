@@ -36,7 +36,9 @@ if (count _weapons == 0) then {
 };
 
 private _isUndercover = "No";
-if (_class in (arrayCivVeh + [civHeli])) then {
+
+private _undercoverVehicles = (["CIV", "vehicles"] call AS_fnc_getEntity) + [civHeli];
+if (_class in _undercoverVehicles) then {
     _isUndercover = "Yes";
 };
 private _crewCount = [_class, true] call BIS_fnc_crewCount;

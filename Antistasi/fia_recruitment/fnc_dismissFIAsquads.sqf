@@ -38,7 +38,7 @@ sleep 100;
 				_veh = assignedVehicle _x;
 				if !((typeOf _veh) in _vs) then {
 					_vs pushBack (typeOf _veh);
-					if ((typeOf _veh) in AS_FIAvehicles_all) then {
+					if ((typeOf _veh) in (["FIA", "vehicles"] call AS_fnc_getEntity)) then {
 						// Recover the full price of the vehicle
 						_resourcesFIA = _resourcesFIA + ([typeOf _veh] call AS_fnc_getFIAvehiclePrice);
 						if (count attachedObjects _veh > 0) then {

@@ -54,7 +54,7 @@ private _fnc_spawn = {
 			private _p2 = getPos ((roadsConnectedto _road) select 0);
 			private _dirveh = [_p1,_p2] call BIS_fnc_DirTo;
 			private _pos = [_p1, 3, _dirveh + 90] call BIS_Fnc_relPos;
-			private _type = (arrayCivVeh call BIS_Fnc_selectRandom);
+			private _type = ((["CIV", "vehicles"] call AS_fnc_getEntity) call BIS_Fnc_selectRandom);
 			if (count (_pos findEmptyPosition [0,5,_type]) > 0) then {
 				private _veh = _type createVehicle _pos;
 				_veh setDir _dirveh;
@@ -81,7 +81,7 @@ private _fnc_spawn = {
 		private _p2 = getPos ((roadsConnectedto _road) select 0);
 		private _dirveh = [_p1,_p2] call BIS_fnc_DirTo;
 
-		private _veh = (arrayCivVeh call BIS_Fnc_selectRandom) createVehicle _p1;
+		private _veh = ((["CIV", "vehicles"] call AS_fnc_getEntity) call BIS_Fnc_selectRandom) createVehicle _p1;
 		[_veh] spawn AS_fnc_initVehicleCiv;
 		_veh setDir _dirveh;
 		_vehiculos pushBack _veh;

@@ -65,11 +65,8 @@ if (hayACE) then {
         _texto = _texto + "\nACE Hearing being used: default earplugs disabled.";
     };
 };
-if (hayRHS) then {
-	_texto = _texto + "\n\nRHS Detected:\n\nAAF -> VDV\nCSAT -> VMF\nNATO -> USMC";
-};
 
-if (hayTFAR or hayACE or hayRHS) then {
+if (hayTFAR or hayACE) then {
 	hint format ["%1",_texto];
 };
 

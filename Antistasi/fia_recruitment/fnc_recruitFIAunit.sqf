@@ -43,7 +43,7 @@ if not isMultiPlayer then {
 [petros, "directSay", "SentGenReinforcementsArrived"] remoteExec ["AS_fnc_localCommunication", _player];
 
 // the unit becomes owned by the client because the group is owned by the client
-private _unit = group _player createUnit [[_type] call AS_fnc_getFIAUnitClass, position _player, [], 0, "NONE"];
+private _unit = [_type, position _player, group _player] call AS_fnc_spawnFIAUnit;
 
 // we want all unit logic (e.g. medical) to be run by the client, not the server.
 [_unit, true, nil, _equipment] remoteExec ["AS_fnc_initUnitFIA", _player];

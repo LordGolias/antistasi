@@ -3,7 +3,7 @@ params ["_unit", "_arsenal"];
 
 [_unit] call AS_fnc_emptyUnit;
 
-_unit forceAddUniform (selectRandom AS_FIAuniforms);
+_unit forceAddUniform (selectRandom (["FIA", "uniforms"] call AS_fnc_getEntity));
 
 _arsenal params ["_vest", "_helmet", "_googles", "_backpack", "_primaryWeapon", "_primaryMags", "_secondaryWeapon", "_secondaryMags", "_scope", "_uniformItems", "_backpackItems", "_primaryWeaponItems"];
 

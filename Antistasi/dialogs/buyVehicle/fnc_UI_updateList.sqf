@@ -9,7 +9,7 @@ lbCLear _cbo;
     _cbo lbSetPicture[(lbSize _cbo)-1, _picture];
 
     _cbo lbSetData[(lbSize _cbo)-1, _x];
-} forEach (AS_FIAvehicles_all - (AS_FIAvehicles getVariable "water_vehicles"));
+} forEach ((["FIA", "land_vehicles"] call AS_fnc_getEntity) + (["FIA", "air_vehicles"] call AS_fnc_getEntity));
 
 _cbo lbSetCurSel 0;
 call AS_fnc_UI_buyVehicle_updateVehicleData;

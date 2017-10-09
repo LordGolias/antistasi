@@ -26,7 +26,7 @@ private _fnc_spawn = {
 
 	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
-	private _truckType = selectRandom AS_FIA_vans;
+	private _truckType = selectRandom (["FIA", "vans"] call AS_fnc_getEntity);
 	private _pos = (getMarkerPos "FIA_HQ") findEmptyPosition [1,50,_truckType];
 
 	private _truck = _truckType createVehicle _pos;

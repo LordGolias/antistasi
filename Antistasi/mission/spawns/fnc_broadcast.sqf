@@ -182,7 +182,7 @@ private _fnc_spawn_activator = {
 		["Land_BagFence_Round_F",[3.896,3.3252,-0.00130129],193.76,1,0,[0,0],"","",true,false],
 		["Land_Leaflet_02_F",[4.58105,-1.7041,0.688],127.235,1,0,[-90,-90],"","",true,false],
 		["Land_WoodenCrate_01_stack_x3_F",[3.84229,-3.79712,0],0,1,0,[0,0],"","",true,false],
-		["Flag_FIA_F",[5.04297,-2.52319,0],0,1,0,[0,0],"","",true,false],
+		[["FIA", "flag"] call AS_fnc_getEntity,[5.04297,-2.52319,0],0,1,0,[0,0],"","",true,false],
 		["Land_Sacks_heap_F",[6.08154,1.64722,0],27.137,1,0,[0,0],"","",true,false],
 		["Land_PortableLight_single_F",[5.90527,2.94946,0],18.0931,1,0,[0,0],"","",true,false],
 		["Land_Graffiti_05_F",[6.84229,-0.0407715,2.28578],128.676,1,0,[0,-0],"","",true,false],

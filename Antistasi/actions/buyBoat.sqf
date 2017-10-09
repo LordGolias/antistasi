@@ -5,7 +5,9 @@ if ([position player, 500] call AS_fnc_enemiesNearby) exitWith {
 	Hint "You cannot buy vehicles with enemies nearby";
 };
 
-_coste = boatFIAcost;
+private _vehicleType = selectRandom (["FIA", "water_vehicles"] call AS_fnc_getEntity);
+
+_coste = _vehicleType call AS_fnc_getFIAvehiclePrice;
 
 if (AS_P("resourcesFIA") < _coste) exitWith {hint format ["You need %1 € to buy a boat",_coste]};
 
@@ -28,7 +30,7 @@ while {true} do
 	_ang = _ang + 31;
 	};
 
-_veh = boatFIA createVehicle _pos;
+_veh = _vehicleType createVehicle _pos;
 
 [_veh, "FIA"] call AS_fnc_initVehicle;
 player reveal _veh;

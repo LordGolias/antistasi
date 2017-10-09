@@ -10,19 +10,29 @@
 private _common_attributes = [
 "gunner", "crew", "pilot", "officer",
 "cfgGroups", "teams", "squads",
-"static_aa", "static_at", "static_mg", "static_mg_low", "static_mortar",
+"static_aa", "static_at", "static_mg", "static_mortar",
 "tanks", "boats", "trucks", "apcs",
 "helis_transport", "helis_armed", "planes",
 "uavs_attack",
 "flag"
 ];
 
+private _anti_state_attributes = [
+"flag",
+"googles", "uniforms", "helmets", "vests",
+"vans",
+"static_aa", "static_at", "static_mg", "static_mortar",
+"soldier", "crew", "survivor", "engineer", "medic",
+"squads","squads_custom","team_at","team_sniper","team_patrol",
+"land_vehicles","water_vehicles","air_vehicles"
+];
+
 private _roles = ["civilian", "anti_state", "state", "foreign"];
 private _attributes = [
 	["units", "vehicles"],
-	["flag"],
+	_anti_state_attributes,
 	_common_attributes + ["cars_armed", "truck_ammo", "truck_repair", "teamsAA", "patrols"],
-	_common_attributes + ["traitor", "cars_transport", "uavs_small", "artillery1", "artillery2", "other_vehicles", "helis_attack", "recon_squad", "recon_team"]
+	_common_attributes + ["traitor", "cars_transport", "uavs_small", "artillery1", "artillery2", "other_vehicles", "static_mg_low", "helis_attack", "recon_squad", "recon_team", "box"]
 ];
 
 {

@@ -18,9 +18,12 @@ _cost = 0;
 
 call {
 	if (_tipoVeh in (["NATO", "vehicles"] call AS_fnc_getEntity)) exitWith {};
-	if (_tipoVeh in AS_FIAvehicles_all) exitWith {
-		_cost = [_tipoVeh, true] call AS_fnc_getFIAvehiclePrice};
-	if (_tipoVeh in arrayCivVeh) exitWith {_cost = 25};
+	if (_tipoVeh in (["FIA", "vehicles"] call AS_fnc_getEntity)) exitWith {
+		_cost = [_tipoVeh, true] call AS_fnc_getFIAvehiclePrice
+	};
+	if (_tipoVeh in (["CIV", "vehicles"] call AS_fnc_getEntity)) exitWith {
+		_cost = 25
+	};
 
 	private _category = [_tipoVeh] call AS_AAFarsenal_fnc_category;
 	if (_category != "") then {
