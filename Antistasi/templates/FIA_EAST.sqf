@@ -1,4 +1,6 @@
-private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy;
+// The first line below copies the dictionary, thus "inheriting" all its attributes.
+// We then modify the ones we want to be different.
+private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copyLocal;
 [_dict, "side", str east] call DICT_fnc_setLocal;
 
 [_dict, "soldier", "O_G_Soldier_F"] call DICT_fnc_setLocal;

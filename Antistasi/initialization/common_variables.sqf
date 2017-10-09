@@ -66,13 +66,6 @@ if ("CUP_arifle_AKS74U" in AS_allWeapons) then {
 // This is needed to find the sounds of dog's barking, so it is in every client
 missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 
-// Stores cost of AAF and FIA units
-AS_data_allCosts = createSimpleObject ["Static", [0, 0, 0]];
-
-// Stores data about which vehicles can be bought and at what price.
-// This is a local object as the costs are immutable and can thus be initialized locally
-AS_FIAvehicles = createSimpleObject ["Static", [0, 0, 0]];
-
 // Initializes unlocked items.
 unlockedItems = [
 	"Binocular",

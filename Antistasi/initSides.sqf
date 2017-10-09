@@ -48,6 +48,13 @@ private _vehicles = [];
 "helis_transport", "helis_attack", "helis_armed", "planes"];
 [AS_entities, "NATO" call AS_fnc_getFaction, "vehicles", _vehicles] call DICT_fnc_setLocal;
 
+// Stores cost of AAF and FIA units
+if not isNil "AS_data_allCosts" then {
+	AS_data_allCosts call DICT_fnc_delete;
+};
+AS_data_allCosts = createSimpleObject ["Static", [0, 0, 0]];
+
+
 // sets the costs of AAF units based on their relative cost
 call {
 	private _result = [];
@@ -71,6 +78,8 @@ call {
 	} forEach _result;
 };
 
+////////////////// FIA stuff //////////////////
+
 AS_allFIAUnitTypes = [
 	"Rifleman",
 	"Grenadier",
@@ -86,6 +95,28 @@ AS_allFIAUnitTypes = [
 	"Survivor"
 ];
 
+// cost of water and air vehicles
+{
+	AS_data_allCosts setVariable [_x, 6000];
+} forEach (["FIA", "air_vehicles"] call AS_fnc_getEntity);
+
+{
+	AS_data_allCosts setVariable [_x, 50];
+} forEach (["FIA", "water_vehicles"] call AS_fnc_getEntity);
+
+// cost of statics
+AS_data_allCosts setVariable [["FIA", "static_mg"] call AS_fnc_getEntity, 400];
+AS_data_allCosts setVariable [["FIA", "static_at"] call AS_fnc_getEntity, 1200];
+AS_data_allCosts setVariable [["FIA", "static_aa"] call AS_fnc_getEntity, 1200];
+AS_data_allCosts setVariable [["FIA", "static_mortar"] call AS_fnc_getEntity, 1600];
+
+// costs of land vehicles
+private _costs = ["FIA", "costs"] call AS_fnc_getEntity;
+{
+	AS_data_allCosts setVariable [_x, [_costs, _x] call DICT_fnc_get];
+} forEach allVariables _costs;
+
+// cost of units
 AS_data_allCosts setVariable ["Crew", 50];
 AS_data_allCosts setVariable ["Rifleman", 50];
 AS_data_allCosts setVariable ["Grenadier", 100];

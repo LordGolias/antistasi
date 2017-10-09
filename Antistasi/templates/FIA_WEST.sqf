@@ -139,16 +139,12 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 // First helicopter of this list is undercover
 [_dict, "air_vehicles", ["C_Heli_Light_01_civil_F"]] call DICT_fnc_setLocal;
 
-// All elements in the lists above must be priced
-AS_FIAvehicles setVariable ["C_Offroad_01_F", 300];
-AS_FIAvehicles setVariable ["C_Van_01_transport_F", 600];
-AS_FIAvehicles setVariable ["B_G_Quadbike_01_F", 50];
-AS_FIAvehicles setVariable ["B_G_Offroad_01_armed_F", 700];
-AS_FIAvehicles setVariable ["B_HMG_01_high_F", 800];
-AS_FIAvehicles setVariable ["B_G_Mortar_01_F", 800];
-AS_FIAvehicles setVariable ["B_static_AT_F", 800];
-AS_FIAvehicles setVariable ["B_static_AA_F", 800];
-AS_FIAvehicles setVariable ["B_G_Boat_Transport_01_F", 400];
-AS_FIAvehicles setVariable ["C_Heli_Light_01_civil_F", 6000];
+// costs of **land vehicle**. Every vehicle in `"land_vehicles"` must be here.
+private _costs = createSimpleObject ["Static", [0, 0, 0]];
+[_dict, "costs", _costs] call DICT_fnc_setLocal;
+[_costs, "C_Offroad_01_F", 300] call DICT_fnc_setLocal;
+[_costs, "C_Van_01_transport_F", 600] call DICT_fnc_setLocal;
+[_costs, "B_G_Quadbike_01_F", 50] call DICT_fnc_setLocal;
+[_costs, "B_G_Offroad_01_armed_F", 700] call DICT_fnc_setLocal;
 
 _dict

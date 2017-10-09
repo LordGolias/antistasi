@@ -1,4 +1,4 @@
-private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy;
+private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copyLocal;
 [_dict, "side", str west] call DICT_fnc_setLocal;
 [_dict, "name", "CGF (RHS)"] call DICT_fnc_setLocal;
 [_dict, "flag", "Flag_FIA_F"] call DICT_fnc_setLocal;
@@ -92,22 +92,18 @@ private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy
 }] call DICT_fnc_setLocal;
 
 // FIA minefield uses first of this list
-[_dict, "land_vehicles", ["C_Offroad_01_F","rhs_Ural_Open_Civ_01","rhsgref_cdf_b_reg_uaz_open","rhsgref_cdf_b_reg_uaz_dshkm"]] call DICT_fnc_setLocal;
+[_dict, "land_vehicles", ["rhsgref_cdf_b_reg_uaz_open","rhs_Ural_Open_Civ_01","rhsgref_cdf_b_reg_uaz_dshkm"]] call DICT_fnc_setLocal;
 [_dict, "water_vehicles", ["B_G_Boat_Transport_01_F"]] call DICT_fnc_setLocal;
 // First helicopter of this list is undercover
 [_dict, "air_vehicles", ["rhs_Mi8amt_civilian"]] call DICT_fnc_setLocal;
 
-// All elements in the lists above must be priced below or their price is 300
-AS_FIAvehicles setVariable ["C_Offroad_01_F", 300];
-AS_FIAvehicles setVariable ["rhs_Ural_Open_Civ_01", 600];
-AS_FIAvehicles setVariable ["rhsgref_cdf_b_reg_uaz_open", 300];
-AS_FIAvehicles setVariable ["rhsgref_cdf_b_reg_uaz_dshkm", 700];
-AS_FIAvehicles setVariable ["rhsgref_cdf_b_gaz66_zu23", 1200];
-AS_FIAvehicles setVariable [[_dict, "static_aa"] call DICT_fnc_get, 800];
-AS_FIAvehicles setVariable [[_dict, "static_at"] call DICT_fnc_get, 800];
-AS_FIAvehicles setVariable [[_dict, "static_mg"] call DICT_fnc_get, 800];
-AS_FIAvehicles setVariable [[_dict, "static_mortar"] call DICT_fnc_get, 800];
-AS_FIAvehicles setVariable ["B_G_Boat_Transport_01_F", 400];
-AS_FIAvehicles setVariable ["rhs_Mi8amt_civilian", 6000];
+// costs of **land vehicle**. Every vehicle in `"land_vehicles"` must be here.
+private _costs = createSimpleObject ["Static", [0, 0, 0]];
+[_dict, "costs"] call DICT_fnc_delete; // delete old
+[_dict, "costs", _costs] call DICT_fnc_setLocal;
+[_costs, "rhsgref_cdf_b_reg_uaz_open", 300] call DICT_fnc_setLocal;
+[_costs, "rhs_Ural_Open_Civ_01", 600] call DICT_fnc_setLocal;
+[_costs, "rhsgref_cdf_b_reg_uaz_open", 700] call DICT_fnc_setLocal;
+[_costs, "rhsgref_cdf_b_gaz66_zu23", 1200] call DICT_fnc_setLocal; // used in custom vehicles
 
 _dict
