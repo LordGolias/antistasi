@@ -29,5 +29,5 @@ if _add then {
 };
 
 if (count (AS_P("destroyedLocations") arrayIntersect (call AS_location_fnc_cities)) > 7) then {
-	 ["destroyedCities",false,true] remoteExec ["BIS_fnc_endMission",0];
+	 "destroyedCities" call BIS_fnc_endMissionServer;
 };
