@@ -18,6 +18,9 @@ petros allowdamage false;
 diag_log "[AS] Server: deserializing data...";
 private _dict = _string call DICT_fnc_deserialize;
 
+diag_log "[AS] Server: migrating to latest save version...";
+_dict call AS_database_fnc_migrate;
+
 // this order matters!
 diag_log "[AS] Server: loading locations...";
 ([_dict, "AS_location"] call DICT_fnc_get) call AS_location_fnc_fromDict;
