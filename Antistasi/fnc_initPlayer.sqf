@@ -75,9 +75,3 @@ player addEventHandler ["GetOutMan", {
 		player setVariable ["transferID", nil];
 	};
 }];
-
-[] execVM "reinitY.sqf";
-[] spawn AS_fnc_UI_showTopBar;
-
-[player] execVM "OrgPlayers\unitTraits.sqf";
-[] spawn AS_fnc_activatePlayerRankLoop;

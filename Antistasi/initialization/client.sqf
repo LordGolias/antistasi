@@ -106,21 +106,15 @@ if not isServer then {
     AS_common_variables_initialized = nil;
 };
 
-player setvariable ["compromised", 0];  // Used by undercover mechanics
-player setVariable ["punish",0,true];  // punish time for Team kill
-player setVariable ["money",100,true];  // initial money
-player setVariable ["BLUFORSpawn",true,true];  // means that the unit triggers spawn of zones.
-player setVariable ["elegible",true,true]; // means that the player can be commander
-player setUnitRank (AS_ranks select 0);
-player setVariable ["rank", (AS_ranks select 0), true];
-private _score = 0;
-if (player == AS_commander) then {_score = 25}; // so the commander does not lose the position immediately.
-player setVariable ["score", _score, true];
-player setVariable ["garage", [], true];
-
 waitUntil {not isNil "placementDone"};
 
-call AS_fnc_initPlayer;
+[] execVM "reinitY.sqf";
+[] spawn AS_fnc_UI_showTopBar;
+
+[player] execVM "OrgPlayers\unitTraits.sqf";
+[] spawn AS_fnc_activatePlayerRankLoop;
+
+["Soldier", "delete"] call AS_fnc_spawnPlayer;
 
 if _isJip then {
 	{
