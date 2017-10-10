@@ -21,12 +21,15 @@ private _dict = _string call DICT_fnc_deserialize;
 diag_log "[AS] Server: migrating to latest save version...";
 _dict call AS_database_fnc_migrate;
 
+// this only sets the persistents
+diag_log "[AS] Server: loading persistents...";
+([_dict, "AS_persistent"] call DICT_fnc_get) call AS_database_fnc_persistents_fromDict;
+
 // this order matters!
 diag_log "[AS] Server: loading locations...";
 ([_dict, "AS_location"] call DICT_fnc_get) call AS_location_fnc_fromDict;
 
-diag_log "[AS] Server: loading persistents...";
-([_dict, "AS_persistent"] call DICT_fnc_get) call AS_database_fnc_persistents_fromDict;
+call AS_database_fnc_persistents_start;
 
 diag_log "[AS] Server: loading HQ...";
 ([_dict, "AS_fia_hq"] call DICT_fnc_get) call AS_database_fnc_hq_fromDict;
