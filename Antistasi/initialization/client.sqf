@@ -106,6 +106,10 @@ if not isServer then {
     AS_common_variables_initialized = nil;
 };
 
+/////////////////////////////////////////////////////////////////////////////
+///////////// Client waits for the commander to choose a location ///////////
+/////////////////////////////////////////////////////////////////////////////
+diag_log "[AS] Client: waiting for commander to choose HQ location...";
 waitUntil {not isNil "placementDone"};
 
 [] execVM "reinitY.sqf";
