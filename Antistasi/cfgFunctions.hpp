@@ -131,7 +131,6 @@ class AS {
         FNC(Functions,createGroup);
         FNC(Functions,groupCfgToComposition);
 
-        FNC_BASE(respawnPlayer);
         FNC_BASE(EH_handleDamage);
         FNC_BASE(EH_handleDamageACE);
 
@@ -197,6 +196,8 @@ class AS {
     class withInterface {
         FNC_BASE(activatePlayerRankLoop);
         FNC_BASE(showProgressBar);
+        FNC_BASE(respawnPlayer);
+        FNC_BASE(spawnPlayer);
         FNC_BASE(showFoundIntel);
         FNC_BASE(fastTravel);
         FNC_BASE(unlockVehicle);

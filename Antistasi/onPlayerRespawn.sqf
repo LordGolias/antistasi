@@ -1,53 +1,28 @@
+#include "macros.hpp"
 if (isDedicated) exitWith {};
-private ["_nuevo","_viejo"];
-_nuevo = _this select 0;
-_viejo = _this select 1;
+params ["_new"];
 
-if (isNull _viejo) exitWith {};
+// if the side is still not chosen, players are the civilians they start as.
+// (client.sqf will trigger spawnPlayer)
+private _side = AS_P("player_side");
+if isNil "_side" exitWith {};
 
-waitUntil {alive player};
-
-[_viejo] remoteExec ["AS_fnc_activateCleanup", 2];
-
-private _owner = _viejo getVariable ["owner",_viejo];
-
-if (_owner != _viejo) exitWith {
-	hint "Died while AI Remote Control";
-	selectPlayer _owner;
-	disableUserInput false;
-	deleteVehicle _nuevo;
+if (call AS_fnc_controlsAI) exitWith {
+	hint "The unit you were controlling died";
+	call AS_fnc_completeDropAIcontrol;
+	deleteVehicle _new;
 };
 
-[0,-1,getPos _viejo] remoteExec ["AS_fnc_changeCitySupport",2];
+private _type = player call AS_fnc_getFIAUnitType;
+private _unit = [_type, "kill"] call AS_fnc_spawnPlayer;
 
-private _score = _viejo getVariable ["score",0];
-private _punish = _viejo getVariable ["punish",0];
-private _dinero = _viejo getVariable ["money",0];
-private _elegible = _viejo getVariable ["elegible",true];
-private _rank = _viejo getVariable ["rank", AS_ranks select 0];
-_viejo setVariable ["BLUFORSpawn",nil,true];
+waitUntil {player == _unit};
 
-_dinero = (round (_dinero - (_dinero * 0.1))) max 0;
-
-_nuevo setVariable ["score",_score -1,true];
-_nuevo setVariable ["punish",_punish,true];
-_nuevo setVariable ["respawning",false];
-_nuevo setVariable ["money",_dinero,true];
-_nuevo setVariable ["compromised",0];
-_nuevo setVariable ["elegible",_elegible,true];
-_nuevo setVariable ["BLUFORSpawn",true,true];
-_nuevo setCaptive false;
-_nuevo setUnitRank _rank;
-_nuevo setVariable ["rank",_rank,true];
-
-disableUserInput false;
-//_nuevo enableSimulation true;
-if (_viejo == AS_commander) then {
-	[_nuevo] call AS_fnc_setCommander;
+if isMultiplayer then {
+	private _money = player getVariable "money";
+	[player, -round (0.1*_money)] remoteExec ["AS_fnc_changePlayerMoney", 2];
+	[-10, player] remoteExec ["AS_fnc_changePlayerScore", 2];
+} else {
+	private _money = AS_P("resourcesFIA");
+	[-1, -0.1*_money] remoteExec ["AS_fnc_changeFIAmoney", 2];
 };
-
-[_nuevo] call AS_fnc_emptyUnit;
-
-[] call AS_fnc_initPlayer;
-
-[0,true] remoteExec ["AS_fnc_showProgressBar",player];
