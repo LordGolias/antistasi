@@ -12,11 +12,11 @@ if (_side == "west") then {
 publicVariable "side_blue";
 publicVariable "side_red";
 
-AS_Pset("faction_guerrilla", _guerrilla);
-AS_Pset("faction_pro_guerrilla", _pro_guerrilla);
+AS_Pset("faction_anti_state", _guerrilla);
+AS_Pset("faction_pro_anti_state", _pro_guerrilla);
 AS_Pset("faction_state", _state);
 AS_Pset("faction_pro_state", _pro_state);
-AS_Pset("faction_civilians", _civilians);
+AS_Pset("faction_civilian", _civilians);
 
 AS_Pset("player_side", _side);
 
