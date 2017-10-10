@@ -245,6 +245,8 @@ class AS {
         #include "dialogs\recruitSquad\cfgFunctions.hpp"
         #include "dialogs\newGame\cfgFunctions.hpp"
         #include "dialogs\startMenu\cfgFunctions.hpp"
+        #include "dialogs\loadMenu\cfgFunctions.hpp"
+        #include "dialogs\saveMenu\cfgFunctions.hpp"
     };
 };
 
