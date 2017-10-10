@@ -19,14 +19,5 @@ class AS_database {
 
     class withInterface {
         FNC(database,receiveSavedData);
-
-        FNC_UI(database,closeSaveLoadMenu);
-        FNC_UI(database,loadSaveMenu);
-        FNC_UI(database,selectSave);
-        FNC_UI(database,updateSaveGameList);
-        FNC_UI(database,saveGame);
-        FNC_UI(database,loadFromSavedGame);
-        FNC_UI(database,loadFromClipboard);
-        FNC_UI(database,deleteGame);
     };
 };

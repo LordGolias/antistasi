@@ -1,4 +1,3 @@
-#include "database\dialogs.hpp"
 #include "dialogs\recruitUnit\dialogs.hpp"
 #include "dialogs\recruitSquad\dialogs.hpp"
 #include "dialogs\manageGarrisons\dialogs.hpp"
@@ -9,6 +8,8 @@
 #include "dialogs\buyVehicle\dialogs.hpp"
 #include "dialogs\newGame\dialogs.hpp"
 #include "dialogs\startMenu\dialogs.hpp"
+#include "dialogs\loadMenu\dialogs.hpp"
+#include "dialogs\saveMenu\dialogs.hpp"
 
 class build_menu
 {
@@ -360,7 +361,7 @@ class game_options_commander
 AS_DIALOG(5,"Game Options",A_CLOSE);
 
 BTN_L(1,-1, "Commander Menu", "Summary of your current situation", "closeDialog 0; nul = createDialog ""commander_menu"";");
-BTN_L(2,-1, "Load/Save", "", "closeDialog 0; [] call AS_database_fnc_UI_loadSaveMenu;");
+BTN_L(2,-1, "Save game", "Save this game to continue it later", "closeDialog 0; [] call AS_fnc_UI_saveMenu_menu;");
 BTN_L(3,-1, "Music ON/OFF", "", "closedialog 0; if (musicON) then {musicON = false; hint ""Music turned OFF"";} else {musicON = true; nul = execVM ""musica.sqf""; hint ""Music turned ON""};");
 
 BTN_R(1,-1, "Performance Options", "Options to improve performance in case of low FPS.", "closeDialog 0; createDialog ""performance_menu"";");

@@ -142,10 +142,6 @@ if _isJip then {
 	};
 	} forEach allUnits;
 
-	if ((player == AS_commander) and (isNil "placementDone")) then {
-        [] spawn AS_database_fnc_UI_loadSaveMenu;
-	};
-
 	// sync the inventory content to the JIP.
 	[false] remoteExec ["AS_fnc_refreshArsenal", 2];
 };
