@@ -10,6 +10,7 @@ class AS_database {
         FNC(database,hq_fromDict);
         FNC(database,persistents_toDict);
         FNC(database,persistents_fromDict);
+        FNC(database,persistents_start);
         INIT_FNC(database,init);
     };
 
