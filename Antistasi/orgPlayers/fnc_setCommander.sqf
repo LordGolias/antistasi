@@ -21,6 +21,8 @@ publicVariable "AS_commander";
 AS_commander synchronizeObjectsAdd [HC_comandante];
 HC_comandante synchronizeObjectsAdd [AS_commander];
 
+[HC_comandante] execVM '\A3\modules_f\HC\data\scripts\hc.sqf';
+
 {
     AS_commander hcSetGroup [_x];
 } forEach _hcGroups;
