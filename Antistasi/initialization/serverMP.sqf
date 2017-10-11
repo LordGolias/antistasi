@@ -15,8 +15,6 @@ addMissionEventHandler ["HandleDisconnect", {
     false
 }];
 
-AS_commander = playableUnits select 0;
-AS_commander setUnitRank "CORPORAL";
-publicVariable "AS_commander";
+[playableUnits select 0] call AS_fnc_setCommander;
 
 diag_log "[AS] Server MP: players are in";

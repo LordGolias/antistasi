@@ -1,38 +1,26 @@
 #include "../macros.hpp"
 AS_SERVER_ONLY("AS_fnc_setCommander");
 
-params ["_unit"];
+params ["_newCommander"];
 
-private _hcGroups = hcAllGroups AS_commander;
-private _oldUnit = AS_commander;
-
-if (!isNil "_hcGroups") then {
+private _hadCommander = not isNull AS_commander;
+private _hcGroups = allGroups select {_x getVariable ["isHCgroup", false]};
+if _hadCommander then {
     {
-        _oldUnit hcRemoveGroup _x;
+        AS_commander hcRemoveGroup _x;
     } forEach _hcGroups;
+
+    AS_commander synchronizeObjectsRemove [HC_comandante];
+    HC_comandante synchronizeObjectsRemove [AS_commander];
 };
 
-_oldUnit synchronizeObjectsRemove [HC_comandante];
-HC_comandante synchronizeObjectsRemove [_oldUnit];
-
-AS_commander = _unit;
+AS_commander = _newCommander;
 publicVariable "AS_commander";
-[group _unit, _unit] remoteExec ["selectLeader", _unit];
+[group AS_commander, AS_commander] remoteExec ["selectLeader", AS_commander];
 
 AS_commander synchronizeObjectsAdd [HC_comandante];
 HC_comandante synchronizeObjectsAdd [AS_commander];
-if (!isNil "_hcGroups") then {
-    {
-        _unit hcSetGroup [_x];
-    } forEach _hcGroups;
-} else {
-    {
-		if (_x getVariable ["isHCgroup", false]) then {
-			_unit hcSetGroup [_x];
-		};
-	} forEach allGroups;
-};
 
-if (isNull _oldUnit) then {
-	[_oldUnit,[group _oldUnit]] remoteExec ["hcSetGroup",_oldUnit];
-};
+{
+    AS_commander hcSetGroup [_x];
+} forEach _hcGroups;
