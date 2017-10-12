@@ -26,9 +26,9 @@ private _garage = _player getVariable "garage";
 } forEach units group _player;
 
 if not ([PLAYERS_DICT, _uid] call DICT_fnc_exists) then {
-    [PLAYERS_DICT, _uid] call DICT_fnc_add;
+    [PLAYERS_DICT, _uid, call DICT_fnc_create] call DICT_fnc_setGlobal;
 };
-[PLAYERS_DICT, _uid, "score", _score] call DICT_fnc_set;
-[PLAYERS_DICT, _uid, "rank", _rank] call DICT_fnc_set;
-[PLAYERS_DICT, _uid, "money", _money] call DICT_fnc_set;
-[PLAYERS_DICT, _uid, "garage", _garage] call DICT_fnc_set;
+[PLAYERS_DICT, _uid, "score", _score] call DICT_fnc_setGlobal;
+[PLAYERS_DICT, _uid, "rank", _rank] call DICT_fnc_setGlobal;
+[PLAYERS_DICT, _uid, "money", _money] call DICT_fnc_setGlobal;
+[PLAYERS_DICT, _uid, "garage", _garage] call DICT_fnc_setGlobal;

@@ -5,7 +5,7 @@ if isNil "AS_container" then {
     AS_container = call DICT_fnc_create;
     publicVariable "AS_container";
 };
-[AS_container, "aaf_arsenal"] call DICT_fnc_add;
+[AS_container, "aaf_arsenal", call DICT_fnc_create] call DICT_fnc_set;
 
 // AAF will only buy and use vehicles of the types added here. See template.
 private _names = [
@@ -19,7 +19,7 @@ private _categories = [
 private _costs = [300, 150, 300, 5000, 600, 10000, 4000, 10000, 20000];
 
 {
-    [call AS_AAFarsenal_fnc_dictionary, _x] call DICT_fnc_add;
+    [call AS_AAFarsenal_fnc_dictionary, _x, call DICT_fnc_create] call DICT_fnc_set;
     [_x, "valid", ["AAF", _x] call AS_fnc_getEntity] call AS_AAFarsenal_fnc_set;
     [_x, "name", _names select _forEachIndex] call AS_AAFarsenal_fnc_set;
     [_x, "count", 0] call AS_AAFarsenal_fnc_set;

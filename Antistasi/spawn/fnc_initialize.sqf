@@ -9,4 +9,4 @@ if isNil "AS_container" then {
     AS_container = call DICT_fnc_create;
     publicVariable "AS_container";
 };
-[AS_container, "spawn"] call DICT_fnc_add;
+[AS_container, "spawn", call DICT_fnc_create] call DICT_fnc_setGlobal;

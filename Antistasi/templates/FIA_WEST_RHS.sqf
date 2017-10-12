@@ -1,26 +1,26 @@
-private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copyLocal;
-[_dict, "side", str west] call DICT_fnc_setLocal;
-[_dict, "name", "CGF (RHS)"] call DICT_fnc_setLocal;
-[_dict, "flag", "Flag_FIA_F"] call DICT_fnc_setLocal;
+private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy;
+[_dict, "side", str west] call DICT_fnc_set;
+[_dict, "name", "CGF (RHS)"] call DICT_fnc_set;
+[_dict, "flag", "Flag_FIA_F"] call DICT_fnc_set;
 
-[_dict, "soldier", "rhsgref_cdf_b_reg_rifleman"] call DICT_fnc_setLocal;
-[_dict, "crew", "rhsgref_cdf_b_reg_crew"] call DICT_fnc_setLocal;
-[_dict, "survivor", "rhsgref_cdf_b_reg_rifleman"] call DICT_fnc_setLocal;
-[_dict, "engineer", "rhsgref_cdf_b_reg_enginner"] call DICT_fnc_setLocal;
-[_dict, "medic", "rhsgref_cdf_b_reg_medic"] call DICT_fnc_setLocal;
+[_dict, "soldier", "rhsgref_cdf_b_reg_rifleman"] call DICT_fnc_set;
+[_dict, "crew", "rhsgref_cdf_b_reg_crew"] call DICT_fnc_set;
+[_dict, "survivor", "rhsgref_cdf_b_reg_rifleman"] call DICT_fnc_set;
+[_dict, "engineer", "rhsgref_cdf_b_reg_enginner"] call DICT_fnc_set;
+[_dict, "medic", "rhsgref_cdf_b_reg_medic"] call DICT_fnc_set;
 
-[_dict, "unlockedWeapons", ["rhs_weap_makarov_pm","rhs_weap_aks74u"]] call DICT_fnc_setLocal;
+[_dict, "unlockedWeapons", ["rhs_weap_makarov_pm","rhs_weap_aks74u"]] call DICT_fnc_set;
 
-[_dict, "unlockedMagazines", ["rhs_mag_9x18_8_57N181S","rhs_30Rnd_545x39_AK","rhs_mag_rdg2_white"]] call DICT_fnc_setLocal;
+[_dict, "unlockedMagazines", ["rhs_mag_9x18_8_57N181S","rhs_30Rnd_545x39_AK","rhs_mag_rdg2_white"]] call DICT_fnc_set;
 
-[_dict, "unlockedBackpacks", ["rhs_assault_umbts"]] call DICT_fnc_setLocal;
+[_dict, "unlockedBackpacks", ["rhs_assault_umbts"]] call DICT_fnc_set;
 
-[_dict, "vans", ["rhs_Ural_Open_Civ_01", "rhs_Ural_Open_Civ_02", "rhs_Ural_Open_Civ_03"]] call DICT_fnc_setLocal;
+[_dict, "vans", ["rhs_Ural_Open_Civ_01", "rhs_Ural_Open_Civ_02", "rhs_Ural_Open_Civ_03"]] call DICT_fnc_set;
 
-[_dict, "static_aa", "RHS_Stinger_AA_pod_D"] call DICT_fnc_setLocal;
-[_dict, "static_at", "RHS_TOW_TriPod_D"] call DICT_fnc_setLocal;
-[_dict, "static_mg", "RHS_M2StaticMG_D"] call DICT_fnc_setLocal;
-[_dict, "static_mortar", "RHS_M252_D"] call DICT_fnc_setLocal;
+[_dict, "static_aa", "RHS_Stinger_AA_pod_D"] call DICT_fnc_set;
+[_dict, "static_at", "RHS_TOW_TriPod_D"] call DICT_fnc_set;
+[_dict, "static_mg", "RHS_M2StaticMG_D"] call DICT_fnc_set;
+[_dict, "static_mortar", "RHS_M252_D"] call DICT_fnc_set;
 
 [_dict, "squads_custom_cost", {
 	params ["_squadType"];
@@ -41,7 +41,7 @@ private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy
 				(_piece call AS_fnc_getFIAvehiclePrice);
 	};
 	[_costHR, _cost]
-}] call DICT_fnc_setLocal;
+}] call DICT_fnc_set;
 
 [_dict, "squads_custom_init", {
 	params ["_squadType", "_position"];
@@ -89,21 +89,21 @@ private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy
 		[_piece, "FIA"] call AS_fnc_initVehicle;
 	};
 	_grupo
-}] call DICT_fnc_setLocal;
+}] call DICT_fnc_set;
 
 // FIA minefield uses first of this list
-[_dict, "land_vehicles", ["rhsgref_cdf_b_reg_uaz_open","rhs_Ural_Open_Civ_01","rhsgref_cdf_b_reg_uaz_dshkm"]] call DICT_fnc_setLocal;
-[_dict, "water_vehicles", ["B_G_Boat_Transport_01_F"]] call DICT_fnc_setLocal;
+[_dict, "land_vehicles", ["rhsgref_cdf_b_reg_uaz_open","rhs_Ural_Open_Civ_01","rhsgref_cdf_b_reg_uaz_dshkm"]] call DICT_fnc_set;
+[_dict, "water_vehicles", ["B_G_Boat_Transport_01_F"]] call DICT_fnc_set;
 // First helicopter of this list is undercover
-[_dict, "air_vehicles", ["rhs_Mi8amt_civilian"]] call DICT_fnc_setLocal;
+[_dict, "air_vehicles", ["rhs_Mi8amt_civilian"]] call DICT_fnc_set;
 
 // costs of **land vehicle**. Every vehicle in `"land_vehicles"` must be here.
 private _costs = createSimpleObject ["Static", [0, 0, 0]];
-[_dict, "costs"] call DICT_fnc_delete; // delete old
-[_dict, "costs", _costs] call DICT_fnc_setLocal;
-[_costs, "rhsgref_cdf_b_reg_uaz_open", 300] call DICT_fnc_setLocal;
-[_costs, "rhs_Ural_Open_Civ_01", 600] call DICT_fnc_setLocal;
-[_costs, "rhsgref_cdf_b_reg_uaz_open", 700] call DICT_fnc_setLocal;
-[_costs, "rhsgref_cdf_b_gaz66_zu23", 1200] call DICT_fnc_setLocal; // used in custom vehicles
+[_dict, "costs"] call DICT_fnc_del; // delete old
+[_dict, "costs", _costs] call DICT_fnc_set;
+[_costs, "rhsgref_cdf_b_reg_uaz_open", 300] call DICT_fnc_set;
+[_costs, "rhs_Ural_Open_Civ_01", 600] call DICT_fnc_set;
+[_costs, "rhsgref_cdf_b_reg_uaz_open", 700] call DICT_fnc_set;
+[_costs, "rhsgref_cdf_b_gaz66_zu23", 1200] call DICT_fnc_set; // used in custom vehicles
 
 _dict

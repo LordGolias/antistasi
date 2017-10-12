@@ -4,7 +4,7 @@ AS_SERVER_ONLY("AS_players_fnc_fromDict");
 
 params ["_dict"];
 call AS_players_fnc_deinitialize;
-[AS_container, "players", _dict call DICT_fnc_copy] call DICT_fnc_set;
+[AS_container, "players", _dict call DICT_fnc_copyGlobal] call DICT_fnc_setGlobal;
 
 {
     if hasInterface then {

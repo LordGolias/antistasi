@@ -54,21 +54,21 @@ private _dict = call DICT_fnc_create;
 {
     call {
         if (_x == "vehicles") exitWith {
-            [_dict, _x, _vehicles] call DICT_fnc_set;
+            [_dict, _x, _vehicles] call DICT_fnc_setGlobal;
         };
         if (_x == "hr") exitWith {
-            [_dict, _x, _hr] call DICT_fnc_set;
+            [_dict, _x, _hr] call DICT_fnc_setGlobal;
         };
         if (_x == "date") exitWith {
-            [_dict, _x, date] call DICT_fnc_set;
+            [_dict, _x, date] call DICT_fnc_setGlobal;
         };
         if (_x == "BE_module") exitWith {
-            [_dict, _x, call fnc_BE_save] call DICT_fnc_set;
+            [_dict, _x, call fnc_BE_save] call DICT_fnc_setGlobal;
         };
         if (_x == "resourcesFIA") exitWith {
-            [_dict, _x, _money] call DICT_fnc_set;
+            [_dict, _x, _money] call DICT_fnc_setGlobal;
         };
-        [_dict, _x, AS_P(_x)] call DICT_fnc_set;
+        [_dict, _x, AS_P(_x)] call DICT_fnc_setGlobal;
     };
 } forEach AS_database_persistents;
 _dict

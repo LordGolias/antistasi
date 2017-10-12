@@ -47,7 +47,7 @@ private _attributes = [
 				if not ([AS_entities, _faction, _x] call DICT_fnc_exists) then {
 					diag_log format ["[AS] Error: Attribute '%1' not defined for faction '%2' for role '%3'", _x, _faction, _role];
 					// remove this role from the faction to avoid errors
-					[AS_entities, _faction, "roles", _faction_roles - [_role]] call DICT_fnc_setLocal;
+					[AS_entities, _faction, "roles", _faction_roles - [_role]] call DICT_fnc_set;
 				};
 
 			} forEach _mandatory_attributes;
@@ -70,7 +70,7 @@ private _role = "anti_state";
 		if (count (_mandatory_costs - _vehicles_with_cost) != 0) then {
 			diag_log format ["[AS] Error: The costs '%1' are not defined for faction '%2' for role '%3'", _mandatory_costs - _vehicles_with_cost, _faction, _role];
 			// remove this role from the faction to avoid errors
-			[AS_entities, _faction, "roles", _faction_roles - [_role]] call DICT_fnc_setLocal;
+			[AS_entities, _faction, "roles", _faction_roles - [_role]] call DICT_fnc_set;
 		};
 	};
 } forEach allVariables AS_entities;
