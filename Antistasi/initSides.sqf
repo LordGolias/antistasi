@@ -9,7 +9,7 @@
 	{
 		_vehicles append ([_side, _x] call AS_fnc_getEntity);
 	} forEach _categories;
-	[AS_entities, _side call AS_fnc_getFaction, "helis", _vehicles] call DICT_fnc_setLocal;
+	[AS_entities, _side call AS_fnc_getFaction, "helis", _vehicles] call DICT_fnc_set;
 } forEach ["CSAT", "NATO", "AAF"];
 
 // compute lists of statics
@@ -46,11 +46,11 @@ private _vehicles = [];
 "tanks", "trucks", "cars_transport", "cars_armed", "apcs",
 "self_aa", "artillery1", "artillery2", "other_vehicles",
 "helis_transport", "helis_attack", "helis_armed", "planes"];
-[AS_entities, "NATO" call AS_fnc_getFaction, "vehicles", _vehicles] call DICT_fnc_setLocal;
+[AS_entities, "NATO" call AS_fnc_getFaction, "vehicles", _vehicles] call DICT_fnc_set;
 
 // Stores cost of AAF and FIA units
 if not isNil "AS_data_allCosts" then {
-	AS_data_allCosts call DICT_fnc_delete;
+	AS_data_allCosts call DICT_fnc_del;
 };
 AS_data_allCosts = createSimpleObject ["Static", [0, 0, 0]];
 
@@ -136,6 +136,6 @@ private _vehicles = [];
 {
 	_vehicles append (["FIA", _x] call AS_fnc_getEntity);
 } forEach ["land_vehicles", "air_vehicles", "water_vehicles"];
-[AS_entities, "FIA" call AS_fnc_getFaction, "vehicles", _vehicles] call DICT_fnc_setLocal;
+[AS_entities, "FIA" call AS_fnc_getFaction, "vehicles", _vehicles] call DICT_fnc_set;
 
 civHeli = (["FIA", "air_vehicles"] call AS_fnc_getEntity) select 0;

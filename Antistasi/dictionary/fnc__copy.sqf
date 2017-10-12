@@ -8,7 +8,7 @@ private _serialize_single = {
     _complete_key = _complete_key + [_key];
     if (_complete_key in _ignore_keys) exitWith {};
     if ISOBJECT(_value) then {
-        [_copy, _key] call EFUNC(add);
+        [[_copy, _key, call EFUNC(create)], _global] call EFUNC(_set);
         {
             private _x_value = _value getVariable _x;
             if (not isNil "_x_value") then {

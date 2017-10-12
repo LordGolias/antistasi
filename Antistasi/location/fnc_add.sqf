@@ -3,7 +3,7 @@
 #include "../macros.hpp"
 AS_SERVER_ONLY("AS_location_fnc_add");
 params ["_marker", "_type"];
-[call AS_location_fnc_dictionary, _marker] call DICT_fnc_add;
+[call AS_location_fnc_dictionary, _marker, call DICT_fnc_create] call DICT_fnc_setGlobal;
 [_marker, "type", _type, false] call AS_location_fnc_set;
 [_marker, "position", getMarkerPos _marker, false] call AS_location_fnc_set;
 _marker call AS_location_fnc_init;

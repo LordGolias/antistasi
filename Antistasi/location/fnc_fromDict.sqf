@@ -6,7 +6,7 @@ params ["_dict"];
 call AS_location_fnc_deinitialize;
 
 // load every location
-[AS_container, "location", _dict call DICT_fnc_copy] call DICT_fnc_set;
+[AS_container, "location", _dict call DICT_fnc_copyGlobal] call DICT_fnc_setGlobal;
 
 // load non-persistent stuff (e.g. markers, spawned, roads)
 {

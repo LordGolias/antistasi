@@ -2,7 +2,7 @@
 #define ISOBJECT(_value) (typeName _value == "OBJECT")
 #define ISARRAY(_value) (typeName _value == "ARRAY")
 
-#define SEPARATOR ((toString [13,10]) + "%%%>")
+#define OB_SEPARATOR ((toString [13,10]) + "%%%>")
 #define OB_START ("%%%{" + (toString [13,10]))
 #define OB_END ((toString [13,10]) + "%%%}")
 #define AR_START ("%%%[" + (toString [13,10]))

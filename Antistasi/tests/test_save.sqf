@@ -1,7 +1,7 @@
 [] spawn {
     private _dict = call DICT_fnc_create;
 
-    [_dict, "AS_fia_arsenal", call AS_FIAarsenal_fnc_toDict] call DICT_fnc_set;
+    [_dict, "AS_fia_arsenal", call AS_FIAarsenal_fnc_toDict] call DICT_fnc_setGlobal;
 
     private _string = _dict call DICT_fnc_serialize;
     copyToClipboard _string;
@@ -9,8 +9,8 @@
     private _dict1 = _string call DICT_fnc_deserialize;
     private _string1 = _dict1 call DICT_fnc_serialize;
 
-    dict1 call DICT_fnc_delete;
-    dict call DICT_fnc_delete;
+    dict1 call DICT_fnc_del;
+    dict call DICT_fnc_del;
     hint str (_string1 == _string)
 };
 

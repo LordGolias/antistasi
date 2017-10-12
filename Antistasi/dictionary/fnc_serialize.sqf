@@ -1,6 +1,14 @@
 // Serializes the dictionary
 #include "macros.hpp"
-params ["_dictionary", ["_ignore_keys", []]];
+params ["_dictionary",
+        ["_ignore_keys", []],
+        ["_object_start", OB_START],
+        ["_object_separator", OB_SEPARATOR],
+        ["_object_end", OB_END],
+        ["_array_start", AR_START],
+        ["_array_separator", ","],
+        ["_array_end", AR_END]
+];
 
 // _complete_key stores the complete key of the element being serialized
 // used to ignore elements
@@ -24,7 +32,7 @@ private _serialize_single = {
                     };
                 };
             } forEach allVariables _value;
-            _result = OB_START + (_strings joinString SEPARATOR) + OB_END;
+            _result = _object_start + (_strings joinString _object_separator) + _object_end;
         };
         if ISARRAY(_value) exitWith {
             private _strings = [];
@@ -34,7 +42,7 @@ private _serialize_single = {
                     _strings pushBack _string;
                 };
             } forEach _value;
-            _result = AR_START + (_strings joinString ",") + AR_END;
+            _result = _array_start + (_strings joinString _array_separator) + _array_end;
         };
         if (typeName _value in ["BOOL", "STRING", "SCALAR", "TEXT"]) exitWith {
             _result = str _value;
@@ -58,4 +66,4 @@ private _strings = [];
     };
 } forEach allVariables _dictionary;
 
-OB_START + (_strings joinString SEPARATOR) + OB_END
+_object_start + (_strings joinString _object_separator) + _object_end

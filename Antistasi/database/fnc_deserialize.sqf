@@ -44,7 +44,7 @@ diag_log "[AS] Server: loading AAF arsenal...";
 diag_log "[AS] Server: loading missions...";
 ([_dict, "AS_mission"] call DICT_fnc_get) call AS_mission_fnc_fromDict;
 
-_dict call DICT_fnc_delete;
+_dict call DICT_fnc_del;
 diag_log "[AS] Server: loading completed.";
 
 // start spawning again

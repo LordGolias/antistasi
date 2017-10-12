@@ -1,10 +1,17 @@
 #include "macros.hpp"
 
-params ["_string"];
-private _ar_start_count = count AR_START;
-private _ar_end_count = count AR_END;
-private _ob_start_count = count OB_START;
-private _ob_end_count = count OB_END;
+params ["_string",
+        ["_object_start", OB_START],
+        ["_object_separator", OB_SEPARATOR],
+        ["_object_end", OB_END],
+        ["_array_start", AR_START],
+        ["_array_separator", ","],
+        ["_array_end", AR_END]
+];
+private _ar_start_count = count _array_start;
+private _ar_end_count = count _array_end;
+private _ob_start_count = count _object_start;
+private _ob_end_count = count _object_end;
 
 private _deserialize_single = {
     params ["_type", "_value_string"];
@@ -15,7 +22,7 @@ private _deserialize_single = {
         if (_value_string == "") exitWith {};
         {
             [_value, _x] call _deserialize;
-        } forEach ([_value_string, SEPARATOR, OB_START, OB_END] call EFUNC(_splitString));
+        } forEach ([_value_string, _object_separator, _object_start, _object_end] call EFUNC(_splitStringDelimited));
     };
     if (_type == "AR") then {
         _value_string = _value_string select [_ar_start_count, count _value_string - _ar_start_count - _ar_end_count];
@@ -29,12 +36,12 @@ private _deserialize_single = {
                 _final_bit = _final_bit + ":" + (_bits select _i);
             };
 
-            if (_final_bit == (AR_START + AR_END)) then {
+            if (_final_bit == (_array_start + _array_end)) then {
                 _value pushBack [];
             } else {
                 _value pushBack ([_bits select 1, _final_bit] call _deserialize_single);
             };
-        } forEach ([_value_string, ",", AR_START, AR_END] call EFUNC(_splitString));
+        } forEach ([_value_string, _array_separator, _array_start, _array_end] call EFUNC(_splitStringDelimited));
     };
     if (_type == "BO") then {
         _value = [True, False] select (_value_string == "false");
@@ -58,8 +65,9 @@ private _deserialize = {
     private _key = _bits select 0;
 
     if (count _bits == 2) then {
-        [_dictionary, _key] call EFUNC(add);
-        [_dictionary, _key, [_dictionary, _bits select 1] call _deserialize] call EFUNC(add);
+        private _nested = call EFUNC(create);
+        [_nested, _bits select 1] call _deserialize;
+        [_dictionary, _key, _nested] call EFUNC(set);
     } else {
         private _final_bit = _bits select 2;
         for "_i" from 3 to (count _bits - 1) do {

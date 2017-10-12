@@ -42,14 +42,14 @@ private _fnc_getVehiclesEquipment = {
 _all = _all call _fnc_getUnitsEquipment;
 _all = _all call _fnc_getVehiclesEquipment;
 
-[_dict, "weapons", _all select 0] call DICT_fnc_set;
-[_dict, "magazines", _all select 1] call DICT_fnc_set;
-[_dict, "items", _all select 2] call DICT_fnc_set;
-[_dict, "backpacks", _all select 3] call DICT_fnc_set;
+[_dict, "weapons", _all select 0] call DICT_fnc_setGlobal;
+[_dict, "magazines", _all select 1] call DICT_fnc_setGlobal;
+[_dict, "items", _all select 2] call DICT_fnc_setGlobal;
+[_dict, "backpacks", _all select 3] call DICT_fnc_setGlobal;
 
-[_dict, "unlockedWeapons", unlockedWeapons] call DICT_fnc_set;
-[_dict, "unlockedMagazines", unlockedMagazines] call DICT_fnc_set;
-[_dict, "unlockedItems", unlockedItems] call DICT_fnc_set;
-[_dict, "unlockedBackpacks", unlockedBackpacks] call DICT_fnc_set;
+[_dict, "unlockedWeapons", unlockedWeapons] call DICT_fnc_setGlobal;
+[_dict, "unlockedMagazines", unlockedMagazines] call DICT_fnc_setGlobal;
+[_dict, "unlockedItems", unlockedItems] call DICT_fnc_setGlobal;
+[_dict, "unlockedBackpacks", unlockedBackpacks] call DICT_fnc_setGlobal;
 
 _dict

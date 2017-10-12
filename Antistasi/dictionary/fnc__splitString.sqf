@@ -1,21 +1,17 @@
-// a splitString that accepts a delimiter with more than one char and
-// ignores delimiters within starters and enders
-#include "macros.hpp"
-
-params ["_string", "_delimiter", "_starter", "_ender"];
-if (_string find _delimiter == -1) exitWith {
+// splits string with a given delimiter (can be more than 1 char)
+params ["_string", "_delimiter"];
+private _index = _string find _delimiter;
+if (_index == -1) exitWith {
     [_string]
 };
-private _bits = [_string, _delimiter] call EFUNC(_splitString1);
-private _level = 0;
-private _result = [];
-{
-    if (_level == 0) then {
-        _result pushBack _x;
+private _result = [_string select [0, _index]];
+while {_index != -1} do {
+    _string = _string select [_index + count _delimiter];
+    _index = _string find _delimiter;
+    if (_index != -1) then {
+        _result pushBack (_string select [0, _index]);
     } else {
-        private _last = count _result - 1;
-        _result set [_last, (_result select _last) + _delimiter + _x];
+        _result pushBack _string;
     };
-    _level = _level + count ([_x, _starter] call EFUNC(_splitString1)) - count ([_x, _ender] call EFUNC(_splitString1));
-} forEach _bits;
+};
 _result
