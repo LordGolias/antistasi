@@ -10,6 +10,8 @@ private _fnc_spawn = {
 	private _size = _location call AS_location_fnc_size;
 	private _isDestroyed = _location in AS_P("destroyedLocations");
 
+	_vehiculos append (_location call AS_fnc_spawnComposition);
+
 	// spawn flag
 	private _flag = createVehicle [["AAF", "flag"] call AS_fnc_getEntity, _posicion, [],0, "CAN_COLLIDE"];
 	_flag allowDamage false;

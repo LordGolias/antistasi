@@ -7,6 +7,8 @@ private _fnc_spawn = {
 	private _grupos = [];
 	private _vehiculos = [];
 
+	_vehiculos append (_location call AS_fnc_spawnComposition);
+
 	private _posicion = _location call AS_location_fnc_position;
 	private _size = _location call AS_location_fnc_size;
 	private _frontera = _location call AS_fnc_location_isFrontline;

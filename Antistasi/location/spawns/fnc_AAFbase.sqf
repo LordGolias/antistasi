@@ -14,6 +14,8 @@ private _fnc_spawn = {
 	private _frontera = _location call AS_fnc_location_isFrontline;
 	private _busy = _location call AS_location_fnc_busy;
 
+	_vehiculos append (_location call AS_fnc_spawnComposition);
+
 	private _grupo = createGroup side_red;
 	_grupos pushBack _grupo;
 

@@ -12,6 +12,8 @@ private _fnc_spawn = {
 	private _frontera = _location call AS_fnc_location_isFrontline;
 	private _busy = _location call AS_location_fnc_busy;
 
+	_vehiculos append (_location call AS_fnc_spawnComposition);
+
 	// spawn flag
 	private _flag = createVehicle [["AAF", "flag"] call AS_fnc_getEntity, _posicion, [],0, "CAN_COLLIDE"];
 	_flag allowDamage false;

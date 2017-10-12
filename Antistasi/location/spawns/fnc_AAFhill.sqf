@@ -8,6 +8,8 @@ private _fnc_spawn = {
 	private _grupos = [];
 	private _vehiculos = [];
 
+	_vehiculos append (_location call AS_fnc_spawnComposition);
+
 	// create bunker
 	private _veh = createVehicle ["Land_BagBunker_Tower_F", _posicion, [],0, "NONE"];
 	_veh setVectorUp (surfacenormal (getPosATL _veh));

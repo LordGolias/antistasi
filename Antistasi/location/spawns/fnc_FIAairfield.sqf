@@ -8,6 +8,8 @@ private _fnc_spawn = {
 	private _vehiculos = [];
 	private _soldadosFIA = [];
 
+	_vehiculos append (_location call AS_fnc_spawnComposition);
+
 	private _posicion = _location call AS_location_fnc_position;
 	private _size = _location call AS_location_fnc_size;
 	private _prestigio = AS_P("NATOsupport")/100;
