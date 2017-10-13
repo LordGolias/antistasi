@@ -97,6 +97,8 @@ private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy
 // First helicopter of this list is undercover
 [_dict, "air_vehicles", ["rhs_Mi8amt_civilian"]] call DICT_fnc_set;
 
+[_dict, "cars_armed", ["rhsgref_cdf_b_reg_uaz_dshkm"]] call DICT_fnc_set;
+
 // costs of **land vehicle**. Every vehicle in `"land_vehicles"` must be here.
 private _costs = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "costs"] call DICT_fnc_del; // delete old
