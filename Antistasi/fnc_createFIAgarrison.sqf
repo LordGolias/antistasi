@@ -19,21 +19,10 @@ _grupos = _grupos + [_grupo];
 	if !(_location call AS_location_fnc_spawned) exitWith {};
 	private _unit = objNull;
 	call {
-		if (_x == "Crew") exitWith {
-            if (isNull _grupoMort) then {
-                _grupoMort = createGroup side_blue;
-            };
-			_unit = [_x, _posicion, _grupoMort] call AS_fnc_spawnFIAUnit;
-			private _veh = "B_G_Mortar_01_F" createVehicle ([_posicion] call AS_fnc_findMortarCreatePosition);
-			_vehiculos = _vehiculos + [_veh];
-			[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
-			_unit assignAsGunner _veh;
-			_unit moveInGunner _veh;
-			[_veh, "FIA"] call AS_fnc_initVehicle;
-		};
-		if ((_x == "Rifleman") and (count _estaticas > 0)) exitWith {
+		// men the statics close to the location
+		if ((_x == "Crew") and (count _estaticas > 0)) exitWith {
 			private _estatica = _estaticas select 0;
-			if (typeOf _estatica == "B_G_Mortar_01_F") then {
+			if (typeOf _estatica in AS_allStatics) then {
                 if (isNull _grupoMort) then {
                     _grupoMort = createGroup side_blue;
                 };
