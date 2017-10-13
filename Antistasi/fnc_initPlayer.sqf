@@ -60,10 +60,8 @@ player addEventHandler ["GetInMan", {
 			};
 		};
 		if (_seat == "driver" and _vehicle isKindOf "Truck_F") then {
-			if ((not (_vehicle isKindOf "C_Van_01_fuel_F")) and (not (_vehicle isKindOf "I_Truck_02_fuel_F")) and (not (_vehicle isKindOf "B_G_Van_01_fuel_F"))) then {
-				private _EHid = [_vehicle, "transferFrom"] call AS_fnc_addAction;
-				player setVariable ["transferID", _EHid];
-			};
+			private _EHid = [_vehicle, "transferFrom"] call AS_fnc_addAction;
+			player setVariable ["transferID", _EHid];
 		};
 	};
 }];
