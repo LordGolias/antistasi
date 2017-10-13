@@ -51,7 +51,7 @@ _unit setUnitPos "AUTO";
 private _sinMochi = false;
 if ((backpack _unit == "") and (_secondaryWeapon == "")) then {
 	_sinMochi = true;
-	_unit addbackpack "B_AssaultPack_blk";
+	_unit addbackpack selectRandom (["FIA", "unlockedBackpacks"] call AS_fnc_getEntity);
 };
 {if (_x != "") then {[_unit, _x, 1, 0] call BIS_fnc_addWeapon};} forEach [_primaryWeapon,_secondaryWeapon,_handGunWeapon];
 {_unit addPrimaryWeaponItem _x} forEach _primaryWeaponItems;
