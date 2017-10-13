@@ -63,19 +63,16 @@ private _fnc_spawn = {
 	};
 
 	[_location, "resources", [taskNull, _grupos, _vehiculos, []]] call AS_spawn_fnc_set;
+	[_location, "soldiers", _soldados] call AS_spawn_fnc_set;
 	[_location, "FIAsoldiers", _soldados] call AS_spawn_fnc_set;
 };
 
 private _fnc_run = {
 	params ["_location"];
-	private _posicion = _location call AS_location_fnc_position;
-	private _size = _location call AS_location_fnc_size;
 	private _type = _location call AS_location_fnc_type;
 
-	private _soldados = [_location, "FIAsoldiers"] call AS_spawn_fnc_get;
-
 	if !(_type in ["fia_hq","city"]) then {
-		call AS_location_spawn_fnc_FIAwait_capture;
+		_location call AS_location_spawn_fnc_FIAwait_capture;
 	} else {
 		waitUntil {sleep 1; !(_location call AS_location_fnc_spawned)};
 	};
