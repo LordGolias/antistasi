@@ -77,8 +77,7 @@ private _spawningOPFORunits = [];
                         [_x + "_civ", "location", _x] call AS_spawn_fnc_set;
                         [[_x + "_civ"], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
                     };
-                    [_x, "FIAgeneric"] call AS_spawn_fnc_add;
-                    [[_x], "AS_spawn_fnc_execute"] call AS_scheduler_fnc_execute;
+                    // FIA does not spawn anything in a city
                 };
                 case (_type in ["resource","powerplant","factory","fia_hq","outpost","outpostAA"]): {
                     [_x, "FIAgeneric"] call AS_spawn_fnc_add;
