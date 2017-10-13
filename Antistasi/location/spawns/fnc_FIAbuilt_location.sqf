@@ -69,6 +69,7 @@ private _fnc_spawn = {
 	};
 
 	[_location, "resources", [taskNull, _groups, _vehicles, []]] call AS_spawn_fnc_set;
+	[_location, "soldiers", _soldiers] call AS_spawn_fnc_set;
 	[_location, "FIAsoldiers", _soldiers] call AS_spawn_fnc_set;
 };
 
