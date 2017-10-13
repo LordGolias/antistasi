@@ -67,41 +67,38 @@ _grupo setVariable ["isHCgroup", true, true];
 petros directSay "SentGenReinforcementsArrived";
 hint format ["Group %1 at your command.\n\nGroups are managed from the High Command bar (Default: CTRL+SPACE)\n\nIf the group gets stuck, use the AI Control feature to make them start moving. Mounted Static teams tend to get stuck (solving this is WiP)\n\nTo assign a vehicle for this group, look at some vehicle, and use Vehicle Squad Mngmt option in Y menu", groupID _grupo];
 
-
 if (!_isInfantry) exitWith {};
 
-// Ask if vehicle is needed.
-private _vehType = "";
+private _seats_required = count units _grupo;
+private _vehicleType = "";
 
-if (_grouptype == "squad") then
-	{
-	_vehType = "B_G_Van_01_transport_F";
-	}
-else
-	{
-	if (_grouptype in ["team_sniper","team_patrol"]) then
-		{
-		_vehType = "B_G_Quadbike_01_F";
-		}
-	else
-		{
-		_vehType = "B_G_Offroad_01_F";
-		};
-	};
+// select available vehicles that can seat this group
+private _vehicleTypes = (["FIA", "land_vehicles"] call AS_fnc_getEntity);
+_vehicleTypes = _vehicleTypes select {_x call BIS_fnc_crewCount >= _seats_required};
 
-_cost = [_vehType] call AS_fnc_getFIAvehiclePrice;
-private ["_display","_childControl"];
-if (_cost > AS_P("resourcesFIA")) exitWith {};
+if (count _vehicleTypes == 0) exitWith {
+	hint "FIA has no vehicle available to buy for the size of this squad. They start on foot.";
+};
+
+// select cheapest vehicle
+_vehicleTypes = [_vehicleTypes, [], {_x call AS_fnc_getFIAvehiclePrice}, "ASCEND"] call BIS_fnc_sortBy;
+private _vehicleType = _vehicleTypes select 0;
+
+_cost = [_vehicleType] call AS_fnc_getFIAvehiclePrice;
+
+if (_cost > AS_P("resourcesFIA")) exitWith {
+	hint "FIA has no money to buy a vehicle for this squad. They start on foot.";
+};
 
 createDialog "veh_query";
 
 sleep 1;
 disableSerialization;
 
-_display = findDisplay 100;
+private _display = findDisplay 100;
 
 if (str (_display) != "no display") then {
-	_ChildControl = _display displayCtrl 104;
+	private _ChildControl = _display displayCtrl 104;
 	_ChildControl  ctrlSetTooltip format ["Buy a vehicle for this squad for %1 €",_cost];
 	_ChildControl = _display displayCtrl 105;
 	_ChildControl  ctrlSetTooltip "Barefoot Infantry";
@@ -112,13 +109,16 @@ waitUntil {(!dialog) or (!isNil "vehQuery")};
 if ((!dialog) and (isNil "vehQuery")) exitWith {};
 
 vehQuery = nil;
-_pos = position _road findEmptyPosition [1,30,"B_G_Van_01_transport_F"];
-_veh = _vehType createVehicle _pos;
-[_veh, "FIA"] call AS_fnc_initVehicle;
-_grupo addVehicle _veh;
-_veh setVariable ["owner",_grupo,true];
+_pos = position _road findEmptyPosition [1, 30, _vehicleType];
+private _vehicle = _vehicleType createVehicle _pos;
+[_vehicle, "FIA"] call AS_fnc_initVehicle;
+_grupo addVehicle _vehicle;
+_vehicle setVariable ["owner", _grupo, true];
 [0, - _cost] remoteExec ["AS_fnc_changeFIAmoney",2];
-leader _grupo assignAsDriver _veh;
-{[_x] orderGetIn true; [_x] allowGetIn true} forEach units _grupo;
-hint "Vehicle Purchased";
+leader _grupo assignAsDriver _vehicle;
+{
+	[_x] orderGetIn true;
+	[_x] allowGetIn true
+} forEach units _grupo;
+hint "Vehicle purchased for the squad";
 petros directSay "SentGenBaseAS_fnc_unlockVehicle";
