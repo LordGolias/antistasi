@@ -18,7 +18,7 @@ private _fnc_spawn = {
 	_vehiculos pushBack _flag;
 
 	// spawn crate
-	private _veh = "I_supplyCrate_F" createVehicle _posicion;
+	private _veh = (["AAF", "box"] call AS_fnc_getEntity) createVehicle _posicion;
 	[_veh, "Airbase"] call AS_fnc_fillCrateAAF;
 	_vehiculos pushBack _veh;
 

@@ -24,7 +24,7 @@ private _fnc_spawn = {
 	private _bandera = createVehicle [["AAF", "flag"] call AS_fnc_getEntity, _posicion, [],0, "CAN_COLLIDE"];
 	_bandera allowDamage false;
 	_vehiculos pushBack _bandera;
-	private _caja = "I_supplyCrate_F" createVehicle _posicion;
+	private _caja = (["AAF", "box"] call AS_fnc_getEntity) createVehicle _posicion;
 	_vehiculos pushBack _caja;
 	{[_x, "AAF"] call AS_fnc_initVehicle;} forEach _vehiculos;
 
