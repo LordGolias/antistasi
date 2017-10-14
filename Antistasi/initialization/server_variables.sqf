@@ -50,12 +50,7 @@ AS_Pset("vehicles", []);  // list of vehicles that are saved in the map
 // The buildings that belong to this are in `AS_destroyable_buildings`.
 AS_Pset("destroyedBuildings", []);
 
-// todo: make this random
-private _vehs = [
-	"C_Van_01_transport_F","C_Offroad_01_F","C_Offroad_01_F",
-	"B_G_Quadbike_01_F","B_G_Quadbike_01_F","B_G_Quadbike_01_F"
-];
-AS_Pset("vehiclesInGarage", _vehs);
+AS_Pset("vehiclesInGarage", []);
 
 // These are game options that are saved.
 AS_Pset("civPerc",0.05); //initial % civ spawn rate

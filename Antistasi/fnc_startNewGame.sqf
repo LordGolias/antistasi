@@ -21,3 +21,15 @@ AS_Pset("faction_civilian", _civilians);
 AS_Pset("player_side", _side);
 
 [] remoteExec ["AS_fnc_HQselect", AS_commander];
+
+
+// populate garage with vehicles
+private _validVehicles = (
+    (["FIA", "land_vehicles"] call AS_fnc_getEntity) -
+    (["FIA", "cars_armed"] call AS_fnc_getEntity)
+);
+private _garageVehicles = [];
+for "_i" from 1 to (1 + floor random 3) do {
+	_garageVehicles pushBack (selectRandom _validVehicles);
+};
+AS_Pset("vehiclesInGarage", _garageVehicles);
