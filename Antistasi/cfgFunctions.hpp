@@ -105,6 +105,7 @@ class AS {
         FNC(fia_recruitment,getFIAUnitType);
         FNC(fia_recruitment,getFIAUnitClass);
         FNC(fia_recruitment,getFIASquadCost);
+        FNC(fia_recruitment,getFIABestSquadVehicle);
 
         FNC_BASE(spawnAirAttack);
         FNC_BASE(spawnLandAttack);
