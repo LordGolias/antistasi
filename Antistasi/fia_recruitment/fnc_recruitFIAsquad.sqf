@@ -69,20 +69,10 @@ hint format ["Group %1 at your command.\n\nGroups are managed from the High Comm
 
 if (!_isInfantry) exitWith {};
 
-private _seats_required = count units _grupo;
-private _vehicleType = "";
-
-// select available vehicles that can seat this group
-private _vehicleTypes = (["FIA", "land_vehicles"] call AS_fnc_getEntity);
-_vehicleTypes = _vehicleTypes select {_x call BIS_fnc_crewCount >= _seats_required};
-
-if (count _vehicleTypes == 0) exitWith {
+private _vehicleType = _grouptype call AS_fnc_getFIABestSquadVehicle;
+if (_vehicleType == "") exitWith {
 	hint "FIA has no vehicle available to buy for the size of this squad. They start on foot.";
 };
-
-// select cheapest vehicle
-_vehicleTypes = [_vehicleTypes, [], {_x call AS_fnc_getFIAvehiclePrice}, "ASCEND"] call BIS_fnc_sortBy;
-private _vehicleType = _vehicleTypes select 0;
 
 _cost = [_vehicleType] call AS_fnc_getFIAvehiclePrice;
 

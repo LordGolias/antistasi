@@ -16,19 +16,17 @@ private _fnc_initialize = {
 		case "watchpost": {
 			_locationName = "watchpost";
 			_groupType = "team_sniper";
-			_vehType = "B_G_Quadbike_01_F";
 		};
 		case "roadblock": {
 			_locationName = "roadblock";
 			_groupType = "team_at";
-			_vehType = "B_G_Offroad_01_F";
 		};
 		case "camp": {
 			_locationName = "camp";
 			_groupType = "team_patrol";
-			_vehType = "B_G_Van_01_transport_F";
 		};
 	};
+	_vehType = _groupType call AS_fnc_getFIABestSquadVehicle;
 
 	private _taskTitle = format ["Establish %1", _locationName];
 	private _taskDesc = format ["The team to establish the %1 is ready. Send it to the destination.", _locationName];
