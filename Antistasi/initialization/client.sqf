@@ -119,10 +119,9 @@ waitUntil {not isNil "placementDone"};
 [] execVM "reinitY.sqf";
 [] spawn AS_fnc_UI_showTopBar;
 
-[player] execVM "OrgPlayers\unitTraits.sqf";
-[] spawn AS_fnc_activatePlayerRankLoop;
-
 ["Soldier", "delete"] call AS_fnc_spawnPlayer;
+
+[] spawn AS_fnc_activatePlayerRankLoop;
 
 if _isJip then {
 	{

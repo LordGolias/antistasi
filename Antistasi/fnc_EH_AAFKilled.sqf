@@ -15,9 +15,9 @@ if ((side _killer == side_blue) || (captive _killer)) then {
 	["kill"] remoteExec ["fnc_BE_XP", 2];
 	_group = group _killed;
 
-	// scoring and captive.
+	// scoring.
 	if (isPlayer _killer) then {
-		[2,_killer,false] remoteExec ["AS_fnc_changePlayerScore",2];
+		[player, "score", 2, false] remoteExec ["AS_players_fnc_change", 2];
 	};
 
 	// if dead has no weapons, it is an unlawful kill
@@ -25,7 +25,7 @@ if ((side _killer == side_blue) || (captive _killer)) then {
 		[-1,0] remoteExec ["AS_fnc_changeForeignSupport",2];
 		[2,0,getPos _killed] remoteExec ["AS_fnc_changeCitySupport",2];
 		if (isPlayer _killer) then {
-			[-20,_killer,false] remoteExec ["AS_fnc_changePlayerScore", 2];
+			[_killer, "score", -20, false] remoteExec ["AS_players_fnc_change", 2];
 		};
 	} else {
 		// otherwise, it decreases by -0.5.
@@ -34,7 +34,7 @@ if ((side _killer == side_blue) || (captive _killer)) then {
 		[-_cost] remoteExec ["AS_fnc_changeAAFmoney",2];
 		[-0.5,0,getPos _killed] remoteExec ["AS_fnc_changeCitySupport",2];
 		if (isPlayer _killer) then {
-			[2,_killer,false] remoteExec ["AS_fnc_changePlayerScore", 2];
+			[_killer, "score", 2, false] remoteExec ["AS_players_fnc_change", 2];
 		};
 	};
 

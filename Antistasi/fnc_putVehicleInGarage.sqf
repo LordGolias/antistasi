@@ -52,9 +52,9 @@ if (_veh in AS_S("reportedVehs")) then {
 deleteVehicle _veh;
 
 if _toFIAgarage then {
-		AS_Pset("vehiclesInGarage", AS_P("vehiclesInGarage") + [_type]);
+	AS_Pset("vehiclesInGarage", AS_P("vehiclesInGarage") + [_type]);
 	hint "Vehicle added to FIA Garage";
 } else {
-	player setVariable ["garage", (player getVariable "garage") + [_type], true];
+	[player, "garage", [_type]] remoteExec ["AS_players_fnc_change", 2];
 	hint "Vehicle added to Personal Garage";
 };
