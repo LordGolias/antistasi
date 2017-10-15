@@ -240,6 +240,7 @@ class AS {
         #include "dialogs\manageLocations\cfgFunctions.hpp"
         #include "dialogs\manageMissions\cfgFunctions.hpp"
         #include "dialogs\manageGarrisons\cfgFunctions.hpp"
+        #include "dialogs\manageTraits\cfgFunctions.hpp"
         #include "dialogs\manageHQ\cfgFunctions.hpp"
         #include "dialogs\manageNATO\cfgFunctions.hpp"
         #include "dialogs\recruitUnit\cfgFunctions.hpp"
