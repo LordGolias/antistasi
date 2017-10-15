@@ -11,6 +11,29 @@ AS_rank_abbreviations = [
 	"PRV", "CPL", "SGT", "LT", "CPT", "MAJ", "COL"
 ];
 
+AS_traits = call DICT_fnc_create;
+[AS_traits, "medic", call DICT_fnc_create] call DICT_fnc_set;
+[AS_traits, "medic", "name", "Medic"] call DICT_fnc_set;
+[AS_traits, "medic", "trait", "medic"] call DICT_fnc_set;
+[AS_traits, "medic", "description", "Allows you to fully heal others"] call DICT_fnc_set;
+[AS_traits, "medic", "cost", 300] call DICT_fnc_set;
+[AS_traits, "uav_op", call DICT_fnc_create] call DICT_fnc_set;
+[AS_traits, "uav_op", "name", "UAV Operator"] call DICT_fnc_set;
+[AS_traits, "uav_op", "trait", "UAVHacker"] call DICT_fnc_set;
+[AS_traits, "uav_op", "cost", 300] call DICT_fnc_set;
+[AS_traits, "uav_op", "description", "Allows you to use UAVs"] call DICT_fnc_set;
+[AS_traits, "engineer", call DICT_fnc_create] call DICT_fnc_set;
+[AS_traits, "engineer", "name", "Engineer"] call DICT_fnc_set;
+[AS_traits, "engineer", "trait", "engineer"] call DICT_fnc_set;
+[AS_traits, "engineer", "cost", 300] call DICT_fnc_set;
+[AS_traits, "engineer", "description", "Allows you to repair vehicles"] call DICT_fnc_set;
+[AS_traits, "explosives", call DICT_fnc_create] call DICT_fnc_set;
+[AS_traits, "explosives", "name", "Explosives Specialist"] call DICT_fnc_set;
+[AS_traits, "explosives", "trait", "explosiveSpecialist"] call DICT_fnc_set;
+[AS_traits, "explosives", "cost", 150] call DICT_fnc_set;
+[AS_traits, "explosives", "description", "Allows you to disarm mines"] call DICT_fnc_set;
+
+
 // UPSMON is used for all kinds of AI patrolling. We initialize it here
 // so any client can spawn patrols.
 call compile preprocessFileLineNumbers "scripts\Init_UPSMON.sqf";

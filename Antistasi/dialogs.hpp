@@ -3,6 +3,7 @@
 #include "dialogs\manageGarrisons\dialogs.hpp"
 #include "dialogs\manageMissions\dialogs.hpp"
 #include "dialogs\manageLocations\dialogs.hpp"
+#include "dialogs\manageTraits\dialogs.hpp"
 #include "dialogs\manageHQ\dialogs.hpp"
 #include "dialogs\manageNATO\dialogs.hpp"
 #include "dialogs\buyVehicle\dialogs.hpp"
