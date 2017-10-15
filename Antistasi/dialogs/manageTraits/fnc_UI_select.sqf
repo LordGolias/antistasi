@@ -1,5 +1,6 @@
 disableSerialization;
-private _trait = lbData [0, lbCurSel 0];
+params ["_list_id"];
+private _trait = lbData [_list_id, lbCurSel _list_id];
 
 if (_trait != "") then {
     private _textCbo = ((findDisplay 1601) displayCtrl 1);

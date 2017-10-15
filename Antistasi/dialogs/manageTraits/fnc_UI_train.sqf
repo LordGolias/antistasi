@@ -1,4 +1,4 @@
-#include "..\macros.hpp"
+#include "..\..\macros.hpp"
 disableSerialization;
 private _trait = lbData [0, lbCurSel 0];
 
@@ -12,7 +12,7 @@ if (_trait != "") then {
     private _money = if isMultiplayer then {
         [player, "money"] call AS_players_fnc_get
     } else {
-        P("resourcesFIA")
+        AS_P("resourcesFIA")
     };
 
     if (_money < _cost) exitWith {
@@ -27,6 +27,8 @@ if (_trait != "") then {
     player setUnitTrait [[AS_traits, _trait, "trait"] call DICT_fnc_get, true];
     [player, "traits", [_trait]] remoteExec ["AS_players_fnc_change"];
     hint ("You are now also a " + ([AS_traits, _trait, "name"] call DICT_fnc_get));
+    waitUntil {sleep 0.1; _trait in ([player, "traits"] call AS_players_fnc_get)};
+    call AS_fnc_UI_manageTraits_update;
 } else {
     hint "no expertise selected";
 };

@@ -2,11 +2,11 @@ params ["_player", "_attribute"];
 
 private _id = getPlayerUID _player;
 
-if not ([AS_container, "players", _id] call DICT_fnc_exits) then {
+if not ([AS_container, "players", _id] call DICT_fnc_exists) then {
     [AS_container, "players", _id, call DICT_fnc_create] call DICT_fnc_setGlobal;
 };
 
-if ([AS_container, "players", _id, _attribute] call DICT_fnc_exits) then {
+if ([AS_container, "players", _id, _attribute] call DICT_fnc_exists) then {
     [AS_container, "players", _id, _attribute] call DICT_fnc_get
 } else {
     switch _attribute do {
