@@ -5,7 +5,6 @@ class AS {
 
         FNC(orgPlayers,setCommander);
         FNC(orgPlayers,chooseCommander);
-        FNC(orgPlayers,changePlayerScore);
 
         FNC_BASE(setEasy);
         FNC_BASE(cleanGarbage);
@@ -16,7 +15,6 @@ class AS {
         FNC_BASE(changeForeignSupport);
         FNC_BASE(changeAAFmoney);
         FNC_BASE(changeFIAmoney);
-        FNC_BASE(changePlayerMoney);
         FNC_BASE(changeCitySupport);
 
         FNC_BASE(resourcesToggle);

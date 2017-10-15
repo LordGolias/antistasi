@@ -55,7 +55,7 @@ if (player == leader _unit) then {
 
 		// player team-kill
 		if (isPlayer _killer) then {
-			[-20,_killer,false] remoteExec ["AS_fnc_changePlayerScore", 2];
+			[player, "score", -20, false] remoteExec ["AS_players_fnc_change", 2];
 		};
 		[0,-0.25,getPos _unit] remoteExec ["AS_fnc_changeCitySupport",2];
 

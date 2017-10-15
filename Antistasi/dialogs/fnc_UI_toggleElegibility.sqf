@@ -6,17 +6,17 @@ private _player = player getVariable ["owner", player];
 
 private _text = "";
 
-private _eligible = _player getVariable ["elegible", true];
+private _eligible = [_player, "elegible"] call AS_players_fnc_get;
 
 if (_player == AS_commander) then {
     ["resigned"] remoteExec ["AS_fnc_chooseCommander", 2];
     _text = "You resigned as commander. Someone suitable will take the command.";
 } else {
     if _eligible then {
-        _player setVariable ["elegible", false, true];
+        [_player, "elegible", false] remoteExec ["AS_players_fnc_set", 2];
         _text = "You are no longer eligible to be commander.";
     } else {
-        _player setVariable ["elegible", true, true];
+        [_player, "elegible", true] remoteExec ["AS_players_fnc_set", 2];
         _text = "You are now elegible to be commander.";
     };
 };

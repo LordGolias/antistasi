@@ -10,7 +10,7 @@ if (_trait != "") then {
 
     private _cost = [AS_traits, _trait, "cost"] call DICT_fnc_get;
     private _money = if isMultiplayer then {
-        player getVariable "money"
+        [player, "money"] call AS_players_fnc_get
     } else {
         P("resourcesFIA")
     };
@@ -19,15 +19,14 @@ if (_trait != "") then {
         hint "You do not have enough money for this";
     };
     if isMultiPlayer then {
-        [player, -_cost] remoteExec ["AS_fnc_changePlayerMoney", 2];
+        [player, "money", -_cost] remoteExec ["AS_players_fnc_change", 2];
     } else {
         [0, -_cost] remoteExec ["AS_fnc_changeFIAmoney", 2];
     };
 
     player setUnitTrait [[AS_traits, _trait, "trait"] call DICT_fnc_get, true];
-    private _traits = player getVariable "AS_traits";
-    player setVariable ["AS_traits", _traits + [_trait], true];
+    [player, "traits", [_trait]] remoteExec ["AS_players_fnc_change"];
     hint ("You are now also a " + ([AS_traits, _trait, "name"] call DICT_fnc_get));
 } else {
-    hint "no type selected";
+    hint "no expertise selected";
 };
