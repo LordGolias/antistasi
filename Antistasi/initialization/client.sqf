@@ -3,29 +3,27 @@ private _isJip = false;
 if isNull player then {
     _isJip = true;
 };
+diag_log "[AS] Client: waiting for player...";
+waitUntil {sleep 0.1; !isNull player and {player == player}};
 
-if _isJip then {
-    diag_log "[AS] Client: JIP: waiting for player";
-    waitUntil {!isNull player and {player == player}};
-};
 diag_log "[AS] Client: initializing...";
 [player] call AS_fnc_emptyUnit;
 
 call compile preprocessFileLineNumbers "briefing.sqf";
 
 if not isServer then {
+    diag_log "[AS] Client: initializing common variables...";
     call compile preprocessFileLineNumbers "initialization\common_variables.sqf";
 } else {
-    waitUntil {not isNil "AS_common_variables_initialized"};
+    diag_log "[AS] Client: waiting for common variables...";
+    waitUntil {sleep 0.1; not isNil "AS_common_variables_initialized"};
     AS_common_variables_initialized = nil;
 };
 
 if (isNil "AS_server_variables_initialized") then {
     disableUserInput true;
-    cutText ["Waiting for Server to initialize","BLACK",0];
     diag_log "[AS] Client: waiting for AS_server_variables_initialized";
-    waitUntil {(!isNil "AS_server_variables_initialized")};
-    cutText ["Starting Mission","BLACK IN",0];
+    waitUntil {sleep 0.1; (!isNil "AS_server_variables_initialized")};
     disableUserInput false;
 };
 
@@ -78,9 +76,15 @@ if (_isJip and {count playableUnits == 1}) then {
 };
 
 diag_log "[AS] Client: waiting for a commander...";
-waitUntil {not isNil "AS_commander"};
+if isNil "AS_commander" then {
+    waitUntil {sleep 0.1; not isNil "AS_commander"};
+};
+
+player setPos ((getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)]);
+diag_log "[AS] Client: waiting for position...";
 
 if (player == AS_commander) then {
+    hint "You are the current commander";
     HC_comandante synchronizeObjectsAdd [player];
     player synchronizeObjectsAdd [HC_comandante];
 
@@ -97,12 +101,12 @@ if (player == AS_commander) then {
 /////////////////////////////////////////////////////////////////////////////
 diag_log "[AS] Client: waiting for commander to choose sides...";
 
-waitUntil {private _var = AS_P("player_side"); not isNil "_var"};
+waitUntil {sleep 0.1; private _var = AS_P("player_side"); not isNil "_var"};
 
 if not isServer then {
     call compile preprocessFileLineNumbers "initialization\common_side_variables.sqf";
 } else {
-    waitUntil {not isNil "AS_common_variables_initialized"};
+    waitUntil {sleep 0.1; not isNil "AS_common_variables_initialized"};
     AS_common_variables_initialized = nil;
 };
 
