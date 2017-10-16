@@ -8,6 +8,7 @@ if (!isNil "petros") then {
 
 grupoPetros = createGroup side_blue;
 petros = ["Squad Leader", getMarkerPos "FIA_HQ", grupoPetros] call AS_fnc_spawnFIAunit;
+[petros, "FIA"] call AS_fnc_setSide;
 [[petros,"mission"],"AS_fnc_addAction"] call BIS_fnc_MP;
 grupoPetros setGroupId ["Petros","GroupColor4"];
 petros setName "Petros";
