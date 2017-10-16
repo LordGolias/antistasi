@@ -9,8 +9,8 @@ _unit = _this select 0;
 _unit setSkill 0;
 
 _EHkilledIdx = _unit addEventHandler ["killed", {
-	_muerto = _this select 0;
-	_killer = _this select 1;
+	private _muerto = _this select 0;
+	private _killer = _this select 1;
 
 	if (hayACE) then {
 		if ((isNull _killer) || (_killer == _muerto)) then {
@@ -22,7 +22,7 @@ _EHkilledIdx = _unit addEventHandler ["killed", {
 		[-1,-1,getPos _muerto] remoteExec ["AS_fnc_changeCitySupport",2];
 	} else {
 		if (isPlayer _killer) then {
-			[-20,_killer] remoteExec ["AS_fnc_changePlayerScore",2];
+			[_killer, "score", -20] remoteExec ["AS_players_fnc_change", 2];
 		};
 		_multiplicador = 1;
 		if (typeOf _muerto == "C_journalist_F") then {_multiplicador = 10};

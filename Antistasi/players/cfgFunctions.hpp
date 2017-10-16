@@ -4,10 +4,18 @@ class AS_players {
     class server {
         FNC(players,initialize);
         FNC(players,deinitialize);
-        FNC(players,update_single);
-        FNC(players,update_all);
-        FNC(players,loop);
         FNC(players,toDict);
         FNC(players,fromDict);
+
+        FNC(players,change);
+        FNC(players,set);
+    };
+
+    class common {
+        FNC(players,get);
+    };
+
+    class withInterface {
+        FNC(players,loadLocal);
     };
 };

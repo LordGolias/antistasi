@@ -119,10 +119,9 @@ waitUntil {not isNil "placementDone"};
 [] execVM "reinitY.sqf";
 [] spawn AS_fnc_UI_showTopBar;
 
-[player] execVM "OrgPlayers\unitTraits.sqf";
-[] spawn AS_fnc_activatePlayerRankLoop;
-
 ["Soldier", "delete"] call AS_fnc_spawnPlayer;
+
+[] spawn AS_fnc_activatePlayerRankLoop;
 
 if _isJip then {
 	{
@@ -169,6 +168,7 @@ removeAllActions bandera;
 [bandera,"garage"] call AS_fnc_addAction;
 
 bandera addAction [localize "str_act_hqOptions",AS_fnc_UI_manageHQ_menu,nil,0,false,true,"","(isPlayer _this) and (player == AS_commander) and (_this == _this getVariable ['owner',_this]) and (petros == leader group petros)"];
+bandera addAction [localize "STR_act_manageTraits",AS_fnc_UI_manageTraits_menu,nil,0,false,true,"","(isPlayer _this) and {not call AS_fnc_controlsAI}"];
 
 removeAllActions cajaVeh;
 cajaVeh addAction [localize "str_act_healRepair", "actions\healandrepair.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',_this])"];

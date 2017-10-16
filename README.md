@@ -239,17 +239,17 @@ a player's decision. See [missions API](Antistasi/mission/README.me) for more de
 
 ## Player's score, rank and eligibility to command
 
-Every player has a score that allows him become commander (`player getVariable "score"`)
+Every player has a score that allows him become commander (`[player, "score"] call AS_players_fnc_get`)
 
 The score is modified (increase or decrease) by:
 - kill enemies/friends/civilians
 - complete/fail missions
 - conquer/lose locations
 
-The (server) script that changes a player's score is `orgPlayers/fnc_changePlayerScore.sqf`.
+The (server) script that changes a player's score is `[player, "score", _change] call AS_players_fnc_change`.
 
-Score defines the rank of the player. Rank is the indicator of the player's score
-and is updated on the client side periodically by `Scripts/AS_fnc_activatePlayerRankLoop.sqf` (`player getVariable "rank"`).
+Score defines the rank of the player (`[player, "rank"] call AS_players_fnc_get`).
+Rank is the indicator of the player's score and is updated on the client side periodically by `fnc_activatePlayerRankLoop.sqf`.
 
 Players can decide to become eligible to be commander (`AS_fnc_UI_toggleElegibility`).
 Only eligible players can become commanders.
@@ -266,7 +266,7 @@ the new commander. Commander is set using `orgPlayers/fnc_setCommander.sqf`.
 
 ## Player's money
 
-Every player has money (`player getVariable "money"`) that it can spend to buy vehicles, units, or score.
+Every player has money (`[player, "money"] call AS_players_fnc_get`) that it can spend to buy vehicles, units, or score.
 Players donate money to other players or to FIA (gaining score) via a menu.
 The commander can take money from FIA via a menu (losing score).
 

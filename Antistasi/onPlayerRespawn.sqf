@@ -19,9 +19,9 @@ private _unit = [_type, "kill"] call AS_fnc_spawnPlayer;
 waitUntil {player == _unit};
 
 if isMultiplayer then {
-	private _money = player getVariable "money";
-	[player, -round (0.1*_money)] remoteExec ["AS_fnc_changePlayerMoney", 2];
-	[-10, player] remoteExec ["AS_fnc_changePlayerScore", 2];
+	private _money = [player, "money"] call AS_players_fnc_get;
+	[player, "money", -round (0.1*_money)] remoteExec ["AS_players_fnc_change", 2];
+	[player, "score", -10] remoteExec ["AS_players_fnc_change", 2];
 } else {
 	private _money = AS_P("resourcesFIA");
 	[-1, -0.1*_money] remoteExec ["AS_fnc_changeFIAmoney", 2];

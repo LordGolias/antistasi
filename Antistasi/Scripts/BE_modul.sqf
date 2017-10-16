@@ -288,7 +288,7 @@ fnc_BE_permission = {
 			};
 		};
 		case "pers_garage": {
-			if (BE_current_Pers_GarageCap > (count (player getVariable "garage"))) then {
+			if (BE_current_Pers_GarageCap > (count ([player, "garage"] call AS_players_fnc_get))) then {
 				_result = true;
 			};
 		};

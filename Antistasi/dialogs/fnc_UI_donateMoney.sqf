@@ -4,14 +4,14 @@ if (call AS_fnc_controlsAI) exitWith {
 	hint "You can't donate when you are controlling an AI";
 };
 
-if ((player getVariable "money") < 100) exitWith {
+if (([player, "money"] call AS_players_fnc_get) < 100) exitWith {
 	hint "You have less than 100 € to donate";
 };
 
 if not _toCursorTarget exitWith {
-	[player, -100] remoteExec ["AS_fnc_changePlayerMoney", 2];
+	[player, "money", -100] remoteExec ["AS_players_fnc_change", 2];
 	[0, 100] remoteExec ["AS_fnc_changeFIAmoney", 2];
-	[2, player] remoteExec ["AS_fnc_changePlayerScore", 2];
+	[player, "score", 2] remoteExec ["AS_players_fnc_change", 2];
 
 	hint "You have donated 100 € to FIA. This will raise your status among FIA forces";
 };
@@ -25,6 +25,6 @@ if (_target != _target getVariable ["owner", _target]) exitWith {
 	hint "You can't donate to a controlled AI";
 };
 
-[player, -100] remoteExec ["AS_fnc_changePlayerMoney", 2];
-[_target, 100] remoteExec ["AS_fnc_changePlayerMoney", 2];
+[player, "money", -100] remoteExec ["AS_players_fnc_change", 2];
+[_target, "money", 100] remoteExec ["AS_players_fnc_change", 2];
 hint format ["You donated 100 € to %1", name _target];

@@ -11,7 +11,7 @@ private _coste = [_type] call AS_fnc_getFIAvehiclePrice;
 
 private _resourcesFIA = AS_P("resourcesFIA");
 if (isMultiPlayer and player != AS_commander) then {
-	_resourcesFIA = player getVariable "money";
+	_resourcesFIA = [player, "money"] call AS_players_fnc_get;
 };
 
 if (_resourcesFIA < _coste) exitWith {hint format ["You do not have enough money for this vehicle: %1 € required",_coste]};
@@ -23,7 +23,7 @@ if (count _pos == 0) exitWith {
 private _veh = _type createVehicle _pos;
 
 if (isMultiPlayer and player != AS_commander) then {
-	[player, -_coste] remoteExec ["AS_fnc_changePlayerMoney", 2];
+	[player, "money", -_coste] remoteExec ["AS_players_fnc_change", 2];
 	_veh setVariable ["AS_vehOwner", getPlayerUID player, true];
 } else {
 	[0,-_coste] remoteExec ["AS_fnc_changeFIAmoney",2];

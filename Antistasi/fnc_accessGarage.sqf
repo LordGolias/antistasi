@@ -8,7 +8,7 @@ if ([position player, 500] call AS_fnc_enemiesNearby) exitWith {
 };
 
 if _pool then {
-	vehInGarageShow = player getVariable "garage";
+	vehInGarageShow = [player, "garage"] call AS_players_fnc_get;
 } else {
 	vehInGarageShow = AS_P("vehiclesInGarage");
 };
@@ -108,24 +108,18 @@ garageKeys = (findDisplay 46) displayAddEventHandler ["KeyDown", {
 			["<t size='0.6'>Vehicle retrieved from Garage",0,0,3,0,0,4] spawn bis_fnc_dynamicText;
 			private _newArr = [];
 			private _found = false;
+			{
+				if ((_x != (vehInGarageShow select cuentaGarage)) or (_found)) then {
+					_newArr pushBack _x
+				} else {
+					_found = true
+				};
+			} forEach vehInGarageShow;
+
 			if (vehInGarageShow isEqualTo AS_P("vehiclesInGarage")) then {
-				{
-					if ((_x != (vehInGarageShow select cuentaGarage)) or (_found)) then {
-						_newArr pushBack _x
-					} else {
-						_found = true
-					};
-				} forEach AS_P("vehiclesInGarage");
 				AS_Pset("vehiclesInGarage", _newArr);
 			} else {
-				{
-					if ((_x != (vehInGarageShow select cuentaGarage)) or (_found)) then {
-						_newArr pushBack _x
-					} else {
-						_found = true
-					};
-				} forEach (player getVariable "garage");
-				player setVariable ["garage", _newArr, true];
+				[player, "garage", _newArr] remoteExec ["AS_players_fnc_set", 2];
 				garageVeh setVariable ["AS_vehOwner", getPlayerUID player, true];
 			};
 			if (garageVeh isKindOf "StaticWeapon") then {

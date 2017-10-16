@@ -88,6 +88,9 @@
 			<Key ID="STR_act_hqOptions">
 				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\cfg\Ranks\colonel_gs.paa' /&gt; HQ Options</Original>
 			</Key>
+			<Key ID="STR_act_manageTraits">
+				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\cfg\Ranks\corporal_gs.paa' /&gt; Get expertise</Original>
+			</Key>
 			<Key ID="STR_act_gameOptions">
 				<Original>&lt;img size='1.75' image='\A3\ui_f\data\IGUI\Cfg\SimpleTasks\types\use_ca.paa' /&gt; Game Options</Original>
 			</Key>

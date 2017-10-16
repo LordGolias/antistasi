@@ -9,7 +9,7 @@ if (AS_P("hr") < 1) exitWith {
 private _cost = AS_data_allCosts getVariable _type;
 private _moneyAvailable = AS_P("resourcesFIA");
 if isMultiPlayer then {
-    _moneyAvailable = _player getVariable "money";
+    _moneyAvailable = [_player, "money"] call AS_players_fnc_get;
 };
 
 if (_cost > _moneyAvailable) exitWith {
@@ -37,7 +37,7 @@ if not isMultiPlayer then {
     [-1, -_cost] call AS_fnc_changeFIAmoney;
 } else {
     [-1, 0] call AS_fnc_changeFIAmoney;
-    [_player, -_cost] call AS_fnc_changePlayerMoney;
+    [_player, "money", -_cost] call AS_players_fnc_change;
     [_player, "hint", "Soldier Recruited.\n\nRemember: if you use the group menu to switch groups you will lose control of your recruited AI"] remoteExec ["AS_fnc_localCommunication", _player];
 };
 [petros, "directSay", "SentGenReinforcementsArrived"] remoteExec ["AS_fnc_localCommunication", _player];

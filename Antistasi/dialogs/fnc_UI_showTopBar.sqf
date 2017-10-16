@@ -23,7 +23,7 @@ if (isMultiplayer) then {
 							 AS_P("hr"),
 							 player getVariable ["Rank_PBar", "Init"],
 							 _commanderName,
-							 player getVariable "money",
+							 [player, "money"] call AS_players_fnc_get,
 							 _natoSupport,
 							 _csatSupport,
 							 AS_S("BE_PBar"),
@@ -36,7 +36,7 @@ if (isMultiplayer) then {
 							 _natoSupport,
 							 _csatSupport,
 							 player getVariable ["Rank_PBar", "Init"],
-							 player getVariable "money",
+							 [player, "money"] call AS_players_fnc_get,
 							 AS_S("BE_PBar"),
 							 ["Not undercover", "<t color='#1DA81D'>Undercover</t>"] select (captive player)
 			];

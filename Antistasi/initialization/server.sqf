@@ -45,5 +45,4 @@ diag_log "[AS] Server: server side-variables initialized";
 diag_log "[AS] Server: waiting for HQ position...";
 waitUntil {!(isNil "placementDone")};
 [true] call AS_spawn_fnc_toggle;
-[] spawn AS_players_fnc_loop;
 [true] call AS_fnc_resourcesToggle;
