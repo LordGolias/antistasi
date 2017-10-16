@@ -1,6 +1,6 @@
 #include "macros.hpp"
 if (isDedicated) exitWith {};
-params ["_new"];
+params ["_new", "_old"];
 
 // if the side is still not chosen, players are the civilians they start as.
 // (client.sqf will trigger spawnPlayer)
@@ -13,8 +13,12 @@ if (call AS_fnc_controlsAI) exitWith {
 	deleteVehicle _new;
 };
 
+// temporarly set the commander locally. It is meant to be overwritten by AS_fnc_spawnPlayer.
+if (_old == AS_commander) then {
+	AS_commander = _new;
+};
 private _type = player call AS_fnc_getFIAUnitType;
-private _unit = [_type, "kill"] call AS_fnc_spawnPlayer;
+private _unit = [_type, "delete"] call AS_fnc_spawnPlayer;
 
 waitUntil {player == _unit};
 
