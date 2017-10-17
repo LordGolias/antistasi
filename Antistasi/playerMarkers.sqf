@@ -13,7 +13,7 @@ while {true} do {
 				_mrk setMarkerTextLocal format ["%1",name _jugador];
 				_marcadores pushBack _mrk;
 			};
-		} forEach playableUnits;
+		} forEach (allPlayers - (entities "HeadlessClient_F"));
 		if (count _jugadores > 0) then {
 			{
 				private _jugador = _x;
@@ -40,7 +40,7 @@ while {true} do {
 							if ((_x!=_jugador) and (vehicle _x == _veh)) then {
 								_texto = format ["%1%2/",_texto,name _x];
 							};
-						} forEach playableUnits;
+						} forEach (allPlayers - (entities "HeadlessClient_F"));
 						_mrk setMarkerTextLocal _texto;
 					} else {
 						_mrk setMarkerAlphaLocal 0;

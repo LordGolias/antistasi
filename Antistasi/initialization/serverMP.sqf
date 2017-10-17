@@ -1,6 +1,4 @@
-waitUntil {(count playableUnits) > 0};
-waitUntil {({(isPlayer _x) and (!isNull _x) and (_x == _x)} count allUnits) == (count playableUnits)};
-
+#include "../macros.hpp"
 [] execVM "Scripts\fn_advancedTowingInit.sqf"; // the installation is done for all clients by this
 
 addMissionEventHandler ["HandleDisconnect", {
@@ -15,6 +13,4 @@ addMissionEventHandler ["HandleDisconnect", {
     false
 }];
 
-[playableUnits select 0] call AS_fnc_setCommander;
-
-diag_log "[AS] Server MP: players are in";
+["none"] call AS_fnc_chooseCommander;

@@ -28,11 +28,15 @@ if isMultiplayer then {
     call compile preProcessFileLineNumbers "initialization\serverSP.sqf";
 };
 
-AS_server_variables_initialized = true;
-publicVariable "AS_server_variables_initialized";
-diag_log "[AS] Server: variables initialized";
-
 {if not isPlayer _x then {deleteVehicle _x}} forEach allUnits;
+
+if isNull AS_commander then {
+    diag_log "[AS] Server: waiting for a commander...";
+    while {isNull AS_commander} do {
+        ["none"] call AS_fnc_chooseCommander;
+        sleep 1;
+    }
+};
 
 diag_log "[AS] Server: waiting for side...";
 waitUntil {private _var = AS_P("player_side"); not isNil "_var"};

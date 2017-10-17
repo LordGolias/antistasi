@@ -11,7 +11,7 @@ call AS_fnc_HQdeploy;
 if isNil "placementDone" then {
 	// move all players to the HQ.
 	if isMultiplayer then {
-		{_x setPos getPos petros} forEach playableUnits;
+		{_x setPos getPos petros} forEach (allPlayers - (entities "HeadlessClient_F"));
 	} else {
 		AS_commander setPos (getPos petros);
 	};

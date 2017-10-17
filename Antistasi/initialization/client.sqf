@@ -7,7 +7,17 @@ diag_log "[AS] Client: waiting for player...";
 waitUntil {sleep 0.1; !isNull player and {player == player}};
 
 diag_log "[AS] Client: initializing...";
+player setPos ((getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)]);
 [player] call AS_fnc_emptyUnit;
+[] spawn {
+    private _dots = "";
+    while {isNil "AS_common_variables_initialized" and isNull AS_commander} do {
+        hint ("The mission is initializating" + _dots);
+        sleep 1;
+        _dots = _dots + ".";
+    };
+    hint "";
+};
 
 call compile preprocessFileLineNumbers "briefing.sqf";
 
@@ -16,15 +26,8 @@ if not isServer then {
     call compile preprocessFileLineNumbers "initialization\common_variables.sqf";
 } else {
     diag_log "[AS] Client: waiting for common variables...";
-    waitUntil {sleep 0.1; not isNil "AS_common_variables_initialized"};
+    waitUntil {sleep 1; not isNil "AS_common_variables_initialized"};
     AS_common_variables_initialized = nil;
-};
-
-if (isNil "AS_server_variables_initialized") then {
-    disableUserInput true;
-    diag_log "[AS] Client: waiting for AS_server_variables_initialized";
-    waitUntil {sleep 0.1; (!isNil "AS_server_variables_initialized")};
-    disableUserInput false;
 };
 
 musicON = true;
@@ -71,22 +74,13 @@ if (hayTFAR or hayACE) then {
 /////////////////////////////////////////////////////////////////////////////
 /////////////// Client waits for a commander to be chosen ///////////////////
 /////////////////////////////////////////////////////////////////////////////
-if (_isJip and {count playableUnits == 1}) then {
-    [] remoteExec ["AS_fnc_chooseCommander", 2];
+if isNull AS_commander then {
+    diag_log "[AS] Client: waiting for a commander...";
+    waitUntil {sleep 1; not isNull AS_commander};
 };
-
-diag_log "[AS] Client: waiting for a commander...";
-if isNil "AS_commander" then {
-    waitUntil {sleep 0.1; not isNil "AS_commander"};
-};
-
-player setPos ((getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)]);
-diag_log "[AS] Client: waiting for position...";
 
 if (player == AS_commander) then {
     hint "You are the current commander";
-    HC_comandante synchronizeObjectsAdd [player];
-    player synchronizeObjectsAdd [HC_comandante];
 
     if not AS_debug_flag then {
         [] spawn AS_fnc_UI_startMenu_menu;

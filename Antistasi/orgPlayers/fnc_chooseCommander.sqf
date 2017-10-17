@@ -1,7 +1,7 @@
 #include "../macros.hpp"
 AS_SERVER_ONLY("orgPlayers/fnc_chooseCommander.sqf");
 
-params [["_reason", "none"]];
+params [["_reason", "none"], ["_notify", True]];
 
 call fnc_BE_pushVariables;
 
@@ -22,10 +22,14 @@ private _eligibles = [];
 	if ([_player, "elegible"] call AS_players_fnc_get) then {
 		_eligibles pushBack _player;
 	};
-} forEach playableUnits;
+} forEach (allPlayers - (entities "HeadlessClient_F"));
 
 // continue if there was a disconnection or there was no disconnection and switch is activated (and there is members to select)
-if not ((_noCommander or (switchCom and !_noCommander)) and count _members != 0) exitWith {};
+if not ((_noCommander or (switchCom and !_noCommander)) and count _members != 0) exitWith {
+	if (count _members == 0) then {
+		diag_log "[AS] Server: no player to choose for commander.";
+	};
+};
 
 if (count _eligibles == 0) then {
 	_eligibles = _members
@@ -46,16 +50,16 @@ private _bestCandidate = objNull;
 } forEach _eligibles;
 
 if !(isNull _bestCandidate) then {
+	[_bestCandidate] call AS_fnc_setCommander;
+
 	private _text = "";
 	if _noCommander then {
-		_text = format ["The commander disconnected. %2 is our new commander. Greet him!", name _bestCandidate];
+		_text = format ["%1 is the commander.", name _bestCandidate];
 		if (_reason in ["resigned", "disconnected"]) then {
 			_text = format ["The commander %1. %2 is our new commander. Greet him!", _reason, name _bestCandidate];
 		};
 	} else {
 		_text = format ["%1 is no longer leader of the FIA.\n\n %2 is our new commander. Greet him!", name AS_commander, name _bestCandidate];
 	};
-	[_bestCandidate] call AS_fnc_setCommander;
-	sleep 5;
-	[[petros, "hint", _text], "AS_fnc_localCommunication"] call BIS_fnc_MP;
+	[[objNull, "hint", _text], "AS_fnc_localCommunication"] call BIS_fnc_MP;
 };
