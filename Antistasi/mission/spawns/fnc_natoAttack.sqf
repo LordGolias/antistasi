@@ -72,79 +72,24 @@ private _fnc_spawn = {
 
 		if (_method == "paradrop") then {
 			if (_isAirfield or (random 10 < _threatEval)) then {
-				[_heli, _group, _destPos, _threatEval] spawn AS_fnc_activateAirdrop;
+				[_origin, _destPos, _heli, _group, _threatEval] spawn AS_tactics_fnc_heli_paradrop;
 			} else {
 				if ((_destination call AS_location_fnc_type) in ["base","watchpost"]) then {
-					[_groupheli, _origPos, _destPos, _destination, [_group], 25*60] call AS_QRF_fnc_fastrope;
+					[_origPos, _destPos, _groupheli, _group] call AS_tactics_fnc_heli_fastrope;
 				};
 				if ((_destination call AS_location_fnc_type) in ["resource","factory", "powerplant"]) then {
-					{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _groupheli;
-					private _landpos = [];
-					_landpos = [_destPos, 0, 500, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
-					_landPos set [2, 0];
-					private _pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
-					_vehicles = _vehicles + [_pad];
-					private _wp0 = _groupheli addWaypoint [_landpos, 0];
-					_wp0 setWaypointType "TR UNLOAD";
-					_wp0 setWaypointStatements ["true", "(vehicle this) land 'GET OUT'; [vehicle this] call AS_AI_fnc_activateSmokeCover"];
-					[_groupheli,0] setWaypointBehaviour "CARELESS";
-					private _wp3 = _group addWaypoint [_landpos, 0];
-					_wp3 setWaypointType "GETOUT";
-					_wp0 synchronizeWaypoint [_wp3];
-					private _wp4 = _group addWaypoint [_destPos, 1];
-					_wp4 setWaypointType "SAD";
-					private _wp2 = _groupheli addWaypoint [_origPos, 1];
-					_wp2 setWaypointType "MOVE";
-					_wp2 setWaypointStatements ["true", "{deleteVehicle _x} forEach crew this; deleteVehicle this"];
-					[_groupheli,1] setWaypointBehaviour "AWARE";
-					[_heli,true] spawn AS_fnc_toggleVehicleDoors;
+					_vehicles append ([_origPos, _destPos, _groupheli, _group] call AS_tactics_fnc_heli_disembark);
 				};
 			};
 		};
 		if (_method == "disembark") then {
-			private _landpos = [];
-			_landpos = [_destPos, 0, 500, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
-			_landPos set [2, 0];
-			private _pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
-			_vehicles pushBack _pad;
-			private _wp0 = _groupheli addWaypoint [_landpos, 0];
-			_wp0 setWaypointType "TR UNLOAD";
-			_wp0 setWaypointStatements ["true", "(vehicle this) land 'GET OUT'; [vehicle this] call AS_AI_fnc_activateSmokeCover"];
-			[_groupheli,0] setWaypointBehaviour "CARELESS";
-			private _wp3 = _group addWaypoint [_landpos, 0];
-			_wp3 setWaypointType "GETOUT";
-			_wp0 synchronizeWaypoint [_wp3];
-			private _wp4 = _group addWaypoint [_destPos, 1];
-			_wp4 setWaypointType "SAD";
-			private _wp2 = _groupheli addWaypoint [_origPos, 1];
-			_wp2 setWaypointType "MOVE";
-			_wp2 setWaypointStatements ["true", "{deleteVehicle _x} forEach crew this; deleteVehicle this"];
-			[_groupheli,1] setWaypointBehaviour "AWARE";
-			[_heli,true] spawn AS_fnc_toggleVehicleDoors;
+			_vehicles append ([_origPos, _destPos, _groupheli, _group] call AS_tactics_fnc_heli_disembark);
 		};
 		if (_method == "fastrope") then {
 			if ((_destination call AS_location_fnc_type) in ["airfield","base", "watchpost"] or (random 10 < _threatEval)) then {
-				[_heli,_group,_destPos,_threatEval] spawn AS_fnc_activateAirdrop;
+				[_origin, _destPos, _heli, _group, _threatEval] spawn AS_tactics_fnc_heli_paradrop;
 			} else {
-				private _landpos = [];
-				_landpos = [_destPos, 0, 300, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
-				_landPos set [2, 0];
-				private _pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
-				_vehicles = _vehicles + [_pad];
-				private _wp0 = _groupheli addWaypoint [_landpos, 0];
-				_wp0 setWaypointType "TR UNLOAD";
-				_wp0 setWaypointStatements ["true", "(vehicle this) land 'GET OUT'; [vehicle this] call AS_AI_fnc_activateSmokeCover"];
-				[_groupheli,0] setWaypointBehaviour "CARELESS";
-				private _wp3 = _group addWaypoint [_landpos, 0];
-				_wp3 setWaypointType "GETOUT";
-				_wp0 synchronizeWaypoint [_wp3];
-				private _wp4 = _group addWaypoint [_destPos, 1];
-				_wp4 setWaypointType "SAD";
-				private _wp2 = _groupheli addWaypoint [_origPos, 1];
-				_wp2 setWaypointType "MOVE";
-				_wp2 setWaypointStatements ["true", "{deleteVehicle _x} forEach crew this; deleteVehicle this"];
-				[_groupheli,1] setWaypointBehaviour "AWARE";
-				[_heli,true] spawn AS_fnc_toggleVehicleDoors;
+				[_origPos, _destPos, _groupheli, _group] spawn AS_tactics_fnc_heli_fastrope;
 			};
 		};
 	};

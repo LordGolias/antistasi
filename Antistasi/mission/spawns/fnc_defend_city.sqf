@@ -58,27 +58,9 @@ private _fnc_spawn = {
 			[_heli,"CSAT Air Transport"] spawn AS_fnc_setConvoyImmune;
 
 			if (random 100 < 50) then {
-				{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"} foreach units _grupoheli;
-				private _landpos = [];
-				_landpos = [_position, 300, 500, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
-				_landPos set [2, 0];
-				private _pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
-				_vehiculos pushBack _pad;
-				private _wp0 = _grupoheli addWaypoint [_landpos, 0];
-				_wp0 setWaypointType "TR UNLOAD";
-				_wp0 setWaypointStatements ["true", "(vehicle this) land 'GET OUT'"];
-				[_grupoheli,0] setWaypointBehaviour "CARELESS";
-				private _wp3 = _grupo addWaypoint [_landpos, 0];
-				_wp3 setWaypointType "GETOUT";
-				_wp0 synchronizeWaypoint [_wp3];
-				private _wp4 = _grupo addWaypoint [_position, 1];
-				_wp4 setWaypointType "SAD";
-				private _wp2 = _grupoheli addWaypoint [ORIGIN, 1];
-				_wp2 setWaypointType "MOVE";
-				_wp2 setWaypointStatements ["true", "{deleteVehicle _x} forEach crew this; deleteVehicle this"];
-				[_grupoheli,1] setWaypointBehaviour "AWARE";
+				_vehicles append ([ORIGIN, _position, _grupoheli, _grupo] call AS_tactics_fnc_heli_disembark);
 			} else {
-				[_grupoheli, _pos, _position, _location, [_grupo], 25*60] call AS_QRF_fnc_fastrope;
+				[ORIGIN, _position, _grupoheli, _grupo] spawn AS_tactics_fnc_heli_fastrope;
 			};
 		};
 		sleep 20;

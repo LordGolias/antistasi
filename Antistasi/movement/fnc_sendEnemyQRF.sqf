@@ -122,7 +122,8 @@ if (_type == "air") then {
 		_heli1 lock 3;
 
 		// spawn loiter script for armed escort
-		[_grpVeh1, _orig, _dest, _duration*60] spawn AS_QRF_fnc_gunship;
+		[_orig, _dest, _grpVeh1] call AS_tactics_fnc_heli_attack;
+		[_grpVeh1, _orig, _dest, 300, _duration*60] spawn AS_QRF_fnc_loiter;
 	};
 
 	// small delay to prevent crashes when both helicopters are spawned

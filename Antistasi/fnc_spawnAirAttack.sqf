@@ -36,13 +36,7 @@ if (_toUse in ["planes", "helis_armed"]) then {
 	{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _vehicle;_x moveInCargo _vehicle;} forEach units _grupo;
 	_groups pushBack _grupo;
 
-	// between 300m and 500m from destination, 10x10, max 0.3 sloop
-	private _safePosition = [_destination, 300, 500, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
-	_safePosition set [2, 0];
-	private _pad = createVehicle ["Land_HelipadEmpty_F", _safePosition, [], 0, "NONE"];
-	_vehicles pushBack _pad;
-
-	[_vehicleGroup, _origin, _safePosition, _destination call AS_location_fnc_nearest, _grupo, 25*60, "air"] call AS_QRF_fnc_dismountTroops;
+	[_origin, _position, _grupoheli, _group] call AS_tactics_fnc_heli_disembark;
 
 	[_vehicle,"Air Transport"] spawn AS_fnc_setConvoyImmune;
 };
