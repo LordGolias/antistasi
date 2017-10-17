@@ -60,22 +60,13 @@ for "_i" from 1 to _count do {
 		} forEach units _group;
 		_groups pushBack _group;
 
-        // paradrop
         if (_waveType == "paradrop") exitWith {
-            [_heli,_group,_position,_threatEvalAir] spawn AS_fnc_activateAirdrop;
+            [_origin_pos, _position, _heli, _group, _threatEvalAir] spawn AS_tactics_fnc_heli_paradrop;
         };
-        // land
         if (_waveType == "disembark") exitWith {
-            private _landpos = [];
-            _landpos = [_position, 300, 500, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
-            _landPos set [2, 0];
-            private _pad = createVehicle ["Land_HelipadEmpty_F", _landpos, [], 0, "NONE"];
-            _vehicles pushBack _pad;
-
-            [_grupoheli, _pos, _landpos, _marker, _group, 25*60, "air"] call AS_QRF_fnc_dismountTroops;
+            [_origin_pos, _position, _grupoheli, _group] call AS_tactics_fnc_heli_disembark;
         };
-        // fast rope
-        [_grupoheli, _pos, _position, _marker, _group, 25*60] call AS_QRF_fnc_fastrope;
+        [_origin_pos, _position, _grupoheli, _group] spawn AS_tactics_fnc_heli_fastrope;
     };
 };
 
