@@ -23,7 +23,7 @@ params ["_dict"];
         if (_x == "BE_module") exitWith {
             [_value] call fnc_BE_load;
         };
-        if (_x == "AS_side") then {
+        if (_x == "player_side") then {
             if (_value == "west") then {
                 side_blue = west;
                 side_red = east;
