@@ -120,42 +120,42 @@ private _fnc_isAvailable = {
 };
 
 // 1. intersect the list of possible missions with the cached possible missions
-//  * removes possible missions when they are no longer possible
-//  * make available missions possible when they are no longer available
-//  * adds new possible missions when they do not exist
-private _possible = (call AS_mission_fnc_all) select {_x call AS_mission_fnc_status in ["possible", "available"]};
+//  * makes all available missions possible
+{
+    [_x, "status", "possible"] call AS_mission_fnc_set;
+} forEach (([] call AS_mission_fnc_all) select {_x call AS_mission_fnc_status == "available"});
+
+// Removes all possible missions no longer possible
 private _new_possible = call _fnc_allPossibleMissions;
 {
     private _signature = [_x call AS_mission_fnc_type, _x call AS_mission_fnc_location];
     if not (_signature in _new_possible) then {
         _x call AS_mission_fnc_remove;
-    } else {
-        if (_x call AS_mission_fnc_status == "available" and {not (_x call _fnc_isAvailable)}) then {
-            [_x, "status", "possible"] call AS_mission_fnc_set;
-        };
     };
-} forEach _possible;
+} forEach ((call AS_mission_fnc_all) select {_x call AS_mission_fnc_status in ["possible"]});
 
+// Add new possible missions
+private _possible = (call AS_mission_fnc_all) select {_x call AS_mission_fnc_status == "possible"};
 {
     _x params ["_type", "_location"];
-    if not ((format ["%1_%2", _type, _location]) in _possible) then {
+    private _sig = (format ["%1_%2", _type, _location]);
+    if not (_sig in _possible) then {
         _x call AS_mission_fnc_add;
+        _possible pushBack _sig;
     };
 } forEach _new_possible;
 
-// 2. convert possible missions to available missions up to 5 available+active missions
-_possible = (call AS_mission_fnc_all) select {_x call AS_mission_fnc_status in ["possible", "available"]}; // update in-memory list
-
-private _available = (call AS_mission_fnc_all) select {_x call AS_mission_fnc_status in ["available", "active"]};
-private _count = count _available;
+// 2. convert possible missions to available missions up to MAX available+active missions
+private _active_available = (call AS_mission_fnc_all) select {_x call AS_mission_fnc_status == "active"};
+private _count = count _active_available;
 
 {
     if (_count >= AS_missions_MAX_MISSIONS) exitWith {};
     // make mission available
-    if not (_x in _available) then {
+    if not (_x in _active_available) then {
         [_x, "status", "available"] call AS_mission_fnc_set;
         // update in-memory
-        _available pushBack _x;
+        _active_available pushBack _x;
         _count = _count + 1;
     };
 } forEach (_possible call AS_fnc_shuffle);
