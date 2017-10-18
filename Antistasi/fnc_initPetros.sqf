@@ -14,12 +14,11 @@ grupoPetros setGroupId ["Petros","GroupColor4"];
 petros setName "Petros";
 petros disableAI "MOVE";
 petros disableAI "AUTOTARGET";
+petros setUnitPos "UP";
 
 removeHeadgear petros;
 removeGoggles petros;
 petros setSkill 1;
-[petros, false] call AS_medical_fnc_setUnconscious;
-petros setVariable ["respawning",false];
 
 call AS_fnc_rearmPetros;
 
