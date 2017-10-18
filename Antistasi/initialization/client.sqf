@@ -11,7 +11,7 @@ player setPos ((getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle
 [player] call AS_fnc_emptyUnit;
 [] spawn {
     private _dots = "";
-    while {isNil "AS_common_variables_initialized" and isNull AS_commander} do {
+    while {isNil "AS_common_variables_initialized" and isNil "AS_commander"} do {
         hint ("The mission is initializating" + _dots);
         sleep 1;
         _dots = _dots + ".";
@@ -82,11 +82,15 @@ if isNull AS_commander then {
 if (player == AS_commander) then {
     hint "You are the current commander";
 
-    if not AS_debug_flag then {
-        [] spawn AS_fnc_UI_startMenu_menu;
-    } else {
-        // skip menu and start new game
-        ["west", "FIA", "NATO", "AAF", "CSAT"] remoteExec ["AS_fnc_startNewGame", 2];
+    private _var = AS_P("player_side");
+    if isNil "_var" then {
+        // there is no side, so launch start menu
+        if not AS_debug_flag then {
+            [] spawn AS_fnc_UI_startMenu_menu;
+        } else {
+            // skip menu and start new game
+            ["west", "FIA", "NATO", "AAF", "CSAT"] remoteExec ["AS_fnc_startNewGame", 2];
+        };
     };
 };
 
