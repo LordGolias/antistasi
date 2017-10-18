@@ -78,7 +78,6 @@ class AS {
 
         FNC_BASE(spawnRedVehicle);
         FNC_BASE(spawnComposition);
-        FNC_BASE(initRedUnits);
         FNC_BASE(findSpawnSpots);
         FNC_BASE(roadAndDir);
         FNC_BASE(selectHillAAdata);
