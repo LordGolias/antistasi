@@ -82,22 +82,6 @@ AS_Sset("AS_vehicleOrientation", 0);
 AS_spawnLoopTime = 1; // seconds between each check of spawn/despawn locations (expensive loop).
 AS_resourcesLoopTime = 600; // seconds between resources update
 
-//TFAR detection and config.
-hayTFAR = false;
-if (isClass (configFile >> "CfgPatches" >> "task_force_radio")) then {
-    hayTFAR = true;
-    unlockedItems = unlockedItems + ["tf_anprc152", "ItemRadio"];
-    tf_no_auto_long_range_radio = true; publicVariable "tf_no_auto_long_range_radio";//set to false and players will start with LR radio, uncomment the last line of so.
-	//tf_give_personal_radio_to_regular_soldier = false;
-	tf_west_radio_code = "";publicVariable "tf_west_radio_code";//to make enemy vehicles usable as LR radio
-	tf_east_radio_code = tf_west_radio_code; publicVariable "tf_east_radio_code"; //to make enemy vehicles usable as LR radio
-	tf_guer_radio_code = tf_west_radio_code; publicVariable "tf_guer_radio_code";//to make enemy vehicles usable as LR radio
-	tf_same_sw_frequencies_for_side = true; publicVariable "tf_same_sw_frequencies_for_side";
-	tf_same_lr_frequencies_for_side = true; publicVariable "tf_same_lr_frequencies_for_side";
-    //unlockedBackpacks pushBack "tf_rt1523g_sage";//uncomment this if you are adding LR radios for players
-};
-publicVariable "hayTFAR";
-
 // The max skill that AAF or FIA can have (BE_module).
 AS_maxSkill = 20;
 publicVariable "AS_maxSkill";
