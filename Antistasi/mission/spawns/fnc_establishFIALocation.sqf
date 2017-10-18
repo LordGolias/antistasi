@@ -86,7 +86,7 @@ private _fnc_spawn = {
 
 	_group addVehicle _vehicle;
 	leader _group setBehaviour "SAFE";
-	[_group] call AS_AI_fnc_dismountOnDanger;
+	[_group] spawn AS_AI_fnc_dismountOnDanger;
 
 	private _markers = ([_mission, "resources"] call AS_spawn_fnc_get) select 3;
 	[_mission, "resources", [_task, [_group], _vehicles, _markers]] call AS_spawn_fnc_set;
