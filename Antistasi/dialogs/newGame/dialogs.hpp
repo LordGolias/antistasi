@@ -4,7 +4,7 @@ class AS_newGameMenu {
 
 	class controls
 	{
-AS_DIALOG(8,"Configure new game", "[] spawn AS_fnc_UI_startMenu_close;");
+AS_DIALOG(8,"Configure new game", "[] spawn AS_fnc_UI_newGame_close;");
 
 BTN_L(1,-1,"Rebel against the West", "", "[""east""] call AS_fnc_UI_newGame_update;");
 BTN_R(1,-1,"Rebel against the East", "", "[""west""] call AS_fnc_UI_newGame_update;");
