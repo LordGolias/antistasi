@@ -3,8 +3,6 @@ AS_SERVER_ONLY("orgPlayers/fnc_chooseCommander.sqf");
 
 params [["_reason", "none"], ["_notify", True]];
 
-call fnc_BE_pushVariables;
-
 private _currentScore = -100000;
 private _commander = AS_commander getVariable ["owner", AS_commander];
 private _noCommander = (isNull _commander or _reason == "resigned" or _reason == "disconnected");
