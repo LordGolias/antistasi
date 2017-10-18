@@ -26,7 +26,7 @@ private _fnc_initialize = {
 			_groupType = "team_patrol";
 		};
 	};
-	_vehType = _groupType call AS_fnc_getFIABestSquadVehicle;
+	_vehType = (count (["FIA", _groupType] call AS_fnc_getEntity)) call AS_fnc_getFIABestSquadVehicle;
 
 	private _taskTitle = format ["Establish %1", _locationName];
 	private _taskDesc = format ["The team to establish the %1 is ready. Send it to the destination.", _locationName];

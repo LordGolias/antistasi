@@ -1,6 +1,4 @@
-params ["_squad"];
-private _seats_required = count units _grupo;
-private _vehicleType = "";
+params ["_seats_required"];
 
 // select available vehicles that can seat this group
 private _vehicleTypes = (["FIA", "land_vehicles"] call AS_fnc_getEntity);
