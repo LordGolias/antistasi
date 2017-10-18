@@ -41,8 +41,6 @@ opGroup_Recon_Team = ["CUP_O_RU_InfSection"];
 
 // the affiliation
 opFlag = "Flag_CSAT_F";
-// Its acronym
-AS_CSATname = "CSAT";
 
 opIR = "acc_pointer_IR";
 

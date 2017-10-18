@@ -4,7 +4,10 @@ arrayCivs = [
 	"C_man_p_beggar_F","C_man_p_beggar_F_afro","C_man_p_fugitive_F",
 	"C_man_p_shorts_1_F","C_man_polo_1_F","C_man_polo_2_F","C_man_polo_3_F",
 	"C_man_polo_4_F","C_man_polo_5_F","C_man_polo_6_F","C_man_shorts_1_F",
-	"C_man_shorts_2_F","C_man_shorts_3_F","C_man_shorts_4_F","C_scientist_F"
+	"C_man_shorts_2_F","C_man_shorts_3_F","C_man_shorts_4_F","C_scientist_F",
+	"Max_woman1", "Max_woman2", "Max_woman3", "Max_woman4","Max_woman1",
+	"Max_woman2", "Max_woman3", "Max_woman4", "RDS_Priest", "RDS_Functionary1",
+	"RDS_Functionary2", "RDS_Rocker2"
 ];
 
 CIV_specialUnits = [
@@ -23,7 +26,20 @@ arrayCivVeh = [
 	"C_Van_01_fuel_F",
 	"C_Van_01_transport_F",
 	"C_Truck_02_transport_F",
-	"C_Truck_02_covered_F"
+	"C_Truck_02_covered_F",
+	"RDS_Gaz24_Civ_03",
+	"RDS_Gaz24_Civ_02",
+	"RDS_Golf4_Civ_01",
+	"RDS_S1203_Civ_02",
+	"RDS_S1203_Civ_01",
+	"RDS_Lada_Civ_01",
+	"RDS_Octavia_Civ_01",
+	"RDS_Old_bike_Civ_01",
+	"RDS_Zetor6945_Base",
+	"RDS_tt650_Civ_01",
+	"RDS_JAWA353_Civ_01",
+	"C_Van_02_transport_F",
+	"RDS_Ikarus_Civ_01"
 ];
 
 // names of FIA soldiers
