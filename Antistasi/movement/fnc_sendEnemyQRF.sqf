@@ -162,7 +162,7 @@ if (_type == "air") then {
 
 		// spawn dismounts
 		_grpDis2 = [_orig, _side, _dismountGroup] call BIS_Fnc_spawnGroup;
-		[_grpDis2, _side] call AS_fnc_initRedUnits;
+		{_x call AS_fnc_initUnitCSAT} forEach units _grpDis2;
 		{
 			_soldados pushBack _x;
 			_x assignAsCargo _heli2;
@@ -173,7 +173,7 @@ if (_type == "air") then {
 		// spawn dismount script
 		if ((_size == "large") && !(_side == side_red)) then {
 			_grpDis1 = [_orig, _side, _dismountGroup] call BIS_Fnc_spawnGroup;
-			[_grpDis1, _side] call AS_fnc_initRedUnits;
+			{_x call AS_fnc_initUnitCSAT} forEach units _grpDis1;
 			{
 				_soldados pushBack _x;
 				_x assignAsCargo _heli2;
@@ -218,7 +218,7 @@ else {
 
 		if (_size == "large") then {
 			_grpDisEsc = [_orig, _side, _dismountGroupEscort] call BIS_Fnc_spawnGroup;
-			[_grpDisEsc, _side] call AS_fnc_initRedUnits;
+			{_x call AS_fnc_initUnitCSAT} forEach units _grpDisEsc;
 			{
 				_soldados pushBack _x;
 				_x assignAsCargo _veh1;
@@ -251,7 +251,7 @@ else {
 
 		// add dismounts
 		_grpDis2 = [_orig, _side, _dismountGroup] call BIS_Fnc_spawnGroup;
-		[_grpDis2, _side] call AS_fnc_initRedUnits;
+		{_x call AS_fnc_initUnitCSAT} forEach units _grpDis2;
 		{
 			_soldados pushBack _x;
 			_x assignAsCargo _veh2;
@@ -261,7 +261,7 @@ else {
 
 		if (_size == "large") then {
 			_grpDis1 = [_orig, _side, _dismountGroup] call BIS_Fnc_spawnGroup;
-			[_grpDis1, _side] call AS_fnc_initRedUnits;
+			{_x call AS_fnc_initUnitCSAT} forEach units _grpDis1;
 			{
 				_soldados pushBack _x;
 				_x assignAsCargo _veh2;
