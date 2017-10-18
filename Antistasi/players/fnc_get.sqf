@@ -11,6 +11,7 @@ if ([AS_container, "players", _id, _attribute] call DICT_fnc_exists) then {
 } else {
     switch _attribute do {
         case "traits": {[]};
+        case "garage": {[]};
         case "rank": {AS_ranks select 0};
         case "elegible": {if (_player == AS_commander) then {false} else {true}};
         case "money": {100};
