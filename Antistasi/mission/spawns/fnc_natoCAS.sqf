@@ -49,7 +49,6 @@ private _fnc_spawn = {
 	};
 
 	private _grupoHeli = createGroup side_blue;
-	_grupoHeli setVariable ["esNATO",true,true];
 	_grupoHeli setGroupId ["CAS"];
 	_groups pushBack _grupoHeli;
 

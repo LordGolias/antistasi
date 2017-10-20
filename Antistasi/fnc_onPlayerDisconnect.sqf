@@ -10,8 +10,8 @@ if (_unit == AS_commander) then {
 	private _recursos = 0;
 	private _hr = 0;
 	{
-		// all non-NATO units from FIA
-		if (!(_x getVariable ["esNATO",false]) and
+		// all FIA units
+		if ((leader _x call AS_fnc_getSide == "FIA") and
 		   {leader _x getVariable ["BLUFORspawn",false]} and
 		   {!isPlayer leader _x}) then {
 			{
