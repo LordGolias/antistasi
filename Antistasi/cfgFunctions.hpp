@@ -249,19 +249,6 @@ class AS {
     };
 };
 
-class AS_QRF {
-    class common {
-        FNC(qrf,airCavalry);
-        FNC(qrf,dismountTroops);
-        FNC(qrf,fastrope);
-        FNC(qrf,groundAssault);
-        FNC(qrf,leadVehicle);
-        FNC(qrf,loiter);
-        FNC(qrf,RTB);
-        FNC(qrf,truck);
-    };
-};
-
 class AS_TFAR {
     class withInterface {
         FNC(tfar,loadSettings);
@@ -287,5 +274,7 @@ class AS_tactics {
         FNC(tactics,heli_paradrop);
         FNC(tactics,heli_fastrope);
         FNC(tactics,heli_attack);
+        FNC(tactics,ground_disembark);
+        FNC(tactics,ground_attack);
     };
 };
