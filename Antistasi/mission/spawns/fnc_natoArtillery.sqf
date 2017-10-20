@@ -29,7 +29,6 @@ private _fnc_spawn = {
 	private _group = createGroup WEST;
 	private _vehicles = [];
 
-	_group setVariable ["esNATO",true,true];
 	_group setGroupOwner (owner AS_commander);
 	_group setGroupId ["N.Arty"];
 	AS_commander hcSetGroup [_group];

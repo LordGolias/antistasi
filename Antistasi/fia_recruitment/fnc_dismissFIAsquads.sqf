@@ -11,7 +11,7 @@ if ((groupID _x == "MineF") or (groupID _x == "Watch") or (isPlayer(leader _x)))
 if (_salir) exitWith {hint "You cannot dismiss player led, Watchpost, Roadblocks or Minefield building squads"};
 
 {
-if (_x getVariable ["esNATO",false]) then {_salir = true};
+	if (leader _x call AS_fnc_getSide == "NATO") exitwith {_salir = true};
 } forEach _groups;
 
 if (_salir) exitWith {hint format ["You cannot dismiss %1 groups", (["NATO", "name"] call AS_fnc_getEntity)]};

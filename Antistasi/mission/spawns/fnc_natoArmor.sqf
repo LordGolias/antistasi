@@ -30,8 +30,6 @@ private _fnc_spawn = {
 	private _group = createGroup side_blue;
 	private _vehicles = [];
 
-	_group setVariable ["esNATO",true,true];
-
 	private _wp0 = _group addWaypoint [_destinationPos, 0];
 	_wp0 setWaypointType "SAD";
 	_wp0 setWaypointBehaviour "SAFE";
