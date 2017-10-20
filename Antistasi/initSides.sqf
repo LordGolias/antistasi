@@ -17,9 +17,12 @@
 	private _statics = [];
 	private _type = _x;
 	{
-		private _static = [_x, _type] call AS_fnc_getEntity;
-		if not isNil "_static" then {
-			_statics pushBackUnique _static;
+		if not ((_type == "static_mg_low") and (_x == "FIA")) then {
+			// FIA does use "static_mg_low".
+			private _static = [_x, _type] call AS_fnc_getEntity;
+			if not isNil "_static" then {
+				_statics pushBackUnique _static;
+			};
 		};
 	} forEach ["CSAT", "NATO", "AAF", "FIA"];
 
