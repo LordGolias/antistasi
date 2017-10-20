@@ -1,70 +1,69 @@
-bluHeliTrans = 		["RHS_MELB_MH6M","RHS_UH60M_d","RHS_CH_47F_light"];
-bluHeliTS = 		["RHS_MELB_MH6M"];
-bluHeliDis = 		["RHS_UH60M_d"];
-bluHeliRope = 		["RHS_CH_47F_light"];
-bluHeliArmed = 		["RHS_MELB_AH6M_H","RHS_MELB_AH6M_M"];
-bluHeliGunship = 	["RHS_AH64D_AA","RHS_AH64D_GS","RHS_AH64D"];
-bluCASFW = 			["RHS_A10"];
+bluHeliTrans = 		["rhs_ka60_grey","RHS_Mi8AMTSh_FAB_vvs"];
+bluHeliTS = 		["rhs_ka60_grey"];
+bluHeliDis = 		["RHS_Mi8AMTSh_FAB_vvs"];
+bluHeliRope = 		["rhs_ka60_grey"];
+bluHeliArmed = 		["O_Heli_Light_02_dynamicLoadout_F"];
+bluHeliGunship = 	["rhs_mi28n_vvs"];
+bluCASFW = 			["RHS_Su25SM_vvs", "RHS_T50_vvs_generic"];
 
-bluUAV = 			["B_UAV_02_F"];
+bluUAV = 			["rhs_pchela1t_vvs"];
 
 planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 planesNATOTrans = bluHeliTrans;
 
-bluMBT = 		["rhsusf_m1a2sep1d_usarmy","rhsusf_m1a2sep1tuskid_usarmy"];
-bluAPC = 		["RHS_M2A3","RHS_M2A3_BUSKI"];
-bluIFV = 		["rhsusf_m113d_usarmy_M240","rhsusf_m113d_usarmy_supply"];
-bluIFVAA = 		["RHS_M6"];
-bluArty = 		["RHS_M119_D"];
-bluMLRS = 		["B_MBT_01_mlrs_F"];
-bluMRAP = 		["rhsusf_m1025_d","rhsusf_m998_d_4dr_halftop","rhsusf_m998_d_4dr_fulltop"];
-bluMRAPHMG = 	["rhsusf_m1025_d_m2","rhsusf_rg33_m2_d"];
-bluTruckTP = 	["rhsusf_M1083A1P2_B_M2_d_fmtv_usarmy"];
-bluTruckMed = 	["rhsusf_M1083A1P2_B_M2_d_Medical_fmtv_usarmy"];
-bluTruckFuel = 	["rhsusf_M978A4_BKIT_usarmy_d"];
+bluMBT = 		["rhs_t80um","rhs_t80uk", "rhs_t90a_tv"];
+bluAPC = 		["btr_70_vdv","rhs_btr80a_vdv"];
+bluIFV = 		["rhs_bmp2k_vdv","rhs_bmd4m_vdv"];
+bluIFVAA = 		["RHS_Ural_Zu23_VDV_01", "rhs_zsu234_aa"];
+bluArty = 		["rhs_sprut_vdv"];
+bluMLRS = 		["RHS_BM21_VDV_01"];
+bluMRAP = 		["rhsgref_BRDM2_vdv","rhsgref_BRDM2UM_vdv","rhs_tigr_vdv"];
+bluMRAPHMG = 	["rhsgref_BRDM2_HQ_vdv","rhs_tigr_sts_vdv"];
+bluTruckTP = 	["rhs_kamaz5350_vdv"];
+bluTruckMed = 	["rhs_gaz66_ap2_vdv"];
+bluTruckFuel = 	["RHS_Ural_Fuel_VDV_01"];
 
 vehNATO = bluMBT + bluAPC + bluIFV + bluIFVAA + bluArty + bluMLRS + bluMRAP + bluMRAPHMG + bluTruckTP + bluTruckMed + bluTruckFuel;
 
 
-bluStatAA = 	["RHS_Stinger_AA_pod_D"];
-bluStatAT = 	["RHS_TOW_TriPod_D"];
-bluStatHMG = 	["RHS_M2StaticMG_D"];
-bluStatMortar = ["RHS_M252_D"];
+bluStatAA = 	["rhs_Igla_AA_pod_vdv"];
+bluStatAT = 	["rhs_Metis_9k115_2_vdv"];
+bluStatHMG = 	["RHS_NSV_TriPod_VDV"];
+bluStatMortar = ["rhs_2b14_82mm_vdv"];
 
 
-bluPilot = 	"rhsusf_army_ocp_helipilot";
-bluCrew = 	"rhsusf_usmc_marpat_d_crewman";
-bluGunner = "rhsusf_usmc_marpat_d_rifleman_light";
-bluMRAPHMGgroup = 	["rhsusf_usmc_recon_marpat_d_rifleman_at_lite","rhsusf_usmc_recon_marpat_d_rifleman_lite","rhsusf_usmc_recon_marpat_d_machinegunner_m249_lite"];
-bluMRAPgroup = 		["rhsusf_usmc_recon_marpat_d_teamleader_lite","rhsusf_usmc_recon_marpat_d_marksman_lite","rhsusf_usmc_recon_marpat_d_autorifleman_lite"];
-bluAirCav = 	["rhsusf_usmc_recon_marpat_d_teamleader_fast","rhsusf_usmc_recon_marpat_d_marksman_fast","rhsusf_usmc_recon_marpat_d_autorifleman_fast","rhsusf_usmc_recon_marpat_d_rifleman_at_fast","rhsusf_usmc_recon_marpat_d_rifleman_fast","rhsusf_usmc_recon_marpat_d_machinegunner_m249_fast"];
+bluPilot = 	"rhs_pilot_combat_heli";
+bluCrew = 	"rhs_vdv_combatcrew";
+bluGunner = "rhs_vdv_rifleman";
+bluMRAPHMGgroup = 	["rhs_vdv_flora_rifleman","rhs_vdv_flora_rifleman_lite","rhs_vdv_flora_machinegunner"];
+bluMRAPgroup = 		["rhs_vdv_flora_rifleman","rhs_vdv_flora_rifleman_lite","rhs_vdv_flora_machinegunner"];
+bluAirCav = 	["rhs_vdv_recon_sergeant","rhs_vdv_recon_marksman","rhs_vdv_recon_arifleman","rhs_vdv_recon_rifleman_lat","rhs_vdv_recon_rifleman_lat","rhs_vdv_recon_marksman_vss"];
 
-NATOConfigGroupInf = (configfile >> "CfgGroups" >> "West" >> "rhs_faction_usmc_d" >> "rhs_group_nato_usmc_d_infantry");
-bluSquad = 			["rhs_group_nato_usmc_d_infantry_squad"];
-bluSquadWeapons = 	["rhs_group_nato_usmc_d_infantry_weaponsquad"];
-bluTeam = 			["rhs_group_nato_usmc_d_infantry_team"];
-bluATTeam = 		["rhs_group_nato_usmc_d_infantry_team_heavy_AT"];
+NATOConfigGroupInf = (configfile >> "CfgGroups" >> "East" >> "rhs_faction_vdv" >> "rhs_group_rus_vdv_infantry_flora");
+bluSquad = 			["rhs_group_rus_vdv_infantry_flora_squad"];
+bluSquadWeapons = 	["rhs_group_rus_vdv_infantry_flora_squad_2mg"];
+bluTeam = 			["rhs_group_rus_vdv_infantry_flora_fireteam"];
+bluATTeam = 		["rhs_group_rus_vdv_infantry_flora_section_AT"];
 
-bluIR = 	"rhsusf_acc_anpeq15";
+bluIR = 	"rhsusf_acc_perst1ik";
 
-bluFlag = 	"Flag_US_F";
-AS_NATOname = "USMC";
+bluFlag = 	"rhs_Flag_VDV_F";
 
 blu40mm = [
-	"rhs_mag_M433_HEDP",
-	"1Rnd_HE_Grenade_shell",
+	"rhs_VOG25",
+	// "1Rnd_HE_Grenade_shell",
 	"SmokeShell",
 	"SmokeShellGreen",
-	"rhs_mag_m576"
+	"rhs_vg40tb"
 ];
 
 bluAT = [
-	"rhs_weap_smaw_optic",
-	"rhs_weap_M136_hedp"
+	"rhs_weap_rpg26",
+	"rhs_weap_rpg7"
 ];
 
 bluAA = [
-	"rhs_weap_fim92"
+	"rhs_weap_igla"
 ];
 
 genATLaunchers = genATLaunchers + bluAT;
