@@ -78,7 +78,6 @@ class AS {
 
         FNC_BASE(spawnRedVehicle);
         FNC_BASE(spawnComposition);
-        FNC_BASE(initRedUnits);
         FNC_BASE(findSpawnSpots);
         FNC_BASE(roadAndDir);
         FNC_BASE(selectHillAAdata);
@@ -159,7 +158,6 @@ class AS {
         FNC_BASE(getAirportsForCA);
 
         FNC_BASE(setConvoyImmune);
-        FNC_BASE(activateAirdrop);
         FNC_BASE(activateAirstrike);
         FNC_BASE(dropArtilleryShells);
         FNC_BASE(dropArtilleryShellsNATO);
@@ -251,21 +249,6 @@ class AS {
     };
 };
 
-class AS_QRF {
-    class common {
-        FNC(qrf,airCavalry);
-        FNC(qrf,approachTarget);
-        FNC(qrf,dismountTroops);
-        FNC(qrf,fastrope);
-        FNC(qrf,groundAssault);
-        FNC(qrf,gunship);
-        FNC(qrf,leadVehicle);
-        FNC(qrf,loiter);
-        FNC(qrf,RTB);
-        FNC(qrf,truck);
-    };
-};
-
 class AS_TFAR {
     class withInterface {
         FNC(tfar,loadSettings);
@@ -282,5 +265,16 @@ class AS_AI {
         FNC(AI,surrender);
         FNC(AI,initDog);
         FNC(AI,dismountOnDanger);
+    };
+};
+
+class AS_tactics {
+    class common {
+        FNC(tactics,heli_disembark);
+        FNC(tactics,heli_paradrop);
+        FNC(tactics,heli_fastrope);
+        FNC(tactics,heli_attack);
+        FNC(tactics,ground_disembark);
+        FNC(tactics,ground_attack);
     };
 };

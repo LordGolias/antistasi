@@ -39,22 +39,21 @@ private _fnc_spawn = {
 	private _groups = [];
 	private _vehicles = [];
 
-	private _tipoVeh = bluHeliArmed;
+	private _tipoVeh = selectRandom (["NATO", "helis_armed"] call AS_fnc_getEntity);
 	if (_support > 70) then {
-		_tipoVeh = bluCASFW;
+		_tipoVeh = selectRandom (["NATO", "planes"] call AS_fnc_getEntity);
 	} else {
 		if (_support > 30) then {
-			_tipoVeh = bluHeliGunship;
+			_tipoVeh = selectRandom (["NATO", "helis_attack"] call AS_fnc_getEntity);
 		};
 	};
 
 	private _grupoHeli = createGroup side_blue;
-	_grupoHeli setVariable ["esNATO",true,true];
 	_grupoHeli setGroupId ["CAS"];
 	_groups pushBack _grupoHeli;
 
 	for "_i" from 1 to 3 do {
-		private _helifn = [_position, 0, selectRandom _tipoVeh, side_blue] call bis_fnc_spawnvehicle;
+		private _helifn = [_position, 0, _tipoVeh, side_blue] call bis_fnc_spawnvehicle;
 		private _heli = _helifn select 0;
 		_vehicles pushBack _heli;
 		private _heliCrew = _helifn select 1;

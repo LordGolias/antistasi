@@ -38,22 +38,9 @@ private _fnc_spawn = {
 	private _groups = [];
 	private _vehicles = [];
 
-	// initialise groups, two for vehicles, two for dismounts
-	private _grpVeh1 = createGroup side_blue;
-	_groups pushBack _grpVeh1;
-
-	private _grpVeh2 = createGroup side_blue;
-	_groups pushBack _grpVeh2;
-
-	// landing pad, to allow for dismounts
-	private _landpos1 = [];
-	_landpos1 = [_destPos, 0, 150, 10, 0, 0.3, 0] call BIS_Fnc_findSafePos;
-	_landpos1 set [2, 0];
-	private _pad1 = createVehicle ["Land_HelipadEmpty_F", _landpos1, [], 0, "NONE"];
-	_vehicles pushBack _pad1;
-
 	// first chopper
-	private _vehicle = [_posOrig, 0, selectRandom bluHeliArmed, side_blue] call bis_fnc_spawnvehicle;
+	private _vehicleType = selectRandom (["NATO", "helis_attack"] call AS_fnc_getEntity);
+	private _vehicle = [_posOrig, 0, _vehicleType, side_blue] call bis_fnc_spawnvehicle;
 	private _heli1 = _vehicle select 0;
 	private _heliCrew1 = _vehicle select 1;
 	private _grpVeh1 = _vehicle select 2;
@@ -63,7 +50,7 @@ private _fnc_spawn = {
 	_vehicles pushBack _heli1;
 
 	// spawn loiter script for armed escort
-	[_grpVeh1, _posOrig, _destPos, 15*60] spawn AS_QRF_fnc_gunship;
+	[_posOrig, _destPos, _grpVeh1] spawn AS_tactics_fnc_heli_attack;
 
 	sleep 5;
 
@@ -97,11 +84,7 @@ private _fnc_spawn = {
 	_groups pushBack _grpDis2;
 
 	// spawn dismount script
-	[_grpVeh2, _posOrig, _landpos1, _mrk, _grpDis2, 25*60, "land"] spawn AS_QRF_fnc_airCavalry;
-
-	{
-		_x setVariable ["esNATO",true,true];
-	} foreach _groups;
+	_vehicles append ([_grpVeh2, _posOrig, _destPos, _mrk, _grpDis2] call AS_tactics_fnc_heli_disembark);
 
 	[_mission, "resources", [_task, _groups, _vehicles, [_mrk]]] call AS_spawn_fnc_set;
 };

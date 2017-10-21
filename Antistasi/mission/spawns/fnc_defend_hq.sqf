@@ -36,7 +36,7 @@ private _fnc_spawn = {
 		{_x assignAsCargo _heli; _x moveInCargo _heli; _x call AS_fnc_initUnitCSAT} forEach units _grupo;
 		_groups pushBack _grupo;
 		[_heli,"CSAT Air Transport"] spawn AS_fnc_setConvoyImmune;
-		[_grupoheli, _pos, _position, _location, [_grupo], 25*60] call AS_QRF_fnc_fastrope;
+		[_origin, _position, _grupoheli, _grupo] spawn AS_tactics_fnc_heli_fastrope;
 	};
 
 	private _soldiers = [];

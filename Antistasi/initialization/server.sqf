@@ -32,10 +32,7 @@ if isMultiplayer then {
 
 if isNull AS_commander then {
     diag_log "[AS] Server: waiting for a commander...";
-    while {isNull AS_commander} do {
-        ["none"] call AS_fnc_chooseCommander;
-        sleep 1;
-    }
+    waitUntil {sleep 1; not isNull AS_commander};
 };
 
 diag_log "[AS] Server: waiting for side...";

@@ -5,7 +5,8 @@ private _vehicle = _vehicleArray select 0;
 private _vehicleCrew = _vehicleArray select 1;
 private _vehicleGroup = _vehicleArray select 2;
 
-[_vehicleCrew, _side, _vehicle] call AS_fnc_initRedUnits;
+{_x call AS_fnc_initUnitCSAT} forEach units _vehicleGroup;
+[_vehicle, "CSAT"] call AS_fnc_initVehicle;
 
 _allVehicles pushBackUnique _vehicle;
 _allGroups pushBackUnique _vehicleGroup;
