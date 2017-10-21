@@ -7,25 +7,23 @@ private _currentScore = -100000;
 private _commander = AS_commander getVariable ["owner", AS_commander];
 private _noCommander = (isNull _commander or _reason == "resigned" or _reason == "disconnected");
 
-if not _noCommander then {
-	_currentScore = [_commander, "score"] call AS_players_fnc_get;
-	[_commander, "elegible", false] call AS_players_fnc_set;  // so it is not selected again
-};
+// There is a commander and switch is off => no change
+if (not switchCom and not _noCommander) exitWith {};
 
 private _members = [];
 private _eligibles = [];
-{
-	private _player = _x getVariable ["owner", _x];
-	_members pushBack _player;
-	if ([_player, "elegible"] call AS_players_fnc_get) then {
-		_eligibles pushBack _player;
-	};
-} forEach (allPlayers - (entities "HeadlessClient_F"));
+while {count _members == 0} do {
+	{
+		private _player = _x getVariable ["owner", _x];
+		_members pushBack _player;
+		if ([_player, "elegible"] call AS_players_fnc_get) then {
+			_eligibles pushBack _player;
+		};
+	} forEach (allPlayers - (entities "HeadlessClient_F"));
 
-// continue if there was a disconnection or there was no disconnection and switch is activated (and there is members to select)
-if not ((_noCommander or (switchCom and !_noCommander)) and count _members != 0) exitWith {
 	if (count _members == 0) then {
 		diag_log "[AS] Server: no player to choose for commander.";
+		sleep 5;
 	};
 };
 
@@ -34,6 +32,11 @@ if (count _eligibles == 0) then {
 };
 if (count _eligibles == 1 and (AS_commander in _eligibles)) exitWith {
 	[[petros, "hint", format["%1 tried to resign but is the only eligible commander, so it remains so", name AS_commander]], "AS_fnc_localCommunication"] call BIS_fnc_MP;
+};
+
+if not _noCommander then {
+	_currentScore = [_commander, "score"] call AS_players_fnc_get;
+	[_commander, "elegible", false] call AS_players_fnc_set;  // so it is not selected again
 };
 
 // select player with highest score (and more than 20% than commander)
