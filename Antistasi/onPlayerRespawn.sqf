@@ -2,11 +2,6 @@
 if (isDedicated) exitWith {};
 params ["_new", "_old"];
 
-// if the side is still not chosen, players are the civilians they start as.
-// (client.sqf will trigger spawnPlayer)
-private _side = AS_P("player_side");
-if isNil "_side" exitWith {};
-
 if (call AS_fnc_controlsAI) exitWith {
 	hint "The unit you were controlling died";
 	call AS_fnc_completeDropAIcontrol;
