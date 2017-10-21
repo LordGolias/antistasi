@@ -39,7 +39,8 @@ private _fnc_spawn = {
 	private _vehicles = [];
 
 	// first chopper
-	private _vehicle = [_posOrig, 0, selectRandom bluHeliArmed, side_blue] call bis_fnc_spawnvehicle;
+	private _vehicleType = selectRandom (["NATO", "helis_attack"] call AS_fnc_getEntity);
+	private _vehicle = [_posOrig, 0, _vehicleType, side_blue] call bis_fnc_spawnvehicle;
 	private _heli1 = _vehicle select 0;
 	private _heliCrew1 = _vehicle select 1;
 	private _grpVeh1 = _vehicle select 2;
