@@ -5,8 +5,6 @@ private _location = _position call AS_location_fnc_nearest;
 
 private _threat = 0;
 
-{if (_x in unlockedWeapons) then {_threat = 5};} forEach genAALaunchers;
-
 if (_location call AS_location_fnc_side == "AAF") then {
 	{
 			private _positionOther = _x call AS_location_fnc_position;
