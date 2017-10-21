@@ -94,7 +94,7 @@ call {
 	};
 
 	if (_type == "AA") exitWith {
-		_item = genAALaunchers call BIS_Fnc_selectRandom;
+		_item = selectRandom AAFLaunchers;
 		_crate addWeaponCargoGlobal [_item, 5];
 		_crate addMagazineCargoGlobal [([_item] call _getWeaponMags) select 0, 10];
 	};
