@@ -58,6 +58,12 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "recon_squad", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv">> "rhs_group_rus_vdv_infantry_recon" >> "rhs_group_rus_vdv_infantry_recon_squad"] call DICT_fnc_set;
 [_dict, "recon_team", configfile >> "CfgGroups" >> "east" >> "rhs_faction_vdv">> "rhs_group_rus_vdv_infantry_recon" >>"rhs_group_rus_vdv_infantry_recon_fireteam"] call DICT_fnc_set;
 
+// These have to be CfgVehicles mines that explode automatically (minefields)
+[_dict, "ap_mines", ["rhs_mine_pmn2"]] call DICT_fnc_set;
+[_dict, "at_mines", ["rhs_mine_tm62m"]] call DICT_fnc_set;
+// These have to be CfgVehicles
+[_dict, "explosives", ["SatchelCharge_F","DemoCharge_F","ClaymoreDirectional_F"]] call DICT_fnc_set;
+
 [_dict, "box", "Box_East_WpsLaunch_F"] call DICT_fnc_set;
 
 _dict

@@ -58,6 +58,12 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "recon_squad", "OIA_reconSquad"] call DICT_fnc_set;
 [_dict, "recon_team", "OI_reconTeam"] call DICT_fnc_set;
 
+// These have to be CfgVehicles mines that explode automatically (minefields)
+[_dict, "ap_mines", ["APERSMine", "APERSTripMine", "APERSBoundingMine"]] call DICT_fnc_set;
+[_dict, "at_mines", ["ATMine", "SLAMDirectionalMine"]] call DICT_fnc_set;
+// These have to be CfgVehicles
+[_dict, "explosives", ["SatchelCharge_F","DemoCharge_F","ClaymoreDirectional_F"]] call DICT_fnc_set;
+
 [_dict, "box", "Box_East_WpsLaunch_F"] call DICT_fnc_set;
 
 _dict
