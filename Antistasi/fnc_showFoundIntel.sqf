@@ -34,7 +34,7 @@ if (random 100 < _chance) then {
 	if (_resourcesAAF < 1000) then {
 		_texto = format ["%1 %2 Funds: Poor<br/>",_texto, (["AAF", "name"] call AS_fnc_getEntity)]
 	} else {
-		_texto = format ["%1 %2 Funds: %2 €<br/>",_texto, (["AAF", "name"] call AS_fnc_getEntity), _resourcesAAF]
+		_texto = format ["%1 %2 Funds: %3 €<br/>",_texto, (["AAF", "name"] call AS_fnc_getEntity), _resourcesAAF]
 	};
 };
 
