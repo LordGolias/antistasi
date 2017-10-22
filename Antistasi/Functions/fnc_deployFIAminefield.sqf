@@ -1,7 +1,7 @@
 #include "../macros.hpp"
 params ["_type"];
 
-if ("fia_minefield" call AS_mission_fnc_active_missions != 0) exitWith {
+if (count ("fia_minefield" call AS_mission_fnc_active_missions) != 0) exitWith {
 	hint "We can only deploy one minefield at a time.";
 	createDialog "AS_createminefield";
 };
