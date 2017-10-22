@@ -83,15 +83,7 @@ if (_scope != "") then {
 };
 
 {
-    if (_x == indLaser) then {
-        _unit addPrimaryWeaponItem indLaser;
-        _unit assignItem indLaser;
-        _unit enableIRLasers true;
-    };
-    if (_x == indFL) then {
-        _unit addPrimaryWeaponItem indFL;
-        _unit enableGunLights "AUTO";
-    };
+    _unit addPrimaryWeaponItem _x;
 } forEach _primaryWeaponItems;
 
 

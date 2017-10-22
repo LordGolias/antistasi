@@ -74,8 +74,12 @@ if (_type in ["rifleScope", "sniperScope"]) then {
         _w_factor*_result
     };
 };
-if (_type == "nvg") then {
-    _allItems = AS_allNVGs;
+if (_type in ["nvg", "laser", "flashlight"]) then {
+	_allItems = call {
+		if (_type == "nvg") then {AS_allNVGs};
+		if (_type == "laser") then {AS_allLasers};
+		if (_type == "flashlight") then {AS_allFlashlights};
+	};
 	_allItemsAttrs = [];  // we only use this because Attrs need to have the same size as allItems. The sorting function will not use it anyway.
     {_allItemsAttrs pushBack [];} forEach _allItems;
 	_unlockedItems = unlockedItems;

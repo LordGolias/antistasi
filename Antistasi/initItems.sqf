@@ -3,6 +3,8 @@
 
     AS_allItems
     AS_allNVGs
+    AS_allFlashlights
+    AS_allLasers
     AS_allBinoculars
     AS_allOptics, AS_allOpticsAttrs
     AS_allUAVs
@@ -113,6 +115,10 @@ AS_allNVGs = [];
 {
 	AS_allNVGs pushBack (configName _x);
 } forEach _allNVG;
+
+AS_allLasers = AS_allItems arrayIntersect ["acc_pointer_IR", "rhs_acc_perst1ik", "CUP_acc_ANPEQ_2_camo", "CUP_acc_ANPEQ_2_desert", "CUP_acc_ANPEQ_2_grey"];
+
+AS_allFlashlights = AS_allItems arrayIntersect ["acc_flashlight", "CUP_acc_flashlight", "rhs_acc_2dpZenit"];
 
 AS_allBinoculars = [];
 {

@@ -54,11 +54,6 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 // These have to be CfgVehicles
 [_dict, "explosives", ["SatchelCharge_F","DemoCharge_F","ClaymoreDirectional_F"]] call DICT_fnc_set;
 
-// NVG, flashlight, laser, mine types
-indNVG = "NVGoggles_INDEP";
-indFL = "acc_flashlight";
-indLaser = "acc_pointer_IR";
-
 // Long range radio
 lrRadio = "tf_rt1523g_green";
 

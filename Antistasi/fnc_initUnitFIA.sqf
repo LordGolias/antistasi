@@ -75,3 +75,6 @@ if (player == leader _unit) then {
 		};
 	}];
 };
+
+_unit enableIRLasers true;
+_unit enableGunLights "AUTO";

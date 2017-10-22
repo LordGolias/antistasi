@@ -74,12 +74,14 @@ if (SunOrMoon < 1) then {
     _googles = ([caja, "nvg"] call AS_fnc_getBestItem);
 
     if (_googles != "") then {
-        if (indLaser in (itemCargo caja)) then {
-            _primaryWeaponItems pushBack indLaser;
+        private _laser = [caja, "laser"] call AS_fnc_getBestItem;
+        if (_laser != "") then {
+            _primaryWeaponItems pushBack _laser;
         };
     } else {
-        if (indFL in (itemCargo caja)) then {
-            _primaryWeaponItems pushBack indFL;
+        private _flashlight = [caja, "flashlight"] call AS_fnc_getBestItem;
+        if (_flashlight != "") then {
+            _primaryWeaponItems pushBack _flashlight;
         };
     };
 };
