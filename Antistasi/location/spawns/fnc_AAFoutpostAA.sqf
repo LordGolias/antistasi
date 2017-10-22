@@ -39,7 +39,7 @@ private _fnc_spawn = {
 			private _position = _base call AS_location_fnc_position;
 			if (_position distance _posicion > 1000) then {
 				private _pos = [_posicion] call AS_fnc_findMortarCreatePosition;
-				private _static_mortar = ["AAF", "mortar"] call AS_fnc_getEntity;
+				private _static_mortar = ["AAF", "static_mortar"] call AS_fnc_getEntity;
 				private _gunnerType = ["AAF", "gunner"] call AS_fnc_getEntity;
 				private _veh = _static_mortar createVehicle _pos;
 				[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
