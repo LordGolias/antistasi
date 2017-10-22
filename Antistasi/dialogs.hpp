@@ -229,8 +229,8 @@ class AS_createMinefield
 	{
 AS_DIALOG(2,"Create minefield","closeDialog 0; createDialog ""build_menu"";");
 
-BTN_L(1,-1, "AP Mines", "", "closeDialog 0; [apMine] spawn AS_fnc_deployFIAminefield");
-BTN_R(1,-1, "AT Mines", "", "closeDialog 0; [atMine] spawn AS_fnc_deployFIAminefield");
+BTN_L(1,-1, "AP Mines", "", "closeDialog 0; [""ap_mines""] spawn AS_fnc_deployFIAminefield");
+BTN_R(1,-1, "AT Mines", "", "closeDialog 0; [""at_mines""] spawn AS_fnc_deployFIAminefield");
 
 	};
 };

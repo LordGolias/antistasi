@@ -68,8 +68,9 @@ _fnc_gear = {
 	};
 
 	if (_cat == "mine") exitWith {
+        private _mines = (["AAF", "ap_mines"] call AS_fnc_getEntity) + (["AAF", "at_mines"] call AS_fnc_getEntity);
 		for "_i" from 0 to _typeInt do {
-			_item = (selectRandom AAFmines) call AS_fnc_mineMag;
+			_item = (selectRandom _mines) call AS_fnc_mineMag;
 			_crate addMagazineCargoGlobal [_item, _classInt];
 		};
 	};

@@ -47,6 +47,10 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "static_mg_low", "rhsgref_cdf_b_DSHKM_Mini_TriPod"] call DICT_fnc_set;
 [_dict, "static_mortar", "rhsgref_cdf_b_reg_M252"] call DICT_fnc_set;
 
+// These have to be CfgVehicles mines that explode automatically (minefields)
+[_dict, "ap_mines", ["rhs_mine_pmn2"]] call DICT_fnc_set;
+[_dict, "at_mines", ["rhs_mine_tm62m"]] call DICT_fnc_set;
+
 // FIA Vehicles
 vehTruckAA = "rhsgref_cdf_b_gaz66_zu23";
 
@@ -60,14 +64,6 @@ AAFExponsives = [
     "DemoCharge_F",
     "ClaymoreDirectional_F"
 ];
-
-AAFMines = [
-    "rhs_mine_tm62m",
-    "rhs_mine_pmn2"
-];
-
-atMine = "rhs_mine_tm62m";
-apMine = "rhs_mine_pmn2";
 
 // NVG, flashlight, laser, mine types
 indNVG = "rhs_1PN138";

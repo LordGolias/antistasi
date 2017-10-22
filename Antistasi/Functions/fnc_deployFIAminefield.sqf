@@ -11,10 +11,21 @@ if (!([player] call AS_fnc_hasRadio)) exitWith {
 	createDialog "AS_createminefield";
 };
 
-private _mag = _type call AS_fnc_mineMag;
-private _availableMines = {_x == _mag} count (magazineCargo caja);
-if (_availableMines == 0) exitWith {
-	hint format ["you have no '%1' available", _mag];
+private _possibleMines = (["AAF", _type] call AS_fnc_getEntity);
+
+
+private _allMags = magazineCargo caja;
+private _availableMines = []; // mines per type
+private _totalAvailableMines = 0;
+{
+	private _mag = _x call AS_fnc_mineMag;
+	private _amount = {_x == _mag} count _allMags;
+	_availableMines pushBack _amount;
+	_totalAvailableMines = _totalAvailableMines + _amount;
+} forEach _possibleMines;
+
+if (_totalAvailableMines == 0) exitWith {
+	hint "you have no mines available";
 	createDialog "AS_createminefield";
 };
 
@@ -54,7 +65,7 @@ openMap true;
 AS_mapPositions = [];
 AS_minesMarkers = [];
 AS_confirmLocations = false;
-AS_availableMines = _availableMines;
+AS_availableMines = _totalAvailableMines;
 
 onMapSingleClick {
 	private _position = _pos;
@@ -121,20 +132,38 @@ if !(AS_confirmLocations) exitWith {
 };
 AS_confirmLocations = nil;
 
+// build the array [[mag1, mag2, ...], [amount1, amount2, ...]] of used arrays
+private _usedMines = [[], []];
+private _remaining = count _positions; // sum of all used mines.
+{
+	private _amount = 0;
+	if ((_availableMines select _forEachIndex) < _remaining) then {
+		_amount = _availableMines select _forEachIndex;
+		_remaining = _remaining - (_availableMines select _forEachIndex);
+	} else {
+		_amount = _remaining;
+		_remaining = 0;
+	};
+	(_usedMines select 0) pushBack (_x call AS_fnc_mineMag);
+	(_usedMines select 1) pushBack _amount;
+
+	if (_remaining == 0) exitWith {};
+} forEach _possibleMines;
+
 // pay price and remove mines from box
 [-_hr,-_cost] remoteExec ["AS_fnc_changeFIAmoney",2];
 
 waitUntil {not AS_S("lockTransfer")};
 AS_Sset("lockTransfer", true);
 ([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
-_cargo_m = [_cargo_m, [[_type call AS_fnc_mineMag], [count _positions]], true] call AS_fnc_mergeCargoLists;  // true -> remove from _cargo_m
+_cargo_m = [_cargo_m, _usedMines, true] call AS_fnc_mergeCargoLists;  // true -> remove from _cargo_m
 [caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true, true] call AS_fnc_populateBox;
 AS_Sset("lockTransfer", false);
 
 // create the mission
 private _mission = ["establish_fia_minefield", ""] call AS_mission_fnc_add;
 [_mission, "status", "active"] call AS_mission_fnc_set;
-[_mission, "mine_type", _type] call AS_mission_fnc_set;
+[_mission, "mines_cargo", _usedMines] call AS_mission_fnc_set;
 [_mission, "position", _locationPosition] call AS_mission_fnc_set;
 [_mission, "positions", _positions] call AS_mission_fnc_set;
 [_mission, "vehicle", _vehicleType] call AS_mission_fnc_set;
