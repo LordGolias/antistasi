@@ -28,7 +28,7 @@ switch (_type) do {
 	case "explosives": {
 		{
 			expCrate addMagazineCargoGlobal [_x call AS_fnc_mineMag, 2];
-		} forEach AAFExponsives;
+		} forEach (["AAF", "explosives"] call AS_fnc_getEntity);
 	};
 
 	case "mines": {
