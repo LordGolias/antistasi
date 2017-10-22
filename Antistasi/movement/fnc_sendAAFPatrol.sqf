@@ -124,7 +124,7 @@ if ((_base == "") and (_aeropuerto == "") and (!_hayCSAT)) exitWith {
 ////////////////////// Checks passed. spawn the patrol //////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
-private _spawnName = format ["AAFpatrol", floor random 100];
+private _spawnName = format ["aaf_patrol_%1", floor random 100];
 [_spawnName, "AAFpatrol"] call AS_spawn_fnc_add;
 [_spawnName, "location", _location] call AS_spawn_fnc_set;
 [_spawnName, "base", _base] call AS_spawn_fnc_set;
