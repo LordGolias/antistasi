@@ -50,20 +50,8 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 // These have to be CfgVehicles mines that explode automatically (minefields)
 [_dict, "ap_mines", ["rhs_mine_pmn2"]] call DICT_fnc_set;
 [_dict, "at_mines", ["rhs_mine_tm62m"]] call DICT_fnc_set;
-
-// FIA Vehicles
-vehTruckAA = "rhsgref_cdf_b_gaz66_zu23";
-
-/*
-================ Gear ================
-Weapons, ammo, launchers, missiles, mines, items and optics will spawn in ammo crates, the rest will not. These lists, together with the corresponding lists in the NATO/USAF template, determine what can be unlocked. Weapons of all kinds and ammo are the exception: they can all be unlocked.
-*/
-
-AAFExponsives = [
-    "SatchelCharge_F",
-    "DemoCharge_F",
-    "ClaymoreDirectional_F"
-];
+// These have to be CfgVehicles
+[_dict, "explosives", ["SatchelCharge_F","DemoCharge_F","ClaymoreDirectional_F"]] call DICT_fnc_set;
 
 // NVG, flashlight, laser, mine types
 indNVG = "rhs_1PN138";
