@@ -11,7 +11,7 @@ call AS_fnc_spendAAFmoney;
 // Assign new commander if needed.
 if isMultiplayer then {[] spawn AS_fnc_chooseCommander;};
 
-[[], "AS_movement_fnc_sendAAFroadPatrol"] call AS_scheduler_fnc_execute;
+[] call AS_movement_fnc_sendAAFroadPatrol;
 
 // repair and re-arm all statics.
 {
