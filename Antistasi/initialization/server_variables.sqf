@@ -7,6 +7,8 @@ call AS_mission_fnc_initialize;
 // reguarly checks for players and stores their profiles
 call AS_players_fnc_initialize;
 
+call AS_AAFarsenal_fnc_initialize;
+
 // todo: re-add support for TFAR. This is probably needed by it.
 lrRadio = "";
 

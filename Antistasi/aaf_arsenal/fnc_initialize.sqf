@@ -20,7 +20,6 @@ private _costs = [300, 150, 300, 5000, 600, 10000, 4000, 10000, 20000];
 
 {
     [call AS_AAFarsenal_fnc_dictionary, _x, call DICT_fnc_create] call DICT_fnc_setGlobal;
-    [_x, "valid", ["AAF", _x] call AS_fnc_getEntity] call AS_AAFarsenal_fnc_set;
     [_x, "name", _names select _forEachIndex] call AS_AAFarsenal_fnc_set;
     [_x, "count", 0] call AS_AAFarsenal_fnc_set;
     [_x, "cost", _costs select _forEachIndex] call AS_AAFarsenal_fnc_set;
