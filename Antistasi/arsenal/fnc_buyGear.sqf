@@ -32,8 +32,8 @@ switch (_type) do {
 	};
 
 	case "mines": {
-        expCrate addMagazineCargoGlobal [apMine call AS_fnc_mineMag, 2];
-        expCrate addMagazineCargoGlobal [atMine call AS_fnc_mineMag, 2];
+        expCrate addMagazineCargoGlobal [(selectRandom (["AAF", "ap_mines"] call AS_fnc_getEntity)) call AS_fnc_mineMag, 2];
+		expCrate addMagazineCargoGlobal [(selectRandom (["AAF", "at_mines"] call AS_fnc_getEntity)) call AS_fnc_mineMag, 2];
 	};
 };
 

@@ -2,7 +2,6 @@
 private _fnc_initialize = {
 	params ["_mission"];
 
-	private _mineType = [_mission, "mine_type"] call AS_mission_fnc_get;
 	private _mapPosition = [_mission, "position"] call AS_mission_fnc_get;
 	private _minesPositions = [_mission, "positions"] call AS_mission_fnc_get;
 	private _cost = [_mission, "cost"] call AS_mission_fnc_get;
@@ -92,7 +91,7 @@ private _fnc_wait_to_arrive = {
 private _fnc_wait_to_deploy = {
 	params ["_mission"];
 	private _mapPosition = [_mission, "position"] call AS_mission_fnc_get;
-	private _mineType = [_mission, "mine_type"] call AS_mission_fnc_get;
+	private _mines_cargo = [_mission, "mines_cargo"] call AS_mission_fnc_get;
 	private _minesPositions = [_mission, "positions"] call AS_mission_fnc_get;
 	private _cost = [_mission, "cost"] call AS_mission_fnc_get;
 	private _group = ([_mission, "resources"] call AS_spawn_fnc_get) select 1 select 0;
@@ -106,8 +105,19 @@ private _fnc_wait_to_deploy = {
 		if ((alive _truck) and ({alive _x} count units _group > 0)) then {
 			// create minefield
 			private _minesData = [];
+			private _current_mine_index = 0;
+			private _current_mine_amount = 0;
 			{
+				private _mineType = _mines_cargo select 0 select _current_mine_index;
+				private _typeCount = _mines_cargo select 1 select _current_mine_index;
+
 				_minesData pushBack [_mineType, _x, random 360];
+				_current_mine_amount = _current_mine_amount + 1;
+
+				if (_current_mine_amount == _typeCount) then {
+					_current_mine_index = _current_mine_index + 1;
+					_current_mine_amount = 0;
+				};
 			} forEach _minesPositions;
 			[_mapPosition, "FIA", _minesData] call AS_fnc_addMinefield;
 

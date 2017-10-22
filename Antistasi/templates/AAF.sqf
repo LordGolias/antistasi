@@ -48,24 +48,16 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "static_mg_low", "I_HMG_01_F"] call DICT_fnc_set;
 [_dict, "static_mortar", "I_Mortar_01_F"] call DICT_fnc_set;
 
+// These have to be CfgVehicles mines that explode automatically (minefields)
+[_dict, "ap_mines", ["APERSMine", "APERSTripMine", "APERSBoundingMine"]] call DICT_fnc_set;
+[_dict, "at_mines", ["ATMine", "SLAMDirectionalMine"]] call DICT_fnc_set;
+
 // These have to be CfgVehicles
 AAFExponsives = [
 "SatchelCharge_F",
 "DemoCharge_F",
 "ClaymoreDirectional_F"
 ];
-
-// These have to be CfgVehicles mines that explode automatically (minefields)
-AAFMines = [
-"SLAMDirectionalMine",
-"ATMine",
-"APERSMine",
-"APERSTripMine",
-"APERSBoundingMine"
-];
-
-atMine = "ATMine";
-apMine = "APERSMine";
 
 // NVG, flashlight, laser, mine types
 indNVG = "NVGoggles_INDEP";

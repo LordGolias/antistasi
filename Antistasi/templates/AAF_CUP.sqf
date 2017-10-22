@@ -47,16 +47,14 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "static_mg_low", "CUP_O_KORD_CHDKZ"] call DICT_fnc_set;
 [_dict, "static_mortar", "CUP_O_2b14_82mm_CHDKZ"] call DICT_fnc_set;
 
+// These have to be CfgVehicles mines that explode automatically (minefields)
+[_dict, "ap_mines", ["CUP_MineE"]] call DICT_fnc_set;
+[_dict, "at_mines", ["CUP_Mine"]] call DICT_fnc_set;
+
 // These have to be CfgVehicles
 AAFExponsives = [
 	"SatchelCharge_F"
 ];
-
-// These have to be CfgVehicles mines that explode automatically (minefields)
-AAFMines = ["CUP_MineE", "CUP_Mine"];
-
-atMine = "CUP_Mine";
-apMine = "CUP_MineE";
 
 // NVG, flashlight, laser, mine types
 indNVG = "CUP_NVG_PVS7";

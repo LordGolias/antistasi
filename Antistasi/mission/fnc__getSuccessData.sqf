@@ -81,8 +81,9 @@ if (_type == "send_meds") exitWith {
     [5, [500, _position, 10], [5, 0], [0, 0], [0, 15, _position], 10*60, [
         ["Probable mine pack", {
             if (random 10 < 8) then {
+                private _mines = (["AAF", "ap_mines"] call AS_fnc_getEntity) + (["AAF", "at_mines"] call AS_fnc_getEntity);
                 for "_i" from 1 to 3 do {
-                    private _item = (selectRandom AAFmines) call AS_fnc_mineMag;
+                    private _item = (selectRandom _mines) call AS_fnc_mineMag;
                     private _num = 2 + (floor random 5);
                     cajaVeh addMagazineCargoGlobal [_item, _num];
                 };
