@@ -103,7 +103,7 @@ call {
 
 _items = [] call AS_medical_fnc_crateMeds;
 
-_items pushBack [indNVG, 2];
+_items pushBack [selectRandom (AAFItems arrayIntersect AS_allNVGs), 2];
 _items pushBack ["ItemGPS", 5];
 
 if (!hayTFAR) then {

@@ -16,6 +16,9 @@ _unit addEventHandler ["killed", {
 	[_muerto] remoteExec ["AS_fnc_activateCleanup",2];
 	}];
 
-if (sunOrMoon < 1) then {
-	_unit action ["IRLaserOn", _unit];
+if (sunOrMoon > 1) then {
+	_unit call AS_fnc_removeNightEquipment;
 };
+
+_unit enableIRLasers true;
+_unit enableGunLights "AUTO";

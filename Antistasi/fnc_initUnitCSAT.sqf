@@ -10,8 +10,11 @@ _unit setVariable ["OPFORSpawn",true,true];
 
 [_unit] call AS_fnc_setDefaultSkill;
 
-if (sunOrMoon < 1) then {
-	_unit action ["IRLaserOn", _unit];
+if (SunOrMoon > 1) then {
+	_unit call AS_fnc_removeNightEquipment;
 };
 
 _unit addEventHandler ["killed",AS_fnc_EH_AAFKilled];
+
+_unit enableIRLasers true;
+_unit enableGunLights "AUTO";
