@@ -99,13 +99,6 @@ private _fnc_spawn = {
 
 	([_posbase, _position] call AS_fnc_findSpawnSpots) params ["_posRoad", "_dir"];
 
-	// initialisation of vehicles
-	private _initVehs = {
-		params ["_specs"];
-		_specs = _specs + [_dir, _group, _vehicles, _groups, [], true];
-		_specs call AS_fnc_spawnRedVehicle;
-	};
-
 	private _escortSize = 1;
 	if ([_location] call AS_fnc_location_isFrontline) then {_escortSize = (round random 2) + 1};
 
@@ -118,12 +111,13 @@ private _fnc_spawn = {
 			] call BIS_fnc_selectRandomWeighted;
 		private _escortVehicleType = selectRandom (_category call AS_AAFarsenal_fnc_valid);
 
-		private _vehData = [[_posRoad, _escortVehicleType]] call _initVehs;
-		_vehicles = _vehData select 0;
-		_groups = _vehData select 1;
+		([_posRoad, _dir, _escortVehicleType, side_red] call BIS_fnc_spawnVehicle) params ["_vehicle", "_crew", "_vehicleGroup"];
+		{_x call AS_fnc_initUnitAAF} forEach units _vehicleGroup;
+		[_vehicle, "AAF"] call AS_fnc_initVehicle;
+		_groups pushBack _vehicleGroup;
+		_vehicles pushBack _vehicle;
 
-		private _veh = (_vehData select 3) select 0;
-		[_veh,"AAF Convoy Escort"] spawn AS_fnc_setConvoyImmune;
+		[_vehicle,"AAF Convoy Escort"] spawn AS_fnc_setConvoyImmune;
 
 		private _tipoGrupo = "";
 		if (_escortVehicleType call AS_AAFarsenal_fnc_category == "apcs") then {
@@ -133,7 +127,12 @@ private _fnc_spawn = {
 		};
 
 		private _grupoEsc = [_posbase, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
-		{[_x] call AS_fnc_initUnitAAF;_x assignAsCargo _veh;_x moveInCargo _veh; [_x] join _group} forEach units _grupoEsc;
+		{
+			[_x] call AS_fnc_initUnitAAF;
+			_x assignAsCargo _vehicle;
+			_x moveInCargo _vehicle;
+			[_x] join _group
+		} forEach units _grupoEsc;
 		deleteGroup _grupoEsc;
 	};
 
