@@ -145,6 +145,7 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 private _costs = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "costs", _costs] call DICT_fnc_set;
 [_costs, "C_Offroad_01_F", 300] call DICT_fnc_set;
+[_costs, "C_Van_01_box_F", 300] call DICT_fnc_set;  // defined on "vans"
 [_costs, "C_Van_01_transport_F", 600] call DICT_fnc_set;
 [_costs, "B_G_Quadbike_01_F", 50] call DICT_fnc_set;
 [_costs, "B_G_Offroad_01_armed_F", 700] call DICT_fnc_set;
