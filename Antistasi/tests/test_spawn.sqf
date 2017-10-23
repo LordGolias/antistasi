@@ -26,7 +26,7 @@ true call AS_debug_fnc_toggle;
 // test spawn of patrol
 [true] call AS_debug_fnc_toggle;
 private _location = ("city" call AS_location_fnc_T) select 0;
-[_location, _location] spawn AS_fnc_AAFpatrol;
+[_location] spawn AS_movement_fnc_sendAAFpatrol;
 
 
 // test spawn of road patrol
