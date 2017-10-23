@@ -147,7 +147,6 @@ if _isJip then {
 	[false] remoteExec ["AS_fnc_refreshArsenal", 2];
 };
 
-removeAllActions petros;
 [petros, "mission"] call AS_fnc_addAction;
 
 removeAllActions caja;
