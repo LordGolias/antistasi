@@ -5,7 +5,7 @@ params ["_unit"];
 if (not isNil "AS_respawning") exitWith {
 	diag_log "[AS] Error: unit was respawned while respawning";
 };
-if not (call AS_fnc_controlsAI) exitWith {
+if call AS_fnc_controlsAI exitWith {
 	diag_log "[AS] Error: unit was respawned while controlling an AI";
 	call AS_fnc_completeDropAIcontrol;
 };
@@ -20,6 +20,6 @@ titleText ["", "BLACK IN", 0];
 if isMultiplayer then {
 	_unit setDamage 1; // triggers onPlayerRespawn.sqf
 } else {
-	[objNull] call compile preprocessFileLineNumbers "onPlayerRespawn.sqf";
+	[_unit, _unit] call compile preprocessFileLineNumbers "onPlayerRespawn.sqf";
 };
 AS_respawning = nil;
