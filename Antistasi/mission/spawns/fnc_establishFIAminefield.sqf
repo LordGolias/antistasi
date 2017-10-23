@@ -4,7 +4,6 @@ private _fnc_initialize = {
 
 	private _mapPosition = [_mission, "position"] call AS_mission_fnc_get;
 	private _minesPositions = [_mission, "positions"] call AS_mission_fnc_get;
-	private _cost = [_mission, "cost"] call AS_mission_fnc_get;
 
 	private _tskTitle = "Minefield Deploy";
 	private _tskDesc = format ["An Engineer Team has been deployed at your High command. Once they reach the position, they will start to deploy %1 mines in the area. Cover them in the meantime.",count _minesPositions];
@@ -107,7 +106,7 @@ private _fnc_wait_to_deploy = {
 				private _mineType = _mines_cargo select 0 select _current_mine_index;
 				private _typeCount = _mines_cargo select 1 select _current_mine_index;
 
-				_minesData pushBack [_mineType, _x, random 360];
+				_minesData pushBack [_mineType call AS_fnc_mineVehicle, _x, random 360];
 				_current_mine_amount = _current_mine_amount + 1;
 
 				if (_current_mine_amount == _typeCount) then {

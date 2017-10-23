@@ -8,7 +8,7 @@ private _mrk = createMarker [format ["minefield%1", random 1000], _position];
 _mrk setMarkerShape "ELLIPSE";
 _mrk setMarkerSize [_size,_size];  // size of minefield
 _mrk setMarkerAlpha 0;
-[_mrk,"minefield"] call AS_location_fnc_add;
+[_mrk,"minefield", false] call AS_location_fnc_add;
 [_mrk,"side",_side] call AS_location_fnc_set;
 
 if (_minesData isEqualTo []) then {

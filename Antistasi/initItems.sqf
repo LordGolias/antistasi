@@ -222,6 +222,16 @@ AS_fnc_mineMag = {
 	AS_allMinesMags select 0
 };
 
+AS_fnc_mineVehicle = {
+	// _this is a mine (CfgMagazines)
+	private _index = AS_allMinesMags find _this;
+	if (_index != -1) exitWith {
+		AS_allMines select _index
+	};
+	diag_log format ["[AS] Error: AS_fnc_mineVehicle called with unknown mine magazine '%1'.", _this];
+	AS_allMines select 0
+};
+
 private _allUniforms = [];
 {
 	_allUniforms pushBack (configName _x);
