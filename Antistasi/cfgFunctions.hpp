@@ -76,7 +76,6 @@ class AS {
         FNC_BASE(pickGroup);
         FNC_BASE(updateProgressBar);
 
-        FNC_BASE(spawnRedVehicle);
         FNC_BASE(spawnComposition);
         FNC_BASE(findSpawnSpots);
         FNC_BASE(roadAndDir);
