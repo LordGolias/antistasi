@@ -44,15 +44,14 @@ the directory `missions` of your profile
 * [RHS](http://www.rhsmods.org/)
 * [CUP](http://cup-arma3.org/)
 
-# Replacing Factions
+# How to add a new faction
 
-This version supports easy replacement of factions. Use the following steps:
+Use the following steps:
 
-1. Duplicate the file `templates/AAF.sqf` (for independents), `templates/NATO.sqf` (for NATO)
-or `templates/CSAT.sqf` (for CSAT)
-2. Modify the existing fields with your units, vehicles and groups.
-3. In the `initialization/common_variables.sqf`, when the files are compiled and called, add a condition to run your files when a condition is met.
-4. Load the game with the mod of that faction.
+1. Duplicate the file `templates/AAF.sqf`, `templates/NATO.sqf` or `templates/CSAT.sqf`
+2. Modify the existing fields with the new cfgVehicles, cfgGroups, etc.
+3. In the `initialization/common_variables.sqf`, when the files are compiled and called, add a condition (e.g. a mod is present) to include your faction.
+4. Start the mission
 
 Essentially, our code detects every unit from that faction, and populates
 the correct lists with the equipment (weapons, items, vests, etc.) that the units use.
@@ -143,10 +142,39 @@ This script uses `server.sqf`, `headlessClient.sqf`, `client.sqf` in `initializa
 Regardless of the game mode (SP or MP), `server.sqf` is called on the server side
 and `client.sqf` or `headlessClient.sqf` are called on non-server.
 
-`server.sqf` call `serverMP.sqf` or `serverSP.sqf` depending
+The initialization proceeds as follows:
 
-`client.sqf` is responsible for initializing a player. This includes
-Event Handling, available actions, etc.
+1. Everyone initializes side-independent variables
+    * [common_variables](Antistasi/initialization/common_variables.sqf) (server+clients)
+    * [server_variables](Antistasi/initialization/server_variables.sqf) (server)
+2. Everyone waits for a commander to be assigned (server continuously tries to assign one)
+3. Everyone waits for the commander to choose a side or load a game
+4. Everyone initializes side-dependent variables:
+    * [common_side_variables](Antistasi/initialization/common_side_variables.sqf) (server+clients)
+    * [server_side_variables](Antistasi/initialization/server_side_variables.sqf) (server)
+5. Everyone waits for the commander to choose a location for the HQ
+6. Server initializes everything HQ-dependent
+7. Server starts the spawning loop and resources loop
+
+## Factions
+
+A faction is composed by groups (`cfgGroups`) and units and vehicles (`cfgVehicles`),
+defined on a template (see `templates`). Factions can be any of the following roles
+
+* `"civilian"` (only side `civilian`)
+* `"anti-state"` (sides `{west,east,indep}`)
+* `"state"` (sides `{west,east,indep}`)
+* `"foreign"` (sides `{west,east,indep}`)
+
+that define what a faction can be when starting a new game.
+
+Each role has different mandatory faction attributes, defined in
+[checkFactionsAttributes.sqf](Antistasi/initialization/checkFactionsAttributes.sqf).
+If a faction does not have a mandatory attribute for a role it was assigned to,
+it is excluded from that role and an error is shown on the log.
+
+The game uses the faction groups' and units to define what weapons, items, etc are
+available, what units and vehicles are spawned, etc.
 
 ## Persistent and temporary data
 

@@ -22,18 +22,28 @@ diag_log "[AS] Server: server variables initialized";
 
 ["Initialize"] call BIS_fnc_dynamicGroups;
 
+[] execVM "Scripts\fn_advancedTowingInit.sqf"; // the installation is done for all clients by this
+
 if isMultiplayer then {
-    call compile preProcessFileLineNumbers "initialization\serverMP.sqf";
+    addMissionEventHandler ["HandleDisconnect", {
+        [_this select 0] call AS_fnc_onPlayerDisconnect;
+        false
+    }];
+
+    // for the spawns
+    addMissionEventHandler ["HandleDisconnect", {
+        private _owner = _this select 4;
+        _owner call AS_spawn_fnc_drop;
+        false
+    }];
+
+    // this will wait until a commander is chosen
+    ["none"] call AS_fnc_chooseCommander;
 } else {
-    call compile preProcessFileLineNumbers "initialization\serverSP.sqf";
+    [player] call AS_fnc_setCommander;
 };
 
 {if not isPlayer _x then {deleteVehicle _x}} forEach allUnits;
-
-if isNull AS_commander then {
-    diag_log "[AS] Server: waiting for a commander...";
-    waitUntil {sleep 1; not isNull AS_commander};
-};
 
 diag_log "[AS] Server: waiting for side...";
 waitUntil {private _var = AS_P("player_side"); not isNil "_var"};
