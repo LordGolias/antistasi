@@ -55,7 +55,6 @@ private _fnc_spawn = {
 			private _unit = ["Survivor", [_position, 5, random 360] call BIS_Fnc_relPos, _grpPOW] call AS_fnc_spawnFIAUnit;
 			_unit call _initSurvivor;
 			[[_unit, "prisionero"],"AS_fnc_addAction"] call BIS_fnc_MP;
-			sleep 1;
 		};
 	};
 	if (_missionType == "rescue_refugees") then {
@@ -78,9 +77,8 @@ private _fnc_spawn = {
 		for "_i" from 0 to _num - 1 do {
 			private _unit = ["Survivor", _house_positions select _i, _grpPOW] call AS_fnc_spawnFIAUnit;
 			_unit call _initSurvivor;
-			_unit setSkill 0;
+			_unit setSkill 0;  // refugees have no skill
 			[[_unit,"refugiado"],"AS_fnc_addAction"] call BIS_fnc_MP;
-			sleep 1;
 		};
 
 		// send a patrol
