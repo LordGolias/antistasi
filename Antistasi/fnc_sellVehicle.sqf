@@ -28,7 +28,7 @@ call {
 	private _category = [_tipoVeh] call AS_AAFarsenal_fnc_category;
 	if (_category != "") then {
 		[typeOf _veh] call AS_AAFarsenal_fnc_deleteVehicle;
-		_cost = [_category] call AS_AAFarsenal_fnc_value;
+		_cost = _category call AS_AAFarsenal_fnc_value;
 	};
 };
 
