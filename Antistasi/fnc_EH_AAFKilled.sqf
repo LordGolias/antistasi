@@ -18,6 +18,7 @@ if ((side _killer == side_blue) || (captive _killer)) then {
 	// scoring.
 	if (isPlayer _killer) then {
 		[player, "score", 2, false] remoteExec ["AS_players_fnc_change", 2];
+		[player, "money", 2, false] remoteExec ["AS_players_fnc_change", 2];
 	};
 
 	// if dead has no weapons, it is an unlawful kill

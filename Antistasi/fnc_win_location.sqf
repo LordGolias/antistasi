@@ -12,6 +12,7 @@ private _size = _location call AS_location_fnc_size;
 {
 	if (isPlayer _x) then {
 		[_x, "score", 5] call AS_players_fnc_change;
+		[_x, "money", 100] call AS_players_fnc_change;
 		[_location] remoteExec ["AS_fnc_showFoundIntel", _x];
 		if (captive _x) then {[_x,false] remoteExec ["setCaptive",_x]};
 	}

@@ -13,12 +13,16 @@ params [["_commander_score", 0],
 private _increase_players_score = {
     params ["_size", "_position", "_value"];
     {
-        if (isPlayer _x) then {[_x, "score", _value] call AS_players_fnc_change;};
+        if (isPlayer _x) then {
+            [_x, "score", _value] call AS_players_fnc_change;
+            [_x, "money", _value] call AS_players_fnc_change;
+        };
     } forEach ([_size, _position, "BLUFORSpawn"] call AS_fnc_unitsAtDistance);
 };
 
 if not (_commander_score == 0) then {
     [AS_commander, "score", _commander_score] call AS_players_fnc_change;
+    [AS_commander, "money", _commander_score] call AS_players_fnc_change;
 };
 if not (_players_score IsEqualTo 0) then {
     _players_score call _increase_players_score;
