@@ -4,6 +4,8 @@ AS_SERVER_ONLY("AS_database_fnc_serialize");
 diag_log "[AS] Server: serializing game...";
 
 private _dict = call DICT_fnc_create;
+private _current_version = [AS_database_migrations, "latest"] call DICT_fnc_get;
+[_dict, "version", _current_version] call DICT_fnc_set;
 
 diag_log "[AS] Server: serializing AAF arsenal...";
 [_dict, "AS_aaf_arsenal", call AS_AAFarsenal_fnc_toDict] call DICT_fnc_setGlobal;
