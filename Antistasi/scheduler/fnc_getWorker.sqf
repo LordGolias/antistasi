@@ -36,4 +36,4 @@ _candidates = [_candidates, [_candidates, _specs], _sortingFunction, "DESCEND"] 
     diag_log format ["Worker %1: %2", _x, call _sortingFunction];
 } forEach _candidates;
 
-_candidates select 0
+2
