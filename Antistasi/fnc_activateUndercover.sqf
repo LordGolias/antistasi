@@ -8,7 +8,7 @@ private _player = player getVariable ["owner", player];
 if (captive _player) exitWith {hint "You are already undercover"};
 
 private _heli_spotters = [["base","airfield"], "AAF"] call AS_location_fnc_TS;
-private _all_spotters = [["base","airfield","outpost","roadblock","hill", "hillAA"], "AAF"] call AS_location_fnc_TS;
+private _all_spotters = [["base","airfield","outpost","seaport","roadblock","hill", "hillAA"], "AAF"] call AS_location_fnc_TS;
 
 private _undercoverVehicles = (["CIV", "vehicles"] call AS_fnc_getEntity) + [civHeli];
 
