@@ -67,9 +67,7 @@ if (player == leader _unit) then {
 		if (!isNil "_location") then {
 			if (_location call AS_location_fnc_side == "FIA") then {
 				private _garrison = _location call AS_location_fnc_garrison;
-				for "_i" from 0 to (count _garrison -1) do {
-					if (typeOf _unit == (_garrison select _i)) exitWith {_garrison deleteAt _i};
-				};
+				_garrison deleteAt (_garrison find (_unit call AS_fnc_getFIAUnitType));
 				[_location, "garrison", _garrison] call AS_location_fnc_set;
 			};
 		};
