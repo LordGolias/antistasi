@@ -6,10 +6,5 @@ if (_type == "roadblock" and count _roads == 0) exitWith {
 if (count ("establish_fia_location" call AS_mission_fnc_active_missions) != 0) exitWith {
     hint "We are already building a location";
 };
-// create the mission so it is kept stored.
-private _mission = ["establish_fia_location", ""] call AS_mission_fnc_add;
-[_mission, "status", "active"] call AS_mission_fnc_set;
-[_mission, "position", _position] call AS_mission_fnc_set;
-[_mission, "locationType", _type] call AS_mission_fnc_set;
 
-[_mission] remoteExec ["AS_mission_fnc_activate", 2];
+[_type, _position] call AS_fnc_addFIAlocation;

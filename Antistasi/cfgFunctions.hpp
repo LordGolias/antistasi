@@ -213,6 +213,7 @@ class AS {
         FNC_UI(ai_control,controlUnit);
         FNC(ai_control,EH_handleDamage_AIcontrol);
 
+        FNC_BASE(addFIAlocation);
         FNC(fia_recruitment,recruitFIAgarrison);
         FNC(fia_recruitment,recruitFIAsquad);
         FNC(fia_recruitment,dismissFIAsquads);

@@ -10,24 +10,17 @@ private _fnc_initialize = {
 	};
 
 	private _locationName = "";
-	private _groupType = "";
-	private _vehType = "";
 	switch _locationType do {
 		case "watchpost": {
 			_locationName = "watchpost";
-			_groupType = "team_sniper";
 		};
 		case "roadblock": {
 			_locationName = "roadblock";
-			_groupType = "team_at";
 		};
 		case "camp": {
 			_locationName = "camp";
-			_groupType = "team_patrol";
 		};
 	};
-	_vehType = (count (["FIA", _groupType] call AS_fnc_getEntity)) call AS_fnc_getFIABestSquadVehicle;
-
 	private _taskTitle = format ["Establish %1", _locationName];
 	private _taskDesc = format ["The team to establish the %1 is ready. Send it to the destination.", _locationName];
 
@@ -43,15 +36,13 @@ private _fnc_initialize = {
 
 	[_mission, [_taskDesc, _taskTitle, _mrk], _position, "Move"] call AS_mission_spawn_fnc_saveTask;
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
-	[_mission, "vehicleType", _vehType] call AS_spawn_fnc_set;
-	[_mission, "groupType", _groupType] call AS_spawn_fnc_set;
 	[_mission, "resources", [taskNull, [], [], [_mrk]]] call AS_spawn_fnc_set;
 };
 
 private _fnc_spawn = {
 	params ["_mission"];
-	private _vehType = [_mission, "vehicleType"] call AS_spawn_fnc_get;
-	private _groupType = [_mission, "groupType"] call AS_spawn_fnc_get;
+	private _vehType = [_mission, "vehicleType"] call AS_mission_fnc_get;
+	private _groupType = [_mission, "groupType"] call AS_mission_fnc_get;
 	private _locationType = [_mission, "locationType"] call AS_mission_fnc_get;
 
 	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
@@ -115,19 +106,20 @@ private _fnc_run = {
 			waitUntil {!(isPlayer leader _group)};
 		};
 
-		[_mrk,_locationType] call AS_location_fnc_add;
+		[_mrk, _locationType, false] call AS_location_fnc_add;
 		// location takes ownership of _mrk
-		[_mrk,"side","FIA"] call AS_location_fnc_set;
-		_resources set [3, []];
-		[_mission, "resources", _resources] call AS_spawn_fnc_set;
-
 		if (_locationType == "camp") then {
 			private _name = selectRandom campNames;
 			campNames = campNames - [_name];
-			[_mrk, "name", _name] call AS_location_fnc_set;
+			[_mrk, "name", _name, false] call AS_location_fnc_set;
 		};
+		[_mrk, "side", "FIA"] call AS_location_fnc_set;
+		_resources set [3, []];
+		[_mission, "resources", _resources] call AS_spawn_fnc_set;
 
-		// todo: add the vehicle to the location
+		// add the vehicle to the location
+		private _newVehicle = (typeOf _vehicle) createVehicle (getMarkerPos _mrk findEmptyPosition [1,30, typeOf _vehicle]);
+		[_newVehicle] remoteExec ["AS_fnc_changePersistentVehicles", 2];
 
 		// add the team to the garrison
 		private _garrison = [_mrk, "garrison"] call AS_location_fnc_get;
@@ -135,8 +127,11 @@ private _fnc_run = {
 			if (alive _x) then {
 				_garrison pushBack (_x call AS_fnc_getFIAUnitType);
 			};
+			hideObject _x;
 		} forEach units _group;
+		AS_commander hcRemoveGroup _group;
 		[_mrk, "garrison", _garrison] call AS_location_fnc_set;
+		hideObject _vehicle;
 
 		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_mission_fnc_success", 2];
