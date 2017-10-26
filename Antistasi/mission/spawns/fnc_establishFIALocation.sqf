@@ -132,6 +132,7 @@ private _fnc_run = {
 		AS_commander hcRemoveGroup _group;
 		[_mrk, "garrison", _garrison] call AS_location_fnc_set;
 		hideObject _vehicle;
+		{hideObject _x} forEach attachedObjects _vehicle;
 
 		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_mission_fnc_success", 2];
