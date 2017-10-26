@@ -51,7 +51,7 @@ private _fnc_run = {
 	private _soldiers = [_mission, "soldiers"] call AS_spawn_fnc_get;
 	private _groups = ([_mission, "resources"] call AS_spawn_fnc_get) select 1;
 
-	private _max_incapacitated = round ((count _soldiers)/2);
+	private _min_fighters = round ((count _soldiers)/2);
 	private _max_time = time + 60*60;
 
 	private _fnc_missionFailedCondition = {false};
@@ -60,7 +60,7 @@ private _fnc_run = {
 		_mission remoteExec ["AS_mission_fnc_fail", 2];
 	};
 	private _fnc_missionSuccessfulCondition = {
-		{not alive _x or captive _x} count _soldiers > _max_incapacitated or
+		{_x call AS_fnc_canFight} count _soldiers < _min_fighters or
 		{time > _max_time}
 	};
 	private _fnc_missionSuccessful = {

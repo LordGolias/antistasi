@@ -91,6 +91,8 @@ class AS {
         FNC(Functions,wait_or_fail);
         FNC(Functions,deployFIAminefield);
 
+        FNC_BASE(canFight);
+
         // auxiliars to missions
         FNC_BASE(oneStepMission);
         FNC_BASE(cleanResources);

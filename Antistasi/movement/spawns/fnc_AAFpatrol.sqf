@@ -111,14 +111,13 @@ private _fnc_run = {
 	} forEach _groups;
 
 	if _isLocation then {
-		private _solMax = round ((count _soldados)/3);
 		private _tiempo = time + 3600;
 
 		waitUntil {sleep 5;
 			(({not (captive _x)} count _soldados) < ({captive _x} count _soldados)) or
-			({alive _x} count _soldados < _solMax) or
-			(_location call AS_location_fnc_side == "AAF") or
-			(time > _tiempo)
+			{{_x call AS_fnc_canFight} count _soldados == 0} or
+			{_location call AS_location_fnc_side == "AAF"} or
+			{time > _tiempo}
 		};
 
 		AS_Pset("patrollingLocations", AS_P("patrollingLocations") - [_location]);

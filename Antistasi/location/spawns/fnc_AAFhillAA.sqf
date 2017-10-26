@@ -97,7 +97,7 @@ private _fnc_run = {
 	private _maxSol = count _soldados;
 
 	private _fnc_isCleaned = {
-		({!alive _x or fleeing _x} count _soldados > (2*_maxSol / 3)) and
+		({_x call AS_fnc_canFight} count _soldados < (_maxSol / 3)) and
 		({alive _x} count _gns == 0)
 	};
 	// and AA destroyed

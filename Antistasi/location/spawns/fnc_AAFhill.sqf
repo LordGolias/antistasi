@@ -58,7 +58,7 @@ private _fnc_run = {
 	private _soldados = [_location, "soldiers"] call AS_spawn_fnc_get;
 
 	private _fnc_isDestroyed = {
-		({alive _x} count _soldados == 0) or ({fleeing _x} count _soldados == {alive _x} count _soldados)
+		{_x call AS_fnc_canFight} count _soldados < (count _soldados)/2.0
 	};
 
 	waitUntil {sleep 1;

@@ -79,7 +79,7 @@ private _fnc_run = {
 
 	waitUntil {sleep 1;
 		!(_location call AS_location_fnc_spawned) or
-		{alive _x and !(fleeing _x)} count _soldados == 0
+		{_x call AS_fnc_canFight} count _soldados == 0
 	};
 
 	if (_location call AS_location_fnc_spawned) then {

@@ -83,7 +83,7 @@ private _fnc_wait_for_destruction = {
 	private _wasDestroyed = false;
 	private _wasAbandoned = (count _soldiers) == 0;  // abandoned when it has no garrison
 	waitUntil {sleep 5;
-		_wasDestroyed = !_wasAbandoned and ({alive _x} count _soldiers == 0);
+		_wasDestroyed = !_wasAbandoned and ({_x call AS_fnc_canFight} count _soldiers == 0);
 		_wasAbandoned or !(_location call AS_location_fnc_spawned) or _wasDestroyed
 	};
 

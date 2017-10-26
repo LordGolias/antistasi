@@ -82,8 +82,8 @@ private _fnc_run = {
 	};
 
 	private _continue_condition = {
-		(canMove _veh) and {alive _veh} and {count _arraydestinos > 0} and {{alive _x} count _soldados != 0} and
-		{{fleeing _x} count _soldados != {alive _x} count _soldados}
+		(canMove _veh) and {alive _veh} and {count _arraydestinos > 0} and
+		{{_x call AS_fnc_canFight} count _soldados != 0}
 	};
 
 	private _destino = selectRandom _arraydestinos;
