@@ -6,8 +6,8 @@ AS_persistent = createSimpleObject ["Static", [0, 0, 0]];
 publicVariable "AS_persistent";
 AS_shared = createSimpleObject ["Static", [0, 0, 0]];
 publicVariable "AS_shared";
-AS_containers = createSimpleObject ["Static", [0, 0, 0]];
-publicVariable "AS_containers";
+AS_container = createSimpleObject ["Static", [0, 0, 0]];
+publicVariable "AS_container";
 
 diag_log "[AS] Server: starting";
 call compile preprocessFileLineNumbers "initLocations.sqf";

@@ -1,10 +1,6 @@
 #include "../macros.hpp"
 AS_SERVER_ONLY("AS_AAFarsenal_fnc_initialize");
 
-if isNil "AS_container" then {
-    AS_container = call DICT_fnc_create;
-    publicVariable "AS_container";
-};
 [AS_container, "aaf_arsenal", call DICT_fnc_create] call DICT_fnc_setGlobal;
 
 // AAF will only buy and use vehicles of the types added here. See template.
