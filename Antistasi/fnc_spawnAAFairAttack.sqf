@@ -22,22 +22,19 @@ _vehicles pushBack _vehicle;
 
 // create waypoints and cargo depending on the type
 if (_toUse in ["planes", "helis_armed"]) then {
-	private _Hwp0 = _vehicleGroup addWaypoint [_destination, 0];
-	_Hwp0 setWaypointBehaviour "AWARE";
-	_Hwp0 setWaypointType "SAD";
-	[_vehicle,"Air Attack"] spawn AS_fnc_setConvoyImmune;
+	[_origin, _destination, _vehicleGroup] call AS_tactics_fnc_heli_attack;
 } else {
-	private _seats = ([_vehicleType,true] call BIS_fnc_crewCount) - ([_vehicleType,false] call BIS_fnc_crewCount);
-	private _tipoGrupo = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
-	if (_seats <= 7) then {
-		_tipoGrupo = [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
-	};
-	private _grupo = [_origin, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
-	{[_x] spawn AS_fnc_initUnitAAF;_x assignAsCargo _vehicle;_x moveInCargo _vehicle;} forEach units _grupo;
-	_groups pushBack _grupo;
-
-	[_origin, _position, _grupoheli, _group] call AS_tactics_fnc_heli_disembark;
+	private _groupType = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
+	private _group = createGroup side_red;
+	[_groupType call AS_fnc_groupCfgToComposition, _group, _pos, _vehicle call AS_fnc_availableSeats] call AS_fnc_createGroup;
+	{
+		[_x] call AS_fnc_initUnitAAF;
+		_x assignAsCargo _vehicle;
+		_x moveInCargo _vehicle;
+	} forEach units _group;
+	_groups pushBack _group;
 
 	[_vehicle,"Air Transport"] spawn AS_fnc_setConvoyImmune;
+	[_origin, _destination, _vehicleGroup, _group] call AS_tactics_fnc_heli_disembark;
 };
 [_groups,  _vehicles]

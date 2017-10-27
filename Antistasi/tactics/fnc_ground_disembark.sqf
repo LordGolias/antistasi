@@ -1,27 +1,21 @@
-params ["_origin", "_destination", "_crew_group", "_marker", "_cargo_group"];
+params ["_origin", "_destination", "_crew_group", "_marker", "_cargo_group", ["_threat", 0]];
 
-if (typeName _cargo_group == "STRING") then {
-    _destination = [_destination, _origin, -20] call AS_fnc_getSafeRoadToUnload;
-    private _wp200 = _crew_group addWaypoint [_destination, 0];
-    _wp200 setWaypointSpeed "FULL";
-    _wp200 setWaypointBehaviour "CARELESS";
-    _wp200 setWaypointType "TR UNLOAD";
-    private _wp300 = _cargo_group addWaypoint [_destination, 0];
-    _wp300 setWaypointType "GETOUT";
-    _wp300 synchronizeWaypoint [_wp200];
-    private _wp301 = _cargo_group addWaypoint [_marker, 0];
-    _wp301 setWaypointType "SAD";
-    _wp301 setWaypointBehaviour "COMBAT";
-    _cargo_group setCombatMode "RED";
-} else {
-    private _wp300 = _crew_group addWaypoint [_destination, 20];
-    _wp300 setWaypointSpeed "FULL";
-    _wp300 setWaypointBehaviour "CARELESS";
-    _wp300 setWaypointType "SAD";
+private _safePosition = [_destination, _origin, _threat] call AS_fnc_getSafeRoadToUnload;
+private _wp1 = _crew_group addWaypoint [_safePosition, 0];
+_wp1 setWaypointType "TR UNLOAD";
+_wp1 setWaypointSpeed "FULL";
+_wp1 setWaypointBehaviour "CARELESS";
+private _wp2 = _cargo_group addWaypoint [_safePosition, 0];
+_wp2 setWaypointType "GETOUT";
+_wp2 synchronizeWaypoint [_wp1];
 
-    waitUntil {sleep 5;
-        ((units _crew_group select 0) distance _destination < 50) ||
-        {{alive _x} count units _crew_group == 0}};
+_cargo_group setVariable ["AS_patrol_marker", _marker, true];
+private _statement = {
+    [this, group this getVariable "AS_patrol_marker", "COMBAT", "SPAWNED", "NOFOLLOW"] spawn UPSMON;
 };
 
-[leader _crew_group, _marker, "COMBAT", "SPAWNED", "NOFOLLOW"] spawn UPSMON;
+_wp2 setWaypointStatements ["true", str _statement];
+
+// send home
+private _wp2 = _crew_group addWaypoint [_origin, 1];
+_wp2 setWaypointType "MOVE";

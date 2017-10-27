@@ -26,22 +26,22 @@ private _method = "fastrope";
 private _faction = "CSAT";
 private _side = side_red;
 private _attackVehicle = selectRandom (["CSAT", "helis_armed"] call AS_fnc_getEntity);
-private _transportVehicle = selectRandom (["CSAT", "helis_transportVehicle"] call AS_fnc_getEntity);
+private _transportVehicle = selectRandom (["CSAT", "helis_transport"] call AS_fnc_getEntity);
 private _dismountGroup = [["CSAT", "recon_team"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup;
 if not (_origin isEqualTo "spawnCSAT") then {
 	_method = "disembark";
 	_faction = "AAF";
 	if (_size == "small") then {
-		_transportVehicle = selectRandom (["AAF", "helis_transportVehicle"] call AS_fnc_getEntity);
+		_transportVehicle = selectRandom (["AAF", "helis_transport"] call AS_fnc_getEntity);
 		_dismountGroup = [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 		if (_origin in _bases) then {
 			_type = "land";
-			_attackVehicle = selectRandom [["AAF", "cars_armed"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
+			_attackVehicle = selectRandom (["AAF", "cars_armed"] call AS_fnc_getEntity);
 			_transportVehicle = selectRandom ("trucks" call AS_AAFarsenal_fnc_valid);
 			_dismountGroup = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 		};
 	} else {
-		_transportVehicle = selectRandom (["AAF", "helis_transportVehicle"] call AS_fnc_getEntity);
+		_transportVehicle = selectRandom (["AAF", "helis_transport"] call AS_fnc_getEntity);
 		_dismountGroup = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 		_method = "fastrope";
 		if (_origin in _bases) then {
@@ -132,9 +132,9 @@ if (_type == "air") then {
 		} forEach units _cargo_group;
 
 		if (_method == "fastrope") then {
-			[_origin, _destination, _crew_group, _cargo_group] spawn AS_tactics_fnc_heli_fastrope;
+			[_origin, _destination, _crew_group, _location, _cargo_group] call AS_tactics_fnc_heli_fastrope;
 		} else {
-			_vehiculos append ([_origin, _destination, _crew_group, _cargo_group] call AS_tactics_fnc_heli_disembark);
+			_vehiculos append ([_origin, _destination, _crew_group, _location, _cargo_group] call AS_tactics_fnc_heli_disembark);
 		};
 
 		// if the QRF is dispatched to an FIA camp, provide the group
@@ -152,7 +152,7 @@ if (_type == "air") then {
 	if ((_composition == "destroy") || (_composition == "mixed")) then {
 		private _crew_group = [_attackVehicle, _posRoad, _dir] call _spawnVehicle;
 
-		[_origin, _destination, _crew_group, _location] spawn AS_tactics_fnc_ground_attack;
+		[_origin, _destination, _crew_group, _location] call AS_tactics_fnc_ground_attack;
 	};
 
 	// small delay to allow for AI pathfinding
@@ -173,7 +173,7 @@ if (_type == "air") then {
 			_x moveInCargo _transport;
 		} forEach units _grpDis2;
 
-		[_origin, _destination, _crew_group, _location, _grpDis2] spawn AS_tactics_fnc_ground_disembark;
+		[_origin, _destination, _crew_group, _location, _grpDis2] call AS_tactics_fnc_ground_disembark;
 	};
 };
 

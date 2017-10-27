@@ -108,8 +108,8 @@ class AS {
         FNC(fia_recruitment,getFIASquadCost);
         FNC(fia_recruitment,getFIABestSquadVehicle);
 
-        FNC_BASE(spawnAirAttack);
-        FNC_BASE(spawnLandAttack);
+        FNC_BASE(spawnAAFairAttack);
+        FNC_BASE(spawnAAFlandAttack);
         FNC_BASE(spawnCSATattack);
         FNC_BASE(spawnCSATuav);
         FNC_BASE(spawnJournalist);
@@ -281,5 +281,6 @@ class AS_tactics {
         FNC(tactics,heli_attack);
         FNC(tactics,ground_disembark);
         FNC(tactics,ground_attack);
+        FNC(tactics,ground_combined);
     };
 };

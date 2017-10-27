@@ -1,4 +1,4 @@
-params ["_origin", "_destination", "_crew_group", "_cargo_group"];
+params ["_origin", "_destination", "_crew_group", "_patrol_marker", "_cargo_group"];
 
 private _vehicles = [];
 
@@ -10,16 +10,22 @@ private _pad = createVehicle ["Land_HelipadEmpty_F", _landing_position, [], 0, "
 _vehicles pushBack _pad;
 private _wp0 = _crew_group addWaypoint [_landing_position, 0];
 _wp0 setWaypointType "TR UNLOAD";
+_wp0 setWaypointSpeed "FULL";
+_wp0 setWaypointBehaviour "CARELESS";
 _wp0 setWaypointStatements ["true", "(vehicle this) land 'GET OUT'; [vehicle this] call AS_AI_fnc_activateSmokeCover"];
-[_crew_group,0] setWaypointBehaviour "CARELESS";
+
 private _wp3 = _cargo_group addWaypoint [_landing_position, 0];
 _wp3 setWaypointType "GETOUT";
 _wp0 synchronizeWaypoint [_wp3];
-private _wp4 = _cargo_group addWaypoint [_destination, 1];
-_wp4 setWaypointType "SAD";
+
+_cargo_group setVariable ["AS_patrol_marker", _patrol_marker, true];
+private _statement = {
+    [this, group this getVariable "AS_patrol_marker", "COMBAT", "SPAWNED", "NOFOLLOW"] spawn UPSMON;
+};
+_wp3 setWaypointStatements ["true", str _statement];
+
+// send home
 private _wp2 = _crew_group addWaypoint [_origin, 1];
 _wp2 setWaypointType "MOVE";
-_wp2 setWaypointStatements ["true", "{deleteVehicle _x} forEach crew this; deleteVehicle this"];
-[_crew_group,1] setWaypointBehaviour "AWARE";
 
 _vehicles

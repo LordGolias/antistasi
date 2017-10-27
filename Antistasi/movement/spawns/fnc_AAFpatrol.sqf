@@ -53,7 +53,7 @@ private _fnc_spawn = {
 			_toUse = "tanks";
 		};
 
-		([_toUse, _posorigen, _position, _threatEval, _isLocation] call AS_fnc_spawnLandAttack) params ["_groups1", "_vehicles1"];
+		([_toUse, _posorigen, _location, _threatEval] call AS_fnc_spawnAAFlandAttack) params ["_groups1", "_vehicles1"];
 		_grupos append _groups1;
 		_vehiculos append _vehicles1;
 	};
@@ -75,7 +75,7 @@ private _fnc_spawn = {
 					_toUse = "planes";
 				};
 			};
-			([_toUse, _posorigen, _position] call AS_fnc_spawnAirAttack) params ["_groups1", "_vehicles1"];
+			([_toUse, _posorigen, _position] call AS_fnc_spawnAAFairAttack) params ["_groups1", "_vehicles1"];
 			_grupos = _grupos + _groups1;
 			_vehiculos = _vehiculos + _vehicles1;
 			sleep 30;

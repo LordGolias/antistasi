@@ -1,4 +1,4 @@
-params ["_origin", "_destination", "_crew_group", "_cargo_group", "_threat"];
+params ["_origin", "_destination", "_crew_group", "_patrol_marker", "_cargo_group", ["_threat", 0]];
 
 {
 	_x disableAI "TARGET";
@@ -32,40 +32,51 @@ _randang = ([_midDropPosition,_endDropPosition] call BIS_fnc_dirTo) - 180;
 
 _startDropPosition = [_midDropPosition, 1000, _randang] call BIS_Fnc_relPos;
 
-{_x setBehaviour "CARELESS"} forEach units _crew_group;
+_crew_group setBehaviour "CARELESS";
 _crew_group flyInHeight (150+(20*_threat));
 
 private _wp = _crew_group addWaypoint [_startDropPosition, 0];
 _wp setWaypointType "MOVE";
 _wp setWaypointSpeed "LIMITED";
 
+_crew_group setVariable ["AS_cargo_group", _cargo_group, true];
+private _statement = {
+    private _veh = vehicle this;
+    if not alive _veh exitWith {};
+	[group this getVariable "AS_cargo_group"] spawn {
+		params ["_cargo_group"];
+		{
+		   unAssignVehicle _x;
+		   _x allowDamage false;
+		   moveOut _x;
+		   sleep 0.35;
+		   private _chute = createVehicle ["NonSteerable_Parachute_F", getPos _x, [], 0, "NONE"];
+		   _chute setPos (getPos _x);
+		   _x moveinDriver _chute;
+		   _x allowDamage true;
+		   sleep 0.5;
+		} forEach units _cargo_group;
+	};
+};
+_wp setWaypointStatements ["true", str _statement];
+
+// keep dropping
 private _wp1 = _crew_group addWaypoint [_midDropPosition, 1];
 _wp1 setWaypointType "MOVE";
-_wp1 setWaypointSpeed "LIMITED";
 
+// hopefully finish dropping
 private _wp2 = _crew_group addWaypoint [_endDropPosition, 2];
 _wp2 setWaypointType "MOVE";
 
-private _wp3 = _crew_group addWaypoint [_origin, 3];
+// move group to mid point to re-group, and then patrol marker.
+private _wp3 = _cargo_group addWaypoint [_midDropPosition, 0];
 _wp3 setWaypointType "MOVE";
-_wp3 setWaypointSpeed "NORMAL";
-_wp3 setWaypointStatements ["true", "{deleteVehicle _x} forEach crew this; deleteVehicle this"];
 
-waitUntil {sleep 1; (currentWaypoint _crew_group == 3) or {not alive _crew_group}};
+_cargo_group setVariable ["AS_patrol_marker", _patrol_marker, true];
+private _statement = {
+    [this, group this getVariable "AS_patrol_marker", "COMBAT", "SPAWNED", "NOFOLLOW"] spawn UPSMON;
+};
+_wp3 setWaypointStatements ["true", str _statement];
 
-if not alive _crew_group exitWith {};
-
-{
-   unAssignVehicle _x;
-   _x allowDamage false;
-   moveOut _x;
-   sleep 0.35;
-   private _chute = createVehicle ["NonSteerable_Parachute_F", (getPos _x), [], 0, "NONE"];
-   _chute setPos (getPos _x);
-   _x moveinDriver _chute;
-   _x allowDamage true;
-   sleep 0.5;
-} forEach units _cargo_group;
-
-private _wp4 = _cargo_group addWaypoint [_destination, 0];
-_wp4 setWaypointType "SAD";
+// send the helicopter home
+_crew_group addWaypoint [_origin, 0];

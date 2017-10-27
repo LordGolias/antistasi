@@ -2,7 +2,7 @@ params ["_origin", "_destination", "_crew_group", "_marker", ["_threat", 0]];
 
 private _safePosition = [_destination, _origin, _threat] call AS_fnc_getSafeRoadToUnload;
 private _wp1 = _crew_group addWaypoint [_safePosition, 0];
-_wp1 setWaypointType "MOVE";
+_wp1 setWaypointType "UNLOAD";
 _wp1 setWaypointSpeed "FULL";
 _wp1 setWaypointBehaviour "CARELESS";
 

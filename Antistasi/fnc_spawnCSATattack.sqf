@@ -50,7 +50,7 @@ for "_i" from 1 to _count do {
         [_heli,"CSAT Air Transport"] spawn AS_fnc_setConvoyImmune;
 
         // initialize group
-		private _groupType = [["CSAT", "squads"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
+		private _groupType = [["CSAT", "squads"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup;
 		private _group = createGroup side_red;
 		[_groupType call AS_fnc_groupCfgToComposition, _group, _pos, _heli call AS_fnc_availableSeats] call AS_fnc_createGroup;
 		{
@@ -61,12 +61,12 @@ for "_i" from 1 to _count do {
 		_groups pushBack _group;
 
         if (_waveType == "paradrop") exitWith {
-            [_origin_pos, _position, _heli, _group, _threatEvalAir] spawn AS_tactics_fnc_heli_paradrop;
+            [_origin_pos, _position, _grupoheli, _marker, _group, _threatEvalAir] call AS_tactics_fnc_heli_paradrop;
         };
         if (_waveType == "disembark") exitWith {
-            [_origin_pos, _position, _grupoheli, _group] call AS_tactics_fnc_heli_disembark;
+            [_origin_pos, _position, _grupoheli, _marker, _group, _threatEvalAir] call AS_tactics_fnc_heli_disembark;
         };
-        [_origin_pos, _position, _grupoheli, _group] spawn AS_tactics_fnc_heli_fastrope;
+        [_origin_pos, _position, _grupoheli, _marker, _group, _threatEvalAir] call AS_tactics_fnc_heli_fastrope;
     };
 };
 

@@ -58,9 +58,9 @@ private _fnc_spawn = {
 			[_heli,"CSAT Air Transport"] spawn AS_fnc_setConvoyImmune;
 
 			if (random 100 < 50) then {
-				_vehicles append ([ORIGIN, _position, _grupoheli, _grupo] call AS_tactics_fnc_heli_disembark);
+				_vehiculos append ([ORIGIN, _position, _grupoheli, _location, _grupo] call AS_tactics_fnc_heli_disembark);
 			} else {
-				[ORIGIN, _position, _grupoheli, _grupo] spawn AS_tactics_fnc_heli_fastrope;
+				[ORIGIN, _position, _grupoheli, _location, _grupo] call AS_tactics_fnc_heli_fastrope;
 			};
 		};
 		sleep 20;

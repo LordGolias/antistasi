@@ -72,24 +72,24 @@ private _fnc_spawn = {
 
 		if (_method == "paradrop") then {
 			if (_isAirfield or (random 10 < _threatEval)) then {
-				[_origin, _destPos, _heli, _group, _threatEval] spawn AS_tactics_fnc_heli_paradrop;
+				[_origPos, _destPos, _groupheli, _destination, _group, _threatEval] call AS_tactics_fnc_heli_paradrop;
 			} else {
 				if ((_destination call AS_location_fnc_type) in ["base","watchpost"]) then {
-					[_origPos, _destPos, _groupheli, _group] call AS_tactics_fnc_heli_fastrope;
+					[_origPos, _destPos, _groupheli, _destination, _group, _threatEval] call AS_tactics_fnc_heli_fastrope;
 				};
 				if ((_destination call AS_location_fnc_type) in ["resource","factory", "powerplant"]) then {
-					_vehicles append ([_origPos, _destPos, _groupheli, _group] call AS_tactics_fnc_heli_disembark);
+					_vehicles append ([_origPos, _destPos, _groupheli, _destination, _group, _threatEval] call AS_tactics_fnc_heli_disembark);
 				};
 			};
 		};
 		if (_method == "disembark") then {
-			_vehicles append ([_origPos, _destPos, _groupheli, _group] call AS_tactics_fnc_heli_disembark);
+			_vehicles append ([_origPos, _destPos, _groupheli, _destination, _group, _threatEval] call AS_tactics_fnc_heli_disembark);
 		};
 		if (_method == "fastrope") then {
 			if ((_destination call AS_location_fnc_type) in ["airfield","base", "watchpost"] or (random 10 < _threatEval)) then {
-				[_origin, _destPos, _heli, _group, _threatEval] spawn AS_tactics_fnc_heli_paradrop;
+				[_origPos, _destPos, _groupheli, _destination, _group, _threatEval] call AS_tactics_fnc_heli_paradrop;
 			} else {
-				[_origPos, _destPos, _groupheli, _group] spawn AS_tactics_fnc_heli_fastrope;
+				[_origPos, _destPos, _groupheli, _destination, _group, _threatEval] call AS_tactics_fnc_heli_fastrope;
 			};
 		};
 	};
