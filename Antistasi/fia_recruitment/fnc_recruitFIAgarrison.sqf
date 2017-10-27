@@ -3,7 +3,7 @@ params ["_type", "_location"];
 
 if (AS_P("hr") < 1) exitWith {hint "You lack of HR to make a new recruitment"};
 
-private _cost = AS_data_allCosts getVariable _type;
+private _cost = _type call AS_fnc_getCost;
 
 if (_cost > AS_P("resourcesFIA")) exitWith {hint format ["You do not have enough money for this unit (%1 € needed)",_cost]};
 

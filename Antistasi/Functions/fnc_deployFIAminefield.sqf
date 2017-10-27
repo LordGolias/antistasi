@@ -30,7 +30,7 @@ if (_totalAvailableMines == 0) exitWith {
 };
 
 private _vehicleType = selectRandom (["FIA", "vans"] call AS_fnc_getEntity);
-private _cost = 2*(AS_data_allCosts getVariable "Explosives Specialist") +
+private _cost = 2*("Explosives Specialist" call AS_fnc_getCost) +
 	(_vehicleType call AS_fnc_getFIAvehiclePrice);
 private _hr = 2;
 if ((AS_P("resourcesFIA") < _cost) or (AS_P("hr") < _hr)) exitWith {

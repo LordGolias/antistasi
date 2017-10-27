@@ -30,8 +30,7 @@ if ((side _killer == side_blue) || (captive _killer)) then {
 		};
 	} else {
 		// otherwise, it decreases by -0.5.
-		_cost = AS_data_allCosts getVariable (typeOf _killed);
-		if (isNil "_cost") then {diag_log format ["[AS] ERROR: cost of %1 not defined.",typeOf _killed]; _cost = 0};
+		_cost = (typeOf _killed) call AS_fnc_getCost;
 		[-_cost] remoteExec ["AS_fnc_changeAAFmoney",2];
 		[-0.5,0,getPos _killed] remoteExec ["AS_fnc_changeCitySupport",2];
 		if (isPlayer _killer) then {

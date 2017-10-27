@@ -91,7 +91,7 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 		if (_squadType == "mobile_at") exitWith {["FIA", "static_at"] call AS_fnc_getEntity};
 		if (_squadType == "mobile_mortar") exitWith {["FIA", "static_mortar"] call AS_fnc_getEntity};
 	};
-	private _cost = 2*(AS_data_allCosts getVariable "Crew");
+	private _cost = 2*("Crew" call AS_fnc_getCost);
 	private _costHR = 2;
 	_cost = _cost + (_pieceType call AS_fnc_getFIAvehiclePrice) +
 		(["B_G_Van_01_transport_F"] call AS_fnc_getFIAvehiclePrice);

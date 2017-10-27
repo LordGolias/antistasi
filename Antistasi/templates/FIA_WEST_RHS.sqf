@@ -28,7 +28,7 @@ private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy
 	private _costHR = 0;
 	if (_squadType == "mobile_aa") then {
 		_costHR = 3;
-		_cost = _costHR*(AS_data_allCosts getVariable "Crew") +
+		_cost = _costHR*("Crew" call AS_fnc_getCost) +
 			    (["rhsgref_cdf_b_gaz66_zu23"] call AS_fnc_getFIAvehiclePrice);
 	} else {
 		_costHR = 2;
@@ -36,7 +36,7 @@ private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy
 			if (_squadType == "mobile_at") exitWith {["FIA", "static_at"] call AS_fnc_getEntity};
 			if (_squadType == "mobile_mortar") exitWith {["FIA", "static_mortar"] call AS_fnc_getEntity};
 		};
-		_cost = _costHR*(AS_data_allCosts getVariable "Crew") +
+		_cost = _costHR*("Crew" call AS_fnc_getCost) +
 				(["B_G_Van_01_transport_F"] call AS_fnc_getFIAvehiclePrice) +
 				(_piece call AS_fnc_getFIAvehiclePrice);
 	};

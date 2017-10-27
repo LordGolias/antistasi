@@ -73,6 +73,8 @@ class AS {
         FNC_BASE(getEntity);
         FNC_BASE(getAllUnits);
 
+        FNC_BASE(getCost);
+
         FNC_BASE(pickGroup);
         FNC_BASE(updateProgressBar);
 

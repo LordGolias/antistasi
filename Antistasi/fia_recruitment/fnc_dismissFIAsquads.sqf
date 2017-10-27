@@ -33,7 +33,7 @@ sleep 100;
 	{
 		if (alive _x) then {
 			_hr = _hr + 1;
-			_resourcesFIA = _resourcesFIA + (AS_data_allCosts getVariable (_x call AS_fnc_getFIAUnitType));
+			_resourcesFIA = _resourcesFIA + ((_x call AS_fnc_getFIAUnitType) call AS_fnc_getCost);
 			if (!isNull (assignedVehicle _x)) then {
 				_veh = assignedVehicle _x;
 				if !((typeOf _veh) in _vs) then {

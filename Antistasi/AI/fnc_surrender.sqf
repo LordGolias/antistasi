@@ -10,9 +10,7 @@ call {
 		[[_unit,"capturar"],"AS_fnc_addAction"] call BIS_fnc_MP;
 		[0,10] remoteExec ["AS_fnc_changeFIAmoney",2];
 		[-2,0,getPos _unit] remoteExec ["AS_fnc_changeCitySupport",2];
-		private _coste = AS_data_allCosts getVariable (typeOf _unit);
-	    if (isNil "_coste") then {diag_log format ["[AS] ERROR: cost of %1 not defined.",typeOf _unit]; _coste = 0};
-		[-_coste] remoteExec ["AS_fnc_changeAAFmoney",2];
+		[-(typeOf _unit call AS_fnc_getCost)] remoteExec ["AS_fnc_changeAAFmoney",2];
 	};
 	if (_side == "CSAT") exitWith {
 		[-2,2,getPos _unit] remoteExec ["AS_fnc_changeCitySupport",2];

@@ -2,7 +2,7 @@
 params ["_tipoVeh", ["_isSelling", false]];
 
 // `initialization/checkFactionAttributes` guarantees that this exists
-private _cost = AS_data_allCosts getVariable _tipoVeh;
+private _cost = _tipoVeh call AS_fnc_getCost;
 
 private _FIAseaports = count ([["seaport"], "FIA"] call AS_location_fnc_TS);
 

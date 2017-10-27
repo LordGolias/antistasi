@@ -6,7 +6,7 @@ if (AS_P("hr") < 1) exitWith {
     [_player, "hint", "You do not have enough HR for this request"] remoteExec ["AS_fnc_localCommunication", _player];
 };
 
-private _cost = AS_data_allCosts getVariable _type;
+private _cost = _type call AS_fnc_getCost;
 private _moneyAvailable = AS_P("resourcesFIA");
 if isMultiPlayer then {
     _moneyAvailable = [_player, "money"] call AS_players_fnc_get;

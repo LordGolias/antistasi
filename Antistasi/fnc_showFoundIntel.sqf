@@ -3,22 +3,16 @@ AS_CLIENT_ONLY("fnc_showFoundIntel");
 
 private _chance = 8;
 
-if (count _this == 1) then {
-	private _location = _this select 0;
-	if (_location isEqualType "") then {
-		if ((_location call AS_location_fnc_type) in ["base","airfield"]) then {
-			_chance = 30;
-		} else {
-			_chance = 15;
-		};
+params ["_location_or_unit"];
+if (_location_or_unit isEqualType "") then {
+	if ((_location_or_unit call AS_location_fnc_type) in ["base","airfield"]) then {
+		_chance = 30;
 	} else {
-		// Location is a unit type
-		_chance = AS_data_allCosts getVariable (typeOf _location);
-		if (isNil "_chance") then {
-			diag_log format ["[AS] Error: cost of %1 not defined.", typeOf _location];
-			_chance = 10;
-		};
+		_chance = 15;
 	};
+} else {
+	// _this is a unit
+	_chance = (typeOf _location_or_unit) call AS_fnc_getCost;
 };
 
 private _texto = format ["<t size='0.6' color='#C1C0BB'>Intel Found.<br/> <t size='0.5' color='#C1C0BB'><br/>"];

@@ -7,7 +7,7 @@ private _dict = ([AS_container, "players"] call DICT_fnc_get) call DICT_fnc_copy
     private _money = [_player, "money"] call AS_players_fnc_get;
     {
         if ((!isPlayer _x) and (alive _x)) then {
-            _money = _money + (AS_data_allCosts getVariable (_x call AS_fnc_getFIAUnitType));
+            _money = _money + ((_x call AS_fnc_getFIAUnitType) call AS_fnc_getCost);
             if (vehicle _x != _x) then {
                 private _veh = vehicle _x;
                 if (not(_veh in AS_P("vehicles"))) then {
