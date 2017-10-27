@@ -81,30 +81,17 @@ class vehicle_manager
 
 	class controls
 	{
-AS_DIALOG(2,"Vehicle Manager", "closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
+AS_DIALOG(3,"Vehicle Manager", "closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
 
-BTN_L(1,-1, "Garage\Sell Vehicle", "", "closeDialog 0; nul = createDialog ""garage_sell"";");
-BTN_R(1,-1, "Vehicles and Squads", "", "closeDialog 0; if (player == AS_commander) then {nul = createDialog ""squad_manager""} else {hint ""Only Player Commander has access to this function""};");
+BTN_L(1,-1, "Store vehicle", "Store the vehicle in the garage", "closeDialog 0; if (player != AS_commander) then {[false] call AS_fnc_putVehicleInGarage;} else {if isMultiplayer then {createDialog ""garage_check""} else {[true] call AS_fnc_putVehicleInGarage}};");
+BTN_R(1,-1, "Sell vehicle", "Sell the vehicle in the black market", "if (player == AS_commander) then {closeDialog 0; [] call AS_fnc_sellVehicle} else {hint ""Only the Commander can sell vehicles""};");
+BTN_M(2,-1, "unlock vehicle", "Allow any player to use this vehicle", "closeDialog 0; if not isMultiplayer then {hint ""Vehicle is already unlocked""} else AS_fnc_unlockVehicle;");
 
-BTN_M(2, -1, "Unlock Vehicle", "", "closeDialog 0; if !(isMultiplayer) then {hint ""It's unlocked already.""} else {if (player != AS_commander) then {nul = [false] call AS_fnc_unlockVehicle} else {nul = [true] call AS_fnc_unlockVehicle};};");
-
+BTN_M(3,-1, "Vehicles and Squads", "", "closeDialog 0; if (player == AS_commander) then {nul = createDialog ""squad_manager""} else {hint ""Only Player Commander has access to this function""};");
 	};
 };
 
-class garage_sell
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(1,"Sell or Garage Vehicle", "closeDialog 0; createDialog ""vehicle_manager"";");
-
-BTN_L(1,-1, "Garage Vehicle", "", "closeDialog 0; if (player != AS_commander) then {nul = [false] call AS_fnc_putVehicleInGarage} else {if (isMultiplayer) then {createDialog ""garage_check""} else {nul = [true] call AS_fnc_putVehicleInGarage}};");
-BTN_R(1,-1, "Sell Vehicle", "", "closeDialog 0; if (player == AS_commander) then {nul = [] call AS_fnc_sellVehicle} else {hint ""Only the Commander can sell vehicles""};");
-
-	};
-};
+// Menu used when the commander puts a vehicle in the garage
 class garage_check
 {
 	idd=-1;
@@ -112,7 +99,7 @@ class garage_check
 
 	class controls
 	{
-AS_DIALOG(1,"Personal or FIA Garage?", "closeDialog 0; createDialog ""garage_sell"";");
+AS_DIALOG(1,"Personal or FIA Garage?", "closeDialog 0; createDialog ""vehicle_manager"";");
 
 BTN_L(1,-1, "Personal Garage", "", "closeDialog 0; nul = [false] call AS_fnc_putVehicleInGarage;");
 BTN_R(1,-1, "FIA Garage", "", "closeDialog 0; nul = [true] call AS_fnc_putVehicleInGarage;");
