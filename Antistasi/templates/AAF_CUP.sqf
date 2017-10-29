@@ -53,7 +53,9 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 // These have to be CfgVehicles
 [_dict, "explosives", ["SatchelCharge_F","DemoCharge_F","ClaymoreDirectional_F"]] call DICT_fnc_set;
 
-// Long range radio
-lrRadio = "tf_rt1523g_green";
+if hasTFAR then {
+    [_dict, "tfar_lr_radio", "tf_mr3000"] call DICT_fnc_set;
+    [_dict, "tfar_radio", "tf_fadak"] call DICT_fnc_set;
+};
 
 _dict

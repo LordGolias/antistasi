@@ -257,13 +257,6 @@ class AS {
     };
 };
 
-class AS_TFAR {
-    class withInterface {
-        FNC(tfar,loadSettings);
-        FNC(tfar,saveSettings);
-    };
-};
-
 class AS_AI {
     class common {
         FNC(AI,activateSmokeCoverAI);

@@ -104,19 +104,16 @@ call {
 _items = [] call AS_medical_fnc_crateMeds;
 
 _items pushBack [selectRandom (AAFItems arrayIntersect AS_allNVGs), 2];
-_items pushBack ["ItemGPS", 5];
-
-if (!hayTFAR) then {
-	_items pushBack ["ItemRadio", 5];
-} else {
-	if (4 < random 5) then {
-		_items pushBack [lrRadio,1];
-	};
-};
 
 for "_i" from 0 to count _items - 1 do {
 	private _name = (_items select _i) select 0;
 	private _amount = (_items select _i) select 1;
 
     _crate addItemCargoGlobal [_name, _amount];
+};
+
+if hasTFAR then {
+    if (1 < floor random 2) then {
+        _crate addBackpackCargoGlobal [(["AAF", "tfar_lr_radio"] call AS_fnc_getEntity), 1];
+    };
 };

@@ -484,22 +484,6 @@ class gameplay_options
 	};
 };
 
-
-class tfar_menu
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-    AS_DIALOG(1,"TFAR Menu",A_CLOSE);
-
-	BTN_L(1,-1, "Save Radio Settings", "Save TFAR radio settings.", "closeDialog 0; [player] spawn AS_TFAR_fnc_saveSettings");
-
-	BTN_R(1,-1, "Load Radio Settings", "Load previously saved TFAR radio settings.", "closeDialog 0; [player] spawn AS_TFAR_fnc_loadSettings");
-	};
-};
-
 class RscTitles {
 
     class Default {

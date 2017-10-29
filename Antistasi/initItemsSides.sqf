@@ -63,6 +63,14 @@ unlockedWeapons = ["FIA", "unlockedWeapons"] call AS_fnc_getEntity;
 unlockedMagazines = ["FIA", "unlockedMagazines"] call AS_fnc_getEntity;
 unlockedBackpacks = ["FIA", "unlockedBackpacks"] call AS_fnc_getEntity;
 
+if hasTFAR then {
+    unlockedItems = unlockedItems - ["ItemRadio"];
+    unlockedItems pushBack ([(["AAF", "tfar_radio"] call AS_fnc_getEntity)]);
+    if not hayRHS then {
+		unlockedItems pushBack "tf_microdagr";
+    };
+};
+
 //////////////////// FIA ////////////////////////
 unlockedItems = unlockedItems +
 	CIVUniforms +

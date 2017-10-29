@@ -106,9 +106,6 @@
 			<Key ID="STR_act_pamphlets">
 				<Original>&lt;img size='1.2' image='\A3\ui_f\data\IGUI\cfg\simpletasks\types\documents_ca.paa' /&gt; Box 'o Pams</Original>
 			</Key>
-			<Key ID="STR_act_tfar">
-				<Original>&lt;img size='1.2' image='\A3\ui_f\data\Map\VehicleIcons\iconVirtual_ca.paa' /&gt; TFAR Radio Menu</Original>
-			</Key>
 		</Container>
 
 		<Container name="Tasks">

@@ -89,18 +89,14 @@ if ("CUP_arifle_AKS74U" in AS_allWeapons) then {
 };
 
 //TFAR detection and config.
-hayTFAR = false;
+hasTFAR = false;
 if (isClass (configFile >> "CfgPatches" >> "task_force_radio")) then {
-    hayTFAR = true;
-    unlockedItems = unlockedItems + ["tf_anprc152", "ItemRadio"];
-    tf_no_auto_long_range_radio = true;//set to false and players will start with LR radio, uncomment the last line of so.
-	//tf_give_personal_radio_to_regular_soldier = false;
-	tf_west_radio_code = "";//to make enemy vehicles usable as LR radio
-	tf_east_radio_code = tf_west_radio_code;//to make enemy vehicles usable as LR radio
-	tf_guer_radio_code = tf_west_radio_code;//to make enemy vehicles usable as LR radio
-	tf_same_sw_frequencies_for_side = true;
-	tf_same_lr_frequencies_for_side = true;
-    //unlockedBackpacks pushBack "tf_rt1523g_sage";//uncomment this if you are adding LR radios for players
+    hasTFAR = true;
+	// see https://github.com/michail-nikolaev/task-force-arma-3-radio/wiki/API:-Variables
+	["TF_west_radio_code", "", true, "mission"] call CBA_settings_fnc_set;
+	["TF_east_radio_code", "", true, "mission"] call CBA_settings_fnc_set;
+	["TF_guer_radio_code", "", true, "mission"] call CBA_settings_fnc_set;
+	["TF_same_sw_frequencies_for_side", true, true, "mission"] call CBA_settings_fnc_set;
 };
 
 // This is needed to find the sounds of dog's barking, so it is in every client
@@ -123,11 +119,11 @@ if hasACE then {
 };
 
 if isServer then {
-    AS_server_config = [hasACE, hayRHS, hasCUP, hayTFAR];
+    AS_server_config = [hasACE, hayRHS, hasCUP, hasTFAR];
 	publicVariable "AS_server_config";
 } else {
 	waitUntil {not isNil "AS_server_config"};
-	if not ([hasACE, hayRHS, hasCUP, hayTFAR] isEqualTo AS_server_config) then {
+	if not ([hasACE, hayRHS, hasCUP, hasTFAR] isEqualTo AS_server_config) then {
 		// Not the same configuration. Disconnect
 		["invalidConfiguration", false, false, false, false] call BIS_fnc_endMission;
 	};

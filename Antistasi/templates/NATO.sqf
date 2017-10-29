@@ -67,4 +67,9 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 
 [_dict, "box", "Box_NATO_Equip_F"] call DICT_fnc_set;
 
+if hasTFAR then {
+    [_dict, "tfar_lr_radio", "tf_rt1523g"] call DICT_fnc_set;
+    [_dict, "tfar_radio", "tf_anprc152"] call DICT_fnc_set;
+};
+
 _dict

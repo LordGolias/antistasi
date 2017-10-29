@@ -1,16 +1,4 @@
-private ["_unit"];
-
-_unit = _this select 0;
-private _result = false;
-
-call {
-	if ("ItemRadio" in assignedItems _unit) exitWith {_result = true};
-
-	if (hayTFAR) exitWith {
-		if (count (_unit call TFAR_fnc_radiosList) > 0) then {
-			_result = true;
-		};
-	};
-};
-
-_result
+params ["_unit"];
+"ItemRadio" in assignedItems _unit or {
+    hasTFAR and {count ((_unit call TFAR_fnc_radiosList) + (_unit call TFAR_fnc_backpackLR)) > 0}
+}

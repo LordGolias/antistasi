@@ -67,4 +67,9 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 
 [_dict, "box", "Box_East_WpsLaunch_F"] call DICT_fnc_set;
 
+if hasTFAR then {
+    [_dict, "tfar_lr_radio", "tf_mr3000"] call DICT_fnc_set;
+    [_dict, "tfar_radio", "tf_fadak"] call DICT_fnc_set;
+};
+
 _dict

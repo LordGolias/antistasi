@@ -43,6 +43,7 @@ the directory `missions` of your profile
 * [VCOM](https://forums.bistudio.com/forums/topic/166374-vcom-ai-v20-ai-overhaul/)
 * [RHS](http://www.rhsmods.org/)
 * [CUP](http://cup-arma3.org/)
+* [TFAR](http://radio.task-force.ru/en/)
 
 # How to add a new faction
 

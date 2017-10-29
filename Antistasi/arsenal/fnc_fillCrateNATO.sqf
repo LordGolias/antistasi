@@ -85,9 +85,8 @@ if (hasACE and !hayRHS) then {
 	(_items select 1) pushBack _intNATOSupp;
 };
 
-if (hayTFAR) then {
-    (_backpacks select 0) pushBack lrRadio;
-	(_backpacks select 1) pushBack 2*_intNATOSupp;
+if hasTFAR then {
+    _backpacks pushBack [(["NATO", "tfar_lr_radio"] call AS_fnc_getEntity), 2*_intNATOSupp];
 };
 
 [_crate, _weapons, _magazines, _items, _backpacks, true, true] call AS_fnc_populateBox;

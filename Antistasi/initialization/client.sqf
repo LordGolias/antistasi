@@ -52,8 +52,8 @@ if isMultiplayer then {
 ///// display what mods the client has
 private _texto = "";
 
-if (hayTFAR) then {
-	_texto = "TFAR Detected\n\nAntistasi detects TFAR in the server config.\nAll players will start with TFAR default radios.\nDefault revive system will shut down radios while players are inconscious.\n\n";
+if hasTFAR then {
+	_texto = "TFAR Detected.\nAntistasi will use TFAR radios.\n";
 };
 if (hasACE) then {
 	_texto = _texto + "ACE 3 Detected\n
@@ -67,7 +67,7 @@ if (hasACE) then {
     };
 };
 
-if (hayTFAR or hasACE) then {
+if (hasTFAR or hasACE) then {
 	hint format ["%1",_texto];
 };
 
@@ -157,7 +157,6 @@ removeAllActions mapa;
 mapa addAction [localize "str_act_gameOptions", {CreateDialog "game_options_commander";},nil,0,false,true,"","(isPlayer _this) and (_this == AS_commander) and (_this == _this getVariable ['owner',_this])"];
 mapa addAction [localize "str_act_gameOptions", {CreateDialog "game_options_player";},nil,0,false,true,"","(isPlayer _this) and !(_this == AS_commander) and (_this == _this getVariable ['owner',_this])"];
 mapa addAction [localize "str_act_mapInfo", "actions\fnc_location_mapInfo.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',_this])"];
-mapa addAction [localize "str_act_tfar", {CreateDialog "tfar_menu";},nil,0,false,true,"","(isClass (configFile >> ""CfgPatches"" >> ""task_force_radio""))", 5];
 
 removeAllActions bandera;
 [bandera,"unit"] call AS_fnc_addAction;

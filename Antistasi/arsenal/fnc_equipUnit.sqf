@@ -100,10 +100,4 @@ private _cargo_b = [_cargo_b, _cargo select 3, false] call AS_fnc_mergeCargoList
 [caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true, true] call AS_fnc_populateBox;
 AS_Sset("lockTransfer", false);
 
-
-if (hayTFAR) then {
-    _unit addItem "tf_anprc152";
-    _unit assignItem "tf_anprc152";
-};
-
 _unit selectWeapon (primaryWeapon _unit);
