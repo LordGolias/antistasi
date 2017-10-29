@@ -76,6 +76,7 @@ AS_antenasTypes = nil;
 AS_antenasPos_alive = nil;
 publicVariable "AS_destroyable_buildings";
 publicVariable "AS_MGbuildings";
+publicVariable "AS_bankPositions";
 
 // This searches through all the markers in the mission.sqm and adds them.
 {
