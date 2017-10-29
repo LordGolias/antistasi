@@ -12,5 +12,6 @@ call AS_players_fnc_deinitialize;
     };
     private _pos = (getMarkerPos "FIA_HQ") findEmptyPosition [2, 20, typeOf (vehicle _x)];
     _x call AS_fnc_emptyUnit;
+    _x call AS_fnc_equipDefault;
     _x setPos _pos;
 } forEach allPlayers;

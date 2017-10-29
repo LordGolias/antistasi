@@ -2,6 +2,7 @@
 params ["_unit", "_arsenal"];
 
 [_unit] call AS_fnc_emptyUnit;
+_unit call AS_fnc_equipDefault;
 
 _unit forceAddUniform (selectRandom (["FIA", "uniforms"] call AS_fnc_getEntity));
 

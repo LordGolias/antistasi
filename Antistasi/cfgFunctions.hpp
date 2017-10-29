@@ -182,6 +182,7 @@ class AS {
         FNC(arsenal,populateBox);
         FNC(arsenal,getTotalCargo);
         FNC(arsenal,emptyUnit);
+        FNC(arsenal,equipDefault);
         FNC(arsenal,transferToBox);
         FNC(arsenal,fillCrateNATO);
         FNC(arsenal,fillCrateAAF);

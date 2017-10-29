@@ -35,3 +35,4 @@ hint "Enough then";
 disableUserInput false;
 player setpos getMarkerPos "FIA_HQ";
 player setVariable ["punish",_punish,true];
+player call AS_fnc_equipDefault;
