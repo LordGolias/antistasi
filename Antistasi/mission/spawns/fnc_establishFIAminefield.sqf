@@ -71,11 +71,7 @@ private _fnc_wait_to_arrive = {
 
 	if _arrivedSafely then {
 		if (isPlayer leader _group) then {
-			private _owner = player getVariable ["owner",player];
-			selectPlayer _owner;
-			(leader _group) setVariable ["owner",player,true];
-			{[_x] joinsilent group player} forEach units group player;
-			group player selectLeader player;
+			[] remoteExec ["AS_fnc_completeDropAIcontrol", leader _group];
 			hint "";
 		};
 		[[petros,"globalChat","Engineers are now deploying the mines."],"AS_fnc_localCommunication"] call BIS_fnc_MP;

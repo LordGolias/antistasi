@@ -5,7 +5,7 @@ params ["_unit"];
 if (not isNil "AS_respawning") exitWith {
 	diag_log "[AS] Error: unit was respawned while respawning";
 };
-if call AS_fnc_controlsAI exitWith {
+if (player call AS_fnc_controlsAI) exitWith {
 	diag_log "[AS] Error: unit was respawned while controlling an AI";
 	call AS_fnc_completeDropAIcontrol;
 };

@@ -15,7 +15,7 @@ if (_type in (["NATO", "vehicles"] call AS_fnc_getEntity)) exitWith {hint "You c
 if (_veh isKindOf "Man") exitWith {hint "Are you kidding?"};
 
 if (not(_veh isKindOf "AllVehicles")) exitWith {hint "The vehicle you are looking cannot be kept in our Garage"};
-if (call AS_fnc_controlsAI) exitWith {hint "You cannot access the Garage while you are controlling AI"};
+if (player call AS_fnc_controlsAI) exitWith {hint "You cannot access the Garage while you are controlling AI"};
 
 if (not _toFIAgarage and {private _owner = _veh getVariable "AS_vehOwner"; (not isNil "_owner") and {getPlayerUID player != _owner}}) exitWith {
 	hint "You do not own this vehicle"

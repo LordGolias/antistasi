@@ -7,7 +7,7 @@ if (isPlayer _unit) then {
 	call AS_fnc_completeDropAIcontrol;
 } else {
 	if (local _unit) then {
-		private _owner = _unit getVariable "owner";
+		private _owner = _unit getVariable "AS_controller";
 		if (not isNil "_owner" and {_owner == _unit}) then {
 			removeAllActions player;
 			selectPlayer _owner;

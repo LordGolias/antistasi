@@ -63,7 +63,7 @@ private _spawningOPFORunits = [];
     if (_x call AS_location_fnc_side == "FIA") then {
         // not clear what this is doing. owner is about who controls it, not something else.
         private _playerIsClose = (_x call AS_location_fnc_forced_spawned) or
-                                 {{((_x getVariable ["owner", _x]) == _x) and {_x distance _position < AS_P("spawnDistance")}} count _spawningBLUFORunits > 0};
+                                 {{not (_x call AS_fnc_controlsAI) and {_x distance _position < AS_P("spawnDistance")}} count _spawningBLUFORunits > 0};
         // enemies are close.
         private _spawnCondition = _playerIsClose or {{_x distance _position < AS_P("spawnDistance")} count _spawningOPFORunits > 0};
         if (!_isSpawned and _spawnCondition) then {

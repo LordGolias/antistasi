@@ -2,7 +2,7 @@
 if (isDedicated) exitWith {};
 params ["_new", "_old"];
 
-if (call AS_fnc_controlsAI) exitWith {
+if (player call AS_fnc_controlsAI) exitWith {
 	hint "The unit you were controlling died";
 	call AS_fnc_completeDropAIcontrol;
 	deleteVehicle _new;

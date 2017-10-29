@@ -4,7 +4,7 @@ while {true} do {
 	private _marcadores = [];
 	while {visibleMap or visibleGPS} do {
 		{
-			private _jugador = _x getVariable ["owner",_x];
+			private _jugador = _x getVariable ["AS_controller",_x];
 			if ((not(_jugador in _jugadores)) and (player != _jugador)) then {
 				_jugadores pushBack _jugador;
 				private _mrk = createMarkerLocal [format ["%1",_jugador],position _jugador];

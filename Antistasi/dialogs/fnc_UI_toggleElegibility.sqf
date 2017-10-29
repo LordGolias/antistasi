@@ -2,7 +2,7 @@ if not isMultiplayer exitWith {
     hint "Not possible: in single player you are always the commander.";
 };
 
-private _player = player getVariable ["owner", player];
+private _player = player getVariable ["AS_controller", player];
 
 private _text = "";
 

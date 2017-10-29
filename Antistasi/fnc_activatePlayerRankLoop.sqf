@@ -2,7 +2,7 @@
 AS_CLIENT_ONLY("AS_fnc_activatePlayerRankLoop.sqf");
 
 while {true} do {
-	private _player = player getVariable ["owner", player];
+	private _player = player getVariable ["AS_controller", player];
 	private _rank = [_player, "rank"] call AS_players_fnc_get;
 	private _curr_index = AS_ranks find _rank;
 	private _prev_index = (_curr_index - 1) max 0;

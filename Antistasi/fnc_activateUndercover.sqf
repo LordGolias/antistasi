@@ -1,9 +1,9 @@
 #include "macros.hpp"
-if (call AS_fnc_controlsAI) exitWith {hint "You cannot go Undercover while you are controlling AI"};
+if (player call AS_fnc_controlsAI) exitWith {hint "You cannot go Undercover while you are controlling AI"};
 
 // the player may be temporarly controlling another unit. We check the original unit
 // the player cannot become undercover on an AI controlled unit, so this is ok
-private _player = player getVariable ["owner", player];
+private _player = player getVariable ["AS_controller", player];
 
 if (captive _player) exitWith {hint "You are already undercover"};
 

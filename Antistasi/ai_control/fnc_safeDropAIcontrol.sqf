@@ -1,5 +1,5 @@
-if (call AS_fnc_controlsAI) exitWith {
-    player call AS_fnc_dropAIcontrol;
+if (_this call AS_fnc_controlsAI) exitWith {
+    _this call AS_fnc_dropAIcontrol;
     true
 };
 false

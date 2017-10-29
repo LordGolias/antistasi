@@ -1,6 +1,6 @@
 #include "../macros.hpp"
 AS_CLIENT_ONLY("fnc_loadLocal");
-private _player = player getVariable ["owner", player];
+private _player = player getVariable ["AS_controller", player];
 
 _player setUnitRank ([player, "rank"] call AS_players_fnc_get);
 {

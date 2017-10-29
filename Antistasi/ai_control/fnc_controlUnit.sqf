@@ -12,7 +12,7 @@ if (captive _unit) exitWith {hint "You cannot control an Undercover unit"};
 if (_unit call AS_fnc_getSide != "FIA") exitWith {
     hint "You cannot control a unit that does not belong to FIA";
 };
-if (call AS_fnc_controlsAI) exitWith {hint "You cannot control AI while you are controlling another AI"};
+if (player call AS_fnc_controlsAI) exitWith {hint "You cannot control AI while you are controlling another AI"};
 
 {
     if (_x != vehicle _x) then {
@@ -29,12 +29,12 @@ _unit addAction [localize "STR_act_returnControl",{selectPlayer leader (group (_
 private _tiempo = 10;
 waitUntil {
     sleep 1; hint format ["Time to return control to AI: %1", _tiempo];
-    _tiempo = _tiempo - 1; (_tiempo == -1) or {not call AS_fnc_controlsAI}
+    _tiempo = _tiempo - 1; (_tiempo == -1) or {not (player call AS_fnc_controlsAI)}
 };
 hint "";
 
 removeAllActions _unit;
-call AS_fnc_safeDropAIControl;
+player call AS_fnc_safeDropAIControl;
 
 {[_x] joinsilent group player} forEach units group player;
 group player selectLeader player;

@@ -13,7 +13,7 @@ if ((leader _group != player) and (!_isHCfastTravel)) exitWith {hint "Only a gro
 
 if (({isPlayer _x} count units _group > 1) and (!_isHCfastTravel)) exitWith {hint "You cannot fast travel with other players in your group"};
 
-if (call AS_fnc_controlsAI) exitWith {hint "You cannot fast travel while you are controlling AI"};
+if (player call AS_fnc_controlsAI) exitWith {hint "You cannot fast travel while you are controlling AI"};
 
 private _unpreparedVehicles = false;
 {

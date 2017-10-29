@@ -4,7 +4,7 @@ AS_SERVER_ONLY("fnc_onPlayerDisconnect.sqf");
 params ["_unit"];
 
 // first, if player is controlling another unit, drop that control
-call AS_fnc_safeDropAIcontrol;
+_unit call AS_fnc_safeDropAIcontrol;
 
 if (_unit == AS_commander) then {
 	private _recursos = 0;

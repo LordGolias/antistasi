@@ -13,7 +13,7 @@ private _oldText = "";
 private _texto = "";
 if (isMultiplayer) then {
 	while {showStatistics} do {
-		waitUntil {sleep 0.5; not (call AS_fnc_controlsAI)};
+		waitUntil {sleep 0.5; not (player call AS_fnc_controlsAI)};
 		private _natoSupport = format ["%1 Support: %2", (["NATO", "name"] call AS_fnc_getEntity), AS_P("NATOsupport")];
 		private _csatSupport = format ["%1 Support: %2", ["CSAT", "name"] call AS_fnc_getEntity, AS_P("CSATsupport")];
 		if (player != AS_commander) then {
@@ -53,7 +53,7 @@ if (isMultiplayer) then {
 	};
 } else {
 	while {showStatistics} do {
-		waitUntil {sleep 0.5; player == player getVariable ["owner",player]};
+		waitUntil {sleep 0.5; not (player call AS_fnc_controlsAI)};
 		private _natoSupport = format ["%1 Support: %2", (["NATO", "name"] call AS_fnc_getEntity), AS_P("NATOsupport")];
 		private _csatSupport = format ["%1 Support: %2", ["CSAT", "name"] call AS_fnc_getEntity, AS_P("CSATsupport")];
 		_texto = format ["<t size='0.55'>" + "HR: %1 | FIA Money: %2 € | %3 | %4 | %5 | %6",

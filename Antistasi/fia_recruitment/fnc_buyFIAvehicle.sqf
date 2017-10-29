@@ -1,5 +1,5 @@
 #include "../macros.hpp"
-if (call AS_fnc_controlsAI) exitWith {hint "You cannot buy vehicles while you are controlling AI"};
+if (player call AS_fnc_controlsAI) exitWith {hint "You cannot buy vehicles while you are controlling AI"};
 
 if ([position player, 500] call AS_fnc_enemiesNearby) exitWith {
 	Hint "You cannot buy vehicles with enemies nearby";

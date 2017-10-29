@@ -1,6 +1,6 @@
 params ["_toCursorTarget"];
 
-if (call AS_fnc_controlsAI) exitWith {
+if (player call AS_fnc_controlsAI) exitWith {
 	hint "You can't donate when you are controlling an AI";
 };
 
@@ -21,7 +21,7 @@ private _target = cursortarget;
 if (!isPlayer _target) exitWith {
 	hint "You must be looking to a player in order to give him money (and he must not be controlling an AI)";
 };
-if (_target != _target getVariable ["owner", _target]) exitWith {
+if (_target call AS_fnc_controlsAI) exitWith {
 	hint "You can't donate to a controlled AI";
 };
 

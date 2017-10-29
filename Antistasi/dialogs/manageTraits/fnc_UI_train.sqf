@@ -4,7 +4,7 @@ private _trait = lbData [0, lbCurSel 0];
 
 if (_trait != "") then {
 
-    if (call AS_fnc_controlsAI) exitWith {
+    if (player call AS_fnc_controlsAI) exitWith {
         hint "You cannot do this while controlling an AI";
     };
 

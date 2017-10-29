@@ -4,7 +4,7 @@ AS_SERVER_ONLY("orgPlayers/fnc_chooseCommander.sqf");
 params [["_reason", "none"], ["_notify", True]];
 
 private _currentScore = -100000;
-private _commander = AS_commander getVariable ["owner", AS_commander];
+private _commander = AS_commander getVariable ["AS_controller", AS_commander];
 private _noCommander = (isNull _commander or _reason == "resigned" or _reason == "disconnected");
 
 // There is a commander and switch is off => no change
@@ -14,7 +14,7 @@ private _members = [];
 private _eligibles = [];
 while {count _members == 0} do {
 	{
-		private _player = _x getVariable ["owner", _x];
+		private _player = _x getVariable ["AS_controller", _x];
 		_members pushBack _player;
 		if ([_player, "elegible"] call AS_players_fnc_get) then {
 			_eligibles pushBack _player;

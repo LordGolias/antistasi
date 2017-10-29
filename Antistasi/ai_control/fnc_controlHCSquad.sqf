@@ -32,12 +32,12 @@ player addAction [localize "STR_act_returnControl", AS_fnc_dropAIcontrol];
 private _tiempo = 10;
 waitUntil {sleep 1;
     hint format ["Time to return control to AI: %1", _tiempo];
-    _tiempo = _tiempo - 1; (_tiempo < 0) or {not call AS_fnc_controlsAI}
+    _tiempo = _tiempo - 1; (_tiempo < 0) or {not (player call AS_fnc_controlsAI)}
 };
 hint "";
 
 removeAllActions _unit;
-call AS_fnc_safeDropAIControl;
+player call AS_fnc_safeDropAIControl;
 
 {[_x] joinsilent group player} forEach units group player;
 group player selectLeader player;

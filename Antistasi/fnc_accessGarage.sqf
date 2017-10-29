@@ -1,7 +1,7 @@
 #include "macros.hpp"
 params ["_pool"];
 
-if (call AS_fnc_controlsAI) exitWith {hint "You cannot access the Garage while you are controlling AI"};
+if (player call AS_fnc_controlsAI) exitWith {hint "You cannot access the Garage while you are controlling AI"};
 
 if ([position player, 500] call AS_fnc_enemiesNearby) exitWith {
 	Hint "You cannot manage the Garage with enemies nearby";

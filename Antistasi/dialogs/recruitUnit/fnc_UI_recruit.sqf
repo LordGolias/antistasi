@@ -4,7 +4,7 @@ private _unitName = lbData [0, _id];
 
 if (_unitName != "") then {
 
-    if (call AS_fnc_controlsAI) exitWith {
+    if (player call AS_fnc_controlsAI) exitWith {
         hint "You cannot buy units while you are controlling AI"
     };
 
