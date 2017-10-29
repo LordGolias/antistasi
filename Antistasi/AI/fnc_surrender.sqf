@@ -6,8 +6,8 @@ _unit setVariable ["surrendered",true];
 private _side = _unit call AS_fnc_getSide;
 call {
 	if (_side == "AAF") exitWith {
-		[[_unit,"interrogar"],"AS_fnc_addAction"] call BIS_fnc_MP;
-		[[_unit,"capturar"],"AS_fnc_addAction"] call BIS_fnc_MP;
+		[[_unit,"interrogate"],"AS_fnc_addAction"] call BIS_fnc_MP;
+		[[_unit,"offerToJoin"],"AS_fnc_addAction"] call BIS_fnc_MP;
 		[0,10] remoteExec ["AS_fnc_changeFIAmoney",2];
 		[-2,0,getPos _unit] remoteExec ["AS_fnc_changeCitySupport",2];
 		[-(typeOf _unit call AS_fnc_getCost)] remoteExec ["AS_fnc_changeAAFmoney",2];
