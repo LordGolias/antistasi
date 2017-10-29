@@ -20,7 +20,7 @@
     AS_allMagazines
     AS_allWeapons, AS_allWeaponsAttrs
 */
-_allPrimaryWeapons = "
+private _allPrimaryWeapons = "
     ( getNumber ( _x >> ""scope"" ) isEqualTo 2
     &&
     { getText ( _x >> ""simulation"" ) isEqualTo ""Weapon""
@@ -28,7 +28,7 @@ _allPrimaryWeapons = "
     { getNumber ( _x >> ""type"" ) isEqualTo 1 } } )
 " configClasses ( configFile >> "cfgWeapons" );
 
-_allHandGuns = "
+private _allHandGuns = "
     ( getNumber ( _x >> ""scope"" ) isEqualTo 2
     &&
     { getText ( _x >> ""simulation"" ) isEqualTo ""Weapon""
@@ -36,7 +36,7 @@ _allHandGuns = "
     { getNumber ( _x >> ""type"" ) isEqualTo 2 } } )
 " configClasses ( configFile >> "cfgWeapons" );
 
-_allLaunchers = "
+private _allLaunchers = "
     ( getNumber ( _x >> ""scope"" ) isEqualTo 2
     &&
     { getText ( _x >> ""simulation"" ) isEqualTo ""Weapon""
@@ -44,7 +44,7 @@ _allLaunchers = "
     { getNumber ( _x >> ""type"" ) isEqualTo 4 } } )
 " configClasses ( configFile >> "cfgWeapons" );
 
-_allAccessories = "
+private _allAccessories = "
     ( getNumber ( _x >> ""scope"" ) isEqualTo 2
     &&
     { getText ( _x >> ""simulation"" ) isEqualTo ""Weapon""
@@ -52,7 +52,7 @@ _allAccessories = "
     { getNumber ( _x >> ""type"" ) isEqualTo 131072 } } )
 " configClasses ( configFile >> "cfgWeapons" );
 
-_allBackpacks = "(
+private _allBackpacks = "(
 getNumber ( _x >> ""scope"" ) == 2
 && {
 getNumber ( _x >> ""isbackpack"" ) isEqualTo 1
@@ -60,13 +60,13 @@ getNumber ( _x >> ""isbackpack"" ) isEqualTo 1
 getNumber ( _x >> ""maximumLoad"" ) != 0
 }})" configClasses ( configFile >> "cfgVehicles");
 
-_allMines = "(
+private _allMines = "(
     getNumber ( _x >> ""scope"" ) == 2
     && {
     getText ( _x >> ""vehicleClass"" ) isEqualTo 'Mines'
 })" configClasses ( configFile >> "cfgVehicles");
 
-_itemFilter = "
+private _itemFilter = "
     ( getNumber ( _x >> ""scope"" ) isEqualTo 2
     &&
     { getText ( _x >> ""simulation"" ) isEqualTo ""Weapon""
@@ -77,30 +77,30 @@ _itemFilter = "
     } } })
 ";
 
-_allItems = "(
+private _allItems = "(
 getNumber ( _x >> ""scope"" ) isEqualTo 2 && {
 getNumber ( _x >> ""type"" ) isEqualTo 4096
 })" configClasses ( configFile >> "cfgWeapons" );
 
-_allNVG = "(
+private _allNVG = "(
 getNumber ( _x >> ""scope"" ) isEqualTo 2 && {
 getNumber ( _x >> ""type"" ) isEqualTo 4096 && {
 getText ( _x >> ""simulation"" ) isEqualTo ""NVGoggles""
 }})" configClasses ( configFile >> "cfgWeapons" );
 
-_allBinoculars = "(
+private _allBinoculars = "(
 getNumber ( _x >> ""scope"" ) isEqualTo 2 && {
 getNumber ( _x >> ""type"" ) isEqualTo 4096 && {
 getText ( _x >> ""simulation"" ) isEqualTo ""Binocular""
 }})" configClasses ( configFile >> "cfgWeapons" );
 
-_allLDesignators = "(
+private _allLDesignators = "(
 getNumber ( _x >> ""scope"" ) isEqualTo 2 && {
 getNumber ( _x >> ""type"" ) isEqualTo 4096 && {
 getText ( _x >> ""simulation"" ) isEqualTo ""weapon""
 }})" configClasses ( configFile >> "cfgWeapons" );
 
-_allMagazines = "(
+private _allMagazines = "(
 getNumber ( _x >> ""scope"" ) isEqualTo 2 && {
 getText ( _x >> ""simulation"" ) isEqualTo ""ProxyMagazines""
 })" configClasses ( configFile >> "CfgMagazines" );
@@ -127,12 +127,12 @@ AS_allBinoculars = [];
 
 AS_allOptics = [];
 AS_allOpticsAttrs = [];
-_allOptics = (format [_itemFilter, 201]) configClasses ( configFile >> "cfgWeapons" );
+private _allOptics = (format [_itemFilter, 201]) configClasses ( configFile >> "cfgWeapons" );
 {
-	_name = configName _x;
+	private _name = configName _x;
 	AS_allOptics pushBack _name;
-    _zoomMin = 10000;
-    _zoomMax = 0;
+    private _zoomMin = 10000;
+    private _zoomMax = 0;
     {
         private _o_zoomMax = 1/getNumber (_x >> "opticsZoomMin");  // opticsZoom{Min,Max} is the FOV, inverse of Zoom
         private _o_zoomMin = 1/getNumber (_x >> "opticsZoomMax");
@@ -154,13 +154,13 @@ AS_allMounts = [];
 } forEach ((format [_itemFilter, 301]) configClasses ( configFile >> "cfgWeapons" ));
 
 AS_allBipods = [];
-_allBipods = (format [_itemFilter, 302]) configClasses ( configFile >> "cfgWeapons" );
+private _allBipods = (format [_itemFilter, 302]) configClasses ( configFile >> "cfgWeapons" );
 {
 	AS_allBipods pushBack (configName _x);
 } forEach _allBipods;
 
 AS_allMuzzles = [];
-_allMuzles = (format [_itemFilter, 101]) configClasses ( configFile >> "cfgWeapons" );
+private _allMuzles = (format [_itemFilter, 101]) configClasses ( configFile >> "cfgWeapons" );
 {
 	AS_allMuzzles pushBack (configName _x);
 } forEach _allMuzles;
@@ -168,26 +168,26 @@ _allMuzles = (format [_itemFilter, 101]) configClasses ( configFile >> "cfgWeapo
 // all vests. Used to identify vests that can be used by FIA soldiers.
 AS_allVests = [];
 AS_allVestsAttrs = [];
-_allVests = (format [_itemFilter, 701]) configClasses ( configFile >> "cfgWeapons" );
+private _allVests = (format [_itemFilter, 701]) configClasses ( configFile >> "cfgWeapons" );
 {
-	_name = configName _x;
+	private _name = configName _x;
 	AS_allVests pushBack _name;
-	_weight = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "mass"));
-	_armor = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "HitpointsProtectionInfo" >> "Chest" >> "armor"));
-    _capacity = getText (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "containerClass");
-    _capacity = parseNumber (_capacity select [6, (count _capacity) - 6]); // Supply360
+	private _weight = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "mass"));
+	private _armor = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "HitpointsProtectionInfo" >> "Chest" >> "armor"));
+    private _capacity = getText (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "containerClass");
+    private _capacity = parseNumber (_capacity select [6, (count _capacity) - 6]); // Supply360
 	AS_allVestsAttrs pushBack [_weight, _armor, _capacity];
 } forEach _allVests;
 
 // all helmets. Used to compute the best helmet to be used by FIA soldiers.
 AS_allHelmets = [];
 AS_allHelmetsAttrs = [];
-_allHelmets = (format [_itemFilter, 605]) configClasses ( configFile >> "cfgWeapons" );
+private _allHelmets = (format [_itemFilter, 605]) configClasses ( configFile >> "cfgWeapons" );
 {
-	_name = configName _x;
+	private _name = configName _x;
 	AS_allHelmets pushBack _name;
-	_weight = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "mass"));
-	_armor = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "HitpointsProtectionInfo" >> "Head" >> "armor"));
+	private _weight = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "mass"));
+	private _armor = (getNumber (configFile >> "CfgWeapons" >> _name >> "ItemInfo" >> "HitpointsProtectionInfo" >> "Head" >> "armor"));
 	AS_allHelmetsAttrs pushBack [_weight, _armor];
 } forEach _allHelmets;
 
@@ -195,10 +195,10 @@ _allHelmets = (format [_itemFilter, 605]) configClasses ( configFile >> "cfgWeap
 AS_allBackpacks = [];
 AS_allBackpacksAttrs = [];
 {
-	_name = configName _x;
+	private _name = configName _x;
 	AS_allBackpacks pushBack _name;
-	_weight = (getNumber (configFile >> "CfgVehicles" >> _name >> "mass"));
-	_load = (getNumber (configFile >> "CfgVehicles" >> _name >> "maximumLoad"));
+	private _weight = (getNumber (configFile >> "CfgVehicles" >> _name >> "mass"));
+	private _load = (getNumber (configFile >> "CfgVehicles" >> _name >> "maximumLoad"));
 	AS_allBackpacksAttrs pushBack [_weight, _load];
 } forEach _allBackpacks;
 
@@ -263,14 +263,14 @@ AS_allGrenades = [];  // fired grenades, not throwable
 AS_allWeapons = [];
 AS_allWeaponsAttrs = [];
 {
-	_name = configName _x;
+	private _name = configName _x;
 	_name = [_name] call BIS_fnc_baseWeapon;
 	if (not(_name in AS_allWeapons)) then {
 		AS_allWeapons pushBack _name;
-		_weight = (getNumber (configFile >> "CfgWeapons" >> _name >> "WeaponSlotsInfo" >> "mass"));
-		_magazines = (getArray (configFile >> "CfgWeapons" >> _name >> "magazines"));
-		_bull_weight = (getNumber (configFile >> "CfgMagazines" >> (_magazines select 0) >> "mass"));
-		_bull_speed = (getNumber (configFile >> "CfgMagazines" >> (_magazines select 0) >> "initSpeed"));
+		private _weight = (getNumber (configFile >> "CfgWeapons" >> _name >> "WeaponSlotsInfo" >> "mass"));
+		private _magazines = (getArray (configFile >> "CfgWeapons" >> _name >> "magazines"));
+		private _bull_weight = (getNumber (configFile >> "CfgMagazines" >> (_magazines select 0) >> "mass"));
+		private _bull_speed = (getNumber (configFile >> "CfgMagazines" >> (_magazines select 0) >> "initSpeed"));
 
 		if (isNil "_bull_weight") then {
 			_bull_weight = 0;
@@ -281,7 +281,7 @@ AS_allWeaponsAttrs = [];
 
 		AS_allWeaponsAttrs pushBack [_weight, _bull_weight*_bull_speed/100*_bull_speed/100, _magazines];
 
-		_weaponType = ([_name] call BIS_fnc_itemType) select 1;
+		private _weaponType = ([_name] call BIS_fnc_itemType) select 1;
 
 		switch (_weaponType) do {
             case "AssaultRifle": {
