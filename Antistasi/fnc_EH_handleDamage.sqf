@@ -4,7 +4,7 @@ params ["_unit", "_part", "_dam", "_injurer"];
 if (captive _injurer) then {
 	_injurer setCaptive 0;
 };
-if (_injurer isKindOf "LandVehicle" and {_injurer getVariable "side" == "FIA"}) then {
+if (_injurer isKindOf "LandVehicle" and {_injurer call AS_fnc_getSide == "FIA"}) then {
 	AS_Sset("reportedVehs", AS_S("reportedVehs") + [_injurer]);
 };
 
