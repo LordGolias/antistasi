@@ -1,5 +1,5 @@
 params ["_unit", "_medic"];
-if not hayACEmedical then {
+if not hasACEmedical then {
     _unit setVariable ["AS_medical_assignedMedic", nil];
     _medic setVariable ["AS_medical_assignedPatient", nil];
 } else {

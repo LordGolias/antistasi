@@ -23,7 +23,7 @@ if (_key == 21) then {
 } else {
 	if (isMultiplayer) then {
 		if (_key == 207) then {
-			if (!hayACEhearing) then {
+			if (!hasACEhearing) then {
 				if (soundVolume <= 0.5) then {
 					0.5 fadeSound 1;
 					hintSilent "You've taken out your ear plugs.";
@@ -34,7 +34,7 @@ if (_key == 21) then {
 			};
 		};
 	} else {
-		if (!hayACEhearing) then {
+		if (!hasACEhearing) then {
 			if (_key == 207) then {
 				0.5 fadeSound 0.1;
 				hintSilent "You've inserted your ear plugs.";

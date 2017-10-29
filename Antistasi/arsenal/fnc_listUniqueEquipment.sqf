@@ -48,7 +48,7 @@ private _sideUniforms = [];
 } forEach _sideWeapons;
 
 // populate items with relevant meds.
-if (hayACE) then {
+if (hasACE) then {
     if (ace_medical_level == 0) then {
         _sideItems append ["FirstAidKit","Medikit"];
     } else {

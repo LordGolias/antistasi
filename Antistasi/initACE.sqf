@@ -18,7 +18,7 @@ if (ace_medical_level == 2) then {
     unlockedItems = unlockedItems + AS_aceAdvMedical;
 };
 
-if (hayACEhearing) then {
+if (hasACEhearing) then {
     unlockedItems = unlockedItems + ["ACE_EarPlugs"];
 };
 

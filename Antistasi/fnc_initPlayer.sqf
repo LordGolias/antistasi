@@ -2,7 +2,7 @@
 waitUntil {!isNull player};
 waitUntil {player == player};
 
-if hayACEhearing then {player addItem "ACE_EarPlugs"};
+if hasACEhearing then {player addItem "ACE_EarPlugs"};
 
 [player, "FIA"] call AS_fnc_setSide;
 

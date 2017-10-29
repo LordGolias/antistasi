@@ -5,7 +5,7 @@ if (_killed getVariable ["OPFORSpawn",false]) then {_killed setVariable ["OPFORS
 
 [_killed] remoteExec ["AS_fnc_activateCleanup",2];
 
-if (hayACE) then {
+if (hasACE) then {
 	if ((isNull _killer) || (_killer == _killed)) then {
 		_killer = _killed getVariable ["ace_medical_lastDamageSource", _killer];
 	};

@@ -45,7 +45,7 @@ while {alive _unit} do {
         };
     };
     if _isUnconscious then {
-        if not hayACEmedical then {
+        if not hasACEmedical then {
             if (_unit call AS_medical_fnc_isHealed) then {
                 [_unit, false] call AS_medical_fnc_setUnconscious;
             };

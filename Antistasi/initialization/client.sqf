@@ -36,7 +36,7 @@ if isMultiplayer then {
 };
 [] execVM "musica.sqf";
 
-if not hayACE then {
+if not hasACE then {
 	tags = [] execVM "tags.sqf";
 	if ((cadetMode) and (isMultiplayer)) then {
         [] execVM "playerMarkers.sqf"
@@ -55,19 +55,19 @@ private _texto = "";
 if (hayTFAR) then {
 	_texto = "TFAR Detected\n\nAntistasi detects TFAR in the server config.\nAll players will start with TFAR default radios.\nDefault revive system will shut down radios while players are inconscious.\n\n";
 };
-if (hayACE) then {
+if (hasACE) then {
 	_texto = _texto + "ACE 3 Detected\n
                        \nACE items added.
                        \nDefault AI control disabled.";
-    if (hayACEMedical) then {
+    if (hasACEMedical) then {
         _texto = _texto + "\nACE Medical being used: default revive system disabled.";
     };
-    if (hayACEhearing) then {
+    if (hasACEhearing) then {
         _texto = _texto + "\nACE Hearing being used: default earplugs disabled.";
     };
 };
 
-if (hayTFAR or hayACE) then {
+if (hayTFAR or hasACE) then {
 	hint format ["%1",_texto];
 };
 

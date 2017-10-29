@@ -1,5 +1,5 @@
 params ["_unit", "_unconscious"];
-if not hayACEMedical then {
+if not hasACEMedical then {
     if _unconscious then {
         _unit switchMove "";
         _unit playActionNow "Unconscious";

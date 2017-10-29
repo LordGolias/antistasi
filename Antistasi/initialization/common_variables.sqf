@@ -48,18 +48,18 @@ call compile preprocessFileLineNumbers "templates\basicLists.sqf";
 
 // Identifies mods.
 hayRHS = false;
-hayACE = false;
+hasACE = false;
 
-hayACEhearing = false;
-hayACEMedical = false;
+hasACEhearing = false;
+hasACEMedical = false;
 if (!isNil "ace_common_settingFeedbackIcons") then {
-	hayACE = true;
+	hasACE = true;
 	if (isClass (configFile >> "CfgSounds" >> "ACE_EarRinging_Weak")) then {
-		hayACEhearing = true;
+		hasACEhearing = true;
 	};
 	if (isClass (ConfigFile >> "CfgSounds" >> "ACE_heartbeat_fast_3") and
         (ace_medical_level != 0)) then {
-		hayACEMedical = true;
+		hasACEMedical = true;
 	};
 	// Lists of items used by ACE medical system. These are used
 	// below to define what factions use and what is unlocked
@@ -118,17 +118,17 @@ unlockedItems = [
 	"Medikit"
 ];
 
-if hayACE then {
+if hasACE then {
 	// Must be called after unlockedItems is defined
 	call compile preprocessFileLineNumbers "initACE.sqf";
 };
 
 if isServer then {
-    AS_server_config = [hayACE, hayRHS, hasCUP, hayTFAR];
+    AS_server_config = [hasACE, hayRHS, hasCUP, hayTFAR];
 	publicVariable "AS_server_config";
 } else {
 	waitUntil {not isNil "AS_server_config"};
-	if not ([hayACE, hayRHS, hasCUP, hayTFAR] isEqualTo AS_server_config) then {
+	if not ([hasACE, hayRHS, hasCUP, hayTFAR] isEqualTo AS_server_config) then {
 		// Not the same configuration. Disconnect
 		["invalidConfiguration", false, false, false, false] call BIS_fnc_endMission;
 	};

@@ -1,5 +1,5 @@
 params ["_unit"];
-if not hayACEmedical then {
+if not hasACEmedical then {
     _unit addEventHandler ["HandleDamage", AS_fnc_EH_handleDamage];
 } else {
     _unit addEventHandler ["HandleDamage", AS_fnc_EH_handleDamageACE];

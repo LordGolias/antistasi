@@ -1,5 +1,5 @@
 params ["_medic", "_target"];
-if (not hayACEMedical) then {
+if (not hasACEMedical) then {
     _target setVariable ["AS_medical_assignedMedic", _medic];
     _medic setVariable ["AS_medical_assignedPatient", _target];
     [_medic, _target] spawn AS_medical_fnc_healAction;

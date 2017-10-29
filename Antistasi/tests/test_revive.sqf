@@ -1,7 +1,7 @@
 ["Rifleman"] call AS_fnc_recruitFIAunit;
 ["Rifleman"] call AS_fnc_recruitFIAunit;
 
-if not hayACE then {
+if not hasACE then {
     [] spawn {
         sleep 1;
         private _unit = (units group player) select 1;

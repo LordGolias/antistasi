@@ -4,7 +4,7 @@ _posHQ = getMarkerPos "FIA_HQ";
 
 {
 	if ((side _x == side_blue) and (_x distance _posHQ < 100)) then {
-		if (hayACE) then {
+		if (hasACE) then {
       		[_x, _x] call ace_medical_fnc_treatmentAdvanced_fullHeal;
     	} else {
       		_x setDamage 0;

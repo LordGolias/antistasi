@@ -2,7 +2,7 @@ _pos = _this select 0;
 
 {
 	if ((side _x == side_blue) and (_x distance _pos < 20)) then {
-		if (hayACE) then {
+		if (hasACE) then {
       		[_x, _x] call ace_medical_fnc_treatmentAdvanced_fullHeal;
     	} else {
       		_x setDamage 0;

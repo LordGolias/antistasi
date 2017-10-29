@@ -126,7 +126,7 @@ while {_reason == ""} do {
 				_player distance _position < _size*2}) exitWith {
 					"distanceToLocation"
 			};
-			if (hayACE and {_type != civHeli} and
+			if (hasACE and {_type != civHeli} and
 				{false or
 					{((position _player nearObjects ["DemoCharge_Remote_Ammo", 5]) select 0) mineDetectedBy side_red} or
 					{((position _player nearObjects ["SatchelCharge_Remote_Ammo", 5]) select 0) mineDetectedBy side_red}} and

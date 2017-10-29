@@ -65,7 +65,7 @@ for "_i" from 1 to 3 do {
 	(_items select 1) pushBack _intNATOSupp;
 };
 
-if (hayACE and !hayRHS) then {
+if (hasACE and !hayRHS) then {
 	(_magazines select 0) pushBack "ACE_HuntIR_M203";
 	(_magazines select 1) pushBack 3*_intNATOSupp;
 
