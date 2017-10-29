@@ -1,6 +1,6 @@
 #include "macros.hpp"
 AS_SERVER_ONLY("fnc_win_location.sqf");
-params ["_location", ["_player", objnull]];
+params ["_location"];
 
 if (_location call AS_location_fnc_side == "FIA") exitWith {
 	diag_log format ["[AS] Error: AS_fnc_win_location called from FIA location '%1'", _location];
