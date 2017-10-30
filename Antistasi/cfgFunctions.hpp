@@ -11,7 +11,7 @@ class AS {
 
         FNC_BASE(abandonFIALocation);
         FNC_BASE(renameFIAcamp);
-        FNC(Functions,changeSecondsforAAFattack);
+        FNC_BASE(changeSecondsforAAFattack);
         FNC_BASE(changeForeignSupport);
         FNC_BASE(changeAAFmoney);
         FNC_BASE(changeFIAmoney);
@@ -31,9 +31,9 @@ class AS {
         FNC_BASE(HQdeployPad);
         FNC_BASE(HQdeletePad);
 
-        FNC(Functions,addMinefield);
-        FNC(Functions,changePersistentVehicles);
-        FNC(Functions,deployAAFminefield);
+        FNC_BASE(addMinefield);
+        FNC_BASE(changePersistentVehicles);
+        FNC_BASE(deployAAFminefield);
 
         FNC(fia_recruitment,recruitFIAunit);
 
@@ -64,8 +64,8 @@ class AS {
         FNC_BASE(hasRadio);
         FNC_BASE(location_isPowered);
 
-        FNC(Functions,antennaKilledEH);
-        FNC(Functions,shuffle);
+        FNC_BASE(antennaKilledEH);
+        FNC_BASE(shuffle);
 
         FNC_BASE(getSide);
         FNC_BASE(setSide);
@@ -89,9 +89,9 @@ class AS {
 
         FNC(Scripts,spawnAttackWaves);
 
-        FNC(Functions,AAFattackScore);
-        FNC(Functions,wait_or_fail);
-        FNC(Functions,deployFIAminefield);
+        FNC_BASE(AAFattackScore);
+        FNC_BASE(wait_or_fail);
+        FNC_BASE(deployFIAminefield);
 
         FNC_BASE(canFight);
 
@@ -129,9 +129,9 @@ class AS {
         FNC_BASE(putVehicleInGarage);
         FNC_BASE(accessGarage);
 
-        FNC(Functions,availableSeats);
-        FNC(Functions,createGroup);
-        FNC(Functions,groupCfgToComposition);
+        FNC_BASE(availableSeats);
+        FNC_BASE(createGroup);
+        FNC_BASE(groupCfgToComposition);
 
         FNC_BASE(EH_handleDamage);
         FNC_BASE(EH_handleDamageACE);
