@@ -65,7 +65,7 @@ switch _missionType do {
 		_textohint = format ["Click on the spot where you want %1 to setup a roadblock", (["NATO", "name"] call AS_fnc_getEntity)];
 	};
 	case "nato_qrf": {
-		_requiredSupport = 30;
+		_requiredSupport = 10;
 		_textohint = format ["Click on the airport from which you want %1 to dispatch a QRF", (["NATO", "name"] call AS_fnc_getEntity)];
 	};
 };
