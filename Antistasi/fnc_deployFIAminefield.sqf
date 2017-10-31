@@ -156,7 +156,7 @@ private _remaining = count _positions; // sum of all used mines.
 waitUntil {not AS_S("lockTransfer")};
 AS_Sset("lockTransfer", true);
 ([caja, true] call AS_fnc_getBoxArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
-_cargo_m = [_cargo_m, _usedMines, true] call AS_fnc_mergeCargoLists;  // true -> remove from _cargo_m
+_cargo_m = [_cargo_m, _usedMines, false] call AS_fnc_mergeCargoLists;  // false -> remove from _cargo_m
 [caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true, true] call AS_fnc_populateBox;
 AS_Sset("lockTransfer", false);
 
