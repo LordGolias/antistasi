@@ -14,8 +14,8 @@ AS_HQ_placements = [];
     private _obj = _type createVehicle _pos;
     _obj setDir _dir;
     AS_HQ_placements pushBack _obj;
+    [[_obj,"moveObject"],"AS_fnc_addAction"] call BIS_fnc_MP;
 } forEach ([_dict, "placed"] call DICT_fnc_get);
-publicVariable "AS_HQ_placements";
 
 fuego inflame ([_dict, "inflame"] call DICT_fnc_get);
 call AS_fnc_initPetros;
