@@ -21,7 +21,7 @@ if !(_grouptype in (["FIA", "squads_custom"] call AS_fnc_getEntity)) then {
 	_costHR = _hr1;
 	_isInfantry = true;
 } else {
-	([_grouptype] call (["FIA", "squads_custom_cost"] call AS_fnc_getEntity)) params ["_cost1", "_hr1"];
+	([_grouptype] call (["FIA", "squads_custom_cost"] call AS_fnc_getEntity)) params ["_hr1", "_cost1"];
 	_cost = _cost1;
 	_costHR = _hr1;
 };
