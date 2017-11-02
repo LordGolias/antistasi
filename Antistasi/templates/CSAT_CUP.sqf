@@ -3,6 +3,7 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "roles", ["state", "foreign"]] call DICT_fnc_set;
 [_dict, "name", "RU (CUP)"] call DICT_fnc_set;
 [_dict, "flag", "Flag_CSAT_F"] call DICT_fnc_set;
+[_dict, "flag_marker", "flag_CSAT"] call DICT_fnc_set;
 
 [_dict, "helis_transport", ["CUP_O_Mi8_medevac_RU"]] call DICT_fnc_set;
 [_dict, "helis_attack", ["CUP_O_Ka52_RU"]] call DICT_fnc_set;

@@ -3,6 +3,7 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "roles", ["state", "foreign"]] call DICT_fnc_set;
 [_dict, "name", "VMF (RHS)"] call DICT_fnc_set;
 [_dict, "flag", "rhs_Flag_vmf_F"] call DICT_fnc_set;
+[_dict, "flag_marker", "rhs_flag_Russia"] call DICT_fnc_set;
 
 [_dict, "helis_transport", ["rhs_Mi8AMTSh_FAB_vvs", "rhs_ka60_grey"]] call DICT_fnc_set;
 [_dict, "helis_attack", ["rhs_mi28n_vvs"]] call DICT_fnc_set;
