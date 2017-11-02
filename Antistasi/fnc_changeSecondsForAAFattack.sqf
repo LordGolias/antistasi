@@ -1,4 +1,4 @@
-#include "../macros.hpp"
+#include "macros.hpp"
 AS_SERVER_ONLY("fnc_changeSecondsforAAFattack.sqf");
 
 params ["_time", ["_multiply", true]];

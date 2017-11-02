@@ -1,4 +1,4 @@
-#include "../macros.hpp"
+#include "macros.hpp"
 private _scoreNeededLand = 0;
 private _scoreNeededAir = 0;
 

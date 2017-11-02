@@ -1,4 +1,4 @@
-#include "../macros.hpp"
+#include "macros.hpp"
 params ["_type"];
 
 if (count ("fia_minefield" call AS_mission_fnc_active_missions) != 0) exitWith {

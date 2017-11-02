@@ -1,4 +1,4 @@
-#include "../macros.hpp"
+#include "macros.hpp"
 AS_SERVER_ONLY("fnc_addMinefield.sqf");
 params ["_position", "_side", ["_minesData", []]];
 
