@@ -22,11 +22,9 @@ private _fnc_initialize = {
 private _fnc_spawn = {
 	params ["_mission"];
 	private _position = [_mission, "position"] call AS_spawn_fnc_get;
-	private _mrkfin = createMarker [format ["DES%1", random 100], _position];
-	_mrkfin setMarkerShape "ICON";
 
-	private _task = ([_mission, "resources"] call AS_spawn_fnc_get) select 0;
-	[_mission, "resources", [_task, [[], [], [_mrkfin]]]] call AS_spawn_fnc_set;
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
+	[_mission, "resources", [_task, [], [], []]] call AS_spawn_fnc_set;
 };
 
 private _fnc_run = {
