@@ -16,7 +16,7 @@ private _hr = AS_P("hr");
 private _resourcesFIA = AS_P("resourcesFIA");
 
 if !(_grouptype in (["FIA", "squads_custom"] call AS_fnc_getEntity)) then {
-	([_grouptype] call AS_fnc_getFIASquadCost) params ["_cost1", "_hr1"];
+	([_grouptype] call AS_fnc_getFIASquadCost) params ["_hr1", "_cost1"];
 	_cost = _cost1;
 	_costHR = _hr1;
 	_isInfantry = true;
