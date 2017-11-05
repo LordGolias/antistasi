@@ -105,19 +105,16 @@ private _fnc_spawn = {
 		private _uavTypes = ["AAF", "uavs_attack"] call AS_fnc_getEntity;
 		if (count _uavTypes != 0) then {
 			private _uav = createVehicle [selectRandom _uavTypes, _origin_pos, [], 0, "FLY"];
-			_uav removeMagazines "6Rnd_LG_scalpel";
+			_uav flyInHeight 1000; // so it is in safe altitude.
 			_vehicles pushBack _uav;
 			[_uav, "AAF"] call AS_fnc_initVehicle;
-			[_uav,"UAV"] spawn AS_fnc_setConvoyImmune;
-			[_uav,_position] spawn AS_AI_fnc_activateDrone;
+			[_uav, "UAV"] spawn AS_fnc_setConvoyImmune;
 			createVehicleCrew _uav;
 			private _grupouav = group (crew _uav select 0);
 			_groups pushBack _grupouav;
-			{[_x] spawn AS_fnc_initUnitAAF} forEach units _grupouav;
+			{[_x] call AS_fnc_initUnitAAF} forEach units _grupouav;
 			private _uwp0 = _grupouav addWayPoint [_position,0];
-			_uwp0 setWaypointBehaviour "AWARE";
-			_uwp0 setWaypointType "MOVE";
-			sleep 5;
+			_uwp0 setWaypointType "LOITER";
 		};
 
 		for "_i" from 1 to 3 do {
