@@ -108,7 +108,6 @@ missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 
 // Initializes unlocked items.
 unlockedItems = [
-	"Binocular",
 	"ItemMap",
 	"ItemGPS",
 	"ItemRadio",

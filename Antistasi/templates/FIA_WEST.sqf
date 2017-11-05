@@ -53,6 +53,7 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 ] call DICT_fnc_set;
 
 [_dict, "unlockedWeapons", [
+	"Binocular",
 	"hgun_PDW2000_F",
 	"hgun_ACPC2_F"]
 ] call DICT_fnc_set;

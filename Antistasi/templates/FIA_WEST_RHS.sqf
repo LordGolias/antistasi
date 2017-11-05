@@ -9,7 +9,7 @@ private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy
 [_dict, "engineer", "rhsgref_cdf_b_reg_enginner"] call DICT_fnc_set;
 [_dict, "medic", "rhsgref_cdf_b_reg_medic"] call DICT_fnc_set;
 
-[_dict, "unlockedWeapons", ["rhs_weap_makarov_pm","rhs_weap_aks74u"]] call DICT_fnc_set;
+[_dict, "unlockedWeapons", ["Binocular","rhs_weap_makarov_pm","rhs_weap_aks74u"]] call DICT_fnc_set;
 
 [_dict, "unlockedMagazines", ["rhs_mag_9x18_8_57N181S","rhs_30Rnd_545x39_AK","rhs_mag_rdg2_white"]] call DICT_fnc_set;
 
