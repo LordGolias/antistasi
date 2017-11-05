@@ -68,11 +68,14 @@ private _fnc_wait_to_arrive = {
 		(!alive _truck) or _arrivedSafely
 	};
 
+	// once it arrives, we lose control of it.
+	if (isPlayer leader _group) then {
+		[] remoteExec ["AS_fnc_completeDropAIcontrol", leader _group];
+		hint "";
+	};
+	AS_commander hcRemoveGroup _group;
+
 	if _arrivedSafely then {
-		if (isPlayer leader _group) then {
-			[] remoteExec ["AS_fnc_completeDropAIcontrol", leader _group];
-			hint "";
-		};
 		[[petros,"globalChat","Engineers are now deploying the mines."],"AS_fnc_localCommunication"] call BIS_fnc_MP;
 		[leader _group, _mrk, "SAFE","SPAWNED", "SHOWMARKER"] spawn UPSMON;
 	} else {
@@ -88,7 +91,6 @@ private _fnc_wait_to_deploy = {
 	private _mapPosition = [_mission, "position"] call AS_mission_fnc_get;
 	private _mines_cargo = [_mission, "mines_cargo"] call AS_mission_fnc_get;
 	private _minesPositions = [_mission, "positions"] call AS_mission_fnc_get;
-	private _cost = [_mission, "cost"] call AS_mission_fnc_get;
 	private _group = ([_mission, "resources"] call AS_spawn_fnc_get) select 1 select 0;
 	private _truck = ([_mission, "resources"] call AS_spawn_fnc_get) select 2 select 0;
 	private _arrivedSafely = [_mission, "arrivedSafely"] call AS_spawn_fnc_get;
@@ -116,8 +118,6 @@ private _fnc_wait_to_deploy = {
 			} forEach _minesPositions;
 			[_mapPosition, "FIA", _minesData] call AS_fnc_addMinefield;
 
-			[{alive _x} count units _group,_cost] remoteExec ["AS_fnc_changeFIAmoney",2];  // recover the costs
-
 			([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 			[_mission] remoteExec ["AS_mission_fnc_success", 2];
 		} else {
@@ -131,12 +131,25 @@ private _fnc_clean = {
 	params ["_mission"];
 	private _resources = [_mission, "resources"] call AS_spawn_fnc_get;
 	private _group = _resources select 1 select 0;
+	private _truck = _resources select 2 select 0;
+
+	private _alive = 0;
 	{
 		if (alive _x) then {
 			([_x, true] call AS_fnc_getUnitArsenal) params ["_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b"];
 			[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true] call AS_fnc_populateBox;
+			_alive = _alive + 1;
 		};
+		deleteVehicle _x;
 	} forEach units _group;
+
+	if (alive _truck) then {
+		// todo: make this depend on alive units
+		private _cost = [_mission, "cost"] call AS_mission_fnc_get;
+		[_alive, _cost] remoteExec ["AS_fnc_changeFIAmoney",2];  // recover the costs
+	};
+	deleteVehicle _truck;
+
 	_mission call AS_mission_spawn_fnc_clean;
 };
 
