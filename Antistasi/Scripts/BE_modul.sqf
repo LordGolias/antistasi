@@ -44,10 +44,10 @@ fnc_BE_initialize = {
 	BE_currentXP = 0;
 	BE_progressLock = false;
 
-	BE_class_Heli = (["helis_armed", "helis_transport"] call AS_AAFarsenal_fnc_valid) + (["CSAT", "helis"] call AS_fnc_getEntity);
-	BE_class_MBT = (["tanks"] call AS_AAFarsenal_fnc_valid);
-	BE_class_APC = (["apcs"] call AS_AAFarsenal_fnc_valid);
-	BE_class_MRAP = (["apcs"] call AS_AAFarsenal_fnc_valid);
+	BE_class_Heli = (["AAF", "helis"] call AS_fnc_getEntity) + (["CSAT", "helis"] call AS_fnc_getEntity);
+	BE_class_MBT = ["AAF", "tanks"] call AS_fnc_getEntity;
+	BE_class_APC = ["AAF", "apcs"] call AS_fnc_getEntity;
+	BE_class_MRAP = ["AAF", "cars_armed"] call AS_fnc_getEntity;
 
 	BE_mil_vehicles = BE_class_Heli + BE_class_MBT + BE_class_APC + BE_class_MRAP;
 
