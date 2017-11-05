@@ -101,24 +101,18 @@ if !(_location call AS_location_fnc_forced_spawned) then {
 
 // put all units in the location
 {
-	_unit = _x;
-	_unit allowDamage false;
+	private _unit = _x;
+	vehicle _unit allowDamage false;
 	if (_unit != vehicle _unit) then {
 		if (driver vehicle _unit == _unit) then {
-			// find empty position for a vehicle
-			private _tam = 10;
-			private _roads = [];
-			while {count _roads == 0} do {
-				_roads = _positionTo nearRoads _tam;
-				_tam = _tam + 10;
-			};
-			_road = _roads select 0;
-			private _position = (position _road) findEmptyPosition [1,50,typeOf (vehicle _unit)];
+			private _position = _positionTo findEmptyPosition [0,100, typeOf (vehicle _unit)];
 			vehicle _unit setPos _position;  // other passengers are moved with the vehicle
+			sleep 0.1; // findEmptyPosition needs time or it returns a non-empty position :(
 		};
 	} else {  // unit; non-vechicle
 		private _position = _positionTo findEmptyPosition [1,50,typeOf _unit];
 		_unit setPosATL _position;
+		sleep 0.1; // findEmptyPosition needs time or it returns a non-empty position :(
 		if !(_unit call AS_medical_fnc_isUnconscious) then {
 			if (isPlayer leader _unit) then {_unit setVariable ["rearming",false]};
 			_unit doWatch objNull;
@@ -137,6 +131,6 @@ if (!_isHCfastTravel) then {
 if (_forcedSpawn) then {
 	[_location,true] call AS_location_fnc_despawn;
 };
-{_x allowDamage true} forEach units _group;
+{vehicle _x allowDamage true} forEach units _group;
 
 openMap false;
