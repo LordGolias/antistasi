@@ -73,7 +73,7 @@ private _fnc_spawn = {
 		// update position
 		_position = position _house;
 
-		private _num = (count _house_positions) max 8;
+		private _num = (count _house_positions) min 8;
 		for "_i" from 0 to _num - 1 do {
 			private _unit = ["Survivor", _house_positions select _i, _grpPOW] call AS_fnc_spawnFIAUnit;
 			_unit call _initSurvivor;
