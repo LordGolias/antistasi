@@ -4,18 +4,20 @@ AS_CLIENT_ONLY("fnc_addFIAlocation.sqf");
 params ["_type", "_position"];
 
 private _groupType = "";
+private _cost_order = "ASCEND";
 switch _type do {
     case "watchpost": {
         _groupType = "team_sniper";
     };
     case "roadblock": {
         _groupType = "team_at";
+        _cost_order = "DESCEND";
     };
     case "camp": {
         _groupType = "team_patrol";
     };
 };
-private _vehicleType = (count (["FIA", _groupType] call AS_fnc_getEntity)) call AS_fnc_getFIABestSquadVehicle;
+private _vehicleType = [count (["FIA", _groupType] call AS_fnc_getEntity), _cost_order] call AS_fnc_getFIABestSquadVehicle;
 
 (_groupType call AS_fnc_getFIAsquadCost) params ["_hr", "_cost"];
 _cost = _cost + (_vehicleType call AS_fnc_getFIAvehiclePrice);

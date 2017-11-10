@@ -117,9 +117,11 @@ private _fnc_run = {
 		_resources set [3, []];
 		[_mission, "resources", _resources] call AS_spawn_fnc_set;
 
-		// add the vehicle to the location
-		private _newVehicle = (typeOf _vehicle) createVehicle (getMarkerPos _mrk findEmptyPosition [1,30, typeOf _vehicle]);
-		[_newVehicle] remoteExec ["AS_fnc_changePersistentVehicles", 2];
+		// add the vehicle to the location. Roadblock spawns this vehicle already
+		if (_locationType != "roadblock") then {
+			private _newVehicle = (typeOf _vehicle) createVehicle (getMarkerPos _mrk findEmptyPosition [1,30, typeOf _vehicle]);
+			[_newVehicle] remoteExec ["AS_fnc_changePersistentVehicles", 2];
+		};
 
 		// add the team to the garrison
 		private _garrison = [_mrk, "garrison"] call AS_location_fnc_get;
@@ -127,12 +129,12 @@ private _fnc_run = {
 			if (alive _x) then {
 				_garrison pushBack (_x call AS_fnc_getFIAUnitType);
 			};
-			hideObject _x;
+			hideObjectGlobal _x;
 		} forEach units _group;
 		AS_commander hcRemoveGroup _group;
 		[_mrk, "garrison", _garrison] call AS_location_fnc_set;
-		hideObject _vehicle;
-		{hideObject _x} forEach attachedObjects _vehicle;
+		hideObjectGlobal _vehicle;
+		{hideObjectGlobal _x} forEach attachedObjects _vehicle;
 
 		([_mission, "SUCCEEDED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_mission_fnc_success", 2];

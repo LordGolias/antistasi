@@ -27,11 +27,17 @@ private _fnc_spawn = {
 		private _roadcon = roadsConnectedto (_road select 0);
 		private _dirveh = [_road select 0, _roadcon select 0] call BIS_fnc_DirTo;
 
-		private _veh = "C_Offroad_01_F" createVehicle getPos (_road select 0);
+		private _vehicleType = [count (["FIA", "team_at"] call AS_fnc_getEntity), "DESCEND"] call AS_fnc_getFIABestSquadVehicle;
+		private _veh = _vehicleType createVehicle getPos (_road select 0);
 		_vehicles pushBack _veh;
 		_veh setDir _dirveh + 90;
 		_veh lock 3;
 		[_veh, "FIA"] call AS_fnc_initVehicle;
+
+		private _gunner = selectRandom _soldiers;
+		group _gunner addVehicle _veh;
+		_gunner moveInGunner _veh;
+		_gunner assignAsGunner _veh;
 	};
 	if (_type == "watchpost") then {
 		{
