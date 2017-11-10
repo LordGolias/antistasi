@@ -29,6 +29,10 @@ private _fnc_initialize = {
 	];
 
 	[_mission, [_tskDesc,_tskTitle,_location], _position, "Destroy"] call AS_mission_spawn_fnc_saveTask;
+
+	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
+
+	[_mission, "resources", [_task, [], [], []]] call AS_spawn_fnc_set;
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 	[_mission, "vehicleType", _vehicleType] call AS_spawn_fnc_set;
 };
@@ -40,14 +44,14 @@ private _fnc_wait_spawn = {
 
 	private _fnc_missionFailedCondition = {dateToNumber date > _max_date};
 
-	waitUntil {sleep 1; False or _fnc_missionFailedCondition or (_location call AS_location_fnc_spawned)};
+	waitUntil {sleep 1; False or _fnc_missionFailedCondition or {_location call AS_location_fnc_spawned}};
 
-	if (dateToNumber date > _max_date) then {
+	if (call _fnc_missionFailedCondition) then {
 		([_mission, "FAILED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 		[_mission] remoteExec ["AS_mission_fnc_fail", 2];
 
 		// we set the spawn state to `run` so that the next one is `clean`, since this ends the mission
-		[_mission, "state_index", 4] call AS_spawn_fnc_set;
+		[_mission, "state_index", 3] call AS_spawn_fnc_set;
 	};
 };
 
@@ -112,10 +116,9 @@ private _fnc_run = {
 	[_fnc_missionFailedCondition, _fnc_missionFailed, _fnc_missionSuccessfulCondition, _fnc_missionSuccessful] call AS_fnc_oneStepMission;
 };
 
-AS_mission_destroyVehicle_states = ["initialize", "spawn_wait_spawn", "wait_spawn", "spawn", "run", "clean"];
+AS_mission_destroyVehicle_states = ["initialize", "wait_spawn", "spawn", "run", "clean"];
 AS_mission_destroyVehicle_state_functions = [
 	_fnc_initialize,
-	AS_mission_spawn_fnc_wait_spawn,
 	_fnc_wait_spawn,
 	_fnc_spawn,
 	_fnc_run,

@@ -1,4 +1,6 @@
 #include "macros.hpp"
+AS_CLIENT_ONLY("fnc_activateUndercover");
+params ["_notify"];
 if (player call AS_fnc_controlsAI) exitWith {hint "You cannot go Undercover while you are controlling AI"};
 
 // the player may be temporarly controlling another unit. We check the original unit
@@ -62,6 +64,9 @@ if (vehicle _player != _player) then {
 	if (vehicle _player in AS_S("reportedVehs")) then {
 		_reason = "You cannot go undercover because you are in a compromised vehicle. Change your vehicle or renew it in the Garage to become undercover.";
 	};
+	if (call _fnc_detected) then {
+		_reason = "You cannot go undercover because the enemy knows you.";
+	};
 } else {
 	{
 		if (call _x) exitWith {
@@ -73,7 +78,7 @@ if (vehicle _player != _player) then {
 	};
 };
 
-if (_reason != "") exitWith {
+if (_reason != "" and _notify) exitWith {
 	hint _reason;
 };
 

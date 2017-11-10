@@ -53,12 +53,8 @@ player addEventHandler ["GetInMan", {
 		};
 	};
 	if not _exit then {
-		private _undercoverVehicles = (["CIV", "vehicles"] call AS_fnc_getEntity) + [civHeli];
-		if ((typeOf _vehicle) in _undercoverVehicles) then {
-			if (!(_vehicle in AS_S("reportedVehs"))) then {
-				[] spawn AS_fnc_activateUndercover;
-			};
-		};
+		[false] spawn AS_fnc_activateUndercover;
+
 		if (_seat == "driver" and _vehicle isKindOf "Truck_F") then {
 			private _EHid = [_vehicle, "transferFrom"] call AS_fnc_addAction;
 			player setVariable ["transferID", _EHid];

@@ -408,7 +408,7 @@ class radio_comm_commander
 AS_DIALOG(5,"Battle Options",A_CLOSE);
 
 BTN_L(1,-1, "Fast Travel", "", "closeDialog 0; [] spawn AS_fnc_fastTravel;");
-BTN_L(2,-1, "Go undercover", "While undercover, the enemies won't attack you.", "closeDialog 0; [] spawn AS_fnc_activateUndercover;");
+BTN_L(2,-1, "Go undercover", "While undercover, the enemies won't attack you.", "closeDialog 0; [true] spawn AS_fnc_activateUndercover;");
 BTN_L(3,-1, "Vehicle Manager", "", "closeDialog 0; nul = createDialog ""vehicle_manager"";");
 BTN_L(4,-1, "AI Management", "", "if (player == leader group player) then {closeDialog 0; nul = createDialog ""AI_management""} else {hint ""Only group leaders may access to this option""};");
 
@@ -432,7 +432,7 @@ class radio_comm_player
 AS_DIALOG(3,"Battle Options",A_CLOSE);
 
 BTN_L(1,-1, "Fast Travel", "", "closeDialog 0; [] spawn AS_fnc_fastTravel;");
-BTN_L(2,-1, "Go undercover", "While undercover, the enemies won't attack you.", "closeDialog 0; [] spawn AS_fnc_activateUndercover;");
+BTN_L(2,-1, "Go undercover", "While undercover, the enemies won't attack you.", "closeDialog 0; [true] spawn AS_fnc_activateUndercover;");
 BTN_L(3,-1, "Toggle your eligiblily for commanding", "", "closeDialog 0; call AS_fnc_UI_toggleElegibility;");
 
 BTN_R(1,-1, "AI Management", "", "if (player == leader group player) then {closeDialog 0; nul = createDialog ""AI_management""} else {hint ""Only group leaders may access to this option""};");
