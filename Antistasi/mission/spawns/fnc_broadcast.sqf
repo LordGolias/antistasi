@@ -11,7 +11,10 @@ private _fnc_initialize = {
 	private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + MAX_TIME];
 
 	private _tskTitle = _mission call AS_mission_fnc_title;
-	private _tskDesc = localize "STR_tskDesc_PRBrain";
+	private _tskDesc = format [localize "STR_tskDesc_PRBrain",
+		[_location] call AS_fnc_location_name,
+		numberToDate [2035,dateToNumber _fechalim] select 3,
+		numberToDate [2035,dateToNumber _fechalim] select 4];
 
 	[_mission, "max_date", dateToNumber _fechalim] call AS_spawn_fnc_set;
 	[_mission, "position", _position] call AS_spawn_fnc_set;

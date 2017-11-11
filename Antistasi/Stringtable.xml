@@ -258,18 +258,6 @@
 			<Key ID="STR_tskDesc_PRBrain">
 				<Original>We have noticed that the town of %1 is sympathetic to our cause. Travel there with this Truck and establish a semi-permanent propaganda station in order to spread the word. Once established, stay with and guard the station for as long as you deem necessary to raise town support. It would be wise to expect a number of enemy military responses to this action. You have until %2:%3 to arrive and set it up.</Original>
 			</Key>
-			<Key ID="STR_tskDesc_PRBrain_fail">
-				<Original>You failed to set up the gear before %2:%3.</Original>
-			</Key>
-			<Key ID="STR_tskDesc_PRBrain_hold">
-				<Original>Protect the station for as long as you can. We have enough battery capacity to run this station until %2:%3, so don't drag this out.</Original>
-			</Key>
-			<Key ID="STR_tskDesc_PRBrain_fail2">
-				<Original>You held the position for less than 10 minutes.</Original>
-			</Key>
-			<Key ID="STR_tskDesc_PRBrain_success">
-				<Original>You managed to hold the position long enough to inspire the population.</Original>
-			</Key>
 
 			<Key ID="STR_tsk_PRPamphlet">
 				<Original>Drop leaflets</Original>
