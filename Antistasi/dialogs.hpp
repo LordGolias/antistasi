@@ -442,21 +442,6 @@ BTN_R(3,-1, "Vehicle Manager", "", "closeDialog 0; nul = createDialog ""vehicle_
 	};
 };
 
-class HQ_reset_menu
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-AS_DIALOG(1,"Do you want to reset HQ?",A_CLOSE);
-
-BTN_L(1,-1, "Yes", "", "closeDialog 0; [] remoteExec [""AS_fnc_HQdeploy"", 2]");
-BTN_R(1,-1, "No", "", A_CLOSE);
-
-	};
-};
-
 class maintenance_menu
 {
 	idd=-1;
@@ -466,12 +451,15 @@ class maintenance_menu
 	{
     AS_DIALOG(2,"Maintenance","closeDialog 0; createDialog ""game_options_commander"";");
 
-	#define STR_MAINT_PET "[] remoteExec [""fnc_MAINT_resetPetros"", 2];"
-
-	BTN_L(1,-1, "Reset HQ", "Resets all HQ items to near Petros.", "closeDialog 0; createDialog ""HQ_reset_menu"";");
-	BTN_L(2,-1, "Cleanup arsenal", "Remove items that do not exist or are unlocked.", "[] remoteExec [""AS_fnc_refreshArsenal"", 2]");
-	BTN_R(1,-1, "Reset Petros' position", "Move Petros next to the campfire at HQ.", "[] remoteExec [""AS_fnc_resetPetrosPosition"", 2]");
-	BTN_R(2,-1, "Fix Y button", "Press in case the Y button stops working.", "closeDialog 0; [] execVM ""reinitY.sqf"";");
+	#define STR1 "closeDialog 0; [] remoteExec [""AS_fnc_HQdeploy"", 2];"
+	BTN_L(1,-1, "Reset HQ", "Resets all HQ items to near Petros.", STR1);
+	#define STR1 "closeDialog 0; [] remoteExec [""AS_fnc_refreshArsenal"", 2]"
+	BTN_L(2,-1, "Cleanup arsenal", "Remove items from the arsenal that do not exist.", STR1);
+	#define STR1 "closeDialog 0; [] remoteExec [""AS_fnc_resetPetrosPosition"", 2]"
+	BTN_R(1,-1, "Reset Petros' position", "Move Petros next to the campfire at HQ.", STR1);
+	#define STR1 "closeDialog 0; [] execVM ""reinitY.sqf"";"
+	BTN_R(2,-1, "Fix Y button", "Use in case the Y button stops working.", STR1);
+	#undef STR1
 	};
 };
 
