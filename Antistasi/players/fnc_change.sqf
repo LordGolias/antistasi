@@ -4,6 +4,10 @@ params ["_player", "_attribute", "_difference", ["_notify", true]];
 private _id = getPlayerUID _player;
 
 private _old_amount = [_player, _attribute] call AS_players_fnc_get;
+if (_attribute == "money") then {
+    // must be a positive value
+    _difference = (-_old_amount) max _difference;
+};
 [AS_container, "players", _id, _attribute, _old_amount + _difference] call DICT_fnc_setGlobal;
 
 if (_notify and {_attribute == "money"}) then {
