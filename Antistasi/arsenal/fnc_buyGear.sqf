@@ -4,7 +4,7 @@ params ["_type", "_money"];
 private ["_weapons", "_accessories", "_amount"];
 
 if (AS_P("resourcesFIA") < _money) exitWith {
-	hint "not enough money :(";
+	[AS_commander, "hint", "not enough money :("] remoteExec ["AS_fnc_localCommunication", AS_commander];
 };
 
 private _buyableWeapons = CSATweapons + NATOweapons;
