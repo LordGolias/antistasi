@@ -90,7 +90,7 @@ private _spawnGroup = {
 
 private _spawnVehicle = {
 	params ["_vehicleType", "_position", "_direction"];
-	([_position, _direction, _vehicleType, _side] call bis_fnc_spawnvehicle) params ["_vehicle", "_group"];
+	([_position, _direction, _vehicleType, _side] call bis_fnc_spawnvehicle) params ["_vehicle", "_units", "_group"];
 	if (_faction == "AAF") then {
 		{_x call AS_fnc_initUnitAAF} forEach units _group;
 	} else {
