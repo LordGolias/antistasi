@@ -7,6 +7,7 @@ private _vehiculos = [];
 
 private _posicion = _location call AS_location_fnc_position;
 private _size = _location call AS_location_fnc_size;
+private _type = _location call AS_location_fnc_type;
 private _estaticas = AS_P("vehicles") select {_x distance _posicion < _size};
 private _garrison = _location call AS_location_fnc_garrison;
 
@@ -54,8 +55,12 @@ _grupos = _grupos + [_grupo];
 } forEach _garrison;
 
 // give orders to the groups
+private _behaviour = "SAFE";
+if (_type == "watchpost") then {
+	_behaviour = "STEALTH";
+};
 {
-	[leader _x, _location, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] spawn UPSMON;
+	[leader _x, _location, _behaviour,"SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] spawn UPSMON;
 } forEach _grupos;
 
 if !(isNull _grupoMort) then {

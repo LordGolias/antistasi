@@ -39,12 +39,6 @@ private _fnc_spawn = {
 		_gunner moveInGunner _veh;
 		_gunner assignAsGunner _veh;
 	};
-	if (_type == "watchpost") then {
-		{
-			_x setBehaviour "STEALTH";
-			_x setCombatMode "GREEN";
-		} forEach _groups;
-	};
 
 	if (_type == "camp") then {
 		private _campBox = objNull;
