@@ -13,7 +13,7 @@ if (_dif > 0) then {
 };
 
 private _roads = [];
-while {count _roads != 0} do {
+while {count _roads == 0} do {
 	_roads = _destination nearRoads _tam;
 	_tam = _tam + 50;
 };

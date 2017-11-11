@@ -58,6 +58,8 @@ class AS {
     };
 
     class common {
+        FNC_BASE(codeToString);
+
         FNC_BASE(HQselect);
         FNC_BASE(setDefaultSkill);
         FNC_BASE(lockVehicle);

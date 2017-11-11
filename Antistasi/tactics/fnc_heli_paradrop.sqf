@@ -58,7 +58,7 @@ private _statement = {
 		} forEach units _cargo_group;
 	};
 };
-_wp setWaypointStatements ["true", str _statement];
+_wp setWaypointStatements ["true", _statement call AS_fnc_codeToString];
 
 // keep dropping
 private _wp1 = _crew_group addWaypoint [_midDropPosition, 1];
@@ -74,9 +74,10 @@ _wp3 setWaypointType "MOVE";
 
 _cargo_group setVariable ["AS_patrol_marker", _patrol_marker, true];
 private _statement = {
+	{deleteWaypoint _x} forEach waypoints group this;
     [this, group this getVariable "AS_patrol_marker", "COMBAT", "SPAWNED", "NOFOLLOW"] spawn UPSMON;
 };
-_wp3 setWaypointStatements ["true", str _statement];
+_wp3 setWaypointStatements ["true", _statement call AS_fnc_codeToString];
 
 // send the helicopter home
 _crew_group addWaypoint [_origin, 0];

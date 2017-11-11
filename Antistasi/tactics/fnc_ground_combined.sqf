@@ -8,7 +8,8 @@ _wp1 setWaypointBehaviour "CARELESS";
 
 _crew_group setVariable ["AS_patrol_marker", _marker, true];
 private _statement = {
+    {deleteWaypoint _x} forEach waypoints group this;
     [this, group this getVariable "AS_patrol_marker", "COMBAT", "SPAWNED", "NOFOLLOW"] spawn UPSMON;
 };
 
-_wp1 setWaypointStatements ["true", str _statement];
+_wp1 setWaypointStatements ["true", _statement call AS_fnc_codeToString];

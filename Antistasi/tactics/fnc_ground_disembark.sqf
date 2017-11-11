@@ -11,10 +11,11 @@ _wp2 synchronizeWaypoint [_wp1];
 
 _cargo_group setVariable ["AS_patrol_marker", _marker, true];
 private _statement = {
+    {deleteWaypoint _x} forEach waypoints group this;
     [this, group this getVariable "AS_patrol_marker", "COMBAT", "SPAWNED", "NOFOLLOW"] spawn UPSMON;
 };
 
-_wp2 setWaypointStatements ["true", str _statement];
+_wp2 setWaypointStatements ["true", _statement call AS_fnc_codeToString];
 
 // send home
 private _wp2 = _crew_group addWaypoint [_origin, 1];

@@ -14,7 +14,7 @@ private _statement = {
     private _ropping = _cargo_group spawn SHK_Fastrope_fnc_AIs;
     waitUntil {scriptDone _ropping};
 };
-_wp1 setWaypointStatements ["true", str _statement];
+_wp1 setWaypointStatements ["true", _statement call AS_fnc_codeToString];
 
 private _wp2 = _cargo_group addWaypoint [_safePosition, 0];
 _wp2 setWaypointType "MOVE";
@@ -23,7 +23,7 @@ _cargo_group setVariable ["AS_patrol_marker", _patrol_marker, true];
 private _statement = {
     [this, group this getVariable "AS_patrol_marker", "COMBAT", "SPAWNED", "NOFOLLOW"] spawn UPSMON;
 };
-_wp2 setWaypointStatements ["true", str _statement];
+_wp2 setWaypointStatements ["true", _statement call AS_fnc_codeToString];
 
 // send the helicopter home
 _crew_group addWaypoint [_origin, 0];
