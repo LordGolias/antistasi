@@ -54,13 +54,26 @@ if (_useBackpack) then {
     _backpack = ([caja, "backpack"] call AS_fnc_getBestItem);
 };
 
-private _primaryWeapon = ([caja, _primaryWeapons, _primaryMagCount] call AS_fnc_getBestWeapon);
+private _availableWeapons = getWeaponCargo caja;
+private _availableMagazines = getMagazineCargo caja;
+
+// unlocked stuff counts as always 100
+{
+    (_availableWeapons select 0) pushBack _x;
+    (_availableWeapons select 1) pushBack 100;
+} forEach unlockedWeapons;
+{
+    (_availableMagazines select 0) pushBack _x;
+    (_availableMagazines select 1) pushBack 100;
+} forEach unlockedMagazines;
+
+private _primaryWeapon = ([_availableWeapons, _availableMagazines, _primaryWeapons, _primaryMagCount] call AS_fnc_getBestWeapon);
 private _primaryMags = [[], []];
 if (_primaryWeapon != "") then {
     _primaryMags = ([caja, _primaryWeapon, _primaryMagCount] call AS_fnc_getBestMagazines);
 };
 
-private _secondaryWeapon = ([caja, _secondaryWeapons, 2 + 1] call AS_fnc_getBestWeapon);
+private _secondaryWeapon = ([_availableWeapons, _availableMagazines, _secondaryWeapons, 2 + 1] call AS_fnc_getBestWeapon);
 private _secondaryMags = [[], []];
 if (_secondaryWeapon != "") then {
     _secondaryMags = ([caja, _secondaryWeapon, 2 + 1] call AS_fnc_getBestMagazines);
