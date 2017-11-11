@@ -9,6 +9,7 @@ waitUntil {sleep 0.1; !isNull player and {player == player}};
 diag_log "[AS] Client: initializing...";
 player setPos ((getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)]);
 [player] call AS_fnc_emptyUnit;
+player call AS_fnc_equipDefault;
 [] spawn {
     private _dots = "";
     while {isNil "AS_common_variables_initialized" and isNil "AS_commander"} do {
