@@ -9,7 +9,7 @@ params ["_groups", "_vehicles", "_markers"];
 {
     private _group = _x;
     {
-        _x spawn {
+        [_x] spawn {
             params ["_unit"];
             waitUntil {sleep (5 + random 5); not ([AS_P("spawnDistance"), _unit, "BLUFORSpawn", "boolean"] call AS_fnc_unitsAtDistance)};
 

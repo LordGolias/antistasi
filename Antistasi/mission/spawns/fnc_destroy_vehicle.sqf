@@ -59,7 +59,7 @@ private _fnc_spawn = {
 	params ["_mission"];
 	private _location = _mission call AS_mission_fnc_location;
 	private _position = _location call AS_location_fnc_position;
-	private _vehicleType = ["_mission", "vehicleType"] call AS_spawn_fnc_get;
+	private _vehicleType = [_mission, "vehicleType"] call AS_spawn_fnc_get;
 
 	// spawn vehicle and crew
 	private _pos = _position findEmptyPosition [10,60,_vehicleType];
@@ -74,15 +74,15 @@ private _fnc_spawn = {
 	};
 
 	private _task = ([_mission, "resources"] call AS_spawn_fnc_get) select 0;
-	[_mission, "resources", [_task, [[_group], [_veh], []]]] call AS_spawn_fnc_set;
+	[_mission, "resources", [_task, [_group], [_veh], []]] call AS_spawn_fnc_set;
 };
 
 private _fnc_run = {
 	params ["_mission"];
 	private _max_date = [_mission, "max_date"] call AS_spawn_fnc_get;
 
-	private _group = (([_mission, "resources"] call AS_spawn_fnc_set) select 1) select 0;
-	private _veh = (([_mission, "resources"] call AS_spawn_fnc_set) select 2) select 0;
+	private _group = (([_mission, "resources"] call AS_spawn_fnc_get) select 1) select 0;
+	private _veh = (([_mission, "resources"] call AS_spawn_fnc_get) select 2) select 0;
 
 	private _fnc_missionFailedCondition = {dateToNumber date > _max_date};
 
