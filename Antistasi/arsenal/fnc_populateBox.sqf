@@ -5,7 +5,16 @@ See implementation below.
 params ["_box", "_cargo_w", "_cargo_m", "_cargo_i", "_cargo_b", ["_restrict", false], ["_clear", false]];
 private ["_name", "_amount"];
 
-if (_clear) then {
+private _is_locked = {
+	_box getVariable ["AS_lockedCargo", false]
+};
+
+if (call _is_locked) then {
+	waitUntil {sleep 0.1; not call is_locked};
+};
+_box setVariable ["AS_lockedCargo", true, true];
+
+if _clear then {
 	[_box] call AS_fnc_emptyCrate;
 };
 
@@ -40,3 +49,4 @@ for "_i" from 0 to (count (_cargo_b select 0) - 1) do {
 		_box addBackpackCargoGlobal [_name,_amount];
 	};
 };
+_box setVariable ["AS_lockedCargo", nil, true];
