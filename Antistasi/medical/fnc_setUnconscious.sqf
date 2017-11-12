@@ -1,7 +1,9 @@
 params ["_unit", "_unconscious"];
 if not hasACEMedical then {
-    _unit setUnconscious _unconscious;
     if _unconscious then {
+        if ((vehicle _unit) isKindOf "StaticWeapon") then {
+            _unit action ["Eject", vehicle _unit];
+        };
         _unit switchMove "";
         _unit playActionNow "Unconscious";
         _unit disableAI "ALL";
