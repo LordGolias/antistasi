@@ -1,19 +1,6 @@
-#define BE_XP_KILL 0.5
-#define BE_XP_MIS 10
-#define BE_XP_DES_VEH 5
-#define BE_XP_DES_ARM 10
-#define BE_XP_CAP_VEH 8
-#define BE_XP_CAP_ARM 12
-#define BE_XP_CON_TER 10
-#define BE_XP_CON_BAS 20
-#define BE_XP_CON_CIT 15
-#define BE_XP_CL_LOC 5
-#define BE_XP_UNL_WPN 15
-
 #define BE_REQ_XP [150, 200, 250, 350]
 
 #define BE_FIA_SKILL_CAP [4, 8, 12, AS_maxSkill]
-#define BE_FIA_OUTFIT [0, 25, 50, 75]
 #define BE_FIA_GARAGE_CAPACITY [6, 10, 15, 20]
 #define BE_PERS_GARAGE_CAPACITY [2, 4, 6, 8]
 #define BE_VEHICLE_RESTRICTION [["MBT", "APC", "Heli"], ["MBT", "Heli"], ["Heli"], ["none"]]
@@ -54,14 +41,8 @@ fnc_BE_initialize = {
 	[true] call fnc_BE_refresh;
 };
 
-fnc_BE_captureVehicle = {
-	params ["_vehicle"];
-	BE_vehiclesCaptured pushBack _vehicle;
-};
-
 fnc_BE_refresh = {
 	BE_current_FIA_Skill_Cap = BE_FIA_SKILL_CAP select BE_currentStage;
-	BE_current_FIA_Outfit = BE_FIA_OUTFIT select BE_currentStage;
 	BE_current_FIA_GarageCap = BE_FIA_GARAGE_CAPACITY select BE_currentStage;
 	BE_current_Pers_GarageCap = BE_PERS_GARAGE_CAPACITY select BE_currentStage;
 	BE_current_Vehicle_Restriction = BE_VEHICLE_RESTRICTION select BE_currentStage;
@@ -75,7 +56,6 @@ fnc_BE_refresh = {
 
 	BE_currentRestrictions = [
 		BE_current_FIA_Skill_Cap,
-		BE_current_FIA_Outfit,
 		BE_current_FIA_GarageCap,
 		BE_current_Pers_GarageCap,
 		BE_current_Vehicle_Restriction,
@@ -88,7 +68,6 @@ fnc_BE_refresh = {
 
 fnc_BE_pushVariables = {
 	publicVariable "BE_current_FIA_Skill_Cap";
-	publicVariable "BE_current_FIA_Outfit";
 	publicVariable "BE_current_FIA_GarageCap";
 	publicVariable "BE_current_Pers_GarageCap";
 	publicVariable "BE_current_Vehicle_Restriction";
@@ -107,45 +86,43 @@ fnc_BE_pushVariables = {
 };
 
 fnc_BE_XP = {
+	// increases the experience of FIA
 	AS_SERVER_ONLY("BE_modul.sqf/fnc_BE_XP");
-	params ["_category", ["_amount", 1]];
+	params ["_category"];
 	private _delta = 0;
 
 	if ((BE_currentStage > 3) || (BE_progressLock)) exitWith {};
 
 	switch (_category) do {
 		case "kill": {
-			_delta = BE_XP_KILL;
+			_delta = 0.5;
 		};
 		case "mis": {
-			_delta = BE_XP_MIS;
+			_delta = 10;
 		};
 		case "des_veh": {
-			_delta = BE_XP_DES_VEH;
+			_delta = 5;
 		};
 		case "des_arm": {
-			_delta = BE_XP_DES_ARM;
+			_delta = 10;
 		};
 		case "cap_veh": {
-			_delta = BE_XP_CAP_VEH;
+			_delta = 8;
 		};
 		case "cap_arm": {
-			_delta = BE_XP_CAP_ARM;
+			_delta = 12;
 		};
 		case "con_ter": {
-			_delta = BE_XP_CON_TER;
+			_delta = 10;
 		};
 		case "con_bas": {
-			_delta = BE_XP_CON_BAS;
+			_delta = 20;
 		};
 		case "con_cit": {
-			_delta = BE_XP_CON_CIT;
+			_delta = 15;
 		};
 		case "cl_loc": {
-			_delta = BE_XP_CL_LOC;
-		};
-		case "unl_wpn": {
-			_delta = _amount * BE_XP_UNL_WPN;
+			_delta = 5;
 		};
 		default {
 			diag_log format ["Error in BE module XP - param 1: %1", _category];
@@ -343,30 +320,6 @@ fnc_BE_permission = {
 
 publicVariable "fnc_BE_permission";
 
-
-fnc_BE_getCurrentValue = {
-	params ["_category"];
-
-	private _result = 0;
-
-	switch (_category) do {
-		case "HR": {
-			_result = BE_current_FIA_HR_Cap - AS_P("hr");
-		};
-		case "outfit": {
-			_result = BE_current_FIA_Outfit;
-		};
-
-		default {
-			diag_log format ["Error in BE module permission - param 1:%1", _category];
-		};
-	};
-
-	_result
-};
-
-publicVariable "fnc_BE_getCurrentValue";
-
 fnc_BE_checkVehicle = {
 	params ["_vehicle", "_type"];
 
@@ -422,7 +375,6 @@ fnc_BE_broadcast = {
 
 	if (_type == "restrictions") then {
 		_pI pushBackUnique (format ["Current FIA skill cap: %1", BE_current_FIA_Skill_Cap]);
-		_pI pushBackUnique (format ["Current FIA outfit percentage: %1", BE_current_FIA_Outfit]);
 		_pI pushBackUnique (format ["Current FIA garage size: %1", BE_current_FIA_GarageCap]);
 		_pI pushBackUnique (format ["Current personal garage size: %1", BE_current_Pers_GarageCap]);
 		_pI pushBackUnique (format ["Currently restricted vehicles: %1", BE_current_Vehicle_Restriction]);
@@ -435,82 +387,66 @@ fnc_BE_broadcast = {
 	[petros,"BE",_pI] remoteExec ["AS_fnc_localCommunication",AS_commander];
 };
 
-#define BE_STR_CTER1 "At least 1 outpost/base/airport under your control"
-#define BE_STR_CTER2 "At least 1 base/airport under your control"
-#define BE_STR_CTER3 "At least 1 airport under your control"
 fnc_BE_C_TER = {
 	private _types = ['airfield'];
-	BE_STR_CTER = BE_STR_CTER3;
+	private _str = "At least 1 airport under your control";
 	call {
 		if (BE_currentStage == 1) exitWith {
 			_types pushBack "base";
-			BE_STR_CTER = BE_STR_CTER2;
+			_str = "At least 1 base/airport under your control";
 		};
 		if (BE_currentStage == 0) exitWith {
 			_types append ["outpost", "outpostAA"];
-			BE_STR_CTER = BE_STR_CTER1;
+			_str = "At least 1 outpost/base/airport under your control";
 		};
 	};
 
-	[(count ([_types, "FIA"] call AS_location_fnc_TS) > 0), BE_STR_CTER]
+	[(count ([_types, "FIA"] call AS_location_fnc_TS) > 0), _str]
 };
 
-#define BE_STR_CMTN1 ""
-#define BE_STR_CMTN2 "Have cleared at least 1 CSAT hilltop"
-#define BE_STR_CMTN3 ""
 fnc_BE_C_MTN = {
-	BE_STR_CMTN = BE_STR_CMTN2;
-	[(count (["hillAA", "FIA"] call AS_location_fnc_TS) > 0), BE_STR_CMTN]
+	[(count (["hillAA", "FIA"] call AS_location_fnc_TS) > 0), "Have cleared at least 1 CSAT hilltop"]
 };
 
-#define BE_STR_CHR1 "Have at least 20 HR"
-#define BE_STR_CHR2 "Have at least 40 HR"
-#define BE_STR_CHR3 "Have at least 60 HR"
 fnc_BE_C_HR = {
 	private _minVal = 60;
-	BE_STR_CHR = BE_STR_CHR3;
 	call {
 		if (BE_currentStage == 1) exitWith {
 			_minVal = 40;
-			BE_STR_CHR = BE_STR_CHR2;
 		};
 		if (BE_currentStage == 0) exitWith {
 			_minVal = 20;
-			BE_STR_CHR = BE_STR_CHR1;
 		};
 	};
+	private _str = format ["Have at least %1 HR", _minVal];
 
-	[AS_P("hr") >= _minVal, BE_STR_CHR]
+	[AS_P("hr") >= _minVal, _str]
 };
 
-#define BE_STR_CVEH1 "Captured at least 2 MRAPs in garage"
-#define BE_STR_CVEH2 "Captured at least 2 APCs in garage"
-#define BE_STR_CVEH3 "Captured at least 1 MBT in garage"
 fnc_BE_C_VEH = {
 	private _type = BE_class_MBT;
 	private _minVal = 1;
 	private _result = 0;
-	BE_STR_CVEH = BE_STR_CVEH3;
+	private _str = "Captured at least 1 MBT in garage";
 
 	call {
 		if (BE_currentStage == 1) exitWith {
 			_type = BE_class_APC;
 			_minVal = 2;
-			BE_STR_CVEH = BE_STR_CVEH2;
+			_str = "Captured at least 2 APCs in garage";
 		};
 		if (BE_currentStage == 0) exitWith {
 			_type = BE_class_MRAP;
 			_minVal = 2;
-			BE_STR_CVEH = BE_STR_CVEH1;
+			_str = "Captured at least 2 MRAPs in garage";
 		};
 	};
 
 	{
 		if (_x in _type) then {_result = _result + 1};
-	//} forEach BE_vehiclesCaptured;
 	} forEach AS_P("vehiclesInGarage");
 
-	[(_result >= _minVal), BE_STR_CVEH]
+	[(_result >= _minVal), _str]
 };
 
 BE_reqs_0 = [fnc_BE_C_TER, fnc_BE_C_HR, fnc_BE_C_MTN, fnc_BE_C_VEH];
