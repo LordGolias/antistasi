@@ -50,6 +50,29 @@ private _fnc_allPossibleMissions = {
         {_type in _conquerableLocations and {_missionType == "conquer"}}
     };
 
+    private _fnc_isAvailable = {
+        // checks whether a given (mission type, location) is available given the current state
+        params ["_missionType", "_location"];
+
+        False or
+        {not (_missionType in ["pamphlets", "broadcast", "convoy_money", "convoy_supplies", "convoy_armor", "convoy_ammo", "convoy_prisoners", "convoy_hvt"])} or
+        {(_missionType == "pamphlets") and {[_location, "AAFsupport"] call AS_location_fnc_get > 0}} or
+        {(_missionType == "broadcast") and {[_location, "FIAsupport"] call AS_location_fnc_get > 10}} or
+        {_missionType in ["convoy_money", "convoy_supplies", "convoy_armor", "convoy_ammo", "convoy_prisoners", "convoy_hvt"] and {
+            // needs a base around
+            private _base = [_location call AS_location_fnc_position] call AS_fnc_getBasesForConvoy;
+
+            private _base_condition = {_base != "" and {not(_base call AS_location_fnc_spawned)}};
+            private _condition = if (_missionType == "convoy_armor") then {
+                // there is a base and a tank
+                {True and _base_condition and {"tanks" call AS_AAFarsenal_fnc_count > 0}}
+            } else {
+                _base_condition
+            };
+            call _condition
+        }}
+    };
+
     {
         private _location = _x;
         {
@@ -74,49 +97,27 @@ private _fnc_allPossibleMissions = {
 
     {
         private _position = _x call AS_location_fnc_position;
-        if (not (["rob_bank", _x] in _possible) and {_position distance (getMarkerPos "FIA_HQ") < AS_missions_MAX_DISTANCE} and
+        private _mission = ["rob_bank", _x];
+        if (not (_mission in _possible) and {_position distance (getMarkerPos "FIA_HQ") < AS_missions_MAX_DISTANCE} and
             {
                 private _bank_position = [AS_bankPositions, _position] call BIS_fnc_nearestPosition;
                 (_position distance _bank_position) < (_x call AS_location_fnc_size)} and
             {_x call AS_location_fnc_side == "AAF"} and
             {not(_x call AS_location_fnc_spawned)}) then {
-            _possible pushBack ["rob_bank", _x];
+            _possible pushBack _mission;
         };
     } forEach (call AS_location_fnc_cities);
 
-    // it uses exitWith so there is only one possible mission at the time.
     {
         private _location = _x;
         private _mission = ["black_market", _location];
+        // it uses exitWith so there is only one possible mission at the time.
         if (_mission call _fnc_isPossibleMission) exitWith {
             _possible pushBack _mission;
         };
     } forEach ((["city"] call AS_location_fnc_T) call AS_fnc_shuffle);
 
-    _possible
-};
-
-private _fnc_isAvailable = {
-    params ["_mission"];
-    private _missionType = _mission call AS_mission_fnc_type;
-    private _location = _mission call AS_mission_fnc_location;
-
-    if (_mission call AS_mission_fnc_status == "active") exitWith {false};
-
-    False or
-    {not (_missionType in ["pamphlets", "broadcast", "convoy_money", "convoy_supplies", "convoy_armor", "convoy_ammo", "convoy_prisoners", "convoy_hvt"])} or
-    {_missionType == "pamphlets" and [_location, "AAFsupport"] call AS_location_fnc_get > 0} or
-    {_missionType == "broadcast" and [_location, "FIAsupport"] call AS_location_fnc_get > 10} or
-    {_missionType in ["convoy_money", "convoy_supplies", "convoy_armor", "convoy_ammo", "convoy_prisoners", "convoy_hvt"] and {
-        // needs a base around
-        private _base = [_location call AS_location_fnc_position] call AS_fnc_getBasesForConvoy;
-
-        private _condition = {_base != "" and {not(_base call AS_location_fnc_spawned)}};
-        if (_missionType == "convoy_armor") then {
-            _condition = True and _condition and {"tanks" call AS_AAFarsenal_fnc_count > 0};
-        };
-        call _condition
-    }}
+    _possible select {_x call _fnc_isAvailable}
 };
 
 // 1. intersect the list of possible missions with the cached possible missions
