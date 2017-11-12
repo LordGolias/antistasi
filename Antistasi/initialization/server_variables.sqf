@@ -17,6 +17,7 @@ campNames = ["Spaulding","Wagstaff","Firefly","Loophole","Quale","Driftwood","Fl
 expCrate = ""; // dealer's crate
 
 AS_commander = objNull;
+publicVariable "AS_commander";
 
 // todo: have a menu to switch this behaviour
 switchCom = false;  // Game will not auto assign Commander position to the highest ranked player

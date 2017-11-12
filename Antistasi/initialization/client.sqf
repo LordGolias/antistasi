@@ -75,8 +75,13 @@ if (hasTFAR or hasACE) then {
 /////////////////////////////////////////////////////////////////////////////
 /////////////// Client waits for a commander to be chosen ///////////////////
 /////////////////////////////////////////////////////////////////////////////
+if isNil "AS_commander" then {
+    diag_log "[AS] Client: waiting for server to initialize commander...";
+    waitUntil {sleep 1; not isNil "AS_commander"};
+};
+
 if isNull AS_commander then {
-    diag_log "[AS] Client: waiting for a commander...";
+    diag_log "[AS] Client: waiting for server to assign commander...";
     waitUntil {sleep 1; not isNull AS_commander};
 };
 

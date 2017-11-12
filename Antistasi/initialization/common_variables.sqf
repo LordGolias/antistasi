@@ -11,8 +11,6 @@ AS_rank_abbreviations = [
 	"PRV", "CPL", "SGT", "LT", "CPT", "MAJ", "COL"
 ];
 
-AS_commander = objNull;
-
 AS_traits = call DICT_fnc_create;
 [AS_traits, "medic", call DICT_fnc_create] call DICT_fnc_set;
 [AS_traits, "medic", "name", "Medic"] call DICT_fnc_set;
