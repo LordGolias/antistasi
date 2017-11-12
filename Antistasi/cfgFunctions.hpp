@@ -189,6 +189,7 @@ class AS {
         FNC(arsenal,fillCrateAAF);
         FNC(arsenal,emptyCrate);
         FNC(arsenal,removeNightEquipment);
+        FNC(arsenal,unlockedCargoList);
 
         FNC_BASE(initVehicle);
         FNC_BASE(initVehicleCiv);

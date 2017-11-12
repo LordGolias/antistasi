@@ -57,15 +57,10 @@ if (_useBackpack) then {
 private _availableWeapons = getWeaponCargo caja;
 private _availableMagazines = getMagazineCargo caja;
 
-// unlocked stuff counts as always 100
-{
-    (_availableWeapons select 0) pushBack _x;
-    (_availableWeapons select 1) pushBack 100;
-} forEach unlockedWeapons;
-{
-    (_availableMagazines select 0) pushBack _x;
-    (_availableMagazines select 1) pushBack 100;
-} forEach unlockedMagazines;
+// add unlocked stuff
+(call AS_fnc_unlockedCargoList) params ["_unlockedCargoWeapons", "_unlockedCargoMagazines"];
+[_availableWeapons, _unlockedCargoWeapons] call AS_fnc_mergeCargoLists;
+[_availableWeapons, _unlockedCargoMagazines] call AS_fnc_mergeCargoLists;
 
 private _primaryWeapon = ([_availableWeapons, _availableMagazines, _primaryWeapons, _primaryMagCount] call AS_fnc_getBestWeapon);
 private _primaryMags = [[], []];
