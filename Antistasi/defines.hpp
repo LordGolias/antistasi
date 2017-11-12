@@ -243,35 +243,45 @@ class RscStructuredText : RscColors
 // The height between buttons
 #define BTN_SPACING (BTN_H/2)
 
+// Box is centered.
+#define BOX_Y(n) (0)
+
+// Width of the box. Larger fills larger portion of the screen in x direction
+#define BOX_W (0.5 * safezoneW)
+
+#define BOX_X (BOX_W * 0.5 + safezoneX)
+
+// Margin between buttons:
+#define BOX_X_MARGIN (0.02 * safezoneW)
+
+// Width of the buttons: box_w = 2*btn_w + 3*margin: "[margin, button, margin, button, margin]"
+#define BTN_W ((BOX_W - 3 * BOX_X_MARGIN) * 0.5)
+
+
+#define BTN_X_L (BOX_X + BOX_X_MARGIN)
+#define BTN_X_R (BOX_X + BOX_W - BOX_X_MARGIN - BTN_W)
+#define BTN_X_M (BOX_X + BOX_W * 0.5 - BTN_W * 0.5)
+
+// 0 => BTN_X_L, 1 => BTN_X_R
+#define LEFT_OR_RIGHT(position) (BTN_X_L + position*(BTN_X_R - BTN_X_L))
+
+// Frame position is the same as the box. The heigh is almost the same.
+#define FRAME_H(n) (BOX_H(n) - 0.02)
+
 // distance of the box to the back button.
 #define BOX_BTN_SPACING (0.02 * safezoneH)
+
+// distance of back button.
+#define BTN_BACK_Y(n) (BOX_Y(n) + BOX_BTN_SPACING)
 
 // the height of the box in number of rows of buttons
 // BOX_BTN_SPACING + BTN_SPACING between the last button and the box.
 #define BOX_H(n) (BOX_BTN_SPACING + 2*BTN_SPACING + BTN_H + n*(BTN_SPACING + BTN_H))
 
-// Box is centered.
-#define BOX_Y(n) (0)
-
-// Frame position is the same as the box. The heigh is almost the same.
-#define FRAME_H(n) (BOX_H(n) - 0.02)
-
-// distance of back button.
-#define BTN_BACK_Y(n) (BOX_Y(n) + BOX_BTN_SPACING)
-
 #define BTN_Y(n) (BTN_BACK_Y(n) + n*(BTN_SPACING + BTN_H))
 
 // size of list (same as the size of n buttons combined.)
 #define LIST_H(nSize) (nSize*(BTN_SPACING + BTN_H) - BTN_SPACING)
-
-#define BTN_X_L (0.272481 * safezoneW + safezoneX)
-#define BTN_X_R (0.482498 * safezoneW + safezoneX)
-#define BTN_X_M (0.37749 * safezoneW + safezoneX)
-
-// 0 => BTN_X_L, 1 => BTN_X_R
-#define LEFT_OR_RIGHT(position) (BTN_X_L + position*(BTN_X_R - BTN_X_L))
-
-#define BTN_W (0.175015 * safezoneW)
 
 #define A_CLOSE "closeDialog 0"
 
@@ -286,10 +296,8 @@ class AS_box {
   font = "PuristaMedium";
   colorBackground[] = {0,0,0,0.5};  // the base color of the menu back.
   text = "";
-  x = 0.244979 * safezoneW + safezoneX;
-  y = 0;
-  w = (0.445038 * safezoneW);
-  h = BOX_H_2;
+  x = BOX_X;
+  w = BOX_W;
 };
 
 #define AS_BOX(n) \
@@ -302,10 +310,8 @@ class AS_frame: RscFrame
 {
   idc = -1;
   text = "";
-  x = 0.254979 * safezoneW + safezoneX;
-  y = 0;
-  w = 0.425038 * safezoneW;
-  h = FRAME_H_2;
+  x = BOX_W * 0.5 * 1.05 + safezoneX;
+  w = BOX_W * 0.95;
 };
 
 #define AS_FRAME(n,F_TEXT) \
@@ -319,7 +325,7 @@ class AS_button_back: RscButton
 {
   idc = 72;  // so we can modify it if needed.
   text = "Back";
-  x = 0.61 * safezoneW + safezoneX;
+  x = BOX_X + BOX_W - BOX_X_MARGIN - (0.06 * safezoneW);
   w = 0.06 * safezoneW;
   h = BTN_H;
   action = A_CLOSE;
