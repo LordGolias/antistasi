@@ -1,5 +1,3 @@
-#include "../macros.hpp"
-
 #define BE_XP_KILL 0.5
 #define BE_XP_MIS 10
 #define BE_XP_DES_VEH 5
@@ -44,13 +42,12 @@ fnc_BE_initialize = {
 
 	BE_currentStage = 0;
 	BE_currentXP = 0;
-	BE_currentPrice = 0;
 	BE_progressLock = false;
 
-	BE_class_Heli = (["armedHelis", "transportHelis"] call AS_fnc_AAFarsenal_all) + opAir - opCASFW;
-	BE_class_MBT = (["tanks"] call AS_fnc_AAFarsenal_all);
-	BE_class_APC = (["apcs"] call AS_fnc_AAFarsenal_all);
-	BE_class_MRAP = (["apcs"] call AS_fnc_AAFarsenal_all);
+	BE_class_Heli = (["armedHelis", "transportHelis"] call AS_AAFarsenal_fnc_valid) + opAir - opCASFW;
+	BE_class_MBT = (["tanks"] call AS_AAFarsenal_fnc_valid);
+	BE_class_APC = (["apcs"] call AS_AAFarsenal_fnc_valid);
+	BE_class_MRAP = (["apcs"] call AS_AAFarsenal_fnc_valid);
 
 	BE_mil_vehicles = BE_class_Heli + BE_class_MBT + BE_class_APC + BE_class_MRAP;
 
@@ -63,8 +60,6 @@ fnc_BE_captureVehicle = {
 };
 
 fnc_BE_refresh = {
-	params [["_init", false]];
-
 	BE_current_FIA_Skill_Cap = BE_FIA_SKILL_CAP select BE_currentStage;
 	BE_current_FIA_Outfit = BE_FIA_OUTFIT select BE_currentStage;
 	BE_current_FIA_GarageCap = BE_FIA_GARAGE_CAPACITY select BE_currentStage;
@@ -77,7 +72,6 @@ fnc_BE_refresh = {
 
 	[] call fnc_BE_pushVariables;
 	[] call fnc_BE_updateProgressBar;
-	if !(_init) then {[] call fnc_BE_calcPrice};
 
 	BE_currentRestrictions = [
 		BE_current_FIA_Skill_Cap,
@@ -110,7 +104,6 @@ fnc_BE_pushVariables = {
 	publicVariable "BE_mil_vehicles";
 
 	publicVariable "BE_currentStage";
-	publicVariable "BE_currentPrice";
 };
 
 fnc_BE_XP = {
@@ -161,8 +154,6 @@ fnc_BE_XP = {
 
 	BE_currentXP = BE_currentXP + _delta;
 	[] call fnc_BE_updateProgressBar;
-
-	diag_log format ["BE - module XP -- cat: %1; delta: %2; progress: %3", _category, _delta, BE_currentXP];
 };
 
 fnc_BE_updateProgressBar = {
@@ -175,7 +166,7 @@ fnc_BE_updateProgressBar = {
 	if (BE_progressLock) exitWith {
 		_pV = [BE_COLOR_LOCK, BE_COLOR_LOCK, BE_current_FIA_Skill_Cap, BE_current_FIA_Skill_Cap+1, "Army XP"];
 		BE_currentXP = 0;
-		["Army XP", _pV, _cV] call fnc_updateProgressBar;
+		["Army XP", _pV, _cV] call AS_fnc_updateProgressBar;
 	};
 
 	_pV = [BE_COLOR_DONE, BE_COLOR_DEF, _v, _v+1, "Army XP"];
@@ -192,7 +183,7 @@ fnc_BE_updateProgressBar = {
 		[] spawn {sleep 2; [] call fnc_BE_updateProgressBar};
 	};
 
-	["Army XP", _pV, _cV] call fnc_updateProgressBar;
+	["Army XP", _pV, _cV] call AS_fnc_updateProgressBar;
 };
 
 fnc_BE_REQs = {
@@ -225,39 +216,19 @@ fnc_BE_REQs = {
 
 fnc_BE_calcPrice = {
 	if (BE_currentStage >= 3) exitWith {
-		BE_currentPrice = "No further training available.";
-		publicVariable "BE_currentPrice";
+		0
 	};
 	private _price = BE_UPGRADE_PRICES select BE_currentStage;
 
-	_price = _price - ((call fnc_BE_REQs) min (BE_UPGRADE_DISCOUNT select BE_currentStage));
-	BE_currentPrice = _price;
-	publicVariable "BE_currentPrice";
-
-	_price
+	_price - ((call fnc_BE_REQs) min (BE_UPGRADE_DISCOUNT select BE_currentStage))
 };
-
-fnc_BE_buyUpgrade = {
-	if (BE_currentStage == 3) exitWith {
-		[petros,"hint","No further training available."] remoteExec ["commsMP",AS_commander];
-	};
-	private _price = call fnc_BE_calcPrice;
-
-	if (AS_P("resourcesFIA") > BE_currentPrice) then {
-		[_price] call fnc_BE_upgrade;
-		diag_log format ["Maintenance: upgrade acquired. New stage: %1; price paid: %2", BE_currentStage, BE_currentPrice];
-	} else {
-		[petros,"hint","We don't have the resources."] remoteExec ["commsMP",AS_commander];
-	};
-};
+publicVariable "fnc_BE_calcPrice";
 
 fnc_BE_upgrade = {
-	params [["_price", 10000]];
+	private _price = call fnc_BE_calcPrice;
 
-	private _tempFunds = AS_P("resourcesFIA");
-	diag_log format ["Price: %1; Funds: %2", _price, _tempFunds];
-	AS_Pset("skillFIA",BE_current_FIA_Skill_Cap);
-	AS_Pset("resourcesFIA",_tempFunds - _price);
+	AS_Pset("skillFIA", BE_current_FIA_Skill_Cap);
+	AS_Pset("resourcesFIA", (AS_P("resourcesFIA") - _price) max 0);
 	BE_currentStage = BE_currentStage + 1;
 	[] call fnc_BE_refresh;
 	BE_progressLock = false;
@@ -286,8 +257,6 @@ fnc_BE_save = {
 	_result pushBack BE_currentXP;
 	_result pushBack BE_progressLock;
 
-	diag_log format ["BE - module save -- save: %1", _result];
-
 	_result
 };
 
@@ -299,8 +268,6 @@ fnc_BE_load = {
     BE_progressLock = _save select 2;
 
 	[] call fnc_BE_refresh;
-
-	diag_log format ["BE - module load -- save: %1", _save];
 };
 
 fnc_BE_permission = {
@@ -321,19 +288,17 @@ fnc_BE_permission = {
 			};
 		};
 		case "pers_garage": {
-			if (BE_current_Pers_GarageCap > (count personalGarage)) then {
+			if (BE_current_Pers_GarageCap > (count (player getVariable "garage"))) then {
 				_result = true;
 			};
 		};
 		case "vehicle": {
 			_result = true;
-			diag_log format ["BE - module permission -- value: %1; \n vehicle: %2", _value, _vehicle];
-
 			if ((_value in BE_class_MBT) && ("MBT" in BE_current_Vehicle_Restriction)) exitWith {_result = false;};
 			if ((_value in BE_class_APC) && ("APC" in BE_current_Vehicle_Restriction)) exitWith {_result = false;};
 			if ((_value in BE_class_Heli) && ("Heli" in BE_current_Vehicle_Restriction)) exitWith {_result = false;};
 
-			_vehClass = getText (configFile >> "CfgVehicles" >> _value >> "vehicleClass");
+			private _vehClass = getText (configFile >> "CfgVehicles" >> _value >> "vehicleClass");
 			if (((toLower _vehClass find "heli" >= 0) || (_vehClass == "Air")) && ("Heli" in BE_current_Vehicle_Restriction)) exitWith {_result = false};
 
 			if (!(_vehicle getVariable ["BE_mil_veh", false]) && (_value in BE_mil_vehicles)) then {
@@ -353,23 +318,23 @@ fnc_BE_permission = {
 			};
 		};
 		case "camp": {
-			if (BE_current_FIA_Camp_Cap > (count (["camp", "FIA"] call AS_fnc_location_TS))) then {
+			if (BE_current_FIA_Camp_Cap > (count (["camp", "FIA"] call AS_location_fnc_TS))) then {
 				_result = true;
 			};
 		};
 		case "RB": {
-			if (BE_current_FIA_RB_Cap > (count (["roadblock", "FIA"] call AS_fnc_location_TS))) then {
+			if (BE_current_FIA_RB_Cap > (count (["roadblock", "FIA"] call AS_location_fnc_TS))) then {
 				_result = true;
 			};
 		};
 		case "WP": {
-			if (BE_current_FIA_WP_Cap > (count (["watchpost", "FIA"] call AS_fnc_location_TS))) then {
+			if (BE_current_FIA_WP_Cap > (count (["watchpost", "FIA"] call AS_location_fnc_TS))) then {
 				_result = true;
 			};
 		};
 
 		default {
-			diag_log format ["Error in BE module permission - param 1:%1; param 2: %2", _category, _delta];
+			diag_log format ["Error in BE module permission - param 1:%1; param 2: %2", _category, _value];
 		};
 	};
 
@@ -393,7 +358,7 @@ fnc_BE_getCurrentValue = {
 		};
 
 		default {
-			diag_log format ["Error in BE module permission - param 1:%1; param 2: %2", _category, _delta];
+			diag_log format ["Error in BE module permission - param 1:%1", _category];
 		};
 	};
 
@@ -404,8 +369,6 @@ publicVariable "fnc_BE_getCurrentValue";
 
 fnc_BE_checkVehicle = {
 	params ["_vehicle", "_type"];
-
-	diag_log format ["CV -- veh: %1", _vehicle];
 
 	private _result = false;
 	private _typeOfVehicle = typeOf _vehicle;
@@ -469,7 +432,7 @@ fnc_BE_broadcast = {
 		_pI pushBackUnique (format ["Current FIA watchpost cap: %1", BE_current_FIA_WP_Cap]);
 	};
 
-	[petros,"BE",_pI] remoteExec ["commsMP",AS_commander];
+	[petros,"BE",_pI] remoteExec ["AS_fnc_localCommunication",AS_commander];
 };
 
 #define BE_STR_CTER1 "At least 1 outpost/base/airport under your control"
@@ -489,7 +452,7 @@ fnc_BE_C_TER = {
 		};
 	};
 
-	[(count ([_types, "FIA"] call AS_fnc_location_TS) > 0), BE_STR_CTER]
+	[(count ([_types, "FIA"] call AS_location_fnc_TS) > 0), BE_STR_CTER]
 };
 
 #define BE_STR_CMTN1 ""
@@ -497,7 +460,7 @@ fnc_BE_C_TER = {
 #define BE_STR_CMTN3 ""
 fnc_BE_C_MTN = {
 	BE_STR_CMTN = BE_STR_CMTN2;
-	[(count (["hillAA", "FIA"] call AS_fnc_location_TS) > 0), BE_STR_CMTN]
+	[(count (["hillAA", "FIA"] call AS_location_fnc_TS) > 0), BE_STR_CMTN]
 };
 
 #define BE_STR_CHR1 "Have at least 20 HR"

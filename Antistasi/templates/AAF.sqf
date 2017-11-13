@@ -80,33 +80,26 @@ infAT =				["HAF_InfTeam_AT"];
 // 		1. vehicle must exist.
 // 		2. each vehicle must belong to only one category.
 if (isServer) then {
-	AS_AAFarsenal setVariable ["valid_planes", ["I_Plane_Fighter_03_CAS_F","I_Plane_Fighter_03_AA_F"], true];
-	AS_AAFarsenal setVariable ["valid_armedHelis", ["I_Heli_light_03_F"], true];
-	AS_AAFarsenal setVariable ["valid_transportHelis", ["I_Heli_Transport_02_F"], true];
-	AS_AAFarsenal setVariable ["valid_tanks", ["I_MBT_03_cannon_F"], true];
-	AS_AAFarsenal setVariable ["valid_apcs", [
-		"I_APC_Wheeled_03_cannon_F", "I_APC_tracked_03_cannon_F",
-		"I_MRAP_03_F","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"], true];
-	AS_AAFarsenal setVariable ["valid_trucks", ["I_Truck_02_covered_F","I_Truck_02_transport_F"], true];
-	AS_AAFarsenal setVariable ["valid_supplies", ["I_Truck_02_fuel_F","I_Truck_02_medical_F","I_Truck_02_ammo_F"], true];
-
-	// Initial setup: AAF starts without vehicles.
-	// 	To modders: change these in the template to set an initial arsenal.
-	{
-		AS_AAFarsenal setVariable [_x, [], true];
-	} forEach AS_AAFarsenal_categories;
+	["planes", "valid", ["I_Plane_Fighter_03_CAS_F","I_Plane_Fighter_03_AA_F"]] call AS_AAFarsenal_fnc_set;
+	["armedHelis", "valid", ["I_Heli_light_03_F"]] call AS_AAFarsenal_fnc_set;
+	["transportHelis", "valid", ["I_Heli_Transport_02_F"]] call AS_AAFarsenal_fnc_set;
+	["tanks", "valid", ["I_MBT_03_cannon_F"]] call AS_AAFarsenal_fnc_set;
+	["boats", "valid", ["I_Boat_Armed_01_minigun_F"]] call AS_AAFarsenal_fnc_set;
+	["apcs", "valid", ["I_APC_Wheeled_03_cannon_F", "I_APC_tracked_03_cannon_F", "I_MRAP_03_F","I_MRAP_03_hmg_F", "I_MRAP_03_gmg_F"]] call AS_AAFarsenal_fnc_set;
+	["trucks", "valid", ["I_Truck_02_covered_F","I_Truck_02_transport_F"]] call AS_AAFarsenal_fnc_set;
+	["supplies", "valid", ["I_Truck_02_fuel_F","I_Truck_02_medical_F","I_Truck_02_ammo_F"]] call AS_AAFarsenal_fnc_set;
 };
 
-// 	To modders (optional): use a "cost_" to set cost for the AAF
+// 	To modders (optional): use "cost" to set cost for the AAF
 // 	to buy vehicles of CATEGORY. E.g.
-// 		AS_AAFarsenal setVariable ["cost_planes, 20000, true];
+//      ["planes", "cost", 20000] call AS_AAFarsenal_fnc_set;
 
-// 	To modders (optional): use a "value_" to set value the FIA gets to sell AAF vehicles of CATEGORY.
-// 		AS_AAFarsenal setVariable ["value_planes, 10000, true];
+// 	To modders (optional): use "value" to set value the FIA gets to sell AAF vehicles of CATEGORY.
+// 		["planes", "value", 10000] call AS_AAFarsenal_fnc_set;
 
 // List of special vehicles used in custom events
 //	moders: all vehicles defined in these lists must also belong to the AAFarsenal.
-vehPatrol = ["I_MRAP_03_F","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F","I_Heli_light_03_unarmed_F"];
+vehPatrol = ["I_MRAP_03_F","I_MRAP_03_hmg_F","I_MRAP_03_gmg_F","I_Heli_light_03_F"];
 vehAmmo = "I_Truck_02_ammo_F";
 vehLead = ["I_MRAP_03_hmg_F","I_MRAP_03_gmg_F"];  // lead of convoy
 vehTruckBox = ["I_Truck_02_box_F"];
@@ -161,23 +154,6 @@ AAFMines = [
 atMine = "ATMine";
 apMine = "APERSMine";
 
-// Equipment unlocked by default
-if (isServer) then {
-	unlockedWeapons = [
-		"hgun_PDW2000_F",
-		"hgun_ACPC2_F"
-	];
-
-	unlockedMagazines = [
-		"9Rnd_45ACP_Mag",
-		"30Rnd_9x21_Mag"
-	];
-
-	unlockedBackpacks = [
-		"B_TacticalPack_blk"
-	];
-};
-
 // NVG, flashlight, laser, mine types
 indNVG = 		"NVGoggles_INDEP";
 indRF = 		"Rangefinder";
@@ -186,11 +162,10 @@ indLaser = 		"acc_pointer_IR";
 
 // The flag
 cFlag = "Flag_AAF_F";
+AS_AAFname = "AAF";
 
 // Long range radio
 lrRadio = "tf_rt1523g_green";
 
 // Define the ammo crate to be spawned at camps
 campCrate = "Box_NATO_Equip_F";
-
-A3_STR_INDEP = localize "STR_genIdent_AFRF";

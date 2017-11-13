@@ -249,13 +249,6 @@
 				<Original>&lt;marker name='%2'&gt;%1&lt;/marker&gt; population is in need of supplies. As it happens, we have just what they need and it may improve our relationship with them. I reserved a transport truck with supplies near our HQ. Drive the transport truck to &lt;marker name='%2'&gt;%1&lt;/marker&gt; city center. Hold it there for 2 minutes before %3:%4.</Original>
 			</Key>
 
-			<Key ID="STR_tsk_NATOSupply">
-				<Original>NATO Ammodrop</Original>
-			</Key>
-			<Key ID="STR_tskDesc_NATOSupply">
-				<Original>Our Commander has asked NATO for a supply drop. Command the transport with your HC module and bring it to the designated position. Once it has landed you are free to use the equipment or bring it back to HQ. We dont think they will be able to supply us again for some time. </Original>
-			</Key>
-
 			<Key ID="STR_tsk_PRBrain">
 				<Original>Establish PR station</Original>
 			</Key>
@@ -310,28 +303,6 @@
 			</Key>
 			<Key ID="STR_tskDesc_resRefugees">
 				<Original>A group of FIA supportes are hidden in a house in %1. We have to get there and find them before %2 does and bring them back to base.</Original>
-			</Key>
-		</Container>
-
-		<Container name="General Identifiers">
-			<Key ID="STR_genIdent_AAF">
-				<Original>AAF</Original>
-			</Key>
-			<Key ID="STR_genIdent_CSAT">
-				<Original>CSAT</Original>
-			</Key>
-			<Key ID="STR_genIdent_NATO">
-				<Original>NATO</Original>
-			</Key>
-
-			<Key ID="STR_genIdent_AFRF">
-				<Original>AFRF</Original>
-			</Key>
-			<Key ID="STR_genIdent_VMF">
-				<Original>VMF</Original>
-			</Key>
-			<Key ID="STR_genIdent_USAF">
-				<Original>USAF</Original>
 			</Key>
 		</Container>
 	</Package>

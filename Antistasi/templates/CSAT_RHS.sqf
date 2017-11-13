@@ -45,7 +45,9 @@ opGroup_Squad = ["rhs_group_rus_vdv_infantry_squad_sniper", "rhs_group_rus_vdv_i
 opGroup_Recon_Team = ["rhs_group_rus_vdv_infantry_fireteam"];
 
 // the affiliation
-opFlag = "Flag_CSAT_F";
+opFlag = "rhs_Flag_vmf_F";
+// Its acronym
+AS_CSATname = "VMF";
 
 opIR = "rhs_acc_perst1ik";
 

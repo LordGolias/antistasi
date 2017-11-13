@@ -1,7 +1,7 @@
 
 // Exclusions because they are not connected to main island
 [200, 200, ["Ipota", "Tuvanaka", "Belfort", "Nani", "Balavu", "Leqa", "Muaceba", "Tavu", "Laikoro", "Namuvaka", "Rautake",
-            "Savaka", "Katkoula", "Lailai", "Yanukka", "Cerebu", "Koumac"]] call AS_fnc_location_addCities;
+            "Savaka", "Katkoula", "Lailai", "Yanukka", "Cerebu", "Koumac"]] call AS_location_fnc_addCities;
 
 seaMarkers = ["seaPatrol","seaPatrol_1","seaPatrol_2","seaPatrol_3","seaPatrol_4","seaPatrol_5","seaPatrol_6","seaPatrol_7","seaPatrol_8","seaPatrol_9","seaPatrol_10","seaPatrol_11","seaPatrol_12","seaPatrol_13","seaPatrol_14","seaPatrol_15","seaPatrol_16","seaPatrol_17","seaPatrol_18","seaPatrol_19","seaPatrol_20","seaPatrol_21","seaPatrol_22","seaPatrol_23","seaPatrol_24","seaPatrol_25","seaPatrol_26","seaPatrol_27"];
 {_x setMarkerAlpha 0} forEach seaMarkers;

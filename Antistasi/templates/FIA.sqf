@@ -109,7 +109,7 @@ AS_fnc_FIACustomSquad_cost = {
 	params ["_squadType"];
 	private _cost = 2*(AS_data_allCosts getVariable "Crew");
 	private _costHR = 2;
-	_cost = _cost + ([[_squadType] call AS_fnc_FIACustomSquad_piece] call FIAvehiclePrice) + (["B_G_Van_01_transport_F"] call FIAvehiclePrice);
+	_cost = _cost + ([[_squadType] call AS_fnc_FIACustomSquad_piece] call AS_fnc_getFIAvehiclePrice) + (["B_G_Van_01_transport_F"] call AS_fnc_getFIAvehiclePrice);
 	[_costHR, _cost]
 };
 
@@ -126,7 +126,7 @@ AS_fnc_FIACustomSquad_initialization = {
 	if (_squadType == "Mobile Mortar") then {
 		_morty moveInGunner _piece;
 		_piece setVariable ["attachPoint", [0,-1.5,0.2]];
-		[_morty,_camion,_piece] spawn mortyAI;
+		[_morty,_camion,_piece] spawn AS_fnc_activateMortarCrewOnTruck;
 	} else {
 		_piece attachTo [_camion,[0,-1.5,0.2]];
 		_piece setDir (getDir _camion + 180);
@@ -139,40 +139,66 @@ AS_fnc_FIACustomSquad_initialization = {
 
 if (isServer) then {
 	// The cost of each AS unit type. Squad cost also depends on this
-	AS_data_allCosts setVariable ["Crew", 50, true];
-	AS_data_allCosts setVariable ["Ammo Bearer", 50, true];
-	AS_data_allCosts setVariable ["Rifleman", 50, true];
-	AS_data_allCosts setVariable ["Grenadier", 100, true];
-	AS_data_allCosts setVariable ["Autorifleman", 100, true];
-	AS_data_allCosts setVariable ["Medic", 300, true];
-	AS_data_allCosts setVariable ["Squad Leader", 100, true];
-	AS_data_allCosts setVariable ["Repair Specialist", 200, true];
-	AS_data_allCosts setVariable ["Explosives Specialist", 200, true];
-	AS_data_allCosts setVariable ["AT Specialist", 200, true];
-	AS_data_allCosts setVariable ["AA Specialist", 300, true];
-	AS_data_allCosts setVariable ["Sniper", 100, true];
-
-	AS_FIArecruitment setVariable ["land_vehicles", [
-		"C_Offroad_01_F","C_Van_01_transport_F","B_G_Quadbike_01_F","B_G_Offroad_01_armed_F",
-		"B_HMG_01_high_F","B_G_Mortar_01_F","B_static_AT_F","B_static_AA_F"
-	], true];
-	AS_FIArecruitment setVariable ["water_vehicles", [
-		"B_G_Boat_Transport_01_F"
-	], true];
-	// First helicopter of this list is undercover
-	AS_FIArecruitment setVariable ["air_vehicles", [
-		"C_Heli_Light_01_civil_F"
-	], true];
-
-	// All elements in the lists above must be priced, or their price is 300
-	AS_FIArecruitment setVariable ["C_Offroad_01_F", 300, true];
-	AS_FIArecruitment setVariable ["C_Van_01_transport_F", 600, true];
-	AS_FIArecruitment setVariable ["C_Heli_Light_01_civil_F", 6000, true];
-	AS_FIArecruitment setVariable ["B_G_Quadbike_01_F", 50, true];
-	AS_FIArecruitment setVariable ["B_G_Offroad_01_armed_F", 700, true];
-	AS_FIArecruitment setVariable ["B_HMG_01_high_F", 800, true];
-	AS_FIArecruitment setVariable ["B_G_Mortar_01_F", 800, true];
-	AS_FIArecruitment setVariable ["B_static_AT_F", 800, true];
-	AS_FIArecruitment setVariable ["B_static_AA_F", 800, true];
-	AS_FIArecruitment setVariable ["B_G_Boat_Transport_01_F", 400, true];
+	AS_data_allCosts setVariable ["Crew", 50];
+	AS_data_allCosts setVariable ["Ammo Bearer", 50];
+	AS_data_allCosts setVariable ["Rifleman", 50];
+	AS_data_allCosts setVariable ["Grenadier", 100];
+	AS_data_allCosts setVariable ["Autorifleman", 100];
+	AS_data_allCosts setVariable ["Medic", 300];
+	AS_data_allCosts setVariable ["Squad Leader", 100];
+	AS_data_allCosts setVariable ["Repair Specialist", 200];
+	AS_data_allCosts setVariable ["Explosives Specialist", 200];
+	AS_data_allCosts setVariable ["AT Specialist", 200];
+	AS_data_allCosts setVariable ["AA Specialist", 300];
+	AS_data_allCosts setVariable ["Sniper", 100];
 };
+
+AS_FIAvehicles setVariable ["land_vehicles", [
+	"C_Offroad_01_F","C_Van_01_transport_F","B_G_Quadbike_01_F","B_G_Offroad_01_armed_F",
+	"B_HMG_01_high_F","B_G_Mortar_01_F","B_static_AT_F","B_static_AA_F"
+]];
+AS_FIAvehicles setVariable ["water_vehicles", [
+	"B_G_Boat_Transport_01_F"
+]];
+// First helicopter of this list is undercover
+AS_FIAvehicles setVariable ["air_vehicles", [
+	"C_Heli_Light_01_civil_F"
+]];
+
+// All elements in the lists above must be priced
+AS_FIAvehicles setVariable ["C_Offroad_01_F", 300];
+AS_FIAvehicles setVariable ["C_Van_01_transport_F", 600];
+AS_FIAvehicles setVariable ["B_G_Quadbike_01_F", 50];
+AS_FIAvehicles setVariable ["B_G_Offroad_01_armed_F", 700];
+AS_FIAvehicles setVariable ["B_HMG_01_high_F", 800];
+AS_FIAvehicles setVariable ["B_G_Mortar_01_F", 800];
+AS_FIAvehicles setVariable ["B_static_AT_F", 800];
+AS_FIAvehicles setVariable ["B_static_AA_F", 800];
+AS_FIAvehicles setVariable ["B_G_Boat_Transport_01_F", 400];
+AS_FIAvehicles setVariable ["C_Heli_Light_01_civil_F", 6000];
+
+// Initializes unlocked stuff. These are modified by templates and ACE.
+unlockedWeapons = [
+	"hgun_PDW2000_F",
+	"hgun_ACPC2_F"
+];
+
+unlockedMagazines = [
+	"9Rnd_45ACP_Mag",
+	"30Rnd_9x21_Mag"
+];
+
+unlockedBackpacks = [
+	"B_TacticalPack_blk"
+];
+
+unlockedItems = [
+	"Binocular",
+	"ItemMap",
+	"ItemGPS",
+	"ItemRadio",
+	"ItemWatch",
+	"ItemCompass",
+	"FirstAidKit",
+	"Medikit"
+];

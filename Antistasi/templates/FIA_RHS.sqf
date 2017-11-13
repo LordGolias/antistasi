@@ -1,34 +1,30 @@
 // clean everything because we do not need the default stuff
-if (isServer) then {
-	{AS_FIArecruitment setVariable [_x, nil, true];} forEach (allVariables AS_FIArecruitment);
-};
+{AS_FIAvehicles setVariable [_x, nil];} forEach (allVariables AS_FIAvehicles);
 
-if (isServer) then {
-	AS_FIArecruitment setVariable ["land_vehicles", [
-		"C_Offroad_01_F",
-		"rhs_Ural_Open_Civ_01",
-		"rhsgref_cdf_b_reg_uaz_open",
-		"rhsgref_cdf_b_reg_uaz_dshkm",
-		statMG, statMortar, statAT, statAA
-	], true];
+AS_FIAvehicles setVariable ["land_vehicles", [
+	"C_Offroad_01_F",
+	"rhs_Ural_Open_Civ_01",
+	"rhsgref_cdf_b_reg_uaz_open",
+	"rhsgref_cdf_b_reg_uaz_dshkm",
+	statMG, statMortar, statAT, statAA
+]];
 
-	// All elements in the lists above must be priced below or their price is 300
-	AS_FIArecruitment setVariable ["C_Offroad_01_F", 300, true];
-	AS_FIArecruitment setVariable ["rhs_Ural_Open_Civ_01", 600, true];
-	AS_FIArecruitment setVariable ["rhsgref_cdf_b_reg_uaz_open", 300, true];
-	AS_FIArecruitment setVariable ["rhsgref_cdf_b_reg_uaz_dshkm", 700, true];
-	AS_FIArecruitment setVariable [statMG, 800, true];
-	AS_FIArecruitment setVariable [statMortar, 800, true];
-	AS_FIArecruitment setVariable [statAT, 800, true];
-	AS_FIArecruitment setVariable [statAA, 800, true];
+// All elements in the lists above must be priced below or their price is 300
+AS_FIAvehicles setVariable ["C_Offroad_01_F", 300];
+AS_FIAvehicles setVariable ["rhs_Ural_Open_Civ_01", 600];
+AS_FIAvehicles setVariable ["rhsgref_cdf_b_reg_uaz_open", 300];
+AS_FIAvehicles setVariable ["rhsgref_cdf_b_reg_uaz_dshkm", 700];
+AS_FIAvehicles setVariable [statMG, 800];
+AS_FIAvehicles setVariable [statMortar, 800];
+AS_FIAvehicles setVariable [statAT, 800];
+AS_FIAvehicles setVariable [statAA, 800];
 
-	AS_FIArecruitment setVariable ["water_vehicles", ["B_G_Boat_Transport_01_F"], true];
-	AS_FIArecruitment setVariable ["B_G_Boat_Transport_01_F", 400, true];
+AS_FIAvehicles setVariable ["water_vehicles", ["B_G_Boat_Transport_01_F"]];
+AS_FIAvehicles setVariable ["B_G_Boat_Transport_01_F", 400];
 
-	// First helicopter of this list is undercover
-	AS_FIArecruitment setVariable ["air_vehicles", ["rhs_Mi8amt_civilian"], true];
-	AS_FIArecruitment setVariable ["rhs_Mi8amt_civilian", 6000, true];
-};
+// First helicopter of this list is undercover
+AS_FIAvehicles setVariable ["air_vehicles", ["rhs_Mi8amt_civilian"]];
+AS_FIAvehicles setVariable ["rhs_Mi8amt_civilian", 6000];
 
 AS_FIA_vans = ["rhs_Ural_Open_Civ_01", "rhs_Ural_Open_Civ_02", "rhs_Ural_Open_Civ_03"];
 
@@ -48,12 +44,12 @@ AS_fnc_FIACustomSquad_cost = {
 	if (_squadType == "Mobile AA") then {
 		_costHR = 3;
 		_cost = _costHR*(AS_data_allCosts getVariable "Crew") +
-			    ([vehTruckAA] call FIAvehiclePrice);
+			    ([vehTruckAA] call AS_fnc_getFIAvehiclePrice);
 	} else {
 		_costHR = 2;
 		_cost = _costHR*(AS_data_allCosts getVariable "Crew") +
-				(["B_G_Van_01_transport_F"] call FIAvehiclePrice) +
-				([[_squadType] call AS_fnc_FIACustomSquad_piece] call FIAvehiclePrice);
+				(["B_G_Van_01_transport_F"] call AS_fnc_getFIAvehiclePrice) +
+				([[_squadType] call AS_fnc_FIACustomSquad_piece] call AS_fnc_getFIAvehiclePrice);
 	};
 	[_costHR, _cost]
 };
@@ -89,7 +85,7 @@ AS_fnc_FIACustomSquad_initialization = {
 		if (_squadType == "Mobile Mortar") then {
 			_morty moveInGunner _piece;
 			_piece setVariable ["attachPoint", [0,-1.5,0.54]];
-			[_morty,_camion,_piece] spawn mortyAI;
+			[_morty,_camion,_piece] spawn AS_fnc_activateMortarCrewOnTruck;
 		} else {
 			_piece attachTo [_camion,[0,-2.4,-0.6]];
 			_piece setDir (getDir _camion + 180);
@@ -100,3 +96,24 @@ AS_fnc_FIACustomSquad_initialization = {
 	};
 	_grupo
 };
+
+// Equipment unlocked by default
+unlockedWeapons = [
+	"rhs_weap_makarov_pm",
+	"rhs_weap_aks74u"
+];
+
+unlockedMagazines = [
+	"rhs_mag_9x18_8_57N181S",
+	"rhs_30Rnd_545x39_AK",
+	"rhs_mag_rdg2_white"
+];
+
+unlockedItems = unlockedItems + [
+	"rhs_vest_pistol_holster",
+	"rhs_scarf"
+];
+
+unlockedBackpacks = [
+	"rhs_assault_umbts"
+];

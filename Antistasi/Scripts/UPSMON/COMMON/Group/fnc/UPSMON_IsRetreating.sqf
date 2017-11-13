@@ -34,7 +34,7 @@ If (_grp getvariable ["UPSMON_Grpmission",""] != "RETREAT") then
 							If (_AttackPos select 0 != 0 && _AttackPos select 1 != 0) then
 								{
 								if (side (leader _grp) == side_red) then {
-									[[_attackPos], "patrolCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
+									[[_attackPos], "AS_movement_fnc_sendAAFpatrol"] remoteExec ["AS_scheduler_fnc_execute", 2];
 								};
 								};//by Barbolani so AAF UPSMon garrisons call QRF
 						};

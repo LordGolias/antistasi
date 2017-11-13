@@ -3,31 +3,43 @@ params ["_veh", "_side"];
 // We need this because FIA can steal from others, and thus the vehicle class
 // does not uniquely define the necessary initialization.
 
+_veh setVariable ["AS_side", _side];
+
 if ((_veh isKindOf "FlagCarrier") or (_veh isKindOf "Building")) exitWith {};
 if (_veh isKindOf "ReammoBox_F" and _side == "AAF") exitWith {[_veh,"Watchpost"] call AS_fnc_fillCrateAAF};
 
 // So the vehicle appears in debug mode. Does nothing otherwise.
-[_veh] call AS_DEBUG_initVehicle;
+[_veh] call AS_debug_fnc_initVehicle;
 
 private _tipo = typeOf _veh;
-private _type = [_tipo] call AS_fnc_AAFarsenal_category;
+private _vehicle_category = _tipo call AS_AAFarsenal_fnc_category;
 
 // Equipment-related initialisation
-[_veh] call emptyCrate;
+[_veh] call AS_fnc_emptyCrate;
 if (_tipo == vehAmmo and _side == "AAF") then {[_veh, "Convoy"] call AS_fnc_fillCrateAAF};
 if (_tipo == opCrate and _side == "AAF") then {[_veh, "AA"] call AS_fnc_fillCrateAAF};
 // todo: add more equipment depending on spawing side / vehicle
 
-_veh addEventHandler ["Killed", {[_this select 0] spawn postmortem}];
+if (_side != "NATO") then {
+	// vehicle is stolen (NATO vehicles cannot be entered)
+	_veh addEventHandler ["GetIn", {
+		params ["_vehicle", "_position", "_unit"];
+		_vehicle setVariable ["AS_side", _unit getVariable "AS_side", true];
+	}];
+};
+
+
+_veh addEventHandler ["Killed", {[_this select 0] spawn AS_fnc_activateCleanup}];
 
 private _aaf_veh_EHkilled = {
 	params ["_veh", "_killer"];
 	if (side _killer == side_blue) then {
-		[typeOf _veh] call AS_fnc_AAFarsenal_deleteVehicle;
+		[typeOf _veh] call AS_AAFarsenal_fnc_deleteVehicle;
+		private _vehicle_category = (typeOf _veh) call AS_AAFarsenal_fnc_category;
 
 		private _citySupportEffect = 0;
 		private _xpEffect = "";
-		switch (_type) do {
+		switch _vehicle_category do {
 			case "planes": {
 				_citySupportEffect = 5;
 				_xpEffect = "des_arm";
@@ -56,13 +68,13 @@ private _aaf_veh_EHkilled = {
 			};
 		};
 		if (_citySupportEffect != 0) then {
-			[-_citySupportEffect,_citySupportEffect,position _veh] remoteExec ["citySupportChange",2];
+			[-_citySupportEffect,_citySupportEffect,position _veh] remoteExec ["AS_fnc_changeCitySupport",2];
 		};
 		if (_xpEffect != "") then {[_xpEffect] remoteExec ["fnc_BE_XP", 2]};
 	};
 };
 
-if (_side  == "AAF" and _type in AS_AAFarsenal_categories) then {
+if (_side  == "AAF" and _vehicle_category != "") then {
 	// todo: add code for when the car is stolen (instead of killed)
 	_veh addEventHandler ["killed", _aaf_veh_EHkilled];
 };
@@ -73,7 +85,7 @@ if (_side == "CSAT") then {
 
 // UAV is not part of the AAF arsenal, so the killing of it is dealt separately
 if (_side == "AAF" and _tipo == AS_AAFarsenal_uav) then {
-    _veh addEventHandler ["killed",{[-2500] remoteExec ["resourcesAAF",2]}];
+    _veh addEventHandler ["killed",{[-2500] remoteExec ["AS_fnc_changeAAFmoney",2]}];
 };
 
 // static weapons can be stolen by FIA from AAF and CSAT
@@ -90,14 +102,14 @@ if (_tipo in allStatMortars) then {
 		if (_side == side_blue) then {
 			if (random 8 < 1) then {
 				if (_mortar distance (getMarkerPos "FIA_HQ") < 200) then {
-					if (count ("aaf_attack_hq" call AS_fnc_active_missions) == 0) then {
+					if (count ("aaf_attack_hq" call AS_mission_fnc_active_missions) == 0) then {
 						private _lider = leader (gunner _mortar);
-						if (!isPlayer _lider or {[_lider] call isMember}) then {
-							[[], "AS_fnc_defendHQ"] remoteExec ["AS_scheduler_fnc_execute", 2];
+						if isPlayer _lider then {
+							[[], "AS_mission_fnc_createDefendHQ"] remoteExec ["AS_scheduler_fnc_execute", 2];
 						};
 					};
 				} else {
-					[[position _mortar], "patrolCA"] remoteExec ["AS_scheduler_fnc_execute", 2];
+					[[position _mortar], "AS_movement_fnc_sendAAFpatrol"] remoteExec ["AS_scheduler_fnc_execute", 2];
 				};
 			};
 		} else {
@@ -112,14 +124,14 @@ if !(_veh isKindOf "StaticWeapon") then {
         params ["_veh", "_part", "_dam"];
         if (_part == "") then {
             if ((_dam > 0.9) and (!isNull driver _veh)) then {
-                [_veh] call smokeCoverAuto;
+                [_veh] call AS_AI_fnc_activateSmokeCover;
             };
         };
     }];
 };
 
 // air units can only be piloted by humans
-if (_type in ["planes", "armedHelis", "transportHelis"]) then {
+if (_vehicle_category in ["planes", "armedHelis", "transportHelis"]) then {
 	_veh addEventHandler ["GetIn", {
 		private _posicion = _this select 1;
 		if (_posicion == "driver") then {
@@ -159,8 +171,6 @@ if (_side == "NATO") then {
     // lose support when vehicle is destroyed
     _veh addEventHandler ["killed", {
         [-2,0] remoteExec ["AS_fnc_changeForeignSupport",2];
-        [2,-2,position (_this select 0)] remoteExec ["citySupportChange",2];
+        [2,-2,position (_this select 0)] remoteExec ["AS_fnc_changeCitySupport",2];
     }];
 };
-
-[_veh] spawn cleanserVeh;

@@ -2,8 +2,8 @@
 AS_SERVER_ONLY("fnc_changeStreetLights.sqf");
 params ["_location", "_onoff"];
 
-private _position = _location call AS_fnc_location_position;
-private _size = _location call AS_fnc_location_size;
+private _position = _location call AS_location_fnc_position;
+private _size = _location call AS_location_fnc_size;
 
 private _damage = 0;
 if (not _onoff) then {_damage = 0.95;};

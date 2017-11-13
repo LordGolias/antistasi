@@ -10,7 +10,6 @@ grupoPetros = createGroup side_blue;
 petros = grupoPetros createUnit ["B_G_officer_F", getMarkerPos "FIA_HQ", [], 0, "NONE"];
 [[petros,"mission"],"AS_fnc_addAction"] call BIS_fnc_MP;
 grupoPetros setGroupId ["Petros","GroupColor4"];
-petros setIdentity "amiguete";
 petros setName "Petros";
 petros disableAI "MOVE";
 petros disableAI "AUTOTARGET";
@@ -18,10 +17,10 @@ petros disableAI "AUTOTARGET";
 removeHeadgear petros;
 removeGoggles petros;
 petros setSkill 1;
-[petros, false] call AS_fnc_setUnconscious;
+[petros, false] call AS_medical_fnc_setUnconscious;
 petros setVariable ["respawning",false];
 
-call fnc_rearmPetros;
+call AS_fnc_rearmPetros;
 
 petros addEventHandler ["HandleDamage",
         {
@@ -32,7 +31,7 @@ petros addEventHandler ["HandleDamage",
 
         if (isPlayer _injurer) then
             {
-            [_injurer,60] remoteExec ["castigo",_injurer];
+            [_injurer,60] remoteExec ["AS_fnc_penalizePlayer",_injurer];
             _dam = 0;
             };
         if ((isNull _injurer) or (_injurer == petros)) then {_dam = 0};
@@ -40,10 +39,10 @@ petros addEventHandler ["HandleDamage",
             {
             if (_dam > 0.95) then
                 {
-                if (!(petros call AS_fnc_isUnconscious)) then
+                if (!(petros call AS_medical_fnc_isUnconscious)) then
                     {
                     _dam = 0.9;
-                    [petros] spawn inconsciente;
+                    [petros, true] call AS_medical_fnc_setUnconscious;
                     }
                 else
                     {
@@ -61,7 +60,7 @@ petros addMPEventHandler ["mpkilled", {
         diag_log format ["[AS] INFO: Petros died. Killer: %1", _killer];
         if (side _killer == side_red) then {
             [] spawn {
-                ["FIA_HQ", "garrison", []] call AS_fnc_location_set;
+                ["FIA_HQ", "garrison", []] call AS_location_fnc_set;
 
 				// remove 1/2 of every item.
                 waitUntil {not AS_S("lockTransfer")};
@@ -77,8 +76,6 @@ petros addMPEventHandler ["mpkilled", {
 
 				[caja, _cargo_w, _cargo_m, _cargo_i, _cargo_b, true, true] call AS_fnc_populateBox;
                 AS_Sset("lockTransfer", false);
-
-                [] remoteExec ["fnc_MAINT_arsenal", 2];
 
                 waitUntil {sleep 5; isPlayer AS_commander};
                 [] remoteExec ["AS_fnc_HQselect", AS_commander];

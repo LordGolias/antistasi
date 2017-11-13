@@ -56,10 +56,10 @@ posicionTel = nil;
 
 if (count _positionTo == 0) exitWith {};
 
-private _location = _positionTo call AS_fnc_location_nearest;
-private _positionTo = _location call AS_fnc_location_position;
+private _location = _positionTo call AS_location_fnc_nearest;
+private _positionTo = _location call AS_location_fnc_position;
 
-private _validLocations = "FIA" call AS_fnc_location_S;
+private _validLocations = "FIA" call AS_location_fnc_S;
 if !(_location in _validLocations) exitWith {
 	hint "You can only fast travel to FIA locations";
 	openMap [false,false];
@@ -93,9 +93,9 @@ if (!_isHCfastTravel) then {
 };
 
 private _forcedSpawn = false;
-if !(_location call AS_fnc_location_forced_spawned) then {
+if !(_location call AS_location_fnc_forced_spawned) then {
 	_forcedSpawn = true;
-	[_location,true] call AS_fnc_location_spawn;
+	[_location,true] call AS_location_fnc_spawn;
 	sleep 5; // wait for spawn of location
 };
 
@@ -119,7 +119,7 @@ if !(_location call AS_fnc_location_forced_spawned) then {
 	} else {  // unit; non-vechicle
 		private _position = _positionTo findEmptyPosition [1,50,typeOf _unit];
 		_unit setPosATL _position;
-		if !(_unit call AS_fnc_isUnconscious) then {
+		if !(_unit call AS_medical_fnc_isUnconscious) then {
 			if (isPlayer leader _unit) then {_unit setVariable ["rearming",false]};
 			_unit doWatch objNull;
 			_unit doFollow leader _unit;
@@ -135,7 +135,7 @@ if (!_isHCfastTravel) then {
 };
 
 if (_forcedSpawn) then {
-	[_location,true] call AS_fnc_location_despawn;
+	[_location,true] call AS_location_fnc_despawn;
 };
 {_x allowDamage true} forEach units _group;
 

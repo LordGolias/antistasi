@@ -30,13 +30,13 @@ binarizationWanted=0;
 randomSeed=8109385;
 class ScenarioData
 {
-	author="barbolani";
+	author="Golias";
 };
 class Mission
 {
 	class Intel
 	{
-		briefingName="[SP/CO8] A3 - Antistasi";
+		briefingName="Golias' Antistasi";
 		overviewText="Build FIA Army from scratch and defeat the AAF and CSAT forces in a whole map Dynamic Mission.";
 		resistanceWest=0;
 		resistanceEast=1;

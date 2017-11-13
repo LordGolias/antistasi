@@ -9,4 +9,4 @@
 
 #define AS_CLIENT_ONLY(name) (if !(hasInterface) then {diag_log format ["[AS] Error: Client-only script " + name + " called"]})
 
-#define AS_ISDEBUG(message) (if (AS_DEBUG_flag) then {diag_log ("[AS] DEBUG: " + (message))})
+#define AS_ISDEBUG(message) (if (AS_debug_flag) then {diag_log ("[AS] DEBUG: " + (message))})

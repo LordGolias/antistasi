@@ -11,8 +11,6 @@ bluUAV = 			["B_UAV_02_F"];
 planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 planesNATOTrans = bluHeliTrans;
 
-bluRoadblock = "Compositions\cmpNATO_RB.sqf";
-
 bluMBT = 		["B_MBT_01_cannon_F","B_MBT_01_TUSK_F"];
 bluAPC = 		["B_APC_Wheeled_01_cannon_F"];
 bluIFV = 		["B_APC_Tracked_01_rcws_F"];
@@ -51,6 +49,7 @@ bluATTeam = 		["BUS_InfTeam_AT"];
 bluIR = 	"acc_pointer_IR";
 
 bluFlag = 	"Flag_NATO_F";
+AS_NATOname = "NATO";
 
 bluAT = [
 	"launch_B_Titan_short_F",

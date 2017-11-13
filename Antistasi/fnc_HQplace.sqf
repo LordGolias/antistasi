@@ -4,7 +4,7 @@ params ["_position"];
 
 "delete" call AS_fnc_HQaddObject;
 
-["FIA_HQ", "position", _position] call AS_fnc_location_set;
+["FIA_HQ", "position", _position] call AS_location_fnc_set;
 call AS_fnc_initPetros;
 call AS_fnc_HQdeploy;
 

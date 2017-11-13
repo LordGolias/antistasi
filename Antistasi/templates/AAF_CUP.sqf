@@ -43,33 +43,17 @@ infAT =				["CUP_O_ChDKZ_InfSection_AT"];
 // 		1. vehicle must exist.
 // 		2. each vehicle must belong to only one category.
 if (isServer) then {
-	AS_AAFarsenal setVariable ["valid_planes", ["CUP_O_Su25_RU_1"], true];
-	AS_AAFarsenal setVariable ["valid_armedHelis", ["CUP_O_Mi24_P_RU", "CUP_O_Ka60_Grey_RU"], true];
-	AS_AAFarsenal setVariable ["valid_transportHelis", ["CUP_O_Mi8_CHDKZ", "CUP_O_Mi8_medevac_CHDKZ", "CUP_O_Mi8_VIV_CHDKZ"], true];
-	AS_AAFarsenal setVariable ["valid_tanks", ["CUP_O_T72_CHDKZ"], true];
-	AS_AAFarsenal setVariable ["valid_apcs", [
-		"CUP_O_BRDM2_CHDKZ", "CUP_O_BRDM2_ATGM_CHDKZ", "CUP_O_HQ_CHDKZ",
-        "CUP_O_BMP2_CHDKZ", "CUP_O_BMP2_HQ_CHDKZ"
-    ], true];
-	AS_AAFarsenal setVariable ["valid_trucks", ["CUP_O_Ural_CHDKZ", "CUP_O_Ural_Open_CHDKZ"], true];
-	AS_AAFarsenal setVariable ["valid_supplies", ["CUP_O_Ural_Reammo_CHDKZ", "CUP_O_Ural_Refuel_CHDKZ", "CUP_O_Ural_Repair_CHDKZ"], true];
-
-	// Initial setup: AAF starts without vehicles.
-	// 	To modders: change these in the template to set an initial arsenal.
-	{
-		AS_AAFarsenal setVariable [_x, [], true];
-	} forEach AS_AAFarsenal_categories;
+	["planes", "valid", ["CUP_O_Su25_RU_1"]] call AS_AAFarsenal_fnc_set;
+	["armedHelis", "valid", ["CUP_O_Mi24_P_RU", "CUP_O_Ka60_Grey_RU"]] call AS_AAFarsenal_fnc_set;
+	["transportHelis", "valid", ["CUP_O_Mi8_CHDKZ", "CUP_O_Mi8_medevac_CHDKZ", "CUP_O_Mi8_VIV_CHDKZ"]] call AS_AAFarsenal_fnc_set;
+	["tanks", "valid", ["CUP_O_T72_CHDKZ"]] call AS_AAFarsenal_fnc_set;
+	["boats", "valid", ["I_Boat_Armed_01_minigun_F"]] call AS_AAFarsenal_fnc_set;
+	["apcs", "valid", ["CUP_O_BRDM2_CHDKZ", "CUP_O_BRDM2_ATGM_CHDKZ", "CUP_O_HQ_CHDKZ", "CUP_O_BMP2_CHDKZ", "CUP_O_BMP2_HQ_CHDKZ"]] call AS_AAFarsenal_fnc_set;
+	["trucks", "valid", ["CUP_O_Ural_CHDKZ", "CUP_O_Ural_Open_CHDKZ"]] call AS_AAFarsenal_fnc_set;
+	["supplies", "valid", ["CUP_O_Ural_Reammo_CHDKZ", "CUP_O_Ural_Refuel_CHDKZ", "CUP_O_Ural_Repair_CHDKZ"]] call AS_AAFarsenal_fnc_set;
 };
 
-// 	To modders (optional): use a "cost_" to set cost for the AAF
-// 	to buy vehicles of CATEGORY. E.g.
-// 		AS_AAFarsenal setVariable ["cost_planes, 20000, true];
-
-// 	To modders (optional): use a "value_" to set value the FIA gets to sell AAF vehicles of CATEGORY.
-// 		AS_AAFarsenal setVariable ["value_planes, 10000, true];
-
 // List of special vehicles used in custom events
-//	moders: all vehicles defined in these lists must also belong to the AAFarsenal.
 vehPatrol = ["CUP_O_BRDM2_CHDKZ","CUP_O_BRDM2_ATGM_CHDKZ","CUP_O_BMP2_CHDKZ","CUP_O_Ka60_Grey_RU"];
 vehAmmo = "CUP_O_Ural_Reammo_CHDKZ";
 vehLead = ["CUP_O_BMP2_CHDKZ","CUP_O_BRDM2_CHDKZ"];  // lead of convoy
@@ -117,23 +101,6 @@ AAFMines = ["CUP_MineE", "CUP_Mine"];
 atMine = "CUP_Mine";
 apMine = "CUP_MineE";
 
-// Equipment unlocked by default
-if (isServer) then {
-	unlockedWeapons = [
-		"CUP_arifle_AKS74U",
-		"CUP_hgun_Makarov"
-	];
-
-	unlockedMagazines = [
-		"CUP_30Rnd_545x39_AK_M",
-		"CUP_8Rnd_9x18_Makarov_M"
-	];
-
-	unlockedBackpacks = [
-		"CUP_B_CivPack_WDL"
-	];
-};
-
 // NVG, flashlight, laser, mine types
 indNVG = "CUP_NVG_PVS7";
 indFL = "CUP_acc_flashlight";
@@ -141,11 +108,10 @@ indLaser = "CUP_acc_ANPEQ_2_camo";
 
 // The flag
 cFlag = "Flag_Red_F";
+AS_AAFname = "ChDKZ";
 
 // Long range radio
 lrRadio = "tf_rt1523g_green";
 
 // Define the ammo crate to be spawned at camps
 campCrate = "Box_NATO_Equip_F";
-
-A3_STR_INDEP = "Chernarussian Movement of the Red Star";

@@ -1,13 +1,12 @@
-_unit = _this select 0;
-_jugador = _this select 1;
+private _unit = _this select 0;
+private _jugador = _this select 1;
 
 [[_unit,"remove"],"AS_fnc_addAction"] call BIS_fnc_MP;
 //removeAllActions _unit;
 
-if (captive _jugador) then
-	{
+if (captive _jugador) then {
 	[_jugador,false] remoteExec ["setCaptive",_jugador];
-	};
+};
 
 _jugador globalChat "You are free. Come with us!";
 _unit setDir (getDir _jugador);
@@ -19,9 +18,9 @@ _unit enableAI "MOVE";
 _unit enableAI "AUTOTARGET";
 _unit enableAI "TARGET";
 _unit enableAI "ANIM";
-sleep 5;
+sleep 1;
 _jugador playMove "";
 //_unit playMove "SitStandUp";
 _unit setCaptive false;
 [_unit] join group _jugador;
-[_unit] spawn FIAInit;
+[_unit] call AS_fnc_initUnitFIA;

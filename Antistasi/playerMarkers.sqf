@@ -1,5 +1,5 @@
 while {true} do {
-	waitUntil {sleep 0.5; (visibleMap or visibleGPS) and ([player] call hasRadio)};
+	waitUntil {sleep 0.5; (visibleMap or visibleGPS) and ([player] call AS_fnc_hasRadio)};
 	private _jugadores = [];
 	private _marcadores = [];
 	while {visibleMap or visibleGPS} do {
@@ -21,7 +21,7 @@ while {true} do {
 				if (vehicle _jugador == _jugador) then {
 					_mrk setMarkerPosLocal position _jugador;
 					_mrk setMarkerDirLocal getDir _jugador;
-					if (_jugador call AS_fnc_isUnconscious) then {
+					if (_jugador call AS_medical_fnc_isUnconscious) then {
 						_mrk setMarkerTypeLocal "mil_join";
 						_mrk setMarkerTextLocal format ["%1 Injured",name _jugador];
 						_mrk setMarkerColorLocal "ColorPink";

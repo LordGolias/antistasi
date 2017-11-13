@@ -1,4 +1,6 @@
-# Antistasi by Golias
+# Golias' Antistasi
+
+![Main image](Antistasi/pic.jpg)
 
 This is a modified version of Antistasi scenario for ARMA 3 that deals with some of the issues of the original version.
 
@@ -15,6 +17,7 @@ This modified version has the same mechanics and the same features but improves 
 * All game and performance options, including AI skill and cleanup time, are now modifiable by the commander.
 * Revive system works as intended (with or without ACE) and for all factions
 * There is no "petros cavalary": this is the commander's responsibility.
+* Saving/loading games to files supported.
 
 * Menus were remade from scratch to better accommodate more buttons and other layouts.
 * Locations backend was rewritten from scratch.
@@ -108,7 +111,7 @@ you load it again. To change this behavior, tick the box `Bidirectional sync` in
 Run
 
 ```
-[true] call AS_DEBUG_init;
+true call AS_debug_fnc_toggle;
 ```
 
 to show in the map all units (dead or alive) and locations that are currently spawned.
@@ -117,15 +120,20 @@ reverse it.
 
 # Code structure
 
-- `Municion/`: scripts related with weapons, arsenal and boxes.
-- `CREATE/`: scripts related with spawing places, units and convoys.
-- `statSave/`: scripts related with loading and saving the game.
-- `location.sqf`: contains all the code for interacting with locations.
-- `Missions/`: everything related to missions. Core module is `Missions/mission.sqf`.
+- `dictionary/`: API for storing serializable data ([README](Antistasi/dictionary/README.md)).
+- `database/`: API for loading and saving games ([README](Antistasi/database/README.md)).
+- `scheduler/`: API for load-balanced distributed execution ([README](Antistasi/scheduler/README.md)).
+- `spawn/`: API for fault-tolerant execution ([README](Antistasi/spawn/README.md)).
+- `location/`: API for managing and spawning locations ([README](Antistasi/location/README.md)).
+- `mission/`: API for managing and spawning missions ([README](Antistasi/mission/README.md)).
+- `movement/`: spawns related to AAF movement spawns (e.g. patrols, attacks).
 - `initialization/`: scripts that initialize the mission.
-- `Revive/`: scripts used for the revive system
-- `scheduler.sqf`: contains all functions for distributed execution
-- `spawn.sqf`: contains all functions for spawn execution
+- `medical/`: functions used for the medical system (including ACE)
+- `arsenal/`: functions related with weapons, arsenal and boxes.
+- `ai_control/`: API to handle AI control.
+- `templates/`: templates to modify AS (worlds, items, factions)
+- `debug/`: API to debug the mission
+- `actions/`: action functions (`addAction`)
 
 ## Initialization
 
@@ -135,130 +143,48 @@ This script uses `server.sqf`, `headlessClient.sqf`, `client.sqf` in `initializa
 Regardless of the game mode (SP or MP), `server.sqf` is called on the server side
 and `client.sqf` or `headlessClient.sqf` are called on non-server.
 
-The code that has to be called on every machine running AS is `initFuncs.sqf` and `initVar.sqf`.
-`initFuncs.sqf` defines all functions and components.
+The code that has to be called on every machine running AS is `initVar.sqf`.
 
 `server.sqf` call `serverMP.sqf` or `serverSP.sqf` depending
 
 `client.sqf` is responsible for initializing a player. This includes
 Event Handling, available actions, etc.
 
+## Persistent and temporary data
+
+This mission has a set of macros and idioms to store data.
+
+Generically, each datum has two attributes:
+* shared: whether it is a globally shared
+* persistent: whether it is persistently saved
+
+* shared and temporary variables are handled with the macros `AS_S(_key)`, `AS_Sset(_key, _value)`.
+* shared and persistent variables are handled with the macros `AS_P(_key)`, `AS_Pset(_key, _value)` or with [dictionaries](Antistasi/dictionary/README.md)
+* non-shared temporary variables are handled without any macro.
+
+The [database API](Antistasi/database/README.md) is used to fully serialize (save) and deserialize (load) the mission.
+
 ## Distributed execution
 
 This mission has parts (`spawn`s, see below) that can be run by any client.
 For these parts, the server acts as a scheduler and load balancer and each client
-(headless or not) acts as a worker.
-Clients send their FPS rate to the server, `AS_scheduler_fnc_sendStatus`, and the server
-balances which worker runs the scheduled script based on this information.
-To execute a script with the scheduler, use
-
-```
-[arguments, "scriptName"] remoteExec ["AS_scheduler_fnc_execute", 2];
-```
-
-This will make the server to call `arguments remoteExec ["scriptName", clientID];`
-where `clientID` is selected by the load balancer via `AS_scheduler_fnc_getWorker`.
+(headless or not) acts as a worker. See [scheduler](Antistasi/scheduler/README.md) for details.
 
 ## Spawn state and execution
 
-A `spawn` is a list of execution blocks that are to be executed sequentially.
-Between blocks, the state of the spawn is saved globally, which makes spawns
-fail-tolerant against client disconnections.
-
-The code responsible for this is defined in `spawn.sqf`. The spawn API has
-functions to modify the state `add/set/get/remove`, and a state to run a new spawn, `execute`.
-
-Every spawn has a unique `"name"` and a `"type"`.
-The spawn type is used to get the list of execution blocks (defined at `AS_spawn_fnc_states`).
-To track on which state the spawn is, every spawn has a property `"state_index"` that
-identifies on which state it currently is.
-When a spawn is executed, its `"spawnOwner"` becomes the local `clientOwner`, which
-is used to track which clients are running what.
-Whenever a client disconnects, the server takes over the spawns of that client (since
-the resources are also taken over by the server).
-
-The current spawns are:
-* locations
-* missions
-* patrols
-
-In the directory `CREATE` will can find location and patrol spawns. In the directory
-`Missions` you can find the mission spawns.
-
-## Persistent saving
-
-The code in `statSave/saveFuncs.sqf` is responsible for saving stuff.
-Essentially, the following things are saved:
-
-- Variables in the Logic `AS_persistent` named in the array `statSave/saveFuncs.AS_serverVariables`.
-- Locations properties, defined in `AS_fnc_location_saved_properties`.
-- Various global variables
+The execution of certain parts of this mission is distributed across clients.
+This is implemented by the [spawn API](Antistasi/spawn/README.md).
 
 ## Locations
 
-A location is a place in the map that is spawned/despawned under certain conditions.
-Each location is represented by a string (e.g. `_location = "FIA_HQ";`)
-and it has a type (e.g. `"base"`, `"resource"`). Each location "owns" a hidden marker
-that is used to represent its position.
-
-`location.sqf` contains all the functions that you use to interact with locations.
-It contains functions to:
-
-* get properties:
-
-```
-_side = _location call AS_fnc_location_side;
-_position = _location call AS_fnc_location_position;
-_size = [_location,"size"] call AS_fnc_location_get;
-```
-
-* set properties:
-
-```
-_side = [_location,"side","AAF"] call AS_fnc_location_set;
-```
-
-* add and delete locations
-
-```
-[_marker,"roadblock"] call AS_fnc_location_add;
-[_marker,"side","FIA"] call AS_fnc_location_set;
-// ...
-_marker call AS_fnc_location_remove;
-```
-
-* list locations of a certain type or side:
-
-```
-call AS_fnc_location_all
-// [T]ype and [S]ide
-_bases = "base" call AS_fnc_location_T;
-_FIAlocations = "FIA" call AS_fnc_location_S;
-_FIAbases = ["base","AAF"] call AS_fnc_location_TS;
-[["base","airfield"],"FIA"] call AS_fnc_location_TS;
-```
-
-To get all properties of a given location, use,
-
-```
-_type = _location call AS_fnc_location_type;
-hint str (_type call AS_fnc_location_properties);
-```
-
-Internally, locations uses the component `AS_object` (`object.sqf`), that is responsible
-for persistency and data consistency. Use only `AS_fnc_location_*` to interact with them.
-The functions in `location.sqf` are documented, so you can learn which they are
-and what they do.
-
-`spawnLoop.sqf` is the loop that controls which locations are spawned.
-When opposing forces reach (or other conditions), this loop spawns the location.
-Each location is spawned differently depending on its side and type,
-the scripts responsible for creating units, etc. are in `CREATE/`.
+Locations are managed by the [location API](Antistasi/location/README.md). They represent
+physical locations on the map that are spawned according to certain functionality
+and can sometimes be conquered.
 
 ### Initialization
 
 When the game is loaded, locations are loaded from the markers in
-the `mission.sqm`. Specifically, markers starting with a given string
+the `mission.sqm` (`initLocations.sqf`). Specifically, markers starting with a given string
 are converted to locations using the following convention
 
 * `"AS_powerplant"`: `"powerplant"`
@@ -272,7 +198,7 @@ see `templates/world_altis.sqf` to learn how.
 
 A particular type of location is the roadblock. The roadblocks are placed
 on the map during initialization using the markers `"AS_roadblock"` and
-from the script `location.sqf/AS_fnc_location_addAllRoadblocks`.
+from the script `AS_location_fnc_addAllRoadblocks`.
 Whenever a location is taken, roadblocks for that location are created/destroyed.
 
 ## FIA HQ
@@ -299,8 +225,8 @@ The HQ also has objects that can be spawned by the commander. The scripts that h
 
 Other related functions:
 
-- `statSave/saveFuncs.sqf/AS_fnc_saveHQ`: persistently save the HQ objects
-- `statSave/saveFuncs.sqf/AS_fnc_loadHQ`: persistently load the HQ objects
+- `persistency/saveFuncs.sqf/AS_hq_fnc_toDict`: persistently save the HQ objects
+- `persistency/saveFuncs.sqf/AS_hq_fnc_fromDict`: persistently load the HQ objects
 - `AS_fnc_initPetros.sqf`: restart petros (creates a new petros unit)
 
 Related globals:
@@ -310,28 +236,8 @@ Related globals:
 
 ## Missions
 
-A mission is a persistent data structure that has a `type` (e.g. `kill_officer`),
-a `status` (e.g. `available`), and other properties. These properties are used
-to initialize its own spawn (see above).
-Each mission is defined by a set of states (e.g. `"initialize"`, `"wait_to_deliver"`)
-and functions that execute those states.
-Every mission is stored in the directory `Missions/`, and the API to
-create, start, and cancel missions is defined in `Missions/mission.sqf`.
-For example, to create the mission to `"kill_officer"` in city `_cityName`, use
-
-```
-// create and save it persistently
-["kill_officer", _cityName] call AS_fnc_mission_add;
-// spawn its script
-"kill_officer" call AS_fnc_mission_activate;
-...
-// delete it (do not do it until the script finishes):
-"kill_officer" call AS_fnc_mission_remove;
-```
-
-`AS_fnc_mission_activate` sends the scheduler a request to spawn itself. The scheduler
-uses the load balancer to select the best client to run the mission, and the client
-uses the spawn API to execute the mission.
+This mission has numerous sub-missions that are spawned automatically or by
+a player's decision. See [missions API](Antistasi/mission/README.me) for more details.
 
 ## Player's score, rank and eligibility to command
 
@@ -345,13 +251,13 @@ The score is modified (increase or decrease) by:
 The (server) script that changes a player's score is `orgPlayers/fnc_changePlayerScore.sqf`.
 
 Score defines the rank of the player. Rank is the indicator of the player's score
-and is updated on the client side periodically by `Scripts/rankCheck.sqf` (`player getVariable "rank"`).
+and is updated on the client side periodically by `Scripts/AS_fnc_activatePlayerRankLoop.sqf` (`player getVariable "rank"`).
 
-Players can decide to become eligible to be commander (`AS_fncUI_toggleElegibility`).
+Players can decide to become eligible to be commander (`AS_fnc_UI_toggleElegibility`).
 Only eligible players can become commanders.
 The choice of the commander happens in any of the following situations:
 
-- the commander resigns (`AS_fncUI_toggleElegibility`)
+- the commander resigns (`AS_fnc_UI_toggleElegibility`)
 - the commander disconnects
 - periodically
 
@@ -378,15 +284,15 @@ Vehicles are bought by FIA or AAF, or are spawned by NATO/CSAT. Afterwards:
 ### AAF Arsenal
 
 The AAF has an arsenal of vehicles that it buys with AAF money.
-AAF has different categories of vehicles that are defined in `AAFarsenal.sqf`
-that can be modified in the `templates/` (e.g. for RHS).
+The arsenal has different categories of vehicles that are defined in `AAFarsenal.sqf`
+and that can be modified in the `templates/` (e.g. for RHS).
 
 ## AAF attacks
 
 The AAF attacks from time to time. The relevant variable that controls this is the
 `AS_P("secondsForAAFattack")`. This variable is modified via `fnc_changeSecondsForAAFattack`.
-The script that starts attacks is the `ataqueAAF.sqf`. It is run from the loop in `resourcecheck.sqf`
-when `AS_P("secondsForAAFattack") == 0`. `ataqueAAF.sqf` checks whether it is worth to attack
+The script that starts attacks is the `AS_movement_fnc_sendAAFattack.sqf`. It is run from the loop in `resourcecheck.sqf`
+when `AS_P("secondsForAAFattack") == 0`. `AS_movement_fnc_sendAAFattack.sqf` checks whether it is worth to attack
 a given location, and, if yes, it spawns the attack accordingly using the missions
 `defend_city.sqf`, `defend_camp.sqf` or `defend_location.sqf`.
 
@@ -403,7 +309,7 @@ Relevant scripts:
 
 * `Create/minefield.sqf`: spawns an existing FIA/AAF minefield
 * `Functions/fnc_addMinefield.sqf`: adds a new minefield
-* `Functions/fnc_deployAAFminefield.sqf`: tries to find a suitable position and creates an AAF minefield (called by `AAFeconomics.sqf`).
+* `Functions/fnc_deployAAFminefield.sqf`: tries to find a suitable position and creates an AAF minefield (called by `AS_fnc_spendAAFmoney.sqf`).
 * `Functions/fnc_deployFIAminefield.sqf`: interface for the player to choose a position and mine positions to place a minefield (it creates a mission).
 * `Missions\establishFIAminefield.sqf`: the mission that creates a FIA minefield
 

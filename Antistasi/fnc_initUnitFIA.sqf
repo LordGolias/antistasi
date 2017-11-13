@@ -1,7 +1,9 @@
 #include "macros.hpp"
 params ["_unit", ["_spawned", true], ["_place", nil], ["_equipment", []]];
 
-[_unit] call AS_DEBUG_initUnit;
+[_unit] call AS_debug_fnc_initUnit;
+
+_unit setVariable ["AS_side", "FIA", true];
 
 if (_spawned) then {
 	_unit setVariable ["BLUFORSpawn",true,true];
@@ -10,7 +12,8 @@ else {
 	if (!isNil "_place") then {_unit setVariable ["marcador", _place]};
 };
 
-[_unit] call AS_fnc_initMedical;
+_unit addEventHandler ["HandleDamage", AS_fnc_EH_handleDamage_AIcontrol];
+[_unit] call AS_medical_fnc_initUnit;
 _unit allowFleeing 0;
 
 [_unit, AS_P("skillFIA")] call AS_fnc_setDefaultSkill;
@@ -24,26 +27,24 @@ if (player == leader _unit) then {
 	if ([_unit] call AS_fnc_getFIAUnitType != "Survivor") then {
 		private _idUnit = selectRandom namesFIASoldiers;
 		namesFIASoldiers = namesFIASoldiers - [_idunit];
-		_unit setIdentity _idUnit;
-		if (captive player) then {[_unit] spawn undercoverAI};
+		if (captive player) then {[_unit] spawn AS_fnc_activateUndercoverAI};
 	};
 
 	_unit addEventHandler ["killed", {
 		params ["_unit"];
-		[_unit] remoteExec ["postmortem",2];
+		[_unit] remoteExec ["AS_fnc_activateCleanup",2];
 
 		if ([_unit] call AS_fnc_getFIAUnitType != "Survivor") then {
 			namesFIASoldiers = namesFIASoldiers + [name _unit];
 		};
-		[0.25,0,getPos _unit] remoteExec ["citySupportChange",2];
+		[0.25,0,getPos _unit] remoteExec ["AS_fnc_changeCitySupport",2];
 		_unit setVariable ["BLUFORSpawn",nil,true];
 	}];
 
 	_unit setVariable ["rearming",false];
 	if !("ItemRadio" in unlockedItems) then {
 		while {alive _unit} do {
-			sleep 10;
-			if (("ItemRadio" in assignedItems _unit) and ([player] call hasRadio)) exitWith {_unit groupChat format ["This is %1, radiocheck OK",name _unit]};
+			if (("ItemRadio" in assignedItems _unit) and ([player] call AS_fnc_hasRadio)) exitWith {_unit groupChat format ["This is %1, radio OK",name _unit]};
 			if (unitReady _unit) then {
 				if ((alive _unit) and (_unit distance (getMarkerPos "FIA_HQ") > 50) and (_unit distance leader group _unit > 500) and ((vehicle _unit == _unit) or ((typeOf (vehicle _unit)) in arrayCivVeh))) then {
 					hint format ["%1 lost communication, he will come back with you if possible", name _unit];
@@ -56,6 +57,7 @@ if (player == leader _unit) then {
 					[_unit] join group player;
 				};
 			};
+			sleep 10;
 		};
 	};
 
@@ -66,20 +68,20 @@ if (player == leader _unit) then {
 
 		if (((typeOf _veh) in arrayCivVeh) || ((typeOf _veh) == civHeli)) then {
 			if !(_veh in AS_S("reportedVehs")) then {
-				[_soldier] spawn undercoverAI;
+				[_soldier] spawn AS_fnc_activateUndercoverAI;
 			};
 		};
 	}];
 } else {
 	_unit addEventHandler ["killed", {
 		params ["_unit", "_killer"];
-		[_unit] remoteExec ["postmortem",2];
+		[_unit] remoteExec ["AS_fnc_activateCleanup",2];
 
 		// player team-kill
 		if (isPlayer _killer) then {
 			[-20,_killer,false] remoteExec ["AS_fnc_changePlayerScore", 2];
 		};
-		[0,-0.25,getPos _unit] remoteExec ["citySupportChange",2];
+		[0,-0.25,getPos _unit] remoteExec ["AS_fnc_changeCitySupport",2];
 
 		if (_unit getVariable ["BLUFORSpawn",false]) then {
 			_unit setVariable ["BLUFORSpawn",nil,true];
@@ -87,12 +89,12 @@ if (player == leader _unit) then {
 
 		private _location = _unit getVariable "marcador";
 		if (!isNil "_location") then {
-			if (_location call AS_fnc_location_side == "FIA") then {
-				private _garrison = _location call AS_fnc_location_garrison;
+			if (_location call AS_location_fnc_side == "FIA") then {
+				private _garrison = _location call AS_location_fnc_garrison;
 				for "_i" from 0 to (count _garrison -1) do {
 					if (typeOf _unit == (_garrison select _i)) exitWith {_garrison deleteAt _i};
 				};
-				[_location, "garrison", _garrison] call AS_fnc_location_set;
+				[_location, "garrison", _garrison] call AS_location_fnc_set;
 			};
 		};
 	}];

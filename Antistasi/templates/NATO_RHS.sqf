@@ -11,8 +11,6 @@ bluUAV = 			["B_UAV_02_F"];
 planesNATO = bluHeliTrans + bluHeliArmed + bluHeliGunship + bluCASFW;
 planesNATOTrans = bluHeliTrans;
 
-bluRoadblock = "Compositions\cmpNATO_RB.sqf";
-
 bluMBT = 		["rhsusf_m1a2sep1d_usarmy","rhsusf_m1a2sep1tuskid_usarmy"];
 bluAPC = 		["RHS_M2A3","RHS_M2A3_BUSKI"];
 bluIFV = 		["rhsusf_m113d_usarmy_M240","rhsusf_m113d_usarmy_supply"];
@@ -49,7 +47,8 @@ bluATTeam = 		["rhs_group_nato_usmc_d_infantry_team_heavy_AT"];
 
 bluIR = 	"rhsusf_acc_anpeq15";
 
-bluFlag = 	"Flag_NATO_F";
+bluFlag = 	"Flag_US_F";
+AS_NATOname = "USMC";
 
 blu40mm = [
 	"rhs_mag_M433_HEDP",

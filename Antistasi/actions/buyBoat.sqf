@@ -35,5 +35,5 @@ _veh = boatFIA createVehicle _pos;
 
 [_veh, "FIA"] call AS_fnc_initVehicle;
 player reveal _veh;
-[0,-200] remoteExec ["resourcesFIA",2];
+[0,-200] remoteExec ["AS_fnc_changeFIAmoney",2];
 hint "Boat purchased";

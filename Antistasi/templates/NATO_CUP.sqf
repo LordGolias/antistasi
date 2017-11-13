@@ -48,6 +48,7 @@ bluATTeam = ["CUP_B_USMC_HeavyATTeam"];
 bluIR = "acc_pointer_IR";
 
 bluFlag = "Flag_US_F";
+AS_NATOname = "USMC";
 
 bluAT = [
     "CUP_Weapon_launch_Javelin",

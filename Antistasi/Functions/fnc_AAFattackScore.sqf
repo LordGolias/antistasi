@@ -4,10 +4,10 @@ private _scoreNeededAir = 0;
 
 {
     private _analizado = _x;
-    private _analizadoPos = _x call AS_fnc_location_position;
-    private _analizadoSize = _x call AS_fnc_location_size;
-    private _analizadoType = _x call AS_fnc_location_type;
-    private _analizadoGarrison = _x call AS_fnc_location_garrison;
+    private _analizadoPos = _x call AS_location_fnc_position;
+    private _analizadoSize = _x call AS_location_fnc_size;
+    private _analizadoType = _x call AS_location_fnc_type;
+    private _analizadoGarrison = _x call AS_location_fnc_garrison;
 
     _scoreNeededLand = _scoreNeededLand + floor ((count _analizadoGarrison)/8);
     _scoreNeededAir = _scoreNeededAir + floor (({_x == "AA Specialist"} count _analizadoGarrison)/2);

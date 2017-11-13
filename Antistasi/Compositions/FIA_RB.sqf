@@ -142,8 +142,6 @@ fnc_RB_placeSingle = {
 	_gunner moveInGunner _vehicle;
 	[_gunner, false] spawn AS_fnc_initUnitFIA;// these functions are only called by `createFIApuestos2`, which are responsible for undoing this call.
 
-	[[_vehicle, _gunner]] spawn fnc_protectVehicle;
-
 	[_objs, [_gunner], [_infPos, _dir]];
 };
 

@@ -1,0 +1,1 @@
+(_this call AS_mission_fnc__getFailData) call AS_mission_fnc__description

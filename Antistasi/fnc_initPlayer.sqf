@@ -4,7 +4,10 @@ waitUntil {player == player};
 
 if hayACEhearing then {player addItem "ACE_EarPlugs"};
 
-player call AS_fnc_initMedical;
+player setVariable ["AS_side", "FIA", true];
+
+player addEventHandler ["HandleDamage", AS_fnc_EH_handleDamage_AIcontrol];
+player call AS_medical_fnc_initUnit;
 
 player setPos ((getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)]);
 
@@ -12,11 +15,10 @@ player addEventHandler ["WeaponAssembled", {
 	params ["_EHunit", "_EHobj"];
 	if (_EHobj isKindOf "StaticWeapon") then {
 		if !(_EHobj in AS_P("vehicles")) then {
-            [_EHobj] call remoteExec ["AS_fnc_addPersistentVehicles", 2];
+            [_EHobj] remoteExec ["AS_fnc_changePersistentVehicles", 2];
 		};
 	};
     [_EHobj, "FIA"] call AS_fnc_initVehicle;
-    _EHobj addEventHandler ["Killed",{[_this select 0] remoteExec ["postmortem",2]}];
 }];
 
 player addEventHandler ["WeaponDisassembled", {
@@ -25,27 +27,13 @@ player addEventHandler ["WeaponDisassembled", {
 }];
 
 if (isMultiplayer) then {
-	player addEventHandler ["InventoryOpened", {
-        private _notAMemberMessage = "You are not in the Member's List of this Server.\n\n" +
-    			             "Ask the Commander in order to be allowed to access the HQ Ammobox.\n\n"+
-    				         "In the meantime you may use the other box to store equipment and share it with others.";
-		private _control = false;
-		if !([_this select 0] call isMember) then {
-			if ((_this select 1 == caja) or ((_this select 0) distance caja < 3)) then {
-				_control = true;
-				hint _notAMemberMessage;
-			};
-		};
-		_control
-	}];
-
     player addEventHandler ["Fired", {
 		private _tipo = _this select 1;
 		if ((_tipo == "Put") or (_tipo == "Throw")) then {
 			if (player distance petros < 50) then {
 				deleteVehicle (_this select 6);
 				if (_tipo == "Put") then {
-					if (player distance petros < 10) then {[player,60] spawn castigo};
+					if (player distance petros < 10) then {[player,60] spawn AS_fnc_penalizePlayer};
 				};
 			};
 		};
@@ -53,7 +41,7 @@ if (isMultiplayer) then {
 };
 
 [] execVM "reinitY.sqf";
-[] execVM "statistics.sqf";
+[] spawn AS_fnc_UI_showTopBar;
 
 [player] execVM "OrgPlayers\unitTraits.sqf";
-[] spawn rankCheck;
+[] spawn AS_fnc_activatePlayerRankLoop;

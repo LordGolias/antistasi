@@ -15,7 +15,7 @@ if (_add) then {
     AS_Pset("vehicles", AS_P("vehicles") - _vehicles);
     // set the vehicles back to the despawner
     {
-        [_x] spawn vehicle_despawn;
+        [_x] spawn AS_fnc_activateVehicleCleanup;
     } forEach _vehicles;
 };
 

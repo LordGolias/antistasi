@@ -1,13 +1,12 @@
-#include "macros.hpp"
-#include "statSave\dialogs.hpp"
-#include "dialogs\recruitUnit.hpp"
-#include "dialogs\recruitSquad.hpp"
-#include "dialogs\recruitGarrison.hpp"
-#include "dialogs\manageLocations.hpp"
-#include "dialogs\manageMissions.hpp"
-#include "dialogs\buyVehicle.hpp"
-#include "dialogs\HQmenu.hpp"
-#include "dialogs\natoMissions.hpp"
+#include "database\dialogs.hpp"
+#include "dialogs\recruitUnit\dialogs.hpp"
+#include "dialogs\recruitSquad\dialogs.hpp"
+#include "dialogs\manageGarrisons\dialogs.hpp"
+#include "dialogs\manageMissions\dialogs.hpp"
+#include "dialogs\manageLocations\dialogs.hpp"
+#include "dialogs\manageHQ\dialogs.hpp"
+#include "dialogs\manageNATO\dialogs.hpp"
+#include "dialogs\buyVehicle\dialogs.hpp"
 
 class build_menu
 {
@@ -18,7 +17,7 @@ class build_menu
 	{
 AS_DIALOG(3,"Building Options", "closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
 
-BTN_M(1,-1,"Manage Locations", "", "closeDialog 0; [] spawn AS_fncUI_ManageLocationsMenu;");
+BTN_M(1,-1,"Manage Locations", "", "closeDialog 0; [] spawn AS_fnc_UI_manageLocations_menu;");
 BTN_M(2,-1,"Build Minefield", "", "closeDialog 0; createDialog ""AS_createMinefield"";");
 BTN_M(3, -1, "HQ Fortifications", "", "closeDialog 0; nul= createDialog ""HQ_fort_dialog"";");
 	};
@@ -33,10 +32,10 @@ class squad_manager
 	{
 AS_DIALOG(2,"HC Squad Options", "closeDialog 0; createDialog ""radio_comm_commander"";");
 
-BTN_L(1,-1, "Squad Add Vehicle", "", "closeDialog 0; [] execVM ""REINF\addSquadVeh.sqf"";");
-BTN_L(2,-1, "Squad Vehicle Stats", "", "[""stats""] execVM ""REINF\vehStats.sqf"";");
+BTN_L(1,-1, "Squad Add Vehicle", "", "closeDialog 0; [] spawn AS_fnc_addSquadVehicle;");
+BTN_L(2,-1, "Squad Vehicle Stats", "Hints the status of the vehicle of the selected HC squad", "call AS_fnc_UI_squadVehicleStatus;");
 
-BTN_R(1,-1, "Mount / Dismount", "", "[""mount""] execVM ""REINF\vehStats.sqf""");
+BTN_R(1,-1, "Mount / Dismount", "Makes an HC squad board/dismount its vehicle", "call AS_fnc_UI_squadVehicleDismount");
 BTN_R(2,-1, "Static Autotarget", "", "closeDialog 0; [] execVM ""AI\staticAutoT.sqf"";");
 
 	};
@@ -63,13 +62,10 @@ class player_money
 
 	class controls
 	{
-AS_DIALOG(2,"Player and Money Interaction", "closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
+AS_DIALOG(1,"Donate money", "closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
 
-BTN_L(1,-1, "Add Server Member", "", "if (isMultiplayer) then {closeDialog 0; nul = [""add""] call memberAdd;} else {hint ""This function is MP only""};");
-BTN_L(2,-1, "Remove Server Member", "", "if (isMultiplayer) then {closeDialog 0; nul = [""remove""] call memberAdd;} else {hint ""This function is MP only""};");
-
-BTN_R(1,-1, "Donate 100 € to player in front of you", "", "true call AS_fncUI_donateMoney;");
-BTN_R(2,-1, "Donate 100 € to FIA", "", "false call AS_fncUI_donateMoney;");
+BTN_L(1,-1, "Donate 100 € to player in front of you", "", "true call AS_fnc_UI_donateMoney;");
+BTN_R(1,-1, "Donate 100 € to FIA", "", "false call AS_fnc_UI_donateMoney;");
 
 	};
 };
@@ -86,7 +82,7 @@ AS_DIALOG(2,"Vehicle Manager", "closeDialog 0; if (player == AS_commander) then 
 BTN_L(1,-1, "Garage\Sell Vehicle", "", "closeDialog 0; nul = createDialog ""garage_sell"";");
 BTN_R(1,-1, "Vehicles and Squads", "", "closeDialog 0; if (player == AS_commander) then {nul = createDialog ""squad_manager""} else {hint ""Only Player Commander has access to this function""};");
 
-BTN_M(2, -1, "Unlock Vehicle", "", "closeDialog 0; if !(isMultiplayer) then {hint ""It's unlocked already.""} else {if (player != AS_commander) then {nul = [false] call unlockVehicle} else {nul = [true] call unlockVehicle};};");
+BTN_M(2, -1, "Unlock Vehicle", "", "closeDialog 0; if !(isMultiplayer) then {hint ""It's unlocked already.""} else {if (player != AS_commander) then {nul = [false] call AS_fnc_unlockVehicle} else {nul = [true] call AS_fnc_unlockVehicle};};");
 
 	};
 };
@@ -100,8 +96,8 @@ class garage_sell
 	{
 AS_DIALOG(1,"Sell or Garage Vehicle", "closeDialog 0; createDialog ""vehicle_manager"";");
 
-BTN_L(1,-1, "Garage Vehicle", "", "closeDialog 0; if (player != AS_commander) then {nul = [false] call garageVehicle} else {if (isMultiplayer) then {createDialog ""garage_check""} else {nul = [true] call garageVehicle}};");
-BTN_R(1,-1, "Sell Vehicle", "", "closeDialog 0; if (player == AS_commander) then {nul = [] call sellVehicle} else {hint ""Only the Commander can sell vehicles""};");
+BTN_L(1,-1, "Garage Vehicle", "", "closeDialog 0; if (player != AS_commander) then {nul = [false] call AS_fnc_putVehicleInGarage} else {if (isMultiplayer) then {createDialog ""garage_check""} else {nul = [true] call AS_fnc_putVehicleInGarage}};");
+BTN_R(1,-1, "Sell Vehicle", "", "closeDialog 0; if (player == AS_commander) then {nul = [] call AS_fnc_sellVehicle} else {hint ""Only the Commander can sell vehicles""};");
 
 	};
 };
@@ -114,8 +110,8 @@ class garage_check
 	{
 AS_DIALOG(1,"Personal or FIA Garage?", "closeDialog 0; createDialog ""garage_sell"";");
 
-BTN_L(1,-1, "Personal Garage", "", "closeDialog 0; nul = [false] call garageVehicle;");
-BTN_R(1,-1, "FIA Garage", "", "closeDialog 0; nul = [true] call garageVehicle;");
+BTN_L(1,-1, "Personal Garage", "", "closeDialog 0; nul = [false] call AS_fnc_putVehicleInGarage;");
+BTN_R(1,-1, "FIA Garage", "", "closeDialog 0; nul = [true] call AS_fnc_putVehicleInGarage;");
 
 	};
 };
@@ -128,10 +124,10 @@ class carpet_bombing
 	{
 AS_DIALOG(2,"Carpet Bombing Strike","closeDialog 0; nul = createDialog ""NATO_Missions"";");
 
-BTN_L(1,-1, "HE Bombs", "Cost: 10 points", "closeDialog 0; [""HE""] execVM ""REINF\NATObomb.sqf"";");
-BTN_R(1,-1, "Carpet Bombing", "Cost: 10 points", "closeDialog 0; [""CARPET""] execVM ""REINF\NATObomb.sqf"";");
+BTN_L(1,-1, "HE Bombs", "Cost: 10 points", "closeDialog 0; ""HE"" call AS_fnc_UI_natoAirstrike;");
+BTN_R(1,-1, "Carpet Bombing", "Cost: 10 points", "closeDialog 0; ""CARPET"" call AS_fnc_UI_natoAirstrike;");
 
-BTN_M(2, -1, "NAPALM Bomb", "Cost: 10 points", "closeDialog 0; [""NAPALM""] execVM ""REINF\NATObomb.sqf"";");
+BTN_M(2, -1, "NAPALM Bomb", "Cost: 10 points", "closeDialog 0; ""NAPALM"" call AS_fnc_UI_natoAirstrike;");
 
 	};
 };
@@ -145,11 +141,9 @@ class AI_management
 	{
 AS_DIALOG(2,"AI Management","closeDialog 0; if (player == AS_commander) then {createDialog ""radio_comm_commander""} else {createDialog ""radio_comm_player""};");
 
-BTN_L(1,-1, "Control selected AI", "", "[] spawn AS_fncUI_controlUnit;");
-BTN_L(2,-1, "Auto Heal", "", "[] execVM ""AI\autoHealFnc.sqf""}");
-
+BTN_L(1,-1, "Control selected AI", "", "[] spawn AS_fnc_UI_controlUnit;");
 BTN_R(1,-1, "Auto Rearm", "", "closeDialog 0; if (count groupselectedUnits player == 0) then {nul = (units group player) execVM ""AI\rearmCall.sqf""} else {nul = (groupselectedUnits player) execVM ""AI\rearmCall.sqf""};");
-BTN_R(2,-1, "Dismiss Units/Squads", "", "closeDialog 0; if (count groupselectedUnits player > 0) then {nul = [groupselectedUnits player] execVM ""REINF\dismissFIAinfantry.sqf""} else {if (count (hcSelected player) > 0) then {nul = [hcSelected player] execVM ""REINF\dismissFIAsquad.sqf""}}; if ((count groupselectedUnits player == 0) and (count hcSelected player == 0)) then {hint ""No units or squads selected""}");
+BTN_M(2,-1, "Dismiss Units/Squads", "Dismisses selected units or HC squads", "closeDialog 0; [] spawn AS_fnc_UI_dismissSelected;");
 
 	};
 };
@@ -248,7 +242,7 @@ class commander_menu // 360
 
 	#define STR_COM_RES "closeDialog 0; [""restrictions""] remoteExecCall [""fnc_BE_broadcast"", 2];"
 	#define STR_COM_PRO "closeDialog 0; [""progress""] remoteExecCall [""fnc_BE_broadcast"", 2];"
-	#define STR_COM_FIA "closeDialog 0; if (player == AS_commander) then {[""status""] remoteExecCall [""fnc_infoScreen"", 2]};"
+	#define STR_COM_FIA "closeDialog 0; if (player == AS_commander) then {[""status""] remoteExec [""AS_fnc_showInGarageInfo"", 2]};"
 
 	BTN_L(1,-1, "Current Restrictions", "Display current AXP restrictions", STR_COM_RES);
 	BTN_R(1,-1, "Current Progress", "Display current AXP progress", STR_COM_PRO);
@@ -270,7 +264,7 @@ class set_difficulty_menu // 390
 	#define STR_BST_YES "closeDialog 0; [] remoteExec [""AS_fnc_setEasy"", 2];"
 	#define STR_BST_NO "closeDialog 0;"
 
-	BTN_L(1,-1, "YES", "FIA starts with some NATO weapons", STR_BST_YES);
+	BTN_L(1,-1, "YES", "FIA starts with some foreign weapons", STR_BST_YES);
 	BTN_R(1,-1, "NO", "FIA starts only with basic gear", STR_BST_NO);
 	};
 };
@@ -284,13 +278,13 @@ class exp_menu // 430
 	{
     AS_DIALOG(2,"Buy Ordnance",A_CLOSE);
 
-	#define STR_EXP_CH "if (player == AS_commander) then {[""explosives"", 800] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_CH "if (player == AS_commander) then {[""explosives"", 800] remoteExec [""AS_fnc_buyGear"", 2];}"
 
 	#define STR_EXP_WP "closeDialog 0; createDialog ""wpns"";"
 
-	#define STR_EXP_MS "if (player == AS_commander) then {[""mines"", 300] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_MS "if (player == AS_commander) then {[""mines"", 300] remoteExec [""AS_fnc_buyGear"", 2];}"
 
-	#define STR_EXP_AC "if (player == AS_commander) then {[""assessories"", 500] remoteExec [""buyGear"", 2];}"
+	#define STR_EXP_AC "if (player == AS_commander) then {[""assessories"", 500] remoteExec [""AS_fnc_buyGear"", 2];}"
 
 	BTN_L(1,-1, "Charges", "Spend 800 Euros on explosives.", STR_EXP_CH);
 	BTN_L(2,-1, "Weapons", "Spend 500 Euros on weapons and ammo.", STR_EXP_WP);
@@ -309,12 +303,12 @@ class wpns
 	{
     AS_DIALOG(3,"Buy weapons","closeDialog 0; createDialog ""exp_menu"";");
 
-    #define STR_EXP_ASS_S "if (player == AS_commander) then {[""ASRifles"", 500] remoteExec [""buyGear"", 2];}"
-    #define STR_EXP_PIS_S "if (player == AS_commander) then {[""Pistols"", 500] remoteExec [""buyGear"", 2];}"
-    #define STR_EXP_MGS_S "if (player == AS_commander) then {[""Machineguns"", 500] remoteExec [""buyGear"", 2];}"
-    #define STR_EXP_SNP_S "if (player == AS_commander) then {[""Sniper Rifles"", 500] remoteExec [""buyGear"", 2];}"
-    #define STR_EXP_LCH_S "if (player == AS_commander) then {[""Launchers"", 500] remoteExec [""buyGear"", 2];}"
-    #define STR_EXP_GLA_S "if (player == AS_commander) then {[""GLaunchers"", 500] remoteExec [""buyGear"", 2];}"
+    #define STR_EXP_ASS_S "if (player == AS_commander) then {[""ASRifles"", 500] remoteExec [""AS_fnc_buyGear"", 2];}"
+    #define STR_EXP_PIS_S "if (player == AS_commander) then {[""Pistols"", 500] remoteExec [""AS_fnc_buyGear"", 2];}"
+    #define STR_EXP_MGS_S "if (player == AS_commander) then {[""Machineguns"", 500] remoteExec [""AS_fnc_buyGear"", 2];}"
+    #define STR_EXP_SNP_S "if (player == AS_commander) then {[""Sniper Rifles"", 500] remoteExec [""AS_fnc_buyGear"", 2];}"
+    #define STR_EXP_LCH_S "if (player == AS_commander) then {[""Launchers"", 500] remoteExec [""AS_fnc_buyGear"", 2];}"
+    #define STR_EXP_GLA_S "if (player == AS_commander) then {[""GLaunchers"", 500] remoteExec [""AS_fnc_buyGear"", 2];}"
 
     // these amounts are in buyGear.sqf
     BTN_L(1,-1, "10 Rifles", "", STR_EXP_ASS_S);
@@ -364,7 +358,7 @@ class game_options_commander
 AS_DIALOG(5,"Game Options",A_CLOSE);
 
 BTN_L(1,-1, "Commander Menu", "Summary of your current situation", "closeDialog 0; nul = createDialog ""commander_menu"";");
-BTN_L(2,-1, "Load/Save", "", "closeDialog 0; [] call AS_fncUI_LoadSaveMenu;");
+BTN_L(2,-1, "Load/Save", "", "closeDialog 0; [] call AS_database_fnc_UI_loadSaveMenu;");
 BTN_L(3,-1, "Music ON/OFF", "", "closedialog 0; if (musicON) then {musicON = false; hint ""Music turned OFF"";} else {musicON = true; nul = execVM ""musica.sqf""; hint ""Music turned ON""};");
 
 BTN_R(1,-1, "Performance Options", "Options to improve performance in case of low FPS.", "closeDialog 0; createDialog ""performance_menu"";");
@@ -381,20 +375,19 @@ class performance_menu {
 	{
 AS_DIALOG(4,"Performance","closeDialog 0; createDialog ""game_options_commander"";");
 
-#define _code "['spawnDistance', 100, 2500, 'Spawn distance set to %1 meters.'] call AS_UIfnc_change_var;"
+#define _code "['spawnDistance', 100, 2500, 'Spawn distance set to %1 meters.'] call AS_fnc_UI_changePersistent;"
 BTN_L(1,-1, "+100 Spawn Dist.", "The distance from places that triggers its spawn", _code);
-#define _code "['spawnDistance', -100, 1000, 'Spawn distance set to %1 meters.'] call AS_UIfnc_change_var;"
+#define _code "['spawnDistance', -100, 1000, 'Spawn distance set to %1 meters.'] call AS_fnc_UI_changePersistent;"
 BTN_R(1,-1, "-100 Spawn Dist.", "The distance from places that triggers its spawn", _code);
-#define _code "[""cleantime"", 60, nil, ""Cleanup time set to %1 minutes.""] call AS_UIfnc_change_var;"
+#define _code "[""cleantime"", 60, nil, ""Cleanup time set to %1 minutes.""] call AS_fnc_UI_changePersistent;"
 BTN_L(2,-1, "+1m cleanup time", "Minutes for dead bodies/vehicles to disappear.", _code);
-#define _code "[""cleantime"", -60, 2*60, ""Cleanup time set to %1 minutes.""] call AS_UIfnc_change_var;"
+#define _code "[""cleantime"", -60, 2*60, ""Cleanup time set to %1 minutes.""] call AS_fnc_UI_changePersistent;"
 BTN_R(2,-1, "-1m cleanup time", "Minutes for dead bodies/vehicles to disappear.", _code);
-#define _code "[""civPerc"", 0.01, 1, ""Civilian percentage set to %1 percent.""] call AS_UIfnc_change_var;"
+#define _code "[""civPerc"", 0.01, 1, ""Civilian percentage set to %1 percent.""] call AS_fnc_UI_changePersistent;"
 BTN_L(3,-1, "+1% Civ Spawn.", "The percentage of the population that appears in the city.", _code);
-#define _code "[""civPerc"", -0.01, 0.01, ""Civilian percentage set to %1 percent.""] call AS_UIfnc_change_var;"
+#define _code "[""civPerc"", -0.01, 0.01, ""Civilian percentage set to %1 percent.""] call AS_fnc_UI_changePersistent;"
 BTN_R(3,-1, "-1% Civ Spawn.", "The percentage of the population that appears in the city.", _code);
-#define _code "[[], ""garbageCleaner.sqf""] remoteExec [""execVM"", 2];"
-BTN_M(4,-1, "Clean garbage", "Remove dead bodies and others.", _code);
+BTN_M(4,-1, "Clean garbage", "Remove dead bodies and dropped items.", "[] remoteExec [""AS_fnc_cleanGarbage"", 2];");
 #undef _code
 	};
 };
@@ -424,16 +417,16 @@ class radio_comm_commander
 AS_DIALOG(5,"Battle Options",A_CLOSE);
 
 BTN_L(1,-1, "Fast Travel", "", "closeDialog 0; [] spawn AS_fnc_fastTravel;");
-BTN_L(2,-1, "Disguise Yourself", "", "closeDialog 0; nul = [] spawn undercover");
+BTN_L(2,-1, "Go undercover", "While undercover, the enemies won't attack you.", "closeDialog 0; [] spawn AS_fnc_activateUndercover;");
 BTN_L(3,-1, "Vehicle Manager", "", "closeDialog 0; nul = createDialog ""vehicle_manager"";");
 BTN_L(4,-1, "AI Management", "", "if (player == leader group player) then {closeDialog 0; nul = createDialog ""AI_management""} else {hint ""Only group leaders may access to this option""};");
 
-BTN_R(1,-1, "NATO Support", "", "closeDialog 0; createDialog ""NATO_Missions"";");
-BTN_R(2,-1, "Recruit Squad", "", "closeDialog 0; [] spawn AS_fncUI_RecruitSquadMenu;");
+BTN_R(1,-1, "Foreign Support", "", "closeDialog 0; [] spawn AS_fnc_UI_manageNATO_menu;");
+BTN_R(2,-1, "Recruit Squad", "", "closeDialog 0; [] spawn AS_fnc_UI_recruitSquad_menu;");
 BTN_R(3,-1, "Building Options", "", "closeDialog 0; nul=CreateDialog ""build_menu"";");
 BTN_R(4,-1, "Player and Money", "", "closeDialog 0; if (isMultiPlayer) then {nul = createDialog ""player_money""} else {hint ""MP Only Menu""};");
 
-BTN_M(5, -1, "Resign Commander", "", "closeDialog 0; call AS_fncUI_toggleElegibility;");
+BTN_M(5, -1, "Resign Commander", "", "closeDialog 0; call AS_fnc_UI_toggleElegibility;");
 
 	};
 };
@@ -448,8 +441,8 @@ class radio_comm_player
 AS_DIALOG(3,"Battle Options",A_CLOSE);
 
 BTN_L(1,-1, "Fast Travel", "", "closeDialog 0; [] spawn AS_fnc_fastTravel;");
-BTN_L(2,-1, "Disguise Yourself", "", "closeDialog 0; nul = [] spawn undercover");
-BTN_L(3,-1, "Toggle your eligiblily for commanding", "", "closeDialog 0; call AS_fncUI_toggleElegibility;");
+BTN_L(2,-1, "Go undercover", "While undercover, the enemies won't attack you.", "closeDialog 0; [] spawn AS_fnc_activateUndercover;");
+BTN_L(3,-1, "Toggle your eligiblily for commanding", "", "closeDialog 0; call AS_fnc_UI_toggleElegibility;");
 
 BTN_R(1,-1, "AI Management", "", "if (player == leader group player) then {closeDialog 0; nul = createDialog ""AI_management""} else {hint ""Only group leaders may access to this option""};");
 BTN_R(2,-1, "Player and Money", "", "closeDialog 0; if (isMultiPlayer) then {nul = createDialog ""player_money""} else {hint ""MP Only Menu""};");
@@ -480,17 +473,14 @@ class maintenance_menu
 
 	class controls
 	{
-    AS_DIALOG(3,"Maintenance","closeDialog 0; createDialog ""game_options_commander"";");
+    AS_DIALOG(2,"Maintenance","closeDialog 0; createDialog ""game_options_commander"";");
 
-	#define STR_MAINT_ARS "[] remoteExec [""fnc_MAINT_main"", 2];"
 	#define STR_MAINT_PET "[] remoteExec [""fnc_MAINT_resetPetros"", 2];"
-	#define STR_MAINT_MOV "[] remoteExec [""fnc_MAINT_moveStatic"", 2];"
 
 	BTN_L(1,-1, "Reset HQ", "Resets all HQ items to near Petros.", "closeDialog 0; createDialog ""HQ_reset_menu"";");
-	BTN_L(2,-1, "Cleanup arsenal", "Remove items that do not exist or are unlocked.", STR_MAINT_ARS);
-	BTN_R(1,-1, "Reset Petros' position", "Move Petros next to the campfire at HQ.", STR_MAINT_PET);
-	BTN_R(2,-1, "Move statics/HQ items", "Reset your ability to move statics and HQ assets.", STR_MAINT_MOV);
-	BTN_M(3,-1, "Fix Y button", "Press in case the Y button stops working.", "closeDialog 0; [] execVM ""reinitY.sqf"";");
+	BTN_L(2,-1, "Cleanup arsenal", "Remove items that do not exist or are unlocked.", "[] remoteExec [""AS_fnc_refreshArsenal"", 2]");
+	BTN_R(1,-1, "Reset Petros' position", "Move Petros next to the campfire at HQ.", "[] remoteExec [""AS_fnc_resetPetrosPosition"", 2]");
+	BTN_R(2,-1, "Fix Y button", "Press in case the Y button stops working.", "closeDialog 0; [] execVM ""reinitY.sqf"";");
 	};
 };
 
@@ -503,14 +493,14 @@ class gameplay_options
 	{
     AS_DIALOG(2,"Gameplay options","closeDialog 0; createDialog ""game_options_commander"";");
 
-    #define _code "[""minAISkill"", -0.1, 0, """"] call AS_UIfnc_change_var;"
+    #define _code "[""minAISkill"", -0.1, 0, """"] call AS_fnc_UI_changePersistent;"
 	BTN_L(1,-1, "-0.1 min AI skill", "Decreases lowest AI skill (default=0.6).", _code);
-    #define _code "[""minAISkill"", 0.1, 1, """"] call AS_UIfnc_change_var;"
+    #define _code "[""minAISkill"", 0.1, 1, """"] call AS_fnc_UI_changePersistent;"
 	BTN_R(1,-1, "+0.1 min AI skill", "Increases lowest AI skill (default=0.6).", _code);
 
-    #define _code "[""maxAISkill"", -0.1, 0, """"] call AS_UIfnc_change_var;"
+    #define _code "[""maxAISkill"", -0.1, 0, """"] call AS_fnc_UI_changePersistent;"
 	BTN_L(2,-1, "-0.1 max AI skill", "Decreases highest skill AI (default=0.9)", _code);
-    #define _code "[""maxAISkill"", 0.1, 1, """"] call AS_UIfnc_change_var;"
+    #define _code "[""maxAISkill"", 0.1, 1, """"] call AS_fnc_UI_changePersistent;"
 	BTN_R(2,-1, "+0.1 max AI skill", "Increases highest skill AI (default=0.9)", _code);
 	};
 };
@@ -525,9 +515,9 @@ class tfar_menu
 	{
     AS_DIALOG(1,"TFAR Menu",A_CLOSE);
 
-	BTN_L(1,-1, "Save Radio Settings", "Save TFAR radio settings.", "closeDialog 0; [player] spawn fnc_saveTFARsettings");
+	BTN_L(1,-1, "Save Radio Settings", "Save TFAR radio settings.", "closeDialog 0; [player] spawn AS_TFAR_fnc_saveSettings");
 
-	BTN_R(1,-1, "Load Radio Settings", "Load previously saved TFAR radio settings.", "closeDialog 0; [player] spawn fnc_loadTFARsettings");
+	BTN_R(1,-1, "Load Radio Settings", "Load previously saved TFAR radio settings.", "closeDialog 0; [player] spawn AS_TFAR_fnc_loadSettings");
 	};
 };
 

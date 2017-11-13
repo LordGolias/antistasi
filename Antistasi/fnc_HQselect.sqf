@@ -14,11 +14,11 @@ if (_hqDestroyed) then {
           \nYou can move your HQ later.";
 };
 
-private _enemyLocations = "AAF" call AS_fnc_location_S;
+private _enemyLocations = "AAF" call AS_location_fnc_S;
 if (_hqDestroyed) then {
 	openMap [true,true];
 } else {
-	_enemyLocations = _enemyLocations - ("roadblock" call AS_fnc_location_T);  // first-time location can be close to controllers.
+	_enemyLocations = _enemyLocations - ("roadblock" call AS_location_fnc_T);  // first-time location can be close to controllers.
 	openMap true;
 };
 
@@ -31,7 +31,7 @@ private _minDistanceToEnemy = 500;
 // Add markers to simplify the selection
 private _tempMarkers = [];
 {
-    private _mrk = createMarker [format ["initialHelper%1",_x], _x call AS_fnc_location_position];
+    private _mrk = createMarker [format ["initialHelper%1",_x], _x call AS_location_fnc_position];
     _mrk setMarkerShape "ELLIPSE";
     _mrk setMarkerSize [_minDistanceToLocation, _minDistanceToLocation];
     _mrk setMarkerColor "ColorGreen";
@@ -51,7 +51,7 @@ while {true} do {
 	if (!_hqDestroyed and not visiblemap) exitWith {};
 	_position = +AS_map_position;
 	private _closest = ([_enemyLocations, _position] call BIS_fnc_nearestPosition);
-	private _closestEnemyLocation = _closest call AS_fnc_location_position;
+	private _closestEnemyLocation = _closest call AS_location_fnc_position;
 
 	private _validLocation = true;
 	if (_closestEnemyLocation distance _position < _minDistanceToLocation) then {

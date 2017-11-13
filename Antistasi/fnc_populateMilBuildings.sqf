@@ -1,46 +1,38 @@
 params ["_location", "_side", "_grupo"];
 
-private _posicion = _location call AS_fnc_location_position;
-private _size = _location call AS_fnc_location_size;
+private _posicion = _location call AS_location_fnc_position;
+private _size = _location call AS_location_fnc_size;
 private _buildings = nearestObjects [_posicion, AS_destroyable_buildings, _size*1.5];
-private _addChopper = (_side == side_red) and !([_location] call isFrontline);
+private _addChopper = (_side == "AAF") and
+	{!([_location] call AS_fnc_location_isFrontline)} and
+	{"transportHelis" call AS_AAFarsenal_fnc_count > 0};
 
-// FIA
-private _staticAA = "B_static_AA_F";
-private _staticMG = "B_HMG_01_high_F";
-private _gunnerCrew = ["Crew"] call AS_fnc_getFIAUnitClass;
 // AAF
-if (_side == side_red) then {
-	_staticAA = statAA;
-	_staticMG = statMGtower;
-	_gunnerCrew = infGunner;
-};
-if (_side == side_blue) then {
+private _staticAA = statAA;
+private _staticMG = statMGtower;
+private _gunnerCrew = infGunner;
+if (_side == "NATO") then {
 	_staticAA = selectRandom bluStatAA;
 	_staticMG = selectRandom bluStatHMG;
 	_gunnerCrew = bluGunner;
 };
 
-private _soldadosMG = [];
-private _vehiculos = [];
+private _soldiers = [];
+private _vehicles = [];
 
 {
 	private _building = _x;
-	private _tipoB = typeOf _building;
-	if ((_tipoB == "Land_Cargo_HQ_V1_F") or (_tipoB == "Land_Cargo_HQ_V2_F") or (_tipoB == "Land_Cargo_HQ_V3_F")) then {
+	private _buildingType = typeOf _building;
+	if (_buildingType in ["Land_Cargo_HQ_V1_F", "Land_Cargo_HQ_V2_F", "Land_Cargo_HQ_V3_F"]) then {
 		private _veh = createVehicle [_staticAA, (_building buildingPos 8), [],0, "CAN_COLLIDE"];
 		_veh setPosATL [(getPos _building select 0),(getPos _building select 1),(getPosATL _veh select 2)];
 		_veh setDir (getDir _building);
 		private _unit = _grupo createUnit [_gunnerCrew, _posicion, [], 0, "NONE"];
 		_unit moveInGunner _veh;
-		if (_side == side_red) then {
-			[_unit, false] spawn AS_fnc_initUnitAAF;
-		};
-		_soldadosMG pushback _unit;
-		_vehiculos pushback _veh;
-		sleep 1;
+		_soldiers pushback _unit;
+		_vehicles pushback _veh;
 	};
-	if ((_tipoB == "Land_Cargo_Patrol_V1_F") or (_tipoB == "Land_Cargo_Patrol_V2_F") or (_tipoB == "Land_Cargo_Patrol_V3_F")) then {
+	if (_buildingType in ["Land_Cargo_Patrol_V1_F", "Land_Cargo_Patrol_V2_F", "Land_Cargo_Patrol_V3_F"]) then {
 		private _veh = createVehicle [_staticMG, (_building buildingPos 1), [], 0, "CAN_COLLIDE"];
 		private _ang = (getDir _building) - 180;
 		private _pos = [getPosATL _veh, 2.5, _ang] call BIS_Fnc_relPos;
@@ -48,43 +40,28 @@ private _vehiculos = [];
 		_veh setDir (getDir _building) - 180;
 		private _unit = _grupo createUnit [_gunnerCrew, _posicion, [], 0, "NONE"];
 		_unit moveInGunner _veh;
-		if (_side == side_red) then {
-			[_unit, false] spawn AS_fnc_initUnitAAF;
-		};
-		_soldadosMG pushback _unit;
-		_vehiculos pushback _veh;
-		sleep 1;
+		_soldiers pushback _unit;
+		_vehicles pushback _veh;
 	};
-	if (_addChopper and (_tipoB == "Land_HelipadSquare_F")) then {
-		private _available = ["transportHelis"] call AS_fnc_AAFarsenal_all;
-		if (count _available > 0) then {
-			private _veh = createVehicle [selectRandom _available, position _building, [],0, "CAN_COLLIDE"];
-			_veh setDir (getDir _building);
-			_vehiculos pushback _veh;
-			sleep 1;
-		};
+	if (_addChopper and (_buildingType == "Land_HelipadSquare_F")) then {
+		private _veh = createVehicle [selectRandom ("transportHelis" call AS_AAFarsenal_fnc_valid), position _building, [],0, "CAN_COLLIDE"];
+		_veh setDir (getDir _building);
+		_vehicles pushback _veh;
 	};
-	if (_tipoB in AS_MGbuildings) then {
+
+	if (_buildingType in AS_MGbuildings) then {
 		private _veh = createVehicle [_staticMG, (_building buildingPos 13), [], 0, "CAN_COLLIDE"];
 		private _unit = _grupo createUnit [_gunnerCrew, _posicion, [], 0, "NONE"];
 		_unit moveInGunner _veh;
-		if (_side == side_red) then {
-			[_unit, false] spawn AS_fnc_initUnitAAF;
-		};
-		_soldadosMG pushback _unit;
-		_vehiculos pushback _veh;
-		sleep 1;
+		_soldiers pushback _unit;
+		_vehicles pushback _veh;
 
 		_veh = createVehicle [_staticMG, (_building buildingPos 17), [], 0, "CAN_COLLIDE"];
 		_unit = _grupo createUnit [_gunnerCrew, _posicion, [], 0, "NONE"];
 		_unit moveInGunner _veh;
-		if (_side == side_red) then {
-			[_unit, false] spawn AS_fnc_initUnitAAF;
-		};
-		_soldadosMG pushback _unit;
-		_vehiculos pushback _veh;
-		sleep 1;
+		_soldiers pushback _unit;
+		_vehicles pushback _veh;
 	};
 } forEach _buildings;
 
-[_soldadosMG, _vehiculos]
+[_soldiers, _vehicles]

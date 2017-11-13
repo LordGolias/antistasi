@@ -1,6 +1,6 @@
 params ["_veh"];
 
-[_veh] call AS_DEBUG_initVehicle;
+[_veh] call AS_debug_fnc_initVehicle;
 
 // do not allow wheels to break when AI is driving
 if (_veh isKindOf "Car") then {
@@ -14,10 +14,8 @@ if (_veh isKindOf "Car") then {
 	}];
 };
 
-[_veh] spawn cleanserVeh;
-
 _veh addEventHandler ["Killed", {
-	[_this select 0] remoteExec ["postmortem", 2];
+	[_this select 0] remoteExec ["AS_fnc_activateCleanup", 2];
 }];
 
 if (count crew _veh == 0) then {
@@ -29,7 +27,7 @@ if (count crew _veh == 0) then {
 		if (!simulationEnabled _veh) then {
 			_veh enableSimulationGlobal true
 		};
-		[_veh] spawn vehicle_despawn;
+		[_veh] spawn AS_fnc_activateVehicleCleanup;
 	}];
 
 	_veh addEventHandler ["HandleDamage", {

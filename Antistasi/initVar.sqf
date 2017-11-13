@@ -8,9 +8,6 @@ must be initialized only in the server (using `if (isServer)`).
 */
 #include "macros.hpp"
 
-// Whether the autoHeal system is activated for this client.
-autoHeal = false;
-
 // Ordered ranks used to rank players
 AS_ranks = [
 	"PRIVATE", "CORPORAL", "SERGEANT", "LIEUTENANT", "CAPTAIN", "MAJOR", "COLONEL"
@@ -77,38 +74,23 @@ missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
 // Templates below modify server-side content so the server has to initialize
 // some things at this point.
 if (isServer) then {
-	// Initializes unlocked stuff. These are modified by templates and ACE and
-	// are published by the server in the end of this script
-	unlockedWeapons = [];
-	unlockedMagazines = [];
-	unlockedBackpacks = [];
-	unlockedItems = [
-		"Binocular",
-		"ItemMap",
-		"ItemWatch",
-		"ItemCompass",
-		"FirstAidKit",
-		"Medikit"
-	];
-
-	// add content to the unlocked items depending on the ACE.
-	if (hayACE) then {
-		call compile preprocessFileLineNumbers "initACE.sqf";
-	};
-
-	// This variable stores what vehicles the AAF can spawn and for how much.
-	AS_AAFArsenal = createSimpleObject ["Static", [0, 0, 0]];
-	publicVariable "AS_AAFArsenal";
-	call AS_fnc_AAFarsenal_init;  // sets default prices and other variables.
-
-	// Stores everything related to what units and squads the FIA can recruit (and costs)
-	AS_FIArecruitment = createSimpleObject ["Static", [0, 0, 0]];
-	publicVariable "AS_FIArecruitment";
-	AS_data_allCosts = createSimpleObject ["Static", [0, 0, 0]];
-	publicVariable "AS_data_allCosts";
+	call AS_AAFarsenal_fnc_initialize;
 };
 
+// Stores cost of AAF and FIA units
+AS_data_allCosts = createSimpleObject ["Static", [0, 0, 0]];
+
+// Stores data about which vehicles can be bought and at what price.
+// This is a local object as the costs are immutable and can thus be initialized locally
+AS_FIAvehicles = createSimpleObject ["Static", [0, 0, 0]];
+
 call compile preprocessFileLineNumbers "templates\FIA.sqf";
+
+// add content to the unlocked items depending on the ACE.
+// Must be called after unlocked* is defined ("templates\FIA.sqf")
+if hayACE then {
+	call compile preprocessFileLineNumbers "initACE.sqf";
+};
 
 // todo: improve statics in general.
 allStatMGs = 		["B_HMG_01_high_F"];
@@ -138,6 +120,18 @@ call {
 	call compile preprocessFileLineNumbers "templates\NATO.sqf";
 };
 
+{AS_data_allCosts setVariable [_x,10]} forEach infList_regular;
+{AS_data_allCosts setVariable [_x,15]} forEach infList_auto;
+{AS_data_allCosts setVariable [_x,15]} forEach infList_crew;
+{AS_data_allCosts setVariable [_x,15]} forEach infList_pilots;
+{AS_data_allCosts setVariable [_x,20]} forEach infList_special;
+{AS_data_allCosts setVariable [_x,20]} forEach infList_NCO;
+{AS_data_allCosts setVariable [_x,20]} forEach infList_sniper;
+{AS_data_allCosts setVariable [_x,30]} forEach infList_officers;
+
+// Picks the stuff defined for FIA above and merges it in a single interface
+call compile preprocessFileLineNumbers "initFIA.sqf";
+
 // Initializes all AAF/NATO/CSAT items (e.g. weapons, mags) from the global variables
 // in the templates above. Only non-public globals defined.
 call compile preprocessFileLineNumbers "initItemsSides.sqf";
@@ -147,6 +141,8 @@ call compile preprocessFileLineNumbers "Compositions\campList.sqf";
 call compile preprocessFileLineNumbers "Compositions\cmpMTN.sqf";
 call compile preprocessFileLineNumbers "Compositions\cmpOP.sqf";
 call compile preprocessFileLineNumbers "Compositions\FIA_RB.sqf";
+call compile preprocessFileLineNumbers "Compositions\cmpNATO_RB.sqf";
+call compile preprocessFileLineNumbers "Compositions\cmpExp.sqf";
 
 /////////////////////////////////////////////////////////////////////////
 /////////////////////// CLIENT INIT FINISHES HERE ///////////////////////
@@ -161,18 +157,13 @@ if (!isServer) exitWith {};
 // create container to store spawns
 call AS_spawn_fnc_initialize;
 
-// create container to store missions
-["mission", true] call AS_fnc_container_add;
+call AS_mission_fnc_initialize;
 
-// Picks the stuff defined for FIA above and merges it in a single interface
-call compile preprocessFileLineNumbers "initFIA.sqf";
+// reguarly checks for players and stores their profiles
+call AS_players_fnc_initialize;
 
 // todo: re-add support for TFAR. This is probably needed by it.
 lrRadio = "";
-
-// number of patrols currently spawned. In the future, this should be a client variable
-// as clients will be able to spawn stuff.
-AAFpatrols = 0;
 
 // Names of camps used when the camp is spawned.
 campNames = ["Spaulding","Wagstaff","Firefly","Loophole","Quale","Driftwood","Flywheel","Grunion","Kornblow","Chicolini","Pinky",
@@ -200,7 +191,7 @@ AS_Pset("resourcesFIA",1000); //Initial FIA money pool value
 
 AS_Pset("resourcesAAF",0); //Initial AAF resources
 AS_Pset("skillFIA",0); //Initial skill level of FIA
-AS_Pset("skillAAF",0); //Initial skill level of AAF
+AS_Pset("skillAAF",4); //Initial skill level of AAF
 AS_Pset("NATOsupport",5); //Initial NATO support
 AS_Pset("CSATsupport",5); //Initial CSAT support
 
@@ -231,6 +222,9 @@ AS_Pset("maxAISkill",0.9); // The maximum skill of the AAF/FIA AI (at highest sk
 // S of [s]hared. These variables are not saved persistently.
 AS_Sset("revealFromRadio",false);
 
+// number of patrols currently spawned.
+AS_Sset("AAFpatrols", 0);
+
 // Used to make a transfer to `caja` atomic
 AS_Sset("lockTransfer", false);
 
@@ -244,16 +238,7 @@ AS_Sset("reportedVehs", []);
 AS_Sset("AS_vehicleOrientation", 0);
 
 AS_spawnLoopTime = 1; // seconds between each check of spawn/despawn locations (expensive loop).
-
-// Pricing values for soldiers, vehicles of AAF
-{AS_data_allCosts setVariable [_x,100,true]} forEach infList_regular;
-{AS_data_allCosts setVariable [_x,150,true]} forEach infList_auto;
-{AS_data_allCosts setVariable [_x,150,true]} forEach infList_crew;
-{AS_data_allCosts setVariable [_x,150,true]} forEach infList_pilots;
-{AS_data_allCosts setVariable [_x,200,true]} forEach infList_special;
-{AS_data_allCosts setVariable [_x,200,true]} forEach infList_NCO;
-{AS_data_allCosts setVariable [_x,200,true]} forEach infList_sniper;
-{AS_data_allCosts setVariable [_x,300,true]} forEach infList_officers;
+AS_resourcesLoopTime = 600; // seconds between resources update
 
 //TFAR detection and config.
 hayTFAR = false;
@@ -271,20 +256,6 @@ if (isClass (configFile >> "CfgPatches" >> "task_force_radio")) then {
 };
 publicVariable "hayTFAR";
 
-// todo: document this (texture mod detection?)
-FIA_texturedVehicles = [];
-FIA_texturedVehicleConfigs = [];
-_allVehicles = configFile >> "CfgVehicles";
-for "_i" from 0 to (count _allVehicles - 1) do {
-    _vehicle = _allVehicles select _i;
-    if (toUpper (configName _vehicle) find "DGC_FIAVEH" >= 0) then {
-    	FIA_texturedVehicles pushBackUnique (configName _vehicle);
-    	FIA_texturedVehicleConfigs pushBackUnique _vehicle;
-    };
-};
-publicVariable "FIA_texturedVehicles";
-publicVariable "FIA_texturedVehicleConfigs";
-
 call AS_fnc_initPetros;
 call AS_fnc_HQdeploy;
 
@@ -296,10 +267,4 @@ publicVariable "AS_maxSkill";
 // BE_modul handles all the permissions e.g. to build roadblocks, skill, etc.
 #include "Scripts\BE_modul.sqf"
 [] call fnc_BE_initialize;
-
-publicVariable "unlockedWeapons";
-publicVariable "unlockedItems";
-publicVariable "unlockedBackpacks";
-publicVariable "unlockedMagazines";
-
-[] spawn AS_fnc_mission_updateAvailable;
+[] spawn AS_mission_fnc_updateAvailable;

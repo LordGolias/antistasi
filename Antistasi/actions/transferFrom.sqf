@@ -20,7 +20,7 @@ player setVariable ["loadingCrate", true];
 _total = round (_total / 100);
 if (caja in [_destination, _origin]) then {
 	// in HQ attacks, transfer is 10x slower.
-	if (count ("aaf_attack_hq" call AS_fnc_active_missions) != 0) then {
+	if (count ("aaf_attack_hq" call AS_mission_fnc_active_missions) != 0) then {
 		_total = round (_total * 10);
 	};
 };
@@ -39,5 +39,5 @@ if (call _fnc_stopCondition) then {
 	[_origin, _destination] call AS_fnc_transferToBox;
 };
 
-[0,true] remoteExec ["pBarMP",player];
+[0,true] remoteExec ["AS_fnc_showProgressBar",player];
 player setVariable ["loadingCrate", false];

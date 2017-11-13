@@ -2,10 +2,9 @@ waitUntil {(count playableUnits) > 0};
 waitUntil {({(isPlayer _x) and (!isNull _x) and (_x == _x)} count allUnits) == (count playableUnits)};
 
 [] execVM "Scripts\fn_advancedTowingInit.sqf"; // the installation is done for all clients by this
-[] execVM "modBlacklist.sqf";
 
 addMissionEventHandler ["HandleDisconnect", {
-    [_this select 0] call onPlayerDisconnect;
+    [_this select 0] call AS_fnc_onPlayerDisconnect;
     false
 }];
 

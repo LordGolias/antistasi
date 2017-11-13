@@ -7,7 +7,7 @@ if (isNull _viejo) exitWith {};
 
 waitUntil {alive player};
 
-[_viejo] remoteExec ["postmortem", 2];
+[_viejo] remoteExec ["AS_fnc_activateCleanup", 2];
 
 private _owner = _viejo getVariable ["owner",_viejo];
 
@@ -18,7 +18,7 @@ if (_owner != _viejo) exitWith {
 	deleteVehicle _nuevo;
 };
 
-[0,-1,getPos _viejo] remoteExec ["citySupportChange",2];
+[0,-1,getPos _viejo] remoteExec ["AS_fnc_changeCitySupport",2];
 
 private _score = _viejo getVariable ["score",0];
 private _punish = _viejo getVariable ["punish",0];
@@ -50,4 +50,4 @@ if (_viejo == AS_commander) then {
 
 [] call AS_fnc_initPlayer;
 
-[0,true] remoteExec ["pBarMP",player];
+[0,true] remoteExec ["AS_fnc_showProgressBar",player];

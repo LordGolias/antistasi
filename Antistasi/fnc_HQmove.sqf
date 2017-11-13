@@ -6,7 +6,7 @@ petros enableAI "AUTOTARGET";
 petros forceSpeed -1;
 
 [[petros, "remove"], "AS_fnc_addAction"] call BIS_fnc_MP;
-call fnc_rearmPetros;
+call AS_fnc_rearmPetros;
 [petros] join AS_commander;
 petros setBehaviour "AWARE";
 

@@ -31,8 +31,8 @@ if (_rnd < _chance) then
 	if (alive _unit) then
 		{
 		[1,0] remoteExec ["AS_fnc_changeForeignSupport",2];
-		[-1,1,position _unit] remoteExec ["citySupportChange",2];
-		[1,0] remoteExec ["resourcesFIA",2];
+		[-1,1,position _unit] remoteExec ["AS_fnc_changeCitySupport",2];
+		[1,0] remoteExec ["AS_fnc_changeFIAmoney",2];
 		};
 	}
 else
