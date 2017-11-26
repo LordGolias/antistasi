@@ -108,7 +108,8 @@ unlockedItems = [
 	"ItemWatch",
 	"ItemCompass",
 	"FirstAidKit",
-	"Medikit"
+	"Medikit",
+	"Toolkit"
 ];
 
 if hasACE then {
