@@ -35,7 +35,6 @@ musicON = true;
 if isMultiplayer then {
     musicON = false;
 };
-[] execVM "musica.sqf";
 
 if isMultiplayer then {
 	["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;//Exec on client
