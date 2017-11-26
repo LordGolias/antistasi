@@ -33,7 +33,7 @@ if (_type == "conquer") exitWith {
 };
 if (_type in ["convoy_money", "convoy_ammo", "convoy_supplies"]) exitWith {
     _args params [["_vehPosition", [0,0,0]]];
-    [5, [500, _vehPosition, 10], [-5, 0], [0, 5000], [10, -20, _position], -20*60]
+    [5, [500, _vehPosition, 10], [0, 0], [0, 5000], [10, -20, _position], -20*60]
 };
 if (_type == "convoy_armor") exitWith {
     _args params [["_vehPosition", [0,0,0]]];
