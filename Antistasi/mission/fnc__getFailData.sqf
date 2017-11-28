@@ -27,13 +27,13 @@ if (_type == "conquer") exitWith {
     [-10, 0, [0, 0], [0, 0], [5, 0, _position], -10*60]
 };
 if (_type == "convoy_supplies") exitWith {
-    [-20, 0, [-5, 0], [0, 0], [10, -20, _position], -10*60]
+    [-20, 0, [0, 0], [0, 0], [10, -20, _position], -10*60]
 };
 if (_type == "convoy_money") exitWith {
-    [-20, 0, [-5, 0], [0, 0], [10, -20, _position], -10*60, [[(["AAF", "name"] call AS_fnc_getEntity) + " gains money", {[5000] call AS_fnc_changeAAFmoney}]]]
+    [-20, 0, [0, 0], [0, 0], [10, -20, _position], -10*60, [[(["AAF", "name"] call AS_fnc_getEntity) + " gains money", {[5000] call AS_fnc_changeAAFmoney}]]]
 };
 if (_type == "convoy_ammo") exitWith {
-    [-20, 0, [-5, 0], [0, 0], [0, 0, []], -10*60, [[(["AAF", "name"] call AS_fnc_getEntity) + " gains money", {[10000] call AS_fnc_changeAAFmoney}]]]
+    [-20, 0, [0, 0], [0, 0], [0, 0, []], -10*60, [[(["AAF", "name"] call AS_fnc_getEntity) + " gains money", {[10000] call AS_fnc_changeAAFmoney}]]]
 };
 if (_type == "convoy_armor") exitWith {
     [-20, 0, [0, 0], [0, 0], [0, 0, []], -20*60]
