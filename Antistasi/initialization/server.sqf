@@ -24,6 +24,16 @@ diag_log "[AS] Server: server variables initialized";
 
 [] execVM "Scripts\fn_advancedTowingInit.sqf"; // the installation is done for all clients by this
 
+// Init list of available saves
+private _saves = profileNamespace getVariable ["AS_v2_SAVES", []];
+private _availableSaves = [];
+{
+    _x params ["_name"];
+    _availableSaves pushBackUnique _name;
+} forEach _saves;
+AS_Sset("availableSaves", _availableSaves);
+AS_saveInProgress = false;
+
 if isMultiplayer then {
     addMissionEventHandler ["HandleDisconnect", {
         [_this select 0] call AS_fnc_onPlayerDisconnect;
