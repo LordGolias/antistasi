@@ -88,18 +88,6 @@ class CfgDebriefing
 };
 
 class Params {
-    //#define DAYTIMEHOUR_DEFAULT 19
-    //#include "\a3\functions_f\Params\paramDaytimeHour.hpp"
-
-    #define DAYTIMEPERIOD_DEFAULT 6
-    #include "\a3\functions_f\Params\paramDaytimePeriod.hpp"
-
-    #define TIMEACCELERATION_DEFAULT 5
-	#include "\a3\Functions_F_MP_Mark\Params\paramTimeAcceleration.hpp"
-
-	#define WEATHER_DEFAULT	50
-	#include "\a3\functions_f\Params\paramWeather.hpp"
-
     #include "aceSettings.hpp"
 };
 
