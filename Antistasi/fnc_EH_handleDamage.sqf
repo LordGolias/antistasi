@@ -8,6 +8,9 @@ if (_injurer isKindOf "LandVehicle" and {_injurer call AS_fnc_getSide == "FIA"})
 	AS_Sset("reportedVehs", AS_S("reportedVehs") + [_injurer]);
 };
 
+// Only players should go unconscious
+if (!isPlayer _unit) exitWith { _dam };
+
 private _currentTime = [time, serverTime] select isMultiplayer;
 if ((_part == "head") and not (_unit call AS_medical_fnc_isUnconscious)) then {
 	_unit setVariable ["firstHitTime", _currentTime, false];
