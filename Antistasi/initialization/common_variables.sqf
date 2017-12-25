@@ -45,7 +45,7 @@ call compile preprocessFileLineNumbers "initItems.sqf";
 call compile preprocessFileLineNumbers "templates\basicLists.sqf";
 
 // Identifies mods.
-hayRHS = false;
+hasRHS = false;
 hasACE = false;
 
 hasACEhearing = false;
@@ -77,7 +77,7 @@ if (!isNil "ace_common_settingFeedbackIcons") then {
 
 // todo: do not rely on AS_allWeapons to check for mods.
 if ("rhs_weap_akms" in AS_allWeapons) then {
-	hayRHS = true;
+	hasRHS = true;
 };
 
 // todo: do not rely on AS_allWeapons to check for mods.
@@ -108,7 +108,8 @@ unlockedItems = [
 	"ItemWatch",
 	"ItemCompass",
 	"FirstAidKit",
-	"Medikit"
+	"Medikit",
+	"Toolkit"
 ];
 
 if hasACE then {
@@ -117,11 +118,11 @@ if hasACE then {
 };
 
 if isServer then {
-    AS_server_config = [hasACE, hayRHS, hasCUP, hasTFAR];
+    AS_server_config = [hasACE, hasRHS, hasCUP, hasTFAR];
 	publicVariable "AS_server_config";
 } else {
 	waitUntil {not isNil "AS_server_config"};
-	if not ([hasACE, hayRHS, hasCUP, hasTFAR] isEqualTo AS_server_config) then {
+	if not ([hasACE, hasRHS, hasCUP, hasTFAR] isEqualTo AS_server_config) then {
 		// Not the same configuration. Disconnect
 		["invalidConfiguration", false, false, false, false] call BIS_fnc_endMission;
 	};
@@ -143,7 +144,7 @@ AS_entities setVariable ["FIA_WEST", _dict];
 _dict = call compile preprocessFileLineNumbers "templates\FIA_EAST.sqf";
 AS_entities setVariable ["FIA_EAST", _dict];
 
-if hayRHS then {
+if hasRHS then {
 	_dict = call compile preprocessFileLineNumbers "templates\AAF_RHS.sqf";
 	AS_entities setVariable ["RHS_AAF", _dict];
 	_dict = call compile preprocessFileLineNumbers "templates\CSAT_RHS.sqf";

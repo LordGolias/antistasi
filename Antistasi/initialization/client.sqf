@@ -35,16 +35,6 @@ musicON = true;
 if isMultiplayer then {
     musicON = false;
 };
-[] execVM "musica.sqf";
-
-if not hasACE then {
-	tags = [] execVM "tags.sqf";
-	if ((cadetMode) and (isMultiplayer)) then {
-        [] execVM "playerMarkers.sqf"
-    };
-} else {
-	[] execVM "playerMarkers.sqf";
-};
 
 if isMultiplayer then {
 	["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;//Exec on client

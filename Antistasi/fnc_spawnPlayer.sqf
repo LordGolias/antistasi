@@ -34,6 +34,12 @@ call AS_players_fnc_loadLocal;
 // init event handlers, medic, etc.
 call AS_fnc_initPlayer;
 
+// Reassign player tasks (temporary fix for tasks disappearing after respawn)
+private _tasks = _old_player call BIS_fnc_tasksUnit;
+{
+	_x call BIS_fnc_taskSetCurrent;
+} foreach _tasks;
+
 if (_oldFate == "delete") then {
     {deleteVehicle _x} forEach units group _old_player;
     deleteGroup group _old_player;

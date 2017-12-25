@@ -14,10 +14,11 @@ allowFunctionsLog = 1;
 enableDebugConsole = 1;
 
 respawn = "BASE";
-respawnDelay = 0;
+respawnDelay = 3;
+respawnTemplates[] = {"BASE"};
 respawnVehicleDelay = 120;
-respawnDialog = 1;
-respawnOnStart = -1; // never run onPlayerRespawn. initialization/client.sqf handles this.
+respawnDialog = 0;
+respawnOnStart = -1; // never run onPlayerRespawn at mission start. initialization/client.sqf handles this.
 aiKills = 0;
 disabledAI=1;
 Saving = 1;

@@ -185,10 +185,10 @@ class mbt_type
 	{
 AS_DIALOG(2,"Select type ammo for the strike",A_CLOSE);
 
-BTN_L(1,-1, "HE", "", "closeDialog 0; if (hayRHS) then {tipoMuni = ""RHS_mag_m1_he_12"";} else {tipoMuni = ""32Rnd_155mm_Mo_shells"";}");
+BTN_L(1,-1, "HE", "", "closeDialog 0; if (hasRHS) then {tipoMuni = ""RHS_mag_m1_he_12"";} else {tipoMuni = ""32Rnd_155mm_Mo_shells"";}");
 BTN_R(1,-1, "Laser Guided", "", "closeDialog 0; tipoMuni = ""2Rnd_155mm_Mo_LG"";");
 
-BTN_M(2, -1, "Smoke", "", "closeDialog 0; if (hayRHS) then {tipoMuni = ""rhs_mag_m60a2_smoke_4"";} else {tipoMuni = ""6Rnd_155mm_Mo_smoke"";}");
+BTN_M(2, -1, "Smoke", "", "closeDialog 0; if (hasRHS) then {tipoMuni = ""rhs_mag_m60a2_smoke_4"";} else {tipoMuni = ""6Rnd_155mm_Mo_smoke"";}");
 
 	};
 };
@@ -350,7 +350,6 @@ AS_DIALOG(5,"Game Options",A_CLOSE);
 
 BTN_L(1,-1, "Commander Menu", "Summary of your current situation", "closeDialog 0; nul = createDialog ""commander_menu"";");
 BTN_L(2,-1, "Save game", "Save this game to continue it later", "closeDialog 0; [] call AS_fnc_UI_saveMenu_menu;");
-BTN_L(3,-1, "Music ON/OFF", "", "closedialog 0; if (musicON) then {musicON = false; hint ""Music turned OFF"";} else {musicON = true; nul = execVM ""musica.sqf""; hint ""Music turned ON""};");
 
 BTN_R(1,-1, "Performance Options", "Options to improve performance in case of low FPS.", "closeDialog 0; createDialog ""performance_menu"";");
 BTN_R(2,-1, "Maintenance Options", "When something is broken, sometimes you can fix it here.", "closeDialog 0; nul = createDialog ""maintenance_menu"";");
@@ -391,8 +390,6 @@ class game_options_player
 	class controls
 	{
 AS_DIALOG(1,"Game Options",A_CLOSE);
-
-BTN_L(1,-1, "Music ON/OFF", "", "closedialog 0; if (musicON) then {musicON = false; hint ""Music turned OFF"";} else {musicON = true; nul = execVM ""musica.sqf""; hint ""Music turned ON""};");
 
 BTN_R(1,-1, "Reinit UI \ Radio", "", "closeDialog 0; [] execVM ""reinitY.sqf"";");
 	};

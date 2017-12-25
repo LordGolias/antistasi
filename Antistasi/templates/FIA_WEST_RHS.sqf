@@ -106,6 +106,7 @@ private _costs = createSimpleObject ["Static", [0, 0, 0]];
 [_costs, "rhsgref_cdf_b_reg_uaz_open", 300] call DICT_fnc_set;
 [_costs, "rhs_Ural_Open_Civ_01", 600] call DICT_fnc_set;
 [_costs, "rhsgref_cdf_b_reg_uaz_open", 700] call DICT_fnc_set;
+[_costs, "rhsgref_cdf_b_reg_uaz_dshkm", 900] call DICT_fnc_set;
 [_costs, "rhsgref_cdf_b_gaz66_zu23", 1200] call DICT_fnc_set; // used in custom vehicles
 
 _dict

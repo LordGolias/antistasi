@@ -1,10 +1,12 @@
+#include "../../macros.hpp"
+
 disableSerialization;
 private _cbo = ((findDisplay 1601) displayCtrl (0));
 lbCLear _cbo;
 
-private _savedGames = profileNameSpace getVariable ["AS_savedGames", []];
+private _availableSaves = AS_S("availableSaves");
 {
     _cbo lbAdd(_x);
     _cbo lbSetData[(lbSize _cbo)-1, _x];
-} forEach _savedGames;
+} forEach _availableSaves;
 _cbo lbSetCurSel 0;

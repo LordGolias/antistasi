@@ -22,7 +22,6 @@ while {count _members == 0} do {
 	} forEach (allPlayers - (entities "HeadlessClient_F"));
 
 	if (count _members == 0) then {
-		diag_log "[AS] Server: no player to choose for commander.";
 		sleep 5;
 	};
 };
