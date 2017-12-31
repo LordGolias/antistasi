@@ -31,11 +31,6 @@ if not isServer then {
     AS_common_variables_initialized = nil;
 };
 
-musicON = true;
-if isMultiplayer then {
-    musicON = false;
-};
-
 if isMultiplayer then {
 	["InitializePlayer", [player]] call BIS_fnc_dynamicGroups;//Exec on client
 };
