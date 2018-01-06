@@ -1,7 +1,12 @@
 class AS_database {
     class server {
+        FNC(database,getData);
+        FNC(database,setData);
+        FNC(database,getGames);
+        FNC(database,getAdmin);
         FNC(database,saveGame);
         FNC(database,loadGame);
+        FNC(database,deleteGame);
         FNC(database,serialize);
         FNC(database,deserialize);
         FNC(database,migrate);
@@ -12,15 +17,5 @@ class AS_database {
         FNC(database,persistents_fromDict);
         FNC(database,persistents_start);
         INIT_FNC(database,init);
-    };
-
-    class common {
-        FNC(database,getData);
-        FNC(database,setData);
-        FNC(database,deleteSavedGame);
-    };
-
-    class withInterface {
-        FNC(database,receiveSavedData);
     };
 };

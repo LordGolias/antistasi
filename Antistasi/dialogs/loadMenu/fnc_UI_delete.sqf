@@ -6,9 +6,10 @@ if (_id != -1) then {
         params ["_saveName"];
         private _result = ["Are you sure?", format ["Delete game '%1'", _saveName], true, true] call BIS_fnc_guiMessage;
         if _result then {
-            [_saveName] call AS_database_fnc_deleteSavedGame;
+            AS_database_waiting = true;
+            [_saveName] remoteExec ["AS_database_fnc_deleteGame", 2];
+            waitUntil {isNil "AS_database_waiting"};
             [] call AS_fnc_UI_loadMenu_update;
-            hint format ['"%1" deleted', _saveName];
         };
     };
 } else {

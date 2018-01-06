@@ -1,7 +1,13 @@
-// Variables that are persistent to `AS_persistent`. They are saved and loaded accordingly.
-// Add variables here that you want to save.
 #include "../macros.hpp"
 AS_SERVER_ONLY("AS_database_fnc_init");
+
+// global variable that stores the current list of saved games. It is updated
+// and published when the server's profile is updated.
+AS_database_savedGames = call AS_database_fnc_getGames;
+publicVariable "AS_database_savedGames";
+
+// Variables that are persistent to `AS_persistent`. They are saved and loaded accordingly.
+// Add variables here that you want to save.
 AS_database_persistents = [
 	"NATOsupport", "CSATsupport", "resourcesAAF", "resourcesFIA", "skillFIA", "skillAAF", "hr",  // FIA attributes
 	"civPerc", "spawnDistance", "minimumFPS", "cleantime",  // game options
