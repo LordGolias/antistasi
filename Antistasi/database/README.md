@@ -19,8 +19,3 @@ see e.g. `fnc_setData` and `fnc_getData`.
 
 There are other functions around to serialize and deserialize variables. E.g.
 if you want to persistently store a variable in `AS_P`, add it to `fnc_init`.
-
-When the commander saves the game, the saved game is sent
-to all player's clipBoards, so that everyone has access to the saved game,
-and it is stored on the profileNamespace of the commander.
-ATM no-one can change the profileNamespace of the server.

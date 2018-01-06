@@ -1,25 +1,12 @@
-#include "macros.hpp"
-
-private _hqInitialPlacement = isNil "placementDone";
-private _hqDestroyed = !_hqInitialPlacement;
-
-if (_hqDestroyed) then {
-	AS_commander allowDamage false;
-	"Petros is Dead" hintC "Petros has been killed. You lost part of your assets and need to select a new HQ position far from the enemies.";
-} else {
-	diag_log "[AS] INFO: New Game selected.";
-	hint "Select the position you want to put your HQ.
-          \nClose the map to start in the default position.
-          \nChoose wisely: game changes a lot with the initial position!
-          \nYou can move your HQ later.";
-};
+params ["_isNewGame"];
 
 private _enemyLocations = "AAF" call AS_location_fnc_S;
-if (_hqDestroyed) then {
-	openMap [true,true];
-} else {
-	_enemyLocations = _enemyLocations - ("roadblock" call AS_location_fnc_T);  // first-time location can be close to controllers.
+if _isNewGame then {
+    // first-time location can be close to roadblocks and they are removed
+    _enemyLocations = _enemyLocations - ("roadblock" call AS_location_fnc_T);
 	openMap true;
+} else {
+	openMap [true,true];
 };
 
 // This is for placement only: moving the HQ still allows to place it anywhere.
@@ -39,16 +26,16 @@ private _tempMarkers = [];
     _tempMarkers pushBack _mrk;
 } forEach _enemyLocations;
 
-// wait until a valid position (or cancelled for initial placement)
+// wait until a valid position (or cancelled for a new game)
 private _position = getMarkerPos "FIA_HQ";
 while {true} do {
 
 	AS_map_position = [];
 	onMapSingleClick "AS_map_position = +_pos; true";
 
-	waitUntil {sleep 1;(count AS_map_position > 0) or (!_hqDestroyed and not visiblemap)};
+	waitUntil {sleep 1;(count AS_map_position > 0) or (_isNewGame and not visiblemap)};
 	onMapSingleClick "";
-	if (!_hqDestroyed and not visiblemap) exitWith {};
+	if (_isNewGame and not visiblemap) exitWith {};
 	_position = +AS_map_position;
 	private _closest = ([_enemyLocations, _position] call BIS_fnc_nearestPosition);
 	private _closestEnemyLocation = _closest call AS_location_fnc_position;
@@ -64,7 +51,7 @@ while {true} do {
 	};
 
 	// check if there is any enemy in the surroundings.
-	if (_validLocation and _hqDestroyed) then {
+	if (_validLocation and not _isNewGame) then {
 		{
             if ((side _x == side_red) and {_x distance _position < _minDistanceToEnemy}) exitWith {
 				_validLocation = false;
@@ -82,8 +69,4 @@ AS_map_position = nil;
     deleteMarker _x;
 } forEach _tempMarkers;
 
-[_position] remoteExec ["AS_fnc_HQplace", 2];
-
-if _hqInitialPlacement then {
-	createDialog "set_difficulty_menu";
-};
+_position

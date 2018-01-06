@@ -1,6 +1,6 @@
 #include "macros.hpp"
 AS_SERVER_ONLY("fnc_HQplace.sqf");
-params ["_position"];
+params ["_position", "_isNewGame"];
 
 "delete" call AS_fnc_HQaddObject;
 
@@ -8,18 +8,10 @@ params ["_position"];
 call AS_fnc_initPetros;
 call AS_fnc_HQdeploy;
 
-if isNil "placementDone" then {
+if _isNewGame then {
 	// move all players to the HQ.
-	if isMultiplayer then {
-		{_x setPos getPos petros} forEach (allPlayers - (entities "HeadlessClient_F"));
-	} else {
-		AS_commander setPos (getPos petros);
-	};
-
-    placementDone = true;
-	publicVariable "placementDone";
+	{_x call AS_fnc_initPlayerPosition} forEach (allPlayers - (entities "HeadlessClient_F"));
 } else {
-	AS_commander allowDamage true;
 	if isMultiplayer then {
 		{_x hideObjectGlobal false} forEach AS_permanent_HQplacements;
 	} else {

@@ -1,6 +1,6 @@
 #include "macros.hpp"
 AS_SERVER_ONLY("AS_fnc_startGame.sqf");
-params ["_side", "_guerrilla", "_pro_guerrilla", "_state", "_pro_state", "_civilians"];
+params ["_side", "_guerrilla", "_pro_guerrilla", "_state", "_pro_state", "_civilians", "_position", "_difficulty"];
 
 if (_side == "west") then {
     side_blue = west;
@@ -20,8 +20,11 @@ AS_Pset("faction_civilian", _civilians);
 
 AS_Pset("player_side", _side);
 
-[] remoteExec ["AS_fnc_HQselect", AS_commander];
+[_position, true] call AS_fnc_HQplace;
 
+if (_difficulty == "easy") then {
+    [caja, 10] call AS_fnc_fillCrateNATO;
+};
 
 // populate garage with vehicles
 private _validVehicles = (

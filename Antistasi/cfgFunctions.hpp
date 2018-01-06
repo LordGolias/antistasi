@@ -6,7 +6,6 @@ class AS {
         FNC(orgPlayers,setCommander);
         FNC(orgPlayers,chooseCommander);
 
-        FNC_BASE(setEasy);
         FNC_BASE(cleanGarbage);
 
         FNC_BASE(abandonFIALocation);
@@ -58,9 +57,10 @@ class AS {
     };
 
     class common {
+        FNC_BASE(isAdmin);
+
         FNC_BASE(codeToString);
 
-        FNC_BASE(HQselect);
         FNC_BASE(setDefaultSkill);
         FNC_BASE(lockVehicle);
         FNC_BASE(hasRadio);
@@ -191,6 +191,7 @@ class AS {
         FNC(arsenal,removeNightEquipment);
         FNC(arsenal,unlockedCargoList);
 
+        FNC_BASE(initPlayerPosition);
         FNC_BASE(initVehicle);
         FNC_BASE(initVehicleCiv);
         FNC_BASE(initUnitFIA);
@@ -201,6 +202,8 @@ class AS {
     };
 
     class withInterface {
+        FNC_BASE(selectNewHQ);
+
         FNC_BASE(activatePlayerRankLoop);
         FNC_BASE(showProgressBar);
         FNC_BASE(respawnPlayer);

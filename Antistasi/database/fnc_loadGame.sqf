@@ -3,12 +3,16 @@ AS_SERVER_ONLY("AS_database_fnc_loadGame");
 params ["_saveGame"];
 
 private _admin = call AS_database_fnc_getAdmin;
-if (_admin == -1) exitWith {};
 
+private _message = format ["Game '%s' loaded", _saveGame];
 private _data = _saveGame call AS_database_fnc_getData;
-if (_data == "") exitWith {
-    [format ["Canceled: save game '%s' does not exist", _saveGame]] remoteExecCall ["hint", _admin];
+if (_data == "") then {
+    _message = format ["Game '%s' not loaded because it does not exist", _saveGame];
+} else {
+    _data call AS_database_fnc_deserialize;
 };
 
-_data call AS_database_fnc_deserialize;
-["Game loaded"] remoteExecCall ["hint", 2];
+diag_log ("[AS] Server: " + _message);
+if (_admin != -1) then {
+    [_message] remoteExecCall ["hint", 2];
+};

@@ -37,6 +37,63 @@ the directory `missions` of your profile
 4. rename the file `mission.altis.sqm` or `mission.tanoa.sqm` to `mission.sqm`
 5. open it in Eden editor and export the mission (SP or MP)
 
+# Use mission on a dedicated server
+
+This mission is prepared to be used on a dedicated server.
+After the mission starts as any other mission, you have to decide what you want to do:
+
+* Start a new game
+* Load an existing game
+
+When a players logs in as administrator (`#login`), a dialog shows up to facilitate the process.
+Alternatively, you can run SQF directly to start or load a game:
+
+### Start a new game
+
+Execute on the server
+
+```
+[_side, _faction_anti_state, _faction_pro_anti_state, _faction_state, _faction_pro_state, "CIV", _position, _difficulty] call AS_fnc_startNewGame;
+```
+
+where:
+
+* `_side` must be `"west"` or `"east"` (as a string!)
+* `_faction_*` are the different factions names (for a vanilla game, use `"FIA", "NATO", "AAF", "CSAT"`). The first two
+must be of the same side as `_side`, the remaining two must be of the opposite side.
+* `_position` is the location of the HQ (`getMarkerPos "FIA_HQ"` for the vanilla position)
+* `_difficulty` can either be `"normal"` or `"easy"`. With `"easy"`, FIA starts with some weapons in the Armory.
+
+### Start from a previously saved game
+
+Execute on the server
+
+```
+_saveGame call AS_database_fnc_loadGame;
+```
+
+where `_saveGame` is the name of an existing saved game.
+The list of available saved games on the server is on the variable `AS_database_savedGames`.
+
+### Save the progress (e.g. for a server restart)
+
+Execute on the server
+
+```
+_saveGame call AS_database_fnc_saveGame;
+```
+
+where `_saveGame` is the name of the game you want to give.
+This overwrites any existing saved game with this name.
+
+### Delete a saved game
+
+Execute on the server
+
+```
+_saveGame call AS_database_fnc_deleteGame;
+```
+
 # Mod support
 
 * [ACE](https://ace3mod.com/)
@@ -148,14 +205,12 @@ The initialization proceeds as follows:
 1. Everyone initializes side-independent variables
     * [common_variables](Antistasi/initialization/common_variables.sqf) (server+clients)
     * [server_variables](Antistasi/initialization/server_variables.sqf) (server)
-2. Everyone waits for a commander to be assigned (server continuously tries to assign one)
-3. Everyone waits for the commander to choose a side or load a game
+2. Everyone waits for an admin (host in hosted MP)
+3. Everyone waits for an admin (the host in hosted MP) to start or load a game
 4. Everyone initializes side-dependent variables:
     * [common_side_variables](Antistasi/initialization/common_side_variables.sqf) (server+clients)
     * [server_side_variables](Antistasi/initialization/server_side_variables.sqf) (server)
-5. Everyone waits for the commander to choose a location for the HQ
-6. Server initializes everything HQ-dependent
-7. Server starts the spawning loop and resources loop
+5. Server starts the spawning loop and resources loop
 
 ## Factions
 

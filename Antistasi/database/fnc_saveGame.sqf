@@ -2,29 +2,33 @@
 AS_SERVER_ONLY("AS_database_fnc_saveGame");
 params ["_saveGame"];
 
-// check for the existence of an admin, deny saving if there is no logged in admin
 private _admin = call AS_database_fnc_getAdmin;
-if (_admin == -1) exitWith {
-    // inform admin that server finished
-    AS_database_waiting = nil;
-    _admin publicVariableClient "AS_database_waiting";
-};
 
-if (!isNil "AS_savingServer") exitWith {
-    ["Canceled: save already in process."] remoteExecCall ["hint", _admin];
-
-    // inform admin that server finished
-    AS_database_waiting = nil;
-    _admin publicVariableClient "AS_database_waiting";
+// check if there is a saving already in progress
+private _message = "Cannot save game: save is already in process.";
+if (not isNil "AS_savingServer") exitWith {
+    diag_log ("[AS] Server: " + _message);
+    if (_admin != -1) then {
+        [_message] remoteExecCall ["hint", _admin];
+        // inform admin that server finished
+        AS_database_waiting = nil;
+        _admin publicVariableClient "AS_database_waiting";
+    };
 };
+// lock double saving a game
 AS_savingServer = true;
-["Saving game..."] remoteExecCall ["hint", _admin];
-diag_log "[AS] Server: saving game...";
-private _data = call AS_database_fnc_serialize;
-diag_log "[AS] Server: game saved.";
-AS_savingServer = nil;
 
-// save game to the server's profile
+// inform
+_message = "Saving game...";
+diag_log ("[AS] Server: " + _message);
+if (_admin != -1) then {
+    [_message] remoteExecCall ["hint", _admin];
+};
+
+// serialize current state into a string
+private _data = call AS_database_fnc_serialize;
+
+// save string to the server's profile
 private _savedGames = call AS_database_fnc_getGames;
 _savedGames pushBackUnique _saveGame;
 profileNameSpace setVariable ["AS_savedGames", _savedGames];
@@ -35,9 +39,15 @@ saveProfileNamespace;
 AS_database_savedGames = _savedGames;
 publicVariable "AS_database_savedGames";
 
-// inform admin of saved game
-["Game saved on the server's profile"] remoteExecCall ["hint", _admin];
+// inform
+_message = "Game saved on the server's profile.";
+diag_log ("[AS] Server: " + _message);
+if (_admin != -1) then {
+    [_message] remoteExecCall ["hint", _admin];
 
-// inform admin that server finished
-AS_database_waiting = nil;
-_admin publicVariableClient "AS_database_waiting";
+    AS_database_waiting = nil;
+    _admin publicVariableClient "AS_database_waiting";
+};
+
+// unlock saving
+AS_savingServer = nil;

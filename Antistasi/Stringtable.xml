@@ -94,6 +94,9 @@
 			<Key ID="STR_act_gameOptions">
 				<Original>&lt;img size='1.75' image='\A3\ui_f\data\IGUI\Cfg\SimpleTasks\types\use_ca.paa' /&gt; Game Options</Original>
 			</Key>
+			<Key ID="STR_act_commanderMenu">
+				<Original>Commander's Menu</Original>
+			</Key>
 			<Key ID="STR_act_mapInfo">
 				<Original>&lt;img size='1.75' image='\A3\ui_f\data\GUI\cfg\Hints\Map_ca.paa' /&gt; Map Info</Original>
 			</Key>

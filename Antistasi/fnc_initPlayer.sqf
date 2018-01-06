@@ -9,7 +9,7 @@ if hasACEhearing then {player addItem "ACE_EarPlugs"};
 player addEventHandler ["HandleDamage", AS_fnc_EH_handleDamage_AIcontrol];
 player call AS_medical_fnc_initUnit;
 
-player setPos ((getMarkerPos "FIA_HQ") findEmptyPosition [2, 10, typeOf (vehicle player)]);
+player call AS_fnc_initPlayerPosition;
 
 player addEventHandler ["WeaponAssembled", {
 	params ["_EHunit", "_EHobj"];

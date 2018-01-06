@@ -20,7 +20,11 @@ removeHeadgear petros;
 removeGoggles petros;
 petros setSkill 1;
 
-call AS_fnc_rearmPetros;
+// rearmPetros depends on the side weapons, which are defined afterwards
+[] spawn {
+    waitUntil {sleep 0.5; not isNil "AAFWeapons"};
+    call AS_fnc_rearmPetros;
+};
 
 petros addEventHandler ["HandleDamage",
         {
@@ -78,7 +82,7 @@ petros addMPEventHandler ["mpkilled", {
                 AS_Sset("lockTransfer", false);
 
                 waitUntil {sleep 5; isPlayer AS_commander};
-                [] remoteExec ["AS_fnc_HQselect", AS_commander];
+                [] remoteExec ["AS_fnc_selectNewHQ", AS_commander];
             };
         } else {
             call AS_fnc_initPetros;

@@ -58,39 +58,24 @@ if (hasTFAR or hasACE) then {
 };
 
 /////////////////////////////////////////////////////////////////////////////
-/////////////// Client waits for a commander to be chosen ///////////////////
+///////////// Client waits to become an admin or a game to start ////////////
 /////////////////////////////////////////////////////////////////////////////
-if isNil "AS_commander" then {
-    diag_log "[AS] Client: waiting for server to initialize commander...";
-    waitUntil {sleep 1; not isNil "AS_commander"};
-};
+diag_log "[AS] Client: waiting for the admin to choose sides...";
 
-if isNull AS_commander then {
-    diag_log "[AS] Client: waiting for server to assign commander...";
-    waitUntil {sleep 1; not isNull AS_commander};
-};
+waitUntil {sleep 1;
 
-if (player == AS_commander) then {
-    hint "You are the current commander";
+    if (player call AS_fnc_isAdmin) exitWith {
+        hint "You are the current administrator.";
 
-    private _var = AS_P("player_side");
-    if isNil "_var" then {
-        // there is no side, so launch start menu
-        if not AS_debug_flag then {
+        if isNil {AS_P("player_side")} then {
+            // game hasn't started: launch start menu and wait for it to start
             [] spawn AS_fnc_UI_startMenu_menu;
-        } else {
-            // skip menu and start new game
-            ["west", "FIA", "NATO", "AAF", "CSAT"] remoteExec ["AS_fnc_startNewGame", 2];
+            waitUntil {sleep 1; not isNil {AS_P("player_side")}};
         };
     };
+
+    not isNil {AS_P("player_side")}
 };
-
-/////////////////////////////////////////////////////////////////////////////
-/////////////// Client waits for the commander to choose a side /////////////
-/////////////////////////////////////////////////////////////////////////////
-diag_log "[AS] Client: waiting for commander to choose sides...";
-
-waitUntil {sleep 0.1; private _var = AS_P("player_side"); not isNil "_var"};
 
 if not isServer then {
     call compile preprocessFileLineNumbers "initialization\common_side_variables.sqf";
@@ -98,12 +83,6 @@ if not isServer then {
     waitUntil {sleep 0.1; not isNil "AS_common_variables_initialized"};
     AS_common_variables_initialized = nil;
 };
-
-/////////////////////////////////////////////////////////////////////////////
-///////////// Client waits for the commander to choose a location ///////////
-/////////////////////////////////////////////////////////////////////////////
-diag_log "[AS] Client: waiting for commander to choose HQ location...";
-waitUntil {not isNil "placementDone"};
 
 [] execVM "reinitY.sqf";
 [] spawn AS_fnc_UI_showTopBar;
@@ -138,15 +117,20 @@ if _isJip then {
 	[false] remoteExec ["AS_fnc_refreshArsenal", 2];
 };
 
-[petros, "mission"] call AS_fnc_addAction;
+if isNil "petros" then {
+    [] spawn {
+        waitUntil {sleep 1; not isNil "petros"};
+        [petros, "mission"] call AS_fnc_addAction;
+    };
+};
 
 removeAllActions caja;
 [caja,"arsenal"] call AS_fnc_addAction;
 [caja,"transferFrom"] call AS_fnc_addAction;
 
 removeAllActions mapa;
-mapa addAction [localize "str_act_gameOptions", {CreateDialog "game_options_commander";},nil,0,false,true,"","(isPlayer _this) and (_this == AS_commander) and (_this == _this getVariable ['owner',_this])"];
-mapa addAction [localize "str_act_gameOptions", {CreateDialog "game_options_player";},nil,0,false,true,"","(isPlayer _this) and !(_this == AS_commander) and (_this == _this getVariable ['owner',_this])"];
+mapa addAction [localize "str_act_gameOptions", {CreateDialog "game_options";},nil,0,false,true,"","(isPlayer _this) and {_this call AS_fnc_isAdmin}"];
+mapa addAction [localize "str_act_commanderMenu", {CreateDialog "commander_menu";},nil,0,false,true,"","(isPlayer _this) and (_this == AS_commander) and (_this == _this getVariable ['owner',_this])"];
 mapa addAction [localize "str_act_mapInfo", "actions\fnc_location_mapInfo.sqf",nil,0,false,true,"","(isPlayer _this) and (_this == _this getVariable ['owner',_this])"];
 
 removeAllActions bandera;

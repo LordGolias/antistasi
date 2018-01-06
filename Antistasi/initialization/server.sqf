@@ -24,7 +24,18 @@ diag_log "[AS] Server: server variables initialized";
 
 [] execVM "Scripts\fn_advancedTowingInit.sqf"; // the installation is done for all clients by this
 
+{if not isPlayer _x then {deleteVehicle _x}} forEach allUnits;
+
+diag_log "[AS] Server: waiting for side...";
+waitUntil {not isNil {AS_P("player_side")}};
+
+call compile preprocessFileLineNumbers "initialization\common_side_variables.sqf";
+AS_common_variables_initialized = true;
+call compile preprocessFileLineNumbers "initialization\server_side_variables.sqf";
+diag_log "[AS] Server: server side-variables initialized";
+
 if isMultiplayer then {
+    // after game start because disconnects before have no influence
     addMissionEventHandler ["HandleDisconnect", {
         [_this select 0] call AS_fnc_onPlayerDisconnect;
         false
@@ -43,17 +54,5 @@ if isMultiplayer then {
     [player] call AS_fnc_setCommander;
 };
 
-{if not isPlayer _x then {deleteVehicle _x}} forEach allUnits;
-
-diag_log "[AS] Server: waiting for side...";
-waitUntil {private _var = AS_P("player_side"); not isNil "_var"};
-
-call compile preprocessFileLineNumbers "initialization\common_side_variables.sqf";
-AS_common_variables_initialized = true;
-call compile preprocessFileLineNumbers "initialization\server_side_variables.sqf";
-diag_log "[AS] Server: server side-variables initialized";
-
-diag_log "[AS] Server: waiting for HQ position...";
-waitUntil {!(isNil "placementDone")};
 [true] call AS_spawn_fnc_toggle;
 [true] call AS_fnc_resourcesToggle;

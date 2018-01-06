@@ -8,7 +8,6 @@ if not isDedicated exitWith {2};
 // in dedicated MPs, admin is the logged admin
 private _admin = -1;
 {
-    // == 2: is logged in
-    if (admin _x == 2) exitWith {_admin = _x};
+    if (_x call AS_fnc_isAdmin) exitWith {_admin = _x};
 } forEach allPlayers;
 _admin

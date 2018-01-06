@@ -4,7 +4,7 @@ class AS_newGameMenu {
 
 	class controls
 	{
-AS_DIALOG(8,"Configure new game", "[] spawn AS_fnc_UI_newGame_close;");
+AS_DIALOG(9,"Configure new game", "[] spawn AS_fnc_UI_newGame_close;");
 
 BTN_L(1,-1,"Rebel against the West", "", "[""east""] call AS_fnc_UI_newGame_update;");
 BTN_R(1,-1,"Rebel against the East", "", "[""west""] call AS_fnc_UI_newGame_update;");
@@ -25,6 +25,9 @@ LIST_L(0,6,2,2,"");
 READ(1,5,-1,1,"The state's supporter");
 LIST_L(1,6,3,2,"");
 
-BTN_M(8,-1,"Start game", "", "[] spawn AS_fnc_UI_newGame_start;");
+BTN_L(8,-1,"Cycle starting difficulty:", "easy: start with some foreign weapons", "[] call AS_fnc_UI_newGame_cycleDifficulty;");
+READ(1,8,4,1,"normal");
+
+BTN_M(9,-1,"Start game", "", "[] spawn AS_fnc_UI_newGame_start;");
 	};
 };

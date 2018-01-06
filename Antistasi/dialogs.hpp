@@ -242,24 +242,6 @@ class commander_menu // 360
 	};
 };
 
-class set_difficulty_menu // 390
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-	AS_BOX(1);
-	AS_FRAME(1, "Is the start too hard for you?");
-
-	#define STR_BST_YES "closeDialog 0; [] remoteExec [""AS_fnc_setEasy"", 2];"
-	#define STR_BST_NO "closeDialog 0;"
-
-	BTN_L(1,-1, "YES", "FIA starts with some foreign weapons", STR_BST_YES);
-	BTN_R(1,-1, "NO", "FIA starts only with basic gear", STR_BST_NO);
-	};
-};
-
 class exp_menu // 430
 {
 	idd=-1;
@@ -339,21 +321,19 @@ class HQ_fort_dialog // 440
 	};
 };
 
-class game_options_commander
-{
+class game_options {
 	idd=-1;
 	movingenable=false;
 
 	class controls
 	{
-AS_DIALOG(5,"Game Options",A_CLOSE);
+	AS_DIALOG(3,"Game Options",A_CLOSE);
 
-BTN_L(1,-1, "Commander Menu", "Summary of your current situation", "closeDialog 0; nul = createDialog ""commander_menu"";");
-BTN_L(2,-1, "Save game", "Save this game to continue it later", "closeDialog 0; [] call AS_fnc_UI_saveMenu_menu;");
+	BTN_M(1,-1, "Save game", "Save this game to continue it later", "closeDialog 0; [] call AS_fnc_UI_saveMenu_menu;");
 
-BTN_R(1,-1, "Performance Options", "Options to improve performance in case of low FPS.", "closeDialog 0; createDialog ""performance_menu"";");
-BTN_R(2,-1, "Maintenance Options", "When something is broken, sometimes you can fix it here.", "closeDialog 0; nul = createDialog ""maintenance_menu"";");
-BTN_R(3,-1, "Gameplay Options", "Options that affect gameplay.", "closeDialog 0; nul = createDialog ""gameplay_options"";");
+	BTN_L(2,-1, "Performance Options", "Options to improve performance in case of low FPS.", "closeDialog 0; createDialog ""performance_menu"";");
+	BTN_R(2,-1, "Maintenance Options", "When something is broken, sometimes you can fix it here.", "closeDialog 0; nul = createDialog ""maintenance_menu"";");
+	BTN_M(3,-1, "Gameplay Options", "Options that affect gameplay.", "closeDialog 0; nul = createDialog ""gameplay_options"";");
 	};
 };
 
@@ -363,35 +343,62 @@ class performance_menu {
 
 	class controls
 	{
-AS_DIALOG(4,"Performance","closeDialog 0; createDialog ""game_options_commander"";");
+	AS_DIALOG(4,"Performance","closeDialog 0; createDialog ""game_options"";");
 
-#define _code "['spawnDistance', 100, 2500, 'Spawn distance set to %1 meters.'] call AS_fnc_UI_changePersistent;"
-BTN_L(1,-1, "+100 Spawn Dist.", "The distance from places that triggers its spawn", _code);
-#define _code "['spawnDistance', -100, 1000, 'Spawn distance set to %1 meters.'] call AS_fnc_UI_changePersistent;"
-BTN_R(1,-1, "-100 Spawn Dist.", "The distance from places that triggers its spawn", _code);
-#define _code "[""cleantime"", 60, nil, ""Cleanup time set to %1 minutes.""] call AS_fnc_UI_changePersistent;"
-BTN_L(2,-1, "+1m cleanup time", "Minutes for dead bodies/vehicles to disappear.", _code);
-#define _code "[""cleantime"", -60, 2*60, ""Cleanup time set to %1 minutes.""] call AS_fnc_UI_changePersistent;"
-BTN_R(2,-1, "-1m cleanup time", "Minutes for dead bodies/vehicles to disappear.", _code);
-#define _code "[""civPerc"", 0.01, 1, ""Civilian percentage set to %1 percent.""] call AS_fnc_UI_changePersistent;"
-BTN_L(3,-1, "+1% Civ Spawn.", "The percentage of the population that appears in the city.", _code);
-#define _code "[""civPerc"", -0.01, 0.01, ""Civilian percentage set to %1 percent.""] call AS_fnc_UI_changePersistent;"
-BTN_R(3,-1, "-1% Civ Spawn.", "The percentage of the population that appears in the city.", _code);
-BTN_M(4,-1, "Clean garbage", "Remove dead bodies and dropped items.", "[] remoteExec [""AS_fnc_cleanGarbage"", 2];");
-#undef _code
+	#define _code "['spawnDistance', 100, 2500, 'Spawn distance set to %1 meters.'] call AS_fnc_UI_changePersistent;"
+	BTN_L(1,-1, "+100 Spawn Dist.", "The distance from places that triggers its spawn", _code);
+	#define _code "['spawnDistance', -100, 1000, 'Spawn distance set to %1 meters.'] call AS_fnc_UI_changePersistent;"
+	BTN_R(1,-1, "-100 Spawn Dist.", "The distance from places that triggers its spawn", _code);
+	#define _code "[""cleantime"", 60, nil, ""Cleanup time set to %1 minutes.""] call AS_fnc_UI_changePersistent;"
+	BTN_L(2,-1, "+1m cleanup time", "Minutes for dead bodies/vehicles to disappear.", _code);
+	#define _code "[""cleantime"", -60, 2*60, ""Cleanup time set to %1 minutes.""] call AS_fnc_UI_changePersistent;"
+	BTN_R(2,-1, "-1m cleanup time", "Minutes for dead bodies/vehicles to disappear.", _code);
+	#define _code "[""civPerc"", 0.01, 1, ""Civilian percentage set to %1 percent.""] call AS_fnc_UI_changePersistent;"
+	BTN_L(3,-1, "+1% Civ Spawn.", "The percentage of the population that appears in the city.", _code);
+	#define _code "[""civPerc"", -0.01, 0.01, ""Civilian percentage set to %1 percent.""] call AS_fnc_UI_changePersistent;"
+	BTN_R(3,-1, "-1% Civ Spawn.", "The percentage of the population that appears in the city.", _code);
+	BTN_M(4,-1, "Clean garbage", "Remove dead bodies and dropped items.", "[] remoteExec [""AS_fnc_cleanGarbage"", 2];");
+	#undef _code
 	};
 };
 
-class game_options_player
-{
+class maintenance_menu {
 	idd=-1;
 	movingenable=false;
 
 	class controls
 	{
-AS_DIALOG(1,"Game Options",A_CLOSE);
+    AS_DIALOG(2,"Maintenance","closeDialog 0; createDialog ""game_options"";");
 
-BTN_R(1,-1, "Reinit UI \ Radio", "", "closeDialog 0; [] execVM ""reinitY.sqf"";");
+	#define STR1 "closeDialog 0; [] remoteExec [""AS_fnc_HQdeploy"", 2];"
+	BTN_L(1,-1, "Reset HQ", "Resets all HQ items to near Petros.", STR1);
+	#define STR1 "closeDialog 0; [] remoteExec [""AS_fnc_refreshArsenal"", 2]"
+	BTN_L(2,-1, "Cleanup arsenal", "Remove items from the arsenal that do not exist.", STR1);
+	#define STR1 "closeDialog 0; [] remoteExec [""AS_fnc_resetPetrosPosition"", 2]"
+	BTN_R(1,-1, "Reset Petros' position", "Move Petros next to the campfire at HQ.", STR1);
+	#define STR1 "closeDialog 0; [] execVM ""reinitY.sqf"";"
+	BTN_R(2,-1, "Fix Y button", "Use in case the Y button stops working.", STR1);
+	#undef STR1
+	};
+};
+
+class gameplay_options {
+	idd=-1;
+	movingenable=false;
+
+	class controls
+	{
+    AS_DIALOG(2,"Gameplay options","closeDialog 0; createDialog ""game_options"";");
+
+    #define _code "[""minAISkill"", -0.1, 0, """"] call AS_fnc_UI_changePersistent;"
+	BTN_L(1,-1, "-0.1 min AI skill", "Decreases lowest AI skill (default=0.6).", _code);
+    #define _code "[""minAISkill"", 0.1, 1, """"] call AS_fnc_UI_changePersistent;"
+	BTN_R(1,-1, "+0.1 min AI skill", "Increases lowest AI skill (default=0.6).", _code);
+
+    #define _code "[""maxAISkill"", -0.1, 0, """"] call AS_fnc_UI_changePersistent;"
+	BTN_L(2,-1, "-0.1 max AI skill", "Decreases highest skill AI (default=0.9)", _code);
+    #define _code "[""maxAISkill"", 0.1, 1, """"] call AS_fnc_UI_changePersistent;"
+	BTN_R(2,-1, "+0.1 max AI skill", "Increases highest skill AI (default=0.9)", _code);
 	};
 };
 
@@ -436,48 +443,6 @@ BTN_R(1,-1, "AI Management", "", "if (player == leader group player) then {close
 BTN_R(2,-1, "Player and Money", "", "closeDialog 0; if (isMultiPlayer) then {nul = createDialog ""player_money""} else {hint ""MP Only Menu""};");
 BTN_R(3,-1, "Vehicle Manager", "", "closeDialog 0; nul = createDialog ""vehicle_manager"";");
 
-	};
-};
-
-class maintenance_menu
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-    AS_DIALOG(2,"Maintenance","closeDialog 0; createDialog ""game_options_commander"";");
-
-	#define STR1 "closeDialog 0; [] remoteExec [""AS_fnc_HQdeploy"", 2];"
-	BTN_L(1,-1, "Reset HQ", "Resets all HQ items to near Petros.", STR1);
-	#define STR1 "closeDialog 0; [] remoteExec [""AS_fnc_refreshArsenal"", 2]"
-	BTN_L(2,-1, "Cleanup arsenal", "Remove items from the arsenal that do not exist.", STR1);
-	#define STR1 "closeDialog 0; [] remoteExec [""AS_fnc_resetPetrosPosition"", 2]"
-	BTN_R(1,-1, "Reset Petros' position", "Move Petros next to the campfire at HQ.", STR1);
-	#define STR1 "closeDialog 0; [] execVM ""reinitY.sqf"";"
-	BTN_R(2,-1, "Fix Y button", "Use in case the Y button stops working.", STR1);
-	#undef STR1
-	};
-};
-
-class gameplay_options
-{
-	idd=-1;
-	movingenable=false;
-
-	class controls
-	{
-    AS_DIALOG(2,"Gameplay options","closeDialog 0; createDialog ""game_options_commander"";");
-
-    #define _code "[""minAISkill"", -0.1, 0, """"] call AS_fnc_UI_changePersistent;"
-	BTN_L(1,-1, "-0.1 min AI skill", "Decreases lowest AI skill (default=0.6).", _code);
-    #define _code "[""minAISkill"", 0.1, 1, """"] call AS_fnc_UI_changePersistent;"
-	BTN_R(1,-1, "+0.1 min AI skill", "Increases lowest AI skill (default=0.6).", _code);
-
-    #define _code "[""maxAISkill"", -0.1, 0, """"] call AS_fnc_UI_changePersistent;"
-	BTN_L(2,-1, "-0.1 max AI skill", "Decreases highest skill AI (default=0.9)", _code);
-    #define _code "[""maxAISkill"", 0.1, 1, """"] call AS_fnc_UI_changePersistent;"
-	BTN_R(2,-1, "+0.1 max AI skill", "Increases highest skill AI (default=0.9)", _code);
 	};
 };
 
