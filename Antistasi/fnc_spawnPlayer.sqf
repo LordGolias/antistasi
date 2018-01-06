@@ -17,6 +17,7 @@ private _punish = player getVariable ["punish", 0];
 
 private _unit = [_type, _position, _group] call AS_fnc_spawnFIAunit;
 [_unit] call AS_fnc_emptyUnit;
+_unit call AS_fnc_equipDefault;
 _unit setVariable ["BLUFORSpawn", true, true]; // players make things spawn
 
 _unit setvariable ["compromised", _compromised];
