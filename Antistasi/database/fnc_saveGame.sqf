@@ -6,7 +6,7 @@ private _admin = call AS_database_fnc_getAdmin;
 
 // Exit if the remoteExecutedOwner isn't an admin
 if (isRemoteExecuted && (remoteExecutedOwner != _admin) ) exitWith {
-    diag_log "[AS] Server: deleteGame cancelled; remotely executed by non-admin";
+    diag_log "[AS] Server: saveGame cancelled; remotely executed by non-admin";
 };
 
 // check if there is a saving already in progress
@@ -45,7 +45,7 @@ AS_database_savedGames = _savedGames;
 publicVariable "AS_database_savedGames";
 
 // inform
-_message = "Game saved on the server's profile.";
+_message = format ["Game saved as '%1'.", _saveGame];
 diag_log ("[AS] Server: " + _message);
 if (_admin != -1) then {
     [_message] remoteExecCall ["hint", _admin];
