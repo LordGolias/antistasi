@@ -4,6 +4,11 @@ params ["_saveGame"];
 
 private _admin = call AS_database_fnc_getAdmin;
 
+// Exit if the remoteExecutedOwner isn't the admin
+if (isRemoteExecuted && (remoteExecutedOwner != _admin) ) exitWith {
+    diag_log "[AS] Server: deleteGame cancelled; remotely executed by non-admin";
+};
+
 private _savedGames = call AS_database_fnc_getGames;
 private _index = _savedGames find _saveGame;
 

@@ -4,6 +4,11 @@ params ["_saveGame"];
 
 private _admin = call AS_database_fnc_getAdmin;
 
+// Exit if the remoteExecutedOwner isn't an admin
+if (isRemoteExecuted && (remoteExecutedOwner != _admin) ) exitWith {
+    diag_log "[AS] Server: deleteGame cancelled; remotely executed by non-admin";
+};
+
 // check if there is a saving already in progress
 private _message = "Cannot save game: save is already in process.";
 if (not isNil "AS_savingServer") exitWith {

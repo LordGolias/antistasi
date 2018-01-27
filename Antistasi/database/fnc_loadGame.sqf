@@ -4,7 +4,12 @@ params ["_saveGame"];
 
 private _admin = call AS_database_fnc_getAdmin;
 
-private _message = format ["Game '%s' loaded", _saveGame];
+// Exit if the remoteExecutedOwner isn't an admin
+if (isRemoteExecuted && (remoteExecutedOwner != _admin) ) exitWith {
+    diag_log "[AS] Server: loadGame cancelled; remotely executed by non-admin";
+};
+
+private _message = format ["Game '%1' loaded", _saveGame];
 private _data = _saveGame call AS_database_fnc_getData;
 if (_data == "") then {
     _message = format ["Game '%s' not loaded because it does not exist", _saveGame];
