@@ -242,7 +242,7 @@
 				<Original>Recover supplies</Original>
 			</Key>
 			<Key ID="STR_tskDesc_logMedical">
-				<Original>We've had word from our informant that a sympathetic cell has sent supplies to &lt;marker name='%2'&gt;%1&lt;/marker&gt;. They ran into an %5 patrol and had to abandon the truck. Find and secure the vehicle, then deliver the supplies to the people in &lt;marker name='%2'&gt;%1&lt;/marker&gt; before %5:%6. %7 command has probably dispatched a patrol from &lt;marker name='%4'&gt;%3&lt;/marker&gt; to retrieve the goods, so you better hurry. </Original>
+				<Original>We've had word from our informant that a sympathetic cell has sent supplies to &lt;marker name='%2'&gt;%1&lt;/marker&gt;. They ran into a patrol and had to abandon the truck. Find and secure the vehicle, then deliver the supplies to the people in &lt;marker name='%2'&gt;%1&lt;/marker&gt; before %5:%6. %7 command has probably dispatched a patrol from &lt;marker name='%4'&gt;%3&lt;/marker&gt; to retrieve the goods, so you better hurry. </Original>
 			</Key>
 
 			<Key ID="STR_tsk_logSupply">
