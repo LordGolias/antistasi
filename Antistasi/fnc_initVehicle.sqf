@@ -78,10 +78,6 @@ if (_side  == "AAF" and _vehicle_category != "") then {
 	// todo: add code for when the car is stolen (instead of killed)
 	_veh addEventHandler ["killed", _aaf_veh_EHkilled];
 };
-if (_side == "CSAT") then {
-	// todo: add code for when the car is stolen (instead of killed)
-	_veh addEventHandler ["killed", _aaf_veh_EHkilled];
-};
 
 // UAV is not part of the AAF arsenal, so the killing of it is dealt separately
 if (_side == "AAF" and _tipo in (["AAF", "uavs_attack"] call AS_fnc_getEntity)) then {
