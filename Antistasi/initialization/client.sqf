@@ -81,7 +81,6 @@ if not isServer then {
     call compile preprocessFileLineNumbers "initialization\common_side_variables.sqf";
 } else {
     waitUntil {sleep 0.1; not isNil "AS_common_variables_initialized"};
-    AS_common_variables_initialized = nil;
 };
 
 [] execVM "reinitY.sqf";
