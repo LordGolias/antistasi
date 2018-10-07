@@ -40,3 +40,5 @@ AS_Pset("vehiclesInGarage", _garageVehicles);
 {
     [_x, "valid", ["AAF", _x] call AS_fnc_getEntity] call AS_AAFarsenal_fnc_set;
 } forEach AS_AAFarsenal_buying_order;
+
+AS_dataInitialized = true;

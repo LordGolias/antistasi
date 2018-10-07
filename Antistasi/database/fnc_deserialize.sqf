@@ -2,16 +2,16 @@
 AS_SERVER_ONLY("AS_database_fnc_deserialize");
 params ["_string"];
 
-// stop spawning new locations
+// stop game
 [false] call AS_spawn_fnc_toggle;
+[false] call AS_fnc_resourcesToggle;
+
 // despawn every spawned location
 {
     if (_x call AS_location_fnc_spawned) then {
         _x call AS_location_fnc_despawn;
     };
 } forEach (call AS_location_fnc_all);
-
-[false] call AS_fnc_resourcesToggle;
 
 diag_log "[AS] Server: deserializing data...";
 private _dict = _string call DICT_fnc_deserialize;
@@ -22,6 +22,10 @@ _dict call AS_database_fnc_migrate;
 // this only sets the persistents
 diag_log "[AS] Server: loading persistents...";
 ([_dict, "AS_persistent"] call DICT_fnc_get) call AS_database_fnc_persistents_fromDict;
+
+// above initializes player_side, which is required to initialize common variables on the other thread
+// we need to wait for them to be initialized before continuing
+waitUntil {sleep 0.1; not isNil "AS_common_variables_initialized"};
 
 // this order matters!
 diag_log "[AS] Server: loading locations...";
@@ -48,6 +52,4 @@ diag_log "[AS] Server: loading missions...";
 _dict call DICT_fnc_del;
 diag_log "[AS] Server: loading completed.";
 
-// start spawning again
-[true] call AS_spawn_fnc_toggle;
-[true] call AS_fnc_resourcesToggle;
+AS_dataInitialized = true;

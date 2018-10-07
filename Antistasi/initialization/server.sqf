@@ -34,6 +34,8 @@ AS_common_variables_initialized = true;
 call compile preprocessFileLineNumbers "initialization\server_side_variables.sqf";
 diag_log "[AS] Server: server side-variables initialized";
 
+waitUntil {not isNil "AS_dataInitialized"};
+
 if isMultiplayer then {
     // after game start because disconnects before have no influence
     addMissionEventHandler ["HandleDisconnect", {
