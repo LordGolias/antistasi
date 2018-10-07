@@ -79,6 +79,7 @@ waitUntil {sleep 1;
 
 if not isServer then {
     call compile preprocessFileLineNumbers "initialization\common_side_variables.sqf";
+    waitUntil {not isNil "AS_dataInitialized"};
 } else {
     waitUntil {sleep 0.1; not isNil "AS_common_variables_initialized"};
 };
