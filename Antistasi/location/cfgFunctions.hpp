@@ -49,6 +49,7 @@ class AS_location {
         FNC(location,getNameSize);
 
         // spawn states of each location
+        FNC(location,spawn_states);
         INIT_FNC(location\spawns,AAFairfield);
         INIT_FNC(location\spawns,AAFbase);
         INIT_FNC(location\spawns,AAFcity);
