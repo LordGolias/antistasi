@@ -102,10 +102,12 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 [_dict, "squads_custom_init", {
 	params ["_squadType", "_position"];
 	private _pos = _position findEmptyPosition [1,30,"B_G_Van_01_transport_F"];
-    private _veh = [_pos, 0,"B_G_Van_01_transport_F", side_blue] call bis_fnc_spawnvehicle;
-	private _camion = _veh select 0;
-	private _grupo = _veh select 2;
-	_grupo setVariable ["staticAutoT", false, true];
+	private _truck = "B_G_Van_01_transport_F" createVehicle _pos;
+	private _group = createGroup side_blue;
+	private _driver = ["Crew", _position findEmptyPosition [1,30,"B_G_Van_01_transport_F"], _group] call AS_fnc_spawnFIAUnit;
+	private _operator = ["Crew", _position findEmptyPosition [1,30,"B_G_Van_01_transport_F"], _group] call AS_fnc_spawnFIAUnit;
+
+	_group setVariable ["staticAutoT", false, true];
 	private _pieceType = call {
 		if (_squadType == "mobile_aa") exitWith {["FIA", "static_aa"] call AS_fnc_getEntity};
 		if (_squadType == "mobile_at") exitWith {["FIA", "static_at"] call AS_fnc_getEntity};
@@ -113,20 +115,19 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 	};
 
 	private _piece = _pieceType createVehicle (_position findEmptyPosition [1,30,"B_G_Van_01_transport_F"]);
-	private _morty = _grupo createUnit [["FIA", "crew"] call AS_fnc_getEntity, _position findEmptyPosition [1,30,"B_G_Van_01_transport_F"], [], 0, "NONE"];
 
+	_driver moveInDriver _truck;
+	_operator moveInGunner _piece;
 	if (_squadType == "mobile_mortar") then {
-		_morty moveInGunner _piece;
 		_piece setVariable ["attachPoint", [0,-1.5,0.2]];
-		[_morty,_camion,_piece] spawn AS_fnc_activateMortarCrewOnTruck;
+		[_operator,_truck,_piece] spawn AS_fnc_activateMortarCrewOnTruck;
 	} else {
-		_piece attachTo [_camion,[0,-1.5,0.2]];
-		_piece setDir (getDir _camion + 180);
-		_morty moveInGunner _piece;
+		_piece attachTo [_truck,[0,-1.5,0.2]];
+		_piece setDir (getDir _truck + 180);
 	};
-	[_camion, "FIA"] call AS_fnc_initVehicle;
+	[_truck, "FIA"] call AS_fnc_initVehicle;
 	[_piece, "FIA"] call AS_fnc_initVehicle;
-	_grupo
+	_group
 }] call DICT_fnc_set;
 
 [_dict, "static_aa", "B_static_AA_F"] call DICT_fnc_set;
