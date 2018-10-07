@@ -46,6 +46,9 @@
 			<Key ID="STR_act_unloadCargo">
 				<Original>&lt;img size='1.2' image='\A3\ui_f\data\igui\cfg\VehicleToggles\VehicleCargoIconOn_ca.paa' /&gt; Unload Vehicle Cargo to Ammobox</Original>
 			</Key>
+			<Key ID="STR_act_recoverEquipment">
+				<Original>&lt;img size='1.2' image='\A3\ui_f\data\igui\cfg\VehicleToggles\VehicleCargoIconOn_ca.paa' /&gt; Recover nearby equipment</Original>
+			</Key>
 			<Key ID="STR_act_arsenal">
 				<Original>&lt;img size='1.75' image='\A3\ui_f\data\Logos\a_64_ca.paa' /&gt; Arsenal</Original>
 			</Key>

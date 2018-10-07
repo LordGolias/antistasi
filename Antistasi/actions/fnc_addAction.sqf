@@ -12,6 +12,7 @@ switch _type do {
 	case "vehicle": {_object addAction [localize "STR_act_buyVehicle", {call AS_fnc_UI_buyVehicle_menu},nil,0,false,true,"",IS_PLAYER]};
 	case "mission": {removeAllActions petros; petros addAction [localize "STR_act_missionRequest", {call AS_fnc_UI_manageMissions_menu},nil,0,false,true,"",IS_COMMANDER]};
 	case "transferFrom": {_object addAction [localize "STR_act_unloadCargo", "actions\transferFrom.sqf",nil,0,false,true,"",IS_PLAYER]};
+	case "recoverEquipment": {_object addAction [localize "STR_act_recoverEquipment", "actions\recoverEquipment.sqf",nil,0,false,true,"",IS_PLAYER]};
 	case "remove": {
 		for "_i" from 0 to (_object addAction ["",""]) do {
 			_object removeAction _i;

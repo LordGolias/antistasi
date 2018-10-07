@@ -57,15 +57,14 @@ player addEventHandler ["GetInMan", {
 
 		if (_seat == "driver" and _vehicle isKindOf "Truck_F") then {
 			private _EHid = [_vehicle, "transferFrom"] call AS_fnc_addAction;
-			player setVariable ["transferID", _EHid];
+			private _EHid1 = [_vehicle, "recoverEquipment"] call AS_fnc_addAction;
+			player setVariable ["EH_ids", [_EHid, _EHid1]];
 		};
 	};
 }];
 
 player addEventHandler ["GetOutMan", {
     params ["_unit", "_seat", "_vehicle"];
-	if ((player getVariable ["transferID", -1]) != -1) then {
-		_vehicle removeAction (player getVariable "transferID");
-		player setVariable ["transferID", nil];
-	};
+	{_vehicle removeAction _x} forEach (player getVariable ["EH_ids", []]);
+	player setVariable ["EH_ids", nil];
 }];
