@@ -9,7 +9,6 @@ class AS_mission {
         FNC(mission,set);
         FNC(mission,updateAvailable);
         FNC(mission,activate);
-        FNC(mission,completed);
         FNC(mission,toDict);
         FNC(mission,fromDict);
 

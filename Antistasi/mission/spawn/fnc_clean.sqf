@@ -5,4 +5,3 @@ params ["_mission"];
 [_groups, _vehicles, _markers] call AS_fnc_cleanResources;
 sleep 30;
 [_task] call BIS_fnc_deleteTask;
-_mission call AS_mission_fnc_completed;
