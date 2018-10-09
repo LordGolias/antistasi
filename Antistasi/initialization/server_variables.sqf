@@ -19,10 +19,6 @@ expCrate = ""; // dealer's crate
 AS_commander = objNull;
 publicVariable "AS_commander";
 
-// todo: have a menu to switch this behaviour
-switchCom = false;  // Game will not auto assign Commander position to the highest ranked player
-publicVariable "switchCom";
-
 ///////////////////////// PERSISTENTS /////////////////////////
 
 // AS_Pset(a,b) is a macro to `(AS_persistent setVariable (a,b,true))`.

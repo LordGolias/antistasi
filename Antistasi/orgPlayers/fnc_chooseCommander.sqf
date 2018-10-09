@@ -7,8 +7,8 @@ private _currentScore = -100000;
 private _commander = AS_commander getVariable ["AS_controller", AS_commander];
 private _noCommander = (isNull _commander or _reason == "resigned" or _reason == "disconnected");
 
-// There is a commander and switch is off => no change
-if (not switchCom and not _noCommander) exitWith {};
+// There is a commander => no change
+if (not _noCommander) exitWith {};
 
 private _members = [];
 private _eligibles = [];
