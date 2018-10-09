@@ -20,31 +20,6 @@ if (_key == 21) then {
 			createDialog "radio_comm_player";
 		};
 	};
-} else {
-	if (isMultiplayer) then {
-		if (_key == 207) then {
-			if (!hasACEhearing) then {
-				if (soundVolume <= 0.5) then {
-					0.5 fadeSound 1;
-					hintSilent "You've taken out your ear plugs.";
-				} else {
-					0.5 fadeSound 0.1;
-					hintSilent "You've inserted your ear plugs.";
-				};
-			};
-		};
-	} else {
-		if (!hasACEhearing) then {
-			if (_key == 207) then {
-				0.5 fadeSound 0.1;
-				hintSilent "You've inserted your ear plugs.";
-			};
-			if (_key == 199) then {
-				0.5 fadeSound 1;
-				hintSilent "You've taken out your ear plugs.";
-			};
-		};
-	};
 };
 
 _handled

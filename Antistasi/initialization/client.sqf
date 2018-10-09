@@ -48,9 +48,6 @@ if (hasACE) then {
     if (hasACEMedical) then {
         _texto = _texto + "\nACE Medical being used: default revive system disabled.";
     };
-    if (hasACEhearing) then {
-        _texto = _texto + "\nACE Hearing being used: default earplugs disabled.";
-    };
 };
 
 if (hasTFAR or hasACE) then {
