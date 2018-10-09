@@ -5,7 +5,7 @@ class AS_scheduler {
         FNC(scheduler,receiveStatus);
     };
     class common {
-        INIT_FNC(scheduler,init);
+        FNC(scheduler,initialize);
         FNC(scheduler,sendStatus);
         FNC(scheduler,measureFPS);
     };

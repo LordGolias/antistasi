@@ -1,11 +1,17 @@
 #include "../macros.hpp"
 AS_SERVER_ONLY("server.sqf");
 
-// AS_persistent are server-side variables. They are all published.
+call AS_scheduler_fnc_initialize;
+
+// AS_persistent are public server-side variables.
 AS_persistent = createSimpleObject ["Static", [0, 0, 0]];
 publicVariable "AS_persistent";
+
+// AS_shared are public temporary server-side variables.
 AS_shared = createSimpleObject ["Static", [0, 0, 0]];
 publicVariable "AS_shared";
+
+// AS_container is used to store persistent variables from generic APIs
 AS_container = createSimpleObject ["Static", [0, 0, 0]];
 publicVariable "AS_container";
 

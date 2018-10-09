@@ -2,7 +2,7 @@
 #define WINDOW_SIZE 12
 
 AS_FPSsamples = []; // the recent FPS samples of each machine (local)
-for "_i" from 1 to WINDOW_SIZE do {
+for "_i" from 0 to WINDOW_SIZE do {
     AS_FPSsamples pushBack 60;
 };
 
