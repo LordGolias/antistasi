@@ -6,7 +6,10 @@ _unit call AS_fnc_equipDefault;
 
 _unit forceAddUniform (selectRandom (["FIA", "uniforms"] call AS_fnc_getEntity));
 
-_arsenal params ["_vest", "_helmet", "_googles", "_backpack", "_primaryWeapon", "_primaryMags", "_secondaryWeapon", "_secondaryMags", "_scope", "_uniformItems", "_backpackItems", "_primaryWeaponItems"];
+_arsenal params ["_vest", "_helmet", "_googles", "_backpack",
+    "_primaryWeapon", "_primaryMags", "_secondaryWeapon",
+    "_secondaryMags", "_scope", "_items", "_primaryWeaponItems"
+];
 
 private _fnc_equipUnit = {
     params ["_weapon", "_mags"];
@@ -35,49 +38,26 @@ if (_googles != "") then {
 
 if (_backpack != "") then {
     _unit addBackpackGlobal _backpack;
-
-    private _isFull = false;
-    private _i = 0;
-    while {!_isFull and _i < count _backpackItems} do {
-        private _name = (_backpackItems select _i) select 0;
-        private _amount = (_backpackItems select _i) select 1;
-
-        private _j = 0;
-        while {!_isFull and _j < _amount} do {
-            private _fits = _unit canAddItemToBackpack _name;
-            if _fits then {
-                _unit addItemToBackpack _name;
-            } else {
-                _isFull = true;
-            };
-            _j = _j + 1;
-        };
-        _i = _i + 1;
-    };
 };
 
-// add items to uniform
-private _isFull = false;
+[_primaryWeapon, _primaryMags] call _fnc_equipUnit;
+[_secondaryWeapon, _secondaryMags] call _fnc_equipUnit;
+
+// add items
 private _i = 0;
-while {!_isFull and _i < count _uniformItems} do {
-    private _name = (_uniformItems select _i) select 0;
-    private _amount = (_uniformItems select _i) select 1;
+while {_i < count _items} do {
+    private _item = (_items select _i) select 0;
+    private _amount = (_items select _i) select 1;
 
     private _j = 0;
-    while {!_isFull and _j < _amount} do {
-        private _fits = _unit canAddItemToUniform _name;
-        if _fits then {
-            _unit addItemToUniform _name;
-        } else {
-            _isFull = true;
+    while {_j < _amount} do {
+        if (_unit canAdd _item) then {
+            _unit addItem _item;
         };
         _j = _j + 1;
     };
     _i = _i + 1;
 };
-
-[_primaryWeapon, _primaryMags] call _fnc_equipUnit;
-[_secondaryWeapon, _secondaryMags] call _fnc_equipUnit;
 
 if (_scope != "") then {
     _unit addPrimaryWeaponItem _scope;
@@ -86,7 +66,6 @@ if (_scope != "") then {
 {
     _unit addPrimaryWeaponItem _x;
 } forEach _primaryWeaponItems;
-
 
 // remove from box stuff that was used.
 private _cargo = [_unit, true] call AS_fnc_getUnitArsenal;

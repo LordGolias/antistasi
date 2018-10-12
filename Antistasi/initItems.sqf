@@ -340,8 +340,16 @@ AS_allWeaponsAttrs = [];
 AS_allGrenades = AS_allGrenades arrayIntersect AS_allGrenades - [""];
 
 AS_allThrowGrenades = [];
+AS_allThrowGrenadesAttrs = [];
 {
-    AS_allThrowGrenades append getArray(configFile >> "CfgWeapons" >> "Throw" >> _x >> "magazines");
+    private _mag = getArray(configFile >> "CfgWeapons" >> "Throw" >> _x >> "magazines") select 0;
+    private _ammo = getText(configFile >> "CfgMagazines" >> _mag >> "ammo");
+
+    private _damage = getNumber(configFile >> "CfgAmmo" >> _ammo >> "indirectHit");
+    private _range = getNumber(configFile >> "CfgAmmo" >> _ammo >> "indirectHitRange");
+
+    AS_allThrowGrenades pushBack _mag;
+    AS_allThrowGrenadesAttrs pushBack [_damage, _range];
 } forEach getArray(configFile >> "CfgWeapons" >> "Throw" >> "muzzles");
 
 AS_allMagazines = [];

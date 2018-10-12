@@ -1,4 +1,4 @@
-params ["_box", "_type"];
+params ["_box", "_type", ["_as_list", False]];
 
 private _availableItems = [[],[]];
 if (typename _box != "ARRAY") then {
@@ -54,6 +54,32 @@ if (_type == "backpack") then {
 	_allItemsAttrs = AS_allBackpacksAttrs;
 	_unlockedItems = unlockedBackpacks;
 };
+if (_type == "throw_grenades") then {
+	_availableItems = getMagazineCargo _box;
+
+	// select grenades that cause any damage
+	_allItemsAttrs = [];
+	_allItems = [];
+	{
+		private _attr = AS_allThrowGrenadesAttrs select _foreachindex;
+		if ((_attr select 0) > 0) then {
+			_allItemsAttrs pushBack _attr;
+			_allItems pushBack _x;
+		}
+	} forEach AS_allThrowGrenades;
+	_unlockedItems = unlockedMagazines;
+
+	_sortingFunction = {
+		private _index = _input0 find _x;
+		private _damage = (_input1 select _index) select 0;
+		private _range = (_input1 select _index) select 1;
+		private _amount = (_input1 select _index) select 2;
+
+		private _w_factor = 1.0/(1 + exp (-2*(_amount - 5)));  // 0 => 0; 5 => 0.5; 10 => 1
+
+		_w_factor*_damage*_range;
+	};
+};
 if (_type in ["rifleScope", "sniperScope"]) then {
 	_allItems = AS_allOptics;
 	_allItemsAttrs = AS_allOpticsAttrs;
@@ -108,10 +134,16 @@ for "_index" from 0 to count _allItems - 1 do {
 	};
 };
 
-private _item = "";
-if ((count _indexes) > 0) then {
-	// select the best item
-	_indexes = [_indexes, [_indexes, _attributes], _sortingFunction, "DESCEND"] call BIS_fnc_sortBy;
-	_item = _allItems select (_indexes select 0);
+if ((count _indexes) == 0) exitWith {
+	if _as_list exitWith {[]};
+	""
 };
-_item
+
+_indexes = [_indexes, [_indexes, _attributes], _sortingFunction, "DESCEND"] call BIS_fnc_sortBy;
+private _ordered_list = [];
+{_ordered_list pushBack (_allItems select _x)} forEach _indexes;
+
+if _as_list exitWith {
+	_ordered_list
+};
+_ordered_list select 0
