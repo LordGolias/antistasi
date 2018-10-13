@@ -87,11 +87,6 @@ private _fnc_spawn = {
 	private _groups = [];
 	private _vehicles = [];
 
-	// particular to specific missions. They do not need to be cleaned.
-	private _grpPOW = grpNull;
-	private _POWs = [];
-	private _hvt = objNull;
-
 	[_origin,30] call AS_location_fnc_increaseBusy;
 
 	private _group = createGroup ("AAF" call AS_fnc_getFactionSide);
@@ -152,8 +147,8 @@ private _fnc_spawn = {
 	}];
 
 	if (_missionType == "convoy_hvt") then {
-		_hvt = ([_posbase, 0, ["AAF", "officer"] call AS_fnc_getEntity, _group] call bis_fnc_spawnvehicle) select 0;
-		[_hvt] spawn AS_fnc_initUnitAAF;
+		private _hvt = ([_posbase, 0, ["AAF", "officer"] call AS_fnc_getEntity, _group] call bis_fnc_spawnvehicle) select 0;
+		[_hvt] call AS_fnc_initUnitAAF;
 		_hvt assignAsCargo _mainVehicle;
 		_hvt moveInCargo _mainVehicle;
 		[_mission, "hvt", _hvt] call AS_spawn_fnc_set;
@@ -162,8 +157,8 @@ private _fnc_spawn = {
 		_mainVehicle lock 3;
 	};
 	if (_missionType == "convoy_prisoners") then {
-		_grpPOW = createGroup ("FIA" call AS_fnc_getFactionSide);
-		_POWs = [];
+		private _grpPOW = createGroup ("FIA" call AS_fnc_getFactionSide);
+		private _POWs = [];
 		_groups pushBack _grpPOW;
 		for "_i" from 1 to (1+ round (random 11)) do {
 			private _unit = ["Survivor", _position, _grpPOW] call AS_fnc_spawnFIAUnit;
@@ -242,18 +237,25 @@ private _fnc_run = {
 
 	private _fnc_missionSuccessfulCondition = call {
 		if (_missionType in ["convoy_money", "convoy_armor", "convoy_ammo", "convoy_supplies"]) exitWith {
-			(not alive _mainVehicle) or {driver _mainVehicle getVariable ["BLUFORSpawn",false]}
+			{
+				(not alive _mainVehicle) or {driver _mainVehicle getVariable ["BLUFORSpawn",false]}
+			}
 		};
 		if (_missionType == "convoy_armor") exitWith {
 			{not alive _mainVehicle}
 		};
 		if (_missionType == "convoy_hvt") exitWith {
-			private _hvt = [_mission, "hvt"] call AS_spawn_fnc_get;
-			{not alive _hvt}
+			{
+				private _hvt = [_mission, "hvt"] call AS_spawn_fnc_get;
+				not alive _hvt
+			}
 		};
 		if (_missionType == "convoy_prisoners") exitWith {
-			private _POWs = [_mission, "POWs"] call AS_spawn_fnc_get;
-			{{(alive _x) and (_x distance getMarkerPos "FIA_HQ" < 50)} count _POWs >= ({alive _x} count _POWs) / 2}
+			{
+				private _POWs = [_mission, "POWs"] call AS_spawn_fnc_get;
+				{(alive _x) and (_x distance getMarkerPos "FIA_HQ" < 50)} count _POWs >=
+				 ({alive _x} count _POWs) / 2
+			 }
 		};
 	};
 
