@@ -14,6 +14,7 @@ class AS_mission {
 
         FNC(mission,execute);
         FNC(mission,success);
+        FNC(mission,cancel);
         FNC(mission,fail);
 
         FNC(mission,createDefendLocation);

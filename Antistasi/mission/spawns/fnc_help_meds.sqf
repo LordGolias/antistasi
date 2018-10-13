@@ -4,6 +4,7 @@ private _fnc_initialize = {
 	params ["_mission"];
 	private _location = _mission call AS_mission_fnc_location;
 	private _position = _location call AS_location_fnc_position;
+	private _tskTitle = _mission call AS_mission_fnc_title;
 
 	private _tiempolim = 60;
 	private _fechalim = [date select 0, date select 1, date select 2, date select 3, (date select 4) + _tiempolim];
@@ -28,7 +29,10 @@ private _fnc_initialize = {
 		_basePosition = _base call AS_location_fnc_position;
 	};
 	if (_base == "") exitWith {
-		hint "There are no supplies missing.";
+		[_mission, "resources", [taskNull, [], [], []]] call AS_spawn_fnc_set;
+		[_mission, "state_index", count AS_mission_helpMeds_states - 2] call AS_spawn_fnc_set;
+		[_mission] remoteExec ["AS_mission_fnc_cancel", 2];
+		[[petros, "sideChat", "_tskTitle canceled"], "AS_fnc_localCommunication"] call BIS_fnc_MP;
 	};
 
 	// find a suitable position for the medical supplies
@@ -47,10 +51,12 @@ private _fnc_initialize = {
 	};
 
 	if (_crashPosition isEqualTo []) exitWith {
-		hint "There are no supplies missing.";
+		[_mission, "resources", [taskNull, [], [], []]] call AS_spawn_fnc_set;
+		[_mission, "state_index", count AS_mission_helpMeds_states - 2] call AS_spawn_fnc_set;
+		[_mission] remoteExec ["AS_mission_fnc_cancel", 2];
+		[[petros, "sideChat", "_tskTitle canceled"], "AS_fnc_localCommunication"] call BIS_fnc_MP;
 	};
 
-	private _tskTitle = _mission call AS_mission_fnc_title;
 	private _tskDesc = format [localize "STR_tskDesc_logMedical",
 		[_location] call AS_fnc_location_name, _location,
 		[_base] call AS_fnc_location_name, _base,
