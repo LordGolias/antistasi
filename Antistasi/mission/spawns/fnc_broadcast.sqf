@@ -210,7 +210,7 @@ private _fnc_spawn_activator = {
 			[_amigo,false] remoteExec ["setCaptive",_amigo];
 		};
 		{
-			if ((side _x == side_red) and (_x distance propTruck < AS_P("spawnDistance"))) then {
+			if ((side _x == ("AAF" call AS_fnc_getFactionSide)) and (_x distance propTruck < AS_P("spawnDistance"))) then {
 				if (_x distance propTruck < 300) then {_x doMove position propTruck} else {_x reveal [_amigo,4]};
 			};
 		} forEach allUnits;
@@ -252,14 +252,14 @@ private _fnc_run = {
 	// counter stops forever when no player within 300m or car deactivated
 	private _fnc_continueCounterCondition = {
 		AS_S("BCactive") and
-		({(side _x isEqualTo side_blue) and (_x distance propTruck < 300)} count allPlayers > 0) and {not call _fnc_missionFailedCondition}
+		({(side _x isEqualTo ("FIA" call AS_fnc_getFactionSide)) and (_x distance propTruck < 300)} count allPlayers > 0) and {not call _fnc_missionFailedCondition}
 	};
 
 	// counter increases when no enemy within 50m and anyone conscious
 	private _fnc_increaseCounterCondition = {
 		{_x call AS_medical_fnc_isUnconscious} count ([300, propTruck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) !=
 		 count ([300, propTruck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) and
-		({(side _x == side_red) and (_x distance propTruck < 50)} count allUnits == 0)
+		({(side _x == ("AAF" call AS_fnc_getFactionSide)) and (_x distance propTruck < 50)} count allUnits == 0)
 	};
 
 	/*

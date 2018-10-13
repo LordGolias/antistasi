@@ -6,7 +6,7 @@ if (!isNil "petros") then {
     deleteGroup grupoPetros;
 };
 
-grupoPetros = createGroup side_blue;
+grupoPetros = createGroup ("FIA" call AS_fnc_getFactionSide);
 petros = ["Squad Leader", getMarkerPos "FIA_HQ", grupoPetros] call AS_fnc_spawnFIAunit;
 [petros, "FIA"] call AS_fnc_setSide;
 [[petros,"mission"],"AS_fnc_addAction"] call BIS_fnc_MP;
@@ -62,7 +62,7 @@ petros addMPEventHandler ["mpkilled", {
     private _killer = _this select 1;
     if isServer then {
         diag_log format ["[AS] INFO: Petros died. Killer: %1", _killer];
-        if (side _killer == side_red) then {
+        if (side _killer == ("AAF" call AS_fnc_getFactionSide)) then {
             [] spawn {
                 ["FIA_HQ", "garrison", []] call AS_location_fnc_set;
 

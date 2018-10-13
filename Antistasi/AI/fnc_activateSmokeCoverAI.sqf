@@ -5,7 +5,7 @@ _tipo = "SmokeShellPurple";
 
 if !(alive _veh) exitWith {};
 
-if (side _veh == side_blue) then {
+if (side _veh == ("FIA" call AS_fnc_getFactionSide)) then {
 	_tipo = "SmokeShellBlue";
 };
 

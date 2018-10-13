@@ -35,11 +35,11 @@ private _fnc_spawn = {
 	private _groups = [];
 	private _vehicles = [];
 
-	private _grupoHeli = createGroup side_blue;
+	private _grupoHeli = createGroup ("NATO" call AS_fnc_getFactionSide);
 	_groups pushBack _grupoHeli;
 	_grupoHeli setGroupId ["UAV"];
 
-	private _helifn = [_position, 0, selectRandom (["NATO", "uavs_attack"] call AS_fnc_getEntity), side_blue] call bis_fnc_spawnvehicle;
+	private _helifn = [_position, 0, selectRandom (["NATO", "uavs_attack"] call AS_fnc_getEntity), ("NATO" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle;
 	private _heli = _helifn select 0;
 	_vehicles pushBack _heli;
 	createVehicleCrew _heli;

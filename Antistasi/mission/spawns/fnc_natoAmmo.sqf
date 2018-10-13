@@ -34,7 +34,7 @@ private _fnc_spawn = {
 	} forEach (["NATO", "helis_transport"] call AS_fnc_getEntity);
 	_heli = ([_heli, [], {_x select 1}, "DESC"] call BIS_fnc_sortBy) select 0 select 0;
 
-	private _helifn = [_orig, 0, _heli, side_blue] call bis_fnc_spawnvehicle;
+	private _helifn = [_orig, 0, _heli, ("NATO" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle;
 	private _heli = _helifn select 0;
 	private _grupoHeli = _helifn select 2;
 	_groups pushBack _grupoHeli;

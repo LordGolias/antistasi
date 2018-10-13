@@ -11,7 +11,7 @@ if (hasACE) then {
 	};
 };
 
-if ((side _killer == side_blue) || (captive _killer)) then {
+if ((side _killer == ("FIA" call AS_fnc_getFactionSide)) || (captive _killer)) then {
 	["kill"] remoteExec ["fnc_BE_XP", 2];
 	_group = group _killed;
 

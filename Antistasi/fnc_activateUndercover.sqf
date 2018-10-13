@@ -49,7 +49,7 @@ private _isMilitaryDressed = {
 private _fnc_detected = {
 	private _detected = false;
 	{
-		if ((side _x == side_red) and {(_x distance _player < 5) or {(_x knowsAbout _player > 1.4) and (_x distance _player < 500)}}) exitWith {
+		if ((side _x != ("FIA" call AS_fnc_getFactionSide)) and {(_x distance _player < 5) or {(_x knowsAbout _player > 1.4) and (_x distance _player < 500)}}) exitWith {
 			_detected = true;
 		};
 	} forEach allUnits;
@@ -133,8 +133,8 @@ while {_reason == ""} do {
 			};
 			if (hasACE and {_type != civHeli} and
 				{false or
-					{((position _player nearObjects ["DemoCharge_Remote_Ammo", 5]) select 0) mineDetectedBy side_red} or
-					{((position _player nearObjects ["SatchelCharge_Remote_Ammo", 5]) select 0) mineDetectedBy side_red}} and
+					{((position _player nearObjects ["DemoCharge_Remote_Ammo", 5]) select 0) mineDetectedBy ("AAF" call AS_fnc_getFactionSide)} or
+					{((position _player nearObjects ["SatchelCharge_Remote_Ammo", 5]) select 0) mineDetectedBy ("AAF" call AS_fnc_getFactionSide)}} and
 				_fnc_detected) exitWith {
 				"vehicleWithExplosives"
 			};

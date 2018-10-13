@@ -24,7 +24,7 @@ private _fnc_spawn = {
 	for "_i" from 1 to (1 + round random 2) do {
 		private _pos = [_origin, AS_P("spawnDistance") * 3, random 360] call BIS_Fnc_relPos;
 		private _type = selectRandom (["CSAT", "helis_transport"] call AS_fnc_getEntity);
-		private _vehicle = [_pos, 0, _type, side_red] call bis_fnc_spawnvehicle;
+		private _vehicle = [_pos, 0, _type, ("CSAT" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle;
 		private _heli = _vehicle select 0;
 		private _grupoheli = _vehicle select 2;
 		_groups pushBack _grupoheli;
@@ -32,7 +32,7 @@ private _fnc_spawn = {
 
 		{_x setBehaviour "CARELESS";} forEach units _grupoheli;
 		private _tipoGrupo = [["CSAT", "recon_squad"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup;
-		private _grupo = [_pos, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
+		private _grupo = [_pos, ("CSAT" call AS_fnc_getFactionSide), _tipoGrupo] call BIS_Fnc_spawnGroup;
 		{_x assignAsCargo _heli; _x moveInCargo _heli; _x call AS_fnc_initUnitCSAT} forEach units _grupo;
 		_groups pushBack _grupo;
 		[_heli,"CSAT Air Transport"] spawn AS_fnc_setConvoyImmune;

@@ -72,6 +72,7 @@ class AS {
         FNC_BASE(getSide);
         FNC_BASE(setSide);
         FNC_BASE(getFaction);
+        FNC_BASE(getFactionSide);
         FNC_BASE(getEntity);
         FNC_BASE(getAllUnits);
 

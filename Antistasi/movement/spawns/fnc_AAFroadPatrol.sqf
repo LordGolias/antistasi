@@ -23,7 +23,7 @@ private _fnc_spawn = {
 		};
 	};
 
-	private _vehicle = [_posbase, 0,_type, side_red] call bis_fnc_spawnvehicle;
+	private _vehicle = [_posbase, 0,_type, ("AAF" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle;
 	private _veh = _vehicle select 0;
 	[_veh, "AAF"] call AS_fnc_initVehicle;
 	[_veh,"Patrol"] spawn AS_fnc_setConvoyImmune;
@@ -33,7 +33,7 @@ private _fnc_spawn = {
 
 	if (_type isKindOf "Car") then {
 		private _groupType = [["AAF", "patrols"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
-		private _tempGroup = createGroup side_red;
+		private _tempGroup = createGroup ("AAF" call AS_fnc_getFactionSide);
 		[_groupType call AS_fnc_groupCfgToComposition, _tempGroup, _posbase, _veh call AS_fnc_availableSeats] call AS_fnc_createGroup;
 		{
 			_x assignAsCargo _veh;
@@ -96,7 +96,7 @@ private _fnc_run = {
 	while {(_veh distance _posdestino > _distancia) and _continue_condition} do {
 		sleep 20;
 		{
-			if (_x select 2 == side_blue) then {
+			if (_x select 2 == ("FIA" call AS_fnc_getFactionSide)) then {
 				private _arevelar = _x select 4;
 				private _nivel = (driver _veh) knowsAbout _arevelar;
 				if (_nivel > 1.4) then {

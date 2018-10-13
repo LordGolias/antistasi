@@ -23,7 +23,7 @@ private _fnc_spawn = {
 	_veh setDir _dirVeh;
 	_vehiculos pushBack _veh;
 
-	private _grupoE = createGroup side_red;  // temp group
+	private _grupoE = createGroup ("AAF" call AS_fnc_getFactionSide);  // temp group
 
 	private _unit = ([_posicion, 0, _gunner, _grupoE] call bis_fnc_spawnvehicle) select 0;
 	_unit moveInGunner _veh;
@@ -54,7 +54,7 @@ private _fnc_spawn = {
 	{[_x, "AAF"] call AS_fnc_initVehicle} forEach _vehiculos;
 
 	// create the patrol group
-	private _grupo = [_posicion, side_red, [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
+	private _grupo = [_posicion, ("AAF" call AS_fnc_getFactionSide), [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 	{[_x] join _grupo} forEach units _grupoE;
 	deleteGroup _grupoE;
 

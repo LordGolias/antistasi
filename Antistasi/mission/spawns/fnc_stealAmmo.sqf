@@ -70,7 +70,7 @@ private _fnc_spawn = {
 	// patrol groups
 	for "_i" from 1 to (2 + floor random 3) do {
 		private _tipoGrupo = [["AAF", "patrols"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
-		private _group = [_pos, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
+		private _group = [_pos, "AAF" call AS_fnc_getFactionSide, _tipogrupo] call BIS_Fnc_spawnGroup;
 		_groups append _group;
 		if (random 10 < 33) then {
 			private _perro = _group createUnit ["Fin_random_F",_pos,[],0,"FORM"];

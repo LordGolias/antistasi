@@ -29,7 +29,7 @@ if (_unpreparedVehicles) exitWith {
 private _enemiesNearby = false;
 {
 	private _enemy = _x;
-	if (side _enemy != side_blue and !(captive _enemy)) then {
+	if (side _enemy != ("FIA" call AS_fnc_getFactionSide) and !(captive _enemy)) then {
 		{
 			if (_enemy distance _x < 500) exitWith {
 				_enemiesNearby = true
@@ -67,7 +67,7 @@ if !(_location in _validLocations) exitWith {
 
 private _enemiesNearby = false;
 {
-	if ((side _x != side_blue) and
+	if ((side _x != ("FIA" call AS_fnc_getFactionSide)) and
 		(_x distance _positionTo < 500) and
 		(not(captive _x))) exitWith {_enemiesNearby = true};
 } forEach allUnits;

@@ -24,7 +24,7 @@ for "_i" from 1 to _count do {
     };
     _pos set [2,300];
 
-    ([_pos, 0, _helicopterType, side_red] call bis_fnc_spawnvehicle) params ["_heli", "_heliCrew", "_grupoheli"];
+    ([_pos, 0, _helicopterType, "CSAT" call AS_fnc_getFactionSide] call bis_fnc_spawnvehicle) params ["_heli", "_heliCrew", "_grupoheli"];
     {
         _x call AS_fnc_initUnitCSAT;
     } forEach _heliCrew;
@@ -51,7 +51,7 @@ for "_i" from 1 to _count do {
 
         // initialize group
 		private _groupType = [["CSAT", "squads"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup;
-		private _group = createGroup side_red;
+		private _group = createGroup ("CSAT" call AS_fnc_getFactionSide);
 		[_groupType call AS_fnc_groupCfgToComposition, _group, _pos, _heli call AS_fnc_availableSeats] call AS_fnc_createGroup;
 		{
 			_x assignAsCargo _heli;

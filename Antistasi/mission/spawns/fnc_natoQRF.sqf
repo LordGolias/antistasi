@@ -40,7 +40,7 @@ private _fnc_spawn = {
 
 	// first chopper
 	private _vehicleType = selectRandom (["NATO", "helis_attack"] call AS_fnc_getEntity);
-	private _vehicle = [_posOrig, 0, _vehicleType, side_blue] call bis_fnc_spawnvehicle;
+	private _vehicle = [_posOrig, 0, _vehicleType, ("NATO" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle;
 	private _heli1 = _vehicle select 0;
 	private _heliCrew1 = _vehicle select 1;
 	private _grpVeh1 = _vehicle select 2;
@@ -61,7 +61,7 @@ private _fnc_spawn = {
 
 	// spawn transport
 	private _tipoveh = selectRandom (["NATO", "helis_transport"] call AS_fnc_getEntity);
-	([_pos2, 0, _tipoveh, side_blue] call bis_fnc_spawnvehicle) params ["_heli2", "_heliCrew2", "_grpVeh2"];
+	([_pos2, 0, _tipoveh, ("NATO" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle) params ["_heli2", "_heliCrew2", "_grpVeh2"];
 	{
 		[_x] spawn AS_fnc_initUnitNATO;
 		_x disableAI "TARGET";
@@ -74,7 +74,7 @@ private _fnc_spawn = {
 
 	// initialize group
 	private _groupType = [["NATO", "recon_squad"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
-	private _grpDis2 = createGroup side_blue;
+	private _grpDis2 = createGroup ("NATO" call AS_fnc_getFactionSide);
 	[_groupType call AS_fnc_groupCfgToComposition, _grpDis2, _pos2, _heli2 call AS_fnc_availableSeats] call AS_fnc_createGroup;
 	{
 		_x assignAsCargo _heli2;

@@ -30,7 +30,7 @@ private _fnc_spawn = {
 
 	private _tipoGrupo = [["NATO", "teams"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
 
-	private _group = [_position, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
+	private _group = [_position, ("NATO" call AS_fnc_getFactionSide), _tipoGrupo] call BIS_Fnc_spawnGroup;
 	_group setGroupId ["Watch"];
 	AS_commander hcSetGroup [_group];
 	_group setVariable ["isHCgroup", true, true];

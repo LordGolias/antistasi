@@ -26,11 +26,11 @@ _EHkilledIdx = _unit addEventHandler ["killed", {
 		};
 		_multiplicador = 1;
 		if (typeOf _muerto == "C_journalist_F") then {_multiplicador = 10};
-		if (side _killer == side_blue) then {
+		if (side _killer == ("FIA" call AS_fnc_getFactionSide)) then {
 			[-1*_multiplicador,0] remoteExec ["AS_fnc_changeForeignSupport",2];
 			[1,0,getPos _muerto] remoteExec ["AS_fnc_changeCitySupport",2];
 		} else {
-			if (side _killer == side_red) then {
+			if (side _killer == ("AAF" call AS_fnc_getFactionSide)) then {
 				[1*_multiplicador,0] remoteExec ["AS_fnc_changeForeignSupport",2];
 				[0,1,getPos _muerto] remoteExec ["AS_fnc_changeCitySupport",2];
 			};

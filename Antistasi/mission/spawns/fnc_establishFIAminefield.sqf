@@ -38,7 +38,7 @@ private _fnc_spawn = {
 	private _truck = _vehType createVehicle _pos;
 	[_truck, "FIA"] call AS_fnc_initVehicle;
 
-	private _group = createGroup side_blue;
+	private _group = createGroup ("FIA" call AS_fnc_getFactionSide);
 	AS_commander hcSetGroup [_group];
 	_group setVariable ["isHCgroup", true, true];
 	_group setGroupId ["MineF"];

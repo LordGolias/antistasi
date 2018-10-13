@@ -47,7 +47,7 @@ private _fnc_spawn = {
 		// initialize helicopter
 		private _method = selectRandom ["fastrope", "disembark", "paradrop"];
 		private _tipoveh = selectRandom (["NATO", "helis_transport"] call AS_fnc_getEntity);
-		([_origPos, 0, _tipoveh, side_blue] call bis_fnc_spawnvehicle) params ["_heli", "_heliCrew", "_groupheli"];
+		([_origPos, 0, _tipoveh, ("NATO" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle) params ["_heli", "_heliCrew", "_groupheli"];
 		{
 			[_x] spawn AS_fnc_initUnitNATO;
 			_x disableAI "TARGET";
@@ -61,7 +61,7 @@ private _fnc_spawn = {
 
 		// initialize group
 		private _groupType = [["NATO", "squads"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
-		private _group = createGroup side_blue;
+		private _group = createGroup ("NATO" call AS_fnc_getFactionSide);
 		[_groupType call AS_fnc_groupCfgToComposition, _group, _origPos, _heli call AS_fnc_availableSeats] call AS_fnc_createGroup;
 		{
 			_x assignAsCargo _heli;

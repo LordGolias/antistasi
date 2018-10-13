@@ -33,7 +33,7 @@ _veh addEventHandler ["Killed", {[_this select 0] spawn AS_fnc_activateCleanup}]
 
 private _aaf_veh_EHkilled = {
 	params ["_veh", "_killer"];
-	if (side _killer == side_blue) then {
+	if (side _killer == ("FIA" call AS_fnc_getFactionSide)) then {
 		[typeOf _veh] call AS_AAFarsenal_fnc_deleteVehicle;
 		private _vehicle_category = (typeOf _veh) call AS_AAFarsenal_fnc_category;
 
@@ -90,7 +90,7 @@ if (_tipo in AS_allMortarStatics) then {
 		params ["_mortar"];
 		private _side = side gunner _mortar;
 
-		if (_side == side_blue) then {
+		if (_side == ("FIA" call AS_fnc_getFactionSide)) then {
 			if (random 8 < 1) then {
 				if (_mortar distance (getMarkerPos "FIA_HQ") < 200) then {
 					if (count ("aaf_attack_hq" call AS_mission_fnc_active_missions) == 0) then {

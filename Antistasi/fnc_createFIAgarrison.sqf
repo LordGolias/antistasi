@@ -14,7 +14,7 @@ private _garrison = _location call AS_location_fnc_garrison;
 private _grupoMort = grpNull;
 private _grupoEst = grpNull;
 
-private _grupo = createGroup side_blue;
+private _grupo = createGroup ("FIA" call AS_fnc_getFactionSide);
 _grupos = _grupos + [_grupo];
 {
 	if !(_location call AS_location_fnc_spawned) exitWith {};
@@ -25,14 +25,14 @@ _grupos = _grupos + [_grupo];
 			private _estatica = _estaticas select 0;
 			if (typeOf _estatica in AS_allStatics) then {
                 if (isNull _grupoMort) then {
-                    _grupoMort = createGroup side_blue;
+                    _grupoMort = createGroup ("FIA" call AS_fnc_getFactionSide);
                 };
 				_unit = [_x, _posicion, _grupoMort] call AS_fnc_spawnFIAUnit;
 				_unit moveInGunner _estatica;
 				[_estatica] execVM "scripts\UPSMON\MON_artillery_add.sqf";
 			} else {
                 if (isNull _grupoEst) then {
-                    _grupoEst = createGroup side_blue;
+                    _grupoEst = createGroup ("FIA" call AS_fnc_getFactionSide);
                 };
 				_unit = [_x, _posicion, _grupoEst] call AS_fnc_spawnFIAUnit;
 				_unit moveInGunner _estatica;
@@ -49,7 +49,7 @@ _grupos = _grupos + [_grupo];
 
 	// create a new group for every 8 units
 	if (count units _grupo == 8) then {
-		_grupo = createGroup side_blue;
+		_grupo = createGroup ("FIA" call AS_fnc_getFactionSide);
 		_grupos pushBack _grupo;
 	};
 } forEach _garrison;

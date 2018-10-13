@@ -42,7 +42,7 @@ while {true} do {
 
 private _grupo = grpNull;
 if _isInfantry then {
-	_grupo = createGroup side_blue;
+	_grupo = createGroup ("FIA" call AS_fnc_getFactionSide);
 	[_grouptype, [_pos, 30, random 360] call BIS_Fnc_relPos, _grupo] call AS_fnc_spawnFIAsquad;
 } else {
 	_grupo = [_grouptype, position _road] call (["FIA", "squads_custom_init"] call AS_fnc_getEntity);
@@ -58,7 +58,7 @@ if (_grouptype == "team_patrol") then {_groupID = "Stry-"};
 if (_grouptype == "mobile_mortar") then {_groupID = "Mort-"};
 if (_grouptype == "mobile_aa") then {_groupID = "M.AA-"};
 if (_grouptype == "mobile_at") then {_groupID = "M.AT-"};
-_grupo setGroupId [format ["%1%2",_groupID,{side (leader _x) == side_blue} count allGroups]];
+_grupo setGroupId [format ["%1%2",_groupID,{side (leader _x) == ("FIA" call AS_fnc_getFactionSide)} count allGroups]];
 
 {[_x] call AS_fnc_initUnitFIA} forEach units _grupo;
 leader _grupo setBehaviour "SAFE";

@@ -8,7 +8,7 @@ private _isCommander = (player == AS_commander);
 /*private _default_score = 0;
 if _isCommander then {_default_score = 25}; // so the commander does not lose the position immediately.*/
 
-private _group = createGroup side_blue; // the player starts as civ, so this changes player's side
+private _group = createGroup ("FIA" call AS_fnc_getFactionSide);
 
 private _old_player = player;
 private _position = position player;

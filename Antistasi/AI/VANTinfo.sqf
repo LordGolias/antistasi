@@ -13,7 +13,7 @@ while {alive _veh} do
 	if ((_lider in _enemigos) and (vehicle _lider != _lider)) then {_grupos pushBack _x};
 	} forEach allGroups;
 	{
-	if ((side _x == side_blue) and (alive _x) and (_x distance _posicion < 500)) then
+	if ((side _x == ("FIA" call AS_fnc_getFactionSide)) and (alive _x) and (_x distance _posicion < 500)) then
 		{
 		_conocidos pushBack _x;
 		};

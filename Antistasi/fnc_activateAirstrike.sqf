@@ -5,8 +5,8 @@ private ["_wp1","_wp2","_wp3","_tipoavion","_lado"];
 
 private _posicion = _location call AS_location_fnc_position;
 
-if (_tipoavion in (["CSAT", "planes"] call AS_fnc_getEntity)) then {_lado = side_red};
-if (_tipoAvion in (["NATO", "planes"] call AS_fnc_getEntity)) then {_lado = side_blue};
+if (_tipoavion in (["CSAT", "planes"] call AS_fnc_getEntity)) then {_lado = ("CSAT" call AS_fnc_getFactionSide)};
+if (_tipoAvion in (["NATO", "planes"] call AS_fnc_getEntity)) then {_lado = ("NATO" call AS_fnc_getFactionSide)};
 
 private _ang = random 360;
 private _angorig = _ang + 180;

@@ -3,8 +3,8 @@
 private _fnc_spawn = {
 	params ["_location"];
 
-	private _grupo = createGroup side_red;
-	private _grupoCSAT = createGroup side_red;
+	private _grupo = createGroup ("AAF" call AS_fnc_getFactionSide);
+	private _grupoCSAT = createGroup ("CSAT" call AS_fnc_getFactionSide);
 	private _gns = [];
 	private _stcs = [];
 	private _vehiculos = [];
@@ -68,7 +68,7 @@ private _fnc_spawn = {
 
 	// AAF teams
 	{
-		_grupo = [_posicion, side_red, _x] call BIS_Fnc_spawnGroup;
+		_grupo = [_posicion, ("AAF" call AS_fnc_getFactionSide), _x] call BIS_Fnc_spawnGroup;
 		_grupos pushBack _grupo;
 		{[_x, false] call AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 		[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] spawn UPSMON;

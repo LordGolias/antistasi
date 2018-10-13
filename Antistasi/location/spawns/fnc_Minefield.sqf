@@ -13,12 +13,7 @@ private _fnc_spawn = {
 		_mine setDir _dir;
 		_mines pushBack _mine;
 
-		if (_side == "FIA") then {
-			side_blue revealMine _mine;
-		};
-		if (_side == "AAF") then {
-			side_red revealMine _mine;
-		};
+		(_side call AS_fnc_getFactionSide) revealMine _mine;
 	} forEach _minesData;
 
 	[_location, "mines", _mines] call AS_spawn_fnc_set;

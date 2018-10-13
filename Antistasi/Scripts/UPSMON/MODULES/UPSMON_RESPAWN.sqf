@@ -17,9 +17,9 @@ private ["_grp","_grpidx","_track","_orgpos","_respawn","_respawnmax","_unittype
 _grp = _this select 0;
 _UCthis = _this select 1;
 //[_currpos,_behaviour,_speed,_formation,_members,_side]
-_puf = _grp getvariable ["UPSMON_Origin",[[0,0,0],"NORMAL","WEDGE",[objNull],side_red]];//modified to avoid .rpt error reports
+_puf = _grp getvariable ["UPSMON_Origin",[[0,0,0],"NORMAL","WEDGE",[objNull],("AAF" call AS_fnc_getFactionSide)]];//modified to avoid .rpt error reports
 _side = _puf select 5;
-if (isNil "_side") then {_side = side_red};//by Barbolani to avoid some unknown bugs
+if (isNil "_side") then {_side = ("AAF" call AS_fnc_getFactionSide)};//by Barbolani to avoid some unknown bugs
 _grpid = _grp getvariable ["UPSMON_Grpid",0];
 _removeunit = _grp getvariable ["UPSMON_Removegroup",false];
 

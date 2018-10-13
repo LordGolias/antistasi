@@ -49,7 +49,7 @@ private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy
 
 	if (_squadType == "mobile_aa") then {
 		private _pos = _position findEmptyPosition [1,30,"rhsgref_cdf_b_gaz66_zu23"];
-		private _vehicle = [_pos, 0, "rhsgref_cdf_b_gaz66_zu23", side_blue] call bis_fnc_spawnvehicle;
+		private _vehicle = [_pos, 0, "rhsgref_cdf_b_gaz66_zu23", ("FIA" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle;
 		private _veh = _vehicle select 0;
 		private _vehCrew = _vehicle select 1;
 		{deleteVehicle _x} forEach crew _veh;
@@ -63,7 +63,7 @@ private _dict = ([AS_entities, "FIA_WEST"] call DICT_fnc_get) call DICT_fnc_copy
 		_com moveInCommander _veh;
 	} else {
 		private _pos = _position findEmptyPosition [1,30,"B_G_Van_01_transport_F"];
-		private _vehicleData = [_pos, 0,"B_G_Van_01_transport_F", side_blue] call bis_fnc_spawnvehicle;
+		private _vehicleData = [_pos, 0,"B_G_Van_01_transport_F", ("FIA" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle;
 		private _camion = _vehicleData select 0;
 		_grupo = _vehicleData select 2;
 		_grupo setVariable ["staticAutoT",false,true];

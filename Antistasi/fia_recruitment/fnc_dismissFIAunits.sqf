@@ -10,7 +10,7 @@ private _groupToDelete = grpNull;
 // if only 1 player in the group.
 if ({isPlayer _x} count units group player == 1) then {
 	_ai = true;
-	_groupToDelete = createGroup side_blue;
+	_groupToDelete = createGroup ("FIA" call AS_fnc_getFactionSide);
 };
 
 {
@@ -22,7 +22,7 @@ if ({isPlayer _x} count units group player == 1) then {
 	}
 	else {
 		// send the player to a new group.
-		[_x] join (createGroup side_blue);
+		[_x] join (createGroup ("FIA" call AS_fnc_getFactionSide));
 	};
 } forEach _units;
 

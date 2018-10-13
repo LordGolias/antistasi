@@ -25,7 +25,7 @@ private _fnc_spawn = {
 	_vehiculos pushBack _veh;
 
 	// spawn AT road block
-	private _grupo = createGroup side_red;
+	private _grupo = createGroup ("AAF" call AS_fnc_getFactionSide);
 	_grupos pushBack _grupo;
 	if ((_location call AS_location_fnc_spawned) and _frontera) then {
 		([_posicion, _grupo] call AS_fnc_spawnAAF_roadAT) params ["_units1", "_vehicles1"];
@@ -47,7 +47,7 @@ private _fnc_spawn = {
 			private _ang = [_pos1, _pos2] call BIS_fnc_DirTo;
 
 			private _pos = [_pos1, 5,_ang] call BIS_fnc_relPos;
-			private _grupo = createGroup side_red;
+			private _grupo = createGroup ("AAF" call AS_fnc_getFactionSide);
 			_grupos pushBack _grupo;
 
 			private _count_vehicles = ["planes", "helis_armed", "helis_transport"] call AS_AAFarsenal_fnc_count;

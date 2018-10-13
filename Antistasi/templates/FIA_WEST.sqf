@@ -103,7 +103,7 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 	params ["_squadType", "_position"];
 	private _pos = _position findEmptyPosition [1,30,"B_G_Van_01_transport_F"];
 	private _truck = "B_G_Van_01_transport_F" createVehicle _pos;
-	private _group = createGroup side_blue;
+	private _group = createGroup ("FIA" call AS_fnc_getFactionSide);
 	private _driver = ["Crew", _position findEmptyPosition [1,30,"B_G_Van_01_transport_F"], _group] call AS_fnc_spawnFIAUnit;
 	private _operator = ["Crew", _position findEmptyPosition [1,30,"B_G_Van_01_transport_F"], _group] call AS_fnc_spawnFIAUnit;
 

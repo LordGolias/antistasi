@@ -8,7 +8,7 @@ if (count ("aaf_attack_hq" call AS_mission_fnc_active_missions) != 0) exitWith {
 };
 
 {
-	if ((side _x == side_red) and {[500,_x,"BLUFORSpawn", "boolean"] call AS_fnc_unitsAtDistance}) exitWith {_enemies_around = true};
+	if ((side _x != ("FIA" call AS_fnc_getFactionSide)) and {[500,_x,"BLUFORSpawn", "boolean"] call AS_fnc_unitsAtDistance}) exitWith {_enemies_around = true};
 } forEach allUnits;
 if (_enemies_around) exitWith {hint "You cannot rest with enemies near our units"};
 

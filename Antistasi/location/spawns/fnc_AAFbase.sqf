@@ -16,7 +16,7 @@ private _fnc_spawn = {
 
 	_vehiculos append (_location call AS_fnc_spawnComposition);
 
-	private _grupo = createGroup side_red;
+	private _grupo = createGroup ("AAF" call AS_fnc_getFactionSide);
 	_grupos pushBack _grupo;
 
 	([_location, "AAF", _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];

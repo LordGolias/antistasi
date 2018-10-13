@@ -67,7 +67,7 @@ private _origpos = [_pos1, 2500, _angorig] call BIS_fnc_relPos;
 private _finpos = [_pos2, 2500, _ang] call BIS_fnc_relPos;
 
 private _planeType = selectRandom (["NATO", "planes"] call AS_fnc_getEntity);
-private _planefn = [_origpos, _ang, _planeType, side_blue] call bis_fnc_spawnvehicle;
+private _planefn = [_origpos, _ang, _planeType, ("NATO" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle;
 private _plane = _planefn select 0;
 _plane setPosATL [getPosATL _plane select 0, getPosATL _plane select 1, 1000];
 _plane disableAI "TARGET";

@@ -54,7 +54,7 @@ private _fnc_spawn = {
 	[_veh, "AAF"] call AS_fnc_initVehicle;
 
 	// repair soldiers
-	private _group = createGroup side_red;
+	private _group = createGroup ("AAF" call AS_fnc_getFactionSide);
 	for "_i" from 1 to 3 do {
 		private _unit = ([_pos, 0, ["AAF", "crew"] call AS_fnc_getEntity, _group] call bis_fnc_spawnvehicle) select 0;
 		[_unit] call AS_fnc_initUnitAAF;

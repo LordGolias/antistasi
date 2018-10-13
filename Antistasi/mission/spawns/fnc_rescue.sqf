@@ -47,7 +47,7 @@ private _fnc_spawn = {
 		_unit setUnitPos "UP";
 	};
 
-	private _grpPOW = createGroup side_blue;
+	private _grpPOW = createGroup ("FIA" call AS_fnc_getFactionSide);
 	if (_missionType == "rescue_prisioners") then {
 		private _prisioners = 5 + round random 10;
 

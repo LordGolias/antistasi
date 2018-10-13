@@ -54,7 +54,7 @@ private _fnc_spawn = {
 	_heli lock 2;
 	_vehicles append [_heli, _crater, _smoke];
 
-	private _grpcrash = createGroup side_red;
+	private _grpcrash = createGroup ("AAF" call AS_fnc_getFactionSide);
 	_groups pushBack _grpcrash;
 
 	private _unit = ([_crashPosition, 0, ["AAF", "pilot"] call AS_fnc_getEntity, _grpcrash] call bis_fnc_spawnvehicle) select 0;
@@ -70,7 +70,7 @@ private _fnc_spawn = {
 	private _road = _roads select 0;
 
 	private _recoveryVehicleype = selectRandom ("apcs" call AS_AAFarsenal_fnc_valid);
-	private _vehicle = [position _road, 0,_recoveryVehicleype, side_red] call bis_fnc_spawnvehicle;
+	private _vehicle = [position _road, 0,_recoveryVehicleype, ("AAF" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle;
 	private _veh = _vehicle select 0;
 	[_veh, "AAF"] call AS_fnc_initVehicle;
 	[_veh,"AAF Escort"] spawn AS_fnc_setConvoyImmune;
@@ -83,7 +83,7 @@ private _fnc_spawn = {
 
 	// spawn patrol going there
 	private _tipoGrupo = [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
-	private _grupo = [_position, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
+	private _grupo = [_position, ("AAF" call AS_fnc_getFactionSide), _tipogrupo] call BIS_Fnc_spawnGroup;
 
 	{
 		_x assignAsCargo _veh;
@@ -102,7 +102,7 @@ private _fnc_spawn = {
 	_Vwp0 synchronizeWaypoint [_Gwp0];
 
 	// spawn repair truck going there
-	private _vehicleT = [position _road, 0, ["AAF", "truck_repair"] call AS_fnc_getEntity, side_red] call bis_fnc_spawnvehicle;
+	private _vehicleT = [position _road, 0, ["AAF", "truck_repair"] call AS_fnc_getEntity, ("AAF" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle;
 	private _recoveryVehicle = _vehicleT select 0;
 	[_recoveryVehicle, "AAF"] call AS_fnc_initVehicle;
 	[_recoveryVehicle,"AAF Recover Truck"] spawn AS_fnc_setConvoyImmune;

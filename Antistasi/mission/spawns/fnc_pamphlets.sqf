@@ -73,7 +73,7 @@ private _fnc_spawn = {
 
 	for "_i" from 0 to 1 do {
 		private _tipoGrupo = [["AAF", "patrols"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
-		private _grupo = [_position, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
+		private _grupo = [_position, "AAF" call AS_fnc_getFactionSide, _tipogrupo] call BIS_Fnc_spawnGroup;
 		private _perro = _grupo createUnit ["Fin_random_F",_position,[],0,"FORM"];
 		[_perro] spawn AS_AI_fnc_initDog;
 		[leader _grupo, _location, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] spawn UPSMON;
@@ -154,7 +154,7 @@ private _fnc_deliver = {
 	private _fnc_loadCratesCondition = {
 		(_truck distance _currentDrop < 20) and {speed _truck < 1} and
 		{{alive _x and not (_x call AS_medical_fnc_isUnconscious)} count ([80, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) > 0} and
-		{{(side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
+		{{(side _x != ("FIA" call AS_fnc_getFactionSide)) and {_x distance _truck < 80}} count allUnits == 0}
 	};
 	private _str_unloadStopped = "Stop the truck closeby, have someone close to the truck and no enemies around";
 	[_truck, 60, _fnc_loadCratesCondition, _fnc_missionFailedCondition, _str_unloadStopped] call AS_fnc_wait_or_fail;

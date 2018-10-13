@@ -48,12 +48,12 @@ private _fnc_spawn = {
 		};
 	};
 
-	private _grupoHeli = createGroup side_blue;
+	private _grupoHeli = createGroup ("NATO" call AS_fnc_getFactionSide);
 	_grupoHeli setGroupId ["CAS"];
 	_groups pushBack _grupoHeli;
 
 	for "_i" from 1 to 3 do {
-		private _helifn = [_position, 0, _tipoVeh, side_blue] call bis_fnc_spawnvehicle;
+		private _helifn = [_position, 0, _tipoVeh, ("NATO" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle;
 		private _heli = _helifn select 0;
 		_vehicles pushBack _heli;
 		private _heliCrew = _helifn select 1;

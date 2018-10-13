@@ -27,7 +27,7 @@ private _fnc_spawn = {
 
 	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
-	private _group = createGroup side_blue;
+	private _group = createGroup ("NATO" call AS_fnc_getFactionSide);
 	private _vehicles = [];
 
 	private _wp0 = _group addWaypoint [_destinationPos, 0];

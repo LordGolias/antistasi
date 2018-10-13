@@ -48,7 +48,7 @@ private _fnc_spawn = {
 	private _posSol1 = _poscasa select (_rnd + 1);
 	private _posSol2 = (_casa buildingExit 0);
 
-	private _grptraidor = createGroup side_red;
+	private _grptraidor = createGroup ("CSAT" call AS_fnc_getFactionSide);
 
 	private _target = ([_postraidor, 0, ["CSAT", "traitor"] call AS_fnc_getEntity, _grptraidor] call bis_fnc_spawnvehicle) select 0;
 	_target allowDamage false;
@@ -90,7 +90,7 @@ private _fnc_spawn = {
 	_mrk setMarkerAlphaLocal 0;
 
 	private _tipoGrupo = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
-	private _grupo = [_position, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
+	private _grupo = [_position, "AAF" call AS_fnc_getFactionSide, _tipogrupo] call BIS_Fnc_spawnGroup;
 	if (random 10 < 2.5) then {
 		private _perro = _grupo createUnit ["Fin_random_F",_position,[],0,"FORM"];
 		[_perro] spawn AS_AI_fnc_initDog;

@@ -116,7 +116,7 @@ private _fnc_spawn = {
 	_crate4 addItemCargoGlobal ["Medikit", 10];
 
 	private _tipoGrupo = [["AAF", "patrols"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
-	private _grupo = [_crashPosition, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
+	private _grupo = [_crashPosition, ("AAF" call AS_fnc_getFactionSide), _tipogrupo] call BIS_Fnc_spawnGroup;
 	_grupos pushBack _grupo;
 
 	{[_x] call AS_fnc_initUnitAAF} forEach units _grupo;
@@ -129,7 +129,7 @@ private _fnc_spawn = {
 		_tam = _tam + 50;
 	};
 
-	private _vehicle = [position _road, 0, selectRandom ("trucks" call AS_AAFarsenal_fnc_valid), side_red] call bis_fnc_spawnvehicle;
+	private _vehicle = [position _road, 0, selectRandom ("trucks" call AS_AAFarsenal_fnc_valid), "AAF" call AS_fnc_getFactionSide] call bis_fnc_spawnvehicle;
 	private _veh = _vehicle select 0;
 	[_veh, "AAF"] call AS_fnc_initVehicle;
 	[_veh,"AAF Escort"] spawn AS_fnc_setConvoyImmune;
@@ -141,7 +141,7 @@ private _fnc_spawn = {
 	sleep 1;
 
 	_tipoGrupo = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
-	_grupo = [_basePosition, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
+	_grupo = [_basePosition, "AAF" call AS_fnc_getFactionSide, _tipogrupo] call BIS_Fnc_spawnGroup;
 
 	{_x assignAsCargo _veh; _x moveInCargo _veh; [_x] call AS_fnc_initUnitAAF} forEach units _grupo;
 	_grupos pushBack _grupo;
@@ -169,7 +169,7 @@ private _fnc_wait_to_arrive = {
 	private _fnc_missionFailedCondition = {(dateToNumber date > _max_date) or (not alive _truck)};
 	// wait for any activity around the truck
 	waitUntil {sleep 1;
-		({(side _x == side_blue) and (_x distance _truck < 50)} count allUnits > 0) or _fnc_missionFailedCondition
+		({(side _x == ("FIA" call AS_fnc_getFactionSide)) and (_x distance _truck < 50)} count allUnits > 0) or _fnc_missionFailedCondition
 	};
 
 	if (call _fnc_missionFailedCondition) then {
@@ -211,7 +211,7 @@ private _fnc_wait_to_unload = {
 		// The condition to allow loading the crates into the truck
 		(_truck distance _crashPosition < 20) and {speed _truck < 1} and
 		{{alive _x and not (_x call AS_medical_fnc_isUnconscious)} count ([80, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) > 0} and
-		{{(side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
+		{{(side _x == ("AAF" call AS_fnc_getFactionSide)) and {_x distance _truck < 80}} count allUnits == 0}
 	};
 
 	private _str_unloadStopped = "Stop the truck closeby, have someone close to the truck and no enemies around";

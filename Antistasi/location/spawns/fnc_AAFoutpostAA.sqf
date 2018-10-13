@@ -14,7 +14,7 @@ private _fnc_spawn = {
 	private _size = _location call AS_location_fnc_size;
 	private _frontera = _location call AS_fnc_location_isFrontline;
 
-	private _grupo = createGroup side_red;
+	private _grupo = createGroup ("AAF" call AS_fnc_getFactionSide);
 	_grupos pushBack _grupo;
 
 	([_location, "AAF", _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
@@ -62,7 +62,7 @@ private _fnc_spawn = {
 	_vehiculos append _vehicles1;
 
 	// Create an AA team
-	_grupo = [_posicion, side_red, [["AAF", "teamsAA"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
+	_grupo = [_posicion, ("AAF" call AS_fnc_getFactionSide), [["AAF", "teamsAA"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 	_grupos pushBack _grupo;
 	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x;} forEach units _grupo;
 	[leader _grupo, _location, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] spawn UPSMON;
@@ -73,7 +73,7 @@ private _fnc_spawn = {
 	if !(_location in _pLarge) then {
 		_groupsCount = (round _groupsCount/2) max 1;
 
-		_grupo = [_posicion, side_red, [["AAF", "teamsAA"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
+		_grupo = [_posicion, ("AAF" call AS_fnc_getFactionSide), [["AAF", "teamsAA"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 		_grupos pushBack _grupo;
 		{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x;} forEach units _grupo;
 		[leader _grupo, _location, "SAFE","SPAWNED","RANDOM","NOVEH2","NOFOLLOW"] spawn UPSMON;
@@ -81,7 +81,7 @@ private _fnc_spawn = {
 
 	for "_i" from 1 to _groupsCount do {
 		if !(_location call AS_location_fnc_spawned) exitWith {};
-		_grupo = [_posicion, side_red, [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
+		_grupo = [_posicion, ("AAF" call AS_fnc_getFactionSide), [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 		private _stance = "RANDOM";
 		if (_i == 1) then {_stance = "RANDOMUP"};
 		[leader _grupo, _location, "SAFE","SPAWNED",_stance,"NOVEH2","NOFOLLOW"] spawn UPSMON;

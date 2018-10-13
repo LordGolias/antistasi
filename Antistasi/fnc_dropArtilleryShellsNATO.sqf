@@ -2,7 +2,7 @@ params ["_location"];
 
 private _pos = _location call AS_location_fnc_position;
 private _cuenta = 0;
-while {({(_x distance _pos < 300) and (side _x == side_blue)} count allUnits == 0) and (_cuenta < 50)} do {
+while {({(_x distance _pos < 300) and (side _x == ("NATO" call AS_fnc_getFactionSide))} count allUnits == 0) and (_cuenta < 50)} do {
 	_cuenta = _cuenta + 1;
 	sleep (5 + random 5);
 

@@ -53,7 +53,7 @@ while {true} do {
 	// check if there is any enemy in the surroundings.
 	if (_validLocation and not _isNewGame) then {
 		{
-            if ((side _x == side_red) and {_x distance _position < _minDistanceToEnemy}) exitWith {
+            if ((side _x != ("FIA" call AS_fnc_getFactionSide)) and {_x distance _position < _minDistanceToEnemy}) exitWith {
 				_validLocation = false;
 				hint "There are enemies in the surroundings. Select another place.";
 			};

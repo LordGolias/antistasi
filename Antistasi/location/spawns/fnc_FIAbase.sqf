@@ -14,7 +14,7 @@ private _fnc_spawn = {
 	private _size = _location call AS_location_fnc_size;
 	private _prestigio = AS_P("NATOsupport")/100;
 
-	private _grupo = createGroup side_blue;
+	private _grupo = createGroup ("NATO" call AS_fnc_getFactionSide);
 	_grupos pushBack _grupo;
 
 	([_location, "NATO", _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
@@ -68,7 +68,7 @@ private _fnc_spawn = {
 	};
 
 	private _tipoGrupo = [["NATO", "squads"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
-	private _grupo = [_posicion, side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
+	private _grupo = [_posicion, ("NATO" call AS_fnc_getFactionSide), _tipoGrupo] call BIS_Fnc_spawnGroup;
 	[leader _grupo, _location, "SAFE", "RANDOMUP","SPAWNED", "NOVEH2", "NOFOLLOW"] spawn UPSMON;
 	_grupos pushBack _grupo;
 	{[_x] spawn AS_fnc_initUnitNATO; _soldados pushBack _x} forEach units _grupo;
@@ -80,7 +80,7 @@ private _fnc_spawn = {
 			if (!surfaceIsWater _pos) exitWith {};
 		};
 		_tipoGrupo = [["NATO", "squads"] call AS_fnc_getEntity, "NATO"] call AS_fnc_pickGroup;
-		_grupo = [_pos,side_blue, _tipoGrupo] call BIS_Fnc_spawnGroup;
+		_grupo = [_pos, ("NATO" call AS_fnc_getFactionSide), _tipoGrupo] call BIS_Fnc_spawnGroup;
 		sleep 1;
 		if (_i == 0) then {
 			[leader _grupo, _location, "SAFE","SPAWNED","FORTIFY","NOVEH","NOFOLLOW"] spawn UPSMON;

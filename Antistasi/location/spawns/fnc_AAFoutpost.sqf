@@ -13,7 +13,7 @@ private _fnc_spawn = {
 	private _size = _location call AS_location_fnc_size;
 	private _frontera = _location call AS_fnc_location_isFrontline;
 
-	private _grupo = createGroup side_red;
+	private _grupo = createGroup ("AAF" call AS_fnc_getFactionSide);
 	_grupos pushBack _grupo;
 
 	([_location, "AAF", _grupo] call AS_fnc_populateMilBuildings) params ["_gunners", "_vehicles"];
@@ -33,7 +33,7 @@ private _fnc_spawn = {
 	if (_location call AS_location_fnc_type == "seaport") then {
 		private _pos = [_posicion,_size,_size*3,10,2,0,0] call BIS_Fnc_findSafePos;
 		private _vehicleType = selectRandom (["AAF", "boats"] call AS_fnc_getEntity);
-		([_pos, 0,_vehicleType, side_red] call bis_fnc_spawnvehicle) params ["_veh", "_vehCrew", "_grupoVeh"];
+		([_pos, 0,_vehicleType, ("AAF" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle) params ["_veh", "_vehCrew", "_grupoVeh"];
 		[_veh, "AAF"] call AS_fnc_initVehicle;
 		{[_x, false] spawn AS_fnc_initUnitAAF} forEach _vehCrew;
 		_soldados append _vehCrew;

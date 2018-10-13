@@ -63,7 +63,7 @@ private _fnc_spawn = {
 	_markers pushBack _mrk;
 
 	private _tipoGrupo = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
-	private _group = [_bankPosition, side_red, _tipogrupo] call BIS_Fnc_spawnGroup;
+	private _group = [_bankPosition, "AAF" call AS_fnc_getFactionSide, _tipogrupo] call BIS_Fnc_spawnGroup;
 	sleep 1;
 	[leader _group, _mrk, "SAFE","SPAWNED", "NOVEH2", "FORTIFY"] spawn UPSMON;
 	{[_x, false] spawn AS_fnc_initUnitAAF} forEach units _group;
@@ -118,7 +118,7 @@ private _fnc_wait_to_load = {
 		// The condition to allow loading the crates into the truck
 		(_truck distance _bankPosition < 7) and {speed _truck < 1} and
 		{{alive _x and not (_x call AS_medical_fnc_isUnconscious)} count ([80, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) > 0} and
-		{{(side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
+		{{(side _x != ("FIA" call AS_fnc_getFactionSide)) and {_x distance _truck < 80}} count allUnits == 0}
 	};
 
 	private _str_unloadStopped = "Stop the truck closeby, have someone close to the truck and no enemies around";

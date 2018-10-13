@@ -43,7 +43,7 @@ private _fnc_spawn = {
 
 	call {
 		if (_missionType == "kill_officer") exitWith {
-			private _group = createGroup side_red;
+			private _group = createGroup ("CSAT" call AS_fnc_getFactionSide);
 
 			_target = ([_position, 0, ["CSAT", "officer"] call AS_fnc_getEntity, _group] call bis_fnc_spawnvehicle) select 0;
 	        ([_position, 0, ["CSAT", "pilot"] call AS_fnc_getEntity, _group] call bis_fnc_spawnvehicle) select 0;
@@ -64,7 +64,7 @@ private _fnc_spawn = {
 			_mrkfin setMarkerBrushLocal "DiagGrid";
 			_mrkfin setMarkerAlphaLocal 0;
 
-			private _group = [_position, side_red, [["CSAT", "recon_team"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
+			private _group = [_position, ("CSAT" call AS_fnc_getFactionSide), [["CSAT", "recon_team"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 			[leader _group, _mrkfin, "RANDOM", "SPAWNED", "NOVEH2", "NOFOLLOW"] spawn UPSMON;
 			{_x call AS_fnc_initUnitCSAT; _x allowFleeing 0} forEach units _group;
 

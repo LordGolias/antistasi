@@ -23,17 +23,6 @@ params ["_dict"];
         if (_x == "BE_module") exitWith {
             [_value] call fnc_BE_load;
         };
-        if (_x == "player_side") then {
-            if (_value == "west") then {
-                side_blue = west;
-                side_red = east;
-            } else {
-                side_blue = east;
-                side_red = west;
-            };
-            publicVariable "side_blue";
-            publicVariable "side_red";
-        };
         AS_Pset(_x, _value);
     };
 } forEach AS_database_persistents;

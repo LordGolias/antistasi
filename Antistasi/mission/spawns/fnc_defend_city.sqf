@@ -36,7 +36,7 @@ private _fnc_spawn = {
 		};
 		if (count _pos == 0) then {_pos = ORIGIN};
 
-		private _vehicle = [_pos, 0, _tipoveh, side_red] call bis_fnc_spawnvehicle;
+		private _vehicle = [_pos, 0, _tipoveh, ("CSAT" call AS_fnc_getFactionSide)] call bis_fnc_spawnvehicle;
 		private _heli = _vehicle select 0;
 		private _heliCrew = _vehicle select 1;
 		private _grupoheli = _vehicle select 2;
@@ -52,7 +52,7 @@ private _fnc_spawn = {
 		} else {
 			{_x setBehaviour "CARELESS";} forEach units _grupoheli;
 			private _tipoGrupo = [["CSAT", "squads"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup;
-			private _grupo = [ORIGIN, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
+			private _grupo = [ORIGIN, ("CSAT" call AS_fnc_getFactionSide), _tipoGrupo] call BIS_Fnc_spawnGroup;
 			{_x assignAsCargo _heli; _x moveInCargo _heli; _x call AS_fnc_initUnitCSAT} forEach units _grupo;
 			_grupos pushBack _grupo;
 			[_heli,"CSAT Air Transport"] spawn AS_fnc_setConvoyImmune;
@@ -69,7 +69,7 @@ private _fnc_spawn = {
 	private _numCiv = round ((_population * AS_P("civPerc"))/2);
 	if (_numCiv < 8) then {_numCiv = 8};
 
-	private _grupoCivil = createGroup side_blue;
+	private _grupoCivil = createGroup ("FIA" call AS_fnc_getFactionSide);
 	_grupos pushBack _grupoCivil;
 
 	for "_i" from 0 to _numCiv do {

@@ -114,7 +114,7 @@ private _fnc_wait_to_end = {
 		_mission remoteExec ["AS_mission_fnc_fail", 2];
 	};
 	private _fnc_missionSuccessfulCondition = {
-		{((side _x isEqualTo side_blue) or (side _x isEqualTo civilian)) and
+		{((side _x isEqualTo ("FIA" call AS_fnc_getFactionSide)) or (side _x isEqualTo civilian)) and
 		  (_x distance _dealer < 10)} count allPlayers > 0
 	};
 	private _fnc_missionSuccessful = {

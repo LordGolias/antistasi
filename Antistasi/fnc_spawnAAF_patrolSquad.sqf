@@ -13,7 +13,7 @@ for "_i" from 1 to _amount do {
         _pos = [_position, random _size,random 360] call BIS_fnc_relPos;
         if (!surfaceIsWater _pos) exitWith {};
     };
-    private _group = [_pos, side_red, [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
+    private _group = [_pos, "AAF" call AS_fnc_getFactionSide, [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 
     private _stance = "RANDOM";
     if (_i == 1) then {_stance = "RANDOMUP"};

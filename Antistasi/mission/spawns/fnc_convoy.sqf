@@ -94,7 +94,7 @@ private _fnc_spawn = {
 
 	[_origin,30] call AS_location_fnc_increaseBusy;
 
-	private _group = createGroup side_red;
+	private _group = createGroup ("AAF" call AS_fnc_getFactionSide);
 	_groups pushBack _group;
 
 	([_posbase, _position] call AS_fnc_findSpawnSpots) params ["_posRoad", "_dir"];
@@ -111,7 +111,7 @@ private _fnc_spawn = {
 			] call BIS_fnc_selectRandomWeighted;
 		private _escortVehicleType = selectRandom (_category call AS_AAFarsenal_fnc_valid);
 
-		([_posRoad, _dir, _escortVehicleType, side_red] call BIS_fnc_spawnVehicle) params ["_vehicle", "_crew", "_vehicleGroup"];
+		([_posRoad, _dir, _escortVehicleType, ("AAF" call AS_fnc_getFactionSide)] call BIS_fnc_spawnVehicle) params ["_vehicle", "_crew", "_vehicleGroup"];
 		{_x call AS_fnc_initUnitAAF} forEach units _vehicleGroup;
 		[_vehicle, "AAF"] call AS_fnc_initVehicle;
 		_groups pushBack _vehicleGroup;
@@ -126,7 +126,7 @@ private _fnc_spawn = {
 			_tipoGrupo = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 		};
 
-		private _grupoEsc = [_posbase, side_red, _tipoGrupo] call BIS_Fnc_spawnGroup;
+		private _grupoEsc = [_posbase, ("AAF" call AS_fnc_getFactionSide), _tipoGrupo] call BIS_Fnc_spawnGroup;
 		{
 			[_x] call AS_fnc_initUnitAAF;
 			_x assignAsCargo _vehicle;
@@ -162,7 +162,7 @@ private _fnc_spawn = {
 		_mainVehicle lock 3;
 	};
 	if (_missionType == "convoy_prisoners") then {
-		_grpPOW = createGroup side_blue;
+		_grpPOW = createGroup ("FIA" call AS_fnc_getFactionSide);
 		_POWs = [];
 		_groups pushBack _grpPOW;
 		for "_i" from 1 to (1+ round (random 11)) do {

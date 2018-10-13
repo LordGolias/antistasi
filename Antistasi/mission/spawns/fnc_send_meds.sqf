@@ -71,7 +71,7 @@ private _fnc_run = {
 		// The condition to allow loading the crates into the truck
 		(_truck distance _position < 20) and {speed _truck < 1} and
 		{{alive _x and not (_x call AS_medical_fnc_isUnconscious)} count ([80, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) > 0} and
-		{{(side _x == side_red) and {_x distance _truck < 80}} count allUnits == 0}
+		{{(side _x != ("FIA" call AS_fnc_getFactionSide)) and {_x distance _truck < 80}} count allUnits == 0}
 	};
 
 	private _str_unloadStopped = "Stop the truck closeby, have someone close to the truck and no enemies around";
@@ -86,7 +86,7 @@ private _fnc_run = {
 
 	{
 		// make all enemies around notice the truck
-		if ((side _x == side_red) and {_x distance _position < AS_P("spawnDistance")}) then {
+		if ((side _x != ("FIA" call AS_fnc_getFactionSide)) and {_x distance _position < AS_P("spawnDistance")}) then {
 			if (_x distance _position < 300) then {
 				_x doMove position _truck;
 			} else {

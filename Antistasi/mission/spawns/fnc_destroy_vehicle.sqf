@@ -67,7 +67,7 @@ private _fnc_spawn = {
 	_veh setDir random 360;
 	[_veh, "AAF"] call AS_fnc_initVehicle;
 
-	private _group = createGroup side_red;
+	private _group = createGroup ("AAF" call AS_fnc_getFactionSide);
 	for "_i" from 1 to 3 do {
 		private _unit = ([_pos, 0, ["AAF", "crew"] call AS_fnc_getEntity, _group] call bis_fnc_spawnvehicle) select 0;
 		[_unit] spawn AS_fnc_initUnitAAF;

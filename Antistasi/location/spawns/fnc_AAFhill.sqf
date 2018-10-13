@@ -32,7 +32,7 @@ private _fnc_spawn = {
 	private _mortarType = ["AAF", "gunner"] call AS_fnc_getEntity;
 	private _veh = _mortarType createVehicle ([_posicion] call AS_fnc_findMortarCreatePosition);
 	[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
-	private _grupo = createGroup side_red;
+	private _grupo = createGroup ("AAF" call AS_fnc_getFactionSide);
 	private _unit = ([_posicion, 0, ["AAF", "gunner"] call AS_fnc_getEntity, _grupo] call bis_fnc_spawnvehicle) select 0;
 	[_unit, false] spawn AS_fnc_initUnitAAF;
 	_unit moveInGunner _veh;
@@ -42,7 +42,7 @@ private _fnc_spawn = {
 	sleep 1;
 
 	// create the team
-	private _grupo = [_posicion, side_red, [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
+	private _grupo = [_posicion, ("AAF" call AS_fnc_getFactionSide), [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 	[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] spawn UPSMON;
 	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 	_grupos pushBack _grupo;

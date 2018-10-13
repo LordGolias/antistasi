@@ -24,7 +24,7 @@ if !(_composition in _posComp) exitWith {};
 private _type = "air";
 private _method = "fastrope";
 private _faction = "CSAT";
-private _side = side_red;
+private _side = "CSAT" call AS_fnc_getFactionSide;
 private _attackVehicle = selectRandom (["CSAT", "helis_armed"] call AS_fnc_getEntity);
 private _transportVehicle = selectRandom (["CSAT", "helis_transport"] call AS_fnc_getEntity);
 private _dismountGroup = [["CSAT", "recon_team"] call AS_fnc_getEntity, "CSAT"] call AS_fnc_pickGroup;

@@ -48,7 +48,7 @@ private _fnc_spawn = {
 	private _task = ([_mission, "CREATED"] call AS_mission_spawn_fnc_loadTask) call BIS_fnc_setTask;
 
 	private _vehicles = [];
-	private _group = createGroup side_blue;
+	private _group = createGroup ("FIA" call AS_fnc_getFactionSide);
 	[_groupType, getMarkerPos "FIA_HQ", _group] call AS_fnc_spawnFIAsquad;
 	AS_commander hcSetGroup [_group];
 	_group setVariable ["isHCgroup", true, true];

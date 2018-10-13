@@ -14,7 +14,7 @@ while {count _pos == 0} do {
 };
 
 // spawn and init vehicle and crew
-([_pos, random 360, _vehicleType, side_red] call bis_fnc_spawnvehicle) params ["_vehicle", "_vehCrew", "_vehicleGroup"];
+([_pos, random 360, _vehicleType, "AAF" call AS_fnc_getFactionSide] call bis_fnc_spawnvehicle) params ["_vehicle", "_vehCrew", "_vehicleGroup"];
 _groups pushBack _vehicleGroup;
 _vehicles pushBack _vehicle;
 {[_x] call AS_fnc_initUnitAAF} forEach units _vehicleGroup;
@@ -25,7 +25,7 @@ if (_toUse in ["planes", "helis_armed"]) then {
 	[_origin, _destination, _vehicleGroup] call AS_tactics_fnc_heli_attack;
 } else {
 	private _groupType = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
-	private _group = createGroup side_red;
+	private _group = createGroup ("AAF" call AS_fnc_getFactionSide);
 	[_groupType call AS_fnc_groupCfgToComposition, _group, _pos, _vehicle call AS_fnc_availableSeats] call AS_fnc_createGroup;
 	{
 		[_x] call AS_fnc_initUnitAAF;
