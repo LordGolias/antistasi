@@ -72,7 +72,7 @@ private _fnc_run = {
 		private _support = [_mission, "NATOsupport"] call AS_mission_fnc_get;
 		private _chute = createVehicle ["B_Parachute_02_F", [0, 0, 0], [], 0, 'NONE'];
 	    _chute setPos [getPosASL _heli select 0, getPosASL _heli select 1, (getPosASL _heli select 2) - 50];
-	    private _crate = createVehicle ["B_supplyCrate_F", [0, 0, 0], [], 0, 'NONE'];
+	    private _crate = createVehicle [["NATO", "box"] call AS_fnc_getEntity, [0, 0, 0], [], 0, 'NONE'];
 	    _crate attachTo [_chute, [0, 0, -1.3]];
 	    [_crate, _support] call AS_fnc_fillCrateNATO;
 	    _vehicles append [_chute, _crate];
