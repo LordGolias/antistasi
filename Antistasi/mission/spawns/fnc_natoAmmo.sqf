@@ -80,6 +80,7 @@ private _fnc_run = {
 		_wp3 setWaypointType "MOVE";
 		_wp3 setWaypointSpeed "FULL";
 	    waitUntil {position _crate select 2 < 1 || isNull _chute};
+		_crate setPos [position _crate select 0, position _crate select 1, 0];
 		private _humo = "SmokeShellBlue" createVehicle position _crate;
 		_vehicles pushBack _humo;
 
