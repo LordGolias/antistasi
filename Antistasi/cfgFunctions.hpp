@@ -84,7 +84,6 @@ class AS {
         FNC_BASE(spawnComposition);
         FNC_BASE(findSpawnSpots);
         FNC_BASE(roadAndDir);
-        FNC_BASE(selectHillAAdata);
         FNC_BASE(spawnAAF_patrol);
         FNC_BASE(spawnAAF_patrolSquad);
         FNC_BASE(spawnAAF_roadAT);

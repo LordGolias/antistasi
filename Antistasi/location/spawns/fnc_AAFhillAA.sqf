@@ -13,8 +13,7 @@ private _fnc_spawn = {
 
 	private _posicion = _location call AS_location_fnc_position;
 
-	([_location] call AS_fnc_selectHillAAdata) params ["_posCmp", "_cmp"];
-	private _objs = [_posCmp, 0, _cmp] call BIS_fnc_ObjectsMapper;
+	private _objects = _location call AS_fnc_spawnComposition;
 
 	private _AAVeh = objNull;
 	{
@@ -26,8 +25,8 @@ private _fnc_spawn = {
 			if (typeOf _x == (["CSAT", "box"] call AS_fnc_getEntity)) exitWith {_vehiculos pushBack _x;};
 			if (typeOf _x == (["CSAT", "flag"] call AS_fnc_getEntity)) exitWith {_vehiculos pushBack _x;};
 		};
-	} forEach _objs;
-	_vehiculos append _objs;
+	} forEach _objects;
+	_vehiculos append _objects;
 
 	private _crewType = ["CSAT", "crew"] call AS_fnc_getEntity;
 
@@ -49,7 +48,7 @@ private _fnc_spawn = {
 		} forEach ([typeof _x, false] call BIS_fnc_crewCount);
 	} forEach _stcs;
 
-	private _mrkfin = createMarker [format ["specops%1", random 100],_posCmp];
+	private _mrkfin = createMarker [format ["specops%1", random 100],_posicion];
 	_mrkfin setMarkerShape "RECTANGLE";
 	_mrkfin setMarkerSize [500,500];
 	_mrkfin setMarkerType "hd_warning";
@@ -58,7 +57,7 @@ private _fnc_spawn = {
 
 	{[_x,"CSAT"] call AS_fnc_initVehicle} forEach _vehiculos;
 
-	([_posCmp, _mrkfin] call AS_fnc_spawnCSATuav) params ["_groups", "_vehicles"];
+	([_posicion, _mrkfin] call AS_fnc_spawnCSATuav) params ["_groups", "_vehicles"];
 	_vehiculos append _vehicles;
 	_grupos append _groups;
 
