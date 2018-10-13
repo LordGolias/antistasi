@@ -16,7 +16,7 @@ if ((_part == "head") and not (_unit call AS_medical_fnc_isUnconscious)) then {
 if not (_part in ["hand_l","hand_r","leg_l","leg_r","arms"]) then {
 	private _sameHit = (_unit getVariable ["firstHitTime", _currentTime]) + 0.5 >= _currentTime;
 	if not _sameHit then {
-        if (_unit call AS_medical_fnc_isUnconscious and _dam > 2) then {
+        if (_unit call AS_medical_fnc_isUnconscious and _dam > 1) then {
 			if isPlayer _unit then {
 				hint "The hit was so violent that you died instantly...";
 				[_unit] spawn AS_fnc_respawnPlayer;
