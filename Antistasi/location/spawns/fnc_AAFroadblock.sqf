@@ -27,7 +27,6 @@ private _fnc_spawn = {
 
 	private _unit = ([_posicion, 0, _gunner, _grupoE] call bis_fnc_spawnvehicle) select 0;
 	_unit moveInGunner _veh;
-	_soldados pushBack _unit;
 	sleep 1;
 
 	// create bunker on the other side
@@ -44,7 +43,6 @@ private _fnc_spawn = {
 
 	_unit = ([_posicion, 0, _gunner, _grupoE] call bis_fnc_spawnvehicle) select 0;
 	_unit moveInGunner _veh;
-	_soldados pushBack _unit;
 
 	// Create flag
 	_pos = [getPos _bunker, 6, getDir _bunker] call BIS_fnc_relPos;
@@ -62,10 +60,9 @@ private _fnc_spawn = {
 	if (random 10 < 2.5) then {
 		[_grupo createUnit ["Fin_random_F",_posicion,[],0,"FORM"]] spawn AS_AI_fnc_initDog;
 	};
+	{[_x, false] call AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 
 	[leader _grupo, _location, "SAFE","SPAWNED","NOVEH2","NOFOLLOW"] spawn UPSMON;
-
-	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 
 	[_location, "resources", [taskNull, [_grupo], _vehiculos, []]] call AS_spawn_fnc_set;
 	[_location, "soldiers", _soldados] call AS_spawn_fnc_set;
