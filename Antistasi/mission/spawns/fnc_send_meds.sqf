@@ -70,8 +70,8 @@ private _fnc_run = {
 	private _fnc_unloadCondition = {
 		// The condition to allow loading the crates into the truck
 		(_truck distance _position < 20) and {speed _truck < 1} and
-		{{alive _x and not (_x call AS_medical_fnc_isUnconscious)} count ([80, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) > 0} and
-		{{(side _x != ("FIA" call AS_fnc_getFactionSide)) and {_x distance _truck < 80}} count allUnits == 0}
+		{{alive _x and not (_x call AS_medical_fnc_isUnconscious)} count ([20, _truck, "BLUFORSpawn"] call AS_fnc_unitsAtDistance) > 0} and
+		{{(side _x != ("FIA" call AS_fnc_getFactionSide)) and {_x distance _truck < 20}} count allUnits == 0}
 	};
 
 	private _str_unloadStopped = "Stop the truck closeby, have someone close to the truck and no enemies around";
