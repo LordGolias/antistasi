@@ -46,7 +46,7 @@ private _fnc_spawn = {
 	private _truckType = ["AAF", "truck_ammo"] call AS_fnc_getEntity;
 
 	private _pos = [];
-	while {count _pos > 0} do {
+	while {count _pos == 0} do {
 		_pos = _position findEmptyPosition [10,_size, _truckType];
 		_size = _size + 20
 	};
