@@ -115,11 +115,11 @@ class AS {
         FNC_BASE(spawnCSATattack);
         FNC_BASE(spawnCSATuav);
         FNC_BASE(spawnJournalist);
+        FNC_BASE(spawnMortar);
 
         FNC_BASE(EH_AAFKilled);
         FNC_BASE(getLandThreat);
         FNC_BASE(getAirThreat);
-        FNC_BASE(findMortarCreatePosition);
         FNC_BASE(callArtillerySupport);
         FNC_BASE(EH_KeyDown);
         FNC_BASE(unitsAtDistance);
@@ -194,6 +194,7 @@ class AS {
         FNC_BASE(initPlayerPosition);
         FNC_BASE(initVehicle);
         FNC_BASE(initVehicleCiv);
+        FNC_BASE(initUnit);
         FNC_BASE(initUnitFIA);
         FNC_BASE(initUnitAAF);
         FNC_BASE(initUnitCIV);

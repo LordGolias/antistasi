@@ -34,20 +34,14 @@ private _fnc_spawn = {
 	private _nVeh = round ((_size / 30)*_prestigio);
 	if (_nVeh > 4) then {_nVeh = 4;};
 
-	private _gunnerType = ["NATO", "gunner"] call AS_fnc_getEntity;
+	// spawn mortars
 	for "_i" from 1 to _nVeh do {
 		if !(_location call AS_location_fnc_spawned) exitWith {};
-		private _pos = [_posicion, random (_size / 2),random 360] call BIS_fnc_relPos;
-		_pos = [_posicion] call AS_fnc_findMortarCreatePosition;
-		_veh = (["NATO", "static_mortar"] call AS_fnc_getEntity) createVehicle _pos;
-		[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
-		private _unit = ([_posicion, 0, _gunnerType, _grupo] call bis_fnc_spawnvehicle) select 0;
-		_unit moveInGunner _veh;
-		[_unit] call AS_fnc_initUnitNATO;
-
-		_soldados pushBack _unit;
-		_vehiculos pushBack _veh;
-		[_veh, "NATO"] call AS_fnc_initVehicle;
+		([_posicion, "NATO"] call AS_fnc_spawnMortar) params ["_mortar_units", "_mortar_groups", "_mortar_vehicles"];
+		_soldados append _mortar_units;
+		_vehiculos append _mortar_vehicles;
+		_grupos append _mortar_groups;
+		sleep 1;
 	};
 
 	_nVeh = round ((_size/30)*_prestigio);

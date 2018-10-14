@@ -11,16 +11,16 @@ private _fnc_spawn = {
 	_vehiculos append (_location call AS_fnc_spawnComposition);
 
 	// create bunker
-	private _veh = createVehicle ["Land_BagBunker_Tower_F", _posicion, [],0, "NONE"];
+	private _veh = "Land_BagBunker_Tower_F" createVehicle _posicion;
 	_veh setVectorUp (surfacenormal (getPosATL _veh));
 	_vehiculos pushBack _veh;
 
 	// create flag
-	_veh = createVehicle [["AAF", "flag"] call AS_fnc_getEntity, _posicion, [],0, "NONE"];
+	_veh = (["AAF", "flag"] call AS_fnc_getEntity) createVehicle _posicion;
 	_vehiculos pushBack _veh;
 
 	// create crate
-	_veh = createVehicle [["AAF", "box"] call AS_fnc_getEntity, _posicion, [],0, "NONE"];
+	_veh = (["AAF", "box"] call AS_fnc_getEntity) createVehicle _posicion;
 	_vehiculos pushBack _veh;
 	[_veh, "Watchpost"] call AS_fnc_fillCrateAAF;
 
@@ -29,22 +29,15 @@ private _fnc_spawn = {
 	_vehiculos append _vehicles1;
 
 	// create a mortar
-	private _mortarType = ["AAF", "gunner"] call AS_fnc_getEntity;
-	private _veh = _mortarType createVehicle ([_posicion] call AS_fnc_findMortarCreatePosition);
-	[_veh] execVM "scripts\UPSMON\MON_artillery_add.sqf";
-	private _grupo = createGroup ("AAF" call AS_fnc_getFactionSide);
-	private _unit = ([_posicion, 0, ["AAF", "gunner"] call AS_fnc_getEntity, _grupo] call bis_fnc_spawnvehicle) select 0;
-	[_unit, false] spawn AS_fnc_initUnitAAF;
-	_unit moveInGunner _veh;
-	_soldados pushBack _unit;
-	_vehiculos pushBack _veh;
-	_grupos pushBack _grupo;
-	sleep 1;
+	([_posicion, "AAF"] call AS_fnc_spawnMortar) params ["_mortar_units", "_mortar_groups", "_mortar_vehicles"];
+	_soldados append _mortar_units;
+	_vehiculos append _mortar_vehicles;
+	_grupos append _mortar_groups;
 
 	// create the team
 	private _grupo = [_posicion, ("AAF" call AS_fnc_getFactionSide), [["AAF", "teams"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 	[leader _grupo, _location, "SAFE","SPAWNED","NOFOLLOW","NOVEH2"] spawn UPSMON;
-	{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
+	{[_x, false] call AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 	_grupos pushBack _grupo;
 
 	[_location, "resources", [taskNull, _grupos, _vehiculos, []]] call AS_spawn_fnc_set;
