@@ -28,8 +28,6 @@ diag_log "[AS] Server: server variables initialized";
 
 ["Initialize"] call BIS_fnc_dynamicGroups;
 
-[] execVM "Scripts\fn_advancedTowingInit.sqf"; // the installation is done for all clients by this
-
 {if not isPlayer _x then {deleteVehicle _x}} forEach allUnits;
 
 diag_log "[AS] Server: waiting for side...";
