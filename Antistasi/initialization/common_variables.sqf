@@ -97,9 +97,6 @@ if (isClass (configFile >> "CfgPatches" >> "task_force_radio")) then {
 	["TF_same_sw_frequencies_for_side", true, true, "mission"] call CBA_settings_fnc_set;
 };
 
-// This is needed to find the sounds of dog's barking, so it is in every client
-missionPath = [(str missionConfigFile), 0, -15] call BIS_fnc_trimString;
-
 // Initializes unlocked items.
 unlockedItems = [
 	"ItemMap",
