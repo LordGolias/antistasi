@@ -22,8 +22,7 @@ private _fnc_spawn = {
 
 		// generate dog with some probability.
 		if (random 10 < 2.5) then {
-			private _dog = _grupo createUnit ["Fin_random_F",_posicion,[],0,"FORM"];
-			[_dog] spawn AS_AI_fnc_initDog;
+			private _dog = [_grupo] call AS_fnc_spawnDog;
 			_soldados pushBack _dog;
 		};
 

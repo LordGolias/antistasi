@@ -1,6 +1,6 @@
 params ["_unit"];
 
-if (typeOf _unit == "Fin_random_F") exitWith {};
+if (_unit call AS_fnc_isDog) exitWith {};
 
 _unit setVariable ["surrendered",true];
 private _side = _unit call AS_fnc_getSide;

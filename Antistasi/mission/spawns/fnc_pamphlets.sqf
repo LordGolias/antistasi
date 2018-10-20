@@ -74,8 +74,7 @@ private _fnc_spawn = {
 	for "_i" from 0 to 1 do {
 		private _tipoGrupo = [["AAF", "patrols"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 		private _grupo = [_position, "AAF" call AS_fnc_getFactionSide, _tipogrupo] call BIS_Fnc_spawnGroup;
-		private _perro = _grupo createUnit ["Fin_random_F",_position,[],0,"FORM"];
-		[_perro] spawn AS_AI_fnc_initDog;
+		[_grupo] call AS_fnc_spawnDog;
 		[leader _grupo, _location, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] spawn UPSMON;
 		_grupos pushBack _grupo;
 	};

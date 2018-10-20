@@ -58,7 +58,7 @@ private _fnc_spawn = {
 
 	// add dog
 	if (random 10 < 2.5) then {
-		[_grupo createUnit ["Fin_random_F",_posicion,[],0,"FORM"]] spawn AS_AI_fnc_initDog;
+		[_grupo] call AS_fnc_spawnDog;
 	};
 	{[_x, false] call AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 

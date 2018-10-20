@@ -73,8 +73,7 @@ private _fnc_spawn = {
 		private _group = [_pos, "AAF" call AS_fnc_getFactionSide, _tipogrupo] call BIS_Fnc_spawnGroup;
 		_groups append _group;
 		if (random 10 < 33) then {
-			private _perro = _group createUnit ["Fin_random_F",_pos,[],0,"FORM"];
-			[_perro] spawn AS_AI_fnc_initDog;
+			[_group] call AS_fnc_spawnDog;
 		};
 		[leader _group, _mrk, "SAFE","SPAWNED", "NOVEH2"] spawn UPSMON;
 		{[_x, false] call AS_fnc_initUnitAAF} forEach units _group;

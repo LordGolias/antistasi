@@ -5,7 +5,7 @@ params ["_unit", ["_spawned", true]];
 
 [_unit] call AS_debug_fnc_initUnit;
 
-if (typeOf _unit == "Fin_random_F") exitWith {};  // dog
+if (_unit call AS_fnc_isDog) exitWith {};
 
 [_unit] call AS_medical_fnc_initUnit;
 if (_spawned) then {

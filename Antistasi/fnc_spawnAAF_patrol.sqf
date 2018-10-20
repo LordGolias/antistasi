@@ -28,7 +28,7 @@ for "_i" from 1 to _amount do {
     private _group = [_pos, "AAF" call AS_fnc_getFactionSide, [["AAF", "patrols"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 
     if (random 10 < 2.5) then {
-        [_group createUnit ["Fin_random_F",_pos,[],0,"FORM"]] spawn AS_AI_fnc_initDog;
+        [_group] call AS_fnc_spawnDog;
     };
     [leader _group, _mrk, "SAFE","SPAWNED", "NOVEH2"] spawn UPSMON;
 

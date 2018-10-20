@@ -92,8 +92,7 @@ private _fnc_spawn = {
 	private _tipoGrupo = [["AAF", "squads"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup;
 	private _grupo = [_position, "AAF" call AS_fnc_getFactionSide, _tipogrupo] call BIS_Fnc_spawnGroup;
 	if (random 10 < 2.5) then {
-		private _perro = _grupo createUnit ["Fin_random_F",_position,[],0,"FORM"];
-		[_perro] spawn AS_AI_fnc_initDog;
+		[_grupo] call AS_fnc_spawnDog;
 	};
 	[leader _grupo, _mrk, "SAFE","SPAWNED", "NOVEH2", "NOFOLLOW"] spawn UPSMON;
 	{[_x, false] spawn AS_fnc_initUnitAAF} forEach units _grupo;

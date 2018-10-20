@@ -116,6 +116,8 @@ class AS {
         FNC_BASE(spawnCSATuav);
         FNC_BASE(spawnJournalist);
         FNC_BASE(spawnMortar);
+        FNC_BASE(spawnDog);
+        FNC_BASE(isDog);
 
         FNC_BASE(EH_AAFKilled);
         FNC_BASE(getLandThreat);
@@ -270,7 +272,6 @@ class AS_AI {
         FNC(AI,autoRearm);
         FNC(AI,activateUnloadUnderSmoke);
         FNC(AI,surrender);
-        FNC(AI,initDog);
         FNC(AI,dismountOnDanger);
     };
 };
