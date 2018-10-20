@@ -1,17 +1,18 @@
 params ["_group"];
 
-private _unit = _group createUnit ["B_RangeMaster_F", position leader _group, [], 0, "FORM"];
+private _unit = _group createUnit [typeOf leader _group, position leader _group, [], 0, "FORM"];
+[_unit] call AS_fnc_emptyUnit;
 _unit setVariable ["isDog", true, true];
+
+private _dog = createAgent ["Fin_random_F", getPos _unit, [], 0, "CAN_COLLIDE"];
+_dog setVariable ["BIS_fnc_animalBehaviour_disable", true];
+_dog attachTo [_unit, [0,0,0]];
+_unit hideObjectGlobal true;
 
 // logic to have a dog following a group
 // see https://forums.bohemia.net/forums/topic/210830-release-directly-controllabe-dog/
-[_unit] spawn {
-	params ["_guy"];
-	private _dog = createAgent ["Fin_random_F", getPos _guy, [], 0, "CAN_COLLIDE"];
-	_dog setVariable ["BIS_fnc_animalBehaviour_disable", true];
-	_dog attachTo [_guy, [0,0,0]];
-	_guy hideObjectGlobal true;
-
+[_unit, _dog] spawn {
+	params ["_guy", "_dog"];
 	while {alive _guy and {alive _dog}} do {
 		if (speed _guy > 10) then {
 			_dog playMoveNow "Dog_Sprint";
@@ -42,9 +43,8 @@ _unit setVariable ["isDog", true, true];
 };
 
 // logic for spotting undercover units and barking
-[_unit] spawn {
-	params ["_guy"];
-	private _dog = attachedObjects _guy select 0;
+[_unit, _dog] spawn {
+	params ["_guy", "_dog"];
 
 	private _spotted = objNull;
 

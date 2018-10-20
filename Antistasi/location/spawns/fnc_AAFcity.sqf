@@ -18,13 +18,11 @@ private _fnc_spawn = {
 		if !(_location call AS_location_fnc_spawned) exitWith {};
 		private _grupo = [_posicion, ("AAF" call AS_fnc_getFactionSide), [["AAF", "patrols"] call AS_fnc_getEntity, "AAF"] call AS_fnc_pickGroup] call BIS_Fnc_spawnGroup;
 
-		{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
-
 		// generate dog with some probability.
-		if (random 10 < 2.5) then {
-			private _dog = [_grupo] call AS_fnc_spawnDog;
-			_soldados pushBack _dog;
-		};
+		private _dog = [_grupo] call AS_fnc_spawnDog;
+		_soldados pushBack _dog;
+
+		{[_x, false] spawn AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 
 		// put then on patrol.
 		[leader _grupo, _location, "SAFE", "RANDOM", "SPAWNED","NOVEH2", "NOFOLLOW"] spawn UPSMON;
