@@ -36,7 +36,8 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 "rhs_gaz66_ammo_vmf", "rhs_ural_fuel_vmf_01", "rhs_gaz66_ap2_vmf", "rhs_ural_repair_vmf_01"
 ]] call DICT_fnc_set;
 
-[_dict, "self_aa", ["RHS_ZU23_VDV"]] call DICT_fnc_set;
+[_dict, "self_aa", "RHS_ZU23_VDV"] call DICT_fnc_set;
+[_dict, "track_aa", "rhs_zsu234_aa"] call DICT_fnc_set;
 
 // special units used in special occasions
 [_dict, "officer", "rhs_vmf_recon_officer"] call DICT_fnc_set;

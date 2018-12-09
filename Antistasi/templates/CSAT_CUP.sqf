@@ -36,7 +36,8 @@ private _dict = createSimpleObject ["Static", [0, 0, 0]];
 "CUP_O_Ural_Reammo_RU", "CUP_O_Ural_Refuel_RU", "CUP_O_Ural_Repair_RU"
 ]] call DICT_fnc_set;
 
-[_dict, "self_aa", ["CUP_O_2S6M_RU"]] call DICT_fnc_set;
+[_dict, "self_aa", "CUP_O_2S6M_RU"] call DICT_fnc_set;
+[_dict, "track_aa", "CUP_O_2S6M_RU"] call DICT_fnc_set;
 
 // special units used in special occasions
 [_dict, "officer", "CUP_O_RU_Officer_VDV"] call DICT_fnc_set;
