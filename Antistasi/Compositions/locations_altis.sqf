@@ -2517,9 +2517,10 @@ _objects = [
 	["Land_Razorwire_F",[-51.9561,-5.25195,-0.0884476],36.784,1,0,[8.57322,-0.836412],"","",true,false], 
 	["Land_Razorwire_F",[-52.1162,3.99707,-0.195076],318.582,1,0,[-5.99388,-2.54491],"","",true,false], 
 	["Land_Razorwire_F",[-53.71,-2.46582,0.10704],269.252,1,0,[-5.77722,0.763301],"","",true,false],
-	["rhs_2b14_82mm_vdv",[11.8877,0.147461,-0.0497971],308.589,1,0,[-2.32635,0.0968218],"","",true,false],
-	["RHS_ZU23_VDV",[40.3721,-2.87402,-0.121872],0.0129312,1,0,[2.82822,-1.83257],"","",true,false],
-	["rhs_KORD_high_VDV",[13.3477,7.52344,-0.104874],149.445,1,0,[0.334842,0.623217],"","",true,false]
+	[["CSAT", "static_mortar"] call AS_fnc_getEntity,[11.8877,0.147461,-0.0497971],308.589,1,0,[-2.32635,0.0968218],"","",true,false],
+	[["CSAT", "self_aa"] call AS_fnc_getEntity,[40.3721,-2.87402,-0.121872],0.0129312,1,0,[2.82822,-1.83257],"","",true,false],
+	[["CSAT", "static_mg"] call AS_fnc_getEntity,[13.3477,7.52344,4.2],149.445,1,0,[0.334842,0.623217],"","",true,false],
+	[["CSAT", "self_aa"] call AS_fnc_getEntity,[-46.1152,-0.722656,-0.057579],0.00125647,1,0,[6.39846,-5.78442],"","",true,false] 
 ];
 [_dict, "Agela", call DICT_fnc_create] call DICT_fnc_set;
 [_dict, "Agela", "center", _center] call DICT_fnc_set;
