@@ -20,8 +20,8 @@ private _fnc_spawn = {
 		call {
 			if (typeOf _x in (["CSAT", "self_aa"] call AS_fnc_getEntity)) exitWith {_AAVeh = _x; _vehiculos pushBack _x;};
 			if (typeOf _x in (["CSAT", "trucks"] call AS_fnc_getEntity)) exitWith {[_x, "CSAT"] call AS_fnc_initVehicle;};
-			if (typeOf _x == (["CSAT", "static_mortar"] call AS_fnc_getEntity)) then {[_x] execVM "scripts\UPSMON\MON_artillery_add.sqf";};
-			if (typeOf _x in AS_allStatics) exitWith {_stcs pushBack _x;};
+			if (typeOf _x == (["CSAT", "static_mortar"] call AS_fnc_getEntity)) then {[_x] execVM "scripts\UPSMON\MON_artillery_add.sqf"; _stcs pushBack _x};
+			if (typeOf _x == (["CSAT", "static_mg"] call AS_fnc_getEntity)) exitWith {_stcs pushBack _x;};
 			if (typeOf _x == (["CSAT", "box"] call AS_fnc_getEntity)) exitWith {_vehiculos pushBack _x;};
 			if (typeOf _x == (["CSAT", "flag"] call AS_fnc_getEntity)) exitWith {_vehiculos pushBack _x;};
 		};
@@ -40,12 +40,9 @@ private _fnc_spawn = {
 	};
 
 	{
-		_vehiculos pushBack _x;
-		{
-			private _unit = ([_posicion, 0, _crewType, _grupoCSAT] call bis_fnc_spawnvehicle) select 0;
-			_unit moveInAny _x;
-			_gns pushBack _unit;
-		} forEach ([typeof _x, false] call BIS_fnc_crewCount);
+		private _unit = ([_posicion, 0, _crewType, _grupoCSAT] call bis_fnc_spawnvehicle) select 0;
+		_unit moveInAny _x;
+		_gns pushBack _unit;
 	} forEach _stcs;
 
 	private _mrkfin = createMarker [format ["specops%1", random 100],_posicion];
