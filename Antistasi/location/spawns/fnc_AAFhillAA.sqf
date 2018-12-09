@@ -10,17 +10,15 @@ private _fnc_spawn = {
 	private _vehiculos = [];
 	private _grupos = [];
 	private _soldados = [];
-
 	private _posicion = _location call AS_location_fnc_position;
-
 	private _objects = _location call AS_fnc_spawnComposition;
-
-	private _AAVeh = objNull;
+	private _AAVeh = [];
+	
 	{
 		call {
-			if (typeOf _x in (["CSAT", "self_aa"] call AS_fnc_getEntity)) exitWith {_AAVeh = _x; _vehiculos pushBack _x;};
+			if (typeOf _x == (["CSAT", "self_aa"] call AS_fnc_getEntity)) exitWith {_AAVeh pushBack _x; _vehiculos pushBack _x;};
 			if (typeOf _x in (["CSAT", "trucks"] call AS_fnc_getEntity)) exitWith {[_x, "CSAT"] call AS_fnc_initVehicle;};
-			if (typeOf _x == (["CSAT", "static_mortar"] call AS_fnc_getEntity)) then {[_x] execVM "scripts\UPSMON\MON_artillery_add.sqf"; _stcs pushBack _x};
+			if (typeOf _x == (["CSAT", "static_mortar"] call AS_fnc_getEntity)) exitWith {[_x] execVM "scripts\UPSMON\MON_artillery_add.sqf"; _stcs pushBack _x};
 			if (typeOf _x == (["CSAT", "static_mg"] call AS_fnc_getEntity)) exitWith {_stcs pushBack _x;};
 			if (typeOf _x == (["CSAT", "box"] call AS_fnc_getEntity)) exitWith {_vehiculos pushBack _x;};
 			if (typeOf _x == (["CSAT", "flag"] call AS_fnc_getEntity)) exitWith {_vehiculos pushBack _x;};
@@ -31,12 +29,14 @@ private _fnc_spawn = {
 	private _crewType = ["CSAT", "crew"] call AS_fnc_getEntity;
 
 	// init the AA
-	if !(isNull _AAVeh) then {
+	if !(isnil "_AAVeh") then {
+		{
 		private _unit = ([_posicion, 0, _crewType, _grupoCSAT] call bis_fnc_spawnvehicle) select 0;
-		_unit moveInGunner _AAVeh;
+		_unit moveInGunner _x;
 		_unit = ([_posicion, 0, _crewType, _grupoCSAT] call bis_fnc_spawnvehicle) select 0;
-		_unit moveInCommander _AAVeh;
-		_AAVeh lock 2;
+		_unit moveInCommander _x;
+		_x lock 2;
+		} forEach _AAVeh;
 	};
 
 	{
@@ -98,8 +98,8 @@ private _fnc_run = {
 	};
 	// and AA destroyed
 	private _fnc_isAAdestroyed = {true};
-	if (!isNull _AAVeh) then {
-		_fnc_isAAdestroyed = {(not alive _AAVeh)};
+	if !(isnil "_AAVeh") then {
+		_fnc_isAAdestroyed = {{alive _x} count _AAVeh == 0};
 	};
 
 	waitUntil {sleep 1;
