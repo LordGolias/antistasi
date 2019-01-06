@@ -2523,7 +2523,7 @@ _objects = [
 	[["CSAT", "self_aa"] call AS_fnc_getEntity,[-46.1152,-0.722656,-0.057579],0.00125647,1,0,[6.39846,-5.78442],"","",true,false],
 	[["CSAT", "box"] call AS_fnc_getEntity,[7.19922,1.52051,0.0274963],217.695,1,0.0152418,[],"","",true,false],
 	[["CSAT", "flag"] call AS_fnc_getEntity,[-11.6289,-5.40039,0],0,1,0,[],"","",true,false],
-	[["CSAT", "trucks"] call AS_fnc_getEntity,[4.3418,-1.6709,0.155876],176.582,1,0,[],"","",true,false]
+	[["CSAT", "truck_ammo"] call AS_fnc_getEntity,[4.3418,-1.6709,0.155876],176.582,1,0,[],"","",true,false]
 
 ];
 [_dict, "Agela", call DICT_fnc_create] call DICT_fnc_set;
@@ -2605,7 +2605,7 @@ _objects = [
 	["Land_BagFence_Long_F",[46.9668,2.0625,-0.0931702],221.93,1,0,[6.74361,-3.87845],"","",true,false], 
 	["Land_BagFence_Long_F",[47.5781,-7.76904,0.0294952],139.494,1,0,[-10.4751,0.419334],"","",true,false],
 	[["CSAT", "box"] call AS_fnc_getEntity,[1.61426,8.94629,0.000518799],94.7313,1,0.00982795,[],"","",true,false],
-	[["CSAT", "trucks"] call AS_fnc_getEntity,[-3.53516,10.1841,0.00471497],317.34,1,0,[],"","",true,false],
+	[["CSAT", "truck_ammo"] call AS_fnc_getEntity,[-3.53516,10.1841,0.00471497],317.34,1,0,[],"","",true,false],
 	[["CSAT", "flag"] call AS_fnc_getEntity,[1.70996,12.5879,0],130.877,1,0,[],"","",true,false]
 ];
 [_dict, "Skopos", call DICT_fnc_create] call DICT_fnc_set;
@@ -2651,7 +2651,7 @@ _objects = [
 	["Land_Razorwire_F",[19.4292,13.6885,0.48822],233.639,1,0,[],"","",true,false],
 	["Land_Razorwire_F",[-25.5449,6.30957,-0.0306702],94.4101,1,0,[],"","",true,false],
 	[["CSAT", "box"] call AS_fnc_getEntity,[10.0767,-5.84961,0.000457764],79.1409,1,0.106246,[],"","",true,false],
-	[["CSAT", "trucks"] call AS_fnc_getEntity,[-10.1396,-2.51465,0.0481567],168.38,1,0,[],"","",true,false],
+	[["CSAT", "truck_ammo"] call AS_fnc_getEntity,[-10.1396,-2.51465,0.0481567],168.38,1,0,[],"","",true,false],
 	[["CSAT", "flag"] call AS_fnc_getEntity,[0.0429688,2.5625,0.0172424],0,1,0,[],"","",true,false]
 ];
 [_dict, "AgiaStemma", call DICT_fnc_create] call DICT_fnc_set;
@@ -2689,7 +2689,7 @@ _objects = [
 	["Land_BagFence_Round_F",[-29.4375,-18.8789,-0.167015],4.13961,1,0,[],"","",true,false],
 	["Land_BagFence_Round_F",[-10.6387,33.6641,0.00915527],174.3,1,0,[],"","",true,false],
 	["Land_BagFence_Round_F",[-30.959,-16.8828,0.0165024],96.316,1,0,[],"","",true,false],
-	[["CSAT", "trucks"] call AS_fnc_getEntity,[2.88477,5.125,0.0275421],176.475,1,0,[],"","",true,false],
+	[["CSAT", "truck_ammo"] call AS_fnc_getEntity,[2.88477,5.125,0.0275421],176.475,1,0,[],"","",true,false],
 	[["CSAT", "box"] call AS_fnc_getEntity,[-0.0605469,7.80469,0.00138092],308.867,1,0.0097848,[],"","",true,false],
 	[["CSAT", "flag"] call AS_fnc_getEntity,[5.87695,6.05078,0],0,1,0,[],"","",true,false]
 ];
@@ -2731,7 +2731,7 @@ _objects = [
 	[["CSAT", "static_mg"] call AS_fnc_getEntity,[30.48,21.6914,-0.0359802],56.106,1,0,[],"","",true,false],
 	["Land_BagFence_Round_F",[32.3999,22,-0.0479279],278.635,1,0,[],"","",true,false],
 	["Land_BagFence_Round_F",[30.981,24.0313,-0.148621],186.96,1,0,[],"","",true,false],
-	[["CSAT", "trucks"] call AS_fnc_getEntity,[17.3281,15.8633,-0.00765991],152.264,1,0,[],"","",true,false],
+	[["CSAT", "truck_ammo"] call AS_fnc_getEntity,[17.3281,15.8633,-0.00765991],152.264,1,0,[],"","",true,false],
 	[["CSAT", "box"] call AS_fnc_getEntity,[17.3076,20.5371,0.000579834],0.00223059,1,0.00984257,[],"","",true,false],
 	[["CSAT", "flag"] call AS_fnc_getEntity,[25.064,21.9336,0],0,1,0,[],"","",true,false]
 ];
@@ -2774,7 +2774,7 @@ _objects = [
 	["Land_BagFence_Corner_F",[33.4932,8.40234,-0.0202332],85.5658,1,0,[],"","",true,false],
 	["Land_BagFence_Corner_F",[33.2012,11.6719,-0.0062561],359.512,1,0,[],"","",true,false],
 	[["CSAT", "box"] call AS_fnc_getEntity,[-14.1016,0.214844,0.000167847],256.936,1,0.00921631,[],"","",true,false],
-	[["CSAT", "trucks"] call AS_fnc_getEntity,[-10.2456,-1.97461,-0.0253296],146.33,1,0,[],"","",true,false],
+	[["CSAT", "truck_ammo"] call AS_fnc_getEntity,[-10.2456,-1.97461,-0.0253296],146.33,1,0,[],"","",true,false],
 	[["CSAT", "flag"] call AS_fnc_getEntity,[10.0068,11.7695,0],0,1,0,[],"","",true,false]
 ];
 [_dict, "Amoni", call DICT_fnc_create] call DICT_fnc_set;
@@ -2813,7 +2813,7 @@ _objects = [
 	["Land_BagFence_Round_F",[45.125,26.0469,0.264404],286.589,1,0,[],"","",true,false],
 	["Land_BagFence_Round_F",[43.9141,28.293,-0.0462494],194.297,1,0,[],"","",true,false],
 	[["CSAT", "flag"] call AS_fnc_getEntity,[-8.89063,-5.47754,0],0,1,0,[],"","",true,false],
-	[["CSAT", "trucks"] call AS_fnc_getEntity,[-10.6504,-1.37598,0.0430145],4.03134,1,0,[],"","",true,false],
+	[["CSAT", "truck_ammo"] call AS_fnc_getEntity,[-10.6504,-1.37598,0.0430145],4.03134,1,0,[],"","",true,false],
 	[["CSAT", "box"] call AS_fnc_getEntity,[-9.78125,-6.90332,0.0202942],57.2098,1,0.0115505,[],"","",true,false]
 ];
 [_dict, "Didymos", call DICT_fnc_create] call DICT_fnc_set;
@@ -2856,7 +2856,7 @@ _objects = [
 	["Land_BagFence_Corner_F",[0.930664,-41.707,-0.000671387],183.358,1,0,[],"","",true,false],
 	["Land_BagFence_Corner_F",[4.19189,-41.8613,0.114288],97.671,1,0,[],"","",true,false],
 	[["CSAT", "flag"] call AS_fnc_getEntity,[-3.28369,13.0566,0],0,1,0,[],"","",true,false],
-	[["CSAT", "trucks"] call AS_fnc_getEntity,[11.002,8.77148,0.014679],8.91439,1,0,[],"","",true,false],
+	[["CSAT", "truck_ammo"] call AS_fnc_getEntity,[11.002,8.77148,0.014679],8.91439,1,0,[],"","",true,false],
 	[["CSAT", "box"] call AS_fnc_getEntity,[8.11621,5.2207,0.000488281],54.3764,1,0.00991255,[],"","",true,false]
 ];
 [_dict, "Kira", call DICT_fnc_create] call DICT_fnc_set;
@@ -2899,7 +2899,7 @@ _objects = [
 	["Land_BagFence_Round_F",[38.123,-12.8594,-0.0719604],253.959,1,0,[],"","",true,false],
 	[["CSAT", "flag"] call AS_fnc_getEntity,[-12.1191,-4.69922,0],0,1,0,[],"","",true,false],
 	[["CSAT", "box"] call AS_fnc_getEntity,[-15.876,-5.02734,3.05176e-005],13.8785,1,0.00985034,[],"","",true,false],
-	[["CSAT", "trucks"] call AS_fnc_getEntity,[-20.7744,-2.45117,-0.0109253],242.949,1,0,[],"","",true,false]
+	[["CSAT", "truck_ammo"] call AS_fnc_getEntity,[-20.7744,-2.45117,-0.0109253],242.949,1,0,[],"","",true,false]
 ];
 [_dict, "Pyrsos", call DICT_fnc_create] call DICT_fnc_set;
 [_dict, "Pyrsos", "center", _center] call DICT_fnc_set;
@@ -2954,7 +2954,7 @@ _objects = [
 	["Land_BagFence_Round_F",[-77.8691,-10.377,-0.108109],112.627,1,0,[],"","",true,false],
 	[["CSAT", "box"] call AS_fnc_getEntity,[23.9219,11.2559,0.00012207],144.769,1,0.00983477,[],"","",true,false],
 	[["CSAT", "flag"] call AS_fnc_getEntity,[26.5801,10.8018,0],130.877,1,0,[],"","",true,false],
-	[["CSAT", "trucks"] call AS_fnc_getEntity,[20.4854,15.3213,-0.0112839],13.8512,1,0,[],"","",true,false]
+	[["CSAT", "truck_ammo"] call AS_fnc_getEntity,[20.4854,15.3213,-0.0112839],13.8512,1,0,[],"","",true,false]
 ];
 [_dict, "Riga", call DICT_fnc_create] call DICT_fnc_set;
 [_dict, "Riga", "center", _center] call DICT_fnc_set;
@@ -2999,7 +2999,7 @@ _objects = [
 	[["CSAT", "static_at"] call AS_fnc_getEntity,[27.022,-25.9336,-0.161133],199.888,1,0,[],"","",true,false],
 	["Land_BagFence_Short_F",[28.6909,-26.0781,-0.0839844],289.422,1,0,[],"","",true,false],
 	["Land_BagFence_Corner_F",[27.9521,-27.6836,0.071167],115.735,1,0,[],"","",true,false],
-	[["CSAT", "trucks"] call AS_fnc_getEntity,[-15.3115,-7.46094,-0.0145264],279.136,1,0,[],"","",true,false],
+	[["CSAT", "truck_ammo"] call AS_fnc_getEntity,[-15.3115,-7.46094,-0.0145264],279.136,1,0,[],"","",true,false],
 	[["CSAT", "box"] call AS_fnc_getEntity,[-17.9111,-4.33398,0.00161743],319.506,1,0,[],"","",true,false],
 	[["CSAT", "flag"] call AS_fnc_getEntity,[-20.52,-3.80078,0],130.877,1,0,[],"","",true,false]
 ];
@@ -3050,7 +3050,7 @@ _objects = [
 	["Land_BagFence_Round_F",[-61.8369,19.9609,0.0597839],71.1357,1,0,[],"","",true,false],
 	["Land_BagFence_Round_F",[-16.6831,63.8828,-0.276123],193.864,1,0,[],"","",true,false],
 	[["CSAT", "flag"] call AS_fnc_getEntity,[-47.1118,8.46484,0],0,1,0,[],"","",true,false],
-	[["CSAT", "trucks"] call AS_fnc_getEntity,[-38.3887,-2.56055,0.107788],1.47981,1,0,[],"","",true,false],
+	[["CSAT", "truck_ammo"] call AS_fnc_getEntity,[-38.3887,-2.56055,0.107788],1.47981,1,0,[],"","",true,false],
 	[["CSAT", "box"] call AS_fnc_getEntity,[-39.5176,-7.61914,0.00512695],327.907,1,0.00893501,[],"","",true,false]
 ];
 [_dict, "Thronos", call DICT_fnc_create] call DICT_fnc_set;
