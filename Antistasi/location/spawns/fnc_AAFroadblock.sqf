@@ -17,6 +17,7 @@ private _fnc_spawn = {
 
 	private _static_mg = ["AAF", "static_mg"] call AS_fnc_getEntity;
 	private _gunner = ["AAF", "gunner"] call AS_fnc_getEntity;
+	private _vehicles = ["AAF", "apcs"] call AS_fnc_getEntity;
 
 	private _veh = _static_mg createVehicle _posicion;
 	_veh setPosATL (getPosATL _bunker);
@@ -43,6 +44,17 @@ private _fnc_spawn = {
 
 	_unit = ([_posicion, 0, _gunner, _grupoE] call bis_fnc_spawnvehicle) select 0;
 	_unit moveInGunner _veh;
+	
+	// Create random vehicle guarding checkpoint
+	if (random 10 < 2) then {
+		private _pos = [getPos _road, 40, _dirveh + 90] call BIS_Fnc_relPos;
+		private _vehicle = selectRandom _vehicles;
+		_vehicle createVehicle _pos;
+		_vehiculos pushBack _vehicle;
+		_vehicle setDir _dirveh + 180;
+		_unit = ([_posicion, 0, _gunner, _grupoE] call bis_fnc_spawnvehicle) select 0;
+		_unit moveInGunner _vehicle;
+	};
 
 	// Create flag
 	_pos = [getPos _bunker, 6, getDir _bunker] call BIS_fnc_relPos;
