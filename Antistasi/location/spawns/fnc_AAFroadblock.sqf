@@ -49,11 +49,11 @@ private _fnc_spawn = {
 	if (random 10 < 2) then {
 		private _pos = [getPos _road, 40, _dirveh + 90] call BIS_Fnc_relPos;
 		private _vehicle = selectRandom _vehicles;
-		_vehicle createVehicle _pos;
-		_vehiculos pushBack _vehicle;
-		_vehicle setDir _dirveh + 180;
+		private _vehicleObject = _vehicle createVehicle _pos;
+		_vehiculos pushBack _vehicleObject;
+		_vehicleObject setDir _dirveh + 180;
 		_unit = ([_posicion, 0, _gunner, _grupoE] call bis_fnc_spawnvehicle) select 0;
-		_unit moveInGunner _vehicle;
+		_unit moveInGunner _vehicleObject;
 	};
 
 	// Create flag
