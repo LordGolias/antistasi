@@ -47,7 +47,7 @@ private _fnc_spawn = {
 	
 	// Create random vehicle guarding checkpoint
 	if (random 10 < 2) then {
-		private _pos = [getPos _road, 40, _dirveh + 90] call BIS_Fnc_relPos;
+		private _pos = [getPos _road, 30, _dirveh + 90] call BIS_Fnc_relPos;
 		private _vehicle = selectRandom _vehicles;
 		private _vehicleObject = _vehicle createVehicle _pos;
 		_vehiculos pushBack _vehicleObject;
