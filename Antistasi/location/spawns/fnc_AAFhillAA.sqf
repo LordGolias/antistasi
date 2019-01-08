@@ -17,6 +17,7 @@ private _fnc_spawn = {
 	{
 		call {
 			if (typeOf _x == (["CSAT", "self_aa"] call AS_fnc_getEntity)) exitWith {_AAVeh pushBack _x; _vehiculos pushBack _x;};
+			if (typeOf _x == (["CSAT", "track_aa"] call AS_fnc_getEntity)) exitWith {_AAVeh pushBack _x; _vehiculos pushBack _x;};
 			if (typeOf _x in (["CSAT", "trucks"] call AS_fnc_getEntity)) exitWith {[_x, "CSAT"] call AS_fnc_initVehicle;};
 			if (typeOf _x == (["CSAT", "static_mortar"] call AS_fnc_getEntity)) exitWith {[_x] execVM "scripts\UPSMON\MON_artillery_add.sqf"; _stcs pushBack _x};
 			if (typeOf _x == (["CSAT", "static_mg"] call AS_fnc_getEntity)) exitWith {_stcs pushBack _x;};
