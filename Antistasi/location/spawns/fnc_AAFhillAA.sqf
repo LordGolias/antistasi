@@ -36,7 +36,6 @@ private _fnc_spawn = {
 		_unit moveInGunner _x;
 		_unit = ([_posicion, 0, _crewType, _grupoCSAT] call bis_fnc_spawnvehicle) select 0;
 		_unit moveInCommander _x;
-		_x lock 2;
 		} forEach _AAVeh;
 	};
 
