@@ -217,3 +217,13 @@
         typeName = "BOOL";
         force = 1;
     };
+	
+	class ace_medical_enableUnconsciousnessAI {
+        title = "Unconscious AI";
+        ACE_setting = 1;
+        values[] = {"Disabled", "50/50", "Enabled"};
+        texts[] = {"Disabled", "50/50", "Enabled"};
+        default = 0;
+        typeName = "BOOL";
+        force = 1;
+    };
