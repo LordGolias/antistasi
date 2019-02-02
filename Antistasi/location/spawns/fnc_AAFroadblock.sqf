@@ -17,6 +17,7 @@ private _fnc_spawn = {
 
 	private _static_mg = ["AAF", "static_mg"] call AS_fnc_getEntity;
 	private _gunner = ["AAF", "gunner"] call AS_fnc_getEntity;
+	private _vehicles = ["AAF", "apcs"] call AS_fnc_getEntity;
 
 	private _veh = _static_mg createVehicle _posicion;
 	_veh setPosATL (getPosATL _bunker);
@@ -41,9 +42,30 @@ private _fnc_spawn = {
 	_veh setDir _dirVeh;
 	_vehiculos pushBack _veh;
 
-	_unit = ([_posicion, 0, _gunner, _grupoE] call bis_fnc_spawnvehicle) select 0;
+	private _unit = ([_posicion, 0, _gunner, _grupoE] call bis_fnc_spawnvehicle) select 0;
 	_unit moveInGunner _veh;
-
+	sleep 1;
+	
+	// Create random vehicle guarding checkpoint
+	if (random 10 < 2) then {
+		private _pos = [getPos _road, 30, _dirveh + 90] call BIS_Fnc_relPos;
+		private _veh = selectRandom _vehicles;
+		private _vehicleObject = _veh createVehicle _posicion;
+		_vehicleObject setPosATL _pos;
+		_vehicleObject setDir _dirveh + 180;
+		_vehiculos pushBack _vehicleObject;
+		private _unit = ([_posicion, 0, _gunner, _grupoE] call bis_fnc_spawnvehicle) select 0;
+		_unit moveInGunner _vehicleObject;
+		sleep 1;
+	};
+	
+	private _mrkfin = createMarker [format ["specops%1", random 100],_posicion];
+	_mrkfin setMarkerShape "RECTANGLE";
+	_mrkfin setMarkerSize [50,50];
+	_mrkfin setMarkerType "hd_warning";
+	_mrkfin setMarkerColor "ColorRed";
+	_mrkfin setMarkerBrush "DiagGrid";
+	
 	// Create flag
 	_pos = [getPos _bunker, 6, getDir _bunker] call BIS_fnc_relPos;
 	_veh = createVehicle [["AAF", "flag"] call AS_fnc_getEntity, _pos, [],0, "CAN_COLLIDE"];
@@ -62,7 +84,7 @@ private _fnc_spawn = {
 	};
 	{[_x, false] call AS_fnc_initUnitAAF; _soldados pushBack _x} forEach units _grupo;
 
-	[leader _grupo, _location, "SAFE","SPAWNED","NOVEH2","NOFOLLOW"] spawn UPSMON;
+	[leader _grupo, _mrkfin, "SAFE","SPAWNED","NOVEH","NOFOLLOW"] spawn UPSMON;
 
 	[_location, "resources", [taskNull, [_grupo], _vehiculos, []]] call AS_spawn_fnc_set;
 	[_location, "soldiers", _soldados] call AS_spawn_fnc_set;

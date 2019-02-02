@@ -3,7 +3,7 @@ AS_SERVER_ONLY("AS_players_fnc_fromDict");
 
 params ["_dict"];
 call AS_players_fnc_deinitialize;
-[AS_container, "players", _dict call DICT_fnc_copy] call DICT_fnc_setGlobal;
+[AS_container, "players", _dict call DICT_fnc_copyGlobal] call DICT_fnc_setGlobal;
 
 {
     private _uid = tolower getPlayerUID _x;
