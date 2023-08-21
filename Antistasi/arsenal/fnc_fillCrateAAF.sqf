@@ -14,7 +14,7 @@ private _getWeaponMags = {
     ((AS_allWeaponsAttrs select _index) select 2) - unlockedMagazines
 };
 
-_fnc_gear = {
+private _fnc_gear = {
 	params ["_cat", ["_typeRan", 4], ["_classRan", 4], ["_magMult", 3]];
 
     private _typeInt = 1 + (floor random _typeRan);
@@ -101,7 +101,7 @@ call {
 	};
 };
 
-_items = [] call AS_medical_fnc_crateMeds;
+private _items = [] call AS_medical_fnc_crateMeds;
 
 _items pushBack [selectRandom (AAFItems arrayIntersect AS_allNVGs), 2];
 

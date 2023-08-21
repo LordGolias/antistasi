@@ -99,7 +99,7 @@ waituntil {!isnull (finddisplay 12)};
 	};
 	if (_key == 0x0E) exitWith {  // backspace
 		if (count AS_mapPositions != 0) then {
-			AS_mapPositions deleteAt (count mapPositions - 1);
+			AS_mapPositions deleteAt (count AS_mapPositions - 1);
 			deleteMarker (AS_minesMarkers select (count AS_minesMarkers - 1));
 			AS_minesMarkers deleteAt (count AS_minesMarkers - 1);
 			hint format ["You have %1 mine(s) more available in the arsenal to add", AS_availableMines - (count AS_mapPositions)];

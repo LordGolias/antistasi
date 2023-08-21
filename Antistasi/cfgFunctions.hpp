@@ -172,13 +172,13 @@ class AS {
 
         FNC(arsenal,buyGear);
         FNC(arsenal,listUniqueEquipment);
-        FNC(arsenal,getWeaponItemsCargo)
-        FNC(arsenal,getBestEquipment)
-        FNC(arsenal,equipUnit)
-        FNC(arsenal,getUnitArsenal)
-        FNC(arsenal,getBoxArsenal)
-        FNC(arsenal,getBestItem)
-        FNC(arsenal,getBestWeapon)
+        FNC(arsenal,getWeaponItemsCargo);
+        FNC(arsenal,getBestEquipment);
+        FNC(arsenal,equipUnit);
+        FNC(arsenal,getUnitArsenal);
+        FNC(arsenal,getBoxArsenal);
+        FNC(arsenal,getBestItem);
+        FNC(arsenal,getBestWeapon);
         FNC(arsenal,getBestMagazines);
         FNC(arsenal,listToCargoList);
         FNC(arsenal,mergeCargoLists);

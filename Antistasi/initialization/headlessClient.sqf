@@ -1,3 +1,4 @@
+#include "../macros.hpp"
 diag_log "[AS] Dedicated: starting";
 call compile preprocessFileLineNumbers "initialization\common_variables.sqf";
 diag_log "[AS] Dedicated: common variables initialized";

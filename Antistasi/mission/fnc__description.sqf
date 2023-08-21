@@ -14,7 +14,7 @@ if not (_commander_score == 0) then {
     _description pushBack (format ["Commander's score: %1", _commander_score]);
 };
 if not (_players_score IsEqualTo 0) then {
-    _description pushBack (format ["Players's score: %1", _players_score select 2]);
+    _description pushBack (format ["Players's score: %1", _players_score]);
 };
 if not (_prestige IsEqualTo [0, 0]) then {
     if (_prestige select 0 != 0) then {

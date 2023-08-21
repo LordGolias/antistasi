@@ -406,7 +406,7 @@ if (hmd _unit == "") then
 		};
 	};
 _hayCaja = false;
-if (not(headgear _unit)) then
+if (headgear _unit != "") then
 	{
 	_necesita = true;
 	_hayCaja = false;

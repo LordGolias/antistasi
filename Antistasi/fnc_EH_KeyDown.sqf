@@ -6,7 +6,7 @@ if (_key == 21) then {
 	if (_shift) then {
 		if (player == AS_commander) then {
 			if (_ctrl) then {
-				0 = CreateDialog "com_menu";
+				CreateDialog "com_menu";
 			} else {
 				[] spawn AS_fnc_callArtillerySupport;
 			};
